@@ -34,27 +34,26 @@ public class Flight {
 	}
 	
 	public void turn_flight_left(int degree_turned_by){
-		this.set_on_course();
-		if ((current_heading - int degree_turned_by) <0){
-			current_heading = 360 - (int degree_turned_by-current_heading);
+		
+		if ((current_heading - degree_turned_by) <0){
+			current_heading = 360 - ( degree_turned_by-current_heading);
 		}
 		else{
-			current_heading -= int degree_turned_by;
+			current_heading -=  degree_turned_by;
 		}
 	}
 	
 	public void turn_flight_right(int degree_turned_by){
-		this.set_on_course();
-		if ((current_heading + degrees_turned_by) > 359){
-			current_heading = 0 + (degrees_turned_by-(359-current_heading));
+		
+		if ((current_heading + degree_turned_by) > 359){
+			current_heading = 0 + (degree_turned_by-(359-current_heading));
 		}
 		else{
-			current_heading += degrees_turned_by;
+			current_heading += degree_turned_by;
 		}
 	}
 	
 	public void give_heading(int new_heading){
-		this.set_on_course();
 		new_heading = new_heading % 360;
 		current_heading = new_heading;
 	}
