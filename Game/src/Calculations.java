@@ -5,7 +5,7 @@ public class Calculations {
 	Calculations(){
 	}
 	
-	// Put in Sepearations class
+	// Put in Separations class
 	public static double lateral_distance_between_flights(Flight flight1, Flight flight2){
 		
 		return Math.sqrt(Math.pow((flight1.x - flight2.x), 2) + Math.pow(( flight1.y - flight2.y),2));
