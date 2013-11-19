@@ -23,8 +23,8 @@ public class Calculations {
 	}
 	
 	
-	
-	public static double calculate_heading(Flight flight1, double destination_x, double destination_y ){
+	// destination x and destination y will be replaced with the waypoints x and y
+	public static double calculate_heading_to_first_waypoint(Flight flight1, double destination_x, double destination_y ){
 		
 		// DIAGONALS
 		if ((flight1.x > destination_x) && (flight1.y < destination_y)){
