@@ -5,7 +5,7 @@ public class Flight {
 	//FIELDS
 	public double x, y, current_heading, weight;
 	public int altitude;
-	public boolean on_course, at_waypoint;
+	public boolean at_waypoint;
 	public int MAXIMUM_ALTITUDE = 30000;
 	public int MINIMUM_ALTITUDE = 27000;
 
@@ -16,19 +16,11 @@ public class Flight {
 		altitude = generate_altitude();
 		current_heading = 0;
 		weight = 0;
-		on_course = true;
+		
 	}
 	
 	//METHODS
 	
-	public void set_on_course(){
-		if (on_course == true){
-			on_course = false;
-		}
-		else{
-			on_course = true;
-		}
-	}
 	
 	public int generate_altitude(){
 		Random rand = new Random();
@@ -36,28 +28,28 @@ public class Flight {
 	}
 	
 	public void update_x_y_coordinates(){
-		int speed = 10; // This is merely a placeholder until the Flight Plan class is made.
-		x += speed * Math.sin(current_heading) ;
-		y -= speed * Math.cos(current_heading) ; 
+		int velocity= 10; // This is merely a placeholder until the Flight Plan class is made.
+		x += velocity * Math.sin(current_heading) ;
+		y -= velocity * Math.cos(current_heading) ; 
 	}
 	
-	public void turn_flight_left(){
+	public void turn_flight_left(int degree_turned_by){
 		this.set_on_course();
-		if ((current_heading - 10) <0){
-			current_heading = 360 - (10-current_heading);
+		if ((current_heading - int degree_turned_by) <0){
+			current_heading = 360 - (int degree_turned_by-current_heading);
 		}
 		else{
-			current_heading -= 10;
+			current_heading -= int degree_turned_by;
 		}
 	}
 	
-	public void turn_flight_right(){
+	public void turn_flight_right(int degree_turned_by){
 		this.set_on_course();
-		if ((current_heading + 10) > 359){
-			current_heading = 0 + (10-(359-current_heading));
+		if ((current_heading + degrees_turned_by) > 359){
+			current_heading = 0 + (degrees_turned_by-(359-current_heading));
 		}
 		else{
-			current_heading += 10;
+			current_heading += degrees_turned_by;
 		}
 	}
 	
@@ -68,20 +60,20 @@ public class Flight {
 	}
 	
 	public void set_altitude_lower(){
-		if ((altitude-100)<MINIMUM_ALTITUDE){
+		if ((altitude-1000)<MINIMUM_ALTITUDE){
 			altitude = MINIMUM_ALTITUDE;
 		}
 		else{
-			altitude -= 100;
+			altitude -= 1000;
 		}
 	}
 	
 	public void set_altitude_higher(){
-		if ((altitude+100)<MAXIMUM_ALTITUDE){
+		if ((altitude+1000)<MAXIMUM_ALTITUDE){
 			altitude = MAXIMUM_ALTITUDE;
 		}
 		else{
-			altitude += 100;
+			altitude += 1000;
 		}
 	}
 	
@@ -94,19 +86,29 @@ public class Flight {
 		return true;
 	}
 	
+	//MUTATORS AND ACCESSORS
+	
+		public void set_x(double new_x){
+			x = new_x;
+		}
+		
+		public void set_y(double new_y){
+			y = new_y;
+		}
+		
+		public void set_altitude(int new_altitude){
+			altitude = new_altitude;
+		}
+		
+		public void set_weight(double new_weight){
+			weight = new_weight;
+		}
+		
+	
 	// Update, Render, Draw
 	
 	public void update(){
-		if (on_course == false){
-			this.update_x_y_coordinates();
-		}
-		else{
-			at_waypoint = this.check_if_flight_at_waypoint();
-			if (at_waypoint = true){
-				update_current_heading();
-			}
-			this.update_x_y_coordinates();
-		}
+		
 	}
 	
 	public void render(){
@@ -115,23 +117,6 @@ public class Flight {
 	public void draw(){
 	}
 	
-	//MUTATORS AND ACCESSORS
-	
-	public void set_x(double new_x){
-		x = new_x;
-	}
-	
-	public void set_y(double new_y){
-		y = new_y;
-	}
-	
-	public void set_altitude(int new_altitude){
-		altitude = new_altitude;
-	}
-	
-	public void set_weight(double new_weight){
-		weight = new_weight;
-	}
 	
 	
 	public static void main(String[] args) {
