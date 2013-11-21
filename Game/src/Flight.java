@@ -3,23 +3,23 @@ import java.util.Random;
 public class Flight {
 
 	//FIELDS
-	public double x, y, current_heading, weight, target_heading, target_altitude;
-	public int altitude;
-	public boolean at_waypoint, turning_right, turning_left;
-	public int MAXIMUM_ALTITUDE = 30000;
-	public int MINIMUM_ALTITUDE = 27000;
+	private double x, y, current_heading, weight, target_heading, target_altitude;
+	private int altitude;
+	private boolean at_waypoint, turning_right, turning_left;
+	private FlightPlan flight_plan;
+	private int MAXIMUM_ALTITUDE = 30000;
+	private int MINIMUM_ALTITUDE = 27000;
 
 	//CONSTRUCTOR
 	Flight(){
-		x = 0;
-		y = 0;
-		target_altitude = 0;
-		altitude = generate_altitude();
-		target_heading = 0;
-		current_heading = 0;
-		weight = 0;
-		turning_right = false;
-		turning_left = false;
+		this.x = 0;
+		this.y = 0;
+		this.target_altitude = 0;
+		this.altitude = generate_altitude();
+		this.target_heading = 0;
+		this.current_heading = 0;
+		this.turning_right = false;
+		this.turning_left = false;
 		
 	}
 	
@@ -33,118 +33,116 @@ public class Flight {
 	
 	public void update_x_y_coordinates(){
 		int velocity= 10; // This is merely a placeholder until the Flight Plan class is made.
-		x += velocity * Math.sin(current_heading) ;
-		y -= velocity * Math.cos(current_heading) ; 
+		this.x += velocity * Math.sin(this.current_heading) ;
+		this.y -= velocity * Math.cos(this.current_heading) ; 
 	}
 	
 	public void turn_flight_left(int degree_turned_by){
 		
-		turning_right = false;
-		turning_left = true;
+		this.turning_right = false;
+		this.turning_left = true;
 		
-		if ((current_heading - degree_turned_by) <= 0){
-			target_heading = 360 - (degree_turned_by-current_heading);
+		if ((this.current_heading - degree_turned_by) <= 0){
+			this.target_heading = 360 - (degree_turned_by-this.current_heading);
 		}
 		else{
-			target_heading -=  degree_turned_by;
+			this.target_heading -=  degree_turned_by;
 		}
 	}
 	
 	public void turn_flight_right(int degree_turned_by){
 		
-		turning_left = false;
-		turning_right = true;
+		this.turning_left = false;
+		this.turning_right = true;
 		
-		if ((current_heading + degree_turned_by) >= 360){
-			target_heading = (degree_turned_by-(360-current_heading));
+		if ((this.current_heading + degree_turned_by) >= 360){
+			this.target_heading = (degree_turned_by-(360-this.current_heading));
 		}
 		else{
-			target_heading += degree_turned_by;
+			this.target_heading += degree_turned_by;
 		}
 	}
 	
 	public void give_heading(int new_heading){
-		turning_right = false;
-		turning_left = false;
+		this.turning_right = false;
+		this.turning_left = false;
 		new_heading = new_heading % 360;
-		target_heading = new_heading;
+		this.target_heading = new_heading;
 	}
 	
 	public void set_altitude_lower(){
-		if ((altitude-1000)<MINIMUM_ALTITUDE){
-			altitude = MINIMUM_ALTITUDE;
+		if ((this.altitude-1000)<MINIMUM_ALTITUDE){
+			this.target_altitude = MINIMUM_ALTITUDE;
 		}
 		else{
-			altitude -= 1000;
+			this.target_altitude -= 1000;
 		}
 	}
 	
 	public void set_altitude_higher(){
-		if ((altitude+1000)<MAXIMUM_ALTITUDE){
-			altitude = MAXIMUM_ALTITUDE;
+		if ((this.altitude+1000)<MAXIMUM_ALTITUDE){
+			this.target_altitude = MAXIMUM_ALTITUDE;
 		}
 		else{
-			altitude += 1000;
+			this.target_altitude += 1000;
 		}
 	}
 	
 	public void update_current_heading(){
-		if (target_heading != current_heading){
+		if (this.target_heading != this.current_heading){
 			
 			// If plane is already turning right or user has told it to turn right
-			if (turning_right == true){
-				current_heading += 1;
-				if (current_heading == 360){
-					current_heading = 0;
+			if (this.turning_right == true){
+				this.current_heading += 1;
+				if (this.current_heading == 360){
+					this.current_heading = 0;
 				}	
 			}
 			
 			//if plane is already turning left or user has told it to turn left
-			else if (turning_left == true){
-				current_heading -= 1;
-					if (current_heading == 0){
-						current_heading = 360;
+			else if (this.turning_left == true){
+				this.current_heading -= 1;
+					if (this.current_heading == 0){
+						this.current_heading = 360;
 					}	
 			}
 			
 			// If plane has been given a heading so no turning direction specified
 			else{
-				if (Math.abs(target_heading-current_heading)==180){
-					turning_right = true;
-					current_heading +=1;
+				if (Math.abs(this.target_heading-this.current_heading)==180){
+					this.turning_right = true;
+					this.current_heading +=1;
 				}
-				else if ((current_heading+180)>= 360){
-					if((180 - (360 - current_heading))>target_heading){
-						turning_right = true;
-						current_heading +=1;
-						if (current_heading == 360){
-							current_heading = 0;
+				else if ((this.current_heading+180)>= 360){
+					if((180 - (360 - this.current_heading))>this.target_heading){
+						this.turning_right = true;
+						this.current_heading +=1;
+						if (this.current_heading == 360){
+							this.current_heading = 0;
 						}
 						
 					}
 					else{
-						turning_left = true;
-						current_heading -=1;
-						if (current_heading == 0){
-							current_heading = 360;
+						this.turning_left = true;
+						this.current_heading -=1;
+						if (this.current_heading == 0){
+							this.current_heading = 360;
 						}
 					}
-				
 				}
-				
 				else{
-					if((current_heading +180) >target_heading ){
-						turning_right = true;
-						current_heading +=1;
-						if (current_heading == 360){
-							current_heading = 0;
+					if((this.current_heading +180) >this.target_heading ){
+						this.turning_right = true;
+						this.current_heading +=1;
+						if (this.current_heading == 360){
+							this.current_heading = 0;
 						}
 					}
 					else{
-						turning_left = true;
-						current_heading -=1;
-						if (current_heading == 0){
-							current_heading = 360;
+						this.turning_left = true;
+						this.current_heading -=1;
+						if (this.current_heading == 0){
+							this.current_heading = 360;
 						}
 					}
 				}
@@ -169,6 +167,76 @@ public class Flight {
 	
 	public void draw(){
 	}
+	
+	// MUTATORS AND ACCESSORS
+
+	public double getX() {
+		return this.x;
+	}
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public double getY() {
+		return this.y;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
+	public double getCurrent_heading() {
+		return this.current_heading;
+	}
+
+	public void setCurrent_heading(double current_heading) {
+		this.current_heading = current_heading;
+	}
+
+	public double getTarget_heading() {
+		return this.target_heading;
+	}
+
+	public void setTarget_heading(double target_heading) {
+		this.target_heading = target_heading;
+	}
+
+	public double getTarget_altitude() {
+		return this.target_altitude;
+	}
+
+	public void setTarget_altitude(double target_altitude) {
+		this.target_altitude = target_altitude;
+	}
+
+	public int getAltitude() {
+		return this.altitude;
+	}
+
+	public void setAltitude(int altitude) {
+		this.altitude = altitude;
+	}
+
+	public boolean isTurning_right() {
+		return this.turning_right;
+	}
+
+	public void setTurning_right(boolean turning_right) {
+		this.turning_right = turning_right;
+	}
+
+	public boolean isTurning_left() {
+		return this.turning_left;
+	}
+
+	public void setTurning_left(boolean turning_left) {
+		this.turning_left = turning_left;
+	}
+	
+
+	
+	
 	
 	
 	
