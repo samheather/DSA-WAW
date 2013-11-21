@@ -12,7 +12,7 @@ public class FlightPlan {
 
 	private int velocity = 0;
 	
-	public FlightPlan(AirSpace a) {
+	public FlightPlan(Airspace a) {
 		generate_velocity();
 		build_route(a);
 	}
@@ -21,19 +21,19 @@ public class FlightPlan {
 		return this.velocity;
 	}
 	
-	public void build_route(AirSpace a) {
+	public void build_route(Airspace a) {
 		Random rand = new Random();
 		int pointsInPlan=rand.nextInt(4)+4; //the number of waypoints in the flight plan including exit points
 		int i;
 		for(i=0;i<pointsInPlan-1;i++) {
 			int Waypoint=rand.nextInt(9);
-			while(waypoints.contains(a.getList_of_waypoints().get(Waypoint))) { // this waypoint is already in the list, don't add it
+			while(waypoints.contains(a.getList_of_way_points().get(Waypoint))) { // this waypoint is already in the list, don't add it
 				Waypoint=rand.nextInt(9);
 			}
-			waypoints.add(a.getList_of_waypoints().get(Waypoint)); //if it isn't, add it
+			waypoints.add(a.getList_of_way_points().get(Waypoint)); //if it isn't, add it
 		}
 		int ExitPoint=rand.nextInt(2);
-		waypoints.add(a.getList_of_exitpoints().get(ExitPoint));
+		waypoints.add(a.getList_of_exit_points().get(ExitPoint));
 		
 	}
 	
