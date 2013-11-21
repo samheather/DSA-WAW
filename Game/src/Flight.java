@@ -4,7 +4,7 @@ public class Flight {
 
 	//FIELDS
 	private double x, y, current_heading, weight, target_heading, target_altitude;
-	private int altitude;
+	private int current_altitude;
 	private boolean at_waypoint, turning_right, turning_left;
 	private FlightPlan flight_plan;
 	private int MAXIMUM_ALTITUDE = 30000;
@@ -15,7 +15,7 @@ public class Flight {
 		this.x = 0;
 		this.y = 0;
 		this.target_altitude = 0;
-		this.altitude = generate_altitude();
+		this.current_altitude = generate_altitude();
 		this.target_heading = 0;
 		this.current_heading = 0;
 		this.turning_right = false;
@@ -71,7 +71,7 @@ public class Flight {
 	}
 	
 	public void set_altitude_lower(){
-		if ((this.altitude-1000)<MINIMUM_ALTITUDE){
+		if ((this.current_altitude-1000)<MINIMUM_ALTITUDE){
 			this.target_altitude = MINIMUM_ALTITUDE;
 		}
 		else{
@@ -80,11 +80,21 @@ public class Flight {
 	}
 	
 	public void set_altitude_higher(){
-		if ((this.altitude+1000)<MAXIMUM_ALTITUDE){
+		if ((this.current_altitude+1000)<MAXIMUM_ALTITUDE){
 			this.target_altitude = MAXIMUM_ALTITUDE;
 		}
 		else{
 			this.target_altitude += 1000;
+		}
+	}
+	
+	public void update_altitude(){
+		if (this.current_altitude > this.target_altitude){
+			this.current_altitude -= 1;
+		}
+		
+		else if (this.current_altitude < this.target_altitude){
+			this.current_altitude += 1;
 		}
 	}
 	
@@ -108,19 +118,27 @@ public class Flight {
 			}
 			
 			// If plane has been given a heading so no turning direction specified
+			// Below works out whether it should turn left or right to that heading.
 			else{
 				if (Math.abs(this.target_heading-this.current_heading)==180){
 					this.turning_right = true;
 					this.current_heading +=1;
 				}
 				else if ((this.current_heading+180)>= 360){
-					if((180 - (360 - this.current_heading))>this.target_heading){
+					
+					if (this.target_heading > this.current_heading){
 						this.turning_right = true;
 						this.current_heading +=1;
 						if (this.current_heading == 360){
 							this.current_heading = 0;
 						}
-						
+					}
+					else if((180 - (360 - this.current_heading))>this.target_heading){
+						this.turning_right = true;
+						this.current_heading +=1;
+						if (this.current_heading == 360){
+							this.current_heading = 0;
+						}
 					}
 					else{
 						this.turning_left = true;
@@ -211,11 +229,11 @@ public class Flight {
 	}
 
 	public int getAltitude() {
-		return this.altitude;
+		return this.current_altitude;
 	}
 
 	public void setAltitude(int altitude) {
-		this.altitude = altitude;
+		this.current_altitude = altitude;
 	}
 
 	public boolean isTurning_right() {

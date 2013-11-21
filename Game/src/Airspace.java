@@ -7,7 +7,7 @@ public class Airspace {
 	
 	int max_number_of_flights;
 	int score;
-	List<Flight> list_of_flights;
+	List<Flight> list_of_flights, list_of_incoming_flights;
 	List<Waypoint> list_of_waypoints;	
 	List<EntryPoint> list_of_entrypoints;
 	List<ExitPoint> list_of_exitpoints;
@@ -18,6 +18,7 @@ public class Airspace {
 		this.max_number_of_flights = 20; //just a value
 		this.score = 0;
 		this.list_of_flights = new ArrayList<Flight>();
+		this.list_of_incoming_flights = new ArrayList<Flight>();
 		this.list_of_waypoints = new ArrayList<Waypoint>();
 		this.list_of_entrypoints = new ArrayList<EntryPoint>();
 		this.list_of_exitpoints = new ArrayList<ExitPoint>();
@@ -120,6 +121,10 @@ public class Airspace {
 
 	public List<ExitPoint> getList_of_exit_points() {
 		return this.list_of_exitpoints;
+	}
+	
+	public void add_to_list_of_incoming_flights(Flight flight){
+		this.list_of_incoming_flights.add(flight);
 	}
 }
 
