@@ -12,9 +12,6 @@ public class Waypoint extends Point {
 	    System.out.println("Waypoint " + pointRef + " set:(" + x + "," + y +").");
 	}
 	
-	public static void main(String[] args) {
-		
 
-	}
 
 }

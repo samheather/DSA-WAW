@@ -12,10 +12,6 @@ public class EntryPoint extends Point {
 	    System.out.println("EntryPoint " + pointRef + " set:(" + x + "," + y +").");
 	}
 	
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
-	}
 
 }
