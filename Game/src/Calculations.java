@@ -8,14 +8,14 @@ public class Calculations {
 	// Put in Separations class
 	public static double lateral_distance_between_flights(Flight flight1, Flight flight2){
 		
-		return Math.sqrt(Math.pow((flight1.x - flight2.x), 2) + Math.pow(( flight1.y - flight2.y),2));
+		return Math.sqrt(Math.pow((flight1.getX() - flight2.getX()), 2) + Math.pow(( flight1.getY() - flight2.getY()),2));
 		
 	}
 	
 	// Put in Separations class
 	public static int vertical_distance_between_flights(Flight flight1, Flight flight2){
 		
-		return Math.abs(flight1.altitude - flight2.altitude);
+		return Math.abs(flight1.getAltitude() - flight2.getAltitude());
 		
 	}
 	
@@ -27,35 +27,35 @@ public class Calculations {
 	public static double calculate_heading_to_first_waypoint(Flight flight1, double destination_x, double destination_y ){
 		
 		// DIAGONALS
-		if ((flight1.x > destination_x) && (flight1.y < destination_y)){
-			return  360 - Math.toDegrees(Math.atan((Math.abs(flight1.x-destination_x) / Math.abs(flight1.y-destination_y))));
+		if ((flight1.getX() > destination_x) && (flight1.getY() < destination_y)){
+			return  360 - Math.toDegrees(Math.atan((Math.abs(flight1.getX()-destination_x) / Math.abs(flight1.getY()-destination_y))));
 		}
 		
-		else if ((flight1.x < destination_x) && (flight1.y < destination_y)){
-			return  Math.toDegrees(Math.atan((Math.abs(flight1.x-destination_x) / Math.abs(flight1.y-destination_y))));
+		else if ((flight1.getX() < destination_x) && (flight1.getY() < destination_y)){
+			return  Math.toDegrees(Math.atan((Math.abs(flight1.getX()-destination_x) / Math.abs(flight1.getY()-destination_y))));
 		}
 		
-		else if ((flight1.x < destination_x) && (flight1.y > destination_y )){
-			return 180 - Math.toDegrees(Math.atan((Math.abs(flight1.x-destination_x) / Math.abs(flight1.y-destination_y))));                           
+		else if ((flight1.getX() < destination_x) && (flight1.getY() > destination_y )){
+			return 180 - Math.toDegrees(Math.atan((Math.abs(flight1.getX()-destination_x) / Math.abs(flight1.getY()-destination_y))));                           
 		}
 		
-		else if ((flight1.x > destination_x) && (flight1.y > destination_y )){
-			return 180 + Math.toDegrees(Math.atan((Math.abs(flight1.x-destination_x) / Math.abs(flight1.y-destination_y))));                           
+		else if ((flight1.getX() > destination_x) && (flight1.getY() > destination_y )){
+			return 180 + Math.toDegrees(Math.atan((Math.abs(flight1.getX()-destination_x) / Math.abs(flight1.getY()-destination_y))));                           
 		}
 		
 		// HORIZONTALS
 		
-		else if ((flight1.x < destination_x) && (flight1.y == destination_y)){
+		else if ((flight1.getX() < destination_x) && (flight1.getY() == destination_y)){
 			return  90;
 		}
 		
-		else if ((flight1.x > destination_x) && (flight1.y == destination_y)){
+		else if ((flight1.getX() > destination_x) && (flight1.getY() == destination_y)){
 			return  270;
 		}
 		
 		//VERTICALS
 		
-		else if ((flight1.x == destination_x) && (flight1.y < destination_y)){
+		else if ((flight1.getX() == destination_x) && (flight1.getY() < destination_y)){
 			return  0;
 		}
 		
