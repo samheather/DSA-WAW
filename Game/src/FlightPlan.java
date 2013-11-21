@@ -12,6 +12,11 @@ public class FlightPlan {
 
 	private int velocity = 0;
 	
+	public FlightPlan(AirSpace a) {
+		generate_velocity();
+		build_route(a);
+	}
+	
 	public int getVelocity() {
 		return this.velocity;
 	}
