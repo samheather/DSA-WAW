@@ -5,17 +5,30 @@ import java.util.Random;
 public class FlightPlan {
 	
 	//EntryPoint entryPoint; This is not listed in the classes doc, does the flight create its entry point?
-	private ArrayList<Waypoint> waypoints; // the list is for one type of data so the exit point has to be seperate from this list, unless we simply have a point class
-	private ExitPoint exitPoint; 
+	private ArrayList<Point> waypoints = new ArrayList<Point>(); 
+	public ArrayList<Point> getWaypoints() {
+		return waypoints;
+	}
+
 	private int velocity = 0;
 	
 	public int getVelocity() {
 		return this.velocity;
 	}
 	
-	public void build_route() {
-		
-		
+	public void build_route(AirSpace a) {
+		Random rand = new Random();
+		int pointsInPlan=rand.nextInt(4)+4; //the number of waypoints in the flight plan including exit points
+		int i;
+		for(i=0;i<pointsInPlan-1;i++) {
+			int Waypoint=rand.nextInt(9);
+			while(waypoints.contains(a.getList_of_waypoints().get(Waypoint))) { // this waypoint is already in the list, don't add it
+				Waypoint=rand.nextInt(9);
+			}
+			waypoints.add(a.getList_of_waypoints().get(Waypoint)); //if it isn't, add it
+		}
+		int ExitPoint=rand.nextInt(2);
+		waypoints.add(a.getList_of_exitpoints().get(ExitPoint));
 		
 	}
 	
