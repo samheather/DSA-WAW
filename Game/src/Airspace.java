@@ -53,11 +53,50 @@ public class Airspace {
 		this.score += value;
 	}
 	
-	//GETTERS & SETTERS
-	
 	public void setMax_number_of_flights(int max_number_of_flights) {
 		this.max_number_of_flights = max_number_of_flights;
 	}
+
+	public boolean addWaypoint(Waypoint waypoint) {
+		if (this.list_of_waypoints.contains(waypoint)){
+			return false;
+		} else {
+			this.list_of_waypoints.add(waypoint);
+			return true;
+			}
+	}
+
+	public boolean addEntryPoint(EntryPoint entrypoint) {
+		if (this.list_of_entrypoints.contains(entrypoint)){
+			return false;
+		} else {
+			this.list_of_entrypoints.add(entrypoint);
+			return true;
+			}
+	}
+
+	public boolean addExitPoint(ExitPoint exitpoint) {
+		if (this.list_of_exitpoints.contains(exitpoint)){
+			return false;
+		} else {
+			this.list_of_exitpoints.add(exitpoint);
+			return true;
+		}
+	}
+	
+	public void removeWaypoint(Waypoint waypoint) {
+		this.list_of_waypoints.remove(waypoint);
+	}
+
+	public void removeEntryPoint(EntryPoint entrypoint) {
+		this.list_of_entrypoints.remove(entrypoint);
+	}
+
+	public void removeExitPoint(ExitPoint exitpoint) {
+		this.list_of_exitpoints.remove(exitpoint);
+	}
+
+	//GETTERS & SETTERS
 	
 	public int getMax_number_of_flights() {
 		return this.max_number_of_flights;
