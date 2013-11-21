@@ -31,12 +31,6 @@ public class Flight {
 		return rand.nextInt((MAXIMUM_ALTITUDE-MINIMUM_ALTITUDE)+1) + MINIMUM_ALTITUDE;	
 	}
 	
-	public void update_x_y_coordinates(){
-		int velocity= 10; // This is merely a placeholder until the Flight Plan class is made.
-		this.x += velocity * Math.sin(this.current_heading) ;
-		this.y -= velocity * Math.cos(this.current_heading) ; 
-	}
-	
 	public void turn_flight_left(int degree_turned_by){
 		
 		this.turning_right = false;
@@ -86,6 +80,12 @@ public class Flight {
 		else{
 			this.target_altitude += 1000;
 		}
+	}
+	
+	public void update_x_y_coordinates(){
+		int velocity= 10; // This is merely a placeholder until the Flight Plan class is made.
+		this.x += velocity * Math.sin(this.current_heading) ;
+		this.y -= velocity * Math.cos(this.current_heading) ; 
 	}
 	
 	public void update_altitude(){
@@ -251,13 +251,6 @@ public class Flight {
 	public void setTurning_left(boolean turning_left) {
 		this.turning_left = turning_left;
 	}
-	
-
-	
-	
-	
-	
-	
 	
 
 }
