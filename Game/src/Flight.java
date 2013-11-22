@@ -7,15 +7,15 @@ import org.newdawn.slick.SlickException;
 public class Flight {
 
 	//FIELDS
-	private double x, y, weight, target_altitude, current_heading, target_heading;
+	private double x, y, target_altitude, current_heading, target_heading;
 	private int current_altitude; 
-	private boolean at_waypoint, turning_right, turning_left;
+	private boolean turning_right, turning_left;
 	private FlightPlan flight_plan;
 	private int MAXIMUM_ALTITUDE = 30000;
 	private int MINIMUM_ALTITUDE = 27000;
 	int flight_num;
 	Image img;
-	Calculations calc;
+	
 
 	//CONSTRUCTOR
 	Flight(Airspace a){
@@ -189,12 +189,17 @@ public class Flight {
 	}
 		
 	
-	// UPDATE, RENDER, DRAW
+	// UPDATE, RENDER, INIT
 	
 	public void update(){
 		
 		this.update_current_heading();
 		this.update_x_y_coordinates();
+		
+	}
+	
+	public void init() throws SlickException{
+		img = new Image("res/plane.png");
 		
 	}
 	
@@ -205,13 +210,7 @@ public class Flight {
 		img.setRotation((int)current_heading);
 	}
 	
-	public void init() throws SlickException{
-		img = new Image("res/plane.png");
-		
-		
-		
-		
-	}
+	
 	
 	// MUTATORS AND ACCESSORS
 
