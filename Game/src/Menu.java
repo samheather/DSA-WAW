@@ -27,6 +27,7 @@ public class Menu extends BasicGameState {
 		font2 = new TrueTypeFont(awtFont2, false);
 		gc.setShowFPS(false);
 		img = new Image("res/plane.png");
+		
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g) throws SlickException {

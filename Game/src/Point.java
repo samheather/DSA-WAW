@@ -1,3 +1,6 @@
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+
 
 public class Point {
 
@@ -47,6 +50,10 @@ public class Point {
     void setXCoOrd(double newX) {this.x = newX;}
     void setYCoOrd(double newY) {this.y = newY;}
     
+    public void render(Graphics g) {
+    	g.setColor(Color.yellow);
+    	g.fillOval((int)this.x, (int)this.y, 20, 20);
+    }
 
 
 

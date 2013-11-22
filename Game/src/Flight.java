@@ -1,6 +1,8 @@
 import java.util.Random;
 
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 public class Flight {
 
@@ -12,6 +14,7 @@ public class Flight {
 	private int MAXIMUM_ALTITUDE = 30000;
 	private int MINIMUM_ALTITUDE = 27000;
 	int flight_num;
+	Image img;
 
 	//CONSTRUCTOR
 	Flight(){
@@ -63,7 +66,7 @@ public class Flight {
 	public void give_heading(int new_heading){
 		this.turning_right = false;
 		this.turning_left = false;
-		new_heading = new_heading % 360;
+		//new_heading = new_heading % 360;
 		this.target_heading = new_heading;
 	}
 	
@@ -86,9 +89,10 @@ public class Flight {
 	}
 	
 	public void update_x_y_coordinates(){
-		int velocity= 10; // This is merely a placeholder until the Flight Plan class is made.
-		this.x += velocity * Math.sin(this.current_heading) ;
-		this.y -= velocity * Math.cos(this.current_heading) ; 
+		int velocity= 1; // This is merely a placeholder until the Flight Plan class is made.
+		
+		this.x += velocity * Math.sin(Math.toRadians(this.current_heading)) ;
+		this.y -= velocity * Math.cos(Math.toRadians(this.current_heading)) ; 
 	}
 	
 	public void update_altitude(){
@@ -106,7 +110,7 @@ public class Flight {
 			
 			// If plane is already turning right or user has told it to turn right
 			if (this.turning_right == true){
-				this.current_heading += 1;
+				this.current_heading += 0.2;
 				if (this.current_heading == 360){
 					this.current_heading = 0;
 				}	
@@ -114,7 +118,7 @@ public class Flight {
 			
 			//if plane is already turning left or user has told it to turn left
 			else if (this.turning_left == true){
-				this.current_heading -= 1;
+				this.current_heading -= 0.2;
 					if (this.current_heading == 0){
 						this.current_heading = 360;
 					}	
@@ -125,27 +129,27 @@ public class Flight {
 			else{
 				if (Math.abs(this.target_heading-this.current_heading)==180){
 					this.turning_right = true;
-					this.current_heading +=1;
+					this.current_heading +=0.2;
 				}
 				else if ((this.current_heading+180)>= 360){
 					
 					if (this.target_heading > this.current_heading){
 						this.turning_right = true;
-						this.current_heading +=1;
+						this.current_heading +=0.2;
 						if (this.current_heading == 360){
 							this.current_heading = 0;
 						}
 					}
 					else if((180 - (360 - this.current_heading))>this.target_heading){
 						this.turning_right = true;
-						this.current_heading +=1;
+						this.current_heading +=0.2;
 						if (this.current_heading == 360){
 							this.current_heading = 0;
 						}
 					}
 					else{
 						this.turning_left = true;
-						this.current_heading -=1;
+						this.current_heading -=0.2;
 						if (this.current_heading == 0){
 							this.current_heading = 360;
 						}
@@ -154,14 +158,14 @@ public class Flight {
 				else{
 					if((this.current_heading +180) >this.target_heading ){
 						this.turning_right = true;
-						this.current_heading +=1;
+						this.current_heading +=0.2;
 						if (this.current_heading == 360){
 							this.current_heading = 0;
 						}
 					}
 					else{
 						this.turning_left = true;
-						this.current_heading -=1;
+						this.current_heading -=0.2;
 						if (this.current_heading == 0){
 							this.current_heading = 360;
 						}
@@ -181,12 +185,19 @@ public class Flight {
 	// UPDATE, RENDER, DRAW
 	
 	public void update(){
+		this.update_current_heading();
+		this.update_x_y_coordinates();
 	}
 	
 	public void render(Graphics g){
+		
+		img.draw((int)this.x, (int)this.y);
+		
+		img.setRotation((int)current_heading);
 	}
 	
-	public void init(){
+	public void init() throws SlickException{
+		img = new Image("res/plane.png");
 	}
 	
 	// MUTATORS AND ACCESSORS
