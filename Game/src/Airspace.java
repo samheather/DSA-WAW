@@ -11,6 +11,7 @@ public class Airspace {
 	List<Waypoint> list_of_waypoints;	
 	List<EntryPoint> list_of_entrypoints;
 	List<ExitPoint> list_of_exitpoints;
+	SeparationRules separationRules; 
 	
 	//CONSTRUCTOR
 	
@@ -29,7 +30,8 @@ public class Airspace {
 	public boolean add_flight(Flight flight){ 	
 	
 		//Checks whether the flight was already added before, and if it won't pass the maximum number of flights allowed	
-		if ((this.list_of_flights_in_airspace.contains(flight)) && (this.list_of_flights_in_airspace.size() > this.max_number_of_flights-1)){    
+		if ((this.list_of_flights_in_airspace.contains(flight)) 
+				&& (this.list_of_flights_in_airspace.size() > this.max_number_of_flights-1)){    
 			return false;
 		} else {
 			this.list_of_flights_in_airspace.add(flight);
@@ -49,6 +51,20 @@ public class Airspace {
 			return false;
 			}
 		}
+	
+	public void setDifficulty(int difficulty){
+        switch (difficulty) {
+        case 1: separationRules.setGameOverLateralSeparation(50);
+			    separationRules.setGameOverVerticalSeparation(50);
+			    break;
+        case 2: separationRules.setGameOverLateralSeparation(25);
+	    		separationRules.setGameOverVerticalSeparation(25);
+	    		break;
+        case 3:	separationRules.setGameOverLateralSeparation(10);
+	    		separationRules.setGameOverVerticalSeparation(10);
+	    		break;
+		}
+	}
 	
 	public void changeScore(int value){
 		this.score += value;
