@@ -106,11 +106,8 @@ public class Flight {
 	}
 	
 	public void update_current_heading(){
-		System.out.println((int)this.current_heading);
-		System.out.println((int)this.target_heading);
-		if ((int)this.target_heading!=(int)this.current_heading){
-			System.out.println("If loop exectuted");		// If plane is already turning right or user has told it to turn right
-			if (this.turning_right == true){
+		if ((int)this.target_heading!=(int)this.current_heading){		
+			if (this.turning_right == true){// If plane is already turning right or user has told it to turn right
 				this.current_heading += 0.2;
 				if (this.current_heading == 360){
 					this.current_heading = 0;
