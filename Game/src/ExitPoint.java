@@ -1,3 +1,6 @@
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+
 
 public class ExitPoint extends Point {
 
@@ -10,6 +13,11 @@ public class ExitPoint extends Point {
 	    super(xcoord, ycoord, name);
 	    pointCount += 1;
 	    System.out.println("Waypoint " + pointRef + " set:(" + x + "," + y +").");
+	}
+	@Override
+	public void render(Graphics g) {
+		g.setColor(Color.red);
+    	g.fillOval((int)this.x, (int)this.y, 20, 20);
 	}
 
 

@@ -15,9 +15,10 @@ public class Flight {
 	private int MINIMUM_ALTITUDE = 27000;
 	int flight_num;
 	Image img;
+	Calculations calc;
 
 	//CONSTRUCTOR
-	Flight(){
+	Flight(Airspace a){
 		this.x = 0;
 		this.y = 0;
 		this.target_altitude = 0;
@@ -26,6 +27,8 @@ public class Flight {
 		this.current_heading = 0;
 		this.turning_right = false;
 		this.turning_left = false;
+		this.flight_plan = new FlightPlan(a);
+		//current_heading=calc.calculate_heading_to_first_waypoint(this, this.flight_plan.getPointByIndex(0).getXCoOrd(), this.flight_plan.getPointByIndex(0).getXCoOrd());
 		
 	}
 	
@@ -89,10 +92,12 @@ public class Flight {
 	}
 	
 	public void update_x_y_coordinates(){
-		int velocity= 1; // This is merely a placeholder until the Flight Plan class is made.
-		
+		double velocity= (this.flight_plan.getVelocity())/1000; 
+
 		this.x += velocity * Math.sin(Math.toRadians(this.current_heading)) ;
+
 		this.y -= velocity * Math.cos(Math.toRadians(this.current_heading)) ; 
+
 	}
 	
 	public void update_altitude(){
@@ -106,9 +111,12 @@ public class Flight {
 	}
 	
 	public void update_current_heading(){
+		double rate = 0.3;
+		System.out.println(this.target_heading);
+		System.out.println(this.current_heading);
 		if ((int)this.target_heading!=(int)this.current_heading){		
 			if (this.turning_right == true){// If plane is already turning right or user has told it to turn right
-				this.current_heading += 0.2;
+				this.current_heading += rate;
 				if (this.current_heading == 360){
 					this.current_heading = 0;
 				}	
@@ -116,7 +124,7 @@ public class Flight {
 			
 			//if plane is already turning left or user has told it to turn left
 			else if (this.turning_left == true){
-				this.current_heading -= 0.2;
+				this.current_heading -= rate;
 					if (this.current_heading == 0){
 						this.current_heading = 360;
 					}	
@@ -125,30 +133,31 @@ public class Flight {
 			// If plane has been given a heading so no turning direction specified
 			// Below works out whether it should turn left or right to that heading.
 			else{
+				
 				if (this.target_heading-this.current_heading==180){
 					this.turning_right = true;
-					this.current_heading +=0.2;
+					this.current_heading +=rate;
 				}
 				else if ((this.current_heading+180)>= 360){
 					
 					if (this.target_heading < this.current_heading ){
 						this.turning_right = true;
-						this.current_heading +=0.2;
-						if (this.current_heading == 360){
+						this.current_heading +=rate;
+						if ((int)this.current_heading == 360){
 							this.current_heading = 0;
 						}
 					}
 					else if((180 - (360 - this.current_heading))>this.target_heading){
 						this.turning_right = true;
-						this.current_heading +=0.2;
-						if (this.current_heading == 360){
+						this.current_heading +=rate;
+						if ((int)this.current_heading == 360){
 							this.current_heading = 0;
 						}
 					}
 					else{
 						this.turning_left = true;
-						this.current_heading -=0.2;
-						if (this.current_heading == 0){
+						this.current_heading -=rate;
+						if ((int)this.current_heading == 0){
 							this.current_heading = 360;
 						}
 					}
@@ -156,15 +165,15 @@ public class Flight {
 				else{
 					if((this.current_heading +180) >this.target_heading ){
 						this.turning_right = true;
-						this.current_heading +=0.2;
-						if (this.current_heading == 360){
+						this.current_heading +=rate;
+						if ((int)this.current_heading == 360){
 							this.current_heading = 0;
 						}
 					}
 					else{
 						this.turning_left = true;
-						this.current_heading -=0.2;
-						if (this.current_heading == 0){
+						this.current_heading -=rate;
+						if ((int)this.current_heading == 0){
 							this.current_heading = 360;
 						}
 					}
@@ -183,8 +192,10 @@ public class Flight {
 	// UPDATE, RENDER, DRAW
 	
 	public void update(){
+		
 		this.update_current_heading();
 		this.update_x_y_coordinates();
+		
 	}
 	
 	public void render(Graphics g){
@@ -196,6 +207,10 @@ public class Flight {
 	
 	public void init() throws SlickException{
 		img = new Image("res/plane.png");
+		
+		
+		
+		
 	}
 	
 	// MUTATORS AND ACCESSORS

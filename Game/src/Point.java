@@ -52,7 +52,7 @@ public class Point {
     
     public void render(Graphics g) {
     	g.setColor(Color.yellow);
-    	g.fillOval((int)this.x, (int)this.y, 20, 20);
+    	g.fillOval((int)this.x, (int)this.y, 10, 10);
     }
 
 

@@ -3,24 +3,28 @@ import org.newdawn.slick.state.*;
 
 public class Play extends BasicGameState {
 	
-	Flight flight = new Flight();
-	Waypoint wp1;
+	Airspace a = new Airspace();
+	Flight flight;
+	
 	
 	public Play(int state) {
-		flight.setX(200);
-		flight.setY(200);
-		flight.setFlight_num(1);
-		flight.setTarget_heading(179);
+		
 	}
 	
 	public void init(GameContainer gc, StateBasedGame sbj) throws SlickException {
+		
+		flight = new Flight(a);
 		flight.init();
-		wp1 = new Waypoint(200,200);
+		flight.setX(1100);
+		flight.setY(600);
+		flight.setFlight_num(1);
+		flight.give_heading(270);
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g) throws SlickException {
 		flight.render(g);
-		wp1.render(g);
+		a.render(g);
+
 	}
 	
 	public void update(GameContainer gc, StateBasedGame sbj, int delta) throws SlickException {
