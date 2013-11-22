@@ -1,5 +1,7 @@
 import java.util.Random;
 
+import org.newdawn.slick.Graphics;
+
 public class Flight {
 
 	//FIELDS
@@ -9,6 +11,7 @@ public class Flight {
 	private FlightPlan flight_plan;
 	private int MAXIMUM_ALTITUDE = 30000;
 	private int MINIMUM_ALTITUDE = 27000;
+	int flight_num;
 
 	//CONSTRUCTOR
 	Flight(){
@@ -180,10 +183,10 @@ public class Flight {
 	public void update(){
 	}
 	
-	public void render(){
+	public void render(Graphics g){
 	}
 	
-	public void draw(){
+	public void init(){
 	}
 	
 	// MUTATORS AND ACCESSORS
@@ -250,6 +253,9 @@ public class Flight {
 
 	public void setTurning_left(boolean turning_left) {
 		this.turning_left = turning_left;
+	}
+	public void setFlight_num(int i) {
+		this.flight_num=i;
 	}
 	
 
