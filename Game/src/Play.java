@@ -10,7 +10,7 @@ public class Play extends BasicGameState {
 		flight.setX(200);
 		flight.setY(200);
 		flight.setFlight_num(1);
-		flight.setTarget_heading(45);
+		flight.setTarget_heading(179);
 	}
 	
 	public void init(GameContainer gc, StateBasedGame sbj) throws SlickException {

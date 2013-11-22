@@ -7,8 +7,8 @@ import org.newdawn.slick.SlickException;
 public class Flight {
 
 	//FIELDS
-	private double x, y, current_heading, weight, target_heading, target_altitude;
-	private int current_altitude;
+	private double x, y, weight, target_altitude, current_heading, target_heading;
+	private int current_altitude; 
 	private boolean at_waypoint, turning_right, turning_left;
 	private FlightPlan flight_plan;
 	private int MAXIMUM_ALTITUDE = 30000;
@@ -106,9 +106,10 @@ public class Flight {
 	}
 	
 	public void update_current_heading(){
-		if (this.target_heading != this.current_heading){
-			
-			// If plane is already turning right or user has told it to turn right
+		System.out.println((int)this.current_heading);
+		System.out.println((int)this.target_heading);
+		if ((int)this.target_heading!=(int)this.current_heading){
+			System.out.println("If loop exectuted");		// If plane is already turning right or user has told it to turn right
 			if (this.turning_right == true){
 				this.current_heading += 0.2;
 				if (this.current_heading == 360){
@@ -127,13 +128,13 @@ public class Flight {
 			// If plane has been given a heading so no turning direction specified
 			// Below works out whether it should turn left or right to that heading.
 			else{
-				if (Math.abs(this.target_heading-this.current_heading)==180){
+				if (this.target_heading-this.current_heading==180){
 					this.turning_right = true;
 					this.current_heading +=0.2;
 				}
 				else if ((this.current_heading+180)>= 360){
 					
-					if (this.target_heading > this.current_heading){
+					if (this.target_heading < this.current_heading ){
 						this.turning_right = true;
 						this.current_heading +=0.2;
 						if (this.current_heading == 360){
