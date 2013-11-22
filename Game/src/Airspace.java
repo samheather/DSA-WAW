@@ -23,6 +23,7 @@ public class Airspace {
 		this.list_of_waypoints = new ArrayList<Waypoint>();
 		this.list_of_entrypoints = new ArrayList<EntryPoint>();
 		this.list_of_exitpoints = new ArrayList<ExitPoint>();
+		this.separationRules = new SeparationRules();
 	}
 	
 	//METHODS

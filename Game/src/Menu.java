@@ -33,7 +33,7 @@ public class Menu extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g) throws SlickException {
 		g.setColor(Color.white);
 		g.setFont(font);
-		g.drawString("Air Traffic Control Game", 10, 40);
+		g.drawString("Pretty Fly For A Flight Guy", 10, 40);
 		g.setColor(colorBtn1);
 		g.fillRoundRect(100, 100, 200, 70, 15);
 		g.setColor(colorBtn2);

@@ -41,14 +41,14 @@ public class Point {
     
     //Accessor methods for xCoOrd double, for yCoOrd double, 
     //for pointRef string, for pointcount int.
-    double getXCoOrd() {return this.x;}
-    double getYCoOrd() {return this.y;}
+    double getX() {return this.x;}
+    double getY() {return this.y;}
     String getPointRef() {return this.pointRef;}
     int getPointCount() {return Point.pointCount;}
     
     //Mutator for setting xCoOrd and yCoOrd. Each method takes a sole double.
-    void setXCoOrd(double newX) {this.x = newX;}
-    void setYCoOrd(double newY) {this.y = newY;}
+    void setX(double newX) {this.x = newX;}
+    void setY(double newY) {this.y = newY;}
     
     public void render(Graphics g) {
     	g.setColor(Color.yellow);
