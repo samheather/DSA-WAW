@@ -27,7 +27,7 @@ public class SeparationRules {
 					warningViolation = true; //Further action needed 
 						
 					if ((lateralDistanceBetweenFlights(airspace.list_of_flights_in_airspace.get(i), airspace.list_of_flights_in_airspace.get(j)) < gameOverLateralSeparation)
-							|| (verticalDistanceBetweenFlights(airspace.list_of_flights_in_airspace.get(i), airspace.list_of_flights_in_airspace.get(j)) < gameOVerVerticalSeparation)){
+							|| (verticalDistanceBetweenFlights(airspace.list_of_flights_in_airspace.get(i), airspace.list_of_flights_in_airspace.get(j)) < gameOverVerticalSeparation)){
 							gameOverViolation = true;
 						}
 						
@@ -36,13 +36,11 @@ public class SeparationRules {
 						}
 					}
 				}
-				else {
-					continue;
-				}	
+				
 			}
 		}
 	}
 
 
 
-}
+
