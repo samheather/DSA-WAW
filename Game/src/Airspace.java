@@ -11,7 +11,7 @@ public class Airspace {
 	//FIELDS
 	
 	private int max_number_of_flights;
-	private int score, flight_counter, loops_since_last_flight_entry;
+	private int score, flight_counter, loops_since_last_flight_entry, overall_loops, next_difficulty_loops,max_rand;
 	private List<Flight> list_of_flights_in_airspace, list_of_incoming_flights;
 	private List<Waypoint> list_of_waypoints;	
 	private List<EntryPoint> list_of_entrypoints;
@@ -37,7 +37,9 @@ public class Airspace {
 		this.separationRules = new SeparationRules();
 		this.flight_counter=0;
 		this.loops_since_last_flight_entry=400;
-
+		this.overall_loops=0;
+		this.next_difficulty_loops=10000;
+		this.max_rand=800;
 	}
 	
 	//METHODS
@@ -69,26 +71,37 @@ public class Airspace {
 	        double x;
 	        double y;
 	        int check_number;
+	        int entryPoint=rand.nextInt(3);
+	        
+    		if(this.list_of_entrypoints.size()==3) { //if we have all three entrypoints
+    			x = this.list_of_entrypoints.get(entryPoint).getX();//choose one a get the x and y values
+    			y = this.list_of_entrypoints.get(entryPoint).getY();
+
+    		}
+    		else { //if all entrypoints are not there then just assign some values
+    			x = 1250;
+    			y = 300;
+    			
+    		}
+	        
+	        if(this.overall_loops>=this.next_difficulty_loops ) {
+	        	this.next_difficulty_loops+=5000;
+	        	if(this.max_rand>25) {
+	        		this.max_rand=this.max_rand/2;
+	        	}
+	        }
+	        System.out.println(this.max_rand);
 	        if(this.list_of_flights_in_airspace.size()==0) {
 	        	check_number = rand.nextInt(200);
 	        }
 	        else {
-	        	check_number = rand.nextInt(400);
+	        	check_number = rand.nextInt(this.max_rand);
 	        }
 
-	        if(check_number == 150){
+	        if(check_number == 1){
 
-	        	if(this.loops_since_last_flight_entry>=500) {
-	        		int entryPoint=rand.nextInt(3);
-	        		if(this.list_of_entrypoints.size()==3) { //if we have all three entrypoints
-	        			x = this.list_of_entrypoints.get(entryPoint).getX();//choose one a get the x and y values
-	        			y = this.list_of_entrypoints.get(entryPoint).getY();
-	        		}
-	        		else { //if all entrypoints are not there then just assign some values
-	        			x = 1250;
-	        			y = 300;
-	        			
-	        		}
+	        	if(this.loops_since_last_flight_entry>=350) {
+	        		
 	        		Flight tempFlight = new Flight(this);
 	        		tempFlight.setFlight_num(num);
 	        		tempFlight.setX(x);
@@ -112,6 +125,9 @@ public class Airspace {
 
 	     }
 	    this.loops_since_last_flight_entry++;
+	    
+	    this.overall_loops++;
+	    System.out.println(this.overall_loops);
 	    return false;
 		
 
