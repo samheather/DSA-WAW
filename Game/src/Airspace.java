@@ -12,7 +12,7 @@ public class Airspace {
 	//FIELDS
 	
 	int max_number_of_flights;
-	int score, flight_counter, wp_counter, exp_counter, ep_counter, loops_since_last_flight_entry;
+	int score, flight_counter, loops_since_last_flight_entry;
 	List<Flight> list_of_flights_in_airspace, list_of_incoming_flights;
 	List<Waypoint> list_of_waypoints;	
 	List<EntryPoint> list_of_entrypoints;
