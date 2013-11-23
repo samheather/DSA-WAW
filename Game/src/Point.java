@@ -11,10 +11,10 @@ public class Point {
     //If this helps:
     //String pointRef is the letter reference (Point A would be "A").
     //Class Var. static int PointCount tracks number of Points set up.
-    public double x;
-    public double y;
-    public String pointRef;
-    public static int pointCount = 0;
+    protected double x;
+    protected double y;
+    protected String pointRef;
+    protected static int pointCount = 0;
     
     //Point Constructor take two doubles, for x then y.
     Point(double xcoord, double ycoord){

@@ -4,15 +4,15 @@ import org.lwjgl.input.Mouse;
 import java.awt.Font;
 
 public class Menu extends BasicGameState {
-	TrueTypeFont font;
-	TrueTypeFont font2;
-	Color colorBtn1 = Color.green;
-	Color colorBtn2 = Color.green;
-	Image img;
-	int imgX = 700;
-	int imgY = 550;
-	int velX=5;
-	int velY=-10;
+	private TrueTypeFont font;
+	private TrueTypeFont font2;
+	private Color colorBtn1 = Color.green;
+	private Color colorBtn2 = Color.green;
+	private Image img;
+	private int imgX = 700;
+	private int imgY = 550;
+	private int velX=5;
+	private int velY=-10;
 	
 	
 	
@@ -25,7 +25,7 @@ public class Menu extends BasicGameState {
 		font = new TrueTypeFont(awtFont, false);
 		Font awtFont2 = new Font("Courier",Font.BOLD,25);
 		font2 = new TrueTypeFont(awtFont2, false);
-		gc.setShowFPS(false);
+		gc.setShowFPS(true);
 		img = new Image("res/plane.png");
 		
 	}

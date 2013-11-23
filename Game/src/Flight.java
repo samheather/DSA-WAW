@@ -12,18 +12,15 @@ public class Flight {
 
 	//FIELDS
 	private double x, y, target_altitude, current_heading, target_heading;
-	private int current_altitude; 
+	private int current_altitude, flight_num, flight_button_x; 
 	private boolean turning_right, turning_left;
 	private FlightPlan flight_plan;
 	private int MAXIMUM_ALTITUDE = 30000;
 	private int MINIMUM_ALTITUDE = 27000;
-	int flight_num;
-	Image img;
-	int flight_button_x;
-	Color color;
-	boolean selected;
-	int entryNum;
-	Airspace airspace;
+	private Image img;
+	private Color color;
+	private boolean selected;
+
 	
 
 	
@@ -42,7 +39,6 @@ public class Flight {
 		this.flight_button_x = a.getFlight_button_x();
 		this.color=Color.white;
 		this.selected=false;
-		this.airspace=a;
 		//current_heading=calc.calculate_heading_to_first_waypoint(this, this.flight_plan.getPointByIndex(0).getXCoOrd(), this.flight_plan.getPointByIndex(0).getXCoOrd());
 		
 	}
@@ -322,9 +318,6 @@ public class Flight {
 	}
 	public void setFlight_num(int i) {
 		this.flight_num=i;
-	}
-	public void setEntryNum(int entryNum) {
-		this.entryNum = entryNum;
 	}
 	public int getFlight_button_x() {
 		return flight_button_x;

@@ -30,15 +30,15 @@ public class SeparationRules {
 	
 	
 	private void checkViolation(Airspace airspace){
-		for (int i = 0; i < airspace.list_of_flights_in_airspace.size(); i++){
-			for (int j = i+1; j < airspace.list_of_flights_in_airspace.size(); j++){ // j = i + 1 : stops double checking
+		for (int i = 0; i < airspace.getList_of_flights().size(); i++){
+			for (int j = i+1; j < airspace.getList_of_flights().size(); j++){ // j = i + 1 : stops double checking
 				
-				if ((lateralDistanceBetweenFlights(airspace.list_of_flights_in_airspace.get(i), airspace.list_of_flights_in_airspace.get(j)) < warningLateralSeparation)
-					|| (verticalDistanceBetweenFlights(airspace.list_of_flights_in_airspace.get(i), airspace.list_of_flights_in_airspace.get(j)) < warningVerticalSeparation)) { 
+				if ((lateralDistanceBetweenFlights(airspace.getList_of_flights().get(i), airspace.getList_of_flights().get(j)) < warningLateralSeparation)
+					|| (verticalDistanceBetweenFlights(airspace.getList_of_flights().get(i), airspace.getList_of_flights().get(j)) < warningVerticalSeparation)) { 
 					warningViolation = true; //Further action needed 
 						
-					if ((lateralDistanceBetweenFlights(airspace.list_of_flights_in_airspace.get(i), airspace.list_of_flights_in_airspace.get(j)) < gameOverLateralSeparation)
-							|| (verticalDistanceBetweenFlights(airspace.list_of_flights_in_airspace.get(i), airspace.list_of_flights_in_airspace.get(j)) < gameOverVerticalSeparation)){
+					if ((lateralDistanceBetweenFlights(airspace.getList_of_flights().get(i), airspace.getList_of_flights().get(j)) < gameOverLateralSeparation)
+							|| (verticalDistanceBetweenFlights(airspace.getList_of_flights().get(i), airspace.getList_of_flights().get(j)) < gameOverVerticalSeparation)){
 							gameOverViolation = true;
 						}
 						

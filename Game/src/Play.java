@@ -5,9 +5,8 @@ import org.newdawn.slick.state.*;
 
 public class Play extends BasicGameState {
 	
-	Airspace a; 
-	Calculations calc;
-	int i;
+	private Airspace a; 
+	private int i;
 	
 	
 	public Play(int state) {

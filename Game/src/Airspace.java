@@ -10,19 +10,20 @@ public class Airspace {
 
 	//FIELDS
 	
-	int max_number_of_flights;
-	int score, flight_counter, loops_since_last_flight_entry;
-	List<Flight> list_of_flights_in_airspace, list_of_incoming_flights;
-	List<Waypoint> list_of_waypoints;	
-	List<EntryPoint> list_of_entrypoints;
-	List<ExitPoint> list_of_exitpoints;
-	SeparationRules separationRules; 
-	int flight_button_x = 30;
+	private int max_number_of_flights;
+	private int score, flight_counter, loops_since_last_flight_entry;
+	private List<Flight> list_of_flights_in_airspace, list_of_incoming_flights;
+	private List<Waypoint> list_of_waypoints;	
+	private List<EntryPoint> list_of_entrypoints;
+	private List<ExitPoint> list_of_exitpoints;
+	private SeparationRules separationRules; 
+	private int flight_button_x = 30;
 
 
 
 	
 	//CONSTRUCTOR
+	
 	
 	
 	Airspace(){
@@ -318,7 +319,8 @@ public class Airspace {
 			return false;
 			}
 		}
-	
+
+
 	
 
 }
