@@ -20,6 +20,7 @@ public class Play extends BasicGameState {
 		flight.setX(1100);
 		flight.setY(600);
 		flight.setFlight_num(1);
+		flight.turn_flight_left(30);
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g) throws SlickException {
