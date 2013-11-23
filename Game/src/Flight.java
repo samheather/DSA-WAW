@@ -249,6 +249,8 @@ public class Flight {
 		g.drawString("Flight "+this.flight_num, (int)this.x-20, (int)this.y+20);
 		g.drawOval((int)this.x-40, (int)this.y-40, 100, 100);
 		g.fillRoundRect((int)this.flight_button_x, 500, 100, 100, 5);
+		g.setColor(Color.black);
+		g.drawString("Flight"+this.flight_num, (int)this.flight_button_x+13, 540);
 		img.draw((int)this.x, (int)this.y);
 		
 		img.setRotation((int)current_heading);

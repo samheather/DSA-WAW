@@ -59,7 +59,7 @@ public class Airspace {
 		tempFlight.setEntryNum(entryNum);
 		add_flight(tempFlight);
 			this.flight_counter++;
-			this.flight_button_x+=150;
+			this.flight_button_x+=130;
 
 
 		
