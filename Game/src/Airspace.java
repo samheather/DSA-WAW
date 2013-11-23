@@ -75,7 +75,7 @@ public class Airspace {
 			return false;
 		}
 	}
-	public boolean new_flight2(int num) {
+	public boolean new_flight2(int num) throws SlickException {
 
 	    if (this.list_of_flights_in_airspace.size() < this.max_number_of_flights){
 	        Random rand=new Random();
@@ -89,6 +89,7 @@ public class Airspace {
 	            
 	            System.out.println("Flight Added: "+tempFlight.toString());
 	            if(this.list_of_flights_in_airspace.add(tempFlight)) {
+	            	this.list_of_flights_in_airspace.get(this.list_of_flights_in_airspace.size()-1).init();
 	            	return true;
 	            }
 	         }

@@ -236,7 +236,7 @@ public class Flight {
 	}
 	
 	public void init() throws SlickException{
-		//img = new Image("plane.png");
+		img = new Image("plane.png");
 		
 	}
 	
@@ -247,9 +247,9 @@ public class Flight {
 		g.fillRoundRect((int)this.flight_button_x, 500, 100, 100, 5);
 		g.setColor(Color.black);
 		g.drawString("Flight"+this.flight_num, (int)this.flight_button_x+13, 540);
-		//img.draw((int)this.x, (int)this.y);
+		img.draw((int)this.x, (int)this.y);
 		
-		//img.setRotation((int)current_heading);
+		img.setRotation((int)current_heading);
 	}
 	
 	
