@@ -62,7 +62,7 @@ public class Menu extends BasicGameState {
 		else {
 			imgX+=velX;
 			imgY+=velY;
-			if(imgX>=1165) {
+			if(imgX>=gc.getWidth()-12) {
 				velX=-(velX);
 			}
 			if(imgX<=600) {

@@ -24,7 +24,7 @@ public class Play extends BasicGameState {
 	
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g) throws SlickException {
 		flight.render(g);
-		//a.render(g);
+		a.render(g);
 
 	}
 	

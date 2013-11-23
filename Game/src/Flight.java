@@ -206,7 +206,8 @@ public class Flight {
 	}
 	
 	public void render(Graphics g){
-		
+		g.drawString("Flight "+this.flight_num, (int)this.x-20, (int)this.y+20);
+		g.drawOval((int)this.x-40, (int)this.y-40, 100, 100);
 		img.draw((int)this.x, (int)this.y);
 		
 		img.setRotation((int)current_heading);
