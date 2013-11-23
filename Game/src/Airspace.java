@@ -79,13 +79,13 @@ public class Airspace {
 
 	    if (this.list_of_flights_in_airspace.size() < this.max_number_of_flights){
 	        Random rand=new Random();
-	        int check_number = rand.nextInt(10);
+	        int check_number = rand.nextInt(500);
 
-	        if(check_number == 5){
+	        if(check_number == 150){
 	            Flight tempFlight = new Flight(this);
 	            tempFlight.setFlight_num(num);
-	            tempFlight.setX(300);
-	            tempFlight.setY(0);
+	            tempFlight.setX(600);
+	            tempFlight.setY(600);
 	            
 	            System.out.println("Flight Added: "+tempFlight.toString());
 	            if(this.list_of_flights_in_airspace.add(tempFlight)) {
@@ -208,6 +208,7 @@ public class Airspace {
 	}
 	// render, update and init
 	public void init() throws SlickException {
+
 		for(int i=0; i<this.list_of_flights_in_airspace.size();i++) {
 			this.list_of_flights_in_airspace.get(i).init();
 		}

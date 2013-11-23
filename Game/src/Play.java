@@ -27,15 +27,15 @@ public class Play extends BasicGameState {
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g) throws SlickException {
-		
+		if(a.new_flight2(i)) {
+			i++;
+		}
 		a.render(g);
 
 	}
 	
 	public void update(GameContainer gc, StateBasedGame sbj, int delta) throws SlickException {
-		if(a.new_flight2(i)) {
-			i++;
-		}
+		
 		a.update(gc);
 	}
 	public int getID() {
