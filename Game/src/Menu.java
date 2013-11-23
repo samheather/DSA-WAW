@@ -25,7 +25,7 @@ public class Menu extends BasicGameState {
 		font = new TrueTypeFont(awtFont, false);
 		Font awtFont2 = new Font("Courier",Font.BOLD,25);
 		font2 = new TrueTypeFont(awtFont2, false);
-		gc.setShowFPS(true);
+		gc.setShowFPS(false);
 		img = new Image("res/plane.png");
 		
 	}
