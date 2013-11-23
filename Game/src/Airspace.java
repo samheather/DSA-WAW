@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -36,34 +35,12 @@ public class Airspace {
 		this.list_of_exitpoints = new ArrayList<ExitPoint>();
 		this.separationRules = new SeparationRules();
 		this.flight_counter=0;
-		this.loops_since_last_flight_entry=500;
+		this.loops_since_last_flight_entry=400;
 
 	}
 	
 	//METHODS
 	
-	/*
-	public void new_flight(int num) {
-		Random rand=new Random();
-		Flight tempFlight = new Flight(this);
-		tempFlight.setX(-100);
-		tempFlight.setY(-100);
-		tempFlight.setFlight_num(num);
-		int entryNum=rand.nextInt(this.entry_rate)+this.entry_rate;
-		if(this.flight_counter<4) {
-			this.entry_rate+=500;
-		}
-		else if(this.flight_counter>=4&&this.flight_counter<=10) {
-			this.entry_rate+=500;
-		}
-		tempFlight.setEntryNum(entryNum);
-		add_flight(tempFlight);
-			this.flight_counter++;
-			this.flight_button_x+=130;
-		
-	}
-	
-	*/
 	
 	public boolean new_waypoint(int x, int y) {
 		Waypoint tmpWp = new Waypoint(x,y);
@@ -88,6 +65,8 @@ public class Airspace {
 
 	    if (this.list_of_flights_in_airspace.size() < this.max_number_of_flights){
 	        Random rand=new Random();
+	        double x;
+	        double y;
 	        int check_number;
 	        if(this.list_of_flights_in_airspace.size()==0) {
 	        	check_number = rand.nextInt(200);
@@ -97,23 +76,37 @@ public class Airspace {
 	        }
 
 	        if(check_number == 150){
-	        	
+
 	        	if(this.loops_since_last_flight_entry>=500) {
+	        		int entryPoint=rand.nextInt(3);
+	        		if(this.list_of_entrypoints.size()==3) { //if we have all three entrypoints
+	        			x = this.list_of_entrypoints.get(entryPoint).getX();//choose one a get the x and y values
+	        			y = this.list_of_entrypoints.get(entryPoint).getY();
+	        		}
+	        		else { //if all entrypoints are not there then just assign some values
+	        			x = 1250;
+	        			y = 300;
+	        			
+	        		}
 	        		Flight tempFlight = new Flight(this);
 	        		tempFlight.setFlight_num(num);
-	        		tempFlight.setX(600);
-	            	tempFlight.setY(600);
-	            	this.loops_since_last_flight_entry=0;
-	        	
-	            
-
-	            if(this.list_of_flights_in_airspace.add(tempFlight)) {
-	            	this.list_of_flights_in_airspace.get(this.list_of_flights_in_airspace.size()-1).init();
-	            	this.flight_button_x+=130;
-	            	return true;
-	            }
+	        		tempFlight.setX(x);
+	        		tempFlight.setY(y);
+	        		if(y==0) {
+	        			tempFlight.setTarget_heading(180);
+	        			tempFlight.setCurrent_heading(180);
+	        		}else {
+	        			tempFlight.setTarget_heading(270);
+	        			tempFlight.setCurrent_heading(270);
+	        		}
+	        		this.loops_since_last_flight_entry=0;
+	        		if(this.list_of_flights_in_airspace.add(tempFlight)) {
+	        			this.list_of_flights_in_airspace.get(this.list_of_flights_in_airspace.size()-1).init();
+	        			this.flight_button_x+=130;
+	        			return true;
+	        		}
 	        	}
-	        	
+
 	         }
 
 	     }
@@ -183,6 +176,9 @@ public class Airspace {
 		}
 		for(int i=0; i<this.list_of_exitpoints.size();i++) {
 			this.list_of_exitpoints.get(i).render(g);
+		}
+		for(int i=0; i<this.list_of_entrypoints.size();i++) {
+			this.list_of_entrypoints.get(i).render(g);
 		}
 		//this.list_of_flights_in_airspace.get(0).render(g);
 	}
