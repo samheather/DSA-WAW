@@ -126,7 +126,7 @@ public class Flight {
 	}
 	
 	public void update_current_heading(){
-		double rate = 0.3;
+		double rate = 0.2;
 		if ((int)this.target_heading!=(int)this.current_heading){		
 			if (this.turning_right == true){// If plane is already turning right or user has told it to turn right
 				this.current_heading += rate;
@@ -211,11 +211,7 @@ public class Flight {
 		this.update_x_y_coordinates();
 		int posX=Mouse.getX();
 		int posY=Mouse.getY();
-		if(airspace.getEntry_counter()<this.entryNum) {
-			this.x=600;
-			this.y=700;
-		}
-		else if((posX>this.flight_button_x&&posX<this.flight_button_x+100)&&(posY>0&&posY<100)) {
+		if((posX>this.flight_button_x&&posX<this.flight_button_x+100)&&(posY>0&&posY<100)) {
 
 				if(selected==false){
 						this.color=Color.yellow;

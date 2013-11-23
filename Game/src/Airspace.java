@@ -75,6 +75,29 @@ public class Airspace {
 			return false;
 		}
 	}
+	public boolean new_flight2(int num) {
+
+	    if (this.list_of_flights_in_airspace.size() < this.max_number_of_flights){
+	        Random rand=new Random();
+	        int check_number = rand.nextInt(10);
+
+	        if(check_number == 5){
+	            Flight tempFlight = new Flight(this);
+	            tempFlight.setFlight_num(num);
+	            tempFlight.setX(300);
+	            tempFlight.setY(0);
+	            
+	            System.out.println("Flight Added: "+tempFlight.toString());
+	            if(this.list_of_flights_in_airspace.add(tempFlight)) {
+	            	return true;
+	            }
+	         }
+
+	     }
+	    return false;
+		
+
+	}
 	public boolean new_exit_point(int x, int y) {
 		ExitPoint tmpEp = new ExitPoint(x,y);
 		if(this.addExitPoint(tmpEp)){
