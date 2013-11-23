@@ -130,7 +130,7 @@ public class Flight {
 		if ((int)this.target_heading!=(int)this.current_heading){		
 			if (this.turning_right == true){// If plane is already turning right or user has told it to turn right
 				this.current_heading += rate;
-				if ((int)this.current_heading == 360){
+				if ((int)this.current_heading == 360&&this.target_heading!=360){
 					this.current_heading = 0;
 				}	
 			}
@@ -138,7 +138,7 @@ public class Flight {
 			//if plane is already turning left or user has told it to turn left
 			else if (this.turning_left == true){
 				this.current_heading -= rate;
-					if ((int)this.current_heading == 0){
+					if ((int)this.current_heading == 0&&this.target_heading!=0){
 						this.current_heading = 360;
 					}	
 			}
@@ -216,7 +216,7 @@ public class Flight {
 				if(selected==false){
 						this.color=Color.yellow;
 						if(input.isKeyDown(input.KEY_UP)) {
-							this.give_heading(0);
+							this.give_heading(360);
 						}
 						if(input.isKeyDown(input.KEY_LEFT)) {
 							this.give_heading(270);
