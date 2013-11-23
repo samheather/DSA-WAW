@@ -1,36 +1,45 @@
+import java.util.Random;
+
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 
 public class Play extends BasicGameState {
 	
-	Airspace a = new Airspace();
-	Flight flight;
+	Airspace a; 
 	Calculations calc;
 	
 	
 	public Play(int state) {
+		a = new Airspace();
+
 		
 	}
 	
 	public void init(GameContainer gc, StateBasedGame sbj) throws SlickException {
+		a.new_flight(1);
+		a.new_flight(2);
+		a.new_flight(3);
+		a.new_flight(4);
+		a.new_flight(5);
+		a.new_flight(6);
+		a.new_flight(7);
+		a.new_flight(8);
+		a.new_flight(9);
+		a.new_waypoint(100, 100);
 		
-		flight = new Flight(a);
-		a.add_flight(flight);
-		flight.init();
-		flight.setX(1100);
-		flight.setY(600);
-		flight.setFlight_num(1);
-		flight.turn_flight_left(30);
+		a.init();
+		
+		
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g) throws SlickException {
-		flight.render(g);
 		a.render(g);
 
 	}
 	
 	public void update(GameContainer gc, StateBasedGame sbj, int delta) throws SlickException {
-		flight.update();
+
+		a.update(gc);
 	}
 	public int getID() {
 		return 1;

@@ -1,6 +1,7 @@
 import java.util.Random;
 
 import org.lwjgl.input.Mouse;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -18,6 +19,13 @@ public class Flight {
 	private int MINIMUM_ALTITUDE = 27000;
 	int flight_num;
 	Image img;
+	int flight_button_x;
+	Color color;
+	boolean selected;
+	int entryNum;
+	Airspace airspace;
+	
+
 	
 
 	//CONSTRUCTOR
@@ -31,6 +39,10 @@ public class Flight {
 		this.turning_right = false;
 		this.turning_left = false;
 		this.flight_plan = new FlightPlan(a);
+		this.flight_button_x = a.getFlight_button_x();
+		this.color=Color.white;
+		this.selected=false;
+		this.airspace=a;
 		//current_heading=calc.calculate_heading_to_first_waypoint(this, this.flight_plan.getPointByIndex(0).getXCoOrd(), this.flight_plan.getPointByIndex(0).getXCoOrd());
 		
 	}
@@ -95,7 +107,7 @@ public class Flight {
 	}
 	
 	public void update_x_y_coordinates(){
-		double velocity= (this.flight_plan.getVelocity())/1000; 
+		double velocity= (this.flight_plan.getVelocity())/1000;
 
 		this.x += velocity * Math.sin(Math.toRadians(this.current_heading)) ;
 
@@ -192,22 +204,51 @@ public class Flight {
 	
 	// UPDATE, RENDER, INIT
 	
-	public void update(){
+	public void update(GameContainer gc){
 		
+		Input input = gc.getInput();
 		this.update_current_heading();
 		this.update_x_y_coordinates();
-		
-		
+		int posX=Mouse.getX();
+		int posY=Mouse.getY();
+		if(airspace.getEntry_counter()<this.entryNum) {
+			this.x=600;
+			this.y=700;
+		}
+		else if((posX>this.flight_button_x&&posX<this.flight_button_x+100)&&(posY>0&&posY<100)) {
+
+				if(selected==false){
+						this.color=Color.yellow;
+						if(input.isKeyDown(input.KEY_UP)) {
+							this.give_heading(0);
+						}
+						if(input.isKeyDown(input.KEY_LEFT)) {
+							this.give_heading(270);
+						}
+						if(input.isKeyDown(input.KEY_DOWN)) {
+							this.give_heading(180);
+						}
+						if(input.isKeyDown(input.KEY_RIGHT)) {
+							this.give_heading(90);
+						}
+					}
+				}
+		else {
+			this.color=Color.white;
+		}
+
 	}
 	
 	public void init() throws SlickException{
-		img = new Image("res/plane.png");
+		img = new Image("plane.png");
 		
 	}
 	
 	public void render(Graphics g){
+		g.setColor(color);
 		g.drawString("Flight "+this.flight_num, (int)this.x-20, (int)this.y+20);
 		g.drawOval((int)this.x-40, (int)this.y-40, 100, 100);
+		g.fillRoundRect((int)this.flight_button_x, 500, 100, 100, 5);
 		img.draw((int)this.x, (int)this.y);
 		
 		img.setRotation((int)current_heading);
@@ -283,6 +324,15 @@ public class Flight {
 	public void setFlight_num(int i) {
 		this.flight_num=i;
 	}
+	public void setEntryNum(int entryNum) {
+		this.entryNum = entryNum;
+	}
+	//tostring function to display a flight object so we can read it
+	@Override
+	public String toString() {
+		return "X: "+this.x+" Y: "+this.y+" Flight Number: "+this.flight_num;
+	}
+	
 	
 
 }

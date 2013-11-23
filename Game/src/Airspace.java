@@ -1,22 +1,28 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 
 public class Airspace {
 
 	//FIELDS
 	
 	int max_number_of_flights;
-	int score;
+	int score, flight_counter, wp_counter, exp_counter, ep_counter, entry_counter, entry_rate;
 	List<Flight> list_of_flights_in_airspace, list_of_incoming_flights;
 	List<Waypoint> list_of_waypoints;	
 	List<EntryPoint> list_of_entrypoints;
 	List<ExitPoint> list_of_exitpoints;
 	SeparationRules separationRules; 
+	int flight_button_x = 30;
+
 	
 	//CONSTRUCTOR
+	
 	
 	Airspace(){
 		this.max_number_of_flights = 20; //just a value
@@ -27,9 +33,70 @@ public class Airspace {
 		this.list_of_entrypoints = new ArrayList<EntryPoint>();
 		this.list_of_exitpoints = new ArrayList<ExitPoint>();
 		this.separationRules = new SeparationRules();
+		this.flight_counter=0;
+		this.wp_counter=0;
+		this.ep_counter=0;
+		this.exp_counter=0;
+		this.entry_counter=0;
+		this.entry_rate=200;
 	}
 	
 	//METHODS
+	
+	public void new_flight(int num) {
+		Random rand=new Random();
+		Flight tempFlight = new Flight(this);
+		tempFlight.setX(-100);
+		tempFlight.setY(-100);
+		tempFlight.setFlight_num(num);
+		int entryNum=rand.nextInt(this.entry_rate)+this.entry_rate;
+		if(this.flight_counter<4) {
+			this.entry_rate+=500;
+		}
+		else if(this.flight_counter>=4&&this.flight_counter<=10) {
+			this.entry_rate+=500;
+		}
+		tempFlight.setEntryNum(entryNum);
+		add_flight(tempFlight);
+			this.flight_counter++;
+			this.flight_button_x+=150;
+
+
+		
+	}
+	
+	public boolean new_waypoint(int x, int y) {
+		Waypoint tmpWp = new Waypoint(x,y);
+		if(this.addWaypoint(tmpWp)){
+			this.wp_counter++;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	public boolean new_exit_point(int x, int y) {
+		ExitPoint tmpEp = new ExitPoint(x,y);
+		if(this.addExitPoint(tmpEp)){
+			this.exp_counter++;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	public boolean new_entry_point(int x, int y) {
+		EntryPoint tmpEp = new EntryPoint(x,y);
+		if(this.addEntryPoint(tmpEp)){
+			this.ep_counter++;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+
 	
 	public boolean add_flight(Flight flight){ 	
 	
@@ -117,8 +184,28 @@ public class Airspace {
 		this.list_of_exitpoints.remove(exitpoint);
 	}
 	// render, update and init
+	public void init() throws SlickException {
+		for(int i=0; i<flight_counter;i++) {
+			this.list_of_flights_in_airspace.get(i).init();
+		}
+	}
 	public void render(Graphics g) { //I added this so we can draw things in the airspace, for example a radar like background or terrain
-		
+		for(int i=0; i<flight_counter;i++) {
+			this.list_of_flights_in_airspace.get(i).render(g);
+		}
+		for(int i=0; i<wp_counter;i++) {
+			this.list_of_waypoints.get(i).render(g);
+		}
+		for(int i=0; i<exp_counter;i++) {
+			this.list_of_exitpoints.get(i).render(g);
+		}
+		//this.list_of_flights_in_airspace.get(0).render(g);
+	}
+	public void update(GameContainer gc) {
+		this.entry_counter++;
+		for(int i=0; i<flight_counter;i++) {
+			this.list_of_flights_in_airspace.get(i).update(gc);
+		}
 	}
 
 	//GETTERS & SETTERS
@@ -150,5 +237,16 @@ public class Airspace {
 	public void add_to_list_of_incoming_flights(Flight flight){
 		this.list_of_incoming_flights.add(flight);
 	}
+	public int getEntry_counter() {
+		return entry_counter;
+	}
+	public int getFlight_button_x() {
+		return flight_button_x;
+	}
+
+	public void setFlight_button_x(int flight_button_x) {
+		this.flight_button_x = flight_button_x;
+	}
+
 }
 
