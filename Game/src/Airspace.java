@@ -208,12 +208,12 @@ public class Airspace {
 	}
 	// render, update and init
 	public void init() throws SlickException {
-		for(int i=0; i<flight_counter;i++) {
+		for(int i=0; i<this.list_of_flights_in_airspace.size();i++) {
 			this.list_of_flights_in_airspace.get(i).init();
 		}
 	}
 	public void render(Graphics g) { //I added this so we can draw things in the airspace, for example a radar like background or terrain
-		for(int i=0; i<flight_counter;i++) {
+		for(int i=0; i<this.list_of_flights_in_airspace.size();i++) {
 			this.list_of_flights_in_airspace.get(i).render(g);
 		}
 		for(int i=0; i<wp_counter;i++) {
@@ -226,7 +226,7 @@ public class Airspace {
 	}
 	public void update(GameContainer gc) {
 		this.entry_counter++;
-		for(int i=0; i<flight_counter;i++) {
+		for(int i=0; i<this.list_of_flights_in_airspace.size();i++) {
 			this.list_of_flights_in_airspace.get(i).update(gc);
 		}
 	}
