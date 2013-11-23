@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+
 public class Airspace {
 
 	//FIELDS
@@ -112,6 +115,10 @@ public class Airspace {
 
 	public void removeExitPoint(ExitPoint exitpoint) {
 		this.list_of_exitpoints.remove(exitpoint);
+	}
+	// render, update and init
+	public void render(Graphics g) { //I added this so we can draw things in the airspace, for example a radar like background or terrain
+		
 	}
 
 	//GETTERS & SETTERS

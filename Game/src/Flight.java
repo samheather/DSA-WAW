@@ -1,7 +1,10 @@
 import java.util.Random;
 
+import org.lwjgl.input.Mouse;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 public class Flight {
@@ -112,8 +115,6 @@ public class Flight {
 	
 	public void update_current_heading(){
 		double rate = 0.3;
-		System.out.println(this.target_heading);
-		System.out.println(this.current_heading);
 		if ((int)this.target_heading!=(int)this.current_heading){		
 			if (this.turning_right == true){// If plane is already turning right or user has told it to turn right
 				this.current_heading += rate;
@@ -195,6 +196,7 @@ public class Flight {
 		
 		this.update_current_heading();
 		this.update_x_y_coordinates();
+		
 		
 	}
 	

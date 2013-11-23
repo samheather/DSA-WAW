@@ -5,6 +5,7 @@ public class Play extends BasicGameState {
 	
 	Airspace a = new Airspace();
 	Flight flight;
+	Calculations calc;
 	
 	
 	public Play(int state) {
@@ -14,11 +15,11 @@ public class Play extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame sbj) throws SlickException {
 		
 		flight = new Flight(a);
+		a.add_flight(flight);
 		flight.init();
 		flight.setX(1100);
 		flight.setY(600);
 		flight.setFlight_num(1);
-		flight.give_heading(270);
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g) throws SlickException {

@@ -13,7 +13,6 @@ public class FlightPlan {
 	
 	public FlightPlan(Airspace airspace) {
 		this.velocity = generate_velocity();
-		System.out.println(this.velocity);
 		this.route = build_route(airspace);
 	}
 	
