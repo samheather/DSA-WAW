@@ -325,6 +325,18 @@ public class Flight {
 	public void setEntryNum(int entryNum) {
 		this.entryNum = entryNum;
 	}
+	public int getFlight_button_x() {
+		return flight_button_x;
+	}
+
+	public void setFlight_button_x(int flight_button_x) {
+		this.flight_button_x = flight_button_x;
+	}
+
+	public int getFlight_num() {
+		return flight_num;
+	}
+
 	//tostring function to display a flight object so we can read it
 	@Override
 	public String toString() {

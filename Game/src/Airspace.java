@@ -12,7 +12,7 @@ public class Airspace {
 	//FIELDS
 	
 	int max_number_of_flights;
-	int score, flight_counter, wp_counter, exp_counter, ep_counter, entry_counter, entry_rate;
+	int score, flight_counter, wp_counter, exp_counter, ep_counter, entry_rate;
 	List<Flight> list_of_flights_in_airspace, list_of_incoming_flights;
 	List<Waypoint> list_of_waypoints;	
 	List<EntryPoint> list_of_entrypoints;
@@ -37,7 +37,6 @@ public class Airspace {
 		this.wp_counter=0;
 		this.ep_counter=0;
 		this.exp_counter=0;
-		this.entry_counter=0;
 		this.entry_rate=200;
 	}
 	
@@ -75,6 +74,16 @@ public class Airspace {
 			return false;
 		}
 	}
+	public boolean check_if_flight_has_left_airspace(Flight f) {
+		
+		if(f.getX()>1250||f.getX()<-50||f.getY()>650||f.getY()<-50) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	}
 	public boolean new_flight2(int num) throws SlickException {
 
 	    if (this.list_of_flights_in_airspace.size() < this.max_number_of_flights){
@@ -87,9 +96,10 @@ public class Airspace {
 	            tempFlight.setX(600);
 	            tempFlight.setY(600);
 	            
-	            System.out.println("Flight Added: "+tempFlight.toString());
+
 	            if(this.list_of_flights_in_airspace.add(tempFlight)) {
 	            	this.list_of_flights_in_airspace.get(this.list_of_flights_in_airspace.size()-1).init();
+	            	this.flight_button_x+=130;
 	            	return true;
 	            }
 	         }
@@ -227,9 +237,13 @@ public class Airspace {
 		//this.list_of_flights_in_airspace.get(0).render(g);
 	}
 	public void update(GameContainer gc) {
-		this.entry_counter++;
+
 		for(int i=0; i<this.list_of_flights_in_airspace.size();i++) {
 			this.list_of_flights_in_airspace.get(i).update(gc);
+			if(this.check_if_flight_has_left_airspace(this.getList_of_flights().get(i))) {
+				this.list_of_flights_in_airspace.remove(i);	
+			}
+
 		}
 	}
 
@@ -262,9 +276,7 @@ public class Airspace {
 	public void add_to_list_of_incoming_flights(Flight flight){
 		this.list_of_incoming_flights.add(flight);
 	}
-	public int getEntry_counter() {
-		return entry_counter;
-	}
+
 	public int getFlight_button_x() {
 		return flight_button_x;
 	}
