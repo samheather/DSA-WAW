@@ -151,7 +151,7 @@ public class Flight {
 					this.turning_right = true;
 					this.current_heading +=rate;
 				}
-				else if ((this.current_heading+180)>= 360){
+				else if ((this.current_heading+180)>= 359){
 					
 					if (this.target_heading < this.current_heading ){
 						this.turning_right = true;
@@ -176,7 +176,7 @@ public class Flight {
 					}
 				}
 				else{
-					if((this.current_heading +180) >this.target_heading ){
+					if( (this.target_heading > this.current_heading) && (this.target_heading < this.current_heading+180) ){
 						this.turning_right = true;
 						this.current_heading +=rate;
 						if ((int)this.current_heading == 360){
