@@ -12,7 +12,7 @@ public class Airspace {
 	//FIELDS
 	
 	int max_number_of_flights;
-	int score, flight_counter, wp_counter, exp_counter, ep_counter, entry_rate;
+	int score, flight_counter, wp_counter, exp_counter, ep_counter, entry_rate, loops_since_last_flight_entry;
 	List<Flight> list_of_flights_in_airspace, list_of_incoming_flights;
 	List<Waypoint> list_of_waypoints;	
 	List<EntryPoint> list_of_entrypoints;
@@ -20,12 +20,14 @@ public class Airspace {
 	SeparationRules separationRules; 
 	int flight_button_x = 30;
 
+
+
 	
 	//CONSTRUCTOR
 	
 	
 	Airspace(){
-		this.max_number_of_flights = 20; //just a value
+		this.max_number_of_flights = 9; //just a value
 		this.score = 0;
 		this.list_of_flights_in_airspace = new ArrayList<Flight>();
 		this.list_of_incoming_flights = new ArrayList<Flight>();
@@ -38,6 +40,8 @@ public class Airspace {
 		this.ep_counter=0;
 		this.exp_counter=0;
 		this.entry_rate=200;
+		this.loops_since_last_flight_entry=500;
+
 	}
 	
 	//METHODS
@@ -88,13 +92,23 @@ public class Airspace {
 
 	    if (this.list_of_flights_in_airspace.size() < this.max_number_of_flights){
 	        Random rand=new Random();
-	        int check_number = rand.nextInt(500);
+	        int check_number;
+	        if(this.list_of_flights_in_airspace.size()==0) {
+	        	check_number = rand.nextInt(200);
+	        }
+	        else {
+	        	check_number = rand.nextInt(400);
+	        }
 
 	        if(check_number == 150){
-	            Flight tempFlight = new Flight(this);
-	            tempFlight.setFlight_num(num);
-	            tempFlight.setX(600);
-	            tempFlight.setY(600);
+	        	
+	        	if(this.loops_since_last_flight_entry>=500) {
+	        		Flight tempFlight = new Flight(this);
+	        		tempFlight.setFlight_num(num);
+	        		tempFlight.setX(600);
+	            	tempFlight.setY(600);
+	            	this.loops_since_last_flight_entry=0;
+	        	
 	            
 
 	            if(this.list_of_flights_in_airspace.add(tempFlight)) {
@@ -102,9 +116,12 @@ public class Airspace {
 	            	this.flight_button_x+=130;
 	            	return true;
 	            }
+	        	}
+	        	
 	         }
 
 	     }
+	    this.loops_since_last_flight_entry++;
 	    return false;
 		
 
@@ -237,12 +254,21 @@ public class Airspace {
 		//this.list_of_flights_in_airspace.get(0).render(g);
 	}
 	public void update(GameContainer gc) {
-
+		
 		for(int i=0; i<this.list_of_flights_in_airspace.size();i++) {
 			this.list_of_flights_in_airspace.get(i).update(gc);
 			if(this.check_if_flight_has_left_airspace(this.getList_of_flights().get(i))) {
-				this.list_of_flights_in_airspace.remove(i);	
+				this.list_of_flights_in_airspace.remove(i);
 			}
+			/*if(this.removed_last_loop.size()>0) {
+				for(int j = 0; j<this.removed_last_loop.size();j++) {
+					this.list_of_flights_in_airspace.get(i).setFlight_button_x(this.removed_last_loop.get(j));
+				}
+			}
+			else {
+				this.list_of_flights_in_airspace.get(i).setFlight_button_x(this.getList_of_flights().get(i).getFlight_button_x());
+			}*/
+			
 
 		}
 	}
