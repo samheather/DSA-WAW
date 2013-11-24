@@ -1,4 +1,3 @@
-import java.awt.geom.Area;
 import java.util.Random;
 
 import org.lwjgl.input.Mouse;
@@ -21,11 +20,10 @@ public class Flight {
 	private Image img;
 	private Color color;
 	private boolean selected;
-<<<<<<< .mine
 	private Airspace airspace;
-=======
+
 	
->>>>>>> .r77
+
 
 	
 
@@ -43,11 +41,8 @@ public class Flight {
 		this.flight_button_x = a.getFlight_button_x();
 		this.color=Color.white;
 		this.selected=false;
-<<<<<<< .mine
 		airspace = a;
-=======
-		
->>>>>>> .r77
+
 		//current_heading=calc.calculate_heading_to_first_waypoint(this, this.flight_plan.getPointByIndex(0).getXCoOrd(), this.flight_plan.getPointByIndex(0).getXCoOrd());
 		
 	}

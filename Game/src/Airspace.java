@@ -351,8 +351,5 @@ public class Airspace {
 			}
 		}
 
-
-	
-
 }
 
