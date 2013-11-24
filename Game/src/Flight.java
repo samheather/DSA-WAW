@@ -194,15 +194,14 @@ public class Flight {
 		}
 	}
 	
-	public boolean check_if_flight_at_waypoint()
+	public boolean check_if_flight_at_waypoint(Point waypoint)
 	{
 		// The line below is just so there are no errors
-		for (int j = 0; j < flight_plan.getWaypoints().size(); j++){
-			if (((Math.abs(Math.round(this.x) - Math.round(flight_plan.getWaypoints().get(j).getX()))) <= 30)
-					&& (Math.abs(Math.round(this.y) - Math.round(flight_plan.getWaypoints().get(j).getY()))) <= 30){
+			if (((Math.abs(Math.round(this.x) - Math.round(waypoint.getX()))) <= 30)
+					&& (Math.abs(Math.round(this.y) - Math.round(waypoint.getY()))) <= 30){
 				return true;
 			}
-		}; 
+
 		return false;
 	}
 		
@@ -214,7 +213,7 @@ public class Flight {
 		Input input = gc.getInput();
 		this.update_current_heading();
 		this.update_x_y_coordinates();
-		this.check_if_flight_at_waypoint();
+		this.check_if_flight_at_waypoint(flight_plan.getWaypoints().get(flight_plan.getWaypoints().size()-1));
 		int posX=Mouse.getX();
 		int posY=Mouse.getY();
 		if(this.selected==true) {
