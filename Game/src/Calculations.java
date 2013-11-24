@@ -28,9 +28,15 @@ public class Calculations {
 	
 	// destination x and destination y will be replaced with the waypoints x and y
 	public static double calculate_heading_to_first_waypoint(Flight flight1, double destination_x, double destination_y ){
+		double deltaX;
+		double deltaY;
+		deltaY = destination_y-flight1.getY() ;
+		deltaX =  destination_x-flight1.getX();
+		double angle = Math.toDegrees(Math.atan2(deltaY, deltaX));
+		return angle+90;
 		
 		// DIAGONALS
-		if ((flight1.getX() > destination_x) && (flight1.getY() < destination_y)){
+		/*if ((flight1.getX() > destination_x) && (flight1.getY() < destination_y)){
 			return  360 - Math.toDegrees(Math.atan((Math.abs(flight1.getX()-destination_x) / Math.abs(flight1.getY()-destination_y))));
 		}
 		
@@ -66,7 +72,7 @@ public class Calculations {
 		
 		else{
 			return  180;
-		}
+		} */
 
 		
 		

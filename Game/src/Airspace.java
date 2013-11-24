@@ -107,11 +107,10 @@ public class Airspace {
 	        		tempFlight.setFlight_num(num);
 	        		tempFlight.setX(x);
 	        		tempFlight.setY(y);
-	        		double heading= Calculations.calculate_heading_to_first_waypoint(tempFlight, tempFlight.getFlight_plan().getPointByIndex(0).getX(), tempFlight.getFlight_plan().getPointByIndex(0).getY());
-	        		if(y==0) {
-	        			tempFlight.setTarget_heading(heading);
-	        			tempFlight.setCurrent_heading(heading);
-	        		}
+	        		double heading= Calculations.calculate_heading_to_first_waypoint(tempFlight, tempFlight.getFlight_plan().getPointByIndex(0).getX()-5, tempFlight.getFlight_plan().getPointByIndex(0).getY()-5);
+	        		System.out.println(tempFlight.getFlight_plan().toString());
+	        		tempFlight.setTarget_heading(heading);
+	        		tempFlight.setCurrent_heading(heading);
 	        		this.loops_since_last_flight_entry=0;
 	        		if(this.list_of_flights_in_airspace.add(tempFlight)) {
 	        			this.list_of_flights_in_airspace.get(this.list_of_flights_in_airspace.size()-1).init();
