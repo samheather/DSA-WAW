@@ -11,7 +11,7 @@ public class Airspace {
 	//FIELDS
 	
 	private int max_number_of_flights;
-	private int score, flight_counter, loops_since_last_flight_entry, overall_loops, next_difficulty_loops,max_rand, difficulty_levels;
+	private int score, flight_counter, loops_since_last_flight_entry, overall_loops, next_difficulty_loops,max_rand, difficulty_levels,wp_counter;
 	private List<Flight> list_of_flights_in_airspace, list_of_incoming_flights;
 	private List<Waypoint> list_of_waypoints;	
 	private List<EntryPoint> list_of_entrypoints;
@@ -42,13 +42,16 @@ public class Airspace {
 		this.difficulty_levels=10;//number of times difficulty changes
 		this.max_rand=(int) Math.pow(2, this.difficulty_levels); 
 		this.previous_removed=false; //varibale for storing whether a flight was removed on each loop
+		this.wp_counter=0;
 	}
 	
 	//METHODS
 	
 	
 	public boolean new_waypoint(int x, int y) {
+		this.wp_counter++;
 		Waypoint tmpWp = new Waypoint(x,y);
+		tmpWp.setPointRef(this.wp_counter);
 		if(this.addWaypoint(tmpWp)){
 			return true;
 		}
@@ -108,7 +111,6 @@ public class Airspace {
 	        		tempFlight.setX(x);
 	        		tempFlight.setY(y);
 	        		double heading= Calculations.calculate_heading_to_first_waypoint(tempFlight, tempFlight.getFlight_plan().getPointByIndex(0).getX()-5, tempFlight.getFlight_plan().getPointByIndex(0).getY()-5);
-	        		System.out.println(tempFlight.getFlight_plan().toString());
 	        		tempFlight.setTarget_heading(heading);
 	        		tempFlight.setCurrent_heading(heading);
 	        		this.loops_since_last_flight_entry=0;

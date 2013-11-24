@@ -259,6 +259,7 @@ public class Flight {
 	public void render(Graphics g){
 		g.setColor(color);
 		g.drawString("Flight "+this.flight_num, (int)this.x-30, (int)this.y+20);
+		g.drawString("WP"+this.flight_plan.getPointByIndex(0).getPointRef(),(int)this.x-5,(int)this.y-20);
 		g.drawOval((int)this.x-40, (int)this.y-40, 100, 100);
 		g.fillRoundRect((int)this.flight_button_x, 500, 100, 100, 5);
 		g.setColor(Color.black);
