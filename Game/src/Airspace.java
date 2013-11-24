@@ -26,7 +26,7 @@ public class Airspace {
 	
 	
 	Airspace(){
-		this.max_number_of_flights = 2; //just a value
+		this.max_number_of_flights = 5; //just a value
 		this.score = 0;
 		this.list_of_flights_in_airspace = new ArrayList<Flight>();
 		this.list_of_incoming_flights = new ArrayList<Flight>();
@@ -204,13 +204,10 @@ public class Airspace {
 		boolean decrease=true;
 		for(int i=0; i<this.list_of_flights_in_airspace.size();i++) {
 			this.list_of_flights_in_airspace.get(i).update(gc);
-			
-				
-			
 			if(this.check_if_flight_has_left_airspace(this.getList_of_flights().get(i))) {
 				this.list_of_flights_in_airspace.remove(i);
 				this.previous_removed+=1;
-				if(i>this.list_of_flights_in_airspace.size()-1) {
+				/*if(i>this.list_of_flights_in_airspace.size()-1&&this.list_of_flights_in_airspace.size()==1) {
 					j=i-1;
 
 					decrease=false;
@@ -219,23 +216,18 @@ public class Airspace {
 				}
 				else {
 					j=i;
-				}
+				}*/
 			}
 			if(this.list_of_flights_in_airspace.size()>0) {
 				if(this.previous_removed>0) {
 
-				if(decrease){
-					this.list_of_flights_in_airspace.get(j).setFlight_button_x(this.list_of_flights_in_airspace.get(j).getFlight_button_x()-130);
-					decrease=true;
-				}
-				else {
-					System.out.println("Did not decrease x");
-				}
+
+				this.list_of_flights_in_airspace.get(i).setFlight_button_x(this.list_of_flights_in_airspace.get(i).getFlight_button_x()-130);
 
 				if(i == this.list_of_flights_in_airspace.size()-1) {
 					this.flight_button_x-=130;
 					
-					this.previous_removed--;
+					this.previous_removed=0;;
 				}
 				
 			}
