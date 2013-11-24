@@ -191,8 +191,6 @@ public class Airspace {
 	
 	
 	public void render(Graphics g) { //I added this so we can draw things in the airspace, for example a radar like background or terrain
-		g.setColor(Color.blue);
-		g.fillRect(0, 0, (float) 1200, (float)600);
 		for(int i=0; i<this.list_of_flights_in_airspace.size();i++) {
 			this.list_of_flights_in_airspace.get(i).render(g);
 		}
