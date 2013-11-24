@@ -11,13 +11,14 @@ public class Airspace {
 	//FIELDS
 	
 	private int max_number_of_flights;
-	private int score, flight_counter, loops_since_last_flight_entry, overall_loops, next_difficulty_loops,max_rand,previous_removed;
+	private int score, flight_counter, loops_since_last_flight_entry, overall_loops, next_difficulty_loops,max_rand, difficulty_levels;
 	private List<Flight> list_of_flights_in_airspace, list_of_incoming_flights;
 	private List<Waypoint> list_of_waypoints;	
 	private List<EntryPoint> list_of_entrypoints;
 	private List<ExitPoint> list_of_exitpoints;
 	private SeparationRules separationRules; 
 	private int flight_button_x = 30;
+	private boolean previous_removed;
 
 
 	
@@ -26,7 +27,7 @@ public class Airspace {
 	
 	
 	Airspace(){
-		this.max_number_of_flights = 5; //just a value
+		this.max_number_of_flights = 2; //just a value
 		this.score = 0;
 		this.list_of_flights_in_airspace = new ArrayList<Flight>();
 		this.list_of_incoming_flights = new ArrayList<Flight>();
@@ -35,11 +36,13 @@ public class Airspace {
 		this.list_of_exitpoints = new ArrayList<ExitPoint>();
 		this.separationRules = new SeparationRules();
 		this.flight_counter=0;
-		this.loops_since_last_flight_entry=400;
-		this.overall_loops=0;
-		this.next_difficulty_loops=10000;
-		this.max_rand=800;
-		this.previous_removed=0;
+		this.loops_since_last_flight_entry=400; //how many loops to wait before another flight can enter
+		this.overall_loops=0; //stores how many loops there have been in total
+		this.next_difficulty_loops=10000; //this is how many loops until planes come more quickly, divide by 60 for seconds
+		this.difficulty_levels=10;//number of times difficulty changes
+		this.max_rand=(int) Math.pow(2, this.difficulty_levels); 
+		System.out.println(this.max_rand);
+		this.previous_removed=false; //varibale for storing whether a flight was removed on each loop
 	}
 	
 	//METHODS
@@ -86,7 +89,7 @@ public class Airspace {
 	        
 	        if(this.overall_loops>=this.next_difficulty_loops ) {
 	        	this.next_difficulty_loops+=5000;
-	        	if(this.max_rand>25) {
+	        	if(this.max_rand>2) {
 	        		this.max_rand=this.max_rand/2;
 	        	}
 	        }
@@ -200,42 +203,35 @@ public class Airspace {
 	
 	
 	public void update(GameContainer gc) {
-		int j=0;
-		boolean decrease=true;
 		for(int i=0; i<this.list_of_flights_in_airspace.size();i++) {
 			this.list_of_flights_in_airspace.get(i).update(gc);
-			if(this.check_if_flight_has_left_airspace(this.getList_of_flights().get(i))) {
-				this.list_of_flights_in_airspace.remove(i);
-				this.previous_removed+=1;
-				/*if(i>this.list_of_flights_in_airspace.size()-1&&this.list_of_flights_in_airspace.size()==1) {
-					j=i-1;
-
-					decrease=false;
-					this.previous_removed--;
-					this.flight_button_x-=130;
-				}
-				else {
-					j=i;
-				}*/
+			if(this.check_if_flight_has_left_airspace(this.getList_of_flights().get(i))) { // if a flight has left the airspace
+				this.list_of_flights_in_airspace.remove(i); //remove that flight from the list
+				this.previous_removed=true; //tell the program a flight has been removed on this loop
 			}
-			if(this.list_of_flights_in_airspace.size()>0) {
-				if(this.previous_removed>0) {
+			//the code to shift all the buttons up if there is space
+			if(this.list_of_flights_in_airspace.size()>0) { //if the list is not empty
+				if(i<=this.list_of_flights_in_airspace.size()-1) { //if i is not greater than the size of the list
+					if(this.previous_removed) { //if an object was removed
+						this.list_of_flights_in_airspace.get(i).setFlight_button_x(this.list_of_flights_in_airspace.get(i).getFlight_button_x()-130);//take 130 off the current x value of the button
 
+						if(i == this.list_of_flights_in_airspace.size()-1) { //if we are at the end of the list
+							this.flight_button_x-=130; //take 130 of this.flight_button_x so that when the next flight is made is button is next to the current last button
 
-				this.list_of_flights_in_airspace.get(i).setFlight_button_x(this.list_of_flights_in_airspace.get(i).getFlight_button_x()-130);
+							this.previous_removed=false; //set to false so none of this runs until next time a flight is removed
+						}
 
-				if(i == this.list_of_flights_in_airspace.size()-1) {
-					this.flight_button_x-=130;
-					
-					this.previous_removed=0;;
+					}
+
 				}
-				
+				else { //if i was greater than the size of the list, we must have removed the last element so
+					this.flight_button_x-=130; //just decrease this, but the x of any current buttons doesn't need to change
+					this.previous_removed=false;
+				}
 			}
-				
-		}
-			else {
+			else { //if the list was empty set flight_button_x back to its initial value
 				this.flight_button_x=30;
-				this.previous_removed=0;
+				this.previous_removed=false;
 			}
 
 		}
