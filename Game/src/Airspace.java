@@ -66,7 +66,7 @@ public class Airspace {
 	
 	public boolean check_if_flight_has_left_airspace(Flight f) {
 		
-		if(f.getX()>1250||f.getX()<-50||f.getY()>650||f.getY()<-50) {
+		if(f.getX()>1250||f.getX()<100||f.getY()>500||f.getY()<-50) {
 			return true;
 		}
 		else {
