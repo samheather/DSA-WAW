@@ -1,3 +1,4 @@
+import java.awt.geom.Area;
 import java.util.Random;
 
 import org.lwjgl.input.Mouse;
@@ -20,9 +21,11 @@ public class Flight {
 	private Image img;
 	private Color color;
 	private boolean selected;
+<<<<<<< .mine
+	private Airspace airspace;
+=======
 	
-
-	
+>>>>>>> .r77
 
 	
 
@@ -40,7 +43,11 @@ public class Flight {
 		this.flight_button_x = a.getFlight_button_x();
 		this.color=Color.white;
 		this.selected=false;
+<<<<<<< .mine
+		airspace = a;
+=======
 		
+>>>>>>> .r77
 		//current_heading=calc.calculate_heading_to_first_waypoint(this, this.flight_plan.getPointByIndex(0).getXCoOrd(), this.flight_plan.getPointByIndex(0).getXCoOrd());
 		
 	}
@@ -125,8 +132,8 @@ public class Flight {
 	
 	public void update_current_heading(){
 		// NOTE TO RORY FROM RORY: DONT FORGET TO FIX THIS FOR EVERY CASE
-		double rate = 0.2;
-		if ((int)this.target_heading!=(int)this.current_heading){		
+		double rate = 1;
+		if (Math.round(this.target_heading)!=Math.round(this.current_heading)){		
 			if (this.turning_right == true){// If plane is already turning right or user has told it to turn right
 				this.current_heading += rate;
 				if ((int)this.current_heading == 360&&this.target_heading!=360){
@@ -197,7 +204,13 @@ public class Flight {
 	public boolean check_if_flight_at_waypoint()
 	{
 		// The line below is just so there are no errors
-		return true;
+		for (int j = 0; j < airspace.getList_of_way_points().size(); j++){
+			if (((Math.abs(Math.round(this.x) - Math.round(airspace.getList_of_way_points().get(j).getX()))) <= 30)
+					&& (Math.abs(Math.round(this.y) - Math.round(airspace.getList_of_way_points().get(j).getY()))) <= 30){
+				return true;
+			}
+		}; 
+		return false;
 	}
 		
 	
@@ -208,6 +221,9 @@ public class Flight {
 		Input input = gc.getInput();
 		this.update_current_heading();
 		this.update_x_y_coordinates();
+		this.check_if_flight_at_waypoint();
+		System.out.println("Waypoint x: " + Math.round(airspace.getList_of_way_points().get(0).getX()));
+		System.out.println("Plane x:" + Math.round(this.x));
 		int posX=Mouse.getX();
 		int posY=Mouse.getY();
 		if(this.selected==true) {
