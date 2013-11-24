@@ -4,6 +4,7 @@ import java.util.Random;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
+import org.newdawn.slick.Color;
 
 public class Play extends BasicGameState {
 	
@@ -39,9 +40,9 @@ public class Play extends BasicGameState {
 		a.new_entry_point(1200, 400);
 		a.new_entry_point(1200, 200);
 		a.new_entry_point(600, 0);
-		a.new_exit_point(0, 100);
-		a.new_exit_point(0, 400);
-		a.new_exit_point(0, 550);
+		a.new_exit_point(100, 100);
+		a.new_exit_point(100, 300);
+		a.new_exit_point(100, 450);
 	}
 		
 		
@@ -53,6 +54,12 @@ public class Play extends BasicGameState {
 
 	
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g) throws SlickException {
+		g.setColor(Color.blue);
+		g.fillRect(0, 0, (float) 1200, (float)600);
+		g.setColor(Color.lightGray);
+		g.fillRoundRect(0, 500, 1200, 100,5);
+		g.fillRoundRect(0, 0, 100, 600,5);
+		
 		if(a.new_flight2(i)) {
 			i++;
 		}
