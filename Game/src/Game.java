@@ -8,6 +8,8 @@ public class Game extends StateBasedGame  {
 	public static final String NAME = "ATC Game";
 	public static final int MENU = 0;
 	public static final int PLAY = 1;
+	public static final int MAXIMUM_WIDTH = 1200;
+	public static final int MAXIMUM_HEIGHT = 600;
 	
 	public Game(String NAME) {
 		super(NAME);
@@ -27,7 +29,7 @@ public class Game extends StateBasedGame  {
 		AppGameContainer appgc;
 		try {
 			appgc = new AppGameContainer(new Game(NAME));
-			appgc.setDisplayMode(1200, 600, false);
+			appgc.setDisplayMode(MAXIMUM_WIDTH, MAXIMUM_HEIGHT, false);
 			appgc.setTargetFrameRate(60);
 			appgc.start();
 		}catch(SlickException e){
