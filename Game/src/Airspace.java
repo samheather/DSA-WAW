@@ -11,7 +11,7 @@ public class Airspace {
 	//FIELDS
 	
 	private int max_number_of_flights;
-	private int score, flight_counter, loops_since_last_flight_entry, overall_loops, next_difficulty_loops,max_rand;
+	private int score, flight_counter, loops_since_last_flight_entry, overall_loops, next_difficulty_loops,max_rand,previous_removed;
 	private List<Flight> list_of_flights_in_airspace, list_of_incoming_flights;
 	private List<Waypoint> list_of_waypoints;	
 	private List<EntryPoint> list_of_entrypoints;
@@ -20,14 +20,13 @@ public class Airspace {
 	private int flight_button_x = 30;
 
 
-
 	
 	//CONSTRUCTOR
 	
 	
 	
 	Airspace(){
-		this.max_number_of_flights = 9; //just a value
+		this.max_number_of_flights = 2; //just a value
 		this.score = 0;
 		this.list_of_flights_in_airspace = new ArrayList<Flight>();
 		this.list_of_incoming_flights = new ArrayList<Flight>();
@@ -40,6 +39,7 @@ public class Airspace {
 		this.overall_loops=0;
 		this.next_difficulty_loops=10000;
 		this.max_rand=800;
+		this.previous_removed=0;
 	}
 	
 	//METHODS
@@ -90,7 +90,6 @@ public class Airspace {
 	        		this.max_rand=this.max_rand/2;
 	        	}
 	        }
-	        System.out.println(this.max_rand);
 	        if(this.list_of_flights_in_airspace.size()==0) {
 	        	check_number = rand.nextInt(200);
 	        }
@@ -127,7 +126,6 @@ public class Airspace {
 	    this.loops_since_last_flight_entry++;
 	    
 	    this.overall_loops++;
-	    System.out.println(this.overall_loops);
 	    return false;
 		
 
@@ -202,21 +200,51 @@ public class Airspace {
 	
 	
 	public void update(GameContainer gc) {
-		
+		int j=0;
+		boolean decrease=true;
 		for(int i=0; i<this.list_of_flights_in_airspace.size();i++) {
 			this.list_of_flights_in_airspace.get(i).update(gc);
+			
+				
+			
 			if(this.check_if_flight_has_left_airspace(this.getList_of_flights().get(i))) {
 				this.list_of_flights_in_airspace.remove(i);
-			}
-			/*if(this.removed_last_loop.size()>0) {
-				for(int j = 0; j<this.removed_last_loop.size();j++) {
-					this.list_of_flights_in_airspace.get(i).setFlight_button_x(this.removed_last_loop.get(j));
+				this.previous_removed+=1;
+				if(i>this.list_of_flights_in_airspace.size()-1) {
+					j=i-1;
+
+					decrease=false;
+					this.previous_removed--;
+					this.flight_button_x-=130;
+				}
+				else {
+					j=i;
 				}
 			}
+			if(this.list_of_flights_in_airspace.size()>0) {
+				if(this.previous_removed>0) {
+
+				if(decrease){
+					this.list_of_flights_in_airspace.get(j).setFlight_button_x(this.list_of_flights_in_airspace.get(j).getFlight_button_x()-130);
+					decrease=true;
+				}
+				else {
+					System.out.println("Did not decrease x");
+				}
+
+				if(i == this.list_of_flights_in_airspace.size()-1) {
+					this.flight_button_x-=130;
+					
+					this.previous_removed--;
+				}
+				
+			}
+				
+		}
 			else {
-				this.list_of_flights_in_airspace.get(i).setFlight_button_x(this.getList_of_flights().get(i).getFlight_button_x());
-			}*/
-			
+				this.flight_button_x=30;
+				this.previous_removed=0;
+			}
 
 		}
 	}

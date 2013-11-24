@@ -20,6 +20,7 @@ public class Flight {
 	private Image img;
 	private Color color;
 	private boolean selected;
+	
 
 	
 
@@ -39,6 +40,7 @@ public class Flight {
 		this.flight_button_x = a.getFlight_button_x();
 		this.color=Color.white;
 		this.selected=false;
+		
 		//current_heading=calc.calculate_heading_to_first_waypoint(this, this.flight_plan.getPointByIndex(0).getXCoOrd(), this.flight_plan.getPointByIndex(0).getXCoOrd());
 		
 	}
@@ -208,27 +210,33 @@ public class Flight {
 		this.update_x_y_coordinates();
 		int posX=Mouse.getX();
 		int posY=Mouse.getY();
-		if((posX>this.flight_button_x&&posX<this.flight_button_x+100)&&(posY>0&&posY<100)) {
-
-				if(selected==false){
-						this.color=Color.yellow;
-						if(input.isKeyDown(input.KEY_UP)) {
-							this.give_heading(360);
-						}
-						if(input.isKeyDown(input.KEY_LEFT)) {
-							this.give_heading(270);
-						}
-						if(input.isKeyDown(input.KEY_DOWN)) {
-							this.give_heading(180);
-						}
-						if(input.isKeyDown(input.KEY_RIGHT)) {
-							this.give_heading(90);
-						}
-					}
-				}
-		else {
-			this.color=Color.white;
+		if(this.selected==true) {
+			this.color=Color.yellow;
+			if(input.isKeyDown(input.KEY_UP)) {
+				this.give_heading(360);
+			}
+			if(input.isKeyDown(input.KEY_LEFT)) {
+				this.give_heading(270);
+			}
+			if(input.isKeyDown(input.KEY_DOWN)) {
+				this.give_heading(180);
+			}
+			if(input.isKeyDown(input.KEY_RIGHT)) {
+				this.give_heading(90);
+			}
+			if(((posX<this.flight_button_x||posX>this.flight_button_x+100)||(posY<0||posY>100))&&Mouse.isButtonDown(0)) {
+				this.selected=false;
+			}
 		}
+		else {
+				this.color=Color.white;
+				if((posX>this.flight_button_x&&posX<this.flight_button_x+100)&&(posY>0&&posY<100)&&Mouse.isButtonDown(0)) {
+
+					this.selected=true;
+
+				}
+			}
+
 
 	}
 	
