@@ -13,8 +13,8 @@ public class Point {
     //Class Var. static int PointCount tracks number of Points set up.
     protected double x;
     protected double y;
-    protected int pointRef;
-    public void setPointRef(int pointRef) {
+    protected String pointRef;
+    public void setPointRef(String pointRef) {
 		this.pointRef = pointRef;
 	}
 
@@ -47,7 +47,7 @@ public class Point {
     //for pointRef string, for pointcount int.
     double getX() {return this.x;}
     double getY() {return this.y;}
-    int getPointRef() {return this.pointRef;}
+    String getPointRef() {return this.pointRef;}
     int getPointCount() {return Point.pointCount;}
     
     //Mutator for setting xCoOrd and yCoOrd. Each method takes a sole double.
@@ -56,7 +56,7 @@ public class Point {
     
     public void render(Graphics g) {
     	g.setColor(Color.white);
-    	g.drawString("WP"+String.valueOf(this.pointRef), (int)this.x-10, (int)this.y-15);
+    	g.drawString(this.pointRef, (int)this.x-10, (int)this.y-15);
     	g.setColor(Color.yellow);
     	g.fillOval((int)this.x, (int)this.y, 10, 10);
     	g.setColor(Color.green);

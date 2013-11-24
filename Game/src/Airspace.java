@@ -11,7 +11,7 @@ public class Airspace {
 	//FIELDS
 	
 	private int max_number_of_flights;
-	private int score, flight_counter, loops_since_last_flight_entry, overall_loops, next_difficulty_loops,max_rand, difficulty_levels,wp_counter;
+	private int score, flight_counter, loops_since_last_flight_entry, overall_loops, next_difficulty_loops,max_rand, difficulty_levels,wp_counter,exp_counter,enp_counter;
 	private List<Flight> list_of_flights_in_airspace, list_of_incoming_flights;
 	private List<Waypoint> list_of_waypoints;	
 	private List<EntryPoint> list_of_entrypoints;
@@ -43,6 +43,8 @@ public class Airspace {
 		this.max_rand=(int) Math.pow(2, this.difficulty_levels); 
 		this.previous_removed=false; //varibale for storing whether a flight was removed on each loop
 		this.wp_counter=0;
+		this.exp_counter=0;
+		this.enp_counter=0;
 	}
 	
 	//METHODS
@@ -51,7 +53,7 @@ public class Airspace {
 	public boolean new_waypoint(int x, int y) {
 		this.wp_counter++;
 		Waypoint tmpWp = new Waypoint(x,y);
-		tmpWp.setPointRef(this.wp_counter);
+		tmpWp.setPointRef("WP"+this.wp_counter);
 		if(this.addWaypoint(tmpWp)){
 			return true;
 		}
@@ -133,6 +135,8 @@ public class Airspace {
 	}
 	public boolean new_exit_point(int x, int y) {
 		ExitPoint tmpEp = new ExitPoint(x,y);
+		this.exp_counter++;
+		tmpEp.setPointRef("EXP"+this.exp_counter);
 		if(this.addExitPoint(tmpEp)){
 			return true;
 		}
@@ -142,6 +146,8 @@ public class Airspace {
 	}
 	public boolean new_entry_point(int x, int y) {
 		EntryPoint tmpEp = new EntryPoint(x,y);
+		this.enp_counter++;
+		tmpEp.setPointRef("ENP"+this.enp_counter);
 		if(this.addEntryPoint(tmpEp)){
 			return true;
 		}
