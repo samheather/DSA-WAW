@@ -53,6 +53,8 @@ public class Point {
     public void render(Graphics g) {
     	g.setColor(Color.yellow);
     	g.fillOval((int)this.x, (int)this.y, 10, 10);
+    	g.setColor(Color.green);
+    	g.drawOval((int)this.x -10, (int)this.y - 10, 30, 30);
     }
 
 

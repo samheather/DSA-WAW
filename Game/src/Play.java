@@ -17,7 +17,10 @@ public class Play extends BasicGameState {
 		
 	}
 	
-	public void init(GameContainer gc, StateBasedGame sbj) throws SlickException {
+	public void init(GameContainer gc, StateBasedGame sbj) throws SlickException {		
+		a.new_waypoint(700, 250);
+		a.new_waypoint(300, 150);
+		a.new_waypoint(900, 50);
 		a.init();
 		a.new_waypoint(200, 150);
 		a.new_waypoint(400, 150);
