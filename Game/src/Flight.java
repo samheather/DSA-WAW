@@ -20,7 +20,6 @@ public class Flight {
 	private Image img;
 	private Color color;
 	private boolean selected;
-	private Airspace airspace;
 
 	
 
@@ -41,7 +40,6 @@ public class Flight {
 		this.flight_button_x = a.getFlight_button_x();
 		this.color=Color.white;
 		this.selected=false;
-		airspace = a;
 
 		//current_heading=calc.calculate_heading_to_first_waypoint(this, this.flight_plan.getPointByIndex(0).getXCoOrd(), this.flight_plan.getPointByIndex(0).getXCoOrd());
 		
@@ -199,9 +197,9 @@ public class Flight {
 	public boolean check_if_flight_at_waypoint()
 	{
 		// The line below is just so there are no errors
-		for (int j = 0; j < airspace.getList_of_way_points().size(); j++){
-			if (((Math.abs(Math.round(this.x) - Math.round(airspace.getList_of_way_points().get(j).getX()))) <= 30)
-					&& (Math.abs(Math.round(this.y) - Math.round(airspace.getList_of_way_points().get(j).getY()))) <= 30){
+		for (int j = 0; j < flight_plan.getWaypoints().size(); j++){
+			if (((Math.abs(Math.round(this.x) - Math.round(flight_plan.getWaypoints().get(j).getX()))) <= 30)
+					&& (Math.abs(Math.round(this.y) - Math.round(flight_plan.getWaypoints().get(j).getY()))) <= 30){
 				return true;
 			}
 		}; 
@@ -217,8 +215,6 @@ public class Flight {
 		this.update_current_heading();
 		this.update_x_y_coordinates();
 		this.check_if_flight_at_waypoint();
-		System.out.println("Waypoint x: " + Math.round(airspace.getList_of_way_points().get(0).getX()));
-		System.out.println("Plane x:" + Math.round(this.x));
 		int posX=Mouse.getX();
 		int posY=Mouse.getY();
 		if(this.selected==true) {
