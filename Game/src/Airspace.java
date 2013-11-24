@@ -18,7 +18,7 @@ public class Airspace {
 	private List<EntryPoint> list_of_entrypoints;
 	private List<ExitPoint> list_of_exitpoints;
 	private SeparationRules separationRules; 
-	private int flight_button_x = 30;
+	private int flight_button_x = 0;
 	private boolean previous_removed;
 
 

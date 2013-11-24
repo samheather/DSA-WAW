@@ -27,7 +27,7 @@ public class Flight {
 	
 
 	//CONSTRUCTOR
-	Flight(Airspace a){
+	Flight(Airspace airspace){
 		this.x = 0;
 		this.y = 0;
 		this.target_altitude = 0;
@@ -36,8 +36,8 @@ public class Flight {
 		this.current_heading = 0;
 		this.turning_right = false;
 		this.turning_left = false;
-		this.flight_plan = new FlightPlan(a);
-		this.flight_button_x = a.getFlight_button_x();
+		this.flight_plan = new FlightPlan(airspace);
+		this.flight_button_x = airspace.getFlight_button_x();
 		this.color=Color.white;
 		this.selected=false;
 
