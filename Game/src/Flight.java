@@ -213,8 +213,10 @@ public class Flight {
 		Input input = gc.getInput();
 		this.update_current_heading();
 		this.update_x_y_coordinates();
-		if(this.check_if_flight_at_waypoint(flight_plan.getWaypoints().get(0))){
-			this.flight_plan.getWaypoints().remove(0);
+		if(this.flight_plan.getWaypoints().size()>0) {
+			if(this.check_if_flight_at_waypoint(flight_plan.getWaypoints().get(0))){
+				this.flight_plan.getWaypoints().remove(0);
+			}
 		}
 		int posX=Mouse.getX();
 		int posY=Mouse.getY();
@@ -261,7 +263,7 @@ public class Flight {
 	public void render(Graphics g){
 		g.setColor(color);
 		g.drawString("Flight "+this.flight_num, (int)this.x-30, (int)this.y+20);
-		if(this.flight_plan.getWaypoints().size()!=0) {
+		if(this.flight_plan.getWaypoints().size()>0) {
 			g.drawString(this.flight_plan.getPointByIndex(0).getPointRef(),(int)this.x-5,(int)this.y-20);
 		}
 		g.drawOval((int)this.x-40, (int)this.y-40, 100, 100);
