@@ -210,7 +210,7 @@ public class Flight {
 	// UPDATE, RENDER, INIT
 	
 	public void update(GameContainer gc){
-		
+		boolean init=false;
 		Input input = gc.getInput();
 		this.update_current_heading();
 		this.update_x_y_coordinates();
@@ -218,6 +218,7 @@ public class Flight {
 		int posX=Mouse.getX();
 		int posY=Mouse.getY();
 		if(this.selected==true) {
+			
 			this.color=Color.yellow;
 			if(input.isKeyDown(input.KEY_UP)) {
 				this.give_heading(360);

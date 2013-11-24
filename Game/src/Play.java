@@ -9,6 +9,7 @@ public class Play extends BasicGameState {
 	
 	private Airspace a; 
 	private int i;
+	Image cursorImg; 
 	
 	
 	public Play(int state) {
@@ -17,10 +18,13 @@ public class Play extends BasicGameState {
 		
 	}
 	
-	public void init(GameContainer gc, StateBasedGame sbj) throws SlickException {		
-		a.new_waypoint(700, 250);
-		a.new_waypoint(300, 150);
-		a.new_waypoint(900, 50);
+	public void init(GameContainer arg0, StateBasedGame arg1)
+			throws SlickException {
+		// TODO Auto-generated method stub
+		
+		/*cursorImg= new Image("res/cursor.png");
+		gc.setMouseCursor(cursorImg, 16, 16);
+		if someone can make a decent cursor image we can have a better cursor*/
 		a.init();
 		a.new_waypoint(200, 150);
 		a.new_waypoint(400, 150);
@@ -38,12 +42,15 @@ public class Play extends BasicGameState {
 		a.new_exit_point(0, 100);
 		a.new_exit_point(0, 400);
 		a.new_exit_point(0, 550);
-		
-		
-		
-		
-		
 	}
+		
+		
+		
+		
+
+		
+
+
 	
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g) throws SlickException {
 		if(a.new_flight2(i)) {
@@ -60,5 +67,7 @@ public class Play extends BasicGameState {
 	public int getID() {
 		return 1;
 	}
+
+
 	
 }

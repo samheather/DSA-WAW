@@ -85,12 +85,12 @@ public class Airspace {
     			y = 300;
     			
     		}
-	        
 	        if(this.overall_loops>=this.next_difficulty_loops ) {
 	        	this.next_difficulty_loops+=5000;
 	        	if(this.max_rand>2) {
 	        		this.max_rand=this.max_rand/2;
 	        	}
+	        	
 	        }
 	        if(this.list_of_flights_in_airspace.size()==0) {
 	        	check_number = rand.nextInt(200);
@@ -107,12 +107,10 @@ public class Airspace {
 	        		tempFlight.setFlight_num(num);
 	        		tempFlight.setX(x);
 	        		tempFlight.setY(y);
+	        		double heading= Calculations.calculate_heading_to_first_waypoint(tempFlight, tempFlight.getFlight_plan().getPointByIndex(0).getX(), tempFlight.getFlight_plan().getPointByIndex(0).getY());
 	        		if(y==0) {
-	        			tempFlight.setTarget_heading(180);
-	        			tempFlight.setCurrent_heading(180);
-	        		}else {
-	        			tempFlight.setTarget_heading(270);
-	        			tempFlight.setCurrent_heading(270);
+	        			tempFlight.setTarget_heading(heading);
+	        			tempFlight.setCurrent_heading(heading);
 	        		}
 	        		this.loops_since_last_flight_entry=0;
 	        		if(this.list_of_flights_in_airspace.add(tempFlight)) {
