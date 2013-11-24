@@ -5,6 +5,7 @@ import java.util.Random;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Color;
 
 public class Airspace {
 
@@ -41,7 +42,7 @@ public class Airspace {
 		this.next_difficulty_loops=10000; //this is how many loops until planes come more quickly, divide by 60 for seconds
 		this.difficulty_levels=10;//number of times difficulty changes
 		this.max_rand=(int) Math.pow(2, this.difficulty_levels); 
-		this.previous_removed=false; //varibale for storing whether a flight was removed on each loop
+		this.previous_removed=false; //variable for storing whether a flight was removed on each loop
 		this.wp_counter=0;
 		this.exp_counter=0;
 		this.enp_counter=0;
@@ -61,6 +62,8 @@ public class Airspace {
 			return false;
 		}
 	}
+	
+	
 	public boolean check_if_flight_has_left_airspace(Flight f) {
 		
 		if(f.getX()>1250||f.getX()<-50||f.getY()>650||f.getY()<-50) {
@@ -176,8 +179,6 @@ public class Airspace {
 		this.score += value;
 	}
 	
-	
-	
 	// INIT, RENDER, UPDATE
 	
 	
@@ -190,6 +191,8 @@ public class Airspace {
 	
 	
 	public void render(Graphics g) { //I added this so we can draw things in the airspace, for example a radar like background or terrain
+		g.setColor(Color.blue);
+		g.fillRect(0, 0, (float) 1200, (float)600);
 		for(int i=0; i<this.list_of_flights_in_airspace.size();i++) {
 			this.list_of_flights_in_airspace.get(i).render(g);
 		}
