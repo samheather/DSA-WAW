@@ -18,13 +18,25 @@ public class Play extends BasicGameState {
 	}
 	
 	public void init(GameContainer gc, StateBasedGame sbj) throws SlickException {
-
-		a.new_waypoint(100, 100);
+		a.init();
+		a.new_waypoint(200, 150);
+		a.new_waypoint(400, 150);
+		a.new_waypoint(600, 150);
+		a.new_waypoint(800, 150);
+		a.new_waypoint(1000, 150);
+		a.new_waypoint(200, 450);
+		a.new_waypoint(400, 450);
+		a.new_waypoint(600, 450);
+		a.new_waypoint(800, 450);
+		a.new_waypoint(1000, 450);
 		a.new_entry_point(1200, 400);
 		a.new_entry_point(1200, 200);
 		a.new_entry_point(600, 0);
+		a.new_exit_point(0, 100);
+		a.new_exit_point(0, 400);
+		a.new_exit_point(0, 550);
 		
-		a.init();
+		
 		
 		
 		

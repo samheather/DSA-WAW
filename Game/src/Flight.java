@@ -240,6 +240,10 @@ public class Flight {
 
 	}
 	
+	public FlightPlan getFlight_plan() {
+		return flight_plan;
+	}
+
 	public void init() throws SlickException{
 		img = new Image("plane.png");
 		

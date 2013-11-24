@@ -63,6 +63,18 @@ public class FlightPlan {
 		return this.route.get(i);
 		
 	}
+	@Override
+	public String toString() {
+		String returnString="";
+		for(int i=0; i<this.route.size();i++){
+			returnString+="Point "+i+": ";
+			returnString+=this.route.get(i).getX();
+			returnString+=", ";
+			returnString+=this.route.get(i).getY();
+			returnString+=" | ";
+		}
+		return returnString;
+	}
 	
 	
 }
