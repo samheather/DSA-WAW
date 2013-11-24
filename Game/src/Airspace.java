@@ -121,7 +121,7 @@ public class Airspace {
 	        		this.loops_since_last_flight_entry=0;
 	        		if(this.list_of_flights_in_airspace.add(tempFlight)) {
 	        			this.list_of_flights_in_airspace.get(this.list_of_flights_in_airspace.size()-1).init();
-	        			this.flight_button_x+=130;
+	        			this.flight_button_x+=100;
 	        			return true;
 	        		}
 	        	}
@@ -214,14 +214,15 @@ public class Airspace {
 				this.list_of_flights_in_airspace.remove(i); //remove that flight from the list
 				this.previous_removed=true; //tell the program a flight has been removed on this loop
 			}
+			
 			//the code to shift all the buttons up if there is space
 			if(this.list_of_flights_in_airspace.size()>0) { //if the list is not empty
 				if(i<=this.list_of_flights_in_airspace.size()-1) { //if i is not greater than the size of the list
 					if(this.previous_removed) { //if an object was removed
-						this.list_of_flights_in_airspace.get(i).setFlight_button_x(this.list_of_flights_in_airspace.get(i).getFlight_button_x()-130);//take 130 off the current x value of the button
+						this.list_of_flights_in_airspace.get(i).setFlight_button_x(this.list_of_flights_in_airspace.get(i).getFlight_button_x()-100);//take 100 off the current x value of the button
 
 						if(i == this.list_of_flights_in_airspace.size()-1) { //if we are at the end of the list
-							this.flight_button_x-=130; //take 130 of this.flight_button_x so that when the next flight is made is button is next to the current last button
+							this.flight_button_x-=100; //take 130 of this.flight_button_x so that when the next flight is made is button is next to the current last button
 
 							this.previous_removed=false; //set to false so none of this runs until next time a flight is removed
 						}
@@ -230,12 +231,12 @@ public class Airspace {
 
 				}
 				else { //if i was greater than the size of the list, we must have removed the last element so
-					this.flight_button_x-=130; //just decrease this, but the x of any current buttons doesn't need to change
+					this.flight_button_x-=100; //just decrease this, but the x of any current buttons doesn't need to change
 					this.previous_removed=false;
 				}
 			}
 			else { //if the list was empty set flight_button_x back to its initial value
-				this.flight_button_x=30;
+				this.flight_button_x=0;
 				this.previous_removed=false;
 			}
 
