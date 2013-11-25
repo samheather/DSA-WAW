@@ -211,7 +211,7 @@ public class Flight {
 	// UPDATE, RENDER, INIT
 	
 	public void update(GameContainer gc){
-		controls.update(gc);
+		this.controls.update(gc);
 		boolean init=false;
 		Input input = gc.getInput();
 		this.update_current_heading();
@@ -260,7 +260,7 @@ public class Flight {
 	}
 	
 	public Controls getControls() {
-		return controls;
+		return this.controls;
 	}
 
 	public FlightPlan getFlight_plan() {
