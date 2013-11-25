@@ -5,7 +5,8 @@ public class SeparationRules {
 
 	private int warningLateralSeparation, warningVerticalSeparation; 
 	private int gameOverLateralSeparation, gameOverVerticalSeparation;
-	private boolean warningViolation; 
+	private boolean warningLateralViolation;
+	private boolean warningVerticalViolation;
 	private boolean gameOverViolation; 
 	
 	// CONSTRUCTOR
@@ -14,7 +15,8 @@ public class SeparationRules {
 		 this.warningVerticalSeparation = 0; //NEED VALUES FOR THIS
 		 this.gameOverLateralSeparation = 0;
 		 this.gameOverVerticalSeparation = 0;
-		 this.warningViolation = false;
+		 this.warningLateralViolation = false;
+		 this.warningVerticalViolation = false;
 		 this.gameOverViolation = false;
 	 }
 		
@@ -26,30 +28,31 @@ public class SeparationRules {
 	
 	private static int verticalDistanceBetweenFlights(Flight flight1, Flight flight2){
 		return Math.abs(flight1.getAltitude() - flight2.getAltitude());	
-	}
-	
+		}
 	
 	private void checkViolation(Airspace airspace){
 		for (int i = 0; i < airspace.getList_of_flights().size(); i++){
 			for (int j = i+1; j < airspace.getList_of_flights().size(); j++){ // j = i + 1 : stops double checking
 				
-				if ((lateralDistanceBetweenFlights(airspace.getList_of_flights().get(i), airspace.getList_of_flights().get(j)) < warningLateralSeparation)
-					|| (verticalDistanceBetweenFlights(airspace.getList_of_flights().get(i), airspace.getList_of_flights().get(j)) < warningVerticalSeparation)) { 
-					warningViolation = true; //Further action needed 
-						
-					if ((lateralDistanceBetweenFlights(airspace.getList_of_flights().get(i), airspace.getList_of_flights().get(j)) < gameOverLateralSeparation)
-							|| (verticalDistanceBetweenFlights(airspace.getList_of_flights().get(i), airspace.getList_of_flights().get(j)) < gameOverVerticalSeparation)){
-							gameOverViolation = true;
-						}
-						
-						else {
-							continue;
-						}
-					}
+				if ((lateralDistanceBetweenFlights(airspace.getList_of_flights().get(i), airspace.getList_of_flights().get(j)) < this.warningLateralSeparation)){
+					this.warningLateralViolation = true;
 				}
 				
+				else if ((verticalDistanceBetweenFlights(airspace.getList_of_flights().get(i), airspace.getList_of_flights().get(j)) < this.warningVerticalSeparation)){
+					this.warningVerticalViolation = true;
+				}
+						
+				if ((lateralDistanceBetweenFlights(airspace.getList_of_flights().get(i), airspace.getList_of_flights().get(j)) < this.gameOverLateralSeparation)){
+					this.gameOverViolation = true;
+						}
+				
+				else if ((verticalDistanceBetweenFlights(airspace.getList_of_flights().get(i), airspace.getList_of_flights().get(j)) < this.gameOverVerticalSeparation)){
+					this.gameOverViolation = true;
+				}
 			}
 		}
+	}
+	
 	
 	//MUTATORS AND ACCESSORS
 	
@@ -61,11 +64,25 @@ public class SeparationRules {
 		this.gameOverVerticalSeparation = vertical_separation;
 	}
 	
+	public int getGameOverLateralSeparation(){
+		return this.gameOverLateralSeparation;
+	}
 	
+	public int getGameOverVerticalSeparation(){
+		return this.gameOverVerticalSeparation;
+	}
 	
+	public boolean getWarningLateralSeparation(){
+		return this.warningLateralViolation;
+	}
 	
+	public boolean getWarningVerticalSeparation(){
+		return this.warningVerticalViolation;
+	}
+	
+	public boolean getGameOverViolation(){
+		return this.gameOverViolation;
 	}
 
-
-
+}
 
