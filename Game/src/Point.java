@@ -59,7 +59,7 @@ public class Point {
     	g.drawString(this.pointRef, (int)this.x-10, (int)this.y-15);
     	g.setColor(Color.yellow);
     	g.fillOval((int)this.x, (int)this.y, 10, 10);
-    	g.setColor(Color.green);
+    	g.setColor(Color.yellow);
     	g.drawOval((int)this.x -10, (int)this.y - 10, 30, 30);
     }
 
