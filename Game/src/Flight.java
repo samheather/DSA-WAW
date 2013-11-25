@@ -258,10 +258,6 @@ public class Flight {
 
 
 	}
-	
-	public Controls getControls() {
-		return this.controls;
-	}
 
 	public FlightPlan getFlight_plan() {
 		return flight_plan;
