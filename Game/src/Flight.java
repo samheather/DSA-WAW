@@ -225,8 +225,12 @@ public class Flight {
 		int posY=Mouse.getY();
 		if(this.selected==true) {
 			this.controls.update(gc);
-			this.controls.getHeadingControlTB().setText(String.valueOf(Math.round(this.current_heading)));
-			this.controls.getAltControlTB().setText(String.valueOf(Math.round(this.current_altitude)));
+			if (!this.controls.headingHasFocus()) {
+				this.controls.getHeadingControlTB().setText(String.valueOf(Math.round(this.current_heading)));
+			}
+			if (!this.controls.altHasFocus()){
+				this.controls.getAltControlTB().setText(String.valueOf(Math.round(this.current_altitude)));
+			}
 			this.controls.allow_all();
 			this.color=Color.yellow;
 			if(input.isKeyDown(Input.KEY_UP)) {

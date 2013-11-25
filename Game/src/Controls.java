@@ -28,21 +28,29 @@ public class Controls{
 	}
 	
 	public void update(GameContainer gc){
-		if(this.headingControlTB.hasFocus() == true){
-			if(this.headingHasFocus == false){
-				this.headingHasFocus = true;
-			}
-		}
-		else{
-			this.headingHasFocus = false;
-		}
-		if(this.headingHasFocus == true){
+		this.headingHasFocus = this.headingControlTB.hasFocus();
+		if(this.headingHasFocus){
 			this.headingControlTB.setText("");
+			this.headingControlTB.setAcceptingInput(true);
+		}
+		
+		this.altHasFocus = this.altControlTB.hasFocus();
+		if(this.altHasFocus){
+			this.altControlTB.setText("");	
+			this.altControlTB.setAcceptingInput(true);
 		}
 	}
 	
 	public TextField getHeadingControlTB() {
 		return headingControlTB;
+	}
+	
+	public boolean headingHasFocus() {
+		return this.headingHasFocus;
+	}
+	
+	public boolean altHasFocus(){
+		return this.altHasFocus;
 	}
 	
 	public TextField getAltControlTB() {
