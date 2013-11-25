@@ -211,7 +211,7 @@ public class Flight {
 	// UPDATE, RENDER, INIT
 	
 	public void update(GameContainer gc){
-		this.controls.update(gc);
+		
 		boolean init=false;
 		Input input = gc.getInput();
 		this.update_current_heading();
@@ -224,7 +224,8 @@ public class Flight {
 		int posX=Mouse.getX();
 		int posY=Mouse.getY();
 		if(this.selected==true) {
-			
+			this.controls.update(gc);
+			this.controls.allow_all();
 			this.color=Color.yellow;
 			if(input.isKeyDown(Input.KEY_UP)) {
 				this.give_heading(360);
@@ -249,6 +250,9 @@ public class Flight {
 		}
 		else {
 				this.color=Color.white;
+
+					this.controls.clear_all();
+
 				if((posX>this.flight_button_x&&posX<this.flight_button_x+100)&&(posY>0&&posY<100)&&Mouse.isButtonDown(0)) {
 
 					this.selected=true;
@@ -266,6 +270,7 @@ public class Flight {
 	public void init(GameContainer gc) throws SlickException{
 		img = new Image("plane.png");
 		this.controls=new Controls(gc);
+		controls.init(gc);
 		
 	}
 	
@@ -283,9 +288,9 @@ public class Flight {
 		
 		g.drawRect((int)this.flight_button_x, 500, 100, 100);
 		g.drawString("Flight "+this.flight_num, (int)this.flight_button_x+13, 510);
-		g.drawString((int)this.current_altitude + " ft", (int)this.flight_button_x+13, 525);
-		g.drawString((int)this.current_heading + " deg", (int)this.flight_button_x+13, 555);
-		g.drawString((int)this.getFlight_plan().getVelocity() + " MPH", (int)this.flight_button_x+13, 540);
+		g.drawString(Math.round(this.current_altitude) + " ft", (int)this.flight_button_x+13, 525);
+		g.drawString(Math.round(this.current_heading) + " deg", (int)this.flight_button_x+13, 555);
+		g.drawString(Math.round(this.getFlight_plan().getVelocity()) + " MPH", (int)this.flight_button_x+13, 540);
 		
 		
 		
@@ -296,6 +301,7 @@ public class Flight {
 		if(this.selected) {
 			this.controls.render(gc, g);
 		}
+		
 	}
 	
 	
