@@ -298,7 +298,7 @@ public class Flight {
 		img.setRotation((int)current_heading);
 		g.setColor(Color.black);
 		if(this.selected) {
-			controls.render(gc, g);
+			this.controls.render(gc, g);
 		}
 	}
 	
