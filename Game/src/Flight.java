@@ -129,7 +129,7 @@ public class Flight {
 		if (Math.round(this.target_heading)!=Math.round(this.current_heading)){		
 			if (this.turning_right == true){// If plane is already turning right or user has told it to turn right
 				this.current_heading += rate;
-				if ((int)this.current_heading == 360&&this.target_heading!=360){
+				if (Math.round(this.current_heading) == 360&&this.target_heading!=360){
 					this.current_heading = 0;
 				}	
 			}
@@ -137,7 +137,7 @@ public class Flight {
 			//if plane is already turning left or user has told it to turn left
 			else if (this.turning_left == true){
 				this.current_heading -= rate;
-					if ((int)this.current_heading == 0&&this.target_heading!=0){
+					if (Math.round(this.current_heading) == 0&&this.target_heading!=0){
 						this.current_heading = 360;
 					}	
 			}
@@ -155,21 +155,21 @@ public class Flight {
 					if (this.target_heading > this.current_heading ){
 						this.turning_right = true;
 						this.current_heading +=rate;
-						if ((int)this.current_heading == 360){
+						if (Math.round(this.current_heading) == 360){
 							this.current_heading = 0;
 						}
 					}
 					else if((180 - (360 - this.current_heading))>this.target_heading){
 						this.turning_right = true;
 						this.current_heading +=rate;
-						if ((int)this.current_heading == 360){
+						if (Math.round(this.current_heading) == 360){
 							this.current_heading = 0;
 						}
 					}
 					else{
 						this.turning_left = true;
 						this.current_heading -=rate;
-						if ((int)this.current_heading == 0){
+						if (Math.round(this.current_heading) == 0){
 							this.current_heading = 360;
 						}
 					}
@@ -178,14 +178,14 @@ public class Flight {
 					if( (this.target_heading > this.current_heading) && (this.target_heading < this.current_heading+180) ){
 						this.turning_right = true;
 						this.current_heading +=rate;
-						if ((int)this.current_heading == 360){
+						if (Math.round(this.current_heading) == 360){
 							this.current_heading = 0;
 						}
 					}
 					else{
 						this.turning_left = true;
 						this.current_heading -=rate;
-						if ((int)this.current_heading == 0){
+						if (Math.round(this.current_heading) == 0){
 							this.current_heading = 360;
 						}
 					}

@@ -42,28 +42,29 @@ public class Play extends BasicGameState {
 		a.new_entry_point(600, 0);
 		a.new_exit_point(100, 100);
 		a.new_exit_point(100, 300);
-		a.new_exit_point(100, 450);
+		a.new_exit_point(100, 350);
 	}
 				
 
 
 	
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g) throws SlickException {
+		a.render(g);
 		g.setColor(Color.blue);
 		g.fillRect(0, 0, (float) 1200, (float)600);
 		g.setColor(Color.lightGray);
 		g.fillRoundRect(0, 500, 1200, 100,5);
 		g.fillRoundRect(0, 0, 100, 600,5);
 		
-		if(a.new_flight2(i)) {
-			i++;
-		}
+		
 		a.render(g);
 
 	}
 	
 	public void update(GameContainer gc, StateBasedGame sbj, int delta) throws SlickException {
-		
+		if(a.new_flight2(i)) {
+			i++;
+		}
 		a.update(gc);
 	}
 	public int getID() {

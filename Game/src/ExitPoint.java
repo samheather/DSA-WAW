@@ -17,7 +17,8 @@ public class ExitPoint extends Point {
 	@Override
 	public void render(Graphics g) {
 		g.setColor(Color.red);
-    	g.fillOval((int)this.x, (int)this.y, 20, 20);
+		g.fillArc((int)this.x-15, (int)this.y, 30, 30, 270, 90);
+    	//g.fillOval((int)this.x, (int)this.y, 20, 20);
     	g.setColor(Color.white);
     	g.drawString(this.pointRef, (int)this.x, (int)this.y);
 	}
