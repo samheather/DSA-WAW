@@ -125,7 +125,7 @@ public class Flight {
 	
 	public void update_current_heading(){
 		// NOTE TO RORY FROM RORY: DONT FORGET TO FIX THIS FOR EVERY CASE
-		double rate = 0.2;
+		double rate = 0.1;
 		if (Math.round(this.target_heading)!=Math.round(this.current_heading)){		
 			if (this.turning_right == true){// If plane is already turning right or user has told it to turn right
 				this.current_heading += rate;
