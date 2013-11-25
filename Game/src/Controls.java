@@ -34,7 +34,7 @@ public class Controls{
 			}
 		}
 		if(this.headingHasFocus == true){
-			this.headingControlTB.setText(null);
+			this.headingControlTB.setText("");
 		}
 	}
 	
