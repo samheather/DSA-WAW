@@ -16,12 +16,14 @@ public class Controls{
 	private TrueTypeFont font;
 	private TextField headingControlTB;
 	private TextField altControlTB;
-	private boolean selected;
+	private boolean headingSelected;
+	private boolean altSelected;
 	
 	public Controls(GameContainer gc){
 		this.heading = headingControl();
 		this.altitude = altControl();	
-		this.selected = false;
+		this.headingSelected = false;
+		this.altSelected = false;
 		Font awtFont = new Font("Courier",Font.BOLD,15);
 		font = new TrueTypeFont(awtFont, false);
 		headingControlTB = new TextField(gc,font,0,30,100,25);
@@ -37,10 +39,21 @@ public class Controls{
 			return 0.1;
 	}
 	
-	public void update(){
-		int posX=Mouse.getX();
-		int posY=Mouse.getY();
-		if (this.selected == false);
+	public void update(GameContainer gc){
+		headingControlTB.setFocus(true);
+		System.out.println(headingControlTB.getText());
+		
+//		int posX=Mouse.getX();
+//		int posY=Mouse.getY();
+//			if((posX>0&&posX<100)&&(posY>30&&posY<50)&&Mouse.isButtonDown(0)){
+//				this.headingSelected=true;
+//				headingControlTB.setFocus(true);
+//				System.out.println(headingControlTB.getText());
+//				
+//			}
+//			else {
+//				this.headingSelected=false;
+//			}
 		
 	}
 	
