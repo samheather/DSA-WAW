@@ -48,10 +48,10 @@ public class Airspace {
 	
 	//METHODS
 	
-	public void new_control(GameContainer gc){
-		Controls control = new Controls(gc);
-	}
-	
+//	public void new_control(GameContainer gc){
+//		Controls control = new Controls(gc);
+//	}
+//	
 	public boolean new_waypoint(int x, int y) {
 		this.wp_counter++;
 		Waypoint tmpWp = new Waypoint(x,y);
