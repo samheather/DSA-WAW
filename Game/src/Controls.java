@@ -28,10 +28,13 @@ public class Controls{
 	}
 	
 	public void update(GameContainer gc){
-		if(this.headingControlTB.hasFocus()){
+		if(this.headingControlTB.hasFocus() == true){
 			if(this.headingHasFocus == false){
 				this.headingHasFocus = true;
 			}
+		}
+		else{
+			this.headingHasFocus = false;
 		}
 		if(this.headingHasFocus == true){
 			this.headingControlTB.setText("");
