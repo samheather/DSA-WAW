@@ -20,6 +20,7 @@ public class Flight {
 	private Image img;
 	private Color color;
 	private boolean selected;
+	private Controls controls;
 
 	
 
@@ -40,6 +41,7 @@ public class Flight {
 		this.flight_button_x = airspace.getFlight_button_x();
 		this.color=Color.white;
 		this.selected=false;
+		
 
 		//current_heading=calc.calculate_heading_to_first_waypoint(this, this.flight_plan.getPointByIndex(0).getXCoOrd(), this.flight_plan.getPointByIndex(0).getXCoOrd());
 		
@@ -255,12 +257,13 @@ public class Flight {
 		return flight_plan;
 	}
 
-	public void init() throws SlickException{
+	public void init(GameContainer gc) throws SlickException{
 		img = new Image("plane.png");
+		this.controls=new Controls(gc);
 		
 	}
 	
-	public void render(Graphics g){
+	public void render(Graphics g, GameContainer gc) throws SlickException{
 		g.setColor(color);
 		g.drawString("Flight "+this.flight_num, (int)this.x-30, (int)this.y+20);
 		if(this.flight_plan.getWaypoints().size()>0) {
@@ -270,6 +273,9 @@ public class Flight {
 		g.fillRect((int)this.flight_button_x, 500, 100, 100);
 		
 		g.setColor(Color.black);
+		if(this.selected) {
+			controls.render(gc, g);
+		}
 		g.drawRect((int)this.flight_button_x, 500, 100, 100);
 		g.drawString("Flight "+this.flight_num, (int)this.flight_button_x+13, 510);
 		g.drawString((int)this.current_altitude + " ft", (int)this.flight_button_x+13, 525);

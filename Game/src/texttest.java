@@ -14,7 +14,7 @@ public class texttest extends BasicGame{
         }
 
         public void init(GameContainer container) throws SlickException {
-        	    Font awtFont = new Font("Courier",Font.BOLD,30);
+        	    Font awtFont = new Font("Courier",Font.BOLD,15);
     		    font = new TrueTypeFont(awtFont, false);
                 text1 = new TextField(container, font, 50,50,100,25);
                 text2 = new TextField(container, font, 155,50,100,25);

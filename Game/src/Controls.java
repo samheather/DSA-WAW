@@ -1,5 +1,6 @@
 import java.awt.Font;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -42,6 +43,7 @@ public class Controls{
 	}
 	
 	public void render(GameContainer gc, Graphics g)throws SlickException {
+		g.setColor(Color.white);
 		headingControlTB.render(gc,g);
 		altControlTB.render(gc,g);
 	}

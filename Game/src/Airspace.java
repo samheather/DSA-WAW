@@ -75,7 +75,7 @@ public class Airspace {
 		}
 		
 	}
-	public boolean new_flight2(int num) throws SlickException {
+	public boolean new_flight2(int num, GameContainer gc) throws SlickException {
 
 	    if (this.list_of_flights_in_airspace.size() < this.max_number_of_flights){
 	        Random rand=new Random();
@@ -121,7 +121,7 @@ public class Airspace {
 	        		tempFlight.setCurrent_heading(heading);
 	        		this.loops_since_last_flight_entry=0;
 	        		if(this.list_of_flights_in_airspace.add(tempFlight)) {
-	        			this.list_of_flights_in_airspace.get(this.list_of_flights_in_airspace.size()-1).init();
+	        			this.list_of_flights_in_airspace.get(this.list_of_flights_in_airspace.size()-1).init(gc);
 	        			this.flight_button_x+=100;
 	        			return true;
 	        		}
@@ -181,17 +181,17 @@ public class Airspace {
 	// INIT, RENDER, UPDATE
 	
 	
-	public void init() throws SlickException {
+	public void init(GameContainer gc) throws SlickException {
 
 		for(int i=0; i<this.list_of_flights_in_airspace.size();i++) {
-			this.list_of_flights_in_airspace.get(i).init();
+			this.list_of_flights_in_airspace.get(i).init(gc);
 		}
 	}
 	
 	
-	public void render(Graphics g) { //I added this so we can draw things in the airspace, for example a radar like background or terrain
+	public void render(Graphics g, GameContainer gc) throws SlickException { //I added this so we can draw things in the airspace, for example a radar like background or terrain
 		for(int i=0; i<this.list_of_flights_in_airspace.size();i++) {
-			this.list_of_flights_in_airspace.get(i).render(g);
+			this.list_of_flights_in_airspace.get(i).render(g,gc);
 		}
 		for(int i=0; i<this.list_of_waypoints.size();i++) {
 			this.list_of_waypoints.get(i).render(g);
