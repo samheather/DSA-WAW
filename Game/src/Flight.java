@@ -107,7 +107,7 @@ public class Flight {
 	}
 	
 	public void update_x_y_coordinates(){
-		double velocity= (this.flight_plan.getVelocity())/3000;
+		double velocity= (this.flight_plan.getVelocity())/2000;
 
 		this.x += velocity * Math.sin(Math.toRadians(this.current_heading)) ;
 
@@ -211,7 +211,7 @@ public class Flight {
 	// UPDATE, RENDER, INIT
 	
 	public void update(GameContainer gc){
-		controls.update();
+		controls.update(gc);
 		boolean init=false;
 		Input input = gc.getInput();
 		this.update_current_heading();
@@ -238,8 +238,8 @@ public class Flight {
 			if(input.isKeyDown(Input.KEY_RIGHT)) {
 				this.give_heading(90);
 			}
-			if(((posX<this.flight_button_x||posX>this.flight_button_x+100)||(posY<0||posY>100))&&Mouse.isButtonDown(0)) {
-				if(((posX>0&&posX<100)&&(posY>0&&posY<600))&&Mouse.isButtonDown(0)) {
+			if((((posX<this.flight_button_x||posX>this.flight_button_x+100)||(posY<0||posY>100))&&Mouse.isButtonDown(0)) || this.flight_plan.getWaypoints().isEmpty()) {
+				if((((posX>0&&posX<100)&&(posY>0&&posY<600))&&Mouse.isButtonDown(0))&&!this.flight_plan.getWaypoints().isEmpty()) {
 					this.selected=true;
 				}
 				else {
