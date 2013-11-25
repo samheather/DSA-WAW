@@ -21,17 +21,14 @@ public class Controls{
 	
 	public Controls(GameContainer gc){
 		this.heading = headingControl();
-		this.altitude = altControl();
-		System.out.println("CONTROL CLASS HERE");
-		
+		this.altitude = altControl();		
 		Font awtFont = new Font("Courier",Font.BOLD,30);
 		font = new TrueTypeFont(awtFont, false);
-		headingControlTB = new TextField(gc,font,100,100,100,100);
-		altControlTB = new TextField(gc,font,100,100,100,100);	
+		headingControlTB = new TextField(gc,font,50,50,100,25);
+		altControlTB = new TextField(gc,font,155,50,100,25);	
 	}
 
 	public int altControl() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -49,7 +46,6 @@ public class Controls{
 	public void render(GameContainer gc, Graphics g)throws SlickException {
 		headingControlTB.render(gc,g);
 		altControlTB.render(gc,g);
-		System.out.println("RENDERING NOW! :D");
 	}
 
 }
