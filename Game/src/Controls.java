@@ -26,8 +26,9 @@ public class Controls{
 		this.altSelected = false;
 		Font awtFont = new Font("Courier",Font.BOLD,15);
 		font = new TrueTypeFont(awtFont, false);
-		headingControlTB = new TextField(gc,font,0,30,100,25);
-		altControlTB = new TextField(gc,font,0,85,100,25);	
+		this.headingControlTB = new TextField(gc,font,0,30,100,25);
+		this.altControlTB = new TextField(gc,font,0,85,100,25);	
+		
 	}
 
 	public int altControl() {
@@ -40,38 +41,26 @@ public class Controls{
 	}
 	
 	public void update(GameContainer gc){
-		headingControlTB.setFocus(true);
-		System.out.println(headingControlTB.getText());
-		
-//		int posX=Mouse.getX();
-//		int posY=Mouse.getY();
-//			if((posX>0&&posX<100)&&(posY>30&&posY<50)&&Mouse.isButtonDown(0)){
-//				this.headingSelected=true;
-//				headingControlTB.setFocus(true);
-//				System.out.println(headingControlTB.getText());
-//				
-//			}
-//			else {
-//				this.headingSelected=false;
-//			}
-		
-	}
-	
+		int posX=Mouse.getX();
+		int posY=Mouse.getY();
 
-	public String getHeading(){
-		headingControlTB.setFocus(true);
-		return headingControlTB.getText();
-		
-	}
+		if((posX>0&&posX<100)&&(posY>30&&posY<55)) {
+			this.headingSelected = true;
+		}
+		else{
+			this.headingSelected = false;
+		}
 	
-	public String getAlt(){
-		return altControlTB.getText();
+		if(this.headingSelected == true){
+			this.headingControlTB.setFocus(true);
+			System.out.println(this.headingControlTB.getText());
+		}
 	}
 	
 	public void render(GameContainer gc, Graphics g)throws SlickException {
 		g.setColor(Color.white);
-		headingControlTB.render(gc,g);
-		altControlTB.render(gc,g);
+		this.headingControlTB.render(gc,g);
+		this.altControlTB.render(gc,g);
 	}
 
 }
