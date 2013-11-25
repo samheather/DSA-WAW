@@ -31,8 +31,8 @@ public class Play extends BasicGameState {
 		a.new_waypoint(400, 470);
 		a.new_waypoint(700, 60);
 		a.new_waypoint(800, 320);
-		a.new_waypoint(1000, 418);
-		a.new_waypoint(200, 220);
+		a.new_waypoint(600, 418);
+		a.new_waypoint(500, 220);
 		a.new_waypoint(950, 188);
 		a.new_waypoint(1050, 272);
 		a.new_waypoint(6900, 420);
