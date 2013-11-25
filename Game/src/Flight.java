@@ -401,7 +401,4 @@ public class Flight {
 	public String toString() {
 		return "X: "+this.x+" Y: "+this.y+" Flight Number: "+this.flight_num;
 	}
-	
-	
-
 }
