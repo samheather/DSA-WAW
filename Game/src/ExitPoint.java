@@ -16,12 +16,31 @@ public class ExitPoint extends Point {
 	}
 	@Override
 	public void render(Graphics g) {
-		g.setColor(Color.red);
-		g.fillArc((int)this.x-15, (int)this.y, 30, 30, 270, 90);
-    	//g.fillOval((int)this.x, (int)this.y, 20, 20);
+		g.setColor(Color.yellow);
+    	if(this.y>0&&this.y<600) {
+    		if (this.x == 100){
+    			g.drawLine((int)this.x, (int)this.y+30, (int)this.x+10, (int)this.y+30);
+    			g.drawLine((int)this.x, (int)this.y-10, (int)this.x+10, (int)this.y-10);
+    		}
+    		else{
+    			g.drawLine((int)this.x, (int)this.y+30, (int)this.x-10, (int)this.y+30);
+    			g.drawLine((int)this.x, (int)this.y-10, (int)this.x-10, (int)this.y-10);
+    		}
+    	}
+    	else {
+    		
+    		g.drawLine((int)this.x+30, (int)this.y-10, (int)this.x+30, (int)this.y+10);
+    		g.drawLine((int)this.x-10, (int)this.y-10, (int)this.x-10, (int)this.y+10);
+    	}
     	g.setColor(Color.white);
-    	g.drawString(this.pointRef, (int)this.x, (int)this.y);
+    	if(this.x == 1200){
+    		g.drawString(this.pointRef, (int)this.x-50, (int)this.y);
+    	}
+    	else{
+    		g.drawString(this.pointRef, (int)this.x, (int)this.y);
+    	}
 	}
+
 
 
 }

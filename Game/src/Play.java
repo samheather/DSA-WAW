@@ -27,22 +27,23 @@ public class Play extends BasicGameState {
 		gc.setMouseCursor(cursorImg, 16, 16);
 		if someone can make a decent cursor image we can have a better cursor*/
 		a.init();
-		a.new_waypoint(200, 150);
-		a.new_waypoint(400, 150);
-		a.new_waypoint(600, 150);
-		a.new_waypoint(800, 150);
-		a.new_waypoint(1000, 150);
-		a.new_waypoint(200, 450);
-		a.new_waypoint(400, 450);
-		a.new_waypoint(600, 450);
-		a.new_waypoint(800, 450);
-		a.new_waypoint(1000, 450);
+		a.new_waypoint(150, 150);
+		a.new_waypoint(400, 470);
+		a.new_waypoint(700, 60);
+		a.new_waypoint(800, 320);
+		a.new_waypoint(1000, 418);
+		a.new_waypoint(200, 220);
+		a.new_waypoint(950, 188);
+		a.new_waypoint(1050, 272);
+		a.new_waypoint(6900, 420);
+		a.new_waypoint(240, 250);
 		a.new_entry_point(1200, 400);
 		a.new_entry_point(1200, 200);
 		a.new_entry_point(600, 0);
-		a.new_exit_point(100, 100);
-		a.new_exit_point(100, 300);
-		a.new_exit_point(100, 350);
+		a.new_exit_point(800, 0);
+		a.new_exit_point(100, 200);
+		a.new_exit_point(1200, 300);
+
 	}
 				
 
