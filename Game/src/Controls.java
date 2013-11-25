@@ -1,8 +1,7 @@
 import java.awt.Font;
-
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.TextField;
@@ -17,10 +16,12 @@ public class Controls{
 	private TrueTypeFont font;
 	private TextField headingControlTB;
 	private TextField altControlTB;
+	private boolean selected;
 	
 	public Controls(GameContainer gc){
 		this.heading = headingControl();
-		this.altitude = altControl();		
+		this.altitude = altControl();	
+		this.selected = false;
 		Font awtFont = new Font("Courier",Font.BOLD,15);
 		font = new TrueTypeFont(awtFont, false);
 		headingControlTB = new TextField(gc,font,0,30,100,25);
@@ -36,10 +37,22 @@ public class Controls{
 			return 0.1;
 	}
 	
-	public void update(GameContainer gc){
-		Input input = gc.getInput();
-		System.out.println(headingControlTB.getText());
-		System.out.println(altControlTB.getText());
+	public void update(){
+		int posX=Mouse.getX();
+		int posY=Mouse.getY();
+		if (this.selected == false);
+		
+	}
+	
+
+	public String getHeading(){
+		headingControlTB.setFocus(true);
+		return headingControlTB.getText();
+		
+	}
+	
+	public String getAlt(){
+		return altControlTB.getText();
 	}
 	
 	public void render(GameContainer gc, Graphics g)throws SlickException {
