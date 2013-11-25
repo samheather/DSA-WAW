@@ -105,7 +105,7 @@ public class Flight {
 	}
 	
 	public void update_x_y_coordinates(){
-		double velocity= (this.flight_plan.getVelocity())/1000;
+		double velocity= (this.flight_plan.getVelocity())/3000;
 
 		this.x += velocity * Math.sin(Math.toRadians(this.current_heading)) ;
 
@@ -223,16 +223,16 @@ public class Flight {
 		if(this.selected==true) {
 			
 			this.color=Color.yellow;
-			if(input.isKeyDown(input.KEY_UP)) {
+			if(input.isKeyDown(Input.KEY_UP)) {
 				this.give_heading(360);
 			}
-			if(input.isKeyDown(input.KEY_LEFT)) {
+			if(input.isKeyDown(Input.KEY_LEFT)) {
 				this.give_heading(270);
 			}
-			if(input.isKeyDown(input.KEY_DOWN)) {
+			if(input.isKeyDown(Input.KEY_DOWN)) {
 				this.give_heading(180);
 			}
-			if(input.isKeyDown(input.KEY_RIGHT)) {
+			if(input.isKeyDown(Input.KEY_RIGHT)) {
 				this.give_heading(90);
 			}
 			if(((posX<this.flight_button_x||posX>this.flight_button_x+100)||(posY<0||posY>100))&&Mouse.isButtonDown(0)) {
@@ -273,6 +273,7 @@ public class Flight {
 		g.drawRect((int)this.flight_button_x, 500, 100, 100);
 		g.drawString("Flight "+this.flight_num, (int)this.flight_button_x+13, 510);
 		g.drawString((int)this.current_altitude + " ft", (int)this.flight_button_x+13, 525);
+		g.drawString((int)this.current_heading + " deg", (int)this.flight_button_x+13, 555);
 		g.drawString((int)this.getFlight_plan().getVelocity() + " MPH", (int)this.flight_button_x+13, 540);
 		
 		

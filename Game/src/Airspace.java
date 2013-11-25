@@ -27,7 +27,7 @@ public class Airspace {
 	
 	
 	Airspace(){
-		this.max_number_of_flights = 2; //just a value
+		this.max_number_of_flights = 10; //just a value
 		this.score = 0;
 		this.list_of_flights_in_airspace = new ArrayList<Flight>();
 		this.list_of_incoming_flights = new ArrayList<Flight>();
@@ -38,7 +38,7 @@ public class Airspace {
 		this.loops_since_last_flight_entry=400; //how many loops to wait before another flight can enter
 		this.overall_loops=0; //stores how many loops there have been in total
 		this.next_difficulty_loops=10000; //this is how many loops until planes come more quickly, divide by 60 for seconds
-		this.difficulty_levels=10;//number of times difficulty changes
+		this.difficulty_levels=1;//number of times difficulty changes
 		this.max_rand=(int) Math.pow(2, this.difficulty_levels); 
 		this.previous_removed=false; //variable for storing whether a flight was removed on each loop
 		this.wp_counter=0;

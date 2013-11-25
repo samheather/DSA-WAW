@@ -33,7 +33,11 @@ public class Calculations {
 		deltaY = destination_y-flight1.getY() ;
 		deltaX =  destination_x-flight1.getX();
 		double angle = Math.toDegrees(Math.atan2(deltaY, deltaX));
-		return angle+90;
+		angle+=90;
+		if(angle<0) {
+			angle+=360;
+		}
+		return angle;
 		
 		// DIAGONALS
 		/*if ((flight1.getX() > destination_x) && (flight1.getY() < destination_y)){
