@@ -238,7 +238,14 @@ public class Flight {
 				this.give_heading(90);
 			}
 			if(((posX<this.flight_button_x||posX>this.flight_button_x+100)||(posY<0||posY>100))&&Mouse.isButtonDown(0)) {
-				this.selected=false;
+				System.out.println(posX);
+				System.out.println(posY);
+				if(((posX>0&&posX<100)&&(posY>0&&posY<600))&&Mouse.isButtonDown(0)) {
+					this.selected=true;
+				}
+				else {
+					this.selected=false;
+				}
 			}
 		}
 		else {
@@ -273,9 +280,8 @@ public class Flight {
 		g.fillRect((int)this.flight_button_x, 500, 100, 100);
 		
 		g.setColor(Color.black);
-		if(this.selected) {
-			controls.render(gc, g);
-		}
+		
+		
 		g.drawRect((int)this.flight_button_x, 500, 100, 100);
 		g.drawString("Flight "+this.flight_num, (int)this.flight_button_x+13, 510);
 		g.drawString((int)this.current_altitude + " ft", (int)this.flight_button_x+13, 525);
@@ -287,6 +293,10 @@ public class Flight {
 		img.draw((int)this.x, (int)this.y);
 		
 		img.setRotation((int)current_heading);
+		g.setColor(Color.black);
+		if(this.selected) {
+			controls.render(gc, g);
+		}
 	}
 	
 	

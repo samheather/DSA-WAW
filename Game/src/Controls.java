@@ -23,8 +23,8 @@ public class Controls{
 		this.altitude = altControl();		
 		Font awtFont = new Font("Courier",Font.BOLD,30);
 		font = new TrueTypeFont(awtFont, false);
-		headingControlTB = new TextField(gc,font,50,50,100,25);
-		altControlTB = new TextField(gc,font,155,50,100,25);	
+		headingControlTB = new TextField(gc,font,0,30,100,25);
+		altControlTB = new TextField(gc,font,0,85,100,25);	
 	}
 
 	public int altControl() {
