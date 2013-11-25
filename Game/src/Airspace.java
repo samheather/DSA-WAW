@@ -12,13 +12,12 @@ public class Airspace {
 	//FIELDS
 	
 	private int max_number_of_flights;
-	private int score, flight_counter, loops_since_last_flight_entry, overall_loops, next_difficulty_loops,max_rand, difficulty_levels,wp_counter,exp_counter,enp_counter;
+	private int score, loops_since_last_flight_entry, overall_loops, next_difficulty_loops,max_rand, difficulty_levels,wp_counter,exp_counter,flight_button_x;
 	private List<Flight> list_of_flights_in_airspace, list_of_incoming_flights;
 	private List<Waypoint> list_of_waypoints;	
 	private List<EntryPoint> list_of_entrypoints;
 	private List<ExitPoint> list_of_exitpoints;
 	private SeparationRules separationRules; 
-	private int flight_button_x = 0;
 	private boolean previous_removed;
 
 
@@ -36,7 +35,6 @@ public class Airspace {
 		this.list_of_entrypoints = new ArrayList<EntryPoint>();
 		this.list_of_exitpoints = new ArrayList<ExitPoint>();
 		this.separationRules = new SeparationRules();
-		this.flight_counter=0;
 		this.loops_since_last_flight_entry=400; //how many loops to wait before another flight can enter
 		this.overall_loops=0; //stores how many loops there have been in total
 		this.next_difficulty_loops=10000; //this is how many loops until planes come more quickly, divide by 60 for seconds
@@ -45,7 +43,7 @@ public class Airspace {
 		this.previous_removed=false; //variable for storing whether a flight was removed on each loop
 		this.wp_counter=0;
 		this.exp_counter=0;
-		this.enp_counter=0;
+		this.flight_button_x=100;
 	}
 	
 	//METHODS
@@ -149,8 +147,6 @@ public class Airspace {
 	}
 	public boolean new_entry_point(int x, int y) {
 		EntryPoint tmpEp = new EntryPoint(x,y);
-		this.enp_counter++;
-		tmpEp.setPointRef("ENP"+this.enp_counter);
 		if(this.addEntryPoint(tmpEp)){
 			return true;
 		}
@@ -203,7 +199,6 @@ public class Airspace {
 		for(int i=0; i<this.list_of_entrypoints.size();i++) {
 			this.list_of_entrypoints.get(i).render(g);
 		}
-		//this.list_of_flights_in_airspace.get(0).render(g);
 	}
 	
 	
@@ -236,10 +231,9 @@ public class Airspace {
 				}
 			}
 			else { //if the list was empty set flight_button_x back to its initial value
-				this.flight_button_x=0;
+				this.flight_button_x-=100;
 				this.previous_removed=false;
 			}
-
 		}
 	}
 	

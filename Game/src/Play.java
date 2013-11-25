@@ -54,8 +54,8 @@ public class Play extends BasicGameState {
 		g.setColor(Color.blue);
 		g.fillRect(0, 0, (float) 1200, (float)600);
 		g.setColor(Color.lightGray);
-		g.fillRoundRect(0, 500, 1200, 100,5);
-		g.fillRoundRect(0, 0, 100, 600,5);
+		g.fillRect(0, 500, 1200, 100);
+		g.fillRect(0, 0, 100, 600);
 		
 		
 		a.render(g);
