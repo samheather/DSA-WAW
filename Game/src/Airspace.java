@@ -208,6 +208,7 @@ public class Airspace {
 	public void update(GameContainer gc) {
 		for(int i=0; i<this.list_of_flights_in_airspace.size();i++) {
 			this.list_of_flights_in_airspace.get(i).update(gc);
+			this.list_of_flights_in_airspace.get(i).getControls().update(gc);
 			if(this.check_if_flight_has_left_airspace(this.getList_of_flights().get(i))) { // if a flight has left the airspace
 				this.list_of_flights_in_airspace.remove(i); //remove that flight from the list
 				this.previous_removed=true; //tell the program a flight has been removed on this loop

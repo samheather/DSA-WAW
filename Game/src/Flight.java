@@ -238,8 +238,6 @@ public class Flight {
 				this.give_heading(90);
 			}
 			if(((posX<this.flight_button_x||posX>this.flight_button_x+100)||(posY<0||posY>100))&&Mouse.isButtonDown(0)) {
-				System.out.println(posX);
-				System.out.println(posY);
 				if(((posX>0&&posX<100)&&(posY>0&&posY<600))&&Mouse.isButtonDown(0)) {
 					this.selected=true;
 				}
@@ -260,6 +258,10 @@ public class Flight {
 
 	}
 	
+	public Controls getControls() {
+		return controls;
+	}
+
 	public FlightPlan getFlight_plan() {
 		return flight_plan;
 	}
