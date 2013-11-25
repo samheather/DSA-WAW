@@ -43,6 +43,7 @@ public class Play extends BasicGameState {
 		a.new_exit_point(800, 0);
 		a.new_exit_point(100, 200);
 		a.new_exit_point(1200, 300);
+		a.new_control(arg0);
 
 	}
 				
