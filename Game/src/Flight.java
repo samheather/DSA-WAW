@@ -211,6 +211,7 @@ public class Flight {
 	// UPDATE, RENDER, INIT
 	
 	public void update(GameContainer gc){
+		controls.update();
 		boolean init=false;
 		Input input = gc.getInput();
 		this.update_current_heading();
