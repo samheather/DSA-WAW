@@ -79,6 +79,8 @@ public class Controls {
 	// UPDATE AND RENDER
 	public void update(GameContainer gc) {
 		Input input = gc.getInput();
+		
+		//Update Heading TextField
 		this.headingHasFocus = this.headingControlTB.hasFocus();
 		if (this.headingHasFocus) {
 			if (!this.heading_cleared_this_focus) {
@@ -98,8 +100,8 @@ public class Controls {
 			this.heading_cleared_this_focus = false;
 		}
 
+		//Update Altitude Text Field
 		this.altHasFocus = this.altControlTB.hasFocus();
-
 		if (this.altHasFocus) {
 			if (!this.alt_cleared_this_focus) {
 				this.alt_cleared_this_focus = true;
@@ -123,6 +125,8 @@ public class Controls {
 				this.flight.setTarget_altitude(Double.valueOf(this.text));
 			}
 		}
+		
+		//Update Turn Left Text Field
 		this.turnLeftHasFocus = this.turnLeftTB.hasFocus();
 		if (this.turnLeftHasFocus) {
 			if (input.isKeyDown(Input.KEY_ENTER)) {
@@ -134,6 +138,8 @@ public class Controls {
 				this.turnLeftTB.setFocus(false);
 			}
 		}
+		
+		//Update Turn Right Text Field
 		this.turnRightHasFocus = this.turnRightTB.hasFocus();
 		if (this.turnRightHasFocus) {
 			if (input.isKeyDown(Input.KEY_ENTER)) {
