@@ -218,7 +218,7 @@ public class Airspace {
 			this.list_of_entrypoints.get(i).render(g);
 		}
 		
-		System.out.println(this.selected_flight);
+		
 	}
 	
 	

@@ -58,8 +58,14 @@ public class Point {
     	
     	if(airspace.get_selected_flight() !=null){
     		if (airspace.get_selected_flight().getFlight_plan().getWaypoints().contains(this)){
+    			if (airspace.get_selected_flight().getFlight_plan().getWaypoints().indexOf(this)==0){
+    				g.setColor(Color.blue);
+        	    	g.fillOval((int)this.x -10, (int)this.y - 10, 20, 20);
+    			}
+    			else{
     			g.setColor(Color.green);
     	    	g.fillOval((int)this.x -10, (int)this.y - 10, 20, 20);
+    			}
     		}
     		else{
     			g.setColor(Color.yellow);
