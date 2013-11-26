@@ -5,7 +5,7 @@ import org.newdawn.slick.state.*;
 
 public class Game extends StateBasedGame  {
 	
-	public static final String NAME = "ATC Game";
+	public static final String NAME = "ATC Game - Team WAW";
 	public static final int MENU = 0;
 	public static final int PLAY = 1;
 	public static final int MAXIMUM_WIDTH = 1200;
@@ -31,6 +31,7 @@ public class Game extends StateBasedGame  {
 			appgc = new AppGameContainer(new Game(NAME));
 			appgc.setDisplayMode(MAXIMUM_WIDTH, MAXIMUM_HEIGHT, false);
 			appgc.setTargetFrameRate(60);
+			appgc.setIcon("res/icon.png");
 			appgc.start();
 		}catch(SlickException e){
 			e.printStackTrace();
