@@ -295,12 +295,11 @@ public class Flight {
 			g.drawString(this.flight_plan.getPointByIndex(0).getPointRef(),(int)this.x-5,(int)this.y-20);
 		}
 		g.drawOval((int)this.x-40, (int)this.y-40, 100, 100);
-		g.fillRect((int)this.flight_button_x, 500, 100, 100);
+		g.fillRect((int)this.flight_button_x, 500, 99, 100);
 		
 		g.setColor(Color.black);
 		
 		
-		g.drawRect((int)this.flight_button_x, 500, 100, 100);
 		g.drawString("Flight "+this.flight_num, (int)this.flight_button_x+13, 510);
 		g.drawString(Math.round(this.current_altitude) + " ft", (int)this.flight_button_x+13, 525);
 		g.drawString(Math.round(this.current_heading) + " deg", (int)this.flight_button_x+13, 555);
