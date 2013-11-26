@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Color;
 
@@ -27,7 +28,7 @@ public class Airspace {
 	
 	
 	Airspace(){
-		this.max_number_of_flights = 2; //just a value
+		this.max_number_of_flights = 5; //just a value
 		this.score = 0;
 		this.list_of_flights_in_airspace = new ArrayList<Flight>();
 		this.list_of_incoming_flights = new ArrayList<Flight>();
@@ -44,6 +45,7 @@ public class Airspace {
 		this.wp_counter=64;
 		this.exp_counter=0;
 		this.flight_button_x=100;
+		
 	}
 	
 	//METHODS
@@ -108,8 +110,7 @@ public class Airspace {
 	        	
 	        }
 	        if(this.list_of_flights_in_airspace.isEmpty()) {
-	        	check_number = rand.nextInt(50);
-	        	System.out.println("List was 0");
+	        	check_number = rand.nextInt(100);
 	        }
 	        else {
 	        	check_number = rand.nextInt(this.max_rand);
@@ -123,6 +124,7 @@ public class Airspace {
 	        		tempFlight.setFlight_name(this.generate_flight_name());
 	        		tempFlight.setX(x);
 	        		tempFlight.setY(y);
+	        		tempFlight.setTarget_altitude(tempFlight.getCurrent_altitude());
 	        		double heading= Calculations.calculate_heading_to_first_waypoint(tempFlight, tempFlight.getFlight_plan().getPointByIndex(0).getX()-5, tempFlight.getFlight_plan().getPointByIndex(0).getY()-5);
 	        		tempFlight.setTarget_heading(heading);
 	        		tempFlight.setCurrent_heading(heading);
@@ -196,6 +198,7 @@ public class Airspace {
 		for(int i=0; i<this.list_of_flights_in_airspace.size();i++) {
 			this.list_of_flights_in_airspace.get(i).init(gc);
 		}
+
 	}
 	
 	

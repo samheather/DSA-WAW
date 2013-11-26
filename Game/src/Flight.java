@@ -217,6 +217,7 @@ public class Flight {
 		Input input = gc.getInput();
 		this.update_current_heading();
 		this.update_x_y_coordinates();
+		this.update_altitude();
 		if(this.flight_plan.getWaypoints().size()>0) {
 			if(this.check_if_flight_at_waypoint(flight_plan.getWaypoints().get(0))){
 				this.flight_plan.getWaypoints().remove(0);
@@ -272,6 +273,14 @@ public class Flight {
 			}
 
 
+	}
+
+	public int getCurrent_altitude() {
+		return current_altitude;
+	}
+
+	public void setCurrent_altitude(int current_altitude) {
+		this.current_altitude = current_altitude;
 	}
 
 	public Controls getControls() {
