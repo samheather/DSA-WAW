@@ -229,6 +229,10 @@ public class Airspace {
 				this.list_of_flights_in_airspace.get(i).getControls().clear_all();
 				this.list_of_flights_in_airspace.remove(i); //remove that flight from the list
 				this.previous_removed=true; //tell the program a flight has been removed on this loop
+				if(!(this.list_of_flights_in_airspace.contains(this.selected_flight))){
+					this.selected_flight = null;
+					
+				}
 			}
 			
 			//the code to shift all the buttons up if there is space
