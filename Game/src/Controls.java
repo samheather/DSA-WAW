@@ -13,8 +13,8 @@ public class Controls {
 	private TrueTypeFont font;
 	private TextField headingControlTB;
 	private TextField altControlTB;
-	private boolean headingHasFocus; // Is the textbox currently selected?
-	private boolean altHasFocus; // Is the textbox currently selected?
+	private boolean headingHasFocus; // Is the text box currently selected?
+	private boolean altHasFocus; // Is the text box currently selected?
 	private boolean heading_cleared_this_focus; // Has the focus been reset?
 	private boolean alt_cleared_this_focus; // Has the focus been reset?
 	private Flight flight;
