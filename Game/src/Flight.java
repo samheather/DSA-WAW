@@ -84,7 +84,7 @@ public class Flight {
 	public void give_heading(int new_heading){
 		this.turning_right = false;
 		this.turning_left = false;
-		//new_heading = new_heading % 360;
+		new_heading = new_heading % 360;
 		this.target_heading = new_heading;
 	}
 	
@@ -290,9 +290,9 @@ public class Flight {
 	
 	public void render(Graphics g, GameContainer gc) throws SlickException{
 		g.setColor(color);
-		g.drawString("Flight "+this.flight_num, (int)this.x-30, (int)this.y+20);
+		g.drawString("FL"+this.flight_num, (int)this.x-5, (int)this.y+20);
 		if(this.flight_plan.getWaypoints().size()>0) {
-			g.drawString(this.flight_plan.getPointByIndex(0).getPointRef(),(int)this.x-5,(int)this.y-20);
+			g.drawString(this.flight_plan.getPointByIndex(0).getPointRef(),(int)this.x+5,(int)this.y-20);
 		}
 		g.drawOval((int)this.x-40, (int)this.y-40, 100, 100);
 		g.fillRect((int)this.flight_button_x, 500, 99, 100);
