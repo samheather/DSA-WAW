@@ -111,6 +111,7 @@ public class Controls {
 			}
 		}
 	}
+
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		g.setColor(Color.white);
 		g.drawString("Heading:", 0, 10);
