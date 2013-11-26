@@ -286,22 +286,6 @@ public class Flight {
 
 	}
 
-	public int getCurrent_altitude() {
-		return current_altitude;
-	}
-
-	public void setCurrent_altitude(int current_altitude) {
-		this.current_altitude = current_altitude;
-	}
-
-	public Controls getControls() {
-		return controls;
-	}
-
-	public FlightPlan getFlight_plan() {
-		return flight_plan;
-	}
-
 	public void init(GameContainer gc) throws SlickException{
 		img = new Image("plane.png");
 		this.controls=new Controls(gc,this);
@@ -444,4 +428,22 @@ public class Flight {
 	public String toString() {
 		return "X: "+this.x+" Y: "+this.y+" Flight Number: "+this.flight_num;
 	}
+	
+
+	public int getCurrent_altitude() {
+		return current_altitude;
+	}
+
+	public void setCurrent_altitude(int current_altitude) {
+		this.current_altitude = current_altitude;
+	}
+
+	public Controls getControls() {
+		return controls;
+	}
+
+	public FlightPlan getFlight_plan() {
+		return flight_plan;
+	}
+
 }
