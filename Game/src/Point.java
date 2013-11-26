@@ -55,24 +55,25 @@ public class Point {
     void setY(double newY) {this.y = newY;}
     
     public void render(Graphics g, Airspace airspace) {
-    	g.setColor(Color.white);
-    	g.drawString(this.pointRef, (int)this.x, (int)this.y-5);
-    	g.drawString(this.pointRef, (int)this.x, (int)this.y-5);
+    	
     	if(airspace.get_selected_flight() !=null){
     		if (airspace.get_selected_flight().getFlight_plan().getWaypoints().contains(this)){
     			g.setColor(Color.green);
-    	    	g.drawOval((int)this.x -10, (int)this.y - 10, 30, 30);
+    	    	g.fillOval((int)this.x -10, (int)this.y - 10, 20, 20);
     		}
     		else{
     			g.setColor(Color.yellow);
-    	    	g.drawOval((int)this.x -10, (int)this.y - 10, 30, 30);
+    	    	g.fillOval((int)this.x -10, (int)this.y - 10, 20, 20);
     		}
     		
     	}
     	else{
     		g.setColor(Color.yellow);
-	    	g.drawOval((int)this.x -10, (int)this.y - 10, 30, 30);
+	    	g.fillOval((int)this.x -10, (int)this.y - 10, 20, 20);
     	}
+    	g.setColor(Color.black);
+    	g.drawString(this.pointRef, (int)this.x-5, (int)this.y-9);
+    	
     	
     	
     	
