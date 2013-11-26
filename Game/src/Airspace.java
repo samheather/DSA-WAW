@@ -20,6 +20,7 @@ public class Airspace {
 	private List<ExitPoint> list_of_exitpoints;
 	private SeparationRules separationRules; 
 	private boolean previous_removed;
+	private Flight selected_flight;
 
 
 	
@@ -45,6 +46,7 @@ public class Airspace {
 		this.wp_counter=64;
 		this.exp_counter=0;
 		this.flight_button_x=100;
+		this.selected_flight = null;
 		
 	}
 	
@@ -207,14 +209,16 @@ public class Airspace {
 			this.list_of_flights_in_airspace.get(i).render(g,gc);
 		}
 		for(int i=0; i<this.list_of_waypoints.size();i++) {
-			this.list_of_waypoints.get(i).render(g);
+			this.list_of_waypoints.get(i).render(g,this);
 		}
 		for(int i=0; i<this.list_of_exitpoints.size();i++) {
-			this.list_of_exitpoints.get(i).render(g);
+			this.list_of_exitpoints.get(i).render(g,this);
 		}
 		for(int i=0; i<this.list_of_entrypoints.size();i++) {
 			this.list_of_entrypoints.get(i).render(g);
 		}
+		
+		System.out.println(this.selected_flight);
 	}
 	
 	
@@ -368,6 +372,15 @@ public class Airspace {
 			return false;
 			}
 		}
+	
+	public void set_selected_flight(Flight flight){
+		this.selected_flight = flight;
+	}
+	
+	public Flight get_selected_flight (){
+		return this.selected_flight;
+		
+	}
 
 }
 

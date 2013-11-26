@@ -265,6 +265,7 @@ public class Flight {
 			if((((posX<this.flight_button_x||posX>this.flight_button_x+100)||(posY<0||posY>100))&&Mouse.isButtonDown(0)) || this.flight_plan.getWaypoints().isEmpty()) {
 				if((((posX>0&&posX<100)&&(posY>0&&posY<600))&&Mouse.isButtonDown(0))&&!this.flight_plan.getWaypoints().isEmpty()) {
 					this.selected=true;
+					a.set_selected_flight(this);
 				}
 			if(this.check_other_flight_selection(a)) {
 				this.selected=false;
@@ -279,6 +280,7 @@ public class Flight {
 				if((posX>this.flight_button_x&&posX<this.flight_button_x+100)&&(posY>0&&posY<100)&&Mouse.isButtonDown(0)) {
 
 					this.selected=true;
+					a.set_selected_flight(this);
 
 				}
 			}

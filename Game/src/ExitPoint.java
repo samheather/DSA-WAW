@@ -14,8 +14,9 @@ public class ExitPoint extends Point {
 	    pointCount += 1;
 	    System.out.println("Waypoint " + pointRef + " set:(" + x + "," + y +").");
 	}
+	
 	@Override
-	public void render(Graphics g) {
+	public void render(Graphics g, Airspace airspace) {
 		g.setColor(Color.yellow);
     	if(this.y>0&&this.y<600) {
     		if (this.x == 100){
