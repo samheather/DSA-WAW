@@ -41,7 +41,7 @@ public class Airspace {
 		this.difficulty_levels=2;//number of times difficulty changes
 		this.max_rand=(int) Math.pow(2, this.difficulty_levels); 
 		this.previous_removed=false; //variable for storing whether a flight was removed on each loop
-		this.wp_counter=0;
+		this.wp_counter=64;
 		this.exp_counter=0;
 		this.flight_button_x=100;
 	}
@@ -51,7 +51,7 @@ public class Airspace {
 	public boolean new_waypoint(int x, int y) {
 		this.wp_counter++;
 		Waypoint tmpWp = new Waypoint(x,y);
-		tmpWp.setPointRef("WP"+this.wp_counter);
+		tmpWp.setPointRef(String.valueOf((char)this.wp_counter));
 		if(this.addWaypoint(tmpWp)){
 			return true;
 		}
@@ -70,6 +70,15 @@ public class Airspace {
 			return false;
 		}
 		
+	}
+	public String generate_flight_name() {
+		String name = "G-";
+		Random rand = new Random();
+		for(int i=0; i<4;i++) {
+			int thisChar=rand.nextInt(25)+65;
+			name+=(char)thisChar;
+		}
+		return name;
 	}
 	public boolean new_flight2(int num, GameContainer gc) throws SlickException {
 
@@ -109,7 +118,7 @@ public class Airspace {
 	        	if(this.loops_since_last_flight_entry>=700) {
 	        		
 	        		Flight tempFlight = new Flight(this);
-	        		tempFlight.setFlight_num(num);
+	        		tempFlight.setFlight_name(this.generate_flight_name());
 	        		tempFlight.setX(x);
 	        		tempFlight.setY(y);
 	        		double heading= Calculations.calculate_heading_to_first_waypoint(tempFlight, tempFlight.getFlight_plan().getPointByIndex(0).getX()-5, tempFlight.getFlight_plan().getPointByIndex(0).getY()-5);

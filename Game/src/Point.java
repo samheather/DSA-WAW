@@ -57,6 +57,7 @@ public class Point {
     public void render(Graphics g) {
     	g.setColor(Color.white);
     	g.drawString(this.pointRef, (int)this.x, (int)this.y-5);
+    	g.drawString(this.pointRef, (int)this.x, (int)this.y-5);
     	g.setColor(Color.yellow);
     	g.drawOval((int)this.x -10, (int)this.y - 10, 30, 30);
     }

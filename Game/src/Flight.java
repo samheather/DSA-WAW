@@ -14,6 +14,7 @@ public class Flight {
 	private double x, y, target_altitude, current_heading, target_heading;
 	private int current_altitude, flight_num, flight_button_x; 
 	private boolean turning_right, turning_left;
+	private String flight_name;
 	private FlightPlan flight_plan;
 	private int MAXIMUM_ALTITUDE = 30000;
 	private int MINIMUM_ALTITUDE = 27000;
@@ -290,7 +291,10 @@ public class Flight {
 	
 	public void render(Graphics g, GameContainer gc) throws SlickException{
 		g.setColor(color);
-		g.drawString("FL"+this.flight_num, (int)this.x-5, (int)this.y+20);
+
+		g.drawString(this.flight_name, (int)this.x-15, (int)this.y+20);
+
+
 		if(this.flight_plan.getWaypoints().size()>0) {
 			g.drawString(this.flight_plan.getPointByIndex(0).getPointRef(),(int)this.x+5,(int)this.y-20);
 		}
@@ -300,7 +304,7 @@ public class Flight {
 		g.setColor(Color.black);
 		
 		
-		g.drawString("Flight "+this.flight_num, (int)this.flight_button_x+13, 510);
+		g.drawString(this.flight_name, (int)this.flight_button_x+13, 510);
 		g.drawString(Math.round(this.current_altitude) + " ft", (int)this.flight_button_x+13, 525);
 		g.drawString(Math.round(this.current_heading) + " deg", (int)this.flight_button_x+13, 555);
 		g.drawString(Math.round(this.getFlight_plan().getVelocity()) + " MPH", (int)this.flight_button_x+13, 540);
@@ -397,6 +401,14 @@ public class Flight {
 
 	public int getFlight_num() {
 		return flight_num;
+	}
+
+	public String getFlight_name() {
+		return flight_name;
+	}
+
+	public void setFlight_name(String flight_name) {
+		this.flight_name = flight_name;
 	}
 
 	//tostring function to display a flight object so we can read it

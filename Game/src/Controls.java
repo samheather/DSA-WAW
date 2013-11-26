@@ -1,6 +1,7 @@
 import java.awt.Font;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.TextField;
@@ -35,7 +36,66 @@ public class Controls{
 		this.heading_cleared_this_focus=false;
 	}
 	
+
+	public void update(GameContainer gc){
+		Input input = gc.getInput();
+		this.headingHasFocus = this.headingControlTB.hasFocus();
+		if(this.headingHasFocus) {
+			if(!this.heading_cleared_this_focus){
+				this.heading_cleared_this_focus=true;
+				this.headingControlTB.setText("");
+			}
+			if(input.isKeyDown(Input.KEY_ENTER)){
+				this.text = this.headingControlTB.getText();
+				this.text = this.text.replaceAll("\\D+","");
+				if (!this.text.isEmpty()){
+					this.flight.give_heading(Integer.valueOf(this.text));
+				}
+				this.headingControlTB.setFocus(false);
+				
+			}
+		}
+		
+		if(this.heading_cleared_this_focus && !this.headingHasFocus) {
+			this.heading_cleared_this_focus=false;
+			this.text = this.headingControlTB.getText();
+			this.text = this.text.replaceAll("\\D+","");
+			if (!this.text.isEmpty()){
+				this.flight.give_heading(Integer.valueOf(this.text));
+			}
+			
+		}	
+		this.altHasFocus = this.altControlTB.hasFocus();
+
+		if(this.altHasFocus){
+			if(!this.alt_cleared_this_focus){
+				this.alt_cleared_this_focus=true;
+				this.altControlTB.setText("");
+			}
+			if(input.isKeyDown(Input.KEY_ENTER)){
+				this.text = this.altControlTB.getText();
+				this.text = this.text.replaceAll("\\D+","");
+				if (!this.text.isEmpty()){
+					this.flight.setTarget_altitude(Double.valueOf(this.text));
+				}
+				this.altControlTB.setFocus(false);
+			}
+
+		}
+
 	//METHODS
+		if(this.alt_cleared_this_focus && !this.altHasFocus) {
+			this.alt_cleared_this_focus=false;
+			this.text = this.altControlTB.getText();
+			this.text = this.text.replaceAll("\\D+","");
+			if (!this.text.isEmpty()){
+				this.flight.setTarget_altitude(Double.valueOf(this.text));
+			}
+
+		}
+		
+	}
+		
 	
 	public TextField getHeadingControlTB() {
 		return headingControlTB;
@@ -67,33 +127,5 @@ public class Controls{
 
 	//UPDATE AND RENDER
 	
-	public void update(GameContainer gc){
-		this.headingHasFocus = this.headingControlTB.hasFocus();
-		if(this.headingHasFocus && !this.heading_cleared_this_focus){
-			this.heading_cleared_this_focus=true;
-			this.headingControlTB.setText("");
-		}
-		if(this.heading_cleared_this_focus && !this.headingHasFocus) {
-			this.heading_cleared_this_focus=false;
-			this.text = this.headingControlTB.getText();
-			this.text = this.text.replaceAll("\\D+","");
-			if (!this.text.isEmpty()){
-				this.flight.give_heading(Integer.valueOf(this.text));
-			}
-		}		
-		
-		this.altHasFocus = this.altControlTB.hasFocus();
-			if(this.altHasFocus && !this.alt_cleared_this_focus){
-				this.alt_cleared_this_focus=true;
-				this.altControlTB.setText("");
-			}
-			if(this.alt_cleared_this_focus && !this.altHasFocus) {
-				this.alt_cleared_this_focus=false;
-				this.text = this.altControlTB.getText();
-				this.text = this.text.replaceAll("\\D+","");
-				if (!this.text.isEmpty()){
-					this.flight.setTarget_altitude(Double.valueOf(this.text));
-				}
-			}
-		}	
+	
 }
