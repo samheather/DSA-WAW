@@ -27,7 +27,7 @@ public class Airspace {
 	
 	
 	Airspace(){
-		this.max_number_of_flights = 10; //just a value
+		this.max_number_of_flights = 2; //just a value
 		this.score = 0;
 		this.list_of_flights_in_airspace = new ArrayList<Flight>();
 		this.list_of_incoming_flights = new ArrayList<Flight>();
@@ -38,7 +38,7 @@ public class Airspace {
 		this.loops_since_last_flight_entry=400; //how many loops to wait before another flight can enter
 		this.overall_loops=0; //stores how many loops there have been in total
 		this.next_difficulty_loops=10000; //this is how many loops until planes come more quickly, divide by 60 for seconds
-		this.difficulty_levels=2;//number of times difficulty changes
+		this.difficulty_levels=10;//number of times difficulty changes
 		this.max_rand=(int) Math.pow(2, this.difficulty_levels); 
 		this.previous_removed=false; //variable for storing whether a flight was removed on each loop
 		this.wp_counter=64;
@@ -84,6 +84,7 @@ public class Airspace {
 
 	    if (this.list_of_flights_in_airspace.size() < this.max_number_of_flights){
 	        Random rand=new Random();
+	        boolean firstFlightCreated=false;
 	        double x;
 	        double y;
 	        int check_number;
@@ -106,8 +107,9 @@ public class Airspace {
 	        	}
 	        	
 	        }
-	        if(this.list_of_flights_in_airspace.size()==0) {
-	        	check_number = rand.nextInt(200);
+	        if(this.list_of_flights_in_airspace.isEmpty()) {
+	        	check_number = rand.nextInt(50);
+	        	System.out.println("List was 0");
 	        }
 	        else {
 	        	check_number = rand.nextInt(this.max_rand);
@@ -115,7 +117,7 @@ public class Airspace {
 
 	        if(check_number == 1){
 
-	        	if(this.loops_since_last_flight_entry>=700) {
+	        	if(this.loops_since_last_flight_entry>=700||!firstFlightCreated) {
 	        		
 	        		Flight tempFlight = new Flight(this);
 	        		tempFlight.setFlight_name(this.generate_flight_name());
@@ -126,6 +128,9 @@ public class Airspace {
 	        		tempFlight.setCurrent_heading(heading);
 	        		this.loops_since_last_flight_entry=0;
 	        		if(this.list_of_flights_in_airspace.add(tempFlight)) {
+	        			if(!firstFlightCreated) {
+	        				firstFlightCreated=true;
+	        			}
 	        			this.list_of_flights_in_airspace.get(this.list_of_flights_in_airspace.size()-1).init(gc);
 	        			this.flight_button_x+=100;
 	        			return true;
