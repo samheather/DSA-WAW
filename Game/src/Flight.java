@@ -233,7 +233,6 @@ public class Flight {
 			if (!this.controls.altHasFocus()){
 				this.controls.getAltControlTB().setText(String.valueOf(Math.round(this.target_altitude)));
 			}
-			//this.target_heading = Double.valueOf(this.controls.getHeadingControlTB().getText());
 			this.controls.allow_all();
 			
 			
@@ -284,7 +283,7 @@ public class Flight {
 
 	public void init(GameContainer gc) throws SlickException{
 		img = new Image("plane.png");
-		this.controls=new Controls(gc);
+		this.controls=new Controls(gc,this);
 		controls.init(gc);
 		
 	}
