@@ -298,11 +298,11 @@ public class Flight {
 	public void render(Graphics g, GameContainer gc) throws SlickException{
 		g.setColor(color);
 		g.setWorldClip(100, 0, 1100, 500);
-		g.drawString(this.flight_name, (int)this.x-15, (int)this.y+20);
+		g.drawString(this.flight_name, (int)this.x+5, (int)this.y+20);
 
 
 		if(this.flight_plan.getWaypoints().size()>0) {
-			g.drawString(this.flight_plan.getPointByIndex(0).getPointRef(),(int)this.x+5,(int)this.y-20);
+			g.drawString(this.flight_plan.getPointByIndex(0).getPointRef(),(int)this.x-15,(int)this.y-20);
 		}
 		
 		
