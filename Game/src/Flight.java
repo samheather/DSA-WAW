@@ -56,6 +56,17 @@ public class Flight {
 		return rand.nextInt((MAXIMUM_ALTITUDE-MINIMUM_ALTITUDE)+1) + MINIMUM_ALTITUDE;	
 	}
 	
+	public boolean check_other_flight_selection(Airspace a) {
+		for(int i=0;i<a.getList_of_flights().size();i++) {
+			if(a.getList_of_flights().get(i)!=this) {
+				if(a.getList_of_flights().get(i).isSelected()) {
+					return true;
+				}
+			} 
+		}
+		return false;
+	}
+	
 	public void turn_flight_left(int degree_turned_by){
 		
 		this.turning_right = false;
@@ -211,7 +222,7 @@ public class Flight {
 	
 	// UPDATE, RENDER, INIT
 	
-	public void update(GameContainer gc){
+	public void update(GameContainer gc, Airspace a){
 		
 		boolean init=false;
 		Input input = gc.getInput();
@@ -255,9 +266,9 @@ public class Flight {
 				if((((posX>0&&posX<100)&&(posY>0&&posY<600))&&Mouse.isButtonDown(0))&&!this.flight_plan.getWaypoints().isEmpty()) {
 					this.selected=true;
 				}
-				else {
-					this.selected=false;
-				}
+			if(this.check_other_flight_selection(a)) {
+				this.selected=false;
+			}
 			}
 		}
 		else {
@@ -418,6 +429,14 @@ public class Flight {
 
 	public void setFlight_name(String flight_name) {
 		this.flight_name = flight_name;
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 
 	//tostring function to display a flight object so we can read it
