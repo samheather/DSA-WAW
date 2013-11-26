@@ -53,14 +53,6 @@ public class Controls {
 		return altControlTB;
 	}
 
-	public void render(GameContainer gc, Graphics g) throws SlickException {
-		g.setColor(Color.white);
-		g.drawString("Heading:", 0, 10);
-		this.headingControlTB.render(gc, g);
-		g.drawString("Altitude:", 0, 60);
-		this.altControlTB.render(gc, g);
-	}
-
 	public void clear_all() {
 		this.headingControlTB.setAcceptingInput(false);
 		this.altControlTB.setAcceptingInput(false);
@@ -118,5 +110,12 @@ public class Controls {
 				this.flight.setTarget_altitude(Double.valueOf(this.text));
 			}
 		}
+	}
+	public void render(GameContainer gc, Graphics g) throws SlickException {
+		g.setColor(Color.white);
+		g.drawString("Heading:", 0, 10);
+		this.headingControlTB.render(gc, g);
+		g.drawString("Altitude:", 0, 60);
+		this.altControlTB.render(gc, g);
 	}
 }
