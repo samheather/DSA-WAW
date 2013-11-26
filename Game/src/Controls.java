@@ -58,13 +58,8 @@ public class Controls{
 		
 		if(this.heading_cleared_this_focus && !this.headingHasFocus) {
 			this.heading_cleared_this_focus=false;
-			this.text = this.headingControlTB.getText();
-			this.text = this.text.replaceAll("\\D+","");
-			if (!this.text.isEmpty()){
-				this.flight.give_heading(Integer.valueOf(this.text));
 			}
 			
-		}	
 		this.altHasFocus = this.altControlTB.hasFocus();
 
 		if(this.altHasFocus){
