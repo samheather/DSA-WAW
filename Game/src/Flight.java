@@ -233,6 +233,7 @@ public class Flight {
 			if (!this.controls.altHasFocus()){
 				this.controls.getAltControlTB().setText(String.valueOf(Math.round(this.target_altitude)));
 			}
+			//this.target_heading = Double.valueOf(this.controls.getHeadingControlTB().getText());
 			this.controls.allow_all();
 			
 			
