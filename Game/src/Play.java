@@ -50,7 +50,7 @@ public class Play extends BasicGameState {
 
 	
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g) throws SlickException {
-		g.setColor(Color.blue);
+		g.setColor(Color.black);
 		g.fillRect(0, 0, (float) 1200, (float)600);
 		g.setColor(Color.lightGray);
 		g.fillRect(0, 500, 1200, 100);
