@@ -17,9 +17,11 @@ public class Controls{
 	private boolean heading_cleared_this_focus;
 	private boolean alt_cleared_this_focus;
 	
-	public Controls(GameContainer gc){	
+	public Controls(GameContainer gc){
 		
 	}
+	
+	
 	public void init(GameContainer gc) {
 		Font awtFont = new Font("Courier",Font.BOLD,15);
 		font = new TrueTypeFont(awtFont, false);
@@ -31,12 +33,14 @@ public class Controls{
 	}
 	
 	public void update(GameContainer gc){
+		
 		this.headingHasFocus = this.headingControlTB.hasFocus();
 		if(this.headingHasFocus && !this.heading_cleared_this_focus){
 			this.heading_cleared_this_focus=true;
 			this.headingControlTB.setText("");
 			System.out.println(headingControlTB.getText());
 		}
+		
 		if(this.heading_cleared_this_focus && !this.headingHasFocus) {
 			this.heading_cleared_this_focus=false;
 		}
