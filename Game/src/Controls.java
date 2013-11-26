@@ -30,15 +30,14 @@ public class Controls{
 	public void update(GameContainer gc){
 		this.headingHasFocus = this.headingControlTB.hasFocus();
 		if(this.headingHasFocus){
-			this.headingControlTB.setText("");
-			this.headingControlTB.setAcceptingInput(true);
+			//this.headingControlTB.setText("");
 			System.out.println(headingControlTB.getText());
 		}
 		
 		this.altHasFocus = this.altControlTB.hasFocus();
+		//StringUtils.isNumeric(this.altControlTB)
 		if(this.altHasFocus){
-			this.altControlTB.setText("");	
-			this.altControlTB.setAcceptingInput(true);
+			//this.altControlTB.setText("");	
 		}
 	}
 	
