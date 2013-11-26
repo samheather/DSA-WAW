@@ -38,11 +38,11 @@ public class Controls{
 		if(this.headingHasFocus && !this.heading_cleared_this_focus){
 			this.heading_cleared_this_focus=true;
 			this.headingControlTB.setText("");
-			System.out.println(headingControlTB.getText());
 		}
 		
 		if(this.heading_cleared_this_focus && !this.headingHasFocus) {
 			this.heading_cleared_this_focus=false;
+			System.out.println(headingControlTB.getText());
 		}
 		
 		this.altHasFocus = this.altControlTB.hasFocus();
@@ -53,6 +53,7 @@ public class Controls{
 			}
 			if(this.alt_cleared_this_focus && !this.altHasFocus) {
 				this.alt_cleared_this_focus=false;
+				System.out.println(headingControlTB.getText());
 			}
 		}
 	
