@@ -211,8 +211,8 @@ public class Flight {
 	public boolean check_if_flight_at_waypoint(Point waypoint)
 	{
 		// The line below is just so there are no errors
-			if (((Math.abs(Math.round(this.x) - Math.round(waypoint.getX()))) <= 30)
-					&& (Math.abs(Math.round(this.y) - Math.round(waypoint.getY()))) <= 30){
+			if (((Math.abs(Math.round(this.x) - Math.round(waypoint.getX()))) <= 20)
+					&& (Math.abs(Math.round(this.y) - Math.round(waypoint.getY()))) <= 20){
 				return true;
 			}
 
