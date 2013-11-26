@@ -2,6 +2,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
 
+
 public class Point {
 
     //A "Point" object has a (X,Y) co-ordinate, representing a line in the
@@ -24,7 +25,8 @@ public class Point {
     Point(double xcoord, double ycoord){
     x = xcoord;
     y = ycoord;
-    pointCount += 1;}
+    pointCount += 1;
+    }
     
     //Point Constructor that also takes pointRef string:
     Point(double xcoord, double ycoord, String name){

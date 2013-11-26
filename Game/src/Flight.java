@@ -139,7 +139,7 @@ public class Flight {
 	
 	public void update_current_heading(){
 		// NOTE TO RORY FROM RORY: DONT FORGET TO FIX THIS FOR EVERY CASE
-		double rate = 0.5;
+		double rate = 0.2;
 		if (Math.round(this.target_heading)!=Math.round(this.current_heading)){		
 			if (this.turning_right == true){// If plane is already turning right or user has told it to turn right
 				this.current_heading += rate;
@@ -297,33 +297,36 @@ public class Flight {
 	
 	public void render(Graphics g, GameContainer gc) throws SlickException{
 		g.setColor(color);
-
+		g.setWorldClip(100, 0, 1100, 500);
 		g.drawString(this.flight_name, (int)this.x-15, (int)this.y+20);
 
 
 		if(this.flight_plan.getWaypoints().size()>0) {
 			g.drawString(this.flight_plan.getPointByIndex(0).getPointRef(),(int)this.x+5,(int)this.y-20);
 		}
+		
+		
+		img.setRotation((int)current_heading);
+		
 		g.drawOval((int)this.x-40, (int)this.y-40, 100, 100);
+		
+		img.draw((int)this.x, (int)this.y);
+		
+		g.setWorldClip(0, 0, 1200, 600);
 		g.fillRect((int)this.flight_button_x, 500, 99, 100);
-		
 		g.setColor(Color.black);
-		
-		
 		g.drawString(this.flight_name, (int)this.flight_button_x+13, 510);
 		g.drawString(Math.round(this.current_altitude) + " ft", (int)this.flight_button_x+13, 525);
 		g.drawString(Math.round(this.current_heading) + " deg", (int)this.flight_button_x+13, 555);
 		g.drawString(Math.round(this.getFlight_plan().getVelocity()) + " MPH", (int)this.flight_button_x+13, 540);
-		
-		
-		
-		img.draw((int)this.x, (int)this.y);
-		
-		img.setRotation((int)current_heading);
-		g.setColor(Color.black);
 		if(this.selected) {
 			this.controls.render(gc, g);
 		}
+		
+		
+		
+		
+		
 		
 	}
 	

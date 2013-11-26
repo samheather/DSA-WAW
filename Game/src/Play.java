@@ -16,6 +16,7 @@ public class Play extends BasicGameState {
 	public Play(int state) {
 		a = new Airspace();
 		i=1;
+
 		
 	}
 	
@@ -57,9 +58,10 @@ public class Play extends BasicGameState {
 		g.fillRect(0, 0, 100, 600);
 		g.setColor(Color.white);
 		g.drawLine(100, 0, 100, 500);	
-		g.drawLine(100, 500, 1200, 500);	
-		
+		g.drawLine(100, 500, 1200, 500);
 		a.render(g, gc);
+		
+		
 
 	}
 	

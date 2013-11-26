@@ -120,7 +120,7 @@ public class Airspace {
 
 	        if(check_number == 1){
 
-	        	if(this.loops_since_last_flight_entry>=700||!firstFlightCreated) {
+	        	if(this.loops_since_last_flight_entry>=700) {
 	        		
 	        		Flight tempFlight = new Flight(this);
 	        		tempFlight.setFlight_name(this.generate_flight_name());
@@ -200,14 +200,14 @@ public class Airspace {
 		for(int i=0; i<this.list_of_flights_in_airspace.size();i++) {
 			this.list_of_flights_in_airspace.get(i).init(gc);
 		}
+		
 
 	}
 	
 	
 	public void render(Graphics g, GameContainer gc) throws SlickException { //I added this so we can draw things in the airspace, for example a radar like background or terrain
-		for(int i=0; i<this.list_of_flights_in_airspace.size();i++) {
-			this.list_of_flights_in_airspace.get(i).render(g,gc);
-		}
+		
+		
 		for(int i=0; i<this.list_of_waypoints.size();i++) {
 			this.list_of_waypoints.get(i).render(g,this);
 		}
@@ -216,6 +216,9 @@ public class Airspace {
 		}
 		for(int i=0; i<this.list_of_entrypoints.size();i++) {
 			this.list_of_entrypoints.get(i).render(g);
+		}
+		for(int i=0; i<this.list_of_flights_in_airspace.size();i++) {
+			this.list_of_flights_in_airspace.get(i).render(g,gc);
 		}
 		
 		
