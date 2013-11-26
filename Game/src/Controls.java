@@ -17,6 +17,7 @@ public class Controls{
 	private boolean heading_cleared_this_focus;
 	private boolean alt_cleared_this_focus;
 	private Flight flight;
+	private String text;
 	
 	public Controls(GameContainer gc,Flight flight){
 		this.flight = flight;
@@ -43,18 +44,24 @@ public class Controls{
 		
 		if(this.heading_cleared_this_focus && !this.headingHasFocus) {
 			this.heading_cleared_this_focus=false;
-			this.flight.setTarget_heading(Double.valueOf(this.headingControlTB.getText()));
-		}
-		
+			this.text = this.headingControlTB.getText();
+			this.text = this.text.replaceAll("\\D+","");
+			if (!this.text.isEmpty()){
+				this.flight.give_heading(Integer.valueOf(this.text));
+			}
+		}		
 		this.altHasFocus = this.altControlTB.hasFocus();
 			if(this.altHasFocus && !this.alt_cleared_this_focus){
 				this.alt_cleared_this_focus=true;
 				this.altControlTB.setText("");
-				System.out.println(this.altControlTB.getText());
 			}
 			if(this.alt_cleared_this_focus && !this.altHasFocus) {
 				this.alt_cleared_this_focus=false;
-				this.flight.setTarget_altitude(Double.valueOf(this.altControlTB.getText()));
+				this.text = this.altControlTB.getText();
+				this.text = this.text.replaceAll("\\D+","");
+				if (!this.text.isEmpty()){
+					this.flight.setTarget_altitude(Double.valueOf(this.text));
+				}
 			}
 		}
 	
