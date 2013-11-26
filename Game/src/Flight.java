@@ -228,10 +228,10 @@ public class Flight {
 		if(this.selected==true) {
 			this.controls.update(gc);
 			if (!this.controls.headingHasFocus()) {
-				this.controls.getHeadingControlTB().setText(String.valueOf(Math.round(this.current_heading)));
+				this.controls.getHeadingControlTB().setText(String.valueOf(Math.round(this.target_heading)));
 			}
 			if (!this.controls.altHasFocus()){
-				this.controls.getAltControlTB().setText(String.valueOf(Math.round(this.current_altitude)));
+				this.controls.getAltControlTB().setText(String.valueOf(Math.round(this.target_altitude)));
 			}
 			this.controls.allow_all();
 			

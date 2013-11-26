@@ -12,8 +12,10 @@ public class Controls{
 	private TrueTypeFont font;
 	private TextField headingControlTB;
 	private TextField altControlTB;
-	private Boolean headingHasFocus;
-	private Boolean altHasFocus;
+	private boolean headingHasFocus;
+	private boolean altHasFocus;
+	private boolean heading_cleared_this_focus;
+	private boolean alt_cleared_this_focus;
 	
 	public Controls(GameContainer gc){	
 		
@@ -25,21 +27,30 @@ public class Controls{
 		this.altControlTB = new TextField(gc,font,0,85,100,25);	
 		this.headingHasFocus = false;
 		this.altHasFocus = false;
+		this.heading_cleared_this_focus=false;
 	}
 	
 	public void update(GameContainer gc){
 		this.headingHasFocus = this.headingControlTB.hasFocus();
-		if(this.headingHasFocus){
-			//this.headingControlTB.setText("");
+		if(this.headingHasFocus && !this.heading_cleared_this_focus){
+			this.heading_cleared_this_focus=true;
+			this.headingControlTB.setText("");
 			System.out.println(headingControlTB.getText());
+		}
+		if(this.heading_cleared_this_focus && !this.headingHasFocus) {
+			this.heading_cleared_this_focus=false;
 		}
 		
 		this.altHasFocus = this.altControlTB.hasFocus();
-		//StringUtils.isNumeric(this.altControlTB)
-		if(this.altHasFocus){
-			//this.altControlTB.setText("");	
+			if(this.altHasFocus && !this.alt_cleared_this_focus){
+				this.alt_cleared_this_focus=true;
+				this.altControlTB.setText("");
+				System.out.println(altControlTB.getText());
+			}
+			if(this.alt_cleared_this_focus && !this.altHasFocus) {
+				this.alt_cleared_this_focus=false;
+			}
 		}
-	}
 	
 	public TextField getHeadingControlTB() {
 		return headingControlTB;
