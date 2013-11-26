@@ -223,6 +223,8 @@ public class Flight {
 		}
 		int posX=Mouse.getX();
 		int posY=Mouse.getY();
+		
+		//Update controls
 		if(this.selected==true) {
 			this.controls.update(gc);
 			if (!this.controls.headingHasFocus()) {
@@ -232,6 +234,8 @@ public class Flight {
 				this.controls.getAltControlTB().setText(String.valueOf(Math.round(this.current_altitude)));
 			}
 			this.controls.allow_all();
+			
+			
 			this.color=Color.yellow;
 			if(input.isKeyDown(Input.KEY_UP)) {
 				this.give_heading(360);

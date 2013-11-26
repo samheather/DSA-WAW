@@ -32,6 +32,7 @@ public class Controls{
 		if(this.headingHasFocus){
 			this.headingControlTB.setText("");
 			this.headingControlTB.setAcceptingInput(true);
+			System.out.println(headingControlTB.getText());
 		}
 		
 		this.altHasFocus = this.altControlTB.hasFocus();
