@@ -107,7 +107,7 @@ public class Flight {
 	}
 	
 	public void update_x_y_coordinates(){
-		double velocity= (this.flight_plan.getVelocity())/2000;
+		double velocity= (this.flight_plan.getVelocity())/500;
 
 		this.x += velocity * Math.sin(Math.toRadians(this.current_heading)) ;
 
@@ -127,7 +127,7 @@ public class Flight {
 	
 	public void update_current_heading(){
 		// NOTE TO RORY FROM RORY: DONT FORGET TO FIX THIS FOR EVERY CASE
-		double rate = 0.1;
+		double rate = 0.5;
 		if (Math.round(this.target_heading)!=Math.round(this.current_heading)){		
 			if (this.turning_right == true){// If plane is already turning right or user has told it to turn right
 				this.current_heading += rate;
@@ -238,7 +238,7 @@ public class Flight {
 			
 			this.color=Color.yellow;
 			if(input.isKeyDown(Input.KEY_UP)) {
-				this.give_heading(360);
+				this.give_heading(0);
 			}
 			if(input.isKeyDown(Input.KEY_LEFT)) {
 				this.give_heading(270);
