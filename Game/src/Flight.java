@@ -240,8 +240,8 @@ public class Flight {
 		int posX=Mouse.getX();
 		int posY=Mouse.getY();
 		
-		//Update controls
 		if(this.selected==true) {
+			//Update controls
 			this.controls.update(gc);
 			if (!this.controls.headingHasFocus()) {
 				this.controls.getHeadingControlTB().setText(String.valueOf(Math.round(this.target_heading)));
@@ -325,15 +325,7 @@ public class Flight {
 		if(this.selected) {
 			this.controls.render(gc, g);
 		}
-		
-		
-		
-		
-		
-		
 	}
-	
-	
 	
 	// MUTATORS AND ACCESSORS
 

@@ -17,10 +17,12 @@ public class Controls {
 	private TextField turnLeftTB;
 	private boolean headingHasFocus; // Is the text box currently selected?
 	private boolean altHasFocus; // Is the text box currently selected?
-	private boolean turnLeftHasFocus;
-	private boolean turnRightHasFocus;
-	private boolean heading_cleared_this_focus; // Has the focus been reset?
-	private boolean alt_cleared_this_focus; // Has the focus been reset?
+	private boolean turnLeftHasFocus; // Is the text box currently selected?
+	private boolean turnRightHasFocus; // Is the text box currently selected?
+	private boolean heading_cleared_this_focus; // Has the text box been reset?
+	private boolean alt_cleared_this_focus; // Has the text box been reset?
+	private boolean right_cleared_this_focus;
+	private boolean left_cleared_this_focus;
 	private Flight flight;
 	private String text;
 
@@ -41,6 +43,10 @@ public class Controls {
 		this.turnLeftHasFocus = false;
 		this.turnRightHasFocus = false;
 		this.heading_cleared_this_focus = false;
+		this.alt_cleared_this_focus = false;
+		this.left_cleared_this_focus = false;
+		this.right_cleared_this_focus = false;
+		
 	}
 
 	// METHODS
@@ -129,27 +135,43 @@ public class Controls {
 		//Update Turn Left Text Field
 		this.turnLeftHasFocus = this.turnLeftTB.hasFocus();
 		if (this.turnLeftHasFocus) {
+			if (!this.left_cleared_this_focus) {
+				this.left_cleared_this_focus = true;
+				this.turnLeftTB.setText("");
+			}
 			if (input.isKeyDown(Input.KEY_ENTER)) {
 				this.text = this.turnLeftTB.getText();
 				this.text = this.text.replaceAll("\\D+", "");
 				if (!this.text.isEmpty()) {
 					this.flight.turn_flight_left(Integer.valueOf(this.text));
+					this.turnLeftTB.setText("");
 				}
 				this.turnLeftTB.setFocus(false);
 			}
+		}
+		if (this.left_cleared_this_focus && !this.turnLeftHasFocus) {
+			this.left_cleared_this_focus = false;
 		}
 		
 		//Update Turn Right Text Field
 		this.turnRightHasFocus = this.turnRightTB.hasFocus();
 		if (this.turnRightHasFocus) {
+			if (!this.right_cleared_this_focus) {
+				this.right_cleared_this_focus = true;
+				this.turnRightTB.setText("");
+			}
 			if (input.isKeyDown(Input.KEY_ENTER)) {
 				this.text = this.turnRightTB.getText();
 				this.text = this.text.replaceAll("\\D+", "");
 				if (!this.text.isEmpty()) {
 					this.flight.turn_flight_right(Integer.valueOf(this.text));
+					this.turnRightTB.setText("");
 				}
 				this.turnRightTB.setFocus(false);
 			}
+		}
+		if (this.right_cleared_this_focus && !this.turnRightHasFocus) {
+			this.right_cleared_this_focus = false;
 		}
 	}
 
