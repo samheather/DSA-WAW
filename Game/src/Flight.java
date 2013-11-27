@@ -72,11 +72,12 @@ public class Flight {
 		this.turning_right = false;
 		this.turning_left = true;
 		
-		if (((int)this.target_heading - degree_turned_by) < 0){
-			this.target_heading = 360 - (degree_turned_by-(int)this.target_heading);
+		if (((int)this.current_heading - degree_turned_by) <= 0){
+			this.target_heading = 360 - (degree_turned_by-(int)this.current_heading);
 		}
 		else{
 			this.target_heading -=  degree_turned_by;
+			
 		}
 	}
 	
@@ -85,11 +86,13 @@ public class Flight {
 		this.turning_left = false;
 		this.turning_right = true;
 		
-		if (((int)this.target_heading + degree_turned_by) >= 360){
-			this.target_heading = (degree_turned_by-(360-(int)this.target_heading));
+		if (((int)this.current_heading + degree_turned_by) >= 360){
+			this.target_heading = (degree_turned_by-(360-(int)this.current_heading));
+			
 		}
 		else{
 			this.target_heading += degree_turned_by;
+			
 		}
 	}
 	
