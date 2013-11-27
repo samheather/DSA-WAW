@@ -63,13 +63,17 @@ public class Play extends BasicGameState {
 
 	}
 
-	public void update(GameContainer gc, StateBasedGame sbj, int delta)
+	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
 		time += delta;
 		if (a.new_flight2(i, gc)) {
 			i++;
 		}
 		a.update(gc);
+		if (a.get_separation_rules().getGameOverViolation() == true){
+			sbg.enterState(3);
+		}
+		System.out.println(a.get_separation_rules().getGameOverViolation());
 	}
 
 	public int getID() {

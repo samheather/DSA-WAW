@@ -11,10 +11,10 @@ public class SeparationRules {
 	
 	// CONSTRUCTOR
 	 SeparationRules(){
-		 this.warningLateralSeparation = 0; //NEED VALUES FOR THIS
-		 this.warningVerticalSeparation = 0; //NEED VALUES FOR THIS
-		 this.gameOverLateralSeparation = 0;
-		 this.gameOverVerticalSeparation = 0;
+		 this.warningLateralSeparation = 30; //NEED VALUES FOR THIS
+		 this.warningVerticalSeparation = 30; //NEED VALUES FOR THIS
+		 this.gameOverLateralSeparation = 10;
+		 this.gameOverVerticalSeparation = 10;
 		 this.warningLateralViolation = false;
 		 this.warningVerticalViolation = false;
 		 this.gameOverViolation = false;
@@ -30,7 +30,7 @@ public class SeparationRules {
 		return Math.abs(flight1.getAltitude() - flight2.getAltitude());	
 		}
 	
-	private void checkViolation(Airspace airspace){
+	public void checkViolation(Airspace airspace){
 		for (int i = 0; i < airspace.getList_of_flights().size(); i++){
 			for (int j = i+1; j < airspace.getList_of_flights().size(); j++){ // j = i + 1 : stops double checking
 				

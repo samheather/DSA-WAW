@@ -7,6 +7,7 @@ public class Game extends StateBasedGame {
 	public static final String NAME = "ATC Game - Team WAW";
 	public static final int MENU = 0;
 	public static final int PLAY = 1;
+	public static final int GAMEOVER = 3;
 	public static final int MAXIMUM_WIDTH = 1200;
 	public static final int MAXIMUM_HEIGHT = 600;
 
@@ -14,6 +15,7 @@ public class Game extends StateBasedGame {
 		super(NAME);
 		this.addState(new Menu(MENU));
 		this.addState(new Play(PLAY));
+		this.addState(new GameOverState(GAMEOVER));
 		this.enterState(MENU);
 	}
 

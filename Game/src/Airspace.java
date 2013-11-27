@@ -260,6 +260,7 @@ public class Airspace {
 				this.previous_removed = false;
 			}
 		}
+		this.separationRules.checkViolation(this);
 	}
 
 	// MUTATORS AND ACCESSORS
@@ -376,6 +377,10 @@ public class Airspace {
 	public Flight get_selected_flight() {
 		return this.selected_flight;
 
+	}
+	
+	public SeparationRules get_separation_rules(){
+		return this.separationRules;
 	}
 
 }
