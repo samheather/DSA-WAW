@@ -36,8 +36,8 @@ public class Controls {
 		font = new TrueTypeFont(awtFont, false);
 		this.headingControlTB = new TextField(gc, font, 0, 30, 100, 25);
 		this.altControlTB = new TextField(gc, font, 0, 85, 100, 25);
-		this.turnLeftTB = new TextField(gc,font,0,140,100,25);
-		this.turnRightTB = new TextField(gc,font,0,195,100,25);
+		this.turnLeftTB = new TextField(gc, font, 0, 140, 100, 25);
+		this.turnRightTB = new TextField(gc, font, 0, 195, 100, 25);
 		this.headingHasFocus = false;
 		this.altHasFocus = false;
 		this.turnLeftHasFocus = false;
@@ -46,7 +46,7 @@ public class Controls {
 		this.alt_cleared_this_focus = false;
 		this.left_cleared_this_focus = false;
 		this.right_cleared_this_focus = false;
-		
+
 	}
 
 	// METHODS
@@ -62,7 +62,6 @@ public class Controls {
 	public boolean altHasFocus() {
 		return this.altHasFocus;
 	}
-	
 
 	public TextField getAltControlTB() {
 		return altControlTB;
@@ -85,8 +84,8 @@ public class Controls {
 	// UPDATE AND RENDER
 	public void update(GameContainer gc) {
 		Input input = gc.getInput();
-		
-		//Update Heading TextField
+
+		// Update Heading TextField
 		this.headingHasFocus = this.headingControlTB.hasFocus();
 		if (this.headingHasFocus) {
 			if (!this.heading_cleared_this_focus) {
@@ -106,7 +105,7 @@ public class Controls {
 			this.heading_cleared_this_focus = false;
 		}
 
-		//Update Altitude Text Field
+		// Update Altitude Text Field
 		this.altHasFocus = this.altControlTB.hasFocus();
 		if (this.altHasFocus) {
 			if (!this.alt_cleared_this_focus) {
@@ -131,8 +130,8 @@ public class Controls {
 				this.flight.setTarget_altitude(Double.valueOf(this.text));
 			}
 		}
-		
-		//Update Turn Left Text Field
+
+		// Update Turn Left Text Field
 		this.turnLeftHasFocus = this.turnLeftTB.hasFocus();
 		if (this.turnLeftHasFocus) {
 			if (!this.left_cleared_this_focus) {
@@ -152,8 +151,8 @@ public class Controls {
 		if (this.left_cleared_this_focus && !this.turnLeftHasFocus) {
 			this.left_cleared_this_focus = false;
 		}
-		
-		//Update Turn Right Text Field
+
+		// Update Turn Right Text Field
 		this.turnRightHasFocus = this.turnRightTB.hasFocus();
 		if (this.turnRightHasFocus) {
 			if (!this.right_cleared_this_focus) {
@@ -181,9 +180,9 @@ public class Controls {
 		this.headingControlTB.render(gc, g);
 		g.drawString("Altitude:", 0, 60);
 		this.altControlTB.render(gc, g);
-		g.drawString("Turn Left:",0,110);
-		this.turnLeftTB.render(gc,g);
-		g.drawString("Turn Right:",0,160);
-		this.turnRightTB.render(gc,g);
+		g.drawString("Turn Left:", 0, 110);
+		this.turnLeftTB.render(gc, g);
+		g.drawString("Turn Right:", 0, 160);
+		this.turnRightTB.render(gc, g);
 	}
 }
