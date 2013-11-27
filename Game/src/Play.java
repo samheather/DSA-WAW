@@ -73,7 +73,7 @@ public class Play extends BasicGameState {
 		if (a.get_separation_rules().getGameOverViolation() == true){
 			sbg.enterState(3);
 		}
-		System.out.println(a.get_separation_rules().getGameOverViolation());
+
 	}
 
 	public int getID() {
