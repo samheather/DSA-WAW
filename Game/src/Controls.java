@@ -194,7 +194,7 @@ public class Controls {
 		g.setColor(Color.black);
 		g.drawString("Turn Left:", 101, 501);
 		this.turnLeftTB.render(gc, g);
-		g.drawString("Heading:", 400 ,501 );
+		g.drawString("Target Heading:", 350 ,501 );
 		this.headingControlTB.render(gc, g);
 		g.drawString("Altitude:", 650, 501);
 		this.altControlTB.render(gc, g);
