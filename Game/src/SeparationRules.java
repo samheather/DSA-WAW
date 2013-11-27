@@ -11,10 +11,10 @@ public class SeparationRules {
 	
 	// CONSTRUCTOR
 	 SeparationRules(){
-		 this.warningLateralSeparation = 30; //NEED VALUES FOR THIS
-		 this.warningVerticalSeparation = 30; //NEED VALUES FOR THIS
-		 this.gameOverLateralSeparation = 10;
-		 this.gameOverVerticalSeparation = 10;
+		 this.warningLateralSeparation = 50; //NEED VALUES FOR THIS
+		 this.warningVerticalSeparation = 50; //NEED VALUES FOR THIS
+		 this.gameOverLateralSeparation = 30;
+		 this.gameOverVerticalSeparation = 30;
 		 this.warningLateralViolation = false;
 		 this.warningVerticalViolation = false;
 		 this.gameOverViolation = false;
