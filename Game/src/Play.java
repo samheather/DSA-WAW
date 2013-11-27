@@ -7,26 +7,25 @@ import org.newdawn.slick.state.*;
 import org.newdawn.slick.Color;
 
 public class Play extends BasicGameState {
-	
-	private Airspace a; 
+
+	private Airspace a;
 	private int i;
-	Image cursorImg; 
-	
-	
+	Image cursorImg;
+
 	public Play(int state) {
 		a = new Airspace();
-		i=1;
+		i = 1;
 
-		
 	}
-	
+
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
 		// TODO Auto-generated method stub
-		
-		/*cursorImg= new Image("res/cursor.png");
-		gc.setMouseCursor(cursorImg, 16, 16);
-		if someone can make a decent cursor image we can have a better cursor*/
+
+		/*
+		 * cursorImg= new Image("res/cursor.png"); gc.setMouseCursor(cursorImg, 16, 16); if someone can make a decent cursor image we can have a
+		 * better cursor
+		 */
 		a.init(arg0);
 		a.new_waypoint(150, 150);
 		a.new_waypoint(400, 470);
@@ -46,35 +45,31 @@ public class Play extends BasicGameState {
 		a.new_exit_point(1200, 300);
 
 	}
-				
 
-
-	
-	public void render(GameContainer gc, StateBasedGame sbj, Graphics g) throws SlickException {
+	public void render(GameContainer gc, StateBasedGame sbj, Graphics g)
+			throws SlickException {
 		g.setColor(Color.black);
-		g.fillRect(0, 0, (float) 1200, (float)600);
+		g.fillRect(0, 0, (float) 1200, (float) 600);
 		g.setColor(Color.black);
 		g.fillRect(0, 500, 1200, 100);
 		g.fillRect(0, 0, 100, 600);
 		g.setColor(Color.white);
-		g.drawLine(100, 0, 100, 500);	
+		g.drawLine(100, 0, 100, 500);
 		g.drawLine(100, 500, 1200, 500);
 		a.render(g, gc);
-		
-		
 
 	}
-	
-	public void update(GameContainer gc, StateBasedGame sbj, int delta) throws SlickException {
-		if(a.new_flight2(i,gc)) {
+
+	public void update(GameContainer gc, StateBasedGame sbj, int delta)
+			throws SlickException {
+		if (a.new_flight2(i, gc)) {
 			i++;
 		}
 		a.update(gc);
 	}
+
 	public int getID() {
 		return 1;
 	}
 
-
-	
 }
