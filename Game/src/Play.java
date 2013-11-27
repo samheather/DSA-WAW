@@ -11,6 +11,7 @@ public class Play extends BasicGameState {
 	private Airspace a;
 	private int i;
 	Image cursorImg;
+	public static int time;
 
 	public Play(int state) {
 		a = new Airspace();
@@ -57,11 +58,14 @@ public class Play extends BasicGameState {
 		g.drawLine(100, 0, 100, 500);
 		g.drawLine(100, 500, 1200, 500);
 		a.render(g, gc);
+		g.setColor(Color.white);
+		g.drawString("Time : " + time/1000, 0, 10);
 
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbj, int delta)
 			throws SlickException {
+		time += delta;
 		if (a.new_flight2(i, gc)) {
 			i++;
 		}
