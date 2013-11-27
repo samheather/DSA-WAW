@@ -228,7 +228,7 @@ public class Flight {
 		}
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
-		Calculations.c
+		Calculations.check_if_point_in_circle(posX, posY, this.x, this.y, 50);
 		if (this.selected == true) {
 			// Update controls
 			this.controls.update(gc);
