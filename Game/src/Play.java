@@ -59,7 +59,7 @@ public class Play extends BasicGameState {
 		g.drawLine(100, 500, 1200, 500);
 		a.render(g, gc);
 		g.setColor(Color.black);
-		g.drawString("Time : " + time/1000, 0, 20);
+		g.drawString("Time: " + time/1000, 0, 20);
 
 	}
 
