@@ -295,6 +295,7 @@ public class Flight {
 		img.setRotation((int) current_heading);
 
 		g.drawOval((int) this.x - 40, (int) this.y - 40, 100, 100);
+		
 
 		img.draw((int) this.x, (int) this.y);
 
@@ -314,6 +315,11 @@ public class Flight {
 		
 		if (this.selected) {
 			this.controls.render(gc, g);
+			g.setColor(this.color);
+			g.drawString("0", (int)this.x+5, (int)this.y-40);
+			g.drawString("90", (int)this.x+40, (int)this.y);
+			g.drawString("180", (int)this.x, (int)this.y+40);
+			g.drawString("270", (int)this.x-40, (int)this.y);
 		}
 	}
 
