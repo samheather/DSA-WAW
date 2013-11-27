@@ -36,8 +36,8 @@ public class Controls {
 		font = new TrueTypeFont(awtFont, false);
 		
 		this.turnLeftTB = new TextField(gc, font, 200, 501, 50, 23);
-		this.headingControlTB = new TextField(gc, font, 400, 501, 50, 23);
-		this.altControlTB = new TextField(gc, font, 600, 501, 100, 23);
+		this.headingControlTB = new TextField(gc, font, 500, 501, 50, 23);
+		this.altControlTB = new TextField(gc, font, 750, 501, 100, 23);
 		this.turnRightTB = new TextField(gc, font, 1100 , 501, 50, 23);
 		
 		/*
@@ -194,9 +194,9 @@ public class Controls {
 		g.setColor(Color.black);
 		g.drawString("Turn Left:", 101, 501);
 		this.turnLeftTB.render(gc, g);
-		g.drawString("Heading:", 300 ,501 );
+		g.drawString("Heading:", 400 ,501 );
 		this.headingControlTB.render(gc, g);
-		g.drawString("Altitude:", 500, 501);
+		g.drawString("Altitude:", 650, 501);
 		this.altControlTB.render(gc, g);
 		g.drawString("Turn Right:", 950, 501);
 		this.turnRightTB.render(gc, g);
