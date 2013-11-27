@@ -7,6 +7,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Color;
+import org.lwjgl.input.Mouse;
+import org.newdawn.slick.Input;
 
 public class Airspace {
 
@@ -259,6 +261,13 @@ public class Airspace {
 				this.flight_button_x -= 100;
 				this.previous_removed = false;
 			}
+		}
+		
+		Input input = gc.getInput();
+		int posX = Mouse.getX();
+		int posY = Mouse.getY();
+		if(Mouse.isButtonDown(0)){
+			Calculations.check_selected(posX, posY, this);
 		}
 		this.separationRules.checkViolation(this);
 	}

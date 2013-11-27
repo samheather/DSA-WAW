@@ -220,17 +220,23 @@ public class Flight {
 		this.update_x_y_coordinates();
 		this.update_altitude();
 		
+		
 		if (this.flight_plan.getWaypoints().size() > 0) {
 			if (this.check_if_flight_at_waypoint(flight_plan.getWaypoints()
 					.get(0))) {
 				this.flight_plan.getWaypoints().remove(0);
 			}
 		}
+		
+		
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
+		/*
 		if(Calculations.check_if_point_in_circle(posX, posY, this.x, this.y, 50)) {
 			System.out.println(this.flight_name);
 		}
+		
+		*/
 		if (this.selected == true) {
 			// Update controls
 			this.controls.update(gc);

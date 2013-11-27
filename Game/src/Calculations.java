@@ -74,4 +74,27 @@ public class Calculations {
 		double distance_between_points = Math.sqrt(Math.pow(pointX-circleX, 2)+Math.pow(pointY-circleY, 2));
 		return distance_between_points<=radius;
 	}
+	
+	public static void check_selected(int pointX, int pointY, Airspace airspace ){
+		double min_distance;
+		Flight nearest_flight;
+		
+		if(airspace.getList_of_flights().size()>=1){
+			min_distance = Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(0).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(0).getY(), 2));
+			nearest_flight = airspace.getList_of_flights().get(0);
+			
+			for (int i =0; i< airspace.getList_of_flights().size(); i++){
+				if(Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(i).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(i).getY(), 2)) < min_distance){
+					min_distance = Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(i).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(i).getY(), 2));
+					nearest_flight = airspace.getList_of_flights().get(i);
+				}
+			}
+			if (min_distance <= 50){
+				nearest_flight.setSelected(true);
+				airspace.set_selected_flight(nearest_flight);
+			}
+			
+			
+		}
+	}
 }
