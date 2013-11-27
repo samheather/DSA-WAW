@@ -51,15 +51,15 @@ public class Play extends BasicGameState {
 			throws SlickException {
 		g.setColor(Color.black);
 		g.fillRect(0, 0, (float) 1200, (float) 600);
-		g.setColor(Color.black);
+		g.setColor(Color.lightGray);
 		g.fillRect(0, 500, 1200, 100);
 		g.fillRect(0, 0, 100, 600);
 		g.setColor(Color.white);
 		g.drawLine(100, 0, 100, 500);
 		g.drawLine(100, 500, 1200, 500);
 		a.render(g, gc);
-		g.setColor(Color.white);
-		g.drawString("Time : " + time/1000, 0, 10);
+		g.setColor(Color.black);
+		g.drawString("Time : " + time/1000, 0, 20);
 
 	}
 

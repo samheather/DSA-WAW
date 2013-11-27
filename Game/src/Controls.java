@@ -34,10 +34,26 @@ public class Controls {
 	public void init(GameContainer gc) {
 		Font awtFont = new Font("Courier", Font.BOLD, 15);
 		font = new TrueTypeFont(awtFont, false);
-		this.headingControlTB = new TextField(gc, font, 0, 80, 100, 25);
-		this.altControlTB = new TextField(gc, font, 0, 130, 100, 25);
-		this.turnLeftTB = new TextField(gc, font, 0, 180, 100, 25);
-		this.turnRightTB = new TextField(gc, font, 0, 230, 100, 25);
+		
+		this.turnLeftTB = new TextField(gc, font, 200, 501, 50, 23);
+		this.headingControlTB = new TextField(gc, font, 400, 501, 50, 23);
+		this.altControlTB = new TextField(gc, font, 600, 501, 100, 23);
+		this.turnRightTB = new TextField(gc, font, 1100 , 501, 50, 23);
+		
+		/*
+		g.setColor(Color.white);
+		g.drawString("Turn Left:", 101, 501);
+		this.turnLeftTB.render(gc, g);
+		g.drawString("Heading:", 260 ,501 );
+		this.headingControlTB.render(gc, g);
+		g.drawString("Altitude:", 501, 501);
+		this.altControlTB.render(gc, g);
+		g.drawString("Turn Right:", 701, 501);
+		this.turnRightTB.render(gc, g);
+		
+		*/
+		
+		
 		this.headingHasFocus = false;
 		this.altHasFocus = false;
 		this.turnLeftHasFocus = false;
@@ -175,14 +191,15 @@ public class Controls {
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		g.setColor(Color.white);
-		g.drawString("Heading:", 0,60 );
-		this.headingControlTB.render(gc, g);
-		g.drawString("Altitude:", 0, 110);
-		this.altControlTB.render(gc, g);
-		g.drawString("Turn Left:", 0, 160);
+		g.setColor(Color.black);
+		g.drawString("Turn Left:", 101, 501);
 		this.turnLeftTB.render(gc, g);
-		g.drawString("Turn Right:", 0, 210);
+		g.drawString("Heading:", 300 ,501 );
+		this.headingControlTB.render(gc, g);
+		g.drawString("Altitude:", 500, 501);
+		this.altControlTB.render(gc, g);
+		g.drawString("Turn Right:", 950, 501);
 		this.turnRightTB.render(gc, g);
+		
 	}
 }

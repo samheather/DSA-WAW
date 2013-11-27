@@ -242,18 +242,7 @@ public class Flight {
 			this.controls.allow_all();
 
 			this.color = Color.yellow;
-			if (input.isKeyDown(Input.KEY_UP)) {
-				this.give_heading(0);
-			}
-			if (input.isKeyDown(Input.KEY_LEFT)) {
-				this.give_heading(270);
-			}
-			if (input.isKeyDown(Input.KEY_DOWN)) {
-				this.give_heading(180);
-			}
-			if (input.isKeyDown(Input.KEY_RIGHT)) {
-				this.give_heading(90);
-			}
+		
 			if ((((posX < this.flight_button_x || posX > this.flight_button_x + 100) || (posY < 0 || posY > 100)) && Mouse
 					.isButtonDown(0))
 					|| this.flight_plan.getWaypoints().isEmpty()) {
@@ -273,7 +262,7 @@ public class Flight {
 			this.controls.clear_all();
 
 			if ((posX > this.flight_button_x && posX < this.flight_button_x + 100)
-					&& (posY > 0 && posY < 100) && Mouse.isButtonDown(0)) {
+					&& (posY > 0 && posY < 75) && Mouse.isButtonDown(0)) {
 
 				this.selected = true;
 				a.set_selected_flight(this);
@@ -307,15 +296,19 @@ public class Flight {
 		img.draw((int) this.x, (int) this.y);
 
 		g.setWorldClip(0, 0, 1200, 600);
-		g.fillRect((int) this.flight_button_x, 500, 99, 100);
+		g.fillRect((int) this.flight_button_x, 530, 99, 70);
 		g.setColor(Color.black);
-		g.drawString(this.flight_name, (int) this.flight_button_x + 13, 510);
+		g.drawString(this.flight_name, (int) this.flight_button_x + 13, 535);
+		
 		g.drawString(Math.round(this.current_altitude) + " ft",
-				(int) this.flight_button_x + 13, 525);
+				(int) this.flight_button_x + 13, 550);
+		
 		g.drawString(Math.round(this.current_heading) + " deg",
-				(int) this.flight_button_x + 13, 555);
+				(int) this.flight_button_x + 13, 565);
+		
 		g.drawString(Math.round(this.getFlight_plan().getVelocity()) + " MPH",
-				(int) this.flight_button_x + 13, 540);
+				(int) this.flight_button_x + 13, 580);
+		
 		if (this.selected) {
 			this.controls.render(gc, g);
 		}
