@@ -68,11 +68,9 @@ public class Flight {
 		this.turning_right = false;
 		this.turning_left = true;
 
-		if (((int) this.current_heading - degree_turned_by) <= 0) {
-			this.target_heading = 360 - (degree_turned_by - (int) this.current_heading);
-		} else {
-			this.target_heading -= degree_turned_by;
-
+		this.target_heading = Math.round(this.current_heading) - degree_turned_by;
+		if(this.target_heading < 0){
+			this.target_heading = 360 +this.target_heading;
 		}
 	}
 
@@ -80,14 +78,13 @@ public class Flight {
 
 		this.turning_left = false;
 		this.turning_right = true;
-
-		if (((int) this.current_heading + degree_turned_by) >= 360) {
-			this.target_heading = (degree_turned_by - (360 - (int) this.current_heading));
-
-		} else {
-			this.target_heading += degree_turned_by;
-
+		
+		this.target_heading = Math.round(this.current_heading) + degree_turned_by;
+		if(this.target_heading >= 360){
+			this.target_heading = this.target_heading - 360;
 		}
+
+
 	}
 
 	public void give_heading(int new_heading) {
@@ -134,7 +131,7 @@ public class Flight {
 
 	public void update_current_heading() {
 		// NOTE TO RORY FROM RORY: DONT FORGET TO FIX THIS FOR EVERY CASE
-		double rate = 0.2;
+		double rate = 0.4;
 		if (Math.round(this.target_heading) != Math.round(this.current_heading)) {
 			if (this.turning_right == true) {// If plane is already turning
 												// right or user has told it to
