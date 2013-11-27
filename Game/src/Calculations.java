@@ -79,6 +79,8 @@ public class Calculations {
 		double min_distance;
 		Flight nearest_flight;
 		
+		pointY = 600-pointY;
+		
 		if(airspace.getList_of_flights().size()>=1){
 			min_distance = Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(0).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(0).getY(), 2));
 			nearest_flight = airspace.getList_of_flights().get(0);
@@ -92,6 +94,10 @@ public class Calculations {
 			if (min_distance <= 50){
 				nearest_flight.setSelected(true);
 				airspace.set_selected_flight(nearest_flight);
+				System.out.println(nearest_flight);
+			}
+			else{
+				System.out.println(min_distance);
 			}
 			
 			
