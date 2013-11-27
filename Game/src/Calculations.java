@@ -70,5 +70,8 @@ public class Calculations {
 		 */
 
 	}
-
+	public static boolean check_if_point_in_circle(double pointX, double pointY, double circleX, double circleY, int radius) {
+		double distance_between_points = Math.sqrt(Math.pow(pointX-circleX, 2)+Math.pow(pointY, circleY));
+		return distance_between_points<=radius;
+	}
 }
