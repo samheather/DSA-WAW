@@ -5,7 +5,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 public class Flight {
@@ -214,8 +213,7 @@ public class Flight {
 
 	public void update(GameContainer gc, Airspace a) {
 
-		boolean init = false;
-		Input input = gc.getInput();
+
 		this.update_current_heading();
 		this.update_x_y_coordinates();
 		this.update_altitude();

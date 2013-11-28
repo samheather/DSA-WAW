@@ -1,7 +1,6 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
-import org.lwjgl.input.Mouse;
-import java.awt.Font;
+
 
 
 public class GameOverState extends BasicGameState {

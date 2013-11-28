@@ -1,7 +1,4 @@
 import java.awt.Cursor;
-import java.util.Random;
-
-import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 import org.newdawn.slick.Color;
@@ -28,6 +25,7 @@ public class Play extends BasicGameState {
 		 * cursorImg= new Image("res/cursor.png"); gc.setMouseCursor(cursorImg, 16, 16); if someone can make a decent cursor image we can have a
 		 * better cursor
 		 */
+		arg0.setAlwaysRender(true);
 		a.init(arg0);
 		a.new_waypoint(150, 150);
 		a.new_waypoint(400, 470);
@@ -76,9 +74,14 @@ public class Play extends BasicGameState {
 		}
 		
 		Input input = gc.getInput();
-		if (input.isKeyPressed(Input.KEY_ESCAPE)) {
+		if (input.isKeyPressed(Input.KEY_P)) {
 			sbg.enterState(4);
 		}
+		if(!gc.hasFocus()) {
+			sbg.enterState(4);
+		}
+		gc.setUpdateOnlyWhenVisible(false);
+	
 
 	}
 
