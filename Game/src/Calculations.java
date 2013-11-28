@@ -3,20 +3,7 @@ public class Calculations {
 	Calculations() {
 	}
 
-	public static double lateral_distance_between_flights(Flight flight1,
-			Flight flight2) {
 
-		return Math.sqrt(Math.pow((flight1.getX() - flight2.getX()), 2)
-				+ Math.pow((flight1.getY() - flight2.getY()), 2));
-
-	}
-
-	public static int vertical_distance_between_flights(Flight flight1,
-			Flight flight2) {
-
-		return Math.abs(flight1.getAltitude() - flight2.getAltitude());
-
-	}
 
 	public static double lateral_distance_between_flight_and_waypoint(
 			Flight flight, Waypoint waypoint) {
