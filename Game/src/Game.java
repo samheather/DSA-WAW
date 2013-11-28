@@ -6,16 +6,20 @@ public class Game extends StateBasedGame {
 
 	public static final String NAME = "ATC Game - Team WAW";
 	public static final int MENU = 0;
-	public static final int PLAY = 1;
+	public static final int DIFFICULTY = 1;
+	public static final int PLAY = 2;
 	public static final int GAMEOVER = 3;
+	public static final int PAUSE = 4;
 	public static final int MAXIMUM_WIDTH = 1200;
 	public static final int MAXIMUM_HEIGHT = 600;
 
 	public Game(String NAME) {
 		super(NAME);
 		this.addState(new Menu(MENU));
+		this.addState(new Difficulty(DIFFICULTY));
 		this.addState(new Play(PLAY));
 		this.addState(new GameOverState(GAMEOVER));
+		this.addState(new Pause(PAUSE));
 		this.enterState(MENU);
 	}
 

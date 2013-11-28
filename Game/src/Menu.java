@@ -8,11 +8,6 @@ public class Menu extends BasicGameState {
 	private TrueTypeFont font2;
 	private Color colorBtn1 = Color.green;
 	private Color colorBtn2 = Color.green;
-	private Image img;
-	private int imgX = 700;
-	private int imgY = 550;
-	private int velX = 5;
-	private int velY = -10;
 
 	public Menu(int state) {
 
@@ -25,60 +20,31 @@ public class Menu extends BasicGameState {
 		Font awtFont2 = new Font("Courier", Font.BOLD, 25);
 		font2 = new TrueTypeFont(awtFont2, false);
 		gc.setShowFPS(false);
-		img = new Image("res/plane.png");
-
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g)
 			throws SlickException {
 		g.setColor(Color.white);
 		g.setFont(font);
-		g.drawString("Pretty Fly For A Flight Guy", 10, 40);
+		g.drawString("Pretty Fly For A Flight Guy", 350, 40);
 		g.setColor(colorBtn1);
-		g.fillRoundRect(100, 100, 200, 70, 15);
+		g.fillRoundRect(470, 100, 200, 70, 15);
 		g.setColor(colorBtn2);
-		g.fillRoundRect(100, 200, 200, 70, 15);
-		img.draw(imgX, imgY);
+		g.fillRoundRect(470, 200, 200, 70, 15);
 		g.setColor(Color.black);
 		g.setFont(font2);
-		g.drawString("Play Game", 135, 115);
-		g.drawString("Exit Game", 135, 215);
+		g.drawString("Play Game", 505, 115);
+		g.drawString("Exit Game", 505, 215);
 		g.setColor(Color.white);
 
 	}
 
-	public void update(GameContainer gc, StateBasedGame sbg, int delta)
-			throws SlickException {
-		Input input = gc.getInput();
-		if (input.isKeyDown(Input.KEY_SPACE)) {
-			int currVelX = velX;
-			int currVelY = velY;
-			velX = 0;
-			velY = 0;
-			imgX += velX;
-			imgY += velY;
-			velX = currVelX;
-			velY = currVelY;
-		} else {
-			imgX += velX;
-			imgY += velY;
-			if (imgX >= gc.getWidth() - 12) {
-				velX = -(velX);
-			}
-			if (imgX <= 600) {
-				velX = -(velX);
-			}
-			if (imgY <= 560) {
-				velY = -(velY);
-			}
-			if (imgY >= 0) {
-				velY = -(velY);
-			}
-		}
+	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
+		
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
 
-		if ((posX > 100 && posX < 300) && (posY > 430 && posY < 500)) {
+		if ((posX > 470 && posX < 670) && (posY > 430 && posY < 500)) {
 			colorBtn1 = Color.white;
 			if (Mouse.isButtonDown(0)) {
 				sbg.enterState(1);
@@ -87,7 +53,7 @@ public class Menu extends BasicGameState {
 		} else {
 			colorBtn1 = Color.green;
 		}
-		if ((posX > 100 && posX < 300) && (posY > 330 && posY < 400)) {
+		if ((posX > 470 && posX < 670) && (posY > 330 && posY < 400)) {
 			colorBtn2 = Color.white;
 			if (Mouse.isButtonDown(0)) {
 				System.exit(0);

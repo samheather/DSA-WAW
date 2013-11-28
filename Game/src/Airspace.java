@@ -10,6 +10,7 @@ import org.newdawn.slick.Color;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Input;
 
+@SuppressWarnings("unused")
 public class Airspace {
 
 	// FIELDS

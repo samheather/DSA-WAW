@@ -100,7 +100,7 @@ public class Controls {
 	// UPDATE AND RENDER
 	public void update(GameContainer gc) {
 		Input input = gc.getInput();
-
+		
 		// Update Heading TextField
 		this.headingHasFocus = this.headingControlTB.hasFocus();
 		if (this.headingHasFocus) {
@@ -113,6 +113,7 @@ public class Controls {
 				this.text = this.text.replaceAll("\\D+", "");
 				if (!this.text.isEmpty()) {
 					this.flight.give_heading(Integer.valueOf(this.text));
+					
 				}
 				this.headingControlTB.setFocus(false);
 			}

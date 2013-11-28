@@ -5,6 +5,7 @@ import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Input;
 
 public class Play extends BasicGameState {
 
@@ -73,11 +74,16 @@ public class Play extends BasicGameState {
 		if (a.get_separation_rules().getGameOverViolation() == true){
 			sbg.enterState(3);
 		}
+		
+		Input input = gc.getInput();
+		if (input.isKeyPressed(Input.KEY_P)) {
+			sbg.enterState(4);
+		}
 
 	}
 
 	public int getID() {
-		return 1;
+		return 2;
 	}
 
 }
