@@ -44,7 +44,7 @@ public class Pause extends BasicGameState {
 		
 		Input input = gc.getInput();
 		
-		if(input.isKeyPressed(Input.KEY_P)) {
+		if(input.isKeyPressed(Input.KEY_ESCAPE)) {
 			sbg.enterState(2);
 		}
 		
