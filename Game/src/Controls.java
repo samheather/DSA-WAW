@@ -25,6 +25,7 @@ public class Controls {
 	private boolean left_cleared_this_focus;
 	private Flight flight;
 	private String text;
+	private int boxselected;
 
 	public Controls(GameContainer gc, Flight flight) {
 		this.flight = flight;
@@ -38,22 +39,7 @@ public class Controls {
 		this.turnLeftTB = new TextField(gc, font, 200, 501, 50, 23);
 		this.headingControlTB = new TextField(gc, font, 500, 501, 50, 23);
 		this.altControlTB = new TextField(gc, font, 750, 501, 100, 23);
-		this.turnRightTB = new TextField(gc, font, 1100 , 501, 50, 23);
-		
-		/*
-		g.setColor(Color.white);
-		g.drawString("Turn Left:", 101, 501);
-		this.turnLeftTB.render(gc, g);
-		g.drawString("Heading:", 260 ,501 );
-		this.headingControlTB.render(gc, g);
-		g.drawString("Altitude:", 501, 501);
-		this.altControlTB.render(gc, g);
-		g.drawString("Turn Right:", 701, 501);
-		this.turnRightTB.render(gc, g);
-		
-		*/
-		
-		
+		this.turnRightTB = new TextField(gc, font, 1100 , 501, 50, 23);		
 		this.headingHasFocus = false;
 		this.altHasFocus = false;
 		this.turnLeftHasFocus = false;
@@ -62,6 +48,7 @@ public class Controls {
 		this.alt_cleared_this_focus = false;
 		this.left_cleared_this_focus = false;
 		this.right_cleared_this_focus = false;
+		this.boxselected = 0;
 
 	}
 
@@ -188,6 +175,40 @@ public class Controls {
 		}
 		if (this.right_cleared_this_focus && !this.turnRightHasFocus) {
 			this.right_cleared_this_focus = false;
+		}
+		
+		//CHECK KEYSTROKES
+		
+		if (input.isKeyPressed(Input.KEY_RIGHT)) {
+			if (boxselected == 4){
+				boxselected = 0;
+			}
+			this.boxselected ++;
+			System.out.println(boxselected);
+		}
+		if (input.isKeyPressed(Input.KEY_LEFT)){
+			if (boxselected == 1){
+				boxselected = 5;
+			}
+			this.boxselected --;
+			System.out.println(boxselected);
+		}
+		
+		//UPDATE SELECTED BOX
+		
+		switch(boxselected){
+		case 1: 
+			turnLeftTB.setFocus(true);
+			break;
+		case 2:
+			headingControlTB.setFocus(true);
+			break;
+		case 3:
+			altControlTB.setFocus(true);
+			break;
+		case 4:
+			turnRightTB.setFocus(true);
+			break;
 		}
 	}
 
