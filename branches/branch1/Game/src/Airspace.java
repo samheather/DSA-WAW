@@ -30,7 +30,7 @@ public class Airspace {
 	// CONSTRUCTOR
 
 	Airspace() {
-		this.max_number_of_flights = 5; // just a value
+		this.max_number_of_flights = 10; // just a value
 		this.score = 0;
 		this.list_of_flights_in_airspace = new ArrayList<Flight>();
 		this.list_of_incoming_flights = new ArrayList<Flight>();
