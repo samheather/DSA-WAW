@@ -184,14 +184,12 @@ public class Controls {
 				boxselected = 0;
 			}
 			this.boxselected ++;
-			System.out.println(boxselected);
 		}
 		if (input.isKeyPressed(Input.KEY_LEFT)){
 			if (boxselected == 1){
 				boxselected = 5;
 			}
 			this.boxselected --;
-			System.out.println(boxselected);
 		}
 		
 		//UPDATE SELECTED BOX
