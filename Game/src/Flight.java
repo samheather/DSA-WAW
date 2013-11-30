@@ -11,7 +11,7 @@ public class Flight {
 
 	// FIELDS
 	private double x, y, target_altitude, current_heading, target_heading;
-	private int current_altitude, flight_num, flight_button_x;
+	private int current_altitude, flight_num, flight_button_x, waypoint_list_y;
 	private boolean turning_right, turning_left;
 	private String flight_name;
 	private FlightPlan flight_plan;
@@ -217,9 +217,13 @@ public class Flight {
 		this.update_current_heading();
 		this.update_x_y_coordinates();
 		this.update_altitude();
-		
+		this.waypoint_list_y=600;
 		
 		if (this.flight_plan.getWaypoints().size() > 0) {
+			for(int i=0;i<this.flight_plan.getWaypoints().size(); i++) {
+				this.waypoint_list_y-=30;
+				System.out.println("Increase waypoint list y to "+this.waypoint_list_y);
+			}
 			if (this.check_if_flight_at_waypoint(flight_plan.getWaypoints()
 					.get(0))) {
 				this.flight_plan.getWaypoints().remove(0);
@@ -318,12 +322,20 @@ public class Flight {
 				(int) this.flight_button_x + 13, 580);
 		
 		if (this.selected) {
+			
+			if(this.waypoint_list_y>0) {
+				for(int i=0; i<this.flight_plan.getWaypoints().size(); i++) {
+					g.drawString(this.flight_plan.getWaypoints().get(i).getPointRef(), 10, this.waypoint_list_y);
+					this.waypoint_list_y+=30;
+				}
+			}
 			this.controls.render(gc, g);
 			g.setColor(this.color);
 			g.drawString("0", (int)this.x+5, (int)this.y-40);
 			g.drawString("90", (int)this.x+40, (int)this.y);
 			g.drawString("180", (int)this.x, (int)this.y+40);
 			g.drawString("270", (int)this.x-40, (int)this.y);
+			
 		}
 	}
 
