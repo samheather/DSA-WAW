@@ -179,13 +179,13 @@ public class Controls {
 		
 		//CHECK KEYSTROKES
 		
-		if (input.isKeyPressed(Input.KEY_RIGHT)) {
+		if (input.isKeyPressed(Input.KEY_D)) {
 			if (boxselected == 4){
 				boxselected = 0;
 			}
 			this.boxselected ++;
 		}
-		if (input.isKeyPressed(Input.KEY_LEFT)){
+		if (input.isKeyPressed(Input.KEY_A)){
 			if (boxselected == 1){
 				boxselected = 5;
 			}
