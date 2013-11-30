@@ -9,5 +9,7 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/jars/slick.jar"/>
 	<classpathentry kind="lib" path="res"/>
+	<classpathentry kind="lib" path="lib/jars/jogg-0.0.7.jar"/>
+	<classpathentry kind="lib" path="lib/jars/jorbis-0.0.17-1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
