@@ -35,11 +35,11 @@ public class Controls {
 	public void init(GameContainer gc) {
 		Font awtFont = new Font("Courier", Font.BOLD, 15);
 		font = new TrueTypeFont(awtFont, false);
-		
+
 		this.turnLeftTB = new TextField(gc, font, 200, 501, 50, 23);
 		this.headingControlTB = new TextField(gc, font, 500, 501, 50, 23);
 		this.altControlTB = new TextField(gc, font, 750, 501, 100, 23);
-		this.turnRightTB = new TextField(gc, font, 1100 , 501, 50, 23);		
+		this.turnRightTB = new TextField(gc, font, 1100, 501, 50, 23);
 		this.headingHasFocus = false;
 		this.altHasFocus = false;
 		this.turnLeftHasFocus = false;
@@ -87,7 +87,7 @@ public class Controls {
 	// UPDATE AND RENDER
 	public void update(GameContainer gc) {
 		Input input = gc.getInput();
-		
+
 		// Update Heading TextField
 		this.headingHasFocus = this.headingControlTB.hasFocus();
 		if (this.headingHasFocus) {
@@ -100,7 +100,7 @@ public class Controls {
 				this.text = this.text.replaceAll("\\D+", "");
 				if (!this.text.isEmpty()) {
 					this.flight.give_heading(Integer.valueOf(this.text));
-					
+
 				}
 				this.headingControlTB.setFocus(false);
 			}
@@ -176,26 +176,24 @@ public class Controls {
 		if (this.right_cleared_this_focus && !this.turnRightHasFocus) {
 			this.right_cleared_this_focus = false;
 		}
-		
-		//CHECK KEYSTROKES
-		
+
+		// CHECK KEYSTROKES
 		if (input.isKeyPressed(Input.KEY_D)) {
-			if (boxselected == 4){
+			if (boxselected == 4) {
 				boxselected = 0;
 			}
-			this.boxselected ++;
+			this.boxselected++;
 		}
-		if (input.isKeyPressed(Input.KEY_A)){
-			if (boxselected == 1){
+		if (input.isKeyPressed(Input.KEY_A)) {
+			if (boxselected == 1) {
 				boxselected = 5;
 			}
-			this.boxselected --;
+			this.boxselected--;
 		}
-		
-		//UPDATE SELECTED BOX
-		
-		switch(boxselected){
-		case 1: 
+
+		// UPDATE SELECTED BOX
+		switch (boxselected) {
+		case 1:
 			turnLeftTB.setFocus(true);
 			break;
 		case 2:
@@ -214,12 +212,12 @@ public class Controls {
 		g.setColor(Color.black);
 		g.drawString("Turn Left:", 101, 501);
 		this.turnLeftTB.render(gc, g);
-		g.drawString("Target Heading:", 350 ,501 );
+		g.drawString("Target Heading:", 350, 501);
 		this.headingControlTB.render(gc, g);
 		g.drawString("Altitude:", 650, 501);
 		this.altControlTB.render(gc, g);
 		g.drawString("Turn Right:", 950, 501);
 		this.turnRightTB.render(gc, g);
-		
+
 	}
 }
