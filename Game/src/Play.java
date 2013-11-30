@@ -12,6 +12,7 @@ public class Play extends BasicGameState {
 	private int i;
 	Image cursorImg;
 	public static int time;
+	private Music main_game_music;
 
 	public Play(int state) {
 		a = new Airspace();
@@ -29,6 +30,9 @@ public class Play extends BasicGameState {
 		 */
 		arg0.setAlwaysRender(true);
 		a.init(arg0);
+		main_game_music = new Music("res/Love Song In My Mind.wav");
+		main_game_music.loop();
+		main_game_music.setVolume(0.2f);
 		a.new_waypoint(150, 150);
 		a.new_waypoint(400, 470);
 		a.new_waypoint(700, 60);
@@ -45,6 +49,7 @@ public class Play extends BasicGameState {
 		a.new_exit_point(800, 0);
 		a.new_exit_point(100, 200);
 		a.new_exit_point(1200, 300);
+		
 
 	}
 

@@ -26,7 +26,7 @@ public class Menu extends BasicGameState {
 			throws SlickException {
 		g.setColor(Color.white);
 		g.setFont(font);
-		g.drawString("Pretty Fly For A Flight Guy", 350, 40);
+		g.drawString("Saving Flight Ryan", 350, 40);
 		g.setColor(colorBtn1);
 		g.fillRoundRect(470, 100, 200, 70, 15);
 		g.setColor(colorBtn2);
