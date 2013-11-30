@@ -264,12 +264,6 @@ public class Airspace {
 			}
 		}
 		
-		Input input = gc.getInput();
-		int posX = Mouse.getX();
-		int posY = Mouse.getY();
-		if(Mouse.isButtonDown(0)){
-			Calculations.check_selected(posX, posY, this);
-		}
 		this.separationRules.checkViolation(this);
 	}
 

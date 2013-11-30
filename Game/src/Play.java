@@ -1,4 +1,6 @@
 import java.awt.Cursor;
+
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 import org.newdawn.slick.Color;
@@ -81,6 +83,22 @@ public class Play extends BasicGameState {
 			sbg.enterState(4);
 		}
 		gc.setUpdateOnlyWhenVisible(false);
+		
+		
+		int posX = Mouse.getX();
+		int posY = Mouse.getY();
+		if(Mouse.isButtonDown(0)){
+			Calculations.check_selected(posX, posY, a);
+		}
+		
+		
+		posX = Mouse.getX();
+		posY = Mouse.getY();
+		if(Mouse.isButtonDown(1)){
+			if (a.get_selected_flight()!= null){
+			Calculations.give_heading_with_mouse(posX, posY,a );
+			}
+		}
 	
 
 	}

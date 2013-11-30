@@ -67,7 +67,9 @@ public class Calculations {
 		Flight nearest_flight;
 		int index_of_nearest_flight;
 		
-		pointY = 600-pointY;
+		pointY = 600-pointY; // Translating Mouse coordinates onto object coordinates
+		
+		// Working out nearest flight to click
 		
 		if(airspace.getList_of_flights().size()>=1){
 			min_distance = Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(0).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(0).getY(), 2));
@@ -81,6 +83,10 @@ public class Calculations {
 					index_of_nearest_flight = i;
 				}
 			}
+			
+			// Working out whether the nearest flight to click is close enough
+			// to be selected.
+			
 			if (min_distance <= 50){
 				nearest_flight.setSelected(true);
 				airspace.set_selected_flight(nearest_flight);
@@ -97,5 +103,31 @@ public class Calculations {
 			
 			
 		}
+	}
+	
+	public static void give_heading_with_mouse(int pointX, int pointY, Airspace airspace){
+		
+		double deltaX, deltaY;
+		double distance_between_mouse_and_plane;
+		pointY = 600-pointY;
+		
+		distance_between_mouse_and_plane = Math.sqrt(Math.pow(pointX-airspace.get_selected_flight().getX(), 2)+Math.pow(pointY-airspace.get_selected_flight().getY(), 2));
+		System.out.println(distance_between_mouse_and_plane);
+		
+		if (distance_between_mouse_and_plane < 50)
+		{
+			deltaY = pointY - airspace.get_selected_flight().getY();
+			deltaX = pointX - airspace.get_selected_flight().getX();
+			double angle = Math.toDegrees(Math.atan2(deltaY, deltaX));
+			angle+=90;
+			if (angle < 0) {
+				angle += 360;
+			}
+			airspace.get_selected_flight().give_heading((int)angle);
+		
+		}
+		
+		
+		
 	}
 }
