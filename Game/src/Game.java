@@ -11,6 +11,7 @@ public class Game extends StateBasedGame {
 	public static final int PAUSE = 4;
 	public static final int MAXIMUM_WIDTH = 1200;
 	public static final int MAXIMUM_HEIGHT = 600;
+	
 
 	public Game(String NAME) {
 		super(NAME);

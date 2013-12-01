@@ -21,9 +21,9 @@ public class Menu extends BasicGameState {
 			throws SlickException {
 		
 		try{
-			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway font/bluehigh.ttf");
+			InputStream inputStream = ResourceLoader.getResourceAsStream("res/Virgo-01/virgo.ttf");
 			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
-			awtFont = awtFont.deriveFont(35f);
+			awtFont = awtFont.deriveFont(30f);
 			font = new TrueTypeFont(awtFont, false);
 			
 			
@@ -36,14 +36,14 @@ public class Menu extends BasicGameState {
 			throws SlickException {
 		g.setColor(Color.white);
 		g.setFont(font);
-		g.drawString("Saving Flight Ryan", 450, 40);
+		g.drawString("Saving Flight Ryan", 420, 40);
 		g.setColor(colorBtn1);
 		g.fillRoundRect(470, 100, 200, 70, 15);
 		g.setColor(colorBtn2);
 		g.fillRoundRect(470, 200, 200, 70, 15);
 		g.setColor(Color.black);
-		g.drawString("Play Game", 505, 115);
-		g.drawString("Exit Game", 505, 215);
+		g.drawString("Play Game", 490, 115);
+		g.drawString("Exit Game", 490, 215);
 		g.setColor(Color.white);
 
 	}

@@ -19,7 +19,7 @@ public class Difficulty extends BasicGameState {
 	
 	public void init(GameContainer gc, StateBasedGame sbj) throws SlickException {
 		try{
-			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway font/bluehigh.ttf");
+			InputStream inputStream = ResourceLoader.getResourceAsStream("res/Virgo-01/virgo.ttf");
 			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
 			awtFont = awtFont.deriveFont(20f);
 			font = new TrueTypeFont(awtFont, false);
