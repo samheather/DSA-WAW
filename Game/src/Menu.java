@@ -2,6 +2,11 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 import org.lwjgl.input.Mouse;
 import java.awt.Font;
+import java.io.InputStream;
+import org.newdawn.slick.util.ResourceLoader;
+import org.newdawn.slick.TrueTypeFont;
+
+
 
 public class Menu extends BasicGameState {
 	private TrueTypeFont font;
