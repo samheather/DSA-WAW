@@ -17,6 +17,7 @@ public class Play extends BasicGameState {
 	Image cursorImg;
 	public static int time;
 	private Music main_game_music;
+	private Sound end_of_game_sound;
 	public static TrueTypeFont font;
 
 	public Play(int state) {
@@ -38,6 +39,9 @@ public class Play extends BasicGameState {
 		main_game_music = new Music("res/Love Song In My Mind.wav");
 		main_game_music.loop();
 		main_game_music.setVolume(0.2f);
+		end_of_game_sound = new Sound("res/175385__digitaldominic__scream.wav");
+		
+		
 		a.new_waypoint(150, 150);
 		a.new_waypoint(400, 470);
 		a.new_waypoint(700, 60);
@@ -94,6 +98,8 @@ public class Play extends BasicGameState {
 		}
 		a.update(gc);
 		if (a.get_separation_rules().getGameOverViolation() == true){
+			main_game_music.setVolume(0f);
+			end_of_game_sound.play();
 			sbg.enterState(3);
 		}
 		

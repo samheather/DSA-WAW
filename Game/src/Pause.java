@@ -11,6 +11,7 @@ public class Pause extends BasicGameState {
 	private Color colourContinueButton = Color.green;
 	private Color colourQuitButton = Color.green;
 	
+	
 	public Pause(int state) {
 		
 	}

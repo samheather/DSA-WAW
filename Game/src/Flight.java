@@ -21,6 +21,7 @@ public class Flight {
 	private Color color;
 	private boolean selected;
 	private Controls controls;
+	
 
 	// CONSTRUCTOR
 	Flight(Airspace airspace) {
