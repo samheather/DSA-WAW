@@ -1,10 +1,14 @@
 import java.awt.Cursor;
+import java.awt.Font;
+import java.io.InputStream;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
+import org.newdawn.slick.util.ResourceLoader;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.TrueTypeFont;
 
 public class Play extends BasicGameState {
 
@@ -13,6 +17,7 @@ public class Play extends BasicGameState {
 	Image cursorImg;
 	public static int time;
 	private Music main_game_music;
+	public static TrueTypeFont font;
 
 	public Play(int state) {
 		a = new Airspace();
@@ -50,11 +55,23 @@ public class Play extends BasicGameState {
 		a.new_exit_point(100, 200);
 		a.new_exit_point(1200, 300);
 		
+		try{
+			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway font/bluehigh.ttf");
+			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
+			awtFont = awtFont.deriveFont(20f);
+			font = new TrueTypeFont(awtFont, false);
+			
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g)
 			throws SlickException {
+		g.setFont(font);
 		g.setColor(Color.black);
 		g.fillRect(0, 0, (float) 1200, (float) 600);
 		g.setColor(Color.lightGray);

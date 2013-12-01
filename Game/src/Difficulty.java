@@ -1,12 +1,13 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
+import org.newdawn.slick.util.ResourceLoader;
 import org.lwjgl.input.Mouse;
 import java.awt.Font;
+import java.io.InputStream;
 
 public class Difficulty extends BasicGameState {
 	
-	private TrueTypeFont fontD1;
-	private TrueTypeFont fontD2;
+	private TrueTypeFont font;
 	private Color colorEasyBtn = Color.green;
 	private Color colorMediumBtn = Color.green;
 	private Color colorHardBtn = Color.green;
@@ -17,16 +18,21 @@ public class Difficulty extends BasicGameState {
 	}
 	
 	public void init(GameContainer gc, StateBasedGame sbj) throws SlickException {
-		Font fonts1 = new Font("Courier",Font.BOLD,30);
-		fontD1 = new TrueTypeFont(fonts1, false);
-		Font fonts2 = new Font("Courier",Font.BOLD,25);
-		fontD2 = new TrueTypeFont(fonts2, false);
-		gc.setShowFPS(false);
+		try{
+			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway font/bluehigh.ttf");
+			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
+			awtFont = awtFont.deriveFont(20f);
+			font = new TrueTypeFont(awtFont, false);
+			
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g) throws SlickException {
 		g.setColor(Color.white);
-		g.setFont(fontD1);
+		g.setFont(font);
 		g.drawString("Choose Difficulty", 10, 40);
 		g.setColor(colorEasyBtn);
 		g.fillRoundRect(100, 100, 200, 70, 15);
@@ -35,7 +41,7 @@ public class Difficulty extends BasicGameState {
 		g.setColor(colorHardBtn);
 		g.fillRoundRect(100, 300, 200, 70, 15);
 		g.setColor(Color.black);
-		g.setFont(fontD2);
+		g.setFont(font);
 		g.drawString("Easy",135,115);
 		g.drawString("Medium", 135, 215);
 		g.drawString("Hard", 135, 315);

@@ -9,8 +9,7 @@ import org.newdawn.slick.TrueTypeFont;
 
 
 public class Menu extends BasicGameState {
-	private TrueTypeFont font;
-	private TrueTypeFont font2;
+	public static TrueTypeFont font;
 	private Color colorBtn1 = Color.green;
 	private Color colorBtn2 = Color.green;
 
@@ -20,24 +19,29 @@ public class Menu extends BasicGameState {
 
 	public void init(GameContainer gc, StateBasedGame sbj)
 			throws SlickException {
-		Font awtFont = new Font("Courier", Font.BOLD, 30);
-		font = new TrueTypeFont(awtFont, false);
-		Font awtFont2 = new Font("Courier", Font.BOLD, 25);
-		font2 = new TrueTypeFont(awtFont2, false);
-		gc.setShowFPS(false);
+		
+		try{
+			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway font/bluehigh.ttf");
+			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
+			awtFont = awtFont.deriveFont(35f);
+			font = new TrueTypeFont(awtFont, false);
+			
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g)
 			throws SlickException {
 		g.setColor(Color.white);
 		g.setFont(font);
-		g.drawString("Saving Flight Ryan", 350, 40);
+		g.drawString("Saving Flight Ryan", 450, 40);
 		g.setColor(colorBtn1);
 		g.fillRoundRect(470, 100, 200, 70, 15);
 		g.setColor(colorBtn2);
 		g.fillRoundRect(470, 200, 200, 70, 15);
 		g.setColor(Color.black);
-		g.setFont(font2);
 		g.drawString("Play Game", 505, 115);
 		g.drawString("Exit Game", 505, 215);
 		g.setColor(Color.white);

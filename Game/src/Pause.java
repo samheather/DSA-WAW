@@ -1,12 +1,13 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
+import org.newdawn.slick.util.ResourceLoader;
 import org.lwjgl.input.Mouse;
 import java.awt.Font;
+import java.io.InputStream;
 
 public class Pause extends BasicGameState {
 	
-	private TrueTypeFont titleFont;
-	private TrueTypeFont buttonFont;
+	public static TrueTypeFont font;
 	private Color colourContinueButton = Color.green;
 	private Color colourQuitButton = Color.green;
 	
@@ -15,23 +16,29 @@ public class Pause extends BasicGameState {
 	}
 
 	public void init(GameContainer gc, StateBasedGame sbj) throws SlickException {
-		Font tFont = new Font("Courier",Font.BOLD,30);
-		titleFont = new TrueTypeFont(tFont, false);
-		Font bFont = new Font("Courier",Font.BOLD,25);
-		buttonFont = new TrueTypeFont(bFont, false);
+		try{
+			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway font/bluehigh.ttf");
+			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
+			awtFont = awtFont.deriveFont(20f);
+			font = new TrueTypeFont(awtFont, false);
+			
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		gc.setShowFPS(false);
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g) throws SlickException {
 		g.setColor(Color.white);
-		g.setFont(titleFont);
+		g.setFont(font);
 		g.drawString("Pause", 10, 40);
 		g.setColor(colourContinueButton);
 		g.fillRoundRect(100, 100, 200, 70, 15);
 		g.setColor(colourQuitButton);
 		g.fillRoundRect(100, 200, 200, 70, 15);
 		g.setColor(Color.black);
-		g.setFont(buttonFont);
+		g.setFont(font);
 		g.drawString("Continue", 135, 115);
 		g.drawString("Quit",  135,  215);
 		g.setColor(Color.white);
