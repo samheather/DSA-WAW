@@ -31,12 +31,11 @@ public class SeparationRules {
 	public void checkViolation(Airspace airspace){
 		
 		// resetting all the flights to false
-		
 		for (int i = 0; i < airspace.getList_of_flights().size(); i++){
 			airspace.getList_of_flights().get(i).set_warning_violation(false);
 		}
 		
-		
+		// checks if flights are in violation with each other.
 		for (int i = 0; i < airspace.getList_of_flights().size(); i++){
 			
 			for (int j = i+1; j < airspace.getList_of_flights().size(); j++){ // j = i + 1 : stops double checking
