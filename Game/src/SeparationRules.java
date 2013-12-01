@@ -5,8 +5,7 @@ public class SeparationRules {
 
 	private int warningLateralSeparation, warningVerticalSeparation; 
 	private int gameOverLateralSeparation, gameOverVerticalSeparation;
-	private boolean warningLateralViolation;
-	private boolean warningVerticalViolation;
+	private boolean warningViolation;
 	private boolean gameOverViolation; 
 	
 	// CONSTRUCTOR
@@ -15,9 +14,8 @@ public class SeparationRules {
 		 this.warningVerticalSeparation = 50; //NEED VALUES FOR THIS
 		 this.gameOverLateralSeparation = 30;
 		 this.gameOverVerticalSeparation = 30;
-		 this.warningLateralViolation = false;
-		 this.warningVerticalViolation = false;
 		 this.gameOverViolation = false;
+		 
 	 }
 		
 	//METHODS
@@ -31,15 +29,26 @@ public class SeparationRules {
 		}
 	
 	public void checkViolation(Airspace airspace){
+		
+		// resetting all the flights to false
+		
 		for (int i = 0; i < airspace.getList_of_flights().size(); i++){
+			airspace.getList_of_flights().get(i).set_warning_violation(false);
+		}
+		
+		
+		for (int i = 0; i < airspace.getList_of_flights().size(); i++){
+			
 			for (int j = i+1; j < airspace.getList_of_flights().size(); j++){ // j = i + 1 : stops double checking
 				
 				if ((lateralDistanceBetweenFlights(airspace.getList_of_flights().get(i), airspace.getList_of_flights().get(j)) < this.warningLateralSeparation)){
-					this.warningLateralViolation = true;
+					airspace.getList_of_flights().get(i).set_warning_violation(true);
+					airspace.getList_of_flights().get(j).set_warning_violation(true);
 				}
 				
 				else if ((verticalDistanceBetweenFlights(airspace.getList_of_flights().get(i), airspace.getList_of_flights().get(j)) < this.warningVerticalSeparation)){
-					this.warningVerticalViolation = true;
+					airspace.getList_of_flights().get(i).set_warning_violation(true);
+					airspace.getList_of_flights().get(j).set_warning_violation(true);
 				}
 						
 				if ((lateralDistanceBetweenFlights(airspace.getList_of_flights().get(i), airspace.getList_of_flights().get(j)) < this.gameOverLateralSeparation)){
@@ -72,12 +81,8 @@ public class SeparationRules {
 		return this.gameOverVerticalSeparation;
 	}
 	
-	public boolean getWarningLateralSeparation(){
-		return this.warningLateralViolation;
-	}
-	
-	public boolean getWarningVerticalSeparation(){
-		return this.warningVerticalViolation;
+	public boolean getWarningViolation(){
+		return this.warningViolation;
 	}
 	
 	public boolean getGameOverViolation(){

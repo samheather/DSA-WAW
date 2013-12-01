@@ -12,7 +12,7 @@ public class Flight {
 	// FIELDS
 	private double x, y, target_altitude, current_heading, target_heading;
 	private int current_altitude, flight_num, flight_button_x, waypoint_list_y;
-	private boolean turning_right, turning_left;
+	private boolean turning_right, turning_left, warningViolation;
 	private String flight_name;
 	private FlightPlan flight_plan;
 	private int MAXIMUM_ALTITUDE = 30000;
@@ -36,6 +36,7 @@ public class Flight {
 		this.flight_button_x = airspace.getFlight_button_x();
 		this.color = Color.white;
 		this.selected = false;
+		this.warningViolation = false;
 
 		// current_heading=calc.calculate_heading_to_first_waypoint(this,
 		// this.flight_plan.getPointByIndex(0).getXCoOrd(),
@@ -458,6 +459,10 @@ public class Flight {
 
 	public FlightPlan getFlight_plan() {
 		return flight_plan;
+	}
+	
+	public void set_warning_violation(boolean bool){
+		this.warningViolation = bool;
 	}
 
 }
