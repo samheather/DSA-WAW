@@ -20,7 +20,7 @@ public class Play extends BasicGameState {
 	private Music main_game_music;
 	private Sound end_of_game_sound;
 	public static TrueTypeFont font;
-	private Image bottom_bar_image, control_bar_image, clock_image;
+	private Image bottom_bar_image, control_bar_image, clock_image, background_image;
 
 	public Play(int state) {
 		a = new Airspace();
@@ -46,6 +46,7 @@ public class Play extends BasicGameState {
 		bottom_bar_image = new Image("/res/graphics/graphics/flights_list2.png");
 		control_bar_image = new Image("/res/graphics/graphics/flights_list.png");
 		clock_image = new Image("/res/graphics/graphics/clock.png");
+		background_image = new Image("/res/graphics/graphics/background.png");
 		
 		
 		
@@ -83,13 +84,10 @@ public class Play extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g)
 			throws SlickException {
 		g.setFont(font);
-		g.setColor(Color.black);
-		g.fillRect(0, 0, (float) 1200, (float) 600);
+		background_image.draw(0,0);
 		bottom_bar_image.draw(0,530);
 		control_bar_image.draw(0,500);
 		g.setColor(Color.white);
-		g.drawLine(100, 0, 100, 500);
-		g.drawLine(100, 500, 1200, 500);
 		a.render(g, gc);
 		
 		g.setColor(Color.white);
