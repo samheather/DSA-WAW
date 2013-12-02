@@ -20,7 +20,7 @@ public class Play extends BasicGameState {
 	private Music main_game_music;
 	private Sound end_of_game_sound;
 	public static TrueTypeFont font;
-	private Image bottom_bar_image, control_bar_image;
+	private Image bottom_bar_image, control_bar_image, clock_image;
 
 	public Play(int state) {
 		a = new Airspace();
@@ -45,6 +45,7 @@ public class Play extends BasicGameState {
 		
 		bottom_bar_image = new Image("/res/graphics/graphics/flights_list2.png");
 		control_bar_image = new Image("/res/graphics/graphics/flights_list.png");
+		clock_image = new Image("/res/graphics/graphics/clock.png");
 		
 		
 		
@@ -91,8 +92,9 @@ public class Play extends BasicGameState {
 		g.drawLine(100, 500, 1200, 500);
 		a.render(g, gc);
 		
-		g.setColor(Color.black);
-		g.drawString("Time: " + time/1000, 0, 20);
+		g.setColor(Color.white);
+		clock_image.draw(0,5);
+		g.drawString(Integer.toString(time/1000), 30, 10);
 
 	}
 
