@@ -9,6 +9,7 @@ import org.newdawn.slick.util.ResourceLoader;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.Image;
 
 public class Play extends BasicGameState {
 
@@ -19,6 +20,7 @@ public class Play extends BasicGameState {
 	private Music main_game_music;
 	private Sound end_of_game_sound;
 	public static TrueTypeFont font;
+	private Image bottom_bar_image, control_bar_image;
 
 	public Play(int state) {
 		a = new Airspace();
@@ -40,6 +42,10 @@ public class Play extends BasicGameState {
 		main_game_music.loop();
 		main_game_music.setVolume(0.2f);
 		end_of_game_sound = new Sound("res/175385__digitaldominic__scream.wav");
+		
+		bottom_bar_image = new Image("/res/graphics/graphics/flights_list2.png");
+		control_bar_image = new Image("/res/graphics/graphics/flights_list.png");
+		
 		
 		
 		a.new_waypoint(150, 150);
@@ -78,13 +84,13 @@ public class Play extends BasicGameState {
 		g.setFont(font);
 		g.setColor(Color.black);
 		g.fillRect(0, 0, (float) 1200, (float) 600);
-		g.setColor(Color.lightGray);
-		g.fillRect(0, 500, 1200, 100);
-		g.fillRect(0, 0, 100, 600);
+		bottom_bar_image.draw(0,530);
+		control_bar_image.draw(0,500);
 		g.setColor(Color.white);
 		g.drawLine(100, 0, 100, 500);
 		g.drawLine(100, 500, 1200, 500);
 		a.render(g, gc);
+		
 		g.setColor(Color.black);
 		g.drawString("Time: " + time/1000, 0, 20);
 
@@ -98,7 +104,7 @@ public class Play extends BasicGameState {
 		}
 		a.update(gc);
 		if (a.get_separation_rules().getGameOverViolation() == true){
-			main_game_music.setVolume(0f);
+			main_game_music.stop();
 			end_of_game_sound.play();
 			sbg.enterState(3);
 		}

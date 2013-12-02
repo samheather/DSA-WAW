@@ -209,7 +209,7 @@ public class Controls {
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		g.setColor(Color.black);
+		g.setColor(Color.white);
 		g.drawString("Turn Left:", 101, 501);
 		this.turnLeftTB.render(gc, g);
 		g.drawString("Target Heading:", 350, 501);

@@ -46,7 +46,7 @@ public class Airspace {
 		this.previous_removed = false; // variable for storing whether a flight was removed on each loop
 		this.wp_counter = 64;
 		this.exp_counter = 0;
-		this.flight_button_x = 100;
+		this.flight_button_x = 32;
 		this.selected_flight = null;
 	}
 
@@ -138,7 +138,7 @@ public class Airspace {
 						this.list_of_flights_in_airspace.get(
 								this.list_of_flights_in_airspace.size() - 1)
 								.init(gc);
-						this.flight_button_x += 100;
+						this.flight_button_x += 123;
 						return true;
 					}
 				}
