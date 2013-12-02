@@ -1,9 +1,12 @@
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 
 public class ExitPoint extends Point {
+	
+	Image exit_point_top, exit_point_right, exit_point_left;
 
 	ExitPoint(double xcoord, double ycoord){
 	    super(xcoord, ycoord);
@@ -17,30 +20,38 @@ public class ExitPoint extends Point {
 	}
 	
 	@Override
-	public void render(Graphics g, Airspace airspace) {
-		g.setColor(Color.yellow);
-    	if(this.y>0&&this.y<600) {
-    		if (this.x == 100){
-    			g.drawLine((int)this.x, (int)this.y+30, (int)this.x+10, (int)this.y+30);
-    			g.drawLine((int)this.x, (int)this.y-10, (int)this.x+10, (int)this.y-10);
-    		}
-    		else{
-    			g.drawLine((int)this.x, (int)this.y+30, (int)this.x-10, (int)this.y+30);
-    			g.drawLine((int)this.x, (int)this.y-10, (int)this.x-10, (int)this.y-10);
-    		}
-    	}
-    	else {
-    		
-    		g.drawLine((int)this.x+30, (int)this.y-10, (int)this.x+30, (int)this.y+10);
-    		g.drawLine((int)this.x-10, (int)this.y-10, (int)this.x-10, (int)this.y+10);
-    	}
+	public void render(Graphics g, Airspace airspace) throws SlickException {
+		
+		exit_point_top = new Image("/res/graphics/graphics/exitpoint_top.png");
+		exit_point_right = new Image("/res/graphics/graphics/exitpoint_right.png");
+		exit_point_left = new Image("/res/graphics/graphics/exitpoint_left.png");
+		
+		if(this.y == 0){
+			exit_point_top.draw((int)this.x-20, (int)this.y);
+		}
+		
+		else if(this.x == 0){
+			exit_point_left.draw((int)this.x, (int)this.y-20);
+		}
+		
+		if(this.x == 1200){
+			exit_point_right.draw((int)this.x-40, (int)this.y-20);
+		}
+		
+		
     	g.setColor(Color.white);
-    	if(this.x == 1200){
-    		g.drawString(this.pointRef, (int)this.x-50, (int)this.y);
+    	if(this.y == 0){
+    		g.drawString(this.pointRef, (int)this.x-15, (int)this.y);
     	}
-    	else{
-    		g.drawString(this.pointRef, (int)this.x, (int)this.y);
+    	else if(this.x ==0){
+    		g.drawString(this.pointRef, (int)this.x, (int)this.y-7);
     	}
+    	
+    	else if(this.x ==1200){
+    		g.drawString(this.pointRef, (int)this.x-35, (int)this.y-7);
+    	}
+    	
+    	
 	}
 
 
