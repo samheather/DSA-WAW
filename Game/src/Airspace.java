@@ -48,7 +48,6 @@ public class Airspace {
 		this.exp_counter = 0;
 		this.flight_button_x = 100;
 		this.selected_flight = null;
-
 	}
 
 	// METHODS
@@ -79,7 +78,7 @@ public class Airspace {
 		String name = "G-";
 		Random rand = new Random();
 		for (int i = 0; i < 4; i++) {
-			int thisChar = rand.nextInt(25) + 65;
+			int thisChar = rand.nextInt(10) + 65;
 			name += (char) thisChar;
 		}
 		return name;
