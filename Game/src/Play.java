@@ -60,7 +60,7 @@ public class Play extends BasicGameState {
 		a.new_waypoint(1050, 272);
 		a.new_waypoint(900, 420);
 		a.new_waypoint(240, 250);
-		a.new_entry_point(1200, 400);
+		a.new_entry_point(0, 400);
 		a.new_entry_point(1200, 200);
 		a.new_entry_point(600, 0);
 		a.new_exit_point(800, 0);

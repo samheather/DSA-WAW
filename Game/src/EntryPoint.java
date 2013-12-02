@@ -1,8 +1,12 @@
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 
 public class EntryPoint extends Point {
+	
+	Image entry_point_top, entry_point_right, entry_point_left;
 
 	EntryPoint(double xcoord, double ycoord){
 	    super(xcoord, ycoord);
@@ -15,16 +19,22 @@ public class EntryPoint extends Point {
 	    System.out.println("EntryPoint " + pointRef + " set:(" + x + "," + y +").");
 	}
 	
-	public void render(Graphics g) {
-    	g.setColor(Color.green);
-    	if(this.y>0&&this.y<600) {
-    		g.drawLine((int)this.x-10, (int)this.y+30, (int)this.x+10, (int)this.y+30);
-    		g.drawLine((int)this.x-10, (int)this.y-10, (int)this.x+10, (int)this.y-10);
-    	}
-    	else {
-    		g.drawLine((int)this.x+30, (int)this.y-10, (int)this.x+30, (int)this.y+10);
-    		g.drawLine((int)this.x-10, (int)this.y-10, (int)this.x-10, (int)this.y+10);
-    	}
+	public void render(Graphics g) throws SlickException {
+		entry_point_top = new Image("/res/graphics/graphics/entrypoint_top.png");
+		entry_point_right = new Image("/res/graphics/graphics/entrypoint_right.png");
+		entry_point_left = new Image("/res/graphics/graphics/entrypoint_left.png");
+		
+		if(this.y == 0){
+			entry_point_top.draw((int)this.x-20, (int) this.y);
+		}
+		
+		else if(this.x == 0){
+			entry_point_left.draw((int)this.x, (int) this.y-20);
+		}
+		
+		else if(this.x == 1200){
+			entry_point_right.draw((int)this.x-40, (int) this.y-20);
+		}
     }
 	
 
