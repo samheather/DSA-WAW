@@ -65,7 +65,7 @@ public class Airspace {
 
 	public boolean check_if_flight_has_left_airspace(Flight f) {
 
-		if (f.getX() > 1250 || f.getX() < 100 || f.getY() > 500
+		if (f.getX() > 1250 || f.getX() < -50 || f.getY() > 500
 				|| f.getY() < -50) {
 			return true;
 		} else {
@@ -197,6 +197,10 @@ public class Airspace {
 	// INIT, RENDER, UPDATE
 
 	public void init(GameContainer gc) throws SlickException {
+		
+		//for (int i = 0; i < this.list_of_waypoints.size(); i++) {
+		//	this.list_of_waypoints.get(i).init(gc);
+		//}
 
 		for (int i = 0; i < this.list_of_flights_in_airspace.size(); i++) {
 			this.list_of_flights_in_airspace.get(i).init(gc);

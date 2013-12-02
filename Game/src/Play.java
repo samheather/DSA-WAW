@@ -64,7 +64,7 @@ public class Play extends BasicGameState {
 		a.new_entry_point(1200, 200);
 		a.new_entry_point(600, 0);
 		a.new_exit_point(800, 0);
-		a.new_exit_point(100, 200);
+		a.new_exit_point(0, 200);
 		a.new_exit_point(1200, 300);
 		
 		try{

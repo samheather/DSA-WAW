@@ -1,5 +1,8 @@
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 
 
@@ -15,6 +18,11 @@ public class Point {
     protected double x;
     protected double y;
     protected String pointRef;
+    Image next_waypoint_image, waypoint_image;
+    
+    
+    
+    
     public void setPointRef(String pointRef) {
 		this.pointRef = pointRef;
 	}
@@ -56,31 +64,36 @@ public class Point {
     void setX(double newX) {this.x = newX;}
     void setY(double newY) {this.y = newY;}
     
-    public void render(Graphics g, Airspace airspace) {
+    
+    
+    public void init(GameContainer gc) throws SlickException {
+    
+
+		
+		
+
+	}
+    
+    public void render(Graphics g, Airspace airspace) throws SlickException {
+    	
+    	waypoint_image = new Image("res/graphics/graphics/waypoint.png");
+    	next_waypoint_image = new Image("res/graphics/graphics/waypoint_next.png");
     	
     	if(airspace.get_selected_flight() !=null){
-    		if (airspace.get_selected_flight().getFlight_plan().getWaypoints().contains(this)){
-    			if (airspace.get_selected_flight().getFlight_plan().getWaypoints().indexOf(this)==0){
-    				g.setColor(Color.blue);
-        	    	g.fillOval((int)this.x -10, (int)this.y - 10, 20, 20);
-    			}
-    			else{
-    			g.setColor(Color.green);
-    	    	g.fillOval((int)this.x -10, (int)this.y - 10, 20, 20);
-    			}
+    		if (airspace.get_selected_flight().getFlight_plan().getWaypoints().indexOf(this)==0){
+    			next_waypoint_image.draw((int)this.x -10, (int)this.y-10);
     		}
     		else{
-    			g.setColor(Color.yellow);
-    	    	g.fillOval((int)this.x -10, (int)this.y - 10, 20, 20);
+    			waypoint_image.draw((int)this.x -10, (int)this.y-10);
     		}
     		
     	}
     	else{
-    		g.setColor(Color.yellow);
-	    	g.fillOval((int)this.x -10, (int)this.y - 10, 20, 20);
+    		waypoint_image.draw((int)this.x -10, (int)this.y-10);
+	    	
     	}
     	g.setColor(Color.black);
-    	g.drawString(this.pointRef, (int)this.x-5, (int)this.y-9);
+    	g.drawString(this.pointRef, (int)this.x, (int)this.y-5);
     	
     	
     	

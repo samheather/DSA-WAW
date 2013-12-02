@@ -315,16 +315,16 @@ public class Flight {
 		
 		g.setColor(Color.white);
 		
-		g.drawString(this.flight_name, (int) this.flight_button_x + 13, 535);
+		g.drawString(this.flight_name, (int) this.flight_button_x + 30, 535);
 		
 		g.drawString(Math.round(this.current_altitude) + " ft",
-				(int) this.flight_button_x + 13, 550);
+				(int) this.flight_button_x + 30, 550);
 		
 		g.drawString(Math.round(this.current_heading) + " deg",
-				(int) this.flight_button_x + 13, 565);
+				(int) this.flight_button_x + 30, 565);
 		
 		g.drawString(Math.round(this.getFlight_plan().getVelocity()) + " MPH",
-				(int) this.flight_button_x + 13, 580);
+				(int) this.flight_button_x + 30, 580);
 		
 		if (this.selected) {
 			
