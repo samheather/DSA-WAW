@@ -11,17 +11,9 @@ public class Difficulty extends BasicGameState {
 	private Color colorEasyBtn = Color.green;
 	private Color colorMediumBtn = Color.green;
 	private Color colorHardBtn = Color.green;
-	private int difficultyVal = 1; //Ram - Setting this screen to return a value to an 
-								   // Object of Separation Rules to select a set of game over conditions
-								   // Default it easy.
 	
 	public Difficulty(int state){
 		
-	}
-	
-	//Method to return difficultyVal to airspace.
-	public int getDifficulty() {
-		return difficultyVal;
 	}
 	
 	public void init(GameContainer gc, StateBasedGame sbj) throws SlickException {
@@ -64,7 +56,6 @@ public class Difficulty extends BasicGameState {
 		if((posiX>100&&posiX<300)&&(posiY>430&&posiY<500)) {
 			colorEasyBtn=Color.white;
 			if(Mouse.isButtonDown(0)) {
-				difficultyVal = 3; // Button labelled Hard sets game to use Hard SeperationRules set.
 				sbg.enterState(2);
 			}
 			
@@ -75,7 +66,6 @@ public class Difficulty extends BasicGameState {
 		if((posiX>100&&posiX<300)&&(posiY>330&&posiY<400)) {
 			colorMediumBtn=Color.white;
 			if(Mouse.isButtonDown(0)) {
-				difficultyVal = 2; // Medium SeperationRules set.
 				sbg.enterState(2);
 			}
 			
