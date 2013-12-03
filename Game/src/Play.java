@@ -46,7 +46,7 @@ public class Play extends BasicGameState {
 		end_of_game_sound = new Sound("res/175385__digitaldominic__scream.wav");
 		
 		bottom_bar_image = new Image("/res/graphics/graphics/flight_menu.jpg");
-		//control_bar_image = new Image("/res/graphics/graphics/flights_list.png");
+		control_bar_image = new Image("/res/graphics/graphics/flights_list.png");
 		clock_image = new Image("/res/graphics/graphics/clock.png");
 		background_image = new Image("/res/graphics/graphics/background.png");
 		
@@ -88,7 +88,7 @@ public class Play extends BasicGameState {
 		g.setFont(font);
 		background_image.draw(0,0);
 		bottom_bar_image.draw(0,530);
-		//control_bar_image.draw(0,500);
+		control_bar_image.draw(0,500);
 		g.setColor(Color.white);
 		a.render(g, gc);
 		

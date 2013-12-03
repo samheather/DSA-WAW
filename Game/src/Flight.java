@@ -1,3 +1,5 @@
+import java.awt.Font;
+import java.io.InputStream;
 import java.util.Random;
 
 import org.lwjgl.input.Mouse;
@@ -6,6 +8,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.util.ResourceLoader;
 
 public class Flight {
 
@@ -21,6 +25,8 @@ public class Flight {
 	private Color color;
 	private boolean selected;
 	private Controls controls;
+	private TrueTypeFont smallFont;
+	private TrueTypeFont bigFont;
 	
 
 	// CONSTRUCTOR
@@ -126,7 +132,7 @@ public class Flight {
 	}
 
 	public void update_x_y_coordinates() {
-		double velocity = (this.flight_plan.getVelocity()) / 500;
+		double velocity = (this.flight_plan.getVelocity()) / 2000;
 
 		this.x += velocity * Math.sin(Math.toRadians(this.current_heading));
 
@@ -280,12 +286,24 @@ public class Flight {
 		selected_img = new Image("res/graphics/graphics/selected_flight2.jpg");
 		this.controls = new Controls(gc, this);
 		controls.init(gc);
+		try{
+			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway font/bluehigh.ttf");
+			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
+			awtFont = awtFont.deriveFont(19f);
+			this.smallFont = new TrueTypeFont(awtFont, false);
+			awtFont = awtFont.deriveFont(20f);
+			this.bigFont = new TrueTypeFont(awtFont,false);
+			
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 
 	}
 
 	public void render(Graphics g, GameContainer gc) throws SlickException {
 		g.setColor(color);
-		
+		g.setFont(smallFont);
 		if (this.selected) {
 			
 			if(this.waypoint_list_x>0) {
@@ -297,20 +315,21 @@ public class Flight {
 			
 			this.controls.render(gc, g);
 			g.setColor(this.color);
-			g.setWorldClip(0, 0, 1200, 500);
+			/*g.setWorldClip(0, 0, 1200, 500);
 			g.drawString("0", (int)this.x-5, (int)this.y-48);
 			g.drawString("90", (int)this.x+30, (int)this.y-5);
 			g.drawString("180", (int)this.x-8, (int)this.y+32);
-			g.drawString("270", (int)this.x-46, (int)this.y-5);
+			g.drawString("270", (int)this.x-46, (int)this.y-5);*/
 			
 		}
 		g.setWorldClip(0, 0, 1200, 500);
-		g.drawString(this.flight_name, (int) this.x - 20, (int) this.y - 30);
-
+		g.drawString(this.flight_name, (int) this.x - 20, (int) this.y + 25);
+		g.drawString(Math.round(this.current_altitude) + "ft",(int) this.x -25, (int)this.y-27);
+		g.drawString(Math.round(this.current_heading) + " deg",(int) this.x-25, (int) this.y-42);//-15,20
 		if (this.flight_plan.getWaypoints().size() > 0) {
-			g.drawString(this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x-5, (int) this.y + 10);
+			g.drawString("Target: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x-25, (int) this.y + 10);
 		}
-
+		g.setFont(bigFont);
 		img.setRotation((int) current_heading);
 
 		g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
