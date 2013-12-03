@@ -11,7 +11,7 @@ public class Flight {
 
 	// FIELDS
 	private double x, y, target_altitude, current_heading, target_heading;
-	private int current_altitude, flight_num, flight_button_x, waypoint_list_y;
+	private int current_altitude, flight_num, flight_button_x, waypoint_list_x;
 	private boolean turning_right, turning_left, warningViolation;
 	private String flight_name;
 	private FlightPlan flight_plan;
@@ -49,8 +49,18 @@ public class Flight {
 
 	public int generate_altitude() {
 		Random rand = new Random();
-		return rand.nextInt((MAXIMUM_ALTITUDE - MINIMUM_ALTITUDE) + 1)
-				+ MINIMUM_ALTITUDE;
+		int check = rand.nextInt(4);
+		switch(check) {
+		case 0:
+			return 27000;
+		case 1:
+			return 28000;
+		case 2:
+			return 29000;
+		case 3:
+			return 30000;
+		}
+		return 27000;
 	}
 
 	public boolean check_other_flight_selection(Airspace a) {
@@ -223,11 +233,11 @@ public class Flight {
 		this.update_current_heading();
 		this.update_x_y_coordinates();
 		this.update_altitude();
-		this.waypoint_list_y=600;
+		this.waypoint_list_x=800;
 		
 		if (this.flight_plan.getWaypoints().size() > 0) {
 			for(int i=0;i<this.flight_plan.getWaypoints().size(); i++) {
-				this.waypoint_list_y-=30;
+				this.waypoint_list_x-=30;
 			}
 			if (this.check_if_flight_at_waypoint(flight_plan.getWaypoints()
 					.get(0))) {
@@ -240,6 +250,7 @@ public class Flight {
 		if (this.selected == true) {
 			// Update controls
 			this.controls.update(gc);
+			
 			if (!this.controls.headingHasFocus()) {
 				this.controls.getHeadingControlTB().setText(
 						String.valueOf(Math.round(this.target_heading)));
@@ -259,6 +270,7 @@ public class Flight {
 		}
 		else {
 			this.color=Color.white;
+			this.controls.clear_all();
 		}
 
 	}
@@ -276,12 +288,12 @@ public class Flight {
 		
 		if (this.selected) {
 			
-			/*if(this.waypoint_list_y>0) {
+			if(this.waypoint_list_x>0) {
 				for(int i=0; i<this.flight_plan.getWaypoints().size(); i++) {
-					g.drawString(this.flight_plan.getWaypoints().get(i).getPointRef(), 10, this.waypoint_list_y);
-					this.waypoint_list_y+=30;
+					g.drawString(this.flight_plan.getWaypoints().get(i).getPointRef(), this.waypoint_list_x, 500);
+					this.waypoint_list_x+=30;
 				}
-			}*/
+			}
 			
 			this.controls.render(gc, g);
 			g.setColor(this.color);
@@ -296,8 +308,7 @@ public class Flight {
 		g.drawString(this.flight_name, (int) this.x - 20, (int) this.y - 30);
 
 		if (this.flight_plan.getWaypoints().size() > 0) {
-			g.drawString(this.flight_plan.getPointByIndex(0).getPointRef(),
-					(int) this.x-5, (int) this.y + 10);
+			g.drawString(this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x-5, (int) this.y + 10);
 		}
 
 		img.setRotation((int) current_heading);

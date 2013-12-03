@@ -16,15 +16,15 @@ public class SeparationRules {
 	 	
 		if (difficultyVal == 1) { // Easy: Only a Crash will cause a Game Over
 			this.gameOverLateralSeparation = 30;
-			this.gameOverVerticalSeparation = 750;
+			this.gameOverVerticalSeparation = 200;
 		}
 		if (difficultyVal == 2) { // Medium: Can Violate, but not too closely
 			this.gameOverLateralSeparation = 30;
-			this.gameOverVerticalSeparation = 750;
+			this.gameOverVerticalSeparation = 350;
 		 }
 		 if (difficultyVal == 3) { // Hard: Warning Violation = Game Over
 			this.gameOverLateralSeparation = 100;
-			this.gameOverVerticalSeparation = 1000;
+			this.gameOverVerticalSeparation = 500;
 		 }
 		 
 	 }
