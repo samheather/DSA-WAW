@@ -235,12 +235,7 @@ public class Flight {
 		
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
-		/*
-		if(Calculations.check_if_point_in_circle(posX, posY, this.x, this.y, 50)) {
-			System.out.println(this.flight_name);
-		}
 		
-		*/
 		if (this.selected == true) {
 			// Update controls
 			this.controls.update(gc);
@@ -256,7 +251,7 @@ public class Flight {
 
 			this.color = Color.yellow;
 		
-			if ((((posX < this.flight_button_x || posX > this.flight_button_x + 117) || (posY < 0 || posY > 100)) && Mouse
+			if ((((posX < this.flight_button_x || posX > this.flight_button_x + 126) || (posY < 0 || posY > 100)) && Mouse
 					.isButtonDown(0))
 					|| this.flight_plan.getWaypoints().isEmpty()) {
 				if ((((posX > 0 && posX < 100) && (posY > 0 && posY < 600)) && Mouse
@@ -274,8 +269,8 @@ public class Flight {
 
 			this.controls.clear_all();
 
-			if ((posX > this.flight_button_x && posX < this.flight_button_x + 117)
-					&& (posY > 0 && posY < 75) && Mouse.isButtonDown(0)) {
+			if ((posX > this.flight_button_x && posX < this.flight_button_x + 126)
+					&& (posY > 0 && posY < 70) && Mouse.isButtonDown(0)) {
 
 				this.selected = true;
 				a.set_selected_flight(this);
