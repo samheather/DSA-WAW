@@ -1,4 +1,6 @@
 import java.awt.Font;
+
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -12,20 +14,37 @@ public class Controls {
 	// FIELDS
 	private TrueTypeFont font;
 	private TextField headingControlTB;
-	private TextField altControlTB;
+	//private TextField altControlTB;
 	private TextField turnRightTB;
 	private TextField turnLeftTB;
 	private boolean headingHasFocus; // Is the text box currently selected?
-	private boolean altHasFocus; // Is the text box currently selected?
+	//private boolean altHasFocus; // Is the text box currently selected?
 	private boolean turnLeftHasFocus; // Is the text box currently selected?
 	private boolean turnRightHasFocus; // Is the text box currently selected?
 	private boolean heading_cleared_this_focus; // Has the text box been reset?
-	private boolean alt_cleared_this_focus; // Has the text box been reset?
+	private boolean increase_alt_clicked,decrease_alt_clicked, mouse_pressed, max_alt, min_alt;
+	//private boolean alt_cleared_this_focus; // Has the text box been reset?
 	private boolean right_cleared_this_focus;
 	private boolean left_cleared_this_focus;
 	private Flight flight;
 	private String text;
-	private int boxselected;
+	private int boxselected, increase_alt, decrease_alt;
+
+	public int getIncrease_alt() {
+		return increase_alt;
+	}
+
+	public void setIncrease_alt(int increase_alt) {
+		this.increase_alt = increase_alt;
+	}
+
+	public int getDecrease_alt() {
+		return decrease_alt;
+	}
+
+	public void setDecrease_alt(int decrease_alt) {
+		this.decrease_alt = decrease_alt;
+	}
 
 	public Controls(GameContainer gc, Flight flight) {
 		this.flight = flight;
@@ -38,21 +57,71 @@ public class Controls {
 
 		this.turnLeftTB = new TextField(gc, font, 10, 70, 100, 23);
 		this.headingControlTB = new TextField(gc, font, 10, 170, 100, 23);
-		this.altControlTB = new TextField(gc, font, 10, 270, 100, 23);
+		//this.altControlTB = new TextField(gc, font, 10, 270, 100, 23);
 		this.turnRightTB = new TextField(gc, font, 10, 370, 100, 23);
 		this.headingHasFocus = false;
-		this.altHasFocus = false;
+		//this.altHasFocus = false;
 		this.turnLeftHasFocus = false;
 		this.turnRightHasFocus = false;
 		this.heading_cleared_this_focus = false;
-		this.alt_cleared_this_focus = false;
+		//this.alt_cleared_this_focus = false;
 		this.left_cleared_this_focus = false;
 		this.right_cleared_this_focus = false;
+		this.increase_alt_clicked=false;
+		this.decrease_alt_clicked=false;
 		this.boxselected = 0;
+		this.mouse_pressed=false;
+		this.increase_alt=0;
+		this.decrease_alt=0;
+		this.max_alt=false;
+		this.min_alt=false;
 
 	}
+	
+	
 
 	// METHODS
+	public void check_alt_buttons_clicked() {
+		int posX=Mouse.getX();
+		int posY=Mouse.getY();
+
+		if(!this.mouse_pressed) {
+			if(posX>10&&posX<130&&posY<330&&posY>310&&Mouse.isButtonDown(0)) {
+				if(this.increase_alt<=31000) {
+					this.increase_alt_clicked=true;
+					this.mouse_pressed=true;
+					this.min_alt=false;
+				}
+				else {
+					this.max_alt=true;
+				}
+			}
+
+			else if(posX>10&&posX<130&&posY<300&&posY>280&&Mouse.isButtonDown(0)) {
+				if(this.decrease_alt>=26000) {
+					this.mouse_pressed=true;
+					this.decrease_alt_clicked=true;
+					
+					this.max_alt=false;
+				}
+				else {
+					this.min_alt=true;
+				}
+			}
+			else {
+				this.increase_alt_clicked=false;
+				this.decrease_alt_clicked=false;
+			}
+		}
+		else {
+			this.increase_alt_clicked=false;
+			this.decrease_alt_clicked=false;
+		}
+		if(!Mouse.isButtonDown(0)){
+			this.mouse_pressed=false;
+		}
+	}
+
 
 	public TextField getHeadingControlTB() {
 		return headingControlTB;
@@ -62,24 +131,24 @@ public class Controls {
 		return this.headingHasFocus;
 	}
 
-	public boolean altHasFocus() {
+	/*public boolean altHasFocus() {
 		return this.altHasFocus;
-	}
+	}*/
 
-	public TextField getAltControlTB() {
+	/*public TextField getAltControlTB() {
 		return altControlTB;
-	}
+	}*/
 
 	public void clear_all() {
 		this.headingControlTB.setAcceptingInput(false);
-		this.altControlTB.setAcceptingInput(false);
+		//this.altControlTB.setAcceptingInput(false);
 		this.turnLeftTB.setAcceptingInput(false);
 		this.turnRightTB.setAcceptingInput(false);
 	}
 
 	public void allow_all() {
 		this.headingControlTB.setAcceptingInput(true);
-		this.altControlTB.setAcceptingInput(true);
+		//this.altControlTB.setAcceptingInput(true);
 		this.turnLeftTB.setAcceptingInput(true);
 		this.turnRightTB.setAcceptingInput(true);
 	}
@@ -110,7 +179,7 @@ public class Controls {
 		}
 
 		// Update Altitude Text Field
-		this.altHasFocus = this.altControlTB.hasFocus();
+		/*this.altHasFocus = this.altControlTB.hasFocus();
 		if (this.altHasFocus) {
 			if (!this.alt_cleared_this_focus) {
 				this.alt_cleared_this_focus = true;
@@ -124,16 +193,16 @@ public class Controls {
 				}
 				this.altControlTB.setFocus(false);
 			}
-		}
+		}*/
 
-		if (this.alt_cleared_this_focus && !this.altHasFocus) {
+		/*if (this.alt_cleared_this_focus && !this.altHasFocus) {
 			this.alt_cleared_this_focus = false;
 			this.text = this.altControlTB.getText();
 			this.text = this.text.replaceAll("\\D+", "");
 			if (!this.text.isEmpty()) {
 				this.flight.setTarget_altitude(Double.valueOf(this.text));
 			}
-		}
+		}*/
 
 		// Update Turn Left Text Field
 		this.turnLeftHasFocus = this.turnLeftTB.hasFocus();
@@ -200,12 +269,13 @@ public class Controls {
 			headingControlTB.setFocus(true);
 			break;
 		case 3:
-			altControlTB.setFocus(true);
+			//altControlTB.setFocus(true);
 			break;
 		case 4:
 			turnRightTB.setFocus(true);
 			break;
 		}
+		this.check_alt_buttons_clicked();
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
@@ -214,11 +284,44 @@ public class Controls {
 		this.turnLeftTB.render(gc, g);
 		g.drawString("Target Heading:", 10, 150);
 		this.headingControlTB.render(gc, g);
-		g.drawString("Altitude:", 10, 250);
-		this.altControlTB.render(gc, g);
+		g.drawString("Change Altitude:", 10, 250);
+		//this.altControlTB.render(gc, g);
 		g.drawString("Turn Right:", 10, 350);
 		this.turnRightTB.render(gc, g);
+		g.setColor(Color.blue);
+		g.fillRect(10, 270, 130, 20);
+		g.fillRect(10, 300, 130, 20);
+		g.setColor(Color.white);
+		if(!this.max_alt){
+			g.drawString("Increase to "+this.increase_alt, 15, 270);
+		}
+		else {
+			g.drawString("At max altitude", 15, 270);
+		}
+		if(!this.min_alt){
+			g.drawString("Decrease to "+this.decrease_alt, 15, 300);
+		}
+		else {
+			g.drawString("At min altitude", 15, 300);
+		}
+		
+		
 
+	}
 
+	public boolean isIncrease_alt_clicked() {
+		return increase_alt_clicked;
+	}
+
+	public void setIncrease_alt_clicked(boolean increase_alt_clicked) {
+		this.increase_alt_clicked = increase_alt_clicked;
+	}
+
+	public boolean isDecrease_alt_clicked() {
+		return decrease_alt_clicked;
+	}
+
+	public void setDecrease_alt_clicked(boolean decrease_alt_clicked) {
+		this.decrease_alt_clicked = decrease_alt_clicked;
 	}
 }

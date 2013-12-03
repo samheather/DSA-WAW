@@ -255,15 +255,24 @@ public class Flight {
 		if (this.selected == true) {
 			// Update controls
 			this.controls.update(gc);
-			
+			this.controls.setIncrease_alt((int)Math.round(this.target_altitude)+1000);
+			this.controls.setDecrease_alt((int)Math.round(this.target_altitude)-1000);
 			if (!this.controls.headingHasFocus()) {
 				this.controls.getHeadingControlTB().setText(
 						String.valueOf(Math.round(this.target_heading)));
 			}
-			if (!this.controls.altHasFocus()) {
+			if(this.controls.isIncrease_alt_clicked()) {
+				this.target_altitude+=1000;
+				System.out.println(this.target_altitude);
+			}
+			if(this.controls.isDecrease_alt_clicked()) {
+				this.target_altitude-=1000;
+				System.out.println(this.target_altitude);
+			}
+			/*if (!this.controls.altHasFocus()) {
 				this.controls.getAltControlTB().setText(
 						String.valueOf(Math.round(this.target_altitude)));
-			}
+			}*/
 			this.controls.allow_all();
 
 			this.color = Color.yellow;
@@ -313,7 +322,7 @@ public class Flight {
 		g.drawString(Math.round(this.current_heading) + " deg",(int) this.x-25, (int) this.y-42);//-15,20
 		
 		if (this.flight_plan.getWaypoints().size() > 0) {
-			g.drawString("Target: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x-25, (int) this.y + 10);
+			g.drawString("Target: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x-35, (int) this.y + 10);
 		}
 		
 		g.setFont(bigFont);

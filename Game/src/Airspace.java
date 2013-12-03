@@ -27,7 +27,7 @@ public class Airspace {
 	private boolean previous_removed;
 	private Flight selected_flight;
 
-	private int game_difficulty_value = 2;  // !! Should be fetched by Difficulty Screen, currently fails to do so
+	private int game_difficulty_value; // !! Should be fetched by Difficulty Screen, currently fails to do so
 	private boolean warningViolation = false; // bool outlining whether a violation is present
 	
 	// CONSTRUCTOR
@@ -43,13 +43,14 @@ public class Airspace {
 		this.separationRules = new SeparationRules(game_difficulty_value); 
 		this.loops_since_last_flight_entry = 400; // how many loops to wait before another flight can enter
 		this.overall_loops = 0; // stores how many loops there have been in total
-		this.next_difficulty_loops = 5000; // this is how many loops until planes come more quickly, divide by 60 for seconds
-		this.difficulty_levels = 1;// number of times difficulty changes
+		this.next_difficulty_loops = 10000; // this is how many loops until planes come more quickly, divide by 60 for seconds
+		this.difficulty_levels = 13;// number of times difficulty changes
 		this.max_rand = (int) Math.pow(2, this.difficulty_levels);
 		this.previous_removed = false; // variable for storing whether a flight was removed on each loop
 		this.wp_counter = 64;
 		this.exp_counter = 0;
 		this.selected_flight = null;
+		this.game_difficulty_value = 2;
 		
 	}
 
@@ -107,7 +108,7 @@ public class Airspace {
 
 			}
 			if (this.overall_loops >= this.next_difficulty_loops) {
-				this.next_difficulty_loops += 5000;
+				this.next_difficulty_loops += 10000;
 				if (this.max_rand > 2) {
 					this.max_rand = this.max_rand / 2;
 				}
@@ -129,8 +130,8 @@ public class Airspace {
 					tempFlight.setY(y);
 					tempFlight.setTarget_altitude(tempFlight.getCurrent_altitude());
 					double heading = Calculations.calculate_heading_to_first_waypoint(tempFlight,
-									tempFlight.getFlight_plan().getPointByIndex(0).getX() - 5,
-									tempFlight.getFlight_plan().getPointByIndex(0).getY() - 5);
+									tempFlight.getFlight_plan().getPointByIndex(0).getX() ,
+									tempFlight.getFlight_plan().getPointByIndex(0).getY());
 					tempFlight.setTarget_heading(heading);
 					tempFlight.setCurrent_heading(heading);
 					this.loops_since_last_flight_entry = 0;

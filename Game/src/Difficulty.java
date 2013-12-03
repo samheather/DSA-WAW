@@ -11,6 +11,7 @@ public class Difficulty extends BasicGameState {
 	private Color colorEasyBtn = Color.green;
 	private Color colorMediumBtn = Color.green;
 	private Color colorHardBtn = Color.green;
+
 	
 	public Difficulty(int state){
 		
