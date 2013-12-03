@@ -37,11 +37,11 @@ public class Airspace {
 		this.list_of_waypoints = new ArrayList<Waypoint>();
 		this.list_of_entrypoints = new ArrayList<EntryPoint>();
 		this.list_of_exitpoints = new ArrayList<ExitPoint>();
-		this.separationRules = new SeparationRules();
+		this.separationRules = new SeparationRules(1);
 		this.loops_since_last_flight_entry = 400; // how many loops to wait before another flight can enter
 		this.overall_loops = 0; // stores how many loops there have been in total
-		this.next_difficulty_loops = 10000; // this is how many loops until planes come more quickly, divide by 60 for seconds
-		this.difficulty_levels = 2;// number of times difficulty changes
+		this.next_difficulty_loops = 5000; // this is how many loops until planes come more quickly, divide by 60 for seconds
+		this.difficulty_levels = 12;// number of times difficulty changes
 		this.max_rand = (int) Math.pow(2, this.difficulty_levels);
 		this.previous_removed = false; // variable for storing whether a flight was removed on each loop
 		this.wp_counter = 64;
@@ -118,7 +118,7 @@ public class Airspace {
 
 			if (check_number == 1) {
 
-				if (this.loops_since_last_flight_entry >= 700) {
+				if (this.loops_since_last_flight_entry >= 700  || this.list_of_flights_in_airspace.isEmpty()) {
 
 					Flight tempFlight = new Flight(this);
 					tempFlight.setFlight_name(this.generate_flight_name());
@@ -138,7 +138,7 @@ public class Airspace {
 						this.list_of_flights_in_airspace.get(
 								this.list_of_flights_in_airspace.size() - 1)
 								.init(gc);
-						this.flight_button_x += 117;
+						this.flight_button_x += 126;
 						return true;
 					}
 				}
@@ -146,9 +146,7 @@ public class Airspace {
 			}
 
 		}
-		this.loops_since_last_flight_entry++;
 
-		this.overall_loops++;
 		return false;
 
 	}
@@ -227,6 +225,8 @@ public class Airspace {
 	}
 
 	public void update(GameContainer gc) {
+		this.loops_since_last_flight_entry++;
+		this.overall_loops++;
 		for (int i = 0; i < this.list_of_flights_in_airspace.size(); i++) {
 			this.list_of_flights_in_airspace.get(i).update(gc, this);
 			if (this.check_if_flight_has_left_airspace(this
