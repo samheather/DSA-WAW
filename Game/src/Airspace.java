@@ -30,7 +30,7 @@ public class Airspace {
 	// CONSTRUCTOR
 
 	Airspace() {
-		this.max_number_of_flights = 2; // just a value
+		this.max_number_of_flights = 5; // just a value
 		this.score = 0;
 		this.list_of_flights_in_airspace = new ArrayList<Flight>();
 		this.list_of_incoming_flights = new ArrayList<Flight>();
@@ -46,9 +46,9 @@ public class Airspace {
 		this.previous_removed = false; // variable for storing whether a flight was removed on each loop
 		this.wp_counter = 64;
 		this.exp_counter = 0;
-		this.flight_button_x = 30;
+		this.flight_button_x = 0;
 		this.selected_flight = null;
-		this.flight_button_width=127;
+		this.flight_button_width=100;
 	}
 
 	// METHODS
@@ -139,7 +139,7 @@ public class Airspace {
 						this.list_of_flights_in_airspace.get(
 								this.list_of_flights_in_airspace.size() - 1)
 								.init(gc);
-						this.flight_button_x += 126;
+						this.flight_button_x += this.flight_button_width;
 						return true;
 					}
 				}
@@ -150,6 +150,49 @@ public class Airspace {
 
 		return false;
 
+	}
+	
+	public void check_selected(int pointX, int pointY, Airspace airspace ){
+		double min_distance;
+		Flight nearest_flight;
+		int index_of_nearest_flight;
+		
+		pointY = 600-pointY; // Translating Mouse coordinates onto object coordinates
+		
+		// Working out nearest flight to click
+		
+		if(airspace.getList_of_flights().size()>=1){
+			min_distance = Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(0).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(0).getY(), 2));
+			nearest_flight = airspace.getList_of_flights().get(0);
+			index_of_nearest_flight = 0;
+			
+			for (int i =0; i< airspace.getList_of_flights().size(); i++){
+				if(Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(i).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(i).getY(), 2)) < min_distance){
+					min_distance = Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(i).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(i).getY(), 2));
+					nearest_flight = airspace.getList_of_flights().get(i);
+					index_of_nearest_flight = i;
+				}
+			}
+			
+			// Working out whether the nearest flight to click is close enough
+			// to be selected.
+			
+			if (min_distance <= 50){
+				nearest_flight.setSelected(true);
+				airspace.set_selected_flight(nearest_flight);
+				System.out.println(nearest_flight);
+				for (int i =0; i< airspace.getList_of_flights().size(); i++){
+					if(i != index_of_nearest_flight){
+						airspace.getList_of_flights().get(i).setSelected(false);
+					}
+				}
+				
+				
+			}
+			
+			
+			
+		}
 	}
 
 	public boolean new_exit_point(int x, int y) {
@@ -238,7 +281,11 @@ public class Airspace {
 	public void update(GameContainer gc) {
 		this.loops_since_last_flight_entry++;
 		this.overall_loops++;
-		
+		int posX=Mouse.getX();
+		int posY=Mouse.getY();
+		if(Mouse.isButtonDown(0)){
+			this.check_selected(posX,posY,this);
+		}
 		for (int i = 0; i < this.list_of_flights_in_airspace.size(); i++) {
 			this.list_of_flights_in_airspace.get(i).update(gc, this);
 			if(this.list_of_flights_in_airspace.get(i).getFlight_plan().getWaypoints().size()==0) {

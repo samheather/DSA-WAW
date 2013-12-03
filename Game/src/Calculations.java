@@ -62,48 +62,7 @@ public class Calculations {
 		return distance_between_points<=radius;
 	}
 	
-	public static void check_selected(int pointX, int pointY, Airspace airspace ){
-		double min_distance;
-		Flight nearest_flight;
-		int index_of_nearest_flight;
-		
-		pointY = 600-pointY; // Translating Mouse coordinates onto object coordinates
-		
-		// Working out nearest flight to click
-		
-		if(airspace.getList_of_flights().size()>=1){
-			min_distance = Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(0).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(0).getY(), 2));
-			nearest_flight = airspace.getList_of_flights().get(0);
-			index_of_nearest_flight = 0;
-			
-			for (int i =0; i< airspace.getList_of_flights().size(); i++){
-				if(Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(i).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(i).getY(), 2)) < min_distance){
-					min_distance = Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(i).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(i).getY(), 2));
-					nearest_flight = airspace.getList_of_flights().get(i);
-					index_of_nearest_flight = i;
-				}
-			}
-			
-			// Working out whether the nearest flight to click is close enough
-			// to be selected.
-			
-			if (min_distance <= 50){
-				nearest_flight.setSelected(true);
-				airspace.set_selected_flight(nearest_flight);
-				System.out.println(nearest_flight);
-				for (int i =0; i< airspace.getList_of_flights().size(); i++){
-					if(i != index_of_nearest_flight){
-						airspace.getList_of_flights().get(i).setSelected(false);
-					}
-				}
-				
-				
-			}
-			
-			
-			
-		}
-	}
+	
 	
 	public static void give_heading_with_mouse(int pointX, int pointY, Airspace airspace){
 		

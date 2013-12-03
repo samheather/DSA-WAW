@@ -74,7 +74,11 @@ public class Flight {
 			this.target_heading = 360 +this.target_heading;
 		}
 	}
+	
+	
+	
 
+	
 	public void turn_flight_right(int degree_turned_by) {
 
 		this.turning_left = false;
@@ -232,8 +236,6 @@ public class Flight {
 		}
 		
 		
-		int posX = Mouse.getX();
-		int posY = Mouse.getY();
 		
 		if (this.selected == true) {
 			// Update controls
@@ -249,8 +251,13 @@ public class Flight {
 			this.controls.allow_all();
 
 			this.color = Color.yellow;
+			
+			if (this.check_other_flight_selection(a)) {
+				this.selected = false;
+				
+			}
 		
-			if ((((posX < this.flight_button_x || posX > this.flight_button_x + 126) || (posY < 0 || posY > 100)) && Mouse
+			/*if ((((posX < this.flight_button_x || posX > this.flight_button_x + 126) || (posY < 0 || posY > 100)) && Mouse
 					.isButtonDown(0))
 					|| this.flight_plan.getWaypoints().isEmpty()) {
 				if ((((posX > 0 && posX < 100) && (posY > 0 && posY < 600)) && Mouse
@@ -259,12 +266,10 @@ public class Flight {
 					this.selected = true;
 					a.set_selected_flight(this);
 				}
-				if (this.check_other_flight_selection(a)) {
-					this.selected = false;
-				}
+				
 			}
 		} else {
-			this.color = Color.white;
+			
 
 			this.controls.clear_all();
 
@@ -274,14 +279,17 @@ public class Flight {
 				this.selected = true;
 				a.set_selected_flight(this);
 
-			}
+			}*/
+		}
+		else {
+			this.color=Color.white;
 		}
 
 	}
 
 	public void init(GameContainer gc) throws SlickException {
 		img = new Image("/res/graphics/graphics/flight.png");
-		selected_img = new Image("res/graphics/graphics/selected_flight.jpg");
+		selected_img = new Image("res/graphics/graphics/selected_flight2.jpg");
 		this.controls = new Controls(gc, this);
 		controls.init(gc);
 
@@ -330,7 +338,7 @@ public class Flight {
 		
 		g.setColor(Color.white);
 		if(this.selected) {
-			this.selected_img.draw(this.flight_button_x,535,126,70);
+			//this.selected_img.draw(this.flight_button_x,535);
 		}
 		
 		g.drawString(this.flight_name, (int) this.flight_button_x + 30, 535);

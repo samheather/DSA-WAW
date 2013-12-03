@@ -16,11 +16,12 @@ public class Play extends BasicGameState {
 	private Airspace a;
 	private int i;
 	Image cursorImg;
-	public static int time;
+	public static float time;
 	private Music main_game_music;
 	private Sound end_of_game_sound;
 	public static TrueTypeFont font;
 	private Image bottom_bar_image, control_bar_image, clock_image, background_image;
+	private String string_time;
 
 	public Play(int state) {
 		a = new Airspace();
@@ -36,6 +37,7 @@ public class Play extends BasicGameState {
 		 * cursorImg= new Image("res/cursor.png"); gc.setMouseCursor(cursorImg, 16, 16); if someone can make a decent cursor image we can have a
 		 * better cursor
 		 */
+		this.string_time="";
 		arg0.setAlwaysRender(true);
 		a.init(arg0);
 		main_game_music = new Music("res/Love Song In My Mind.wav");
@@ -43,8 +45,8 @@ public class Play extends BasicGameState {
 		main_game_music.setVolume(0.2f);
 		end_of_game_sound = new Sound("res/175385__digitaldominic__scream.wav");
 		
-		bottom_bar_image = new Image("/res/graphics/graphics/flights_list2.png");
-		control_bar_image = new Image("/res/graphics/graphics/flights_list.png");
+		bottom_bar_image = new Image("/res/graphics/graphics/flight_menu.jpg");
+		//control_bar_image = new Image("/res/graphics/graphics/flights_list.png");
 		clock_image = new Image("/res/graphics/graphics/clock.png");
 		background_image = new Image("/res/graphics/graphics/background.png");
 		
@@ -86,19 +88,49 @@ public class Play extends BasicGameState {
 		g.setFont(font);
 		background_image.draw(0,0);
 		bottom_bar_image.draw(0,530);
-		control_bar_image.draw(0,500);
+		//control_bar_image.draw(0,500);
 		g.setColor(Color.white);
 		a.render(g, gc);
 		
 		g.setColor(Color.white);
 		clock_image.draw(0,5);
-		g.drawString(Integer.toString(time/1000), 30, 10);
+		g.drawString(this.string_time, 30, 10);
 
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
 		time += delta;
+		float dec_mins=time/1000/60;
+		int mins = (int) dec_mins;
+		float dec_secs=dec_mins-mins;
+
+		int secs = Math.round(dec_secs*60);
+
+		String string_mins="";
+		String string_secs="";
+		if(secs==60){
+			secs=0;
+			mins+=1;
+		}
+		if(mins<10) {
+			string_mins="0"+mins;
+		}
+		else {
+			string_mins=String.valueOf(mins);
+		}
+		if(secs<10) {
+			string_secs="0"+secs;
+		}
+		else {
+			string_secs=String.valueOf(secs);
+		}
+		
+		
+		this.string_time=string_mins+":"+string_secs;
+		
+		
+		
 		if (a.new_flight2(i, gc)) {
 			i++;
 		}
@@ -121,9 +153,7 @@ public class Play extends BasicGameState {
 		
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
-		if(Mouse.isButtonDown(0)){
-			Calculations.check_selected(posX, posY, a);
-		}
+		
 		
 		
 		posX = Mouse.getX();
