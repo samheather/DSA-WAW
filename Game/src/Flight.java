@@ -290,7 +290,26 @@ public class Flight {
 
 	public void render(Graphics g, GameContainer gc) throws SlickException {
 		g.setColor(color);
-		g.setWorldClip(0, 0, 1200, 500);
+		
+		if (this.selected) {
+			
+			/*if(this.waypoint_list_y>0) {
+				for(int i=0; i<this.flight_plan.getWaypoints().size(); i++) {
+					g.drawString(this.flight_plan.getWaypoints().get(i).getPointRef(), 10, this.waypoint_list_y);
+					this.waypoint_list_y+=30;
+				}
+			}*/
+			
+			this.controls.render(gc, g);
+			g.setColor(this.color);
+			g.setWorldClip(0, 0, 1200, 500);
+			g.drawString("0", (int)this.x-5, (int)this.y-48);
+			g.drawString("90", (int)this.x+30, (int)this.y-5);
+			g.drawString("180", (int)this.x-8, (int)this.y+32);
+			g.drawString("270", (int)this.x-46, (int)this.y-5);
+			
+		}
+
 		g.drawString(this.flight_name, (int) this.x - 20, (int) this.y - 30);
 
 		if (this.flight_plan.getWaypoints().size() > 0) {
@@ -305,24 +324,7 @@ public class Flight {
 
 		img.draw((int) this.x-10, (int) this.y-10);
 		
-		if (this.selected) {
-			
-			/*if(this.waypoint_list_y>0) {
-				for(int i=0; i<this.flight_plan.getWaypoints().size(); i++) {
-					g.drawString(this.flight_plan.getWaypoints().get(i).getPointRef(), 10, this.waypoint_list_y);
-					this.waypoint_list_y+=30;
-				}
-			}*/
-			
-			this.controls.render(gc, g);
-			g.setColor(this.color);
-			g.drawString("0", (int)this.x-5, (int)this.y-48);
-			g.drawString("90", (int)this.x+30, (int)this.y-5);
-			g.drawString("180", (int)this.x-8, (int)this.y+32);
-			g.drawString("270", (int)this.x-46, (int)this.y-5);
-			
-		}
-
+		
 		g.setWorldClip(0, 0, 1200, 600);
 		
 		// Drawing Flight Button at bottom
