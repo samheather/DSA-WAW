@@ -334,13 +334,9 @@ public class Flight {
 		
 		if(this.selected) {
 			
-			g.setColor(this.color);
 			
-			String plan = "";
-			for(int i=0; i<this.flight_plan.getWaypoints().size(); i++) {
-				plan += this.flight_plan.getWaypoints().get(i).getPointRef()+", ";
-			}
-			g.drawString(plan, 10, 490);
+			
+			this.selected_img.draw(0,450);
 			
 			
 			this.controls.render(gc, g);
@@ -348,20 +344,27 @@ public class Flight {
 			g.setColor(Color.white);
 		
 		
-			g.drawString(this.flight_name,  10, 450);
+			g.drawString(this.flight_name,  10, 460);
 		
-			g.drawString("Plan: ",  10, 470);
+			g.drawString("Plan: ",  10, 480);
 		
+			String plan = "";
+			for(int i=0; i<this.flight_plan.getWaypoints().size(); i++) {
+				plan += this.flight_plan.getWaypoints().get(i).getPointRef()+", ";
+			}
+			g.setColor(this.color);
+			g.drawString(plan, 10, 500);
+			g.setColor(Color.white);
 		
 		
 			g.drawString(Math.round(this.current_altitude) + " ft",
-				 10, 510);
+				 10, 520);
 		
 			g.drawString(Math.round(this.current_heading) + " deg",
-				10, 530);
+				10, 540);
 		
 			g.drawString(Math.round(this.getFlight_plan().getVelocity()) + " MPH",
-				10, 550);
+				10, 560);
 		
 		}
 		
