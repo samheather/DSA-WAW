@@ -224,7 +224,6 @@ public class Flight {
 		if (this.flight_plan.getWaypoints().size() > 0) {
 			for(int i=0;i<this.flight_plan.getWaypoints().size(); i++) {
 				this.waypoint_list_y-=30;
-				System.out.println("Increase waypoint list y to "+this.waypoint_list_y);
 			}
 			if (this.check_if_flight_at_waypoint(flight_plan.getWaypoints()
 					.get(0))) {
@@ -309,7 +308,7 @@ public class Flight {
 			g.drawString("270", (int)this.x-46, (int)this.y-5);
 			
 		}
-
+		g.setWorldClip(0, 0, 1200, 500);
 		g.drawString(this.flight_name, (int) this.x - 20, (int) this.y - 30);
 
 		if (this.flight_plan.getWaypoints().size() > 0) {
