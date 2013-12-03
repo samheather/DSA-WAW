@@ -45,14 +45,14 @@ public class Play extends BasicGameState {
 		main_game_music.setVolume(0.2f);
 		end_of_game_sound = new Sound("res/175385__digitaldominic__scream.wav");
 		
-		bottom_bar_image = new Image("/res/graphics/graphics/flight_menu.jpg");
-		control_bar_image = new Image("/res/graphics/graphics/flights_list.png");
+		//bottom_bar_image = new Image("/res/graphics/graphics/flight_menu.jpg");
+		control_bar_image = new Image("/res/graphics/graphics/control_bar_vertical.png");
 		clock_image = new Image("/res/graphics/graphics/clock.png");
 		background_image = new Image("/res/graphics/graphics/background.png");
 		
 		
 		
-		a.new_waypoint(150, 150);
+		a.new_waypoint(350, 150);
 		a.new_waypoint(400, 470);
 		a.new_waypoint(700, 60);
 		a.new_waypoint(800, 320);
@@ -62,11 +62,11 @@ public class Play extends BasicGameState {
 		a.new_waypoint(1050, 272);
 		a.new_waypoint(900, 420);
 		a.new_waypoint(240, 250);
-		a.new_entry_point(0, 400);
+		a.new_entry_point(150, 400);
 		a.new_entry_point(1200, 200);
 		a.new_entry_point(600, 0);
 		a.new_exit_point(800, 0);
-		a.new_exit_point(0, 200);
+		a.new_exit_point(150, 200);
 		a.new_exit_point(1200, 300);
 		
 		try{
@@ -86,9 +86,9 @@ public class Play extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g)
 			throws SlickException {
 		g.setFont(font);
-		background_image.draw(0,0);
-		bottom_bar_image.draw(0,530);
-		control_bar_image.draw(0,500);
+		background_image.draw(150,0);
+		//bottom_bar_image.draw(0,530);
+		control_bar_image.draw(0,0);
 		g.setColor(Color.white);
 		a.render(g, gc);
 		

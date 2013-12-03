@@ -18,7 +18,7 @@ public class Airspace {
 	private int max_number_of_flights;
 	private int score, loops_since_last_flight_entry, overall_loops,
 			next_difficulty_loops, max_rand, difficulty_levels, wp_counter,
-			exp_counter, flight_button_x, flight_button_width;
+			exp_counter;
 	private List<Flight> list_of_flights_in_airspace, list_of_incoming_flights;
 	private List<Waypoint> list_of_waypoints;
 	private List<EntryPoint> list_of_entrypoints;
@@ -49,9 +49,8 @@ public class Airspace {
 		this.previous_removed = false; // variable for storing whether a flight was removed on each loop
 		this.wp_counter = 64;
 		this.exp_counter = 0;
-		this.flight_button_x = 0;
 		this.selected_flight = null;
-		this.flight_button_width=100;
+		
 	}
 
 	// METHODS
@@ -67,10 +66,10 @@ public class Airspace {
 		}
 	}
 
-	public boolean check_if_flight_has_left_airspace(Flight f) {
+	public boolean check_if_flight_has_left_airspace(Flight flight) {
 
-		if (f.getX() > 1250 || f.getX() < -50 || f.getY() > 500
-				|| f.getY() < -50) {
+		if (flight.getX() > 1250 || flight.getX() < 100 || flight.getY() > 650
+				|| flight.getY() < -50) {
 			return true;
 		} else {
 			return false;
@@ -142,7 +141,7 @@ public class Airspace {
 						this.list_of_flights_in_airspace.get(
 								this.list_of_flights_in_airspace.size() - 1)
 								.init(gc);
-						this.flight_button_x += this.flight_button_width;
+						
 						return true;
 					}
 				}
@@ -323,32 +322,9 @@ public class Airspace {
 				this.remove_specific_flight(i);
 			}
 			
-			
-
-			// the code to shift all the buttons up if there is space
-			if (this.list_of_flights_in_airspace.size() > 0) { // if the list is not empty
-				if (i <= this.list_of_flights_in_airspace.size() - 1) { // if i is not greater than the size of the list
-					if (this.previous_removed) { // if an object was removed
-						this.list_of_flights_in_airspace.get(i).setFlight_button_x(
-						this.list_of_flights_in_airspace.get(i).getFlight_button_x() - this.flight_button_width);// take 100 off the current x value of the button
-
-						if (i == this.list_of_flights_in_airspace.size() - 1) { // if we are at the end of the list
-							this.flight_button_x -= this.flight_button_width; // take 130 of this.flight_button_x so that when the next flight is made is button is next to
-															// the current last button
-							this.previous_removed = false; // set to false so none of this runs until next time a flight is removed
-						}
-
-					}
-
-				} else { // if i was greater than the size of the list, we must have removed the last element so
-					this.flight_button_x -= this.flight_button_width; // just decrease this, but the x of any current buttons doesn't need to change
-					this.previous_removed = false;
-				}
-			} else { // if the list was empty set flight_button_x back to its initial value
-				this.flight_button_x -= this.flight_button_width;
-				this.previous_removed = false;
-			}
 		}
+		
+		
 		
 		this.separationRules.checkViolation(this);
 	}
@@ -383,13 +359,6 @@ public class Airspace {
 		this.list_of_incoming_flights.add(flight);
 	}
 
-	public int getFlight_button_x() {
-		return flight_button_x;
-	}
-
-	public void setFlight_button_x(int flight_button_x) {
-		this.flight_button_x = flight_button_x;
-	}
 
 	public void setMax_number_of_flights(int max_number_of_flights) {
 		this.max_number_of_flights = max_number_of_flights;

@@ -15,7 +15,7 @@ public class Flight {
 
 	// FIELDS
 	private double x, y, target_altitude, current_heading, target_heading;
-	private int current_altitude, flight_num, flight_button_x, waypoint_list_x;
+	private int current_altitude, flight_num, waypoint_list_x;
 	private boolean turning_right, turning_left, warningViolation;
 	private String flight_name;
 	private FlightPlan flight_plan;
@@ -40,7 +40,6 @@ public class Flight {
 		this.turning_right = false;
 		this.turning_left = false;
 		this.flight_plan = new FlightPlan(airspace);
-		this.flight_button_x = airspace.getFlight_button_x();
 		this.color = Color.white;
 		this.selected = false;
 		this.warningViolation = false;
@@ -239,7 +238,7 @@ public class Flight {
 		this.update_current_heading();
 		this.update_x_y_coordinates();
 		this.update_altitude();
-		this.waypoint_list_x=800;
+		
 		
 		if (this.flight_plan.getWaypoints().size() > 0) {
 			for(int i=0;i<this.flight_plan.getWaypoints().size(); i++) {
@@ -302,33 +301,19 @@ public class Flight {
 	}
 
 	public void render(Graphics g, GameContainer gc) throws SlickException {
+
 		g.setColor(color);
 		g.setFont(smallFont);
-		if (this.selected) {
-			
-			if(this.waypoint_list_x>0) {
-				for(int i=0; i<this.flight_plan.getWaypoints().size(); i++) {
-					g.drawString(this.flight_plan.getWaypoints().get(i).getPointRef(), this.waypoint_list_x, 500);
-					this.waypoint_list_x+=30;
-				}
-			}
-			
-			this.controls.render(gc, g);
-			g.setColor(this.color);
-			/*g.setWorldClip(0, 0, 1200, 500);
-			g.drawString("0", (int)this.x-5, (int)this.y-48);
-			g.drawString("90", (int)this.x+30, (int)this.y-5);
-			g.drawString("180", (int)this.x-8, (int)this.y+32);
-			g.drawString("270", (int)this.x-46, (int)this.y-5);*/
-			
-		}
-		g.setWorldClip(0, 0, 1200, 500);
+	
+		g.setWorldClip(150, 0, 1200, 600);
 		g.drawString(this.flight_name, (int) this.x - 20, (int) this.y + 25);
 		g.drawString(Math.round(this.current_altitude) + "ft",(int) this.x -25, (int)this.y-27);
 		g.drawString(Math.round(this.current_heading) + " deg",(int) this.x-25, (int) this.y-42);//-15,20
+		
 		if (this.flight_plan.getWaypoints().size() > 0) {
 			g.drawString("Target: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x-25, (int) this.y + 10);
 		}
+		
 		g.setFont(bigFont);
 		img.setRotation((int) current_heading);
 
@@ -343,21 +328,44 @@ public class Flight {
 		// Drawing Flight Button at bottom
 		
 		g.setColor(Color.white);
+		//if(this.selected) {
+		//	this.selected_img.draw(this.flight_button_x,530);
+		//}
+		
 		if(this.selected) {
-			this.selected_img.draw(this.flight_button_x,530);
+			
+			g.setColor(this.color);
+			
+			String plan = "";
+			for(int i=0; i<this.flight_plan.getWaypoints().size(); i++) {
+				plan += this.flight_plan.getWaypoints().get(i).getPointRef()+", ";
+			}
+			g.drawString(plan, 10, 490);
+			
+			
+			this.controls.render(gc, g);
+			
+			g.setColor(Color.white);
+		
+		
+			g.drawString(this.flight_name,  10, 450);
+		
+			g.drawString("Plan: ",  10, 470);
+		
+		
+		
+			g.drawString(Math.round(this.current_altitude) + " ft",
+				 10, 510);
+		
+			g.drawString(Math.round(this.current_heading) + " deg",
+				10, 530);
+		
+			g.drawString(Math.round(this.getFlight_plan().getVelocity()) + " MPH",
+				10, 550);
+		
 		}
 		
-		g.drawString(this.flight_name, (int) this.flight_button_x + 20, 535);
-		
-		g.drawString(Math.round(this.current_altitude) + " ft",
-				(int) this.flight_button_x + 20, 550);
-		
-		g.drawString(Math.round(this.current_heading) + " deg",
-				(int) this.flight_button_x + 20, 565);
-		
-		g.drawString(Math.round(this.getFlight_plan().getVelocity()) + " MPH",
-				(int) this.flight_button_x + 20, 580);
-		
+	
 		
 	}
 
@@ -431,13 +439,7 @@ public class Flight {
 		this.flight_num = i;
 	}
 
-	public int getFlight_button_x() {
-		return flight_button_x;
-	}
-
-	public void setFlight_button_x(int flight_button_x) {
-		this.flight_button_x = flight_button_x;
-	}
+	
 
 	public int getFlight_num() {
 		return flight_num;
