@@ -324,8 +324,6 @@ public class Airspace {
 			
 		}
 		
-		
-		
 		this.separationRules.checkViolation(this);
 	}
 

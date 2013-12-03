@@ -301,6 +301,8 @@ public class Flight {
 	}
 
 	public void render(Graphics g, GameContainer gc) throws SlickException {
+		
+		// Drawing Flight
 
 		g.setColor(color);
 		g.setFont(smallFont);
@@ -325,12 +327,8 @@ public class Flight {
 		
 		g.setWorldClip(0, 0, 1200, 600);
 		
-		// Drawing Flight Button at bottom
-		
-		g.setColor(Color.white);
-		//if(this.selected) {
-		//	this.selected_img.draw(this.flight_button_x,530);
-		//}
+		// Drawing Flight Button on left hand side
+
 		
 		if(this.selected) {
 			
