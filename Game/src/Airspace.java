@@ -27,6 +27,9 @@ public class Airspace {
 	private boolean previous_removed;
 	private Flight selected_flight;
 
+	private int game_difficulty_value = 2;  // !! Should be fetched by Difficulty Screen, currently fails to do so
+	private boolean warningViolation = false; // bool outlining whether a violation is present
+	
 	// CONSTRUCTOR
 
 	Airspace() {
@@ -37,7 +40,7 @@ public class Airspace {
 		this.list_of_waypoints = new ArrayList<Waypoint>();
 		this.list_of_entrypoints = new ArrayList<EntryPoint>();
 		this.list_of_exitpoints = new ArrayList<ExitPoint>();
-		this.separationRules = new SeparationRules(1);
+		this.separationRules = new SeparationRules(game_difficulty_value); 
 		this.loops_since_last_flight_entry = 400; // how many loops to wait before another flight can enter
 		this.overall_loops = 0; // stores how many loops there have been in total
 		this.next_difficulty_loops = 5000; // this is how many loops until planes come more quickly, divide by 60 for seconds
@@ -215,22 +218,22 @@ public class Airspace {
 		}
 	}
 
-	public void setDifficulty(int difficulty) {
-		switch (difficulty) {
-		case 1:
-			separationRules.setGameOverLateralSeparation(50);
-			separationRules.setGameOverVerticalSeparation(50);
-			break;
-		case 2:
-			separationRules.setGameOverLateralSeparation(25);
-			separationRules.setGameOverVerticalSeparation(25);
-			break;
-		case 3:
-			separationRules.setGameOverLateralSeparation(10);
-			separationRules.setGameOverVerticalSeparation(10);
-			break;
-		}
-	}
+	//public void setDifficulty(int difficulty) {
+	//	switch (difficulty) {
+	//	case 1:
+	//		separationRules.setGameOverLateralSeparation(50);
+	//		separationRules.setGameOverVerticalSeparation(50);
+	//		break;
+	//	case 2:
+	//		separationRules.setGameOverLateralSeparation(25);
+	//		separationRules.setGameOverVerticalSeparation(25);
+	//		break;
+	//	case 3:
+	//		separationRules.setGameOverLateralSeparation(10);
+	//		separationRules.setGameOverVerticalSeparation(10);
+	//		break;
+	//	}
+	//}
 
 	public void changeScore(int value) {
 		this.score += value;
@@ -264,6 +267,31 @@ public class Airspace {
 		}
 		for (int i = 0; i < this.list_of_flights_in_airspace.size(); i++) {
 			this.list_of_flights_in_airspace.get(i).render(g, gc);
+		}
+// Ram - Draw lines between flights in airspace violation.
+// Logic checks each pair of planes currently in airspace. If too close (as defined by Separation Rules Object, 
+// red line is drawn.
+		for (int flightno = 0; flightno < this.getList_of_flights().size(); flightno++) {
+			
+			for (int temptemp = flightno + 1; temptemp < this.getList_of_flights().size(); temptemp++ ) {	
+				
+				if (this.get_separation_rules().lateralDistanceBetweenFlights(this.getList_of_flights().get(flightno), 
+						this.getList_of_flights().get(temptemp)) <= this.get_separation_rules().getWarningLateralSeparation()) {
+					
+					if (this.get_separation_rules().verticalDistanceBetweenFlights(this.getList_of_flights().get(flightno), 
+							this.getList_of_flights().get(temptemp)) <= this.get_separation_rules().getWarningVerticalSeparation()) {
+						
+						float f1x = (float) list_of_flights_in_airspace.get(flightno).getX();
+						float f1y = (float) list_of_flights_in_airspace.get(flightno).getY();
+						float f2x = (float) list_of_flights_in_airspace.get(temptemp).getX();
+						float f2y = (float) list_of_flights_in_airspace.get(temptemp).getY();
+						g.setColor(Color.red);
+						g.setLineWidth(2);
+						g.drawLine(f1x, f1y, f2x, f2y);
+						g.setLineWidth(1);
+						
+				}}
+			}
 		}
 
 	}
@@ -444,5 +472,11 @@ public class Airspace {
 	public SeparationRules get_separation_rules(){
 		return this.separationRules;
 	}
-
+	public boolean get_the_warning_violation() {
+		return this.warningViolation;
+	}
+	
+	public void set_the_warning_violation(boolean updatedbool) {
+		this.warningViolation = updatedbool;
+	}
 }
