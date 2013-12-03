@@ -47,7 +47,7 @@ public class Play extends BasicGameState {
 		
 		//bottom_bar_image = new Image("/res/graphics/graphics/flight_menu.jpg");
 		control_bar_image = new Image("/res/graphics/graphics/control_bar_vertical.png");
-		clock_image = new Image("/res/graphics/graphics/clock.png");
+		clock_image = new Image("/res/graphics/graphics/clock.PNG");
 		background_image = new Image("/res/graphics/graphics/background.png");
 		
 		
