@@ -256,30 +256,6 @@ public class Flight {
 				this.selected = false;
 				
 			}
-		
-			/*if ((((posX < this.flight_button_x || posX > this.flight_button_x + 126) || (posY < 0 || posY > 100)) && Mouse
-					.isButtonDown(0))
-					|| this.flight_plan.getWaypoints().isEmpty()) {
-				if ((((posX > 0 && posX < 100) && (posY > 0 && posY < 600)) && Mouse
-						.isButtonDown(0))
-						&& !this.flight_plan.getWaypoints().isEmpty()) {
-					this.selected = true;
-					a.set_selected_flight(this);
-				}
-				
-			}
-		} else {
-			
-
-			this.controls.clear_all();
-
-			if ((posX > this.flight_button_x && posX < this.flight_button_x + 126)
-					&& (posY > 0 && posY < 70) && Mouse.isButtonDown(0)) {
-
-				this.selected = true;
-				a.set_selected_flight(this);
-
-			}*/
 		}
 		else {
 			this.color=Color.white;
@@ -338,19 +314,19 @@ public class Flight {
 		
 		g.setColor(Color.white);
 		if(this.selected) {
-			//this.selected_img.draw(this.flight_button_x,535);
+			this.selected_img.draw(this.flight_button_x,530);
 		}
 		
-		g.drawString(this.flight_name, (int) this.flight_button_x + 30, 535);
+		g.drawString(this.flight_name, (int) this.flight_button_x + 20, 535);
 		
 		g.drawString(Math.round(this.current_altitude) + " ft",
-				(int) this.flight_button_x + 30, 550);
+				(int) this.flight_button_x + 20, 550);
 		
 		g.drawString(Math.round(this.current_heading) + " deg",
-				(int) this.flight_button_x + 30, 565);
+				(int) this.flight_button_x + 20, 565);
 		
 		g.drawString(Math.round(this.getFlight_plan().getVelocity()) + " MPH",
-				(int) this.flight_button_x + 30, 580);
+				(int) this.flight_button_x + 20, 580);
 		
 		
 	}
