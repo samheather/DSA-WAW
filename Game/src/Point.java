@@ -68,7 +68,7 @@ public class Point {
     
     public void init(GameContainer gc) throws SlickException {
     
-
+    	
 		
 		
 

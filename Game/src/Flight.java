@@ -17,7 +17,7 @@ public class Flight {
 	private FlightPlan flight_plan;
 	private int MAXIMUM_ALTITUDE = 30000;
 	private int MINIMUM_ALTITUDE = 27000;
-	private Image img;
+	private Image img, selected_img;
 	private Color color;
 	private boolean selected;
 	private Controls controls;
@@ -256,7 +256,7 @@ public class Flight {
 
 			this.color = Color.yellow;
 		
-			if ((((posX < this.flight_button_x || posX > this.flight_button_x + 100) || (posY < 0 || posY > 100)) && Mouse
+			if ((((posX < this.flight_button_x || posX > this.flight_button_x + 117) || (posY < 0 || posY > 100)) && Mouse
 					.isButtonDown(0))
 					|| this.flight_plan.getWaypoints().isEmpty()) {
 				if ((((posX > 0 && posX < 100) && (posY > 0 && posY < 600)) && Mouse
@@ -274,7 +274,7 @@ public class Flight {
 
 			this.controls.clear_all();
 
-			if ((posX > this.flight_button_x && posX < this.flight_button_x + 100)
+			if ((posX > this.flight_button_x && posX < this.flight_button_x + 117)
 					&& (posY > 0 && posY < 75) && Mouse.isButtonDown(0)) {
 
 				this.selected = true;
@@ -287,6 +287,7 @@ public class Flight {
 
 	public void init(GameContainer gc) throws SlickException {
 		img = new Image("/res/graphics/graphics/flight.png");
+		selected_img = new Image("res/selected_flight.jpg");
 		this.controls = new Controls(gc, this);
 		controls.init(gc);
 
@@ -294,7 +295,7 @@ public class Flight {
 
 	public void render(Graphics g, GameContainer gc) throws SlickException {
 		g.setColor(color);
-		g.setWorldClip(0, 0, 1200, 500);
+		g.setWorldClip(100, 0, 1100, 500);
 		g.drawString(this.flight_name, (int) this.x - 15, (int) this.y - 20);
 
 		if (this.flight_plan.getWaypoints().size() > 0) {
@@ -314,6 +315,9 @@ public class Flight {
 		// Drawing Flight Button at bottom
 		
 		g.setColor(Color.white);
+		if(this.selected) {
+			this.selected_img.draw(this.flight_button_x,505,117,95);
+		}
 		
 		g.drawString(this.flight_name, (int) this.flight_button_x + 30, 535);
 		

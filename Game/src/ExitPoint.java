@@ -30,7 +30,7 @@ public class ExitPoint extends Point {
 			exit_point_top.draw((int)this.x-20, (int)this.y);
 		}
 		
-		else if(this.x == 0){
+		else if(this.x == 100){
 			exit_point_left.draw((int)this.x, (int)this.y-20);
 		}
 		
@@ -43,7 +43,7 @@ public class ExitPoint extends Point {
     	if(this.y == 0){
     		g.drawString(this.pointRef, (int)this.x-15, (int)this.y);
     	}
-    	else if(this.x ==0){
+    	else if(this.x ==100){
     		g.drawString(this.pointRef, (int)this.x, (int)this.y-7);
     	}
     	
