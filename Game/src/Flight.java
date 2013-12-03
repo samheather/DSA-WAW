@@ -287,7 +287,7 @@ public class Flight {
 
 	public void init(GameContainer gc) throws SlickException {
 		img = new Image("/res/graphics/graphics/flight.png");
-		selected_img = new Image("res/selected_flight.jpg");
+		selected_img = new Image("res/graphics/graphics/selected_flight.jpg");
 		this.controls = new Controls(gc, this);
 		controls.init(gc);
 
@@ -295,7 +295,7 @@ public class Flight {
 
 	public void render(Graphics g, GameContainer gc) throws SlickException {
 		g.setColor(color);
-		g.setWorldClip(100, 0, 1100, 500);
+		g.setWorldClip(0, 0, 1200, 500);
 		g.drawString(this.flight_name, (int) this.x - 15, (int) this.y - 20);
 
 		if (this.flight_plan.getWaypoints().size() > 0) {
@@ -316,7 +316,7 @@ public class Flight {
 		
 		g.setColor(Color.white);
 		if(this.selected) {
-			this.selected_img.draw(this.flight_button_x,505,117,95);
+			this.selected_img.draw(this.flight_button_x,535,126,70);
 		}
 		
 		g.drawString(this.flight_name, (int) this.flight_button_x + 30, 535);
@@ -338,6 +338,7 @@ public class Flight {
 					this.waypoint_list_y+=30;
 				}
 			}*/
+			
 			this.controls.render(gc, g);
 			g.setColor(this.color);
 			g.drawString("0", (int)this.x+5, (int)this.y-40);
