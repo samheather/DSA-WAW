@@ -81,19 +81,20 @@ public class Point {
     	
     	if(airspace.get_selected_flight() !=null){
     		if (airspace.get_selected_flight().getFlight_plan().getWaypoints().indexOf(this)==0){
-    			next_waypoint_image.draw((int)this.x -10, (int)this.y-10);
+    			next_waypoint_image.draw((int)this.x-14, (int)this.y-14,30,30);
     		}
     		else{
-    			waypoint_image.draw((int)this.x -10, (int)this.y-10);
+    			waypoint_image.draw((int)this.x-14, (int)this.y-14,30,30);
     		}
     		
     	}
     	else{
-    		waypoint_image.draw((int)this.x -10, (int)this.y-10);
+    		waypoint_image.draw((int)this.x-14, (int)this.y-14,30,30);
 	    	
     	}
     	g.setColor(Color.black);
-    	g.drawString(this.pointRef, (int)this.x, (int)this.y-5);
+    	g.drawString(this.pointRef, (int)this.x-5, (int)this.y-10);
+    	
     	
     	
     	

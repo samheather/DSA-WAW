@@ -30,7 +30,7 @@ public class Airspace {
 	// CONSTRUCTOR
 
 	Airspace() {
-		this.max_number_of_flights = 5; // just a value
+		this.max_number_of_flights = 2; // just a value
 		this.score = 0;
 		this.list_of_flights_in_airspace = new ArrayList<Flight>();
 		this.list_of_incoming_flights = new ArrayList<Flight>();
@@ -224,24 +224,31 @@ public class Airspace {
 		}
 
 	}
+	public void remove_specific_flight(int flight) {
+		this.list_of_flights_in_airspace.get(flight).getControls()
+		.clear_all();
+		this.list_of_flights_in_airspace.remove(flight); // remove that flight from the list
+		this.previous_removed = true; // tell the program a flight has been removed on this loop
+		if (!(this.list_of_flights_in_airspace.contains(this.selected_flight))) {
+			this.selected_flight = null;
+
+		}
+	}
 
 	public void update(GameContainer gc) {
 		this.loops_since_last_flight_entry++;
 		this.overall_loops++;
+		
 		for (int i = 0; i < this.list_of_flights_in_airspace.size(); i++) {
 			this.list_of_flights_in_airspace.get(i).update(gc, this);
-			if (this.check_if_flight_has_left_airspace(this
-					.getList_of_flights().get(i))) { // if a flight has left the airspace
-				this.list_of_flights_in_airspace.get(i).getControls()
-						.clear_all();
-				this.list_of_flights_in_airspace.remove(i); // remove that flight from the list
-				this.previous_removed = true; // tell the program a flight has been removed on this loop
-				if (!(this.list_of_flights_in_airspace
-						.contains(this.selected_flight))) {
-					this.selected_flight = null;
-
-				}
+			if(this.list_of_flights_in_airspace.get(i).getFlight_plan().getWaypoints().size()==0) {
+				this.remove_specific_flight(i);
 			}
+			else if (this.check_if_flight_has_left_airspace(this.getList_of_flights().get(i))) { // if a flight has left the airspace
+				this.remove_specific_flight(i);
+			}
+			
+			
 
 			// the code to shift all the buttons up if there is space
 			if (this.list_of_flights_in_airspace.size() > 0) { // if the list is not empty

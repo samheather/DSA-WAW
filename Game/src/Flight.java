@@ -112,7 +112,7 @@ public class Flight {
 	}
 
 	public void update_x_y_coordinates() {
-		double velocity = (this.flight_plan.getVelocity()) / 2000;
+		double velocity = (this.flight_plan.getVelocity()) / 500;
 
 		this.x += velocity * Math.sin(Math.toRadians(this.current_heading));
 
@@ -203,8 +203,8 @@ public class Flight {
 
 	public boolean check_if_flight_at_waypoint(Point waypoint) {
 		// The line below is just so there are no errors
-		if (((Math.abs(Math.round(this.x) - Math.round(waypoint.getX()))) <= 20)
-				&& (Math.abs(Math.round(this.y) - Math.round(waypoint.getY()))) <= 20) {
+		if (((Math.abs(Math.round(this.x) - Math.round(waypoint.getX()))) <= 15)
+				&& (Math.abs(Math.round(this.y) - Math.round(waypoint.getY()))) <= 15) {
 			return true;
 		}
 
@@ -291,19 +291,37 @@ public class Flight {
 	public void render(Graphics g, GameContainer gc) throws SlickException {
 		g.setColor(color);
 		g.setWorldClip(0, 0, 1200, 500);
-		g.drawString(this.flight_name, (int) this.x - 15, (int) this.y - 20);
+		g.drawString(this.flight_name, (int) this.x - 20, (int) this.y - 30);
 
 		if (this.flight_plan.getWaypoints().size() > 0) {
 			g.drawString(this.flight_plan.getPointByIndex(0).getPointRef(),
-					(int) this.x + 5, (int) this.y + 20);
+					(int) this.x-5, (int) this.y + 10);
 		}
 
 		img.setRotation((int) current_heading);
 
-		g.drawOval((int) this.x - 40, (int) this.y - 40, 100, 100);
+		g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
 		
 
-		img.draw((int) this.x, (int) this.y);
+		img.draw((int) this.x-10, (int) this.y-10);
+		
+		if (this.selected) {
+			
+			/*if(this.waypoint_list_y>0) {
+				for(int i=0; i<this.flight_plan.getWaypoints().size(); i++) {
+					g.drawString(this.flight_plan.getWaypoints().get(i).getPointRef(), 10, this.waypoint_list_y);
+					this.waypoint_list_y+=30;
+				}
+			}*/
+			
+			this.controls.render(gc, g);
+			g.setColor(this.color);
+			g.drawString("0", (int)this.x-5, (int)this.y-48);
+			g.drawString("90", (int)this.x+30, (int)this.y-5);
+			g.drawString("180", (int)this.x-8, (int)this.y+32);
+			g.drawString("270", (int)this.x-46, (int)this.y-5);
+			
+		}
 
 		g.setWorldClip(0, 0, 1200, 600);
 		
@@ -325,23 +343,7 @@ public class Flight {
 		g.drawString(Math.round(this.getFlight_plan().getVelocity()) + " MPH",
 				(int) this.flight_button_x + 30, 580);
 		
-		if (this.selected) {
-			
-			/*if(this.waypoint_list_y>0) {
-				for(int i=0; i<this.flight_plan.getWaypoints().size(); i++) {
-					g.drawString(this.flight_plan.getWaypoints().get(i).getPointRef(), 10, this.waypoint_list_y);
-					this.waypoint_list_y+=30;
-				}
-			}*/
-			
-			this.controls.render(gc, g);
-			g.setColor(this.color);
-			g.drawString("0", (int)this.x+5, (int)this.y-40);
-			g.drawString("90", (int)this.x+40, (int)this.y);
-			g.drawString("180", (int)this.x, (int)this.y+40);
-			g.drawString("270", (int)this.x-40, (int)this.y);
-			
-		}
+		
 	}
 
 	// MUTATORS AND ACCESSORS
