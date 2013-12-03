@@ -30,21 +30,6 @@ public class SeparationRules {
 	 }
 		
 	//METHODS
-		// Ram - Sets bool for on screen indicator based on whether two flights on screen are too close.
-		public void test_for_warning_violations(Airspace airspace) {
-			for (int counter = 0; counter < airspace.getList_of_flights().size(); counter++) {
-				for (int temptemp = 1; temptemp < airspace.getList_of_flights().size(); ) {	
-					if (airspace.get_separation_rules().lateralDistanceBetweenFlights(airspace.getList_of_flights().get(counter), 
-							airspace.getList_of_flights().get(counter + temptemp)) <= airspace.get_separation_rules().getWarningLateralSeparation()) {
-						if (airspace.get_separation_rules().verticalDistanceBetweenFlights(airspace.getList_of_flights().get(counter), 
-								airspace.getList_of_flights().get(counter + temptemp)) <= airspace.get_separation_rules().getWarningVerticalSeparation()) {
-							airspace.set_the_warning_violation(true);
-							break; 
-					}} else { airspace.set_the_warning_violation(false);
-					   temptemp += 1;}
-				}
-			}
-		}
 		
 	public double lateralDistanceBetweenFlights(Flight flight1, Flight flight2){
 		return Math.sqrt(Math.pow((flight1.getX() - flight2.getX()), 2) + Math.pow(( flight1.getY() - flight2.getY()),2));
