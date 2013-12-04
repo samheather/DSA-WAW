@@ -43,7 +43,7 @@ public class Flight {
 		this.turning_left = false;
 		this.airspace = airspace;
 		this.entryPoint = generate_entry_point();
-		this.flight_plan = new FlightPlan(airspace);
+		this.flight_plan = new FlightPlan(airspace, this.entryPoint);
 		this.color = Color.white;
 		this.selected = false;
 		this.warningViolation = false;

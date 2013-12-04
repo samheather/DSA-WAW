@@ -32,7 +32,7 @@ public class Airspace {
 	// CONSTRUCTOR
 
 	Airspace() {
-		this.max_number_of_flights = 20;
+		this.max_number_of_flights = 5;
 		this.score = 0;
 		this.list_of_flights_in_airspace = new ArrayList<Flight>();
 		this.list_of_waypoints = new ArrayList<Waypoint>();
@@ -44,7 +44,7 @@ public class Airspace {
 		this.loops_since_last_flight_entry = 400; // how many loops to wait before another flight can enter
 		this.overall_loops = 0; // stores how many loops there have been in total
 		this.next_difficulty_loops = 10000; // this is how many loops until planes come more quickly, divide by 60 for seconds
-		this.difficulty_levels = 1;// number of times difficulty changes
+		this.difficulty_levels = 10;// number of times difficulty changes
 		this.max_rand = (int) Math.pow(2, this.difficulty_levels);
 		this.wp_counter = 64;
 		this.exp_counter = 0;
@@ -91,8 +91,6 @@ public class Airspace {
 			double x;
 			double y;
 			int check_number;
-			
-			
 			
 			if (this.list_of_flights_in_airspace.isEmpty()) {
 				check_number = rand.nextInt(100);

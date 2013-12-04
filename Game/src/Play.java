@@ -115,6 +115,7 @@ public class Play extends BasicGameState {
 		g.setColor(Color.white);
 		clock_image.draw(0,5);
 		g.drawString(this.string_time, 30, 10);
+		
 
 	}
 
