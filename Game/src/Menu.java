@@ -21,6 +21,7 @@ public class Menu extends BasicGameState {
 			throws SlickException {
 		
 		try{
+
 			InputStream inputStream = ResourceLoader.getResourceAsStream("res/Virgo-01/virgo.ttf");
 			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
 			awtFont = awtFont.deriveFont(30f);

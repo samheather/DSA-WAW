@@ -40,6 +40,7 @@ public class Airspace {
 		this.list_of_waypoints = new ArrayList<Waypoint>();
 		this.list_of_entrypoints = new ArrayList<EntryPoint>();
 		this.list_of_exitpoints = new ArrayList<ExitPoint>();
+		this.game_difficulty_value = 2;
 		this.separationRules = new SeparationRules(game_difficulty_value); 
 		this.loops_since_last_flight_entry = 400; // how many loops to wait before another flight can enter
 		this.overall_loops = 0; // stores how many loops there have been in total
@@ -50,7 +51,7 @@ public class Airspace {
 		this.wp_counter = 64;
 		this.exp_counter = 0;
 		this.selected_flight = null;
-		this.game_difficulty_value = 2;
+		
 		
 	}
 

@@ -257,6 +257,7 @@ public class Flight {
 			this.controls.update(gc);
 			this.controls.setIncrease_alt((int)Math.round(this.target_altitude)+1000);
 			this.controls.setDecrease_alt((int)Math.round(this.target_altitude)-1000);
+			this.controls.setTarget_alt((int)Math.round(this.target_altitude));
 			if (!this.controls.headingHasFocus()) {
 				this.controls.getHeadingControlTB().setText(
 						String.valueOf(Math.round(this.target_heading)));

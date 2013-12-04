@@ -28,7 +28,7 @@ public class Controls {
 	private boolean left_cleared_this_focus;
 	private Flight flight;
 	private String text;
-	private int boxselected, increase_alt, decrease_alt;
+	private int boxselected, increase_alt, decrease_alt, target_alt;
 
 	public int getIncrease_alt() {
 		return increase_alt;
@@ -75,6 +75,7 @@ public class Controls {
 		this.decrease_alt=0;
 		this.max_alt=false;
 		this.min_alt=false;
+		this.target_alt=0;
 
 	}
 	
@@ -86,26 +87,20 @@ public class Controls {
 		int posY=Mouse.getY();
 
 		if(!this.mouse_pressed) {
-			if(posX>10&&posX<130&&posY<330&&posY>310&&Mouse.isButtonDown(0)) {
+			if(posX>10&&posX<130&&posY<300&&posY>280&&Mouse.isButtonDown(0)) {
 				if(this.increase_alt<=31000) {
 					this.increase_alt_clicked=true;
 					this.mouse_pressed=true;
 					this.min_alt=false;
 				}
-				else {
-					this.max_alt=true;
-				}
 			}
 
-			else if(posX>10&&posX<130&&posY<300&&posY>280&&Mouse.isButtonDown(0)) {
+			else if(posX>10&&posX<130&&posY<270&&posY>250&&Mouse.isButtonDown(0)) {
 				if(this.decrease_alt>=26000) {
 					this.mouse_pressed=true;
 					this.decrease_alt_clicked=true;
 					
 					this.max_alt=false;
-				}
-				else {
-					this.min_alt=true;
 				}
 			}
 			else {
@@ -116,6 +111,18 @@ public class Controls {
 		else {
 			this.increase_alt_clicked=false;
 			this.decrease_alt_clicked=false;
+		}
+		if(this.increase_alt>31000) {
+			this.max_alt=true;
+		}
+		else {
+			this.max_alt=false;
+		}
+		if(this.decrease_alt<26000) {
+			this.min_alt=true;
+		}
+		else {
+			this.min_alt=false;
 		}
 		if(!Mouse.isButtonDown(0)){
 			this.mouse_pressed=false;
@@ -289,20 +296,21 @@ public class Controls {
 		g.drawString("Turn Right:", 10, 350);
 		this.turnRightTB.render(gc, g);
 		g.setColor(Color.blue);
-		g.fillRect(10, 270, 130, 20);
 		g.fillRect(10, 300, 130, 20);
+		g.fillRect(10, 330, 130, 20);
 		g.setColor(Color.white);
+		g.drawString("Target: "+this.target_alt+"ft", 15, 270);
 		if(!this.max_alt){
-			g.drawString("Increase to "+this.increase_alt, 15, 270);
+			g.drawString("Increase to "+this.increase_alt, 15, 300);
 		}
 		else {
-			g.drawString("At max altitude", 15, 270);
+			g.drawString("At max altitude", 15, 300);
 		}
 		if(!this.min_alt){
-			g.drawString("Decrease to "+this.decrease_alt, 15, 300);
+			g.drawString("Decrease to "+this.decrease_alt, 15, 330);
 		}
 		else {
-			g.drawString("At min altitude", 15, 300);
+			g.drawString("At min altitude", 15, 330);
 		}
 		
 		
@@ -323,5 +331,13 @@ public class Controls {
 
 	public void setDecrease_alt_clicked(boolean decrease_alt_clicked) {
 		this.decrease_alt_clicked = decrease_alt_clicked;
+	}
+
+	public int getTarget_alt() {
+		return target_alt;
+	}
+
+	public void setTarget_alt(int target_alt) {
+		this.target_alt = target_alt;
 	}
 }
