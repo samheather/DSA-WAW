@@ -1,3 +1,4 @@
+
 import java.awt.Cursor;
 import java.awt.Font;
 import java.io.InputStream;
@@ -26,16 +27,16 @@ public class Play extends BasicGameState {
 	public Play(int state) {
 		airspace = new Airspace();
 		i = 1;
+		this.string_time="";
 
 	}
 
-	public void init(GameContainer gc, StateBasedGame sbg)
-			throws SlickException {
+	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		
 		
-		this.string_time="";
 		gc.setAlwaysRender(true);
-		airspace.init(gc);
+		gc.setUpdateOnlyWhenVisible(false);
+		
 	
 		
 		// Font
@@ -65,6 +66,9 @@ public class Play extends BasicGameState {
 		clock_image = new Image("/res/graphics/graphics/clock.PNG");
 		background_image = new Image("/res/graphics/graphics/background.png");
 		
+		//initialise the airspace object;
+		
+		
 		//Waypoints
 		
 		airspace.new_waypoint(350, 150);
@@ -89,6 +93,8 @@ public class Play extends BasicGameState {
 		airspace.new_exit_point(800, 0);
 		airspace.new_exit_point(150, 200);
 		airspace.new_exit_point(1200, 300);
+		
+		
 
 		
 
@@ -171,7 +177,7 @@ public class Play extends BasicGameState {
 		if(!gc.hasFocus()) {
 			sbg.enterState(4);
 		}
-		gc.setUpdateOnlyWhenVisible(false);
+		
 		
 		
 		// Give Flight a Heading through Right Click
