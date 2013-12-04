@@ -3,6 +3,7 @@ import java.awt.Font;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
@@ -29,16 +30,17 @@ public class Controls {
 	private Flight flight;
 	private String text;
 	private int boxselected, increase_alt, decrease_alt, target_alt;
+	private Image altitudeButton;
 
 
 	// CONSTRUCTOR
-	public void init(GameContainer gc) {
+	public void init(GameContainer gc) throws SlickException {
 		Font awtFont = new Font("Courier", Font.BOLD, 15);
 		font = new TrueTypeFont(awtFont, false);
 
 		this.turnLeftTB = new TextField(gc, font, 10, 70, 100, 23);
-		this.headingControlTB = new TextField(gc, font, 10, 170, 100, 23);
-		this.turnRightTB = new TextField(gc, font, 10, 370, 100, 23);
+		this.headingControlTB = new TextField(gc, font, 10, 140, 100, 23);
+		this.turnRightTB = new TextField(gc, font, 10, 210, 100, 23);
 		this.headingHasFocus = false;
 		this.turnLeftHasFocus = false;
 		this.turnRightHasFocus = false;
@@ -54,6 +56,7 @@ public class Controls {
 		this.max_alt=false;
 		this.min_alt=false;
 		this.target_alt=0;
+		altitudeButton = new Image("res/graphics/graphics/altitudebutton.png");
 
 	}
 	
@@ -63,9 +66,11 @@ public class Controls {
 	public void check_alt_buttons_clicked() {
 		int posX=Mouse.getX();
 		int posY=Mouse.getY();
+		
+		posY = 600 - posY; // Mapping Mouse coords onto graphic coords
 
 		if(!this.mouse_pressed) {
-			if(posX>10&&posX<130&&posY<300&&posY>280&&Mouse.isButtonDown(0)) {
+			if(posX>10&&posX<150&&posY<340&&posY>320&&Mouse.isButtonDown(0)) {
 				if(this.increase_alt<=31000) {
 					this.increase_alt_clicked=true;
 					this.mouse_pressed=true;
@@ -73,7 +78,7 @@ public class Controls {
 				}
 			}
 
-			else if(posX>10&&posX<130&&posY<270&&posY>250&&Mouse.isButtonDown(0)) {
+			else if(posX>10&&posX<150&&posY<370&&posY>350&&Mouse.isButtonDown(0)) {
 				if(this.decrease_alt>=26000) {
 					this.mouse_pressed=true;
 					this.decrease_alt_clicked=true;
@@ -129,28 +134,28 @@ public class Controls {
 		g.setColor(Color.white);
 		g.drawString("Turn Left:", 10, 50);
 		this.turnLeftTB.render(gc, g);
-		g.drawString("Target Heading:", 10, 150);
+		g.drawString("Target Heading:", 10, 120);
 		this.headingControlTB.render(gc, g);
-		g.drawString("Change Altitude:", 10, 250);
-		//this.altControlTB.render(gc, g);
-		g.drawString("Turn Right:", 10, 350);
+		g.drawString("Turn Right:", 10, 190);
+		g.drawString("Change Altitude:", 10, 260);
+	
 		this.turnRightTB.render(gc, g);
 		g.setColor(Color.blue);
-		g.fillRect(10, 300, 130, 20);
-		g.fillRect(10, 330, 130, 20);
+		altitudeButton.draw(0,320);
+		altitudeButton.draw(0,350);
 		g.setColor(Color.white);
-		g.drawString("Target: "+this.target_alt+"ft", 15, 270);
+		g.drawString("Target: "+this.target_alt+"ft", 10, 290);
 		if(!this.max_alt){
-			g.drawString("Increase to "+this.increase_alt, 15, 300);
+			g.drawString("Increase to "+this.increase_alt, 10, 320);
 		}
 		else {
-			g.drawString("At max altitude", 15, 300);
+			g.drawString("At max altitude", 10, 320);
 		}
 		if(!this.min_alt){
-			g.drawString("Decrease to "+this.decrease_alt, 15, 330);
+			g.drawString("Decrease to "+this.decrease_alt, 10, 350);
 		}
 		else {
-			g.drawString("At min altitude", 15, 330);
+			g.drawString("At min altitude", 10, 350);
 		}
 	}
 	

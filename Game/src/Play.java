@@ -18,7 +18,6 @@ public class Play extends BasicGameState {
 	private int i;
 	Image cursorImg;
 	public static float time;
-	private Music main_game_music;
 	private Sound end_of_game_sound;
 	public static TrueTypeFont font;
 	private Image bottom_bar_image, control_bar_image, clock_image, background_image;
@@ -54,9 +53,7 @@ public class Play extends BasicGameState {
 		
 		// Music
 		
-		main_game_music = new Music("res/Love Song In My Mind.wav");
-		main_game_music.loop();
-		main_game_music.setVolume(0.2f);
+
 		end_of_game_sound = new Sound("res/175385__digitaldominic__scream.wav");
 		
 		
@@ -162,14 +159,13 @@ public class Play extends BasicGameState {
 		}
 		airspace.update(gc);
 		if (airspace.get_separation_rules().getGameOverViolation() == true){
-			main_game_music.stop();
 			end_of_game_sound.play();
 			sbg.enterState(3);
 		}
 		
 		Input input = gc.getInput();
 		
-		// Checking For Pause Screen rqeuested in game
+		// Checking For Pause Screen requested in game
 		
 		if (input.isKeyPressed(Input.KEY_P)) {
 			sbg.enterState(4);
@@ -178,19 +174,6 @@ public class Play extends BasicGameState {
 			sbg.enterState(4);
 		}
 		
-		
-		
-		// Give Flight a Heading through Right Click
-		
-		int posX = Mouse.getX();
-		int posY = Mouse.getY();
-		
-		if(Mouse.isButtonDown(1)){
-			if (airspace.get_selected_flight()!= null){
-			Calculations.give_heading_with_mouse(posX, posY,airspace );
-			}
-		}
-	
 
 	}
 

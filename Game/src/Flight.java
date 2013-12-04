@@ -28,6 +28,7 @@ public class Flight {
 	private TrueTypeFont smallFont;
 	private TrueTypeFont bigFont;
 	private EntryPoint entryPoint;
+	private Airspace airspace;
 	
 
 	// CONSTRUCTOR
@@ -40,39 +41,46 @@ public class Flight {
 		this.current_heading = 0;
 		this.turning_right = false;
 		this.turning_left = false;
-		Random rand = new Random();
-		int entryPoint = rand.nextInt(3);
-		if (airspace.getList_of_entry_points().size() == 3) { // if we have all three entrypoints
-			this.entryPoint=airspace.getList_of_entrypoints().get(entryPoint);
-			this.x = airspace.getList_of_entrypoints().get(entryPoint).getX();// choose one a get the x and y values
-			this.y = airspace.getList_of_entrypoints().get(entryPoint).getY();
-		} else { // if all entrypoints are not there then just assign some values
-			this.x = 0;
-			this.y = 0;
-
-		}
+		this.airspace = airspace;
+		this.entryPoint = generate_entry_point();
 		this.flight_plan = new FlightPlan(airspace);
 		this.color = Color.white;
 		this.selected = false;
 		this.warningViolation = false;
 
-		// current_heading=calc.calculate_heading_to_first_waypoint(this,
 
 	}
 
 	// METHODS
+	
+	public EntryPoint generate_entry_point(){
+		
+		Random rand = new Random();
+		int random_number = rand.nextInt(3);
+		
+		if (this.airspace.getList_of_entry_points().size() == 3) { // if we have all three entrypoints
+			this.airspace.getList_of_entrypoints().get(random_number);
+			this.x = this.airspace.getList_of_entrypoints().get(random_number).getX();// choose one a get the x and y values
+			this.y = this.airspace.getList_of_entrypoints().get(random_number).getY();
+		} else { // if all entrypoints are not there then just assign some values
+			this.x = 0;
+			this.y = 0;
+
+		}
+		
+		return this.airspace.getList_of_entrypoints().get(random_number);
+		
+	}
 
 	public int generate_altitude() {
 		Random rand = new Random();
-		int check = rand.nextInt(4);
+		int check = rand.nextInt(3);
 		switch(check) {
 		case 0:
-			return 27000;
-		case 1:
 			return 28000;
-		case 2:
+		case 1:
 			return 29000;
-		case 3:
+		case 2:
 			return 30000;
 		}
 		return 27000;
@@ -123,21 +131,16 @@ public class Flight {
 		new_heading = new_heading % 360;
 		this.target_heading = new_heading;
 	}
-
-	public void set_altitude_lower() {
-		if ((this.current_altitude - 1000) < MINIMUM_ALTITUDE) {
-			this.target_altitude = MINIMUM_ALTITUDE;
-		} else {
-			this.target_altitude -= 1000;
+	
+	
+	public boolean check_if_flight_at_waypoint(Point waypoint) {
+		
+		if (((Math.abs(Math.round(this.x) - Math.round(waypoint.getX()))) <= 15)
+				&& (Math.abs(Math.round(this.y) - Math.round(waypoint.getY()))) <= 15) {
+			return true;
 		}
-	}
 
-	public void set_altitude_higher() {
-		if ((this.current_altitude + 1000) < MAXIMUM_ALTITUDE) {
-			this.target_altitude = MAXIMUM_ALTITUDE;
-		} else {
-			this.target_altitude += 1000;
-		}
+		return false;
 	}
 
 	public void update_x_y_coordinates() {
@@ -230,15 +233,7 @@ public class Flight {
 		}
 	}
 
-	public boolean check_if_flight_at_waypoint(Point waypoint) {
-		// The line below is just so there are no errors
-		if (((Math.abs(Math.round(this.x) - Math.round(waypoint.getX()))) <= 15)
-				&& (Math.abs(Math.round(this.y) - Math.round(waypoint.getY()))) <= 15) {
-			return true;
-		}
 
-		return false;
-	}
 
 	// UPDATE, RENDER, INIT
 	public void init(GameContainer gc) throws SlickException {
@@ -460,8 +455,6 @@ public class Flight {
 	public void setFlight_num(int i) {
 		this.flight_num = i;
 	}
-
-	
 
 	public int getFlight_num() {
 		return flight_num;

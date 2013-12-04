@@ -1,3 +1,7 @@
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+
 
 public class SeparationRules {
 	
@@ -5,7 +9,6 @@ public class SeparationRules {
 
 	private int warningLateralSeparation, warningVerticalSeparation; 
 	private int gameOverLateralSeparation, gameOverVerticalSeparation;
-	private boolean warningViolation;
 	private boolean gameOverViolation; 
 	
 	// CONSTRUCTOR
@@ -41,25 +44,12 @@ public class SeparationRules {
 	
 	public void checkViolation(Airspace airspace){
 		
-		// resetting all the flights to false
-		for (int i = 0; i < airspace.getList_of_flights().size(); i++){
-			airspace.getList_of_flights().get(i).set_warning_violation(false);
-		}
 		
 		// checks if flights are in violation with each other.
 		for (int i = 0; i < airspace.getList_of_flights().size(); i++){
 			
 			for (int j = i+1; j < airspace.getList_of_flights().size(); j++){ // j = i + 1 : stops double checking
 				
-				if ((lateralDistanceBetweenFlights(airspace.getList_of_flights().get(i), airspace.getList_of_flights().get(j)) < this.warningLateralSeparation)){
-					airspace.getList_of_flights().get(i).set_warning_violation(true);
-					airspace.getList_of_flights().get(j).set_warning_violation(true);
-				}
-				
-				else if ((verticalDistanceBetweenFlights(airspace.getList_of_flights().get(i), airspace.getList_of_flights().get(j)) < this.warningVerticalSeparation)){
-					airspace.getList_of_flights().get(i).set_warning_violation(true);
-					airspace.getList_of_flights().get(j).set_warning_violation(true);
-				}
 						
 				// Ram - Changed Game Over cond. to require BOTH vertical and lateral screw up.
 				if ((lateralDistanceBetweenFlights(airspace.getList_of_flights().get(i), airspace.getList_of_flights().get(j)) < this.gameOverLateralSeparation)){
@@ -69,6 +59,37 @@ public class SeparationRules {
 				}
 			}
 		}
+	}
+	
+	public void render(Graphics g, GameContainer gc, Airspace airspace){
+		for (int i = 0; i < airspace.getList_of_flights().size(); i++) {
+			
+			for (int j = i + 1; j < airspace.getList_of_flights().size(); j++ ) {	
+				
+				if (this.lateralDistanceBetweenFlights(airspace.getList_of_flights().get(i), 
+						airspace.getList_of_flights().get(j)) <= this.getWarningLateralSeparation()) {
+					
+					if (this.verticalDistanceBetweenFlights(airspace.getList_of_flights().get(i), 
+							airspace.getList_of_flights().get(j)) <= this.getWarningVerticalSeparation()) {
+						
+						float f1x = (float) airspace.getList_of_flights().get(i).getX();
+						float f1y = (float) airspace.getList_of_flights().get(i).getY();
+						float f2x = (float) airspace.getList_of_flights().get(j).getX();
+						float f2y = (float) airspace.getList_of_flights().get(j).getY();
+						g.setColor(Color.red);
+						g.setLineWidth(2);
+						g.drawLine(f1x, f1y, f2x, f2y);
+						g.setLineWidth(1);
+						
+				}}
+			}
+		}
+		
+	}
+	
+	public void update(GameContainer gc, Airspace airspace) {
+		
+		this.checkViolation(airspace);
 	}
 	
 	
@@ -98,9 +119,6 @@ public class SeparationRules {
 		return this.warningVerticalSeparation;
 	}
 	
-	public boolean getWarningViolation(){
-		return this.warningViolation;
-	}
 	
 	public boolean getGameOverViolation(){
 		return this.gameOverViolation;

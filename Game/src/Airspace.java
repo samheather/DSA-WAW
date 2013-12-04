@@ -25,7 +25,7 @@ public class Airspace {
 	private List<ExitPoint> list_of_exitpoints;
 	private SeparationRules separationRules;
 	private Flight selected_flight;
-
+	private Airport airport;
 	private int game_difficulty_value; // !! Should be fetched by Difficulty Screen, currently fails to do so
 	private boolean warningViolation = false; // bool outlining whether a violation is present
 	
@@ -38,6 +38,7 @@ public class Airspace {
 		this.list_of_waypoints = new ArrayList<Waypoint>();
 		this.list_of_entrypoints = new ArrayList<EntryPoint>();
 		this.list_of_exitpoints = new ArrayList<ExitPoint>();
+		this.airport = new Airport();
 		this.game_difficulty_value = 2;
 		this.separationRules = new SeparationRules(game_difficulty_value); 
 		this.loops_since_last_flight_entry = 400; // how many loops to wait before another flight can enter
@@ -101,7 +102,7 @@ public class Airspace {
 
 			if (check_number == 1) {
 
-				if (this.loops_since_last_flight_entry >= 700  || this.list_of_flights_in_airspace.isEmpty()) {
+				if (this.loops_since_last_flight_entry >= 1000  || this.list_of_flights_in_airspace.isEmpty()) {
 
 					Flight tempFlight = new Flight(this);
 					tempFlight.setFlight_name(this.generate_flight_name());
@@ -236,6 +237,15 @@ public class Airspace {
 		if(Mouse.isButtonDown(0)){
 			this.check_selected(posX,posY,this);
 		}
+		
+		posX = Mouse.getX();
+		posY = Mouse.getY();
+		
+		if(Mouse.isButtonDown(1)){
+			if (this.get_selected_flight()!= null){
+			Calculations.give_heading_with_mouse(posX, posY,this );
+			}
+		}
 		for (int i = 0; i < this.list_of_flights_in_airspace.size(); i++) {
 			this.list_of_flights_in_airspace.get(i).update(gc, this);
 			if(this.list_of_flights_in_airspace.get(i).getFlight_plan().getWaypoints().size()==0) {
@@ -247,7 +257,7 @@ public class Airspace {
 			
 		}
 		
-		this.separationRules.checkViolation(this);
+		this.separationRules.update(gc, this);
 	}
 
 	public void render(Graphics g, GameContainer gc) throws SlickException { 
@@ -264,31 +274,9 @@ public class Airspace {
 		for (int i = 0; i < this.list_of_flights_in_airspace.size(); i++) {
 			this.list_of_flights_in_airspace.get(i).render(g, gc);
 		}
-// Ram - Draw lines between flights in airspace violation.
-// Logic checks each pair of planes currently in airspace. If too close (as defined by Separation Rules Object, 
-// red line is drawn.
-		for (int i = 0; i < this.getList_of_flights().size(); i++) {
-			
-			for (int j = i + 1; j < this.getList_of_flights().size(); j++ ) {	
-				
-				if (this.get_separation_rules().lateralDistanceBetweenFlights(this.getList_of_flights().get(i), 
-						this.getList_of_flights().get(j)) <= this.get_separation_rules().getWarningLateralSeparation()) {
-					
-					if (this.get_separation_rules().verticalDistanceBetweenFlights(this.getList_of_flights().get(i), 
-							this.getList_of_flights().get(j)) <= this.get_separation_rules().getWarningVerticalSeparation()) {
-						
-						float f1x = (float) list_of_flights_in_airspace.get(i).getX();
-						float f1y = (float) list_of_flights_in_airspace.get(i).getY();
-						float f2x = (float) list_of_flights_in_airspace.get(j).getX();
-						float f2y = (float) list_of_flights_in_airspace.get(j).getY();
-						g.setColor(Color.red);
-						g.setLineWidth(2);
-						g.drawLine(f1x, f1y, f2x, f2y);
-						g.setLineWidth(1);
-						
-				}}
-			}
-		}
+		
+		this.airport.render(g, gc);
+		this.separationRules.render(g, gc, this);
 
 	}
 
