@@ -27,6 +27,7 @@ public class Flight {
 	private Controls controls;
 	private TrueTypeFont smallFont;
 	private TrueTypeFont bigFont;
+	private EntryPoint entryPoint;
 	
 
 	// CONSTRUCTOR
@@ -39,14 +40,23 @@ public class Flight {
 		this.current_heading = 0;
 		this.turning_right = false;
 		this.turning_left = false;
+		Random rand = new Random();
+		int entryPoint = rand.nextInt(3);
+		if (airspace.getList_of_entry_points().size() == 3) { // if we have all three entrypoints
+			this.entryPoint=airspace.getList_of_entrypoints().get(entryPoint);
+			this.x = airspace.getList_of_entrypoints().get(entryPoint).getX();// choose one a get the x and y values
+			this.y = airspace.getList_of_entrypoints().get(entryPoint).getY();
+		} else { // if all entrypoints are not there then just assign some values
+			this.x = 0;
+			this.y = 0;
+
+		}
 		this.flight_plan = new FlightPlan(airspace);
 		this.color = Color.white;
 		this.selected = false;
 		this.warningViolation = false;
 
 		// current_heading=calc.calculate_heading_to_first_waypoint(this,
-		// this.flight_plan.getPointByIndex(0).getXCoOrd(),
-		// this.flight_plan.getPointByIndex(0).getXCoOrd());
 
 	}
 
@@ -231,6 +241,25 @@ public class Flight {
 	}
 
 	// UPDATE, RENDER, INIT
+	public void init(GameContainer gc) throws SlickException {
+		img = new Image("/res/graphics/graphics/flight.png");
+		selected_img = new Image("res/graphics/graphics/selected_flight2.jpg");
+		this.controls = new Controls(gc, this);
+		controls.init(gc);
+		try{
+			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway font/bluehigh.ttf");
+			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
+			awtFont = awtFont.deriveFont(19f);
+			this.smallFont = new TrueTypeFont(awtFont, false);
+			awtFont = awtFont.deriveFont(20f);
+			this.bigFont = new TrueTypeFont(awtFont,false);
+			
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
+	}
 
 	public void update(GameContainer gc, Airspace a) {
 
@@ -274,7 +303,7 @@ public class Flight {
 				this.controls.getAltControlTB().setText(
 						String.valueOf(Math.round(this.target_altitude)));
 			}*/
-			this.controls.allow_all();
+			//this.controls.allow_all();
 
 			this.color = Color.yellow;
 			
@@ -285,30 +314,12 @@ public class Flight {
 		}
 		else {
 			this.color=Color.white;
-			this.controls.clear_all();
+			//this.controls.clear_all();
 		}
 
 	}
 
-	public void init(GameContainer gc) throws SlickException {
-		img = new Image("/res/graphics/graphics/flight.png");
-		selected_img = new Image("res/graphics/graphics/selected_flight2.jpg");
-		this.controls = new Controls(gc, this);
-		controls.init(gc);
-		try{
-			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway font/bluehigh.ttf");
-			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
-			awtFont = awtFont.deriveFont(19f);
-			this.smallFont = new TrueTypeFont(awtFont, false);
-			awtFont = awtFont.deriveFont(20f);
-			this.bigFont = new TrueTypeFont(awtFont,false);
-			
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-
-	}
+	
 
 	public void render(Graphics g, GameContainer gc) throws SlickException {
 		

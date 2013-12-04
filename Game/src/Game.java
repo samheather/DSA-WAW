@@ -1,3 +1,4 @@
+
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 
@@ -25,8 +26,7 @@ public class Game extends StateBasedGame {
 
 	public void initStatesList(GameContainer gc) throws SlickException {
 
-		//this.getState(MENU).init(gc, this);
-		//this.getState(PLAY).init(gc, this);
+		
 
 	}
 

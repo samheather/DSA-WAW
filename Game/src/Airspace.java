@@ -32,7 +32,7 @@ public class Airspace {
 	// CONSTRUCTOR
 
 	Airspace() {
-		this.max_number_of_flights = 5;
+		this.max_number_of_flights = 20;
 		this.score = 0;
 		this.list_of_flights_in_airspace = new ArrayList<Flight>();
 		this.list_of_waypoints = new ArrayList<Waypoint>();
@@ -43,7 +43,7 @@ public class Airspace {
 		this.loops_since_last_flight_entry = 400; // how many loops to wait before another flight can enter
 		this.overall_loops = 0; // stores how many loops there have been in total
 		this.next_difficulty_loops = 10000; // this is how many loops until planes come more quickly, divide by 60 for seconds
-		this.difficulty_levels = 13;// number of times difficulty changes
+		this.difficulty_levels = 1;// number of times difficulty changes
 		this.max_rand = (int) Math.pow(2, this.difficulty_levels);
 		this.wp_counter = 64;
 		this.exp_counter = 0;
@@ -90,24 +90,9 @@ public class Airspace {
 			double x;
 			double y;
 			int check_number;
-			int entryPoint = rand.nextInt(3);
-
-			if (this.list_of_entrypoints.size() == 3) { // if we have all three entrypoints
-				x = this.list_of_entrypoints.get(entryPoint).getX();// choose one a get the x and y values
-				y = this.list_of_entrypoints.get(entryPoint).getY();
-
-			} else { // if all entrypoints are not there then just assign some values
-				x = 0;
-				y = 0;
-
-			}
-			if (this.overall_loops >= this.next_difficulty_loops) {
-				this.next_difficulty_loops += 10000;
-				if (this.max_rand > 2) {
-					this.max_rand = this.max_rand / 2;
-				}
-
-			}
+			
+			
+			
 			if (this.list_of_flights_in_airspace.isEmpty()) {
 				check_number = rand.nextInt(100);
 			} else {
@@ -120,8 +105,6 @@ public class Airspace {
 
 					Flight tempFlight = new Flight(this);
 					tempFlight.setFlight_name(this.generate_flight_name());
-					tempFlight.setX(x);
-					tempFlight.setY(y);
 					tempFlight.setTarget_altitude(tempFlight.getCurrent_altitude());
 					double heading = Calculations.calculate_heading_to_first_waypoint(tempFlight,
 									tempFlight.getFlight_plan().getPointByIndex(0).getX() ,
@@ -241,6 +224,13 @@ public class Airspace {
 	public void update(GameContainer gc) {
 		this.loops_since_last_flight_entry++;
 		this.overall_loops++;
+		if (this.overall_loops >= this.next_difficulty_loops) {
+			this.next_difficulty_loops += 10000;
+			if (this.max_rand > 2) {
+				this.max_rand = this.max_rand / 2;
+			}
+
+		}
 		int posX=Mouse.getX();
 		int posY=Mouse.getY();
 		if(Mouse.isButtonDown(0)){
@@ -419,5 +409,13 @@ public class Airspace {
 	
 	public void set_the_warning_violation(boolean updatedbool) {
 		this.warningViolation = updatedbool;
+	}
+
+	public List<EntryPoint> getList_of_entrypoints() {
+		return list_of_entrypoints;
+	}
+
+	public void setList_of_entrypoints(List<EntryPoint> list_of_entrypoints) {
+		this.list_of_entrypoints = list_of_entrypoints;
 	}
 }
