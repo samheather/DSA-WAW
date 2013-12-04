@@ -30,25 +30,6 @@ public class Controls {
 	private String text;
 	private int boxselected, increase_alt, decrease_alt, target_alt;
 
-	public int getIncrease_alt() {
-		return increase_alt;
-	}
-
-	public void setIncrease_alt(int increase_alt) {
-		this.increase_alt = increase_alt;
-	}
-
-	public int getDecrease_alt() {
-		return decrease_alt;
-	}
-
-	public void setDecrease_alt(int decrease_alt) {
-		this.decrease_alt = decrease_alt;
-	}
-
-	public Controls(GameContainer gc, Flight flight) {
-		this.flight = flight;
-	}
 
 	// CONSTRUCTOR
 	public void init(GameContainer gc) {
@@ -57,14 +38,11 @@ public class Controls {
 
 		this.turnLeftTB = new TextField(gc, font, 10, 70, 100, 23);
 		this.headingControlTB = new TextField(gc, font, 10, 170, 100, 23);
-		//this.altControlTB = new TextField(gc, font, 10, 270, 100, 23);
 		this.turnRightTB = new TextField(gc, font, 10, 370, 100, 23);
 		this.headingHasFocus = false;
-		//this.altHasFocus = false;
 		this.turnLeftHasFocus = false;
 		this.turnRightHasFocus = false;
 		this.heading_cleared_this_focus = false;
-		//this.alt_cleared_this_focus = false;
 		this.left_cleared_this_focus = false;
 		this.right_cleared_this_focus = false;
 		this.increase_alt_clicked=false;
@@ -130,37 +108,52 @@ public class Controls {
 	}
 
 
-	public TextField getHeadingControlTB() {
-		return headingControlTB;
-	}
-
-	public boolean headingHasFocus() {
-		return this.headingHasFocus;
-	}
-
-	/*public boolean altHasFocus() {
-		return this.altHasFocus;
-	}*/
-
-	/*public TextField getAltControlTB() {
-		return altControlTB;
-	}*/
 
 	public void clear_all() {
 		this.headingControlTB.setAcceptingInput(false);
-		//this.altControlTB.setAcceptingInput(false);
 		this.turnLeftTB.setAcceptingInput(false);
 		this.turnRightTB.setAcceptingInput(false);
 	}
 
 	public void allow_all() {
 		this.headingControlTB.setAcceptingInput(true);
-		//this.altControlTB.setAcceptingInput(true);
 		this.turnLeftTB.setAcceptingInput(true);
 		this.turnRightTB.setAcceptingInput(true);
 	}
+	
 
-	// UPDATE AND RENDER
+	// RENDER AND UPDATE
+
+
+	public void render(GameContainer gc, Graphics g) throws SlickException {
+		g.setColor(Color.white);
+		g.drawString("Turn Left:", 10, 50);
+		this.turnLeftTB.render(gc, g);
+		g.drawString("Target Heading:", 10, 150);
+		this.headingControlTB.render(gc, g);
+		g.drawString("Change Altitude:", 10, 250);
+		//this.altControlTB.render(gc, g);
+		g.drawString("Turn Right:", 10, 350);
+		this.turnRightTB.render(gc, g);
+		g.setColor(Color.blue);
+		g.fillRect(10, 300, 130, 20);
+		g.fillRect(10, 330, 130, 20);
+		g.setColor(Color.white);
+		g.drawString("Target: "+this.target_alt+"ft", 15, 270);
+		if(!this.max_alt){
+			g.drawString("Increase to "+this.increase_alt, 15, 300);
+		}
+		else {
+			g.drawString("At max altitude", 15, 300);
+		}
+		if(!this.min_alt){
+			g.drawString("Decrease to "+this.decrease_alt, 15, 330);
+		}
+		else {
+			g.drawString("At min altitude", 15, 330);
+		}
+	}
+	
 	public void update(GameContainer gc) {
 		Input input = gc.getInput();
 
@@ -185,31 +178,6 @@ public class Controls {
 			this.heading_cleared_this_focus = false;
 		}
 
-		// Update Altitude Text Field
-		/*this.altHasFocus = this.altControlTB.hasFocus();
-		if (this.altHasFocus) {
-			if (!this.alt_cleared_this_focus) {
-				this.alt_cleared_this_focus = true;
-				this.altControlTB.setText("");
-			}
-			if (input.isKeyDown(Input.KEY_ENTER)) {
-				this.text = this.altControlTB.getText();
-				this.text = this.text.replaceAll("\\D+", "");
-				if (!this.text.isEmpty()) {
-					this.flight.setTarget_altitude(Double.valueOf(this.text));
-				}
-				this.altControlTB.setFocus(false);
-			}
-		}*/
-
-		/*if (this.alt_cleared_this_focus && !this.altHasFocus) {
-			this.alt_cleared_this_focus = false;
-			this.text = this.altControlTB.getText();
-			this.text = this.text.replaceAll("\\D+", "");
-			if (!this.text.isEmpty()) {
-				this.flight.setTarget_altitude(Double.valueOf(this.text));
-			}
-		}*/
 
 		// Update Turn Left Text Field
 		this.turnLeftHasFocus = this.turnLeftTB.hasFocus();
@@ -255,14 +223,14 @@ public class Controls {
 
 		// CHECK KEYSTROKES
 		if (input.isKeyPressed(Input.KEY_DOWN)) {
-			if (boxselected == 4) {
+			if (boxselected == 3) {
 				boxselected = 0;
 			}
 			this.boxselected++;
 		}
 		if (input.isKeyPressed(Input.KEY_UP)) {
 			if (boxselected == 1) {
-				boxselected = 5;
+				boxselected = 4;
 			}
 			this.boxselected--;
 		}
@@ -276,46 +244,13 @@ public class Controls {
 			headingControlTB.setFocus(true);
 			break;
 		case 3:
-			//altControlTB.setFocus(true);
-			break;
-		case 4:
 			turnRightTB.setFocus(true);
 			break;
 		}
 		this.check_alt_buttons_clicked();
 	}
-
-	public void render(GameContainer gc, Graphics g) throws SlickException {
-		g.setColor(Color.white);
-		g.drawString("Turn Left:", 10, 50);
-		this.turnLeftTB.render(gc, g);
-		g.drawString("Target Heading:", 10, 150);
-		this.headingControlTB.render(gc, g);
-		g.drawString("Change Altitude:", 10, 250);
-		//this.altControlTB.render(gc, g);
-		g.drawString("Turn Right:", 10, 350);
-		this.turnRightTB.render(gc, g);
-		g.setColor(Color.blue);
-		g.fillRect(10, 300, 130, 20);
-		g.fillRect(10, 330, 130, 20);
-		g.setColor(Color.white);
-		g.drawString("Target: "+this.target_alt+"ft", 15, 270);
-		if(!this.max_alt){
-			g.drawString("Increase to "+this.increase_alt, 15, 300);
-		}
-		else {
-			g.drawString("At max altitude", 15, 300);
-		}
-		if(!this.min_alt){
-			g.drawString("Decrease to "+this.decrease_alt, 15, 330);
-		}
-		else {
-			g.drawString("At min altitude", 15, 330);
-		}
-		
-		
-
-	}
+	
+	//MUTATORS AND ACCESSORS
 
 	public boolean isIncrease_alt_clicked() {
 		return increase_alt_clicked;
@@ -339,5 +274,33 @@ public class Controls {
 
 	public void setTarget_alt(int target_alt) {
 		this.target_alt = target_alt;
+	}
+	
+	public int getIncrease_alt() {
+		return increase_alt;
+	}
+
+	public void setIncrease_alt(int increase_alt) {
+		this.increase_alt = increase_alt;
+	}
+
+	public int getDecrease_alt() {
+		return decrease_alt;
+	}
+
+	public void setDecrease_alt(int decrease_alt) {
+		this.decrease_alt = decrease_alt;
+	}
+
+	public Controls(GameContainer gc, Flight flight) {
+		this.flight = flight;
+	}
+	
+	public TextField getHeadingControlTB() {
+		return headingControlTB;
+	}
+
+	public boolean headingHasFocus() {
+		return this.headingHasFocus;
 	}
 }

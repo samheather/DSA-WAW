@@ -9,9 +9,6 @@ public class GameOverState extends BasicGameState {
 
 	}
 	
-	
-
-
 
 	public void init(GameContainer gc, StateBasedGame sbj)
 				throws SlickException {

@@ -89,7 +89,7 @@ public class Airspace {
 		return name;
 	}
 
-	public boolean new_flight2(int num, GameContainer gc) throws SlickException {
+	public boolean new_flight(int num, GameContainer gc) throws SlickException {
 
 		if (this.list_of_flights_in_airspace.size() < this.max_number_of_flights) {
 			Random rand = new Random();
@@ -272,20 +272,20 @@ public class Airspace {
 // Ram - Draw lines between flights in airspace violation.
 // Logic checks each pair of planes currently in airspace. If too close (as defined by Separation Rules Object, 
 // red line is drawn.
-		for (int flightno = 0; flightno < this.getList_of_flights().size(); flightno++) {
+		for (int i = 0; i < this.getList_of_flights().size(); i++) {
 			
-			for (int temptemp = flightno + 1; temptemp < this.getList_of_flights().size(); temptemp++ ) {	
+			for (int j = i + 1; j < this.getList_of_flights().size(); j++ ) {	
 				
-				if (this.get_separation_rules().lateralDistanceBetweenFlights(this.getList_of_flights().get(flightno), 
-						this.getList_of_flights().get(temptemp)) <= this.get_separation_rules().getWarningLateralSeparation()) {
+				if (this.get_separation_rules().lateralDistanceBetweenFlights(this.getList_of_flights().get(i), 
+						this.getList_of_flights().get(j)) <= this.get_separation_rules().getWarningLateralSeparation()) {
 					
-					if (this.get_separation_rules().verticalDistanceBetweenFlights(this.getList_of_flights().get(flightno), 
-							this.getList_of_flights().get(temptemp)) <= this.get_separation_rules().getWarningVerticalSeparation()) {
+					if (this.get_separation_rules().verticalDistanceBetweenFlights(this.getList_of_flights().get(i), 
+							this.getList_of_flights().get(j)) <= this.get_separation_rules().getWarningVerticalSeparation()) {
 						
-						float f1x = (float) list_of_flights_in_airspace.get(flightno).getX();
-						float f1y = (float) list_of_flights_in_airspace.get(flightno).getY();
-						float f2x = (float) list_of_flights_in_airspace.get(temptemp).getX();
-						float f2y = (float) list_of_flights_in_airspace.get(temptemp).getY();
+						float f1x = (float) list_of_flights_in_airspace.get(i).getX();
+						float f1y = (float) list_of_flights_in_airspace.get(i).getY();
+						float f2x = (float) list_of_flights_in_airspace.get(j).getX();
+						float f2y = (float) list_of_flights_in_airspace.get(j).getY();
 						g.setColor(Color.red);
 						g.setLineWidth(2);
 						g.drawLine(f1x, f1y, f2x, f2y);
@@ -295,16 +295,6 @@ public class Airspace {
 			}
 		}
 
-	}
-	public void remove_specific_flight(int flight) {
-		this.list_of_flights_in_airspace.get(flight).getControls()
-		.clear_all();
-		this.list_of_flights_in_airspace.remove(flight); // remove that flight from the list
-		this.previous_removed = true; // tell the program a flight has been removed on this loop
-		if (!(this.list_of_flights_in_airspace.contains(this.selected_flight))) {
-			this.selected_flight = null;
-
-		}
 	}
 
 	public void update(GameContainer gc) {
@@ -426,6 +416,17 @@ public class Airspace {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	public void remove_specific_flight(int flight) {
+		this.list_of_flights_in_airspace.get(flight).getControls()
+		.clear_all();
+		this.list_of_flights_in_airspace.remove(flight); // remove that flight from the list
+		this.previous_removed = true; // tell the program a flight has been removed on this loop
+		if (!(this.list_of_flights_in_airspace.contains(this.selected_flight))) {
+			this.selected_flight = null;
+
 		}
 	}
 

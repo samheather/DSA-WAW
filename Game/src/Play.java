@@ -13,7 +13,7 @@ import org.newdawn.slick.Image;
 
 public class Play extends BasicGameState {
 
-	private Airspace a;
+	private Airspace airspace;
 	private int i;
 	Image cursorImg;
 	public static float time;
@@ -24,50 +24,21 @@ public class Play extends BasicGameState {
 	private String string_time;
 
 	public Play(int state) {
-		a = new Airspace();
+		airspace = new Airspace();
 		i = 1;
 
 	}
 
-	public void init(GameContainer arg0, StateBasedGame arg1)
+	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
-		// TODO Auto-generated method stub
-
-		/*
-		 * cursorImg= new Image("res/cursor.png"); gc.setMouseCursor(cursorImg, 16, 16); if someone can make a decent cursor image we can have a
-		 * better cursor
-		 */
+		
+		
 		this.string_time="";
-		arg0.setAlwaysRender(true);
-		a.init(arg0);
-		main_game_music = new Music("res/Love Song In My Mind.wav");
-		main_game_music.loop();
-		main_game_music.setVolume(0.2f);
-		end_of_game_sound = new Sound("res/175385__digitaldominic__scream.wav");
+		gc.setAlwaysRender(true);
+		airspace.init(gc);
+	
 		
-		//bottom_bar_image = new Image("/res/graphics/graphics/flight_menu.jpg");
-		control_bar_image = new Image("/res/graphics/graphics/control_bar_vertical.png");
-		clock_image = new Image("/res/graphics/graphics/clock.PNG");
-		background_image = new Image("/res/graphics/graphics/background.png");
-		
-		
-		
-		a.new_waypoint(350, 150);
-		a.new_waypoint(400, 470);
-		a.new_waypoint(700, 60);
-		a.new_waypoint(800, 320);
-		a.new_waypoint(600, 418);
-		a.new_waypoint(500, 220);
-		a.new_waypoint(950, 188);
-		a.new_waypoint(1050, 272);
-		a.new_waypoint(900, 420);
-		a.new_waypoint(240, 250);
-		a.new_entry_point(150, 400);
-		a.new_entry_point(1200, 200);
-		a.new_entry_point(600, 0);
-		a.new_exit_point(800, 0);
-		a.new_exit_point(150, 200);
-		a.new_exit_point(1200, 300);
+		// Font
 		
 		try{
 			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway font/bluehigh.ttf");
@@ -80,18 +51,64 @@ public class Play extends BasicGameState {
 			e.printStackTrace();
 		}
 		
+		// Music
+		
+		main_game_music = new Music("res/Love Song In My Mind.wav");
+		main_game_music.loop();
+		main_game_music.setVolume(0.2f);
+		end_of_game_sound = new Sound("res/175385__digitaldominic__scream.wav");
+		
+		
+		//Images
+		
+		control_bar_image = new Image("/res/graphics/graphics/control_bar_vertical.png");
+		clock_image = new Image("/res/graphics/graphics/clock.PNG");
+		background_image = new Image("/res/graphics/graphics/background.png");
+		
+		//Waypoints
+		
+		airspace.new_waypoint(350, 150);
+		airspace.new_waypoint(400, 470);
+		airspace.new_waypoint(700, 60);
+		airspace.new_waypoint(800, 320);
+		airspace.new_waypoint(600, 418);
+		airspace.new_waypoint(500, 220);
+		airspace.new_waypoint(950, 188);
+		airspace.new_waypoint(1050, 272);
+		airspace.new_waypoint(900, 420);
+		airspace.new_waypoint(240, 250);
+		
+		//EntryPoints
+		
+		airspace.new_entry_point(150, 400);
+		airspace.new_entry_point(1200, 200);
+		airspace.new_entry_point(600, 0);
+		
+		// Exit Points
+		
+		airspace.new_exit_point(800, 0);
+		airspace.new_exit_point(150, 200);
+		airspace.new_exit_point(1200, 300);
+
+		
 
 	}
 
-	public void render(GameContainer gc, StateBasedGame sbj, Graphics g)
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
-		g.setFont(font);
-		background_image.draw(150,0);
-		//bottom_bar_image.draw(0,530);
-		control_bar_image.draw(0,0);
-		g.setColor(Color.white);
-		a.render(g, gc);
 		
+		g.setFont(font);
+		
+		// Drawing Side Images
+		background_image.draw(150,0);
+		control_bar_image.draw(0,0);
+		
+		// Drawing Airspace and elements within it
+		g.setColor(Color.white);
+		airspace.render(g, gc);
+		
+		
+		// Drawing Clock and Time
 		g.setColor(Color.white);
 		clock_image.draw(0,5);
 		g.drawString(this.string_time, 30, 10);
@@ -100,6 +117,9 @@ public class Play extends BasicGameState {
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
+		
+		// Updating Clock and Time
+		
 		time += delta;
 		float dec_mins=time/1000/60;
 		int mins = (int) dec_mins;
@@ -126,22 +146,25 @@ public class Play extends BasicGameState {
 			string_secs=String.valueOf(secs);
 		}
 		
-		
 		this.string_time=string_mins+":"+string_secs;
 		
 		
+		// Updating Airspace
 		
-		if (a.new_flight2(i, gc)) {
+		if (airspace.new_flight(i, gc)) {
 			i++;
 		}
-		a.update(gc);
-		if (a.get_separation_rules().getGameOverViolation() == true){
+		airspace.update(gc);
+		if (airspace.get_separation_rules().getGameOverViolation() == true){
 			main_game_music.stop();
 			end_of_game_sound.play();
 			sbg.enterState(3);
 		}
 		
 		Input input = gc.getInput();
+		
+		// Checking For Pause Screen rqeuested in game
+		
 		if (input.isKeyPressed(Input.KEY_P)) {
 			sbg.enterState(4);
 		}
@@ -151,16 +174,14 @@ public class Play extends BasicGameState {
 		gc.setUpdateOnlyWhenVisible(false);
 		
 		
+		// Give Flight a Heading through Right Click
+		
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
 		
-		
-		
-		posX = Mouse.getX();
-		posY = Mouse.getY();
 		if(Mouse.isButtonDown(1)){
-			if (a.get_selected_flight()!= null){
-			Calculations.give_heading_with_mouse(posX, posY,a );
+			if (airspace.get_selected_flight()!= null){
+			Calculations.give_heading_with_mouse(posX, posY,airspace );
 			}
 		}
 	

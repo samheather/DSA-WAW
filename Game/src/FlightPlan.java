@@ -2,26 +2,34 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class FlightPlan {
+	
 
 	// FIELDS
+	
+	
 	private ArrayList<Point> route = new ArrayList<Point>();
 	private double velocity;
+	
 
 	// CONSTRUCTOR
+	
 
 	public FlightPlan(Airspace airspace) {
 		this.velocity = generate_velocity();
 		this.route = build_route(airspace);
 	}
+	
 
 	// METHODS
+	
+	
 	public ArrayList<Point> build_route(Airspace airspace) {
 		ArrayList<Point> temp_route = new ArrayList<Point>();
 		if (!airspace.getList_of_way_points().isEmpty()
 				&& !airspace.getList_of_exit_points().isEmpty()) {
 			Random rand = new Random();
 
-			int pointsInPlan = rand.nextInt(4) + 4;
+			int pointsInPlan = rand.nextInt(3) + 4;
 			// the number of waypoints in the flight plan including exit points
 
 			for (int i = 0; i < pointsInPlan - 1; i++) {
@@ -40,16 +48,19 @@ public class FlightPlan {
 
 		}
 		return temp_route;
-
 	}
+	
 
 	public int generate_velocity() {
 		Random rand = new Random();
 		return (rand.nextInt(200) + 200);
 	}
+	
 
 	// ACCESSORS AND MUTATORS
 
+	
+	
 	public double getVelocity() {
 		return this.velocity;
 	}

@@ -19,15 +19,9 @@ public class Point {
     protected double y;
     protected String pointRef;
     Image next_waypoint_image, waypoint_image;
-    
-    
-    
-    
-    public void setPointRef(String pointRef) {
-		this.pointRef = pointRef;
-	}
-
 	protected static int pointCount = 0;
+	
+	// CONSTRUCTORS
     
     //Point Constructor take two doubles, for x then y.
     Point(double xcoord, double ycoord){
@@ -53,24 +47,11 @@ public class Point {
     }
     
     
-    //Accessor methods for xCoOrd double, for yCoOrd double, 
-    //for pointRef string, for pointcount int.
-    double getX() {return this.x;}
-    double getY() {return this.y;}
-    String getPointRef() {return this.pointRef;}
-    int getPointCount() {return Point.pointCount;}
-    
-    //Mutator for setting xCoOrd and yCoOrd. Each method takes a sole double.
-    void setX(double newX) {this.x = newX;}
-    void setY(double newY) {this.y = newY;}
-    
-    
+    // INIT, RENDER, UPDATE
     
     public void init(GameContainer gc) throws SlickException {
     
-    	
-		
-		
+   
 
 	}
     
@@ -94,12 +75,38 @@ public class Point {
     	}
     	g.setColor(Color.black);
     	g.drawString(this.pointRef, (int)this.x-5, (int)this.y-10);
-    	
-    	
-    	
-    	
-    	
+	
     }
+    
+    
+    // MUTATORS AND ACCESSORS
+    
+    double getX() {
+    	return this.x;
+    }
+    
+    double getY() {
+    	return this.y;
+    }
+    
+    String getPointRef() {
+    	return this.pointRef;
+    }
+    int getPointCount() {
+    	return Point.pointCount;
+    }
+    
+    void setX(double newX) {
+    	this.x = newX;
+    }
+    
+    void setY(double newY) {
+    	this.y = newY;
+    }
+    
+    public void setPointRef(String pointRef) {
+  		this.pointRef = pointRef;
+  	}
 
 
 
