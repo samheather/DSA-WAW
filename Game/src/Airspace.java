@@ -10,7 +10,7 @@ import org.newdawn.slick.Color;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Input;
 
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 public class Airspace {
 
 	// FIELDS
@@ -24,7 +24,6 @@ public class Airspace {
 	private List<EntryPoint> list_of_entrypoints;
 	private List<ExitPoint> list_of_exitpoints;
 	private SeparationRules separationRules;
-	private boolean previous_removed;
 	private Flight selected_flight;
 
 	private int game_difficulty_value; // !! Should be fetched by Difficulty Screen, currently fails to do so
@@ -33,10 +32,9 @@ public class Airspace {
 	// CONSTRUCTOR
 
 	Airspace() {
-		this.max_number_of_flights = 5; // just a value
+		this.max_number_of_flights = 5;
 		this.score = 0;
 		this.list_of_flights_in_airspace = new ArrayList<Flight>();
-		this.list_of_incoming_flights = new ArrayList<Flight>();
 		this.list_of_waypoints = new ArrayList<Waypoint>();
 		this.list_of_entrypoints = new ArrayList<EntryPoint>();
 		this.list_of_exitpoints = new ArrayList<ExitPoint>();
@@ -47,7 +45,6 @@ public class Airspace {
 		this.next_difficulty_loops = 10000; // this is how many loops until planes come more quickly, divide by 60 for seconds
 		this.difficulty_levels = 13;// number of times difficulty changes
 		this.max_rand = (int) Math.pow(2, this.difficulty_levels);
-		this.previous_removed = false; // variable for storing whether a flight was removed on each loop
 		this.wp_counter = 64;
 		this.exp_counter = 0;
 		this.selected_flight = null;
@@ -67,33 +64,29 @@ public class Airspace {
 			return false;
 		}
 	}
-
-	public boolean check_if_flight_has_left_airspace(Flight flight) {
-
-		if (flight.getX() > 1250 || flight.getX() < 100 || flight.getY() > 650
-				|| flight.getY() < -50) {
+	public boolean new_exit_point(int x, int y) {
+		ExitPoint tmpEp = new ExitPoint(x, y);
+		this.exp_counter++;
+		tmpEp.setPointRef("EXP" + this.exp_counter);
+		if (this.addExitPoint(tmpEp)) {
 			return true;
 		} else {
 			return false;
 		}
-
 	}
 
-	public String generate_flight_name() {
-		String name = "G-";
-		Random rand = new Random();
-		for (int i = 0; i < 4; i++) {
-			int thisChar = rand.nextInt(10) + 65;
-			name += (char) thisChar;
+	public boolean new_entry_point(int x, int y) {
+		EntryPoint tmpEp = new EntryPoint(x, y);
+		if (this.addEntryPoint(tmpEp)) {
+			return true;
+		} else {
+			return false;
 		}
-		return name;
 	}
-
 	public boolean new_flight(int num, GameContainer gc) throws SlickException {
 
 		if (this.list_of_flights_in_airspace.size() < this.max_number_of_flights) {
 			Random rand = new Random();
-			boolean firstFlightCreated = false;
 			double x;
 			double y;
 			int check_number;
@@ -104,8 +97,8 @@ public class Airspace {
 				y = this.list_of_entrypoints.get(entryPoint).getY();
 
 			} else { // if all entrypoints are not there then just assign some values
-				x = 1250;
-				y = 300;
+				x = 0;
+				y = 0;
 
 			}
 			if (this.overall_loops >= this.next_difficulty_loops) {
@@ -137,9 +130,6 @@ public class Airspace {
 					tempFlight.setCurrent_heading(heading);
 					this.loops_since_last_flight_entry = 0;
 					if (this.list_of_flights_in_airspace.add(tempFlight)) {
-						if (!firstFlightCreated) {
-							firstFlightCreated = true;
-						}
 						this.list_of_flights_in_airspace.get(
 								this.list_of_flights_in_airspace.size() - 1)
 								.init(gc);
@@ -156,6 +146,27 @@ public class Airspace {
 
 	}
 	
+	public String generate_flight_name() {
+		String name = "G-";
+		Random rand = new Random();
+		for (int i = 0; i < 4; i++) {
+			int thisChar = rand.nextInt(10) + 65;
+			name += (char) thisChar;
+		}
+		return name;
+	}
+
+	public boolean check_if_flight_has_left_airspace(Flight flight) {
+
+		if (flight.getX() > 1250 || flight.getX() < 100 || flight.getY() > 650
+				|| flight.getY() < -50) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
 	public void check_selected(int pointX, int pointY, Airspace airspace ){
 		double min_distance;
 		Flight nearest_flight;
@@ -184,7 +195,6 @@ public class Airspace {
 			if (min_distance <= 50){
 				nearest_flight.setSelected(true);
 				airspace.set_selected_flight(nearest_flight);
-				System.out.println(nearest_flight);
 				for (int i =0; i< airspace.getList_of_flights().size(); i++){
 					if(i != index_of_nearest_flight){
 						airspace.getList_of_flights().get(i).setSelected(false);
@@ -199,25 +209,7 @@ public class Airspace {
 		}
 	}
 
-	public boolean new_exit_point(int x, int y) {
-		ExitPoint tmpEp = new ExitPoint(x, y);
-		this.exp_counter++;
-		tmpEp.setPointRef("EXP" + this.exp_counter);
-		if (this.addExitPoint(tmpEp)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public boolean new_entry_point(int x, int y) {
-		EntryPoint tmpEp = new EntryPoint(x, y);
-		if (this.addEntryPoint(tmpEp)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+	
 
 	//public void setDifficulty(int difficulty) {
 	//	switch (difficulty) {
@@ -244,18 +236,31 @@ public class Airspace {
 
 	public void init(GameContainer gc) throws SlickException {
 		
-		//for (int i = 0; i < this.list_of_waypoints.size(); i++) {
-		//	this.list_of_waypoints.get(i).init(gc);
-		//}
-
-		for (int i = 0; i < this.list_of_flights_in_airspace.size(); i++) {
-			this.list_of_flights_in_airspace.get(i).init(gc);
+	}
+	
+	public void update(GameContainer gc) {
+		this.loops_since_last_flight_entry++;
+		this.overall_loops++;
+		int posX=Mouse.getX();
+		int posY=Mouse.getY();
+		if(Mouse.isButtonDown(0)){
+			this.check_selected(posX,posY,this);
 		}
-
+		for (int i = 0; i < this.list_of_flights_in_airspace.size(); i++) {
+			this.list_of_flights_in_airspace.get(i).update(gc, this);
+			if(this.list_of_flights_in_airspace.get(i).getFlight_plan().getWaypoints().size()==0) {
+				this.remove_specific_flight(i);
+			}
+			else if (this.check_if_flight_has_left_airspace(this.getList_of_flights().get(i))) { // if a flight has left the airspace
+				this.remove_specific_flight(i);
+			}
+			
+		}
+		
+		this.separationRules.checkViolation(this);
 	}
 
-	public void render(Graphics g, GameContainer gc) throws SlickException { // I added this so we can draw things in the airspace, for example a
-																				// radar like background or terrain
+	public void render(Graphics g, GameContainer gc) throws SlickException { 
 
 		for (int i = 0; i < this.list_of_waypoints.size(); i++) {
 			this.list_of_waypoints.get(i).render(g, this);
@@ -297,27 +302,7 @@ public class Airspace {
 
 	}
 
-	public void update(GameContainer gc) {
-		this.loops_since_last_flight_entry++;
-		this.overall_loops++;
-		int posX=Mouse.getX();
-		int posY=Mouse.getY();
-		if(Mouse.isButtonDown(0)){
-			this.check_selected(posX,posY,this);
-		}
-		for (int i = 0; i < this.list_of_flights_in_airspace.size(); i++) {
-			this.list_of_flights_in_airspace.get(i).update(gc, this);
-			if(this.list_of_flights_in_airspace.get(i).getFlight_plan().getWaypoints().size()==0) {
-				this.remove_specific_flight(i);
-			}
-			else if (this.check_if_flight_has_left_airspace(this.getList_of_flights().get(i))) { // if a flight has left the airspace
-				this.remove_specific_flight(i);
-			}
-			
-		}
-		
-		this.separationRules.checkViolation(this);
-	}
+
 
 	// MUTATORS AND ACCESSORS
 
@@ -380,6 +365,28 @@ public class Airspace {
 			return true;
 		}
 	}
+	public boolean add_flight(Flight flight) {
+
+		// Checks whether the flight was already added before, and if it won't pass the maximum number of flights allowed
+		if ((this.list_of_flights_in_airspace.contains(flight))
+				&& (this.list_of_flights_in_airspace.size() > this.max_number_of_flights - 1)) {
+			return false;
+		} else {
+			this.list_of_flights_in_airspace.add(flight);
+			return true;
+		}
+		 // I made them boolean so we can check if the plane was added successfully (we can change them later on)
+	}
+	
+	public void remove_specific_flight(int flight) {
+		this.list_of_flights_in_airspace.get(flight).getControls()
+		.clear_all();
+		this.list_of_flights_in_airspace.remove(flight); // remove that flight from the list
+		if (!(this.list_of_flights_in_airspace.contains(this.selected_flight))) {
+			this.selected_flight = null;
+
+		}
+	}
 
 	public void removeWaypoint(Waypoint waypoint) {
 		this.list_of_waypoints.remove(waypoint);
@@ -393,42 +400,6 @@ public class Airspace {
 		this.list_of_exitpoints.remove(exitpoint);
 	}
 
-	public boolean add_flight(Flight flight) {
-
-		// Checks whether the flight was already added before, and if it won't pass the maximum number of flights allowed
-		if ((this.list_of_flights_in_airspace.contains(flight))
-				&& (this.list_of_flights_in_airspace.size() > this.max_number_of_flights - 1)) {
-			return false;
-		} else {
-			this.list_of_flights_in_airspace.add(flight);
-			return true;
-		}
-		 // I made them boolean so we can check if the plane was added successfully (we can change them later on)
-	}
-
-	public boolean check_flight(Flight flight) {
-		return this.list_of_flights_in_airspace.contains(flight);
-	}
-
-	public boolean remove_flight(Flight flight) {
-		if (this.list_of_flights_in_airspace.contains(flight)) {
-			this.list_of_flights_in_airspace.remove(flight);
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public void remove_specific_flight(int flight) {
-		this.list_of_flights_in_airspace.get(flight).getControls()
-		.clear_all();
-		this.list_of_flights_in_airspace.remove(flight); // remove that flight from the list
-		this.previous_removed = true; // tell the program a flight has been removed on this loop
-		if (!(this.list_of_flights_in_airspace.contains(this.selected_flight))) {
-			this.selected_flight = null;
-
-		}
-	}
 
 	public void set_selected_flight(Flight flight) {
 		this.selected_flight = flight;
