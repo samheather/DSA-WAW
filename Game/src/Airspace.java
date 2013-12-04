@@ -261,6 +261,8 @@ public class Airspace {
 	}
 
 	public void render(Graphics g, GameContainer gc) throws SlickException { 
+		
+		this.airport.render(g, gc);
 
 		for (int i = 0; i < this.list_of_waypoints.size(); i++) {
 			this.list_of_waypoints.get(i).render(g, this);
@@ -275,7 +277,7 @@ public class Airspace {
 			this.list_of_flights_in_airspace.get(i).render(g, gc);
 		}
 		
-		this.airport.render(g, gc);
+		
 		this.separationRules.render(g, gc, this);
 
 	}
