@@ -105,7 +105,7 @@ public class Airspace {
 					Flight tempFlight = new Flight(this);
 					tempFlight.setFlight_name(this.generate_flight_name());
 					tempFlight.setTarget_altitude(tempFlight.getCurrent_altitude());
-					double heading = Calculations.calculate_heading_to_first_waypoint(tempFlight,
+					double heading = tempFlight.calculate_heading_to_first_waypoint(
 									tempFlight.getFlight_plan().getPointByIndex(0).getX() ,
 									tempFlight.getFlight_plan().getPointByIndex(0).getY());
 					tempFlight.setTarget_heading(heading);
@@ -182,13 +182,32 @@ public class Airspace {
 						airspace.getList_of_flights().get(i).setSelected(false);
 					}
 				}
-				
-				
 			}
-			
-			
-			
 		}
+	}
+	
+public void give_heading_with_mouse(int pointX, int pointY, Airspace airspace){
+		
+		double deltaX, deltaY;
+		double distance_between_mouse_and_plane;
+		pointY = 600-pointY;
+		
+		distance_between_mouse_and_plane = Math.sqrt(Math.pow(pointX-airspace.get_selected_flight().getX(), 2)+Math.pow(pointY-airspace.get_selected_flight().getY(), 2));
+		System.out.println(distance_between_mouse_and_plane);
+		
+		if (distance_between_mouse_and_plane < 50)
+		{
+			deltaY = pointY - airspace.get_selected_flight().getY();
+			deltaX = pointX - airspace.get_selected_flight().getX();
+			double angle = Math.toDegrees(Math.atan2(deltaY, deltaX));
+			angle+=90;
+			if (angle < 0) {
+				angle += 360;
+			}
+			airspace.get_selected_flight().give_heading((int)angle);
+		
+		}
+		
 	}
 
 	
@@ -230,20 +249,21 @@ public class Airspace {
 			}
 
 		}
+		
 		int posX=Mouse.getX();
 		int posY=Mouse.getY();
+		
 		if(Mouse.isButtonDown(0)){
 			this.check_selected(posX,posY,this);
 		}
 		
-		posX = Mouse.getX();
-		posY = Mouse.getY();
-		
 		if(Mouse.isButtonDown(1)){
 			if (this.get_selected_flight()!= null){
-			Calculations.give_heading_with_mouse(posX, posY,this );
+			this.give_heading_with_mouse(posX, posY,this );
 			}
 		}
+		
+		
 		for (int i = 0; i < this.list_of_flights_in_airspace.size(); i++) {
 			this.list_of_flights_in_airspace.get(i).update(gc, this);
 			if(this.list_of_flights_in_airspace.get(i).getFlight_plan().getWaypoints().size()==0) {

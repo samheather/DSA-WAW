@@ -91,6 +91,19 @@ public class Flight {
 		return false;
 	}
 
+	public double calculate_heading_to_first_waypoint(double destination_x, double destination_y) {
+		double deltaX;
+		double deltaY;
+		deltaY = destination_y - this.y;
+		deltaX = destination_x - this.x;
+		double angle = Math.toDegrees(Math.atan2(deltaY, deltaX));
+		angle += 90;
+		if (angle < 0) {
+			angle += 360;
+		}
+		return angle;
+	}
+	
 	public void turn_flight_left(int degree_turned_by) {
 
 		this.turning_right = false;
