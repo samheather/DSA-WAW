@@ -1,3 +1,4 @@
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 
@@ -16,11 +17,13 @@ public class GameOverState extends BasicGameState {
 
 	}
 
-	public void render(GameContainer gc, StateBasedGame sbj, Graphics g)
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 				throws SlickException {
 		
 		g.setColor(Color.white);
 		g.drawString("Game Over", 10, 40);
+		
+		
 		
 		
 

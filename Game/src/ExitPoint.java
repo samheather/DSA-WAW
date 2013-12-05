@@ -1,4 +1,5 @@
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -19,12 +20,18 @@ public class ExitPoint extends Point {
 	    System.out.println("Waypoint " + pointRef + " set:(" + x + "," + y +").");
 	}
 	
+	   public void init(GameContainer gc) throws SlickException {
+			exit_point_top = new Image("/res/graphics/graphics/exitpoint_top.png");
+			exit_point_right = new Image("/res/graphics/graphics/exitpoint_right.png");
+			exit_point_left = new Image("/res/graphics/graphics/exitpoint_left.png");
+	   
+
+		}
+	
 	@Override
 	public void render(Graphics g, Airspace airspace) throws SlickException {
 		
-		exit_point_top = new Image("/res/graphics/graphics/exitpoint_top.png");
-		exit_point_right = new Image("/res/graphics/graphics/exitpoint_right.png");
-		exit_point_left = new Image("/res/graphics/graphics/exitpoint_left.png");
+
 		
 		if(this.y == 0){
 			exit_point_top.draw((int)this.x-20, (int)this.y);

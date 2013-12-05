@@ -64,28 +64,28 @@ public class PlayState extends BasicGameState {
 		
 		//Waypoints
 		
-		airspace.new_waypoint(350, 150);
-		airspace.new_waypoint(400, 470);
-		airspace.new_waypoint(700, 60);
-		airspace.new_waypoint(800, 320);
-		airspace.new_waypoint(600, 418);
-		airspace.new_waypoint(500, 220);
-		airspace.new_waypoint(950, 188);
-		airspace.new_waypoint(1050, 272);
-		airspace.new_waypoint(900, 420);
-		airspace.new_waypoint(240, 250);
+		airspace.new_waypoint(350, 150,gc);
+		airspace.new_waypoint(400, 470,gc);
+		airspace.new_waypoint(700, 60,gc);
+		airspace.new_waypoint(800, 320,gc);
+		airspace.new_waypoint(600, 418,gc);
+		airspace.new_waypoint(500, 220,gc);
+		airspace.new_waypoint(950, 188,gc);
+		airspace.new_waypoint(1050, 272,gc);
+		airspace.new_waypoint(900, 420,gc);
+		airspace.new_waypoint(240, 250,gc);
 		
 		//EntryPoints
 		
-		airspace.new_entry_point(150, 400);
-		airspace.new_entry_point(1200, 200);
-		airspace.new_entry_point(600, 0);
+		airspace.new_entry_point(150, 400,gc);
+		airspace.new_entry_point(1200, 200,gc);
+		airspace.new_entry_point(600, 0,gc);
 		
 		// Exit Points
 		
-		airspace.new_exit_point(800, 0);
-		airspace.new_exit_point(150, 200);
-		airspace.new_exit_point(1200, 300);
+		airspace.new_exit_point(800, 0,gc);
+		airspace.new_exit_point(150, 200,gc);
+		airspace.new_exit_point(1200, 300,gc);
 		
 		
 
