@@ -259,26 +259,8 @@ public class Flight {
 		}
 
 	}
-
-	public void update(GameContainer gc, Airspace a) {
-
-
-		this.update_current_heading();
-		this.update_x_y_coordinates();
-		this.update_altitude();
-		
-		
-		if (this.flight_plan.getWaypoints().size() > 0) {
-			for(int i=0;i<this.flight_plan.getWaypoints().size(); i++) {
-				this.waypoint_list_x-=30;
-			}
-			if (this.check_if_flight_at_waypoint(flight_plan.getWaypoints()
-					.get(0))) {
-				this.flight_plan.getWaypoints().remove(0);
-			}
-		}
-		
-		
+	
+	public void update_controls(Airspace airspace, GameContainer gc){
 		
 		if (this.selected == true) {
 			// Update controls
@@ -301,7 +283,7 @@ public class Flight {
 		
 			this.color = Color.yellow;
 			
-			if (this.check_other_flight_selection(a)) {
+			if (this.check_other_flight_selection(airspace)) {
 				this.selected = false;
 				
 			}
@@ -310,6 +292,28 @@ public class Flight {
 			this.color=Color.white;
 			//this.controls.clear_all();
 		}
+		
+	}
+
+	public void update(GameContainer gc, Airspace airspace) {
+
+
+		this.update_current_heading();
+		this.update_x_y_coordinates();
+		this.update_altitude();
+		
+		
+		if (this.flight_plan.getWaypoints().size() > 0) {
+			for(int i=0;i<this.flight_plan.getWaypoints().size(); i++) {
+				this.waypoint_list_x-=30;
+			}
+			if (this.check_if_flight_at_waypoint(flight_plan.getWaypoints()
+					.get(0))) {
+				this.flight_plan.getWaypoints().remove(0);
+			}
+		}
+		
+		update_controls(airspace, gc);
 
 	}
 
