@@ -5,23 +5,23 @@ import org.newdawn.slick.state.*;
 public class Game extends StateBasedGame {
 
 	public static final String NAME = "Turbulance";
-	public static final int MENU = 0;
-	public static final int DIFFICULTY = 1;
-	public static final int PLAY = 2;
-	public static final int GAMEOVER = 3;
-	public static final int PAUSE = 4;
+	public static final int MENU_STATE = 0;
+	public static final int DIFFICULTY_STATE = 1;
+	public static final int PLAY_STATE = 2;
+	public static final int GAMEOVER_STATE = 3;
+	public static final int PAUSE_STATE = 4;
 	public static final int MAXIMUM_WIDTH = 1200;
 	public static final int MAXIMUM_HEIGHT = 600;
 	
 
 	public Game(String NAME) {
 		super(NAME);
-		this.addState(new Menu(MENU));
-		this.addState(new Difficulty(DIFFICULTY));
-		this.addState(new Play(PLAY));
-		this.addState(new GameOverState(GAMEOVER));
-		this.addState(new Pause(PAUSE));
-		this.enterState(MENU);
+		this.addState(new MenuState(MENU_STATE));
+		this.addState(new DifficultyState(DIFFICULTY_STATE));
+		this.addState(new PlayState(PLAY_STATE));
+		this.addState(new GameOverState(GAMEOVER_STATE));
+		this.addState(new PauseState(PAUSE_STATE));
+		this.enterState(MENU_STATE);
 	}
 
 	public void initStatesList(GameContainer gc) throws SlickException {

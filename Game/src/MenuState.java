@@ -8,12 +8,12 @@ import org.newdawn.slick.TrueTypeFont;
 
 
 
-public class Menu extends BasicGameState {
+public class MenuState extends BasicGameState {
 	public static TrueTypeFont font;
 	private Color colorBtn1 = Color.green;
 	private Color colorBtn2 = Color.green;
 
-	public Menu(int state) {
+	public MenuState(int state) {
 
 	}
 

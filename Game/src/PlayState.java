@@ -8,7 +8,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.Image;
 
-public class Play extends BasicGameState {
+public class PlayState extends BasicGameState {
 
 	private Airspace airspace;
 	private int i;
@@ -19,7 +19,7 @@ public class Play extends BasicGameState {
 	private Image control_bar_image, clock_image, background_image;
 	private String string_time;
 
-	public Play(int state) {
+	public PlayState(int state) {
 		airspace = new Airspace();
 		i = 1;
 		this.string_time="";
