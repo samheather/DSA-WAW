@@ -4,7 +4,6 @@ import java.util.Random;
 
 public class FlightPlan {
 	
-
 	// FIELDS
 	
 	
@@ -58,8 +57,6 @@ public class FlightPlan {
 		return temp_route;
 	}
 
-	
-	
 
 	public int generate_velocity() {
 		Random rand = new Random();
