@@ -138,7 +138,7 @@ public class Flight {
 	}
 
 	public void update_x_y_coordinates() {
-		double velocity = (this.flight_plan.getVelocity()) / 2000;
+		double velocity = (this.flight_plan.getVelocity()) / 1500;
 
 		this.x += velocity * Math.sin(Math.toRadians(this.current_heading));
 
@@ -158,7 +158,7 @@ public class Flight {
 
 	public void update_current_heading() {
 	
-		double rate = 0.5;
+		double rate = 0.3;
 		if (Math.round(this.target_heading) != Math.round(this.current_heading)) {
 			if (this.turning_right == true) {// If plane is already turning
 												// right or user has told it to
@@ -226,72 +226,13 @@ public class Flight {
 			}
 		}
 	}
-
-
-
-	// UPDATE, RENDER, INIT
-	public void init(GameContainer gc) throws SlickException {
-		img = new Image("/res/graphics/graphics/flight.png");
-		slow_flight_img = new Image("/res/graphics/graphics/flight_slow.png");
-		fast_flight_img = new Image("/res/graphics/graphics/flight_fast.png");
-		
-		
-		selected_img = new Image("res/graphics/graphics/selected_flight2.jpg");
-		this.controls = new Controls(gc, this);
-		controls.init(gc);
-		try{
-			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway font/bluehigh.ttf");
-			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
-			awtFont = awtFont.deriveFont(19f);
-			this.smallFont = new TrueTypeFont(awtFont, false);
-			awtFont = awtFont.deriveFont(20f);
-			this.bigFont = new TrueTypeFont(awtFont,false);
-			
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-
-	}
 	
-	public void update_controls(Airspace airspace, GameContainer gc){
-		
-		if (this.selected == true) {
-			// Update controls
-			this.controls.update(gc);
-			this.controls.setIncrease_alt((int)Math.round(this.target_altitude)+1000);
-			this.controls.setDecrease_alt((int)Math.round(this.target_altitude)-1000);
-			this.controls.setTarget_alt((int)Math.round(this.target_altitude));
-			if (!this.controls.headingHasFocus()) {
-				this.controls.getHeadingControlTB().setText(
-						String.valueOf(Math.round(this.target_heading)));
-			}
-			if(this.controls.isIncrease_alt_clicked()) {
-				this.target_altitude+=1000;
-				System.out.println(this.target_altitude);
-			}
-			if(this.controls.isDecrease_alt_clicked()) {
-				this.target_altitude-=1000;
-				System.out.println(this.target_altitude);
-			}
-		
-			this.color = Color.yellow;
-			
-			if (this.check_other_flight_selection(airspace)) {
-				this.selected = false;
-				
-			}
-		}
-		else {
-			this.color=Color.white;
-			//this.controls.clear_all();
-		}
-		
-	}
+	
+	// DRAWING METHODS
 	
 	public void draw_flight(Graphics g, GameContainer gc ){
 		
-		// Drawing Flight
+		
 
 				g.setColor(color);
 				g.setFont(smallFont);
@@ -367,14 +308,45 @@ public class Flight {
 			10, 560);
 		
 	}
-
-	public void update(GameContainer gc, Airspace airspace) {
-
-
-		this.update_current_heading();
-		this.update_x_y_coordinates();
-		this.update_altitude();
+	
+	// UPDATE METHODS
+	
+	public void update_controls(Airspace airspace, GameContainer gc){
 		
+		if (this.selected == true) {
+			// Update controls
+			this.controls.update(gc);
+			this.controls.setIncrease_alt((int)Math.round(this.target_altitude)+1000);
+			this.controls.setDecrease_alt((int)Math.round(this.target_altitude)-1000);
+			this.controls.setTarget_alt((int)Math.round(this.target_altitude));
+			if (!this.controls.headingHasFocus()) {
+				this.controls.getHeadingControlTB().setText(
+						String.valueOf(Math.round(this.target_heading)));
+			}
+			if(this.controls.isIncrease_alt_clicked()) {
+				this.target_altitude+=1000;
+				System.out.println(this.target_altitude);
+			}
+			if(this.controls.isDecrease_alt_clicked()) {
+				this.target_altitude-=1000;
+				System.out.println(this.target_altitude);
+			}
+		
+			this.color = Color.yellow;
+			
+			if (this.check_other_flight_selection(airspace)) {
+				this.selected = false;
+				
+			}
+		}
+		else {
+			this.color=Color.white;
+			//this.controls.clear_all();
+		}
+		
+	}
+	
+	public void update_flight_plan(){
 		
 		if (this.flight_plan.getWaypoints().size() > 0) {
 			if (this.check_if_flight_at_waypoint(flight_plan.getWaypoints()
@@ -383,6 +355,47 @@ public class Flight {
 			}
 		}
 		
+	}
+
+
+
+	// UPDATE, RENDER, INIT
+	
+	
+	public void init(GameContainer gc) throws SlickException {
+		img = new Image("/res/graphics/graphics/flight.png");
+		slow_flight_img = new Image("/res/graphics/graphics/flight_slow.png");
+		fast_flight_img = new Image("/res/graphics/graphics/flight_fast.png");
+		
+		
+		selected_img = new Image("res/graphics/graphics/selected_flight2.jpg");
+		this.controls = new Controls(gc, this);
+		controls.init(gc);
+		try{
+			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway font/bluehigh.ttf");
+			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
+			awtFont = awtFont.deriveFont(19f);
+			this.smallFont = new TrueTypeFont(awtFont, false);
+			awtFont = awtFont.deriveFont(20f);
+			this.bigFont = new TrueTypeFont(awtFont,false);
+			
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
+	}
+	
+	
+
+
+	public void update(GameContainer gc, Airspace airspace) {
+
+
+		this.update_current_heading();
+		this.update_x_y_coordinates();
+		this.update_altitude();
+		this.update_flight_plan();
 		update_controls(airspace, gc);
 
 	}
@@ -401,8 +414,10 @@ public class Flight {
 		}
 		
 	}
+	
 
 	// MUTATORS AND ACCESSORS
+	
 
 	public double getX() {
 		return this.x;
