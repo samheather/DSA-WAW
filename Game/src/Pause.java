@@ -69,7 +69,7 @@ public class Pause extends BasicGameState {
 		if((posiX>100&&posiX<300)&&(posiY>330&&posiY<400)) {
 			colourQuitButton=Color.white;
 			if(Mouse.isButtonDown(0)) {
-				sbg.enterState(3);
+				System.exit(0);
 			}
 			
 		}

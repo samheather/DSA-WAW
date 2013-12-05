@@ -21,7 +21,7 @@ public class Flight {
 	private FlightPlan flight_plan;
 	private int MAXIMUM_ALTITUDE = 30000;
 	private int MINIMUM_ALTITUDE = 27000;
-	private Image img, selected_img;
+	private Image img, selected_img, slow_flight_img, fast_flight_img;
 	private Color color;
 	private boolean selected;
 	private Controls controls;
@@ -238,6 +238,10 @@ public class Flight {
 	// UPDATE, RENDER, INIT
 	public void init(GameContainer gc) throws SlickException {
 		img = new Image("/res/graphics/graphics/flight.png");
+		slow_flight_img = new Image("/res/graphics/graphics/flight_slow.png");
+		fast_flight_img = new Image("/res/graphics/graphics/flight_fast.png");
+		
+		
 		selected_img = new Image("res/graphics/graphics/selected_flight2.jpg");
 		this.controls = new Controls(gc, this);
 		controls.init(gc);
@@ -294,12 +298,7 @@ public class Flight {
 				this.target_altitude-=1000;
 				System.out.println(this.target_altitude);
 			}
-			/*if (!this.controls.altHasFocus()) {
-				this.controls.getAltControlTB().setText(
-						String.valueOf(Math.round(this.target_altitude)));
-			}*/
-			//this.controls.allow_all();
-
+		
 			this.color = Color.yellow;
 			
 			if (this.check_other_flight_selection(a)) {
@@ -333,12 +332,29 @@ public class Flight {
 		}
 		
 		g.setFont(bigFont);
-		img.setRotation((int) current_heading);
-
-		g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
 		
-
-		img.draw((int) this.x-10, (int) this.y-10);
+		if(this.flight_plan.getVelocity() <= 275){
+			
+			slow_flight_img.setRotation((int) current_heading);
+			slow_flight_img.draw((int) this.x-10, (int) this.y-10);
+			
+			
+		}
+		
+		else if(this.flight_plan.getVelocity() > 270 && this.flight_plan.getVelocity() < 340){
+			
+			img.setRotation((int) current_heading);
+			img.draw((int) this.x-10, (int) this.y-10);
+		}
+		
+		else{
+			fast_flight_img.setRotation((int) current_heading);
+			fast_flight_img.draw((int) this.x-10, (int) this.y-10);
+		}
+		
+		
+		
+		g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
 		
 		
 		g.setWorldClip(0, 0, 1200, 600);
