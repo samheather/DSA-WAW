@@ -16,7 +16,7 @@ public class Play extends BasicGameState {
 	public static float time;
 	private Sound end_of_game_sound;
 	public static TrueTypeFont font;
-	private Image bottom_bar_image, control_bar_image, clock_image, background_image;
+	private Image control_bar_image, clock_image, background_image;
 	private String string_time;
 
 	public Play(int state) {

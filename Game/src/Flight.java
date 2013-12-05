@@ -13,12 +13,10 @@ public class Flight {
 
 	// FIELDS
 	private double x, y, target_altitude, current_heading, target_heading;
-	private int current_altitude, flight_num, waypoint_list_x;
-	private boolean turning_right, turning_left, warningViolation;
+	private int current_altitude, flight_num;
+	private boolean turning_right, turning_left;
 	private String flight_name;
 	private FlightPlan flight_plan;
-	private int MAXIMUM_ALTITUDE = 30000;
-	private int MINIMUM_ALTITUDE = 27000;
 	private Image img, selected_img, slow_flight_img, fast_flight_img;
 	private Color color;
 	private boolean selected;
@@ -44,8 +42,6 @@ public class Flight {
 		this.flight_plan = new FlightPlan(airspace, this.entryPoint);
 		this.color = Color.white;
 		this.selected = false;
-		this.warningViolation = false;
-
 
 	}
 
@@ -161,7 +157,7 @@ public class Flight {
 	}
 
 	public void update_current_heading() {
-		// NOTE TO RORY FROM RORY: DONT FORGET TO FIX THIS FOR EVERY CASE
+	
 		double rate = 0.5;
 		if (Math.round(this.target_heading) != Math.round(this.current_heading)) {
 			if (this.turning_right == true) {// If plane is already turning
@@ -292,6 +288,85 @@ public class Flight {
 		}
 		
 	}
+	
+	public void draw_flight(Graphics g, GameContainer gc ){
+		
+		// Drawing Flight
+
+				g.setColor(color);
+				g.setFont(smallFont);
+			
+				g.setWorldClip(150, 0, 1200, 600);
+				g.drawString(this.flight_name, (int) this.x - 20, (int) this.y + 25);
+				g.drawString(Math.round(this.current_altitude) + "ft",(int) this.x -25, (int)this.y-27);
+				g.drawString(Math.round(this.current_heading) + " deg",(int) this.x-25, (int) this.y-42);//-15,20
+				
+				if (this.flight_plan.getWaypoints().size() > 0) {
+					g.drawString("Target: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x-35, (int) this.y + 10);
+				}
+				
+				g.setFont(bigFont);
+				
+				if(this.flight_plan.getVelocity() <= 275){
+					
+					slow_flight_img.setRotation((int) current_heading);
+					slow_flight_img.draw((int) this.x-10, (int) this.y-10);
+					
+					
+				}
+				
+				else if(this.flight_plan.getVelocity() > 270 && this.flight_plan.getVelocity() < 340){
+					
+					img.setRotation((int) current_heading);
+					img.draw((int) this.x-10, (int) this.y-10);
+				}
+				
+				else{
+					fast_flight_img.setRotation((int) current_heading);
+					fast_flight_img.draw((int) this.x-10, (int) this.y-10);
+				}
+				
+				
+				
+				g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
+				
+				
+				g.setWorldClip(0, 0, 1200, 600);
+		
+	}
+	
+	public void draw_selected_flight_information(Graphics g, GameContainer gc) {
+		
+		this.selected_img.draw(0,450);
+		
+		
+		g.setColor(Color.white);
+	
+	
+		g.drawString(this.flight_name,  10, 460);
+	
+		g.drawString("Plan: ",  10, 480);
+	
+		String plan = "";
+		for(int i=0; i<this.flight_plan.getWaypoints().size(); i++) {
+			plan += this.flight_plan.getWaypoints().get(i).getPointRef()+", ";
+		}
+		
+		g.setColor(this.color);
+		g.drawString(plan, 10, 500);
+		g.setColor(Color.white);
+	
+	
+		g.drawString(Math.round(this.current_altitude) + " ft",
+			 10, 520);
+	
+		g.drawString(Math.round(this.current_heading) + " deg",
+			10, 540);
+	
+		g.drawString(Math.round(this.getFlight_plan().getVelocity()) + " MPH",
+			10, 560);
+		
+	}
 
 	public void update(GameContainer gc, Airspace airspace) {
 
@@ -302,9 +377,6 @@ public class Flight {
 		
 		
 		if (this.flight_plan.getWaypoints().size() > 0) {
-			for(int i=0;i<this.flight_plan.getWaypoints().size(); i++) {
-				this.waypoint_list_x-=30;
-			}
 			if (this.check_if_flight_at_waypoint(flight_plan.getWaypoints()
 					.get(0))) {
 				this.flight_plan.getWaypoints().remove(0);
@@ -314,93 +386,19 @@ public class Flight {
 		update_controls(airspace, gc);
 
 	}
-
 	
 
 	public void render(Graphics g, GameContainer gc) throws SlickException {
 		
-		// Drawing Flight
+		this.draw_flight(g,  gc);
 
-		g.setColor(color);
-		g.setFont(smallFont);
-	
-		g.setWorldClip(150, 0, 1200, 600);
-		g.drawString(this.flight_name, (int) this.x - 20, (int) this.y + 25);
-		g.drawString(Math.round(this.current_altitude) + "ft",(int) this.x -25, (int)this.y-27);
-		g.drawString(Math.round(this.current_heading) + " deg",(int) this.x-25, (int) this.y-42);//-15,20
-		
-		if (this.flight_plan.getWaypoints().size() > 0) {
-			g.drawString("Target: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x-35, (int) this.y + 10);
-		}
-		
-		g.setFont(bigFont);
-		
-		if(this.flight_plan.getVelocity() <= 275){
-			
-			slow_flight_img.setRotation((int) current_heading);
-			slow_flight_img.draw((int) this.x-10, (int) this.y-10);
-			
-			
-		}
-		
-		else if(this.flight_plan.getVelocity() > 270 && this.flight_plan.getVelocity() < 340){
-			
-			img.setRotation((int) current_heading);
-			img.draw((int) this.x-10, (int) this.y-10);
-		}
-		
-		else{
-			fast_flight_img.setRotation((int) current_heading);
-			fast_flight_img.draw((int) this.x-10, (int) this.y-10);
-		}
-		
-		
-		
-		g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
-		
-		
-		g.setWorldClip(0, 0, 1200, 600);
-		
-		// Drawing Flight Button on left hand side
-
-		
 		if(this.selected) {
 			
-			
-			
-			this.selected_img.draw(0,450);
-			
-			
+			this.draw_selected_flight_information(g, gc);
 			this.controls.render(gc, g);
 			
-			g.setColor(Color.white);
-		
-		
-			g.drawString(this.flight_name,  10, 460);
-		
-			g.drawString("Plan: ",  10, 480);
-		
-			String plan = "";
-			for(int i=0; i<this.flight_plan.getWaypoints().size(); i++) {
-				plan += this.flight_plan.getWaypoints().get(i).getPointRef()+", ";
-			}
-			g.setColor(this.color);
-			g.drawString(plan, 10, 500);
-			g.setColor(Color.white);
-		
-		
-			g.drawString(Math.round(this.current_altitude) + " ft",
-				 10, 520);
-		
-			g.drawString(Math.round(this.current_heading) + " deg",
-				10, 540);
-		
-			g.drawString(Math.round(this.getFlight_plan().getVelocity()) + " MPH",
-				10, 560);
 		
 		}
-		
-	
 		
 	}
 
@@ -517,8 +515,5 @@ public class Flight {
 		return flight_plan;
 	}
 	
-	public void set_warning_violation(boolean bool){
-		this.warningViolation = bool;
-	}
 
 }
