@@ -128,6 +128,7 @@ public class Airspace {
 
 	}
 	
+	
 	public String generate_flight_name() {
 		String name = "G-";
 		Random rand = new Random();
@@ -186,7 +187,7 @@ public class Airspace {
 		}
 	}
 	
-public void give_heading_with_mouse(int pointX, int pointY, Airspace airspace){
+	public void give_heading_with_mouse(int pointX, int pointY, Airspace airspace){
 		
 		double deltaX, deltaY;
 		double distance_between_mouse_and_plane;

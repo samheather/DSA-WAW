@@ -116,9 +116,6 @@ public class Flight {
 	}
 	
 	
-	
-
-	
 	public void turn_flight_right(int degree_turned_by) {
 
 		this.turning_left = false;
@@ -149,6 +146,92 @@ public class Flight {
 
 		return false;
 	}
+
+	
+	
+	// DRAWING METHODS
+	
+	public void draw_flight(Graphics g, GameContainer gc ){
+		
+		
+
+				g.setColor(color);
+				g.setFont(smallFont);
+			
+				g.setWorldClip(150, 0, 1200, 600);
+				g.drawString(this.flight_name, (int) this.x - 20, (int) this.y + 25);
+				g.drawString(Math.round(this.current_altitude) + "ft",(int) this.x -25, (int)this.y-27);
+				g.drawString(Math.round(this.current_heading) + " deg",(int) this.x-25, (int) this.y-42);//-15,20
+				
+				if (this.flight_plan.getWaypoints().size() > 0) {
+					g.drawString("Target: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x-35, (int) this.y + 10);
+				}
+				
+				g.setFont(bigFont);
+				
+				if(this.flight_plan.getVelocity() <= 275){
+					
+					slow_flight_img.setRotation((int) current_heading);
+					slow_flight_img.draw((int) this.x-10, (int) this.y-10);
+					
+					
+				}
+				
+				else if(this.flight_plan.getVelocity() > 270 && this.flight_plan.getVelocity() < 340){
+					
+					img.setRotation((int) current_heading);
+					img.draw((int) this.x-10, (int) this.y-10);
+				}
+				
+				else{
+					fast_flight_img.setRotation((int) current_heading);
+					fast_flight_img.draw((int) this.x-10, (int) this.y-10);
+				}
+				
+				
+				
+				g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
+				
+				
+				g.setWorldClip(0, 0, 1200, 600);
+		
+	}
+	
+	public void draw_selected_flight_information(Graphics g, GameContainer gc) {
+		
+		this.selected_img.draw(0,450);
+		
+		
+		g.setColor(Color.white);
+	
+	
+		g.drawString(this.flight_name,  10, 460);
+	
+		g.drawString("Plan: ",  10, 480);
+	
+		String plan = "";
+		for(int i=0; i<this.flight_plan.getWaypoints().size(); i++) {
+			plan += this.flight_plan.getWaypoints().get(i).getPointRef()+", ";
+		}
+		
+		g.setColor(this.color);
+		g.drawString(plan, 10, 500);
+		g.setColor(Color.white);
+	
+	
+		g.drawString(Math.round(this.current_altitude) + " ft",
+			 10, 520);
+	
+		g.drawString(Math.round(this.current_heading) + " deg",
+			10, 540);
+	
+		g.drawString(Math.round(this.getFlight_plan().getVelocity()) + " MPH",
+			10, 560);
+		
+	}
+	
+	// UPDATE METHODS
+	
 
 	public void update_x_y_coordinates() {
 		double velocity = (this.flight_plan.getVelocity()) / 1500;
@@ -239,90 +322,6 @@ public class Flight {
 			}
 		}
 	}
-	
-	
-	// DRAWING METHODS
-	
-	public void draw_flight(Graphics g, GameContainer gc ){
-		
-		
-
-				g.setColor(color);
-				g.setFont(smallFont);
-			
-				g.setWorldClip(150, 0, 1200, 600);
-				g.drawString(this.flight_name, (int) this.x - 20, (int) this.y + 25);
-				g.drawString(Math.round(this.current_altitude) + "ft",(int) this.x -25, (int)this.y-27);
-				g.drawString(Math.round(this.current_heading) + " deg",(int) this.x-25, (int) this.y-42);//-15,20
-				
-				if (this.flight_plan.getWaypoints().size() > 0) {
-					g.drawString("Target: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x-35, (int) this.y + 10);
-				}
-				
-				g.setFont(bigFont);
-				
-				if(this.flight_plan.getVelocity() <= 275){
-					
-					slow_flight_img.setRotation((int) current_heading);
-					slow_flight_img.draw((int) this.x-10, (int) this.y-10);
-					
-					
-				}
-				
-				else if(this.flight_plan.getVelocity() > 270 && this.flight_plan.getVelocity() < 340){
-					
-					img.setRotation((int) current_heading);
-					img.draw((int) this.x-10, (int) this.y-10);
-				}
-				
-				else{
-					fast_flight_img.setRotation((int) current_heading);
-					fast_flight_img.draw((int) this.x-10, (int) this.y-10);
-				}
-				
-				
-				
-				g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
-				
-				
-				g.setWorldClip(0, 0, 1200, 600);
-		
-	}
-	
-	public void draw_selected_flight_information(Graphics g, GameContainer gc) {
-		
-		this.selected_img.draw(0,450);
-		
-		
-		g.setColor(Color.white);
-	
-	
-		g.drawString(this.flight_name,  10, 460);
-	
-		g.drawString("Plan: ",  10, 480);
-	
-		String plan = "";
-		for(int i=0; i<this.flight_plan.getWaypoints().size(); i++) {
-			plan += this.flight_plan.getWaypoints().get(i).getPointRef()+", ";
-		}
-		
-		g.setColor(this.color);
-		g.drawString(plan, 10, 500);
-		g.setColor(Color.white);
-	
-	
-		g.drawString(Math.round(this.current_altitude) + " ft",
-			 10, 520);
-	
-		g.drawString(Math.round(this.current_heading) + " deg",
-			10, 540);
-	
-		g.drawString(Math.round(this.getFlight_plan().getVelocity()) + " MPH",
-			10, 560);
-		
-	}
-	
-	// UPDATE METHODS
 	
 	public void update_controls(Airspace airspace, GameContainer gc){
 		
