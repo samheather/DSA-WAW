@@ -331,17 +331,21 @@ public class Flight {
 				this.target_altitude-=1000;
 				System.out.println(this.target_altitude);
 			}
+			
+			this.controls.allow_all();
 		
 			this.color = Color.yellow;
 			
 			if (this.check_other_flight_selection(airspace)) {
 				this.selected = false;
 				
+				
 			}
 		}
 		else {
 			this.color=Color.white;
-			//this.controls.clear_all();
+			this.controls.clear_all();
+			
 		}
 		
 	}
@@ -396,7 +400,7 @@ public class Flight {
 		this.update_x_y_coordinates();
 		this.update_altitude();
 		this.update_flight_plan();
-		update_controls(airspace, gc);
+		this.update_controls(airspace, gc);
 
 	}
 	
@@ -404,6 +408,7 @@ public class Flight {
 	public void render(Graphics g, GameContainer gc) throws SlickException {
 		
 		this.draw_flight(g,  gc);
+		
 
 		if(this.selected) {
 			

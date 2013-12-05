@@ -58,7 +58,8 @@ public class Point {
     
     public void render(Graphics g, Airspace airspace) throws SlickException {
     	
-   
+    	waypoint_image = new Image("res/graphics/graphics/waypoint.png");
+    	next_waypoint_image = new Image("res/graphics/graphics/waypoint_next.png");
     	
     	if(airspace.get_selected_flight() !=null){
     		if (airspace.get_selected_flight().getFlight_plan().getWaypoints().indexOf(this)==0){
