@@ -239,6 +239,7 @@ public class Controls {
 			}
 			this.boxselected--;
 		}
+		
 
 		// UPDATE SELECTED BOX
 		switch (boxselected) {
@@ -253,6 +254,19 @@ public class Controls {
 			break;
 		}
 		this.check_alt_buttons_clicked();
+		
+		
+		//ALTITUDE KEYS
+				if(input.isKeyPressed(Input.KEY_W)){
+					if(this.increase_alt<=31000) {
+					this.increase_alt_clicked = true;
+					}
+				}
+				if(input.isKeyPressed(Input.KEY_S)){
+					if(this.decrease_alt>=26000) {
+					this.decrease_alt_clicked = true;
+					}
+				}
 	}
 	
 	//MUTATORS AND ACCESSORS
