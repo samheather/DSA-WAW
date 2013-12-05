@@ -1,4 +1,3 @@
-import org.newdawn.slick.Image;
 public class Waypoint extends Point {
 
 	Waypoint(double xcoord, double ycoord){

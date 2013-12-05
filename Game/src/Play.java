@@ -1,9 +1,5 @@
-
-import java.awt.Cursor;
 import java.awt.Font;
 import java.io.InputStream;
-
-import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 import org.newdawn.slick.util.ResourceLoader;

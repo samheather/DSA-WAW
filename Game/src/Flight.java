@@ -1,8 +1,6 @@
 import java.awt.Font;
 import java.io.InputStream;
 import java.util.Random;
-
-import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;

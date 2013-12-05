@@ -4,11 +4,9 @@ import java.util.Random;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Color;
 import org.lwjgl.input.Mouse;
-import org.newdawn.slick.Input;
+
 
 //@SuppressWarnings("unused")
 public class Airspace {
@@ -88,8 +86,7 @@ public class Airspace {
 
 		if (this.list_of_flights_in_airspace.size() < this.max_number_of_flights) {
 			Random rand = new Random();
-			double x;
-			double y;
+
 			int check_number;
 			
 			if (this.list_of_flights_in_airspace.isEmpty()) {
