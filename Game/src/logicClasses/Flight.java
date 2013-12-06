@@ -154,8 +154,6 @@ public class Flight {
 	
 	public void draw_flight(Graphics g, GameContainer gc ){
 		
-		
-
 				g.setColor(color);
 				//g.setFont(smallFont);
 			
@@ -201,16 +199,11 @@ public class Flight {
 	public void draw_selected_flight_information(Graphics g, GameContainer gc) {
 		
 		this.selected_img.draw(0,450);
-		
-		
 		g.setColor(Color.white);
-	
-	
 		g.drawString(this.flight_name,  10, 460);
-	
 		g.drawString("Plan: ",  10, 480);
-	
 		String plan = "";
+		
 		for(int i=0; i<this.flight_plan.getWaypoints().size(); i++) {
 			plan += this.flight_plan.getWaypoints().get(i).getPointRef()+", ";
 		}
@@ -218,14 +211,10 @@ public class Flight {
 		g.setColor(this.color);
 		g.drawString(plan, 10, 500);
 		g.setColor(Color.white);
-	
-	
 		g.drawString(Math.round(this.current_altitude) + " ft",
 			 10, 520);
-	
 		g.drawString(Math.round(this.current_heading) + " deg",
 			10, 540);
-	
 		g.drawString(Math.round(this.getFlight_plan().getVelocity()) + " MPH",
 			10, 560);
 		
