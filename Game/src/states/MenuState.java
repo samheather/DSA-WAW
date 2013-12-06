@@ -11,8 +11,9 @@ import org.newdawn.slick.TrueTypeFont;
 
 public class MenuState extends BasicGameState {
 	public static TrueTypeFont font;
-	private Color colorBtn1 = Color.green;
-	private Color colorBtn2 = Color.green;
+	private Image menu_background, play_button, quit_button ;
+	
+	
 
 	public MenuState(int state) {
 
@@ -20,6 +21,12 @@ public class MenuState extends BasicGameState {
 
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
+		
+		menu_background = new Image("res/graphics/menu_graphics/menu_screen.png");
+		play_button = new Image("res/graphics/menu_graphics/play_button.png");
+		quit_button = new Image("res/graphics/menu_graphics/quit_button.png");
+		
+		
 		
 		try{
 
@@ -38,14 +45,10 @@ public class MenuState extends BasicGameState {
 			throws SlickException {
 		g.setColor(Color.white);
 		g.setFont(font);
-		g.drawString("Turbulence", 470, 40);
-		g.setColor(colorBtn1);
-		g.fillRoundRect(470, 100, 200, 70, 15);
-		g.setColor(colorBtn2);
-		g.fillRoundRect(470, 200, 200, 70, 15);
-		g.setColor(Color.black);
-		g.drawString("Play Game", 490, 115);
-		g.drawString("Exit Game", 490, 215);
+		menu_background.draw(0,0);
+		play_button.draw(439,349);
+		quit_button.draw(1148,556);
+	
 		g.setColor(Color.white);
 
 	}
@@ -54,25 +57,29 @@ public class MenuState extends BasicGameState {
 		
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
+		
+		// Mapping Mouse coords onto graphics coords
+		posY = 600 - posY;
+		
+		if (Mouse.isButtonDown(0)) {
+			System.out.println(posX);
+			System.out.println(posY);
+		}
 
-		if ((posX > 470 && posX < 670) && (posY > 430 && posY < 500)) {
-			colorBtn1 = Color.white;
+		if ((posX > 439 && posX < 762) && (posY > 349 && posY < 439)) {
+			
 			if (Mouse.isButtonDown(0)) {
 				sbg.enterState(1);
 			}
 
-		} else {
-			colorBtn1 = Color.green;
-		}
-		if ((posX > 470 && posX < 670) && (posY > 330 && posY < 400)) {
-			colorBtn2 = Color.white;
+		} 
+		
+		if ((posX > 1148 && posX < 1172) && (posY > 556 && posY < 582)) {
 			if (Mouse.isButtonDown(0)) {
 				System.exit(0);
 			}
 
-		} else {
-			colorBtn2 = Color.green;
-		}
+		} 
 	}
 
 	public int getID() {
