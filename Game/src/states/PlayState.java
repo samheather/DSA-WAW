@@ -118,6 +118,8 @@ public class PlayState extends BasicGameState {
 		clock_image.draw(0,5);
 		g.drawString(this.string_time, 30, 10);
 		
+		g.drawString(String.valueOf(gc.getFPS()), 300, 300);
+		
 
 	}
 
@@ -157,9 +159,7 @@ public class PlayState extends BasicGameState {
 		
 		// Updating Airspace
 		
-		if (airspace.new_flight(i, gc)) {
-			i++;
-		}
+		airspace.new_flight(gc);
 		airspace.update(gc);
 		if (airspace.get_separation_rules().getGameOverViolation() == true){
 			end_of_game_sound.play();

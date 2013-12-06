@@ -86,7 +86,7 @@ public class Airspace {
 			return false;
 		}
 	}
-	public boolean new_flight(int num, GameContainer gc) throws SlickException {
+	public boolean new_flight(GameContainer gc) throws SlickException {
 
 		if (this.list_of_flights_in_airspace.size() < this.max_number_of_flights) {
 			Random rand = new Random();

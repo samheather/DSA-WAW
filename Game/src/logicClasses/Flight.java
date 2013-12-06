@@ -157,7 +157,7 @@ public class Flight {
 		
 
 				g.setColor(color);
-				g.setFont(smallFont);
+				//g.setFont(smallFont);
 			
 				g.setWorldClip(150, 0, 1200, 600);
 				g.drawString(this.flight_name, (int) this.x - 20, (int) this.y + 25);
@@ -168,7 +168,7 @@ public class Flight {
 					g.drawString("Target: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x-35, (int) this.y + 10);
 				}
 				
-				g.setFont(bigFont);
+				//g.setFont(bigFont);
 				
 				if(this.flight_plan.getVelocity() <= 275){
 					
@@ -388,7 +388,7 @@ public class Flight {
 		selected_img = new Image("res/graphics/graphics/selected_flight2.jpg");
 		this.controls = new Controls(gc, this);
 		controls.init(gc);
-		try{
+		/*try{
 			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway font/bluehigh.ttf");
 			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
 			awtFont = awtFont.deriveFont(19f);
@@ -399,7 +399,7 @@ public class Flight {
 			
 		}catch(Exception e){
 			e.printStackTrace();
-		}
+		}*/
 
 	}
 	

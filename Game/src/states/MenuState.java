@@ -18,7 +18,7 @@ public class MenuState extends BasicGameState {
 
 	}
 
-	public void init(GameContainer gc, StateBasedGame sbj)
+	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
 		
 		try{
@@ -34,7 +34,7 @@ public class MenuState extends BasicGameState {
 		}
 	}
 
-	public void render(GameContainer gc, StateBasedGame sbj, Graphics g)
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
 		g.setColor(Color.white);
 		g.setFont(font);
