@@ -10,8 +10,6 @@ public class GameOverState extends BasicGameState {
 	
 	public GameOverState(int state) {
 		
-		
-
 	}
 	
 
