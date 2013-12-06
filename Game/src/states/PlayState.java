@@ -118,6 +118,8 @@ public class PlayState extends BasicGameState {
 		clock_image.draw(0,5);
 		g.drawString(this.string_time, 30, 10);
 		
+		g.drawString(Integer.toString(gc.getFPS()), 300, 300);
+		
 		
 
 	}
@@ -175,6 +177,8 @@ public class PlayState extends BasicGameState {
 		if(!gc.hasFocus()) {
 			sbg.enterState(4);
 		}
+		
+		
 		
 
 	}

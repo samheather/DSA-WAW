@@ -26,33 +26,56 @@ public class FlightPlan {
 	
 	public ArrayList<Point> build_route(Airspace airspace, EntryPoint entryPoint) {
 		ArrayList<Point> temp_route = new ArrayList<Point>();
+		ArrayList<Point> temp_list_of_waypoints = new ArrayList<Point>();
+		ArrayList<Point> temp_list_of_exitpoints = new ArrayList<Point>();
+		Boolean exitpoint_added = false;
+		
 		if (!airspace.getList_of_way_points().isEmpty()&& !airspace.getList_of_exit_points().isEmpty()) {
-			Random rand = new Random();
-				int ExitPoint = rand.nextInt(3);
-				while(entryPoint.getY()==airspace.getList_of_exit_points().get(ExitPoint).getY()) {
-					ExitPoint=rand.nextInt(3);
+				Random rand = new Random();
+				
+				// Initialising Temporary Lists
+				
+				for (int i = 0; i < airspace.getList_of_way_points().size(); i++) {
+					temp_list_of_waypoints.add(airspace.getList_of_way_points().get(i));
 				}
-				while(entryPoint.getX()==airspace.getList_of_exit_points().get(ExitPoint).getX()) {
-					ExitPoint=rand.nextInt(3);
+				
+				for (int i = 0; i < airspace.getList_of_exit_points().size(); i++) {
+					temp_list_of_exitpoints.add(airspace.getList_of_exit_points().get(i));
 				}
-
+				
+				// Adding Waypoints to Plan
+				
 				int pointsInPlan = rand.nextInt(4) + 2;
-				// the number of waypoints in the flight plan including exit points
-
+				
 				for (int i = 0; i < pointsInPlan - 1; i++) {
-					int waypoint_index = rand.nextInt(10);
-
-					while (temp_route.contains(airspace.getList_of_way_points().get(waypoint_index))) {
-						// this waypoint is already in the list, don't add it
-						waypoint_index = rand.nextInt(10);
-					}
-					temp_route.add(airspace.getList_of_way_points().get(waypoint_index));
-					// if it isn't, add it
+					int waypoint_index = rand.nextInt(temp_list_of_waypoints.size());
+					temp_route.add(temp_list_of_waypoints.get(waypoint_index));
+					temp_list_of_waypoints.remove(waypoint_index);
 				}
-				temp_route.add(airspace.getList_of_exit_points().get(ExitPoint));
 				
+				// Adding ExitPoint to Plan
 				
-
+				int ExitPointIndex = rand.nextInt(temp_list_of_exitpoints.size());
+				
+				while (exitpoint_added == false){
+					
+					System.out.println(entryPoint.getY());
+					System.out.println(entryPoint.getX());
+					
+					if (entryPoint.getY()==temp_list_of_exitpoints.get(ExitPointIndex).getY()){
+						temp_list_of_exitpoints.remove(ExitPointIndex);
+						ExitPointIndex = rand.nextInt(temp_list_of_exitpoints.size());
+					}
+					
+					else if (entryPoint.getX()==temp_list_of_exitpoints.get(ExitPointIndex).getX()){
+						temp_list_of_exitpoints.remove(ExitPointIndex);
+						ExitPointIndex = rand.nextInt(temp_list_of_exitpoints.size());
+					}
+					else{
+						temp_route.add(temp_list_of_exitpoints.get(ExitPointIndex));
+						exitpoint_added = true;
+					}
+				}
 		}
 		
 		return temp_route;
