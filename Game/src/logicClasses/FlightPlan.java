@@ -1,3 +1,4 @@
+package logicClasses;
 
 import java.util.ArrayList;
 import java.util.Random;

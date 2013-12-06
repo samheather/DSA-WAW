@@ -1,3 +1,4 @@
+package logicClasses;
 public class Waypoint extends Point {
 
 	Waypoint(double xcoord, double ycoord){

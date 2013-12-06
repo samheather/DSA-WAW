@@ -1,3 +1,4 @@
+package states;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 import org.newdawn.slick.util.ResourceLoader;
@@ -5,21 +6,20 @@ import org.lwjgl.input.Mouse;
 import java.awt.Font;
 import java.io.InputStream;
 
-public class DifficultyState extends BasicGameState {
+public class PauseState extends BasicGameState {
 	
-	private TrueTypeFont font;
-	private Color colorEasyBtn = Color.green;
-	private Color colorMediumBtn = Color.green;
-	private Color colorHardBtn = Color.green;
-
+	public static TrueTypeFont font;
+	private Color colourContinueButton = Color.green;
+	private Color colourQuitButton = Color.green;
 	
-	public DifficultyState(int state){
+	
+	public PauseState(int state) {
 		
 	}
-	
+
 	public void init(GameContainer gc, StateBasedGame sbj) throws SlickException {
 		try{
-			InputStream inputStream = ResourceLoader.getResourceAsStream("res/Virgo-01/virgo.ttf");
+			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway font/bluehigh.ttf");
 			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
 			awtFont = awtFont.deriveFont(20f);
 			font = new TrueTypeFont(awtFont, false);
@@ -28,25 +28,22 @@ public class DifficultyState extends BasicGameState {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		gc.setShowFPS(false);
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g) throws SlickException {
 		g.setColor(Color.white);
 		g.setFont(font);
-		g.drawString("Choose Difficulty", 10, 40);
-		g.setColor(colorEasyBtn);
+		g.drawString("Pause", 10, 40);
+		g.setColor(colourContinueButton);
 		g.fillRoundRect(100, 100, 200, 70, 15);
-		g.setColor(colorMediumBtn);
+		g.setColor(colourQuitButton);
 		g.fillRoundRect(100, 200, 200, 70, 15);
-		g.setColor(colorHardBtn);
-		g.fillRoundRect(100, 300, 200, 70, 15);
 		g.setColor(Color.black);
 		g.setFont(font);
-		g.drawString("Easy",135,115);
-		g.drawString("Medium", 135, 215);
-		g.drawString("Hard", 135, 315);
+		g.drawString("Continue", 135, 115);
+		g.drawString("Quit",  135,  215);
 		g.setColor(Color.white);
-		
 	}
 	
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
@@ -54,42 +51,35 @@ public class DifficultyState extends BasicGameState {
 		int posiX = Mouse.getX();
 		int posiY = Mouse.getY();
 		
+		Input input = gc.getInput();
+		
+		if(input.isKeyPressed(Input.KEY_P)) {
+			sbg.enterState(2);
+		}
+		
 		if((posiX>100&&posiX<300)&&(posiY>430&&posiY<500)) {
-			colorEasyBtn=Color.white;
+			colourContinueButton=Color.white;
 			if(Mouse.isButtonDown(0)) {
 				sbg.enterState(2);
 			}
 			
 		}
 		else {
-			colorEasyBtn=Color.green;
+			colourContinueButton=Color.green;
 		}
 		if((posiX>100&&posiX<300)&&(posiY>330&&posiY<400)) {
-			colorMediumBtn=Color.white;
+			colourQuitButton=Color.white;
 			if(Mouse.isButtonDown(0)) {
-				sbg.enterState(2);
+				System.exit(0);
 			}
 			
 		}
 		else {
-			colorMediumBtn=Color.green;
-		}
-		if((posiX>100&&posiX<300)&&(posiY>230&&posiY<300)) {
-			colorHardBtn=Color.white;
-			if(Mouse.isButtonDown(0)){
-				sbg.enterState(2);
-			}
-		}
-		else {
-			colorHardBtn=Color.green;
+			colourQuitButton=Color.green;
 		}
 	}
 	
-	public int getID() {
-		return 1;
+	public int getID(){
+		return 4;
 	}
-	
-	
-	
-
 }

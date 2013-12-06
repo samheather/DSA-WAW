@@ -1,3 +1,4 @@
+package logicClasses;
 import java.awt.Font;
 import java.io.InputStream;
 import java.util.Random;
@@ -254,7 +255,7 @@ public class Flight {
 
 	public void update_current_heading() {
 	
-		double rate = 0.3;
+		double rate = 0.4;
 		if (Math.round(this.target_heading) != Math.round(this.current_heading)) {
 			if (this.turning_right == true) {// If plane is already turning
 												// right or user has told it to

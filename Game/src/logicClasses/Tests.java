@@ -1,3 +1,4 @@
+package logicClasses;
 
 public class Tests {
 

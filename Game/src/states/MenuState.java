@@ -1,3 +1,4 @@
+package states;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 import org.lwjgl.input.Mouse;
@@ -37,7 +38,7 @@ public class MenuState extends BasicGameState {
 			throws SlickException {
 		g.setColor(Color.white);
 		g.setFont(font);
-		g.drawString("Turbulance", 470, 40);
+		g.drawString("Turbulence", 470, 40);
 		g.setColor(colorBtn1);
 		g.fillRoundRect(470, 100, 200, 70, 15);
 		g.setColor(colorBtn2);

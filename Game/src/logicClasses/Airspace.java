@@ -1,3 +1,4 @@
+package logicClasses;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -29,7 +30,7 @@ public class Airspace {
 	
 	// CONSTRUCTOR
 
-	Airspace() {
+	public Airspace() {
 		this.max_number_of_flights = 5;
 		this.score = 0;
 		this.list_of_flights_in_airspace = new ArrayList<Flight>();
@@ -99,10 +100,11 @@ public class Airspace {
 			}
 
 			if (check_number == 1) {
-
-				if (this.loops_since_last_flight_entry >= 1000  || this.list_of_flights_in_airspace.isEmpty()) {
+				
+				if ((this.loops_since_last_flight_entry >= 1000  || this.list_of_flights_in_airspace.isEmpty())) {
 
 					Flight tempFlight = new Flight(this);
+					//boolean isInViolation = this.separationRules.lateralDistanceBetweenFlights(flight1, flight2)
 					tempFlight.setFlight_name(this.generate_flight_name());
 					tempFlight.setTarget_altitude(tempFlight.getCurrent_altitude());
 					double heading = tempFlight.calculate_heading_to_first_waypoint(

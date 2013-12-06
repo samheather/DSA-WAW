@@ -1,3 +1,4 @@
+package logicClasses;
 import java.awt.Font;
 
 import org.lwjgl.input.Mouse;

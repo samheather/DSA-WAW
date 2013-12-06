@@ -1,10 +1,17 @@
+package logicClasses;
 
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 
+import states.DifficultyState;
+import states.GameOverState;
+import states.MenuState;
+import states.PauseState;
+import states.PlayState;
+
 public class Game extends StateBasedGame {
 
-	public static final String NAME = "Turbulance";
+	public static final String NAME = "Turbulence";
 	public static final int MENU_STATE = 0;
 	public static final int DIFFICULTY_STATE = 1;
 	public static final int PLAY_STATE = 2;

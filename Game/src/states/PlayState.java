@@ -1,5 +1,10 @@
+package states;
+
 import java.awt.Font;
 import java.io.InputStream;
+
+import logicClasses.Airspace;
+
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 import org.newdawn.slick.util.ResourceLoader;
@@ -7,6 +12,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.Image;
+
 
 public class PlayState extends BasicGameState {
 
@@ -174,8 +180,17 @@ public class PlayState extends BasicGameState {
 
 	}
 
+
 	public int getID() {
 		return 2;
+	}
+
+	public Airspace getAirspace() {
+		return airspace;
+	}
+
+	public void setAirspace(Airspace airspace) {
+		this.airspace = airspace;
 	}
 
 }
