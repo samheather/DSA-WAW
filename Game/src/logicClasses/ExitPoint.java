@@ -10,9 +10,12 @@ public class ExitPoint extends Point {
 	
 	Image exit_point_top, exit_point_right, exit_point_left;
 
-	ExitPoint(double xcoord, double ycoord){
+	ExitPoint(double xcoord, double ycoord) throws SlickException{
 	    super(xcoord, ycoord);
 	    pointCount += 1; 
+	    this.exit_point_top = new Image("/res/graphics/graphics/exitpoint_top.png");
+		this.exit_point_right = new Image("/res/graphics/graphics/exitpoint_right.png");
+		this.exit_point_left = new Image("/res/graphics/graphics/exitpoint_left.png");
 	}
 	
 	ExitPoint(double xcoord, double ycoord, String name){
@@ -22,9 +25,7 @@ public class ExitPoint extends Point {
 	}
 	
 	   public void init(GameContainer gc) throws SlickException {
-			exit_point_top = new Image("/res/graphics/graphics/exitpoint_top.png");
-			exit_point_right = new Image("/res/graphics/graphics/exitpoint_right.png");
-			exit_point_left = new Image("/res/graphics/graphics/exitpoint_left.png");
+			
 	   
 
 		}
@@ -35,15 +36,15 @@ public class ExitPoint extends Point {
 
 		
 		if(this.y == 0){
-			exit_point_top.draw((int)this.x-20, (int)this.y);
+			this.exit_point_top.draw((int)this.x-20, (int)this.y);
 		}
 		
 		else if(this.x == 150){
-			exit_point_left.draw((int)this.x, (int)this.y-20);
+			this.exit_point_left.draw((int)this.x, (int)this.y-20);
 		}
 		
 		if(this.x == 1200){
-			exit_point_right.draw((int)this.x-40, (int)this.y-20);
+			this.exit_point_right.draw((int)this.x-40, (int)this.y-20);
 		}
 		
 		

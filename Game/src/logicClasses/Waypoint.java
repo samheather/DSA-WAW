@@ -1,7 +1,9 @@
 package logicClasses;
+import org.newdawn.slick.SlickException;
+
 public class Waypoint extends Point {
 
-	Waypoint(double xcoord, double ycoord){
+	Waypoint(double xcoord, double ycoord) throws SlickException{
 	    super(xcoord, ycoord);
 	    pointCount += 1; 
 	}

@@ -10,9 +10,12 @@ public class EntryPoint extends Point {
 	
 	Image entry_point_top, entry_point_right, entry_point_left;
 
-	EntryPoint(double xcoord, double ycoord){
+	EntryPoint(double xcoord, double ycoord) throws SlickException{
 	    super(xcoord, ycoord);
 	    pointCount += 1; 
+	    this.entry_point_top = new Image("/res/graphics/graphics/entrypoint_top.png");
+		this.entry_point_right = new Image("/res/graphics/graphics/entrypoint_right.png");
+		this.entry_point_left = new Image("/res/graphics/graphics/entrypoint_left.png");
 	}
 	
 	EntryPoint(double xcoord, double ycoord, String name){
@@ -22,9 +25,7 @@ public class EntryPoint extends Point {
 	}
 	
     public void init(GameContainer gc) throws SlickException {
-    	entry_point_top = new Image("/res/graphics/graphics/entrypoint_top.png");
-		entry_point_right = new Image("/res/graphics/graphics/entrypoint_right.png");
-		entry_point_left = new Image("/res/graphics/graphics/entrypoint_left.png");
+    	
    
 
 	}
@@ -32,15 +33,15 @@ public class EntryPoint extends Point {
 		
 		
 		if(this.y == 0){
-			entry_point_top.draw((int)this.x-20, (int) this.y);
+			this.entry_point_top.draw((int)this.x-20, (int) this.y);
 		}
 		
 		else if(this.x == 150){
-			entry_point_left.draw((int)this.x, (int) this.y-20);
+			this.entry_point_left.draw((int)this.x, (int) this.y-20);
 		}
 		
 		else if(this.x == 1200){
-			entry_point_right.draw((int)this.x-40, (int) this.y-20);
+			this.entry_point_right.draw((int)this.x-40, (int) this.y-20);
 		}
     }
 	
