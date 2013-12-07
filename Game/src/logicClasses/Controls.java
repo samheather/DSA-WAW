@@ -228,18 +228,18 @@ public class Controls {
 		}
 
 		// CHECK KEYSTROKES
-		if (input.isKeyPressed(Input.KEY_DOWN)) {
-			if (boxselected == 3) {
-				boxselected = 0;
-			}
-			this.boxselected++;
-		}
-		if (input.isKeyPressed(Input.KEY_UP)) {
-			if (boxselected == 1) {
-				boxselected = 4;
-			}
-			this.boxselected--;
-		}
+//		if (input.isKeyPressed(Input.KEY_DOWN)) {
+//			if (boxselected == 3) {
+//				boxselected = 0;
+//			}
+//			this.boxselected++;
+//		}
+//		if (input.isKeyPressed(Input.KEY_UP)) {
+//			if (boxselected == 1) {
+//				boxselected = 4;
+//			}
+//			this.boxselected--;
+//		}
 		
 
 		// UPDATE SELECTED BOX
@@ -258,12 +258,12 @@ public class Controls {
 		
 		
 		//ALTITUDE KEYS
-				if(input.isKeyPressed(Input.KEY_W)){
+				if(input.isKeyPressed(Input.KEY_UP)){
 					if(this.increase_alt<=31000) {
 					this.increase_alt_clicked = true;
 					}
 				}
-				if(input.isKeyPressed(Input.KEY_S)){
+				if(input.isKeyPressed(Input.KEY_DOWN)){
 					if(this.decrease_alt>=26000) {
 					this.decrease_alt_clicked = true;
 					}
