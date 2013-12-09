@@ -29,7 +29,7 @@ public class Flight {
 	
 
 	// CONSTRUCTOR
-	Flight(Airspace airspace)throws SlickException {
+	public Flight(Airspace airspace)throws SlickException {
 		this.x = 0;
 		this.y = 0;
 		this.target_altitude = 0;
