@@ -29,7 +29,7 @@ public class Flight {
 	
 
 	// CONSTRUCTOR
-	public Flight(Airspace airspace)throws SlickException {
+	public Flight(Airspace airspace) {
 		this.x = 0;
 		this.y = 0;
 		this.target_altitude = 0;
@@ -43,10 +43,6 @@ public class Flight {
 		this.flight_plan = new FlightPlan(airspace, this.entryPoint);
 		this.color = Color.white;
 		this.selected = false;
-		this.img = new Image("/res/graphics/graphics/flight.png");
-		this.slow_flight_img = new Image("/res/graphics/graphics/flight_slow.png");
-		this.fast_flight_img = new Image("/res/graphics/graphics/flight_fast.png");
-		this.selected_img = new Image("res/graphics/graphics/selected_flight2.jpg");
 
 	}
 
@@ -373,6 +369,10 @@ public class Flight {
 	
 	
 	public void init(GameContainer gc) throws SlickException {
+		this.img = new Image("/res/graphics/graphics/flight.png");
+		this.slow_flight_img = new Image("/res/graphics/graphics/flight_slow.png");
+		this.fast_flight_img = new Image("/res/graphics/graphics/flight_fast.png");
+		this.selected_img = new Image("res/graphics/graphics/selected_flight2.jpg");
 		this.controls = new Controls(gc, this);
 		controls.init(gc);
 		/*try{

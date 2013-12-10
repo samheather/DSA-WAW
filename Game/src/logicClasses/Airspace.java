@@ -54,7 +54,7 @@ public class Airspace {
 
 	// METHODS
 
-	public boolean new_waypoint(int x, int y) throws SlickException {
+	public boolean new_waypoint(int x, int y)  {
 		this.wp_counter++;
 		Waypoint tmpWp = new Waypoint(x, y);
 		
@@ -65,7 +65,7 @@ public class Airspace {
 			return false;
 		}
 	}
-	public boolean new_exit_point(int x, int y)throws SlickException {
+	public boolean new_exit_point(int x, int y) {
 		ExitPoint tmpEp = new ExitPoint(x, y);
 		this.exp_counter++;
 		
@@ -77,8 +77,9 @@ public class Airspace {
 		}
 	}
 
-	public boolean new_entry_point(int x, int y) throws SlickException {
+	public boolean new_entry_point(int x, int y)  {
 		EntryPoint tmpEp = new EntryPoint(x, y);
+		
 		if (this.addEntryPoint(tmpEp)) {
 			return true;
 		} else {

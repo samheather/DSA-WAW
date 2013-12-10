@@ -25,12 +25,11 @@ public class Point {
 	// CONSTRUCTORS
     
     //Point Constructor take two doubles, for x then y.
-    Point(double xcoord, double ycoord) throws SlickException{
+    Point(double xcoord, double ycoord) {
     x = xcoord;
     y = ycoord;
     pointCount += 1;
-    this.waypoint_image =new Image("res/graphics/graphics/waypoint.png"); 
-    this.next_waypoint_image =  new Image("res/graphics/graphics/waypoint_next.png");
+
     }
     
     //Point Constructor that also takes pointRef string:
@@ -53,13 +52,15 @@ public class Point {
     // INIT, RENDER, UPDATE
     
     public void init(GameContainer gc) throws SlickException {
-     	
-   
+
 
 	}
     
     public void render(Graphics g, Airspace airspace) throws SlickException {
     	
+        this.waypoint_image =new Image("res/graphics/graphics/waypoint.png"); 
+        this.next_waypoint_image =  new Image("res/graphics/graphics/waypoint_next.png");
+   
     	
     	if(airspace.get_selected_flight() !=null){
     		if (airspace.get_selected_flight().getFlight_plan().getWaypoints().indexOf(this)==0){
