@@ -81,16 +81,16 @@ public class Flight {
 		return 27000;
 	}
 
-	public boolean check_other_flight_selection(Airspace a) {
-		for (int i = 0; i < a.getList_of_flights().size(); i++) {
-			if (a.getList_of_flights().get(i) != this) {
-				if (a.getList_of_flights().get(i).isSelected()) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+//	public boolean check_other_flight_selection(Airspace a) {
+//		for (int i = 0; i < a.getList_of_flights().size(); i++) {
+//			if (a.getList_of_flights().get(i) != this) {
+//				if (a.getList_of_flights().get(i).isSelected()) {
+//					return true;
+//				}
+//			}
+//		}
+//		return false;
+//	}
 
 	public double calculate_heading_to_first_waypoint(double destination_x, double destination_y) {
 		double deltaX;
@@ -338,11 +338,11 @@ public class Flight {
 		
 			this.color = Color.yellow;
 			
-			if (this.check_other_flight_selection(airspace)) {
-				this.selected = false;
-				
-				
-			}
+//			if (this.check_other_flight_selection(airspace)) {
+//				this.selected = false;
+//				
+//				
+//			}
 		}
 		else {
 			this.color=Color.white;
