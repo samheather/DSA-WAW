@@ -195,7 +195,7 @@ public class Controls {
 			if (input.isKeyDown(Input.KEY_ENTER)) {
 				this.text = this.turnLeftTB.getText();
 				this.text = this.text.replaceAll("\\D+", "");
-				if (!this.text.isEmpty()) {
+				if (!this.text.isEmpty() && Integer.valueOf(this.text) <= 360) {
 					this.flight.turn_flight_left(Integer.valueOf(this.text));
 					this.turnLeftTB.setText("");
 				}
@@ -216,7 +216,7 @@ public class Controls {
 			if (input.isKeyDown(Input.KEY_ENTER)) {
 				this.text = this.turnRightTB.getText();
 				this.text = this.text.replaceAll("\\D+", "");
-				if (!this.text.isEmpty()) {
+				if (!this.text.isEmpty() && Integer.valueOf(this.text) <= 360) {
 					this.flight.turn_flight_right(Integer.valueOf(this.text));
 					this.turnRightTB.setText("");
 				}
@@ -228,19 +228,7 @@ public class Controls {
 		}
 
 		// CHECK KEYSTROKES
-//		if (input.isKeyPressed(Input.KEY_DOWN)) {
-//			if (boxselected == 3) {
-//				boxselected = 0;
-//			}
-//			this.boxselected++;
-//		}
-//		if (input.isKeyPressed(Input.KEY_UP)) {
-//			if (boxselected == 1) {
-//				boxselected = 4;
-//			}
-//			this.boxselected--;
-//		}
-		
+	
 
 		// UPDATE SELECTED BOX
 		switch (boxselected) {
