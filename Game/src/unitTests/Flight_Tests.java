@@ -38,15 +38,6 @@ public class Flight_Tests {
 		
 	}
 	
-	// Testing generate_altitude()
-
-	@Test
-	public void generate_altitude_test1() {
-    	int result = flight1.generate_altitude();
-    	assertTrue(result >=28000 && result<= 30000);
-    	
-	}
-	
 	// Testing generate_entry_point()
 	
 	@Test
@@ -56,31 +47,16 @@ public class Flight_Tests {
 		
 	}
 	
-	// Testing turn_flight_right(int degrees_turned_by)
-	
+	// Testing generate_altitude()
+
 	@Test
-	public void turn_flight_right_test1(){
-		flight1.setTarget_heading(0);
-		flight1.setCurrent_heading(0);
-		flight1.turn_flight_right(30);
-		assertEquals(30, flight1.getTarget_heading(), 3);
+	public void generate_altitude_test1() {
+    	int result = flight1.generate_altitude();
+    	assertTrue(result >=28000 && result<= 30000);
+    	
 	}
 	
-	@Test
-	public void turn_flight_right_test2(){
-		flight1.setTarget_heading(270);
-		flight1.setCurrent_heading(270);
-		flight1.turn_flight_right(100);
-		assertEquals(10, flight1.getTarget_heading(), 3);
-	}
-	
-	@Test
-	public void turn_flight_right_test3(){
-		flight1.setTarget_heading(270);
-		flight1.setCurrent_heading(270);
-		flight1.turn_flight_right(90);
-		assertEquals(0, flight1.getTarget_heading(), 3);
-	}
+	// Testing calculate_heading_to_first_waypoint()
 	
 	// Testing turn_flight_left(int degrees_turned_by)
 	
@@ -108,6 +84,35 @@ public class Flight_Tests {
 		flight1.turn_flight_left(90);
 		assertEquals(0, flight1.getTarget_heading(), 3);
 	}
+	
+	
+	// Testing turn_flight_right(int degrees_turned_by)
+	
+	@Test
+	public void turn_flight_right_test1(){
+		flight1.setTarget_heading(0);
+		flight1.setCurrent_heading(0);
+		flight1.turn_flight_right(30);
+		assertEquals(30, flight1.getTarget_heading(), 3);
+	}
+	
+	@Test
+	public void turn_flight_right_test2(){
+		flight1.setTarget_heading(270);
+		flight1.setCurrent_heading(270);
+		flight1.turn_flight_right(100);
+		assertEquals(10, flight1.getTarget_heading(), 3);
+	}
+	
+	@Test
+	public void turn_flight_right_test3(){
+		flight1.setTarget_heading(270);
+		flight1.setCurrent_heading(270);
+		flight1.turn_flight_right(90);
+		assertEquals(0, flight1.getTarget_heading(), 3);
+	}
+	
+
 	
 	// Testing give_heading(int new_heading)
 	
@@ -142,6 +147,81 @@ public class Flight_Tests {
 		flight1.give_heading(3610);
 		assertEquals(10, flight1.getTarget_heading(), 3);
 	}
+	
+	
+	// Testing check_if_flight_at_waypoint()
+	
+	
+	
+	
+	// Testing update_x_y_coordinates()
+	
+	
+	
+	//Testing update_altitude()
+	
+	@Test
+	public void update_altitude_test1(){
+		flight1.setCurrent_altitude(27000);
+		flight1.setTarget_altitude(28000);
+		flight1.update_altitude();
+		assertEquals(27001, flight1.getCurrent_altitude(), 3);
+		
+	}
+	
+	@Test
+	public void update_altitude_test2(){
+		flight1.setCurrent_altitude(27000);
+		flight1.setTarget_altitude(27000);
+		flight1.update_altitude();
+		assertEquals(27000, flight1.getCurrent_altitude(), 3);
+		
+	}
+	
+	@Test
+	public void update_altitude_test3(){
+		flight1.setCurrent_altitude(26999);
+		flight1.setTarget_altitude(27000);
+		flight1.update_altitude();
+		assertEquals(27000, flight1.getCurrent_altitude(), 3);
+		
+	}
+	
+	@Test
+	public void update_altitude_test4(){
+		flight1.setCurrent_altitude(28000);
+		flight1.setTarget_altitude(27000);
+		flight1.update_altitude();
+		assertEquals(27999, flight1.getCurrent_altitude(), 3);
+		
+	}
+	
+	@Test
+	public void update_altitude_test5(){
+		flight1.setCurrent_altitude(27001);
+		flight1.setTarget_altitude(27000);
+		flight1.update_altitude();
+		assertEquals(27000, flight1.getCurrent_altitude(), 3);
+		
+	}
+	
+	
+	//Testing update_current_heading()
+	
+	@Test
+	public void update_current_heading_test1(){
+		flight1.setTarget_heading(0);
+		flight1.setCurrent_heading(288);
+		assertEquals(288.4, flight1.getCurrent_heading(), 3);
+		
+	}
+	
+	
+	//Testing update_flight_plan()
+	
+	
+	
+	
 	
 	
 	
