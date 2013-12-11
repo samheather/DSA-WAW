@@ -260,6 +260,7 @@ public class Flight_Tests {
 	public void update_current_heading_test1(){
 		flight1.setCurrent_heading(288);
 		flight1.setTarget_heading(0);
+		flight1.update_current_heading();
 		assertEquals(288.4, flight1.getCurrent_heading(), 5);
 		
 	}
@@ -268,6 +269,7 @@ public class Flight_Tests {
 	public void update_current_heading_test2(){
 		flight1.setCurrent_heading(288);
 		flight1.setTarget_heading(270);
+		flight1.update_current_heading();
 		assertEquals(287.6, flight1.getCurrent_heading(), 5);
 		
 	}
@@ -276,6 +278,7 @@ public class Flight_Tests {
 	public void update_current_heading_test3(){
 		flight1.setCurrent_heading(270);
 		flight1.setTarget_heading(90);
+		flight1.update_current_heading();
 		assertEquals(270.4, flight1.getCurrent_heading(), 5);
 		
 	}
