@@ -58,6 +58,8 @@ public class Flight_Tests {
 	
 	// Testing calculate_heading_to_first_waypoint()
 	
+	
+	
 	// Testing turn_flight_left(int degrees_turned_by)
 	
 	
@@ -212,12 +214,197 @@ public class Flight_Tests {
 	public void update_current_heading_test1(){
 		flight1.setTarget_heading(0);
 		flight1.setCurrent_heading(288);
-		assertEquals(288.4, flight1.getCurrent_heading(), 3);
+		assertEquals(288.4, flight1.getCurrent_heading(), 4);
 		
 	}
 	
 	
 	//Testing update_flight_plan()
+	
+	
+	
+	
+	// Testing Mutators and Accessors
+	
+	
+	@Test
+	public void getX_test1(){
+		flight1.setX(0);
+		assertEquals(0, flight1.getX(), 3);
+		
+	}
+	
+	@Test
+	public void setX_test1(){
+		flight1.setX(0);
+		assertEquals(0, flight1.getX(), 3);
+		
+	}
+	
+	@Test
+	public void getY_test1(){
+		flight1.setY(0);
+		assertEquals(0, flight1.getY(), 3);
+		
+	}
+	
+	@Test
+	public void setY_test1(){
+		flight1.setY(0);
+		assertEquals(0, flight1.getY(), 3);
+		
+	}
+	
+	@Test
+	public void getCurrent_heading_test1(){
+		flight1.setCurrent_heading(0);
+		assertEquals(0, flight1.getCurrent_heading(), 3);
+		
+	}
+	
+	@Test
+	public void setCurrent_heading_test1(){
+		flight1.setCurrent_heading(0);
+		assertEquals(0, flight1.getCurrent_heading(), 3);
+		
+	}
+	
+	@Test
+	public void getTarget_heading_test1(){
+		flight1.setTarget_heading(0);
+		assertEquals(0, flight1.getTarget_heading(), 3);
+		
+	}
+	
+	@Test
+	public void setTarget_heading_test1(){
+		flight1.setTarget_heading(0);
+		assertEquals(0, flight1.getTarget_heading(), 3);
+		
+	}
+	
+	@Test
+	public void getTarget_altitude_test1(){
+		flight1.setTarget_altitude(0);
+		assertEquals(0, flight1.getTarget_altitude(), 3);
+		
+	}
+	
+	@Test
+	public void setTarget_altitude_test1(){
+		flight1.setTarget_altitude(0);
+		assertEquals(0, flight1.getTarget_altitude(), 3);
+		
+	}
+	
+	@Test
+	public void getAltitude_test1(){
+		flight1.setAltitude(0);
+		assertEquals(0, flight1.getAltitude(), 3);
+		
+	}
+	
+	@Test
+	public void setAltitude_test1(){
+		flight1.setAltitude(0);
+		assertEquals(0, flight1.getAltitude(), 3);
+		
+	}
+	
+	@Test
+	public void isTurning_right_test1(){
+		assertEquals(false, flight1.isTurning_right());
+	}
+	
+	@Test
+	public void setTurning_right_test1(){
+		flight1.setTurning_right(true);
+		assertEquals(true, flight1.isTurning_right());
+	}
+	
+	@Test
+	public void isTurning_left_test1(){
+		assertEquals(false, flight1.isTurning_left());
+	}
+	
+	@Test
+	public void setTurning_left_test1(){
+		flight1.setTurning_left(true);
+		assertEquals(true, flight1.isTurning_left());
+	}
+	
+	@Test
+	public void getFlight_num_test1(){
+		flight1.setFlight_num(1);
+		assertEquals(1, flight1.getFlight_num());
+	}
+	
+	@Test
+	public void setFlight_num_test1(){
+		flight1.setFlight_num(1);
+		assertEquals(1, flight1.getFlight_num());
+	}
+	
+	
+	
+	@Test
+	public void getFlight_name_test1(){
+		flight1.setFlight_name("test");
+		assertEquals("test", flight1.getFlight_name());
+	}
+	
+	@Test
+	public void setFlight_name_test1(){
+		flight1.setFlight_name("test");
+		assertEquals("test", flight1.getFlight_name());
+	}
+	
+	@Test
+	public void isSelected_test1(){
+		assertEquals(false, flight1.isSelected());
+	}
+	
+	@Test
+	public void setSelected_test1(){
+		flight1.setSelected(true);
+		assertEquals(true, flight1.isSelected());
+	}
+	
+	@Test
+	public void getCurrent_altitude_test1(){
+		flight1.setCurrent_altitude(0);
+		assertEquals(0, flight1.getCurrent_altitude());
+	}
+	
+	@Test
+	public void setCurrent_altitude_test1(){
+		flight1.setCurrent_altitude(0);
+		assertEquals(0, flight1.getCurrent_altitude());
+	}
+	
+	
+	@Test
+	public void getFlight_Plan_test1(){
+		assertTrue(flight1.getFlight_plan() instanceof FlightPlan);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
