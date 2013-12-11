@@ -25,7 +25,7 @@ public class Point {
 	// CONSTRUCTORS
     
     //Point Constructor take two doubles, for x then y.
-    Point(double xcoord, double ycoord) {
+    public Point(double xcoord, double ycoord) {
     x = xcoord;
     y = ycoord;
     pointCount += 1;

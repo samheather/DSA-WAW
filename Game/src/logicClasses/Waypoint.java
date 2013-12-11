@@ -3,7 +3,7 @@ import org.newdawn.slick.SlickException;
 
 public class Waypoint extends Point {
 
-	Waypoint(double xcoord, double ycoord) {
+	public Waypoint(double xcoord, double ycoord) {
 	    super(xcoord, ycoord);
 	    pointCount += 1; 
 	}

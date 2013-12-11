@@ -52,12 +52,13 @@ public class Flight_Tests {
 	@Test
 	public void generate_altitude_test1() {
     	int result = flight1.generate_altitude();
-    	assertTrue(result >=28000 && result<= 30000);
+    	assertTrue(result >=27000 && result<= 30000);
     	
 	}
 	
 	// Testing calculate_heading_to_first_waypoint()
 	
+
 	
 	
 	// Testing turn_flight_left(int degrees_turned_by)
@@ -153,6 +154,51 @@ public class Flight_Tests {
 	
 	// Testing check_if_flight_at_waypoint()
 	
+	
+	@Test
+	public void check_if_flight_at_waypoint_test1(){
+		// Exactly 15 away
+		Waypoint waypoint = new Waypoint(350, 150);
+		flight1.setX(335);
+		flight1.setY(135);
+		assertTrue(flight1.check_if_flight_at_waypoint(waypoint));
+	}
+	
+	@Test
+	public void check_if_flight_at_waypoint_test2(){
+		//Within 15
+		Waypoint waypoint = new Waypoint(350, 150);
+		flight1.setX(350);
+		flight1.setY(150);
+		assertTrue(flight1.check_if_flight_at_waypoint(waypoint));
+	}
+	
+	@Test
+	public void check_if_flight_at_waypoint_test3(){
+		// Both outside 15
+		Waypoint waypoint = new Waypoint(350, 150);
+		flight1.setX(1000);
+		flight1.setY(1000);
+		assertFalse(flight1.check_if_flight_at_waypoint(waypoint));
+	}
+	
+	@Test
+	public void check_if_flight_at_waypoint_test4(){
+		// X too far away but Y close enough
+		Waypoint waypoint = new Waypoint(350, 150);
+		flight1.setX(1000);
+		flight1.setY(150);
+		assertFalse(flight1.check_if_flight_at_waypoint(waypoint));
+	}
+	
+	@Test
+	public void check_if_flight_at_waypoint_test5(){
+		// Y too far away but X close enough
+		Waypoint waypoint = new Waypoint(350, 150);
+		flight1.setX(350);
+		flight1.setY(1000);
+		assertFalse(flight1.check_if_flight_at_waypoint(waypoint));
+	}
 	
 	
 	
