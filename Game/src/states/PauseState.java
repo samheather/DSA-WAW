@@ -3,6 +3,7 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 import org.newdawn.slick.util.ResourceLoader;
 import org.lwjgl.input.Mouse;
+
 import java.awt.Font;
 import java.io.InputStream;
 
@@ -11,6 +12,7 @@ public class PauseState extends BasicGameState {
 	public static TrueTypeFont font;
 	private Color colourContinueButton = Color.green;
 	private Color colourQuitButton = Color.green;
+	private Image menu_background;
 	
 	
 	public PauseState(int state) {
@@ -19,6 +21,7 @@ public class PauseState extends BasicGameState {
 
 	public void init(GameContainer gc, StateBasedGame sbj) throws SlickException {
 		try{
+			menu_background = new Image("res/graphics/menu_graphics/menu_screen.png");
 			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway font/bluehigh.ttf");
 			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
 			awtFont = awtFont.deriveFont(20f);
@@ -32,6 +35,7 @@ public class PauseState extends BasicGameState {
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g) throws SlickException {
+		menu_background.draw(0,0);
 		g.setColor(Color.white);
 		g.setFont(font);
 		g.drawString("Pause", 10, 40);
