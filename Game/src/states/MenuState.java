@@ -11,7 +11,8 @@ import org.newdawn.slick.TrueTypeFont;
 
 public class MenuState extends BasicGameState {
 	public static TrueTypeFont font;
-	private Image menu_background, play_button, quit_button ;
+	private Image menu_background, play_button, quit_button, play_hover;
+	
 	
 	
 
@@ -24,7 +25,9 @@ public class MenuState extends BasicGameState {
 		
 		menu_background = new Image("res/graphics/menu_graphics/menu_screen.png");
 		play_button = new Image("res/graphics/menu_graphics/play_button.png");
+		play_hover = new Image("res/graphics/menu_graphics/play_hover.png");
 		quit_button = new Image("res/graphics/menu_graphics/quit_button.png");
+		
 		
 		
 		
@@ -46,9 +49,18 @@ public class MenuState extends BasicGameState {
 		g.setColor(Color.white);
 		g.setFont(font);
 		menu_background.draw(0,0);
-		play_button.draw(439,349);
 		quit_button.draw(1148,556);
-	
+		
+		int posX = Mouse.getX();
+		int posY = Mouse.getY();
+		
+		if ((posX > 439 && posX < 762) && (posY > 100 && posY < 350)){
+			play_hover.draw(439,349);
+		}
+		else{
+			play_button.draw(439,349);
+		}
+
 		g.setColor(Color.white);
 
 	}
@@ -60,14 +72,13 @@ public class MenuState extends BasicGameState {
 		
 		// Mapping Mouse coords onto graphics coords
 		posY = 600 - posY;
-		
 		if (Mouse.isButtonDown(0)) {
 			System.out.println(posX);
 			System.out.println(posY);
 		}
 
 		if ((posX > 439 && posX < 762) && (posY > 349 && posY < 439)) {
-			
+			play_hover.draw(439,349);
 			if (Mouse.isButtonDown(0)) {
 				sbg.enterState(1);
 			}
