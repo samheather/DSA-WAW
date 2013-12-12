@@ -11,7 +11,7 @@ import org.newdawn.slick.TrueTypeFont;
 
 public class MenuState extends BasicGameState {
 	public static TrueTypeFont font;
-	private Image menu_background, play_button, quit_button, play_hover;
+	private Image menu_background, play_button, quit_button, play_hover, quit_hover;
 	
 	
 	
@@ -27,6 +27,7 @@ public class MenuState extends BasicGameState {
 		play_button = new Image("res/graphics/menu_graphics/play_button.png");
 		play_hover = new Image("res/graphics/menu_graphics/play_hover.png");
 		quit_button = new Image("res/graphics/menu_graphics/quit_button.png");
+		quit_hover = new Image("res/graphics/menu_graphics/exit_hover.png");
 		
 		
 		
@@ -49,7 +50,7 @@ public class MenuState extends BasicGameState {
 		g.setColor(Color.white);
 		g.setFont(font);
 		menu_background.draw(0,0);
-		quit_button.draw(1148,556);
+		
 		
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
@@ -59,6 +60,13 @@ public class MenuState extends BasicGameState {
 		}
 		else{
 			play_button.draw(439,349);
+		}
+		
+		if((posX > 1100 && posX < 1172) && (posY > 0 && posY < 100)){
+			quit_hover.draw(1148,556);
+		}
+		else{
+			quit_button.draw(1148,556);
 		}
 
 		g.setColor(Color.white);
