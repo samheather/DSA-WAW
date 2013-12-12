@@ -55,36 +55,38 @@ public class Airspace {
 	// METHODS
 
 	public boolean new_waypoint(int x, int y)  {
-		this.wp_counter++;
-		Waypoint tmpWp = new Waypoint(x, y);
-		
-		tmpWp.setPointRef(String.valueOf((char) this.wp_counter));
-		if (this.addWaypoint(tmpWp)) {
-			return true;
-		} else {
-			return false;
-		}
+		if (x < 1250 && x > 100 && y < 650
+				&& y > -50){
+			this.wp_counter++;
+			Waypoint tmpWp = new Waypoint(x, y);
+			
+			tmpWp.setPointRef(String.valueOf((char) this.wp_counter));
+			if (this.addWaypoint(tmpWp)) {
+				return true;
+			}
+		} return false;
 	}
 	public boolean new_exit_point(int x, int y) {
-		ExitPoint tmpEp = new ExitPoint(x, y);
-		this.exp_counter++;
-		
-		tmpEp.setPointRef("EXP" + this.exp_counter);
-		if (this.addExitPoint(tmpEp)) {
-			return true;
-		} else {
-			return false;
-		}
+		if (x < 1250 && x > 100 && y < 650
+				&& y > -50){
+			ExitPoint tmpEp = new ExitPoint(x, y);
+			this.exp_counter++;
+			
+			tmpEp.setPointRef("EXP" + this.exp_counter);
+			if (this.addExitPoint(tmpEp)) {
+				return true;
+			}
+		} return false;
 	}
 
 	public boolean new_entry_point(int x, int y)  {
-		EntryPoint tmpEp = new EntryPoint(x, y);
-		
-		if (this.addEntryPoint(tmpEp)) {
-			return true;
-		} else {
-			return false;
-		}
+		if (x < 1250 && x > 100 && y < 650
+				&& y > -50){
+			EntryPoint tmpEp = new EntryPoint(x, y);
+			if (this.addEntryPoint(tmpEp)) {
+				return true;
+			}
+		} return false;
 	}
 	public boolean new_flight(GameContainer gc) throws SlickException {
 
