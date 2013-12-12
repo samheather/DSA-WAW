@@ -1,5 +1,4 @@
 package logicClasses;
-import org.newdawn.slick.SlickException;
 
 public class Waypoint extends Point {
 
