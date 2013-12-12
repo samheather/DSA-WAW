@@ -221,23 +221,6 @@ public class Airspace {
 
 	
 
-//	public void setDifficulty(int difficulty) {
-//		switch (difficulty) {
-//		case 1:
-//			separationRules.setGameOverLateralSeparation(50);
-//			separationRules.setGameOverVerticalSeparation(50);
-//			break;
-//		case 2:
-//			separationRules.setGameOverLateralSeparation(25);
-//			separationRules.setGameOverVerticalSeparation(25);
-//			break;
-//		case 3:
-//			separationRules.setGameOverLateralSeparation(10);
-//			separationRules.setGameOverVerticalSeparation(10);
-//			break;
-//		}
-//	}
-
 	public void changeScore(int value) {
 		this.score += value;
 	}
