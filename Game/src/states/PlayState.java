@@ -67,7 +67,7 @@ public class PlayState extends BasicGameState {
 		
 		//initialise the airspace object;
 		
-		
+		airspace.init(gc);
     	//Waypoints
     	airspace.new_waypoint(350, 150);
     	airspace.new_waypoint(400, 470);

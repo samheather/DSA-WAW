@@ -150,15 +150,7 @@ public class Flight {
 		
 				g.setColor(color);
 				//g.setFont(smallFont);
-			
 				g.setWorldClip(150, 0, 1200, 600);
-				g.drawString(this.flight_name, (int) this.x - 20, (int) this.y + 25);
-				g.drawString(Math.round(this.current_altitude) + "ft",(int) this.x -25, (int)this.y-27);
-				g.drawString(Math.round(this.current_heading) + " deg",(int) this.x-25, (int) this.y-42);//-15,20
-				
-				if (this.flight_plan.getWaypoints().size() > 0) {
-					g.drawString("Target: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x-35, (int) this.y + 10);
-				}
 				
 				//g.setFont(bigFont);
 				
@@ -182,8 +174,34 @@ public class Flight {
 				}
 				
 				
+				if (this.selected){
+					
+					g.setColor(Color.yellow);
+					g.drawString(this.flight_name, (int) this.x - 20, (int) this.y + 25);
+					g.drawString(Math.round(this.current_altitude) + "ft",(int) this.x -25, (int)this.y-27);
+					g.drawString(Math.round(this.current_heading) + " deg",(int) this.x-25, (int) this.y-42);//-15,20
+					
+					if (this.flight_plan.getWaypoints().size() > 0) {
+						g.drawString("Target: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x-35, (int) this.y + 10);
+					}
+					
+					g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
+					g.setColor(color);
+					
+				}
 				
-				g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
+				else{
+					g.drawString(this.flight_name, (int) this.x - 20, (int) this.y + 25);
+					g.drawString(Math.round(this.current_altitude) + "ft",(int) this.x -25, (int)this.y-27);
+					g.drawString(Math.round(this.current_heading) + " deg",(int) this.x-25, (int) this.y-42);//-15,20
+					
+					if (this.flight_plan.getWaypoints().size() > 0) {
+						g.drawString("Target: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x-35, (int) this.y + 10);
+					}
+					g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
+				}
+				
+				
 				
 				
 				g.setWorldClip(0, 0, 1200, 600);
@@ -202,7 +220,8 @@ public class Flight {
 			plan += this.flight_plan.getWaypoints().get(i).getPointRef()+", ";
 		}
 		
-		g.setColor(this.color);
+		
+		g.setColor(Color.yellow);
 		g.drawString(plan, 10, 500);
 		g.setColor(Color.white);
 		g.drawString(Math.round(this.current_altitude) + " ft",
@@ -307,44 +326,7 @@ public class Flight {
 		}
 	}
 	
-	public void update_controls(Airspace airspace, GameContainer gc){
-		
-		if (this.selected == true) {
-			// Update controls
-			this.controls.update(gc);
-			this.controls.setIncrease_alt((int)Math.round(this.target_altitude)+1000);
-			this.controls.setDecrease_alt((int)Math.round(this.target_altitude)-1000);
-			this.controls.setTarget_alt((int)Math.round(this.target_altitude));
-			if (!this.controls.headingHasFocus()) {
-				this.controls.getHeadingControlTB().setText(
-						String.valueOf(Math.round(this.target_heading)));
-			}
-			if(this.controls.isIncrease_alt_clicked()) {
-				this.target_altitude+=1000;
-				System.out.println(this.target_altitude);
-			}
-			if(this.controls.isDecrease_alt_clicked()) {
-				this.target_altitude-=1000;
-				System.out.println(this.target_altitude);
-			}
-			
-			this.controls.allow_all();
-		
-			this.color = Color.yellow;
-			
-//			if (this.check_other_flight_selection(airspace)) {
-//				this.selected = false;
-//				
-//				
-//			}
-		}
-		else {
-			this.color=Color.white;
-			this.controls.clear_all();
-			
-		}
-		
-	}
+
 	
 	public void update_flight_plan(){
 		
@@ -367,8 +349,7 @@ public class Flight {
 		this.slow_flight_img = new Image("/res/graphics/graphics/flight_slow.png");
 		this.fast_flight_img = new Image("/res/graphics/graphics/flight_fast.png");
 		this.selected_img = new Image("res/graphics/graphics/selected_flight2.jpg");
-		this.controls = new Controls(gc, this);
-		controls.init(gc);
+		
 		/*try{
 			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway font/bluehigh.ttf");
 			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
@@ -394,7 +375,7 @@ public class Flight {
 		this.update_x_y_coordinates();
 		this.update_altitude();
 		this.update_flight_plan();
-		this.update_controls(airspace, gc);
+		
 
 	}
 	
@@ -407,7 +388,7 @@ public class Flight {
 		if(this.selected) {
 			
 			this.draw_selected_flight_information(g, gc);
-			this.controls.render(gc, g);
+			
 			
 		
 		}

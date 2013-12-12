@@ -35,8 +35,8 @@ public class Controls {
 	
 	
 	// CONSTRUCTOR
-	public Controls(GameContainer gc, Flight flight) {
-		this.flight = flight;
+	public Controls() {
+		
 	}
 
 
@@ -304,6 +304,10 @@ public class Controls {
 
 	public void setDecrease_alt(int decrease_alt) {
 		this.decrease_alt = decrease_alt;
+	}
+	
+	public void setFlight(Flight flight1){
+		this.flight = flight1;
 	}
 
 
