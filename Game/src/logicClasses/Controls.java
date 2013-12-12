@@ -32,9 +32,15 @@ public class Controls {
 	private String text;
 	private int boxselected, increase_alt, decrease_alt, target_alt;
 	private Image altitudeButton;
-
-
+	
+	
 	// CONSTRUCTOR
+	public Controls(GameContainer gc, Flight flight) {
+		this.flight = flight;
+	}
+
+
+	// INIT
 	public void init(GameContainer gc) throws SlickException {
 		Font awtFont = new Font("Courier", Font.BOLD, 15);
 		font = new TrueTypeFont(awtFont, false);
@@ -300,9 +306,7 @@ public class Controls {
 		this.decrease_alt = decrease_alt;
 	}
 
-	public Controls(GameContainer gc, Flight flight) {
-		this.flight = flight;
-	}
+
 	
 	public TextField getHeadingControlTB() {
 		return headingControlTB;
