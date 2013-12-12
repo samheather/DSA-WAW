@@ -368,7 +368,7 @@ public class Flight {
 	
 
 
-	public void update(GameContainer gc, Airspace airspace) {
+	public void update() {
 
 
 		this.update_current_heading();

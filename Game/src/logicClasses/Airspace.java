@@ -285,7 +285,7 @@ public class Airspace {
 		
 		
 		for (int i = 0; i < this.list_of_flights_in_airspace.size(); i++) {
-			this.list_of_flights_in_airspace.get(i).update(gc, this);
+			this.list_of_flights_in_airspace.get(i).update();
 			if(this.list_of_flights_in_airspace.get(i).getFlight_plan().getWaypoints().size()==0) {
 				this.remove_specific_flight(i);
 			}
