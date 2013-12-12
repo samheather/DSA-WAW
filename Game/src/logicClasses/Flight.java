@@ -1,14 +1,10 @@
 package logicClasses;
-import java.awt.Font;
-import java.io.InputStream;
 import java.util.Random;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.util.ResourceLoader;
 
 public class Flight {
 
@@ -22,8 +18,6 @@ public class Flight {
 	private Color color;
 	private boolean selected;
 	private Controls controls;
-	private TrueTypeFont smallFont;
-	private TrueTypeFont bigFont;
 	private EntryPoint entryPoint;
 	private Airspace airspace;
 	
