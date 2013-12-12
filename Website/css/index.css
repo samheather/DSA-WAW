@@ -1,0 +1,37 @@
+body{
+	background-image:url('../img/bgimage.jpg');
+	background-repeat:no-repeat;
+	background-attachment:fixed;
+	background-position:center; 
+	background-color:#000;	
+}
+
+#container{
+	width:1200px;
+	overflow:auto;
+}
+
+#download{
+	position:absolute;
+	top: 50%;
+	left: 30%;
+}
+
+#navbar{
+	position:absolute;
+	top: 80%;
+	left: 9%;
+	width:90%;
+
+}
+
+.nav{
+	padding-left:10%;
+}
+img { 
+  opacity: 0.9; 
+} 
+
+img:hover { 
+  opacity: 1.2; 
+}
