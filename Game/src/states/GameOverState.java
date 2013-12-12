@@ -12,7 +12,6 @@ public class GameOverState extends BasicGameState {
 		
 	}
 	
-
 	public void init(GameContainer gc, StateBasedGame sbg)
 				throws SlickException {
 		
@@ -20,8 +19,6 @@ public class GameOverState extends BasicGameState {
 		play_again_button = new Image("res/graphics/menu_graphics/playagain_button.png");
 		quit_button = new Image("res/graphics/menu_graphics/quit_button.png");
 		menu_button = new Image("res/graphics/menu_graphics/menu_button.png");
-
-
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
@@ -41,6 +38,4 @@ public class GameOverState extends BasicGameState {
 	public int getID() {
 			return 3;
 	}
-
-
 }
