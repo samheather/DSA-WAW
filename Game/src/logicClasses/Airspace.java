@@ -402,6 +402,15 @@ public class Airspace {
 	
 	public void remove_specific_flight(int flight) {
 		this.list_of_flights_in_airspace.remove(flight); // remove that flight from the list
+		
+		this.controls.setIncrease_alt(0);
+		this.controls.setDecrease_alt(0);
+		this.controls.setTarget_alt(0);
+	
+		this.controls.getHeadingControlTB().setText("");
+													
+		
+		
 		if (!(this.list_of_flights_in_airspace.contains(this.selected_flight))) {
 			this.selected_flight = null;
 

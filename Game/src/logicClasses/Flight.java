@@ -17,7 +17,7 @@ public class Flight {
 	private Image img, selected_img, slow_flight_img, fast_flight_img;
 	private Color color;
 	private boolean selected;
-	private Controls controls;
+	
 	private EntryPoint entryPoint;
 	private Airspace airspace;
 	
@@ -500,10 +500,6 @@ public class Flight {
 
 	public void setCurrent_altitude(int current_altitude) {
 		this.current_altitude = current_altitude;
-	}
-
-	public Controls getControls() {
-		return controls;
 	}
 
 	public FlightPlan getFlight_plan() {
