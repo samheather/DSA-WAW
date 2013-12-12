@@ -88,7 +88,7 @@ public class SeparationRules {
 		
 	}
 	
-	public void update(GameContainer gc, Airspace airspace) {
+	public void update(Airspace airspace) {
 		
 		this.checkViolation(airspace);
 	}

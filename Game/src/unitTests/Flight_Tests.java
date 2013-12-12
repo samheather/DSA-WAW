@@ -58,6 +58,14 @@ public class Flight_Tests {
 	
 	// Testing calculate_heading_to_first_waypoint()
 	
+	@Test
+	public void calculate_heading_to_first_waypoint_test1(){
+		flight1.setX(150);
+		flight1.setY(400);
+		assertEquals(38.65, flight1.calculate_heading_to_first_waypoint(350,150), 4);
+		
+	}
+	
 
 	
 	

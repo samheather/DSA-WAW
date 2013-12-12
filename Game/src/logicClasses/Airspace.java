@@ -278,7 +278,7 @@ public class Airspace {
 			
 		}
 		
-		this.separationRules.update(gc, this);
+		this.separationRules.update(this);
 	}
 
 	public void render(Graphics g, GameContainer gc) throws SlickException { 
