@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -27,6 +28,7 @@ public class Airspace {
 	private Airport airport;
 	private int game_difficulty_value; // !! Should be fetched by Difficulty Screen, currently fails to do so
 	private boolean warningViolation = false; // bool outlining whether a violation is present
+	private Controls controls;
 	
 	// CONSTRUCTOR
 
@@ -48,6 +50,7 @@ public class Airspace {
 		this.wp_counter = 64;
 		this.exp_counter = 0;
 		this.selected_flight = null;
+		this.controls = new Controls();
 		
 		
 	}
@@ -182,6 +185,7 @@ public class Airspace {
 			if (min_distance <= 50){
 				nearest_flight.setSelected(true);
 				airspace.set_selected_flight(nearest_flight);
+				this.controls.setFlight(nearest_flight);
 				for (int i =0; i< airspace.getList_of_flights().size(); i++){
 					if(i != index_of_nearest_flight){
 						airspace.getList_of_flights().get(i).setSelected(false);
@@ -237,10 +241,38 @@ public class Airspace {
 	public void changeScore(int value) {
 		this.score += value;
 	}
+	
+	public void update_controls(Airspace airspace, GameContainer gc){
+		
+		
+		// Update controls
+		this.controls.update(gc);
+		this.controls.setIncrease_alt((int)Math.round(this.selected_flight.getTarget_altitude())+1000);
+		this.controls.setDecrease_alt((int)Math.round(this.selected_flight.getTarget_altitude())-1000);
+		this.controls.setTarget_alt((int)Math.round(this.selected_flight.getTarget_altitude()));
+		if (!this.controls.headingHasFocus()) {
+			this.controls.getHeadingControlTB().setText(
+					String.valueOf(Math.round(this.selected_flight.getTarget_heading())));
+		}
+		if(this.controls.isIncrease_alt_clicked()) {
+			this.selected_flight.setTarget_altitude(this.selected_flight.getTarget_altitude()+1000);
+			System.out.println(this.selected_flight.getTarget_altitude());
+		}
+		if(this.controls.isDecrease_alt_clicked()) {
+			this.selected_flight.setTarget_altitude(this.selected_flight.getTarget_altitude()-1000);
+			System.out.println(this.selected_flight.getTarget_altitude());
+		}
+			
+			this.controls.allow_all();
+		
+	}		
+			
+
 
 	// INIT, RENDER, UPDATE
 
 	public void init(GameContainer gc) throws SlickException {
+		this.controls.init(gc);
 		
 	}
 	
@@ -281,6 +313,9 @@ public class Airspace {
 		}
 		
 		this.separationRules.update(this);
+		if (this.selected_flight != null){
+			this.update_controls(this, gc);
+		}
 	}
 
 	public void render(Graphics g, GameContainer gc) throws SlickException { 
@@ -302,6 +337,7 @@ public class Airspace {
 		
 		
 		this.separationRules.render(g, gc, this);
+		this.controls.render(gc,g);
 
 	}
 
@@ -382,8 +418,6 @@ public class Airspace {
 	}
 	
 	public void remove_specific_flight(int flight) {
-		this.list_of_flights_in_airspace.get(flight).getControls()
-		.clear_all();
 		this.list_of_flights_in_airspace.remove(flight); // remove that flight from the list
 		if (!(this.list_of_flights_in_airspace.contains(this.selected_flight))) {
 			this.selected_flight = null;
