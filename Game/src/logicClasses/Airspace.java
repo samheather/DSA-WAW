@@ -65,7 +65,7 @@ public class Airspace {
 	}
 	
 	public boolean new_waypoint(int x, int y)  {
-		if (x < 1250 && x > 100 && y < 650
+		if (x < 1250 && x > 150 && y < 650
 				&& y > -50){
 			this.wp_counter++;
 			Waypoint tmpWp = new Waypoint(x, y);
@@ -90,7 +90,7 @@ public class Airspace {
 	}
 
 	public boolean new_entry_point(int x, int y)  {
-		if (x < 1250 && x > 150 && y < 650
+		if (x < 1250 && x > 100 && y < 650
 				&& y > -50){
 			EntryPoint tmpEp = new EntryPoint(x, y);
 			if (this.addEntryPoint(tmpEp)) {
