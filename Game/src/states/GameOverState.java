@@ -1,4 +1,5 @@
 package states;
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 
@@ -31,8 +32,16 @@ public class GameOverState extends BasicGameState {
 		g.setColor(Color.white);
 	}
 
-	public void update(GameContainer gc, StateBasedGame sbg, int delta)
-				throws SlickException {
+	public void update(GameContainer gc, StateBasedGame sbg, int delta)throws SlickException {
+		
+		int posX=Mouse.getX();
+		int posY=Mouse.getY();
+		
+		if(posX>354&&posX<354+228&&posY>176&&posY<220&&Mouse.isButtonDown(0)) {
+			sbg.getState(2).init(gc, sbg);
+			sbg.enterState(1);
+		}
+		
 	}
 
 	public int getID() {

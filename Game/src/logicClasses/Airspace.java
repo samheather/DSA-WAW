@@ -56,7 +56,14 @@ public class Airspace {
 	}
 
 	// METHODS
-
+	
+	public void reset_airspace() {
+		this.selected_flight=null;
+		for(int i = 0; i<this.list_of_flights_in_airspace.size();i++) {
+			this.list_of_flights_in_airspace.remove(i);
+		}
+	}
+	
 	public boolean new_waypoint(int x, int y)  {
 		if (x < 1250 && x > 100 && y < 650
 				&& y > -50){

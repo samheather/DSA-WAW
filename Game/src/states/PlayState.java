@@ -26,14 +26,15 @@ public class PlayState extends BasicGameState {
 	private String string_time;
 
 	public PlayState(int state) {
-		airspace = new Airspace();
-		i = 1;
-		this.string_time="";
+		
 
 	}
 
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		
+		airspace = new Airspace();
+		i = 1;
+		this.string_time="";
 		
 		gc.setAlwaysRender(true);
 		gc.setUpdateOnlyWhenVisible(false);
@@ -158,8 +159,11 @@ public class PlayState extends BasicGameState {
 		airspace.new_flight(gc);
 		airspace.update(gc);
 		if (airspace.get_separation_rules().getGameOverViolation() == true){
+			airspace.get_separation_rules().setGameOverViolation(false);
+			airspace.reset_airspace();
 			end_of_game_sound.play();
 			sbg.enterState(3);
+			
 		}
 		
 		Input input = gc.getInput();

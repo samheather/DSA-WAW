@@ -112,6 +112,10 @@ public class SeparationRules {
 		return this.gameOverVerticalSeparation;
 	}
 	
+	public void setGameOverViolation(boolean gameOverViolation) {
+		this.gameOverViolation = gameOverViolation;
+	}
+
 	public int getWarningLateralSeparation() {
 		return this.warningLateralSeparation;
 	}

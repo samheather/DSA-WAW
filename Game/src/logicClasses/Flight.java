@@ -237,7 +237,7 @@ public class Flight {
 	
 
 	public void update_x_y_coordinates() {
-		double velocity = (this.flight_plan.getVelocity()) / 1500;
+		double velocity = (this.flight_plan.getVelocity()) / 500;
 
 		this.x += velocity * Math.sin(Math.toRadians(this.current_heading));
 
@@ -257,7 +257,7 @@ public class Flight {
 
 	public void update_current_heading() {
 	
-		double rate = 0.4;
+		double rate = 0.5;
 		if (Math.round(this.target_heading) != Math.round(this.current_heading)) {
 			if (this.turning_right == true) {// If plane is already turning
 												// right or user has told it to
