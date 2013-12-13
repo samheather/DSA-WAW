@@ -32,6 +32,7 @@ public class PlayState extends BasicGameState {
 
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		
+		time = 0;
 		airspace = new Airspace();
 		i = 1;
 		this.string_time="";
