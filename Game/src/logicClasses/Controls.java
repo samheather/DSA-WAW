@@ -138,31 +138,33 @@ public class Controls {
 
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		g.setColor(Color.white);
-		g.drawString("Turn Left:", 10, 50);
-		this.turnLeftTB.render(gc, g);
-		g.drawString("Target Heading:", 10, 120);
-		this.headingControlTB.render(gc, g);
-		g.drawString("Turn Right:", 10, 190);
-		g.drawString("Change Altitude:", 10, 260);
-	
-		this.turnRightTB.render(gc, g);
-		g.setColor(Color.blue);
-		altitudeButton.draw(0,320);
-		altitudeButton.draw(0,350);
-		g.setColor(Color.white);
-		g.drawString("Target: "+this.target_alt+"ft", 10, 290);
-		if(!this.max_alt){
-			g.drawString("Increase to "+this.increase_alt, 10, 320);
-		}
-		else {
-			g.drawString("At max altitude", 10, 320);
-		}
-		if(!this.min_alt){
-			g.drawString("Decrease to "+this.decrease_alt, 10, 350);
-		}
-		else {
-			g.drawString("At min altitude", 10, 350);
+		if(this.increase_alt!=0) {
+			g.setColor(Color.white);
+			g.drawString("Turn Left:", 10, 50);
+			this.turnLeftTB.render(gc, g);
+			g.drawString("Target Heading:", 10, 120);
+			this.headingControlTB.render(gc, g);
+			g.drawString("Turn Right:", 10, 190);
+			g.drawString("Change Altitude:", 10, 260);
+
+			this.turnRightTB.render(gc, g);
+			g.setColor(Color.blue);
+			altitudeButton.draw(0,320);
+			altitudeButton.draw(0,350);
+			g.setColor(Color.white);
+			g.drawString("Target: "+this.target_alt+"ft", 10, 290);
+			if(!this.max_alt){
+				g.drawString("Increase to "+this.increase_alt, 10, 320);
+			}
+			else {
+				g.drawString("At max altitude", 10, 320);
+			}
+			if(!this.min_alt){
+				g.drawString("Decrease to "+this.decrease_alt, 10, 350);
+			}
+			else {
+				g.drawString("At min altitude", 10, 350);
+			}
 		}
 	}
 	
