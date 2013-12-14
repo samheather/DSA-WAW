@@ -23,8 +23,10 @@ public class ExitPoint extends Point {
 	}
 	
 	   public void init(GameContainer gc) throws SlickException {
-;
-			
+
+		    this.exit_point_top = new Image("/res/graphics/graphics/exitpoint_top.png");
+			this.exit_point_right = new Image("/res/graphics/graphics/exitpoint_right.png");
+			this.exit_point_left = new Image("/res/graphics/graphics/exitpoint_left.png");	
 	   
 
 		}
@@ -32,9 +34,7 @@ public class ExitPoint extends Point {
 	@Override
 	public void render(Graphics g, Airspace airspace) throws SlickException {
 		
-	    this.exit_point_top = new Image("/res/graphics/graphics/exitpoint_top.png");
-		this.exit_point_right = new Image("/res/graphics/graphics/exitpoint_right.png");
-		this.exit_point_left = new Image("/res/graphics/graphics/exitpoint_left.png");
+
 		
 
 		

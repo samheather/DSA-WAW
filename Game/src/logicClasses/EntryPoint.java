@@ -23,6 +23,10 @@ public class EntryPoint extends Point {
 	}
 	
     public void init(GameContainer gc) throws SlickException {
+    	
+    	this.entry_point_top = new Image("/res/graphics/graphics/entrypoint_top.png");
+		this.entry_point_right = new Image("/res/graphics/graphics/entrypoint_right.png");
+		this.entry_point_left = new Image("/res/graphics/graphics/entrypoint_left.png");
 
     	
    
@@ -30,9 +34,7 @@ public class EntryPoint extends Point {
 	}
 	public void render(Graphics g) throws SlickException {
 		
-	    this.entry_point_top = new Image("/res/graphics/graphics/entrypoint_top.png");
-		this.entry_point_right = new Image("/res/graphics/graphics/entrypoint_right.png");
-		this.entry_point_left = new Image("/res/graphics/graphics/entrypoint_left.png");
+	    
 		
 		
 		if(this.y == 0){

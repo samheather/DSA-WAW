@@ -69,7 +69,7 @@ public class PlayState extends BasicGameState {
 		
 		//initialise the airspace object;
 		
-		airspace.init(gc);
+		
     	//Waypoints
     	airspace.new_waypoint(350, 150);
     	airspace.new_waypoint(400, 470);
@@ -89,7 +89,7 @@ public class PlayState extends BasicGameState {
     	airspace.new_exit_point(800, 0);
     	airspace.new_exit_point(150, 200);
     	airspace.new_exit_point(1200, 300);
-		
+    	airspace.init(gc);
 		
 
 		
@@ -114,6 +114,7 @@ public class PlayState extends BasicGameState {
 		g.setColor(Color.white);
 		clock_image.draw(0,5);
 		g.drawString(this.string_time, 30, 10);
+		g.drawString(Integer.toString(gc.getFPS()), 300, 300);
 		
 		
 		

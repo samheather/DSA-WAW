@@ -265,6 +265,16 @@ public class Airspace {
 
 	public void init(GameContainer gc) throws SlickException {
 		this.controls.init(gc);
+		this.airport.init(gc);
+		for (int i = 0; i < this.list_of_waypoints.size(); i++) {
+			this.list_of_waypoints.get(i).init(gc);
+		}
+		for (int i = 0; i < this.list_of_exitpoints.size(); i++) {
+			this.list_of_exitpoints.get(i).init(gc);
+		}
+		for (int i = 0; i < this.list_of_entrypoints.size(); i++) {
+			this.list_of_entrypoints.get(i).init(gc);
+		}
 		
 	}
 	

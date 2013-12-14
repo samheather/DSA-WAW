@@ -149,10 +149,7 @@ public class Flight {
 	public void draw_flight(Graphics g, GameContainer gc ){
 		
 				g.setColor(color);
-				//g.setFont(smallFont);
 				g.setWorldClip(150, 0, 1200, 600);
-				
-				//g.setFont(bigFont);
 				
 				if(this.flight_plan.getVelocity() <= 275){
 					
@@ -177,12 +174,12 @@ public class Flight {
 				if (this.selected){
 					
 					g.setColor(Color.yellow);
-					g.drawString(this.flight_name, (int) this.x - 20, (int) this.y + 25);
-					g.drawString(Math.round(this.current_altitude) + "ft",(int) this.x -25, (int)this.y-27);
-					g.drawString(Math.round(this.current_heading) + " deg",(int) this.x-25, (int) this.y-42);//-15,20
+					g.drawString(this.flight_name, (int) this.x-24, (int) this.y-44);
+					g.drawString(Math.round(this.current_altitude) + "ft",(int) this.x-30, (int) this.y + 10);
+					g.drawString(Math.round(this.current_heading) + " dg",(int) this.x - 22, (int) this.y + 25);//-15,20
 					
 					if (this.flight_plan.getWaypoints().size() > 0) {
-						g.drawString("Target: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x-35, (int) this.y + 10);
+						g.drawString("Aim: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x -26, (int)this.y-28);
 					}
 					
 					g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
@@ -191,18 +188,16 @@ public class Flight {
 				}
 				
 				else{
-					g.drawString(this.flight_name, (int) this.x - 20, (int) this.y + 25);
-					g.drawString(Math.round(this.current_altitude) + "ft",(int) this.x -25, (int)this.y-27);
-					g.drawString(Math.round(this.current_heading) + " deg",(int) this.x-25, (int) this.y-42);//-15,20
+					g.drawString(this.flight_name, (int) this.x-24, (int) this.y-44);
+					g.drawString(Math.round(this.current_altitude) + "ft",(int) this.x-30, (int) this.y + 10);
 					
 					if (this.flight_plan.getWaypoints().size() > 0) {
-						g.drawString("Target: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x-35, (int) this.y + 10);
+						g.drawString("Aim: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x -26, (int)this.y-28);
 					}
 					g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
 				}
 				
-				
-				
+
 				
 				g.setWorldClip(0, 0, 1200, 600);
 		
@@ -237,7 +232,7 @@ public class Flight {
 	
 
 	public void update_x_y_coordinates() {
-		double velocity = (this.flight_plan.getVelocity()) / 500;
+		double velocity = (this.flight_plan.getVelocity()) / 1000;
 
 		this.x += velocity * Math.sin(Math.toRadians(this.current_heading));
 
@@ -350,18 +345,7 @@ public class Flight {
 		this.fast_flight_img = new Image("/res/graphics/graphics/flight_fast.png");
 		this.selected_img = new Image("res/graphics/graphics/selected_flight2.jpg");
 		
-		/*try{
-			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway font/bluehigh.ttf");
-			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
-			awtFont = awtFont.deriveFont(19f);
-			this.smallFont = new TrueTypeFont(awtFont, false);
-			awtFont = awtFont.deriveFont(20f);
-			this.bigFont = new TrueTypeFont(awtFont,false);
-			
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}*/
+	
 
 	}
 	
