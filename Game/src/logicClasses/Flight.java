@@ -490,5 +490,9 @@ public class Flight {
 		return flight_plan;
 	}
 	
+	public EntryPoint getEntryPoint(){
+		return this.entryPoint;
+	}
+	
 
 }
