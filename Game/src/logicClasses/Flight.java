@@ -47,15 +47,12 @@ public class Flight {
 		Random rand = new Random();
 		int random_number = rand.nextInt(3);
 		
-		if (this.airspace.getList_of_entry_points().size() == 3) { // if we have all three entrypoints
-			this.airspace.getList_of_entrypoints().get(random_number);
-			this.x = this.airspace.getList_of_entrypoints().get(random_number).getX();// choose one a get the x and y values
-			this.y = this.airspace.getList_of_entrypoints().get(random_number).getY();
-		} else { // if all entrypoints are not there then just assign some values
-			this.x = 0;
-			this.y = 0;
-
-		}
+		
+		this.airspace.getList_of_entrypoints().get(random_number);
+			
+		// Setting flights x and y to the coordinates of it's entrypoint
+		this.x = this.airspace.getList_of_entrypoints().get(random_number).getX();// choose one a get the x and y values
+		this.y = this.airspace.getList_of_entrypoints().get(random_number).getY();
 		
 		return this.airspace.getList_of_entrypoints().get(random_number);
 		

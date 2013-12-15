@@ -41,10 +41,14 @@ public class Flight_Tests {
 	
 	@Test
 	public void generate_entry_point_test1(){
+		// Testing on airspace with entrypoints
     	EntryPoint result = flight1.generate_entry_point();
     	assertTrue(result == airspace.getList_of_entry_points().get(0) || result == airspace.getList_of_entry_points().get(1) || result == airspace.getList_of_entry_points().get(2));
 		
 	}
+	
+
+	
 	
 	// Testing generate_altitude()
 
@@ -62,6 +66,14 @@ public class Flight_Tests {
 		flight1.setX(150);
 		flight1.setY(400);
 		assertEquals(38.65, flight1.calculate_heading_to_first_waypoint(350,150), 4);
+		
+	}
+	
+	@Test
+	public void calculate_heading_to_first_waypoint_test2(){
+		flight1.setX(350);
+		flight1.setY(400);
+		assertEquals(321.34, flight1.calculate_heading_to_first_waypoint(150,150), 4);
 		
 	}
 	
