@@ -50,7 +50,7 @@ public class Airspace_Tests {
 	// Testing new_waypoint()
 	@Test
 	public void new_waypoint_test(){
-		assertTrue(airspace.new_waypoint(150, 500));
+		assertTrue(airspace.new_waypoint(151, 500));
 		assertFalse(airspace.new_waypoint(-10000, 0));
 	}
 	
