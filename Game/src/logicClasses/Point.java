@@ -109,6 +109,15 @@ public class Point {
     public void setPointRef(String pointRef) {
   		this.pointRef = pointRef;
   	}
+    
+    public boolean equals(Point point){
+    	if(point instanceof Point){
+    		if ((point.getX() ==  this.x) && (point.getY() == this.y)){
+    			return true;
+    		}
+    	}
+    	return false;
+    }
 
 
 

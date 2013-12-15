@@ -59,15 +59,12 @@ public class FlightPlan {
 				
 				while (exitpoint_added == false){
 					
-					System.out.println(entryPoint.getY());
-					System.out.println(entryPoint.getX());
-					
-					if (entryPoint.getY()==temp_list_of_exitpoints.get(ExitPointIndex).getY()){
+					if (entryPoint.getY() == temp_list_of_exitpoints.get(ExitPointIndex).getY()){
 						temp_list_of_exitpoints.remove(ExitPointIndex);
 						ExitPointIndex = rand.nextInt(temp_list_of_exitpoints.size());
 					}
 					
-					else if (entryPoint.getX()==temp_list_of_exitpoints.get(ExitPointIndex).getX()){
+					else if (entryPoint.getX() == temp_list_of_exitpoints.get(ExitPointIndex).getX()){
 						temp_list_of_exitpoints.remove(ExitPointIndex);
 						ExitPointIndex = rand.nextInt(temp_list_of_exitpoints.size());
 					}
@@ -90,7 +87,10 @@ public class FlightPlan {
 
 	// ACCESSORS AND MUTATORS
 
-	
+	public void setVelocity(double new_velocity){
+		this.velocity = new_velocity;
+		
+	}
 	
 	public double getVelocity() {
 		return this.velocity;
