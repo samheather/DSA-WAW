@@ -172,8 +172,8 @@ public class Flight {
 					
 					g.setColor(Color.yellow);
 					g.drawString(this.flight_name, (int) this.x-24, (int) this.y-44);
-					g.drawString(Math.round(this.current_altitude) + "ft",(int) this.x-30, (int) this.y + 10);
-					g.drawString(Math.round(this.current_heading) + " dg",(int) this.x - 22, (int) this.y + 25);//-15,20
+					g.drawString(Math.round(this.current_altitude) + "Ft",(int) this.x-30, (int) this.y + 10);
+					g.drawString(Math.round(this.current_heading) + " DG",(int) this.x - 22, (int) this.y + 25);//-15,20
 					
 					if (this.flight_plan.getWaypoints().size() > 0) {
 						g.drawString("Aim: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x -26, (int)this.y-28);
@@ -186,7 +186,7 @@ public class Flight {
 				
 				else{
 					g.drawString(this.flight_name, (int) this.x-24, (int) this.y-44);
-					g.drawString(Math.round(this.current_altitude) + "ft",(int) this.x-30, (int) this.y + 10);
+					g.drawString(Math.round(this.current_altitude) + "Ft",(int) this.x-30, (int) this.y + 10);
 					
 					if (this.flight_plan.getWaypoints().size() > 0) {
 						g.drawString("Aim: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x -26, (int)this.y-28);
@@ -216,9 +216,9 @@ public class Flight {
 		g.setColor(Color.yellow);
 		g.drawString(plan, 10, 500);
 		g.setColor(Color.white);
-		g.drawString(Math.round(this.current_altitude) + " ft",
+		g.drawString(Math.round(this.current_altitude) + " Ft",
 			 10, 520);
-		g.drawString(Math.round(this.current_heading) + " deg",
+		g.drawString(Math.round(this.current_heading) + " DEG",
 			10, 540);
 		g.drawString(Math.round(this.getFlight_plan().getVelocity()) + " MPH",
 			10, 560);

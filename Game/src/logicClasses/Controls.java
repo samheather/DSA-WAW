@@ -140,19 +140,26 @@ public class Controls {
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		if(this.increase_alt!=0) {
 			g.setColor(Color.white);
+			
 			g.drawString("Turn Left:", 10, 50);
 			this.turnLeftTB.render(gc, g);
+			g.drawString("DEG", 115, 70);
+			
 			g.drawString("Target Heading:", 10, 120);
 			this.headingControlTB.render(gc, g);
+			g.drawString("DEG", 115, 140);
+			
 			g.drawString("Turn Right:", 10, 190);
-			g.drawString("Change Altitude:", 10, 260);
-
 			this.turnRightTB.render(gc, g);
+			g.drawString("DEG", 115, 210);
+			
+			
+			g.drawString("Change Altitude:", 10, 260);
 			g.setColor(Color.blue);
 			altitudeButton.draw(0,320);
 			altitudeButton.draw(0,350);
 			g.setColor(Color.white);
-			g.drawString("Target: "+this.target_alt+"ft", 10, 290);
+			g.drawString("Target: "+this.target_alt+"Ft", 10, 290);
 			if(!this.max_alt){
 				g.drawString("Increase to "+this.increase_alt, 10, 320);
 			}
