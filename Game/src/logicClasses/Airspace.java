@@ -318,7 +318,7 @@ public class Airspace {
 			
 		}
 		
-		//this.separationRules.update(this);
+		this.separationRules.update(this);
 		
 		if (this.selected_flight != null){
 			this.update_controls(this, gc);
