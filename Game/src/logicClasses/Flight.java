@@ -14,7 +14,7 @@ public class Flight {
 	private boolean turning_right, turning_left;
 	private String flight_name;
 	private FlightPlan flight_plan;
-	private Image img, selected_img, slow_flight_img, fast_flight_img;
+	private Image img, selected_img, slow_flight_img, fast_flight_img, shadow;
 	private Color color;
 	private boolean selected;
 	
@@ -138,6 +138,10 @@ public class Flight {
 
 		return false;
 	}
+	
+	public static boolean isBetween(int x, int lower, int upper) {
+		  return lower <= x && x < upper;
+		}
 
 	
 	
@@ -148,11 +152,15 @@ public class Flight {
 				g.setColor(color);
 				g.setWorldClip(150, 0, 1200, 600);
 				
+				//Scale the shadow in accordance to the altitude of the flight
+				float shadow_scale = (float) (36 - (this.current_altitude / 1000))/10;
+				shadow.setRotation((int) current_heading);
+				shadow.draw((int) this.x-35, (int) this.y, shadow_scale);
+					
 				if(this.flight_plan.getVelocity() <= 275){
 					
 					slow_flight_img.setRotation((int) current_heading);
 					slow_flight_img.draw((int) this.x-10, (int) this.y-10);
-					
 					
 				}
 				
@@ -160,23 +168,25 @@ public class Flight {
 					
 					img.setRotation((int) current_heading);
 					img.draw((int) this.x-10, (int) this.y-10);
+			
 				}
 				
 				else{
 					fast_flight_img.setRotation((int) current_heading);
 					fast_flight_img.draw((int) this.x-10, (int) this.y-10);
+					
 				}
 				
 				
 				if (this.selected){
 					
-					g.setColor(Color.yellow);
+					g.setColor(Color.white);
 					g.drawString(this.flight_name, (int) this.x-24, (int) this.y-44);
-					g.drawString(Math.round(this.current_altitude) + "Ft",(int) this.x-30, (int) this.y + 10);
-					g.drawString(Math.round(this.current_heading) + " DG",(int) this.x - 22, (int) this.y + 25);//-15,20
+					g.drawString(Math.round(this.current_altitude) + " ft",(int) this.x-30, (int) this.y + 10);
+					g.drawString(Math.round(this.current_heading) + "°",(int) this.x - 13, (int) this.y + 25);//-15,20
 					
 					if (this.flight_plan.getWaypoints().size() > 0) {
-						g.drawString("Aim: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x -26, (int)this.y-28);
+						g.drawString("Aim: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
 					}
 					
 					g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
@@ -185,11 +195,12 @@ public class Flight {
 				}
 				
 				else{
+					g.setColor(Color.lightGray);
 					g.drawString(this.flight_name, (int) this.x-24, (int) this.y-44);
-					g.drawString(Math.round(this.current_altitude) + "Ft",(int) this.x-30, (int) this.y + 10);
+					g.drawString(Math.round(this.current_altitude) + " ft",(int) this.x-30, (int) this.y + 10);
 					
 					if (this.flight_plan.getWaypoints().size() > 0) {
-						g.drawString("Aim: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x -26, (int)this.y-28);
+						g.drawString("Aim: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
 					}
 					g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
 				}
@@ -213,9 +224,8 @@ public class Flight {
 		}
 		
 		
-		g.setColor(Color.yellow);
-		g.drawString(plan, 10, 500);
 		g.setColor(Color.white);
+		g.drawString(plan, 10, 500);
 		g.drawString(Math.round(this.current_altitude) + " Ft",
 			 10, 520);
 		g.drawString(Math.round(this.current_heading) + " DEG",
@@ -338,11 +348,10 @@ public class Flight {
 	
 	public void init(GameContainer gc) throws SlickException {
 		this.img = new Image("/res/graphics/graphics/flight.png");
+		this.shadow = new Image("/res/graphics/graphics/flight_shadow.png");
 		this.slow_flight_img = new Image("/res/graphics/graphics/flight_slow.png");
 		this.fast_flight_img = new Image("/res/graphics/graphics/flight_fast.png");
 		this.selected_img = new Image("res/graphics/graphics/selected_flight2.jpg");
-		
-	
 
 	}
 	
@@ -369,9 +378,7 @@ public class Flight {
 		if(this.selected) {
 			
 			this.draw_selected_flight_information(g, gc);
-			
-			
-		
+
 		}
 		
 	}

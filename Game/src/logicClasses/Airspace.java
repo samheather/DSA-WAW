@@ -131,7 +131,7 @@ public class Airspace {
 						this.list_of_flights_in_airspace.get(
 								this.list_of_flights_in_airspace.size() - 1)
 								.init(gc);
-						
+					
 						return true;
 					}
 				}
@@ -318,7 +318,7 @@ public class Airspace {
 			
 		}
 		
-		this.separationRules.update(this);
+		//this.separationRules.update(this);
 		
 		if (this.selected_flight != null){
 			this.update_controls(this, gc);

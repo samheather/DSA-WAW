@@ -72,11 +72,11 @@ public class Point {
     		
     	}
     	else{
-    		this.waypoint_image.draw((int)this.x-14, (int)this.y-14,30,30);
+    		this.waypoint_image.draw((int)this.x-13, (int)this.y-14,30,30);
 	    	
     	}
     	g.setColor(Color.black);
-    	g.drawString(this.pointRef, (int)this.x-5, (int)this.y-10);
+    	g.drawString(this.pointRef, (int)this.x-3, (int)this.y-9);
 	
     }
     

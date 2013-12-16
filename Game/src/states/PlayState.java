@@ -39,6 +39,8 @@ public class PlayState extends BasicGameState {
 		
 		gc.setAlwaysRender(true);
 		gc.setUpdateOnlyWhenVisible(false);
+		gc.setMouseCursor("graphics/graphics/cross.png",12,12); 
+
 		
 	
 		
@@ -48,7 +50,7 @@ public class PlayState extends BasicGameState {
 			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway font/bluehigh.ttf");
 			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
 			awtFont = awtFont.deriveFont(20f);
-			font = new TrueTypeFont(awtFont, false);
+			font = new TrueTypeFont(awtFont, true);
 			
 			
 		}catch(Exception e){
@@ -101,6 +103,7 @@ public class PlayState extends BasicGameState {
 		
 		g.setFont(font);
 		
+		
 		// Drawing Side Images
 		background_image.draw(150,0);
 		control_bar_image.draw(0,0);
@@ -113,8 +116,8 @@ public class PlayState extends BasicGameState {
 		// Drawing Clock and Time
 		g.setColor(Color.white);
 		clock_image.draw(0,5);
-		g.drawString(this.string_time, 30, 10);
-		g.drawString(Integer.toString(gc.getFPS()), 300, 300);
+		g.drawString(this.string_time, 25, 11);
+		g.drawString("FPS:" + Integer.toString(gc.getFPS()), 48, 400);
 		
 		
 		

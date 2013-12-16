@@ -8,7 +8,11 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/jars/slick.jar" sourcepath="lib/jars/lwjgl.jar"/>
-	<classpathentry kind="lib" path="res"/>
+	<classpathentry kind="lib" path="res">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Game/lib/natives/windows"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="lib/jars/jogg-0.0.7.jar"/>
 	<classpathentry kind="lib" path="lib/jars/jorbis-0.0.17-1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>

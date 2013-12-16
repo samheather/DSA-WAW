@@ -27,7 +27,7 @@ public class MenuState extends BasicGameState {
 		play_button = new Image("res/graphics/menu_graphics/play_button.png");
 		play_hover = new Image("res/graphics/menu_graphics/play_hover.png");
 		quit_button = new Image("res/graphics/menu_graphics/quit_button.png");
-		quit_hover = new Image("res/graphics/menu_graphics/exit_hover.png");
+		quit_hover = new Image("res/graphics/menu_graphics/quit_hover.png");
 		
 		
 		
@@ -55,14 +55,14 @@ public class MenuState extends BasicGameState {
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
 		
-		if ((posX > 439 && posX < 762) && (posY > 100 && posY < 350)){
+		if ((posX > 439 && posX < 762) && (posY > 165 && posY < 255)){
 			play_hover.draw(439,349);
 		}
 		else{
 			play_button.draw(439,349);
 		}
 		
-		if((posX > 1100 && posX < 1172) && (posY > 0 && posY < 100)){
+		if((posX > 1140 && posX < 1262) && (posY > 25 && posY < 50)){
 			quit_hover.draw(1148,556);
 		}
 		else{

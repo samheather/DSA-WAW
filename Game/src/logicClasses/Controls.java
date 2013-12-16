@@ -143,15 +143,15 @@ public class Controls {
 			
 			g.drawString("Turn Left:", 10, 50);
 			this.turnLeftTB.render(gc, g);
-			g.drawString("DEG", 115, 70);
+			g.drawString("DEG", 114, 73);
 			
 			g.drawString("Target Heading:", 10, 120);
 			this.headingControlTB.render(gc, g);
-			g.drawString("DEG", 115, 140);
+			g.drawString("DEG", 114, 144);
 			
 			g.drawString("Turn Right:", 10, 190);
 			this.turnRightTB.render(gc, g);
-			g.drawString("DEG", 115, 210);
+			g.drawString("DEG", 114, 214);
 			
 			
 			g.drawString("Change Altitude:", 10, 260);
