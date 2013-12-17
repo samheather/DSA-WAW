@@ -16,8 +16,8 @@ public class Airspace {
 	// FIELDS
 
 	private int max_number_of_flights;
-	private int score, loops_since_last_flight_entry, overall_loops,
-			next_difficulty_loops, max_rand, difficulty_levels, wp_counter,
+	private int score, loops_since_last_flight_entry, overall_number_of_loops,
+			number_of_loops_when_difficulty_increases, max_rand, difficulty_levels, wp_counter,
 			exp_counter;
 	private List<Flight> list_of_flights_in_airspace, list_of_incoming_flights;
 	private List<Waypoint> list_of_waypoints;
@@ -41,12 +41,11 @@ public class Airspace {
 		this.airport = new Airport();
 		this.game_difficulty_value = 2;
 		this.separationRules = new SeparationRules(game_difficulty_value); 
-		this.loops_since_last_flight_entry = 400; // how many loops to wait before another flight can enter
-		this.overall_loops = 0; // stores how many loops there have been in total
-		this.next_difficulty_loops = 10000; // this is how many loops until planes come more quickly, divide by 60 for seconds
-		this.difficulty_levels = 10;// number of times difficulty changes
-		this.max_rand = (int) Math.pow(2, this.difficulty_levels);
-		this.wp_counter = 64;
+		this.loops_since_last_flight_entry = 0; // how many loops to wait before another flight can enter
+		this.overall_number_of_loops = 0; // stores how many loops there have been in total
+		this.number_of_loops_when_difficulty_increases = 10000; // this is how many loops until planes come more quickly, divide by 60 for seconds
+		this.max_rand = 1000;
+		this.wp_counter = 64; // Starts at 64 as this is ASCII value for A
 		this.exp_counter = 0;
 		this.controls = new Controls();
 		
@@ -100,27 +99,31 @@ public class Airspace {
 	public boolean new_flight(GameContainer gc) throws SlickException {
 
 		if (this.list_of_flights_in_airspace.size() < this.max_number_of_flights) {
-			Random rand = new Random();
-
-			int check_number;
 			
-			if (this.list_of_flights_in_airspace.isEmpty()) {
-				check_number = rand.nextInt(100);
-			} else {
-				check_number = rand.nextInt(this.max_rand);
-			}
-
-			if (check_number == 1) {
-				
-				if ((this.loops_since_last_flight_entry >= 1000  || this.list_of_flights_in_airspace.isEmpty())) {
-
+			if ((this.loops_since_last_flight_entry >= 850  || this.list_of_flights_in_airspace.isEmpty())) {
+					
+				Random rand = new Random();
+				int check_number;
+					
+				// A random number is generated, if that number is 1, a flight is added.
+					
+				if (this.list_of_flights_in_airspace.isEmpty()) {
+						check_number = rand.nextInt(100);
+				} 
+					
+				else {
+					check_number = rand.nextInt(this.max_rand);
+				}
+		
+				if (check_number == 1) {
+			
 					Flight tempFlight = new Flight(this);
 					//boolean isInViolation = this.separationRules.lateralDistanceBetweenFlights(flight1, flight2)
 					tempFlight.setFlight_name(this.generate_flight_name());
 					tempFlight.setTarget_altitude(tempFlight.getCurrent_altitude());
 					double heading = tempFlight.calculate_heading_to_first_waypoint(
-									tempFlight.getFlight_plan().getPointByIndex(0).getX() ,
-									tempFlight.getFlight_plan().getPointByIndex(0).getY());
+										tempFlight.getFlight_plan().getPointByIndex(0).getX() ,
+										tempFlight.getFlight_plan().getPointByIndex(0).getY());
 					tempFlight.setTarget_heading(heading);
 					tempFlight.setCurrent_heading(heading);
 					this.loops_since_last_flight_entry = 0;
@@ -128,17 +131,12 @@ public class Airspace {
 						this.list_of_flights_in_airspace.get(
 								this.list_of_flights_in_airspace.size() - 1)
 								.init(gc);
-					
 						return true;
 					}
 				}
-
 			}
-
 		}
-
 		return false;
-
 	}
 	
 	
@@ -163,8 +161,6 @@ public class Airspace {
 
 	}
 
-
-	
 
 	public void changeScore(int value) {
 		this.score += value;
@@ -193,14 +189,19 @@ public class Airspace {
 		
 	}
 	
+	public void increaseDifficulty(){
+		this.number_of_loops_when_difficulty_increases += 10000;
+		if (this.max_rand -200 <= 0) {
+			this.max_rand -= 200;
+		}
+	}
+	
 	public void update(GameContainer gc) {
+		
 		this.loops_since_last_flight_entry++;
-		this.overall_loops++;
-		if (this.overall_loops >= this.next_difficulty_loops) {
-			this.next_difficulty_loops += 10000;
-			if (this.max_rand > 2) {
-				this.max_rand = this.max_rand / 2;
-			}
+		this.overall_number_of_loops++;
+		if (this.overall_number_of_loops >= this.number_of_loops_when_difficulty_increases) {
+			this.increaseDifficulty();
 
 		}
 		
