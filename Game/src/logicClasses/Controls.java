@@ -28,7 +28,7 @@ public class Controls {
 	//private boolean alt_cleared_this_focus; // Has the text box been reset?
 	private boolean right_cleared_this_focus;
 	private boolean left_cleared_this_focus;
-	private Flight flight;
+	private Flight selected_flight;
 	private String text;
 	private int boxselected, increase_alt, decrease_alt, target_alt;
 	private Image altitudeButton;
@@ -37,17 +37,6 @@ public class Controls {
 	// CONSTRUCTOR
 	public Controls() {
 		
-	}
-
-
-	// INIT
-	public void init(GameContainer gc) throws SlickException {
-		Font awtFont = new Font("Courier", Font.BOLD, 15);
-		font = new TrueTypeFont(awtFont, false);
-
-		this.turnLeftTB = new TextField(gc, font, 10, 70, 100, 23);
-		this.headingControlTB = new TextField(gc, font, 10, 140, 100, 23);
-		this.turnRightTB = new TextField(gc, font, 10, 210, 100, 23);
 		this.headingHasFocus = false;
 		this.turnLeftHasFocus = false;
 		this.turnRightHasFocus = false;
@@ -63,9 +52,20 @@ public class Controls {
 		this.max_alt=false;
 		this.min_alt=false;
 		this.target_alt=0;
-		altitudeButton = new Image("res/graphics/graphics/altitudebutton.png");
-		this.flight = null;
+		this.selected_flight = null;
+		
+	}
 
+
+	// INIT
+	public void init(GameContainer gc) throws SlickException {
+		Font awtFont = new Font("Courier", Font.BOLD, 15);
+		font = new TrueTypeFont(awtFont, false);
+		this.turnLeftTB = new TextField(gc, font, 10, 70, 100, 23);
+		this.headingControlTB = new TextField(gc, font, 10, 140, 100, 23);
+		this.turnRightTB = new TextField(gc, font, 10, 210, 100, 23);
+		altitudeButton = new Image("res/graphics/graphics/altitudebutton.png");
+		
 	}
 	
 	
@@ -118,6 +118,10 @@ public class Controls {
 		if(!Mouse.isButtonDown(0)){
 			this.mouse_pressed=false;
 		}
+		
+		this.setIncrease_alt((int)Math.round(this.selected_flight.getTarget_altitude())+1000);
+		this.setDecrease_alt((int)Math.round(this.selected_flight.getTarget_altitude())-1000);
+		this.setTarget_alt((int)Math.round(this.selected_flight.getTarget_altitude()));
 	}
 	
 
@@ -164,38 +168,30 @@ public class Controls {
 		double distance_between_mouse_and_plane;
 		pointY = 600-pointY;
 		
-		distance_between_mouse_and_plane = Math.sqrt(Math.pow(pointX-this.flight.getX(), 2)+Math.pow(pointY-this.flight.getY(), 2));
+		distance_between_mouse_and_plane = Math.sqrt(Math.pow(pointX-this.selected_flight.getX(), 2)+Math.pow(pointY-this.selected_flight.getY(), 2));
 		
 		
 		if (distance_between_mouse_and_plane < 50)
 		{
-			deltaY = pointY - this.flight.getY();
-			deltaX = pointX - this.flight.getX();
+			deltaY = pointY - this.selected_flight.getY();
+			deltaX = pointX - this.selected_flight.getX();
 			double angle = Math.toDegrees(Math.atan2(deltaY, deltaX));
 			angle+=90;
 			if (angle < 0) {
 				angle += 360;
 			}
-			this.flight.give_heading((int)angle);
+			this.selected_flight.give_heading((int)angle);
 		
 		}
 		
 	}
 
-
-
-	public void clear_all() {
-		this.headingControlTB.setAcceptingInput(false);
-		this.turnLeftTB.setAcceptingInput(false);
-		this.turnRightTB.setAcceptingInput(false);
-	}
-
-	public void allow_all() {
-		this.headingControlTB.setAcceptingInput(true);
-		this.turnLeftTB.setAcceptingInput(true);
-		this.turnRightTB.setAcceptingInput(true);
-	}
-	
+//	public void allow_all() {
+//		this.headingControlTB.setAcceptingInput(true);
+//		this.turnLeftTB.setAcceptingInput(true);
+//		this.turnRightTB.setAcceptingInput(true);
+//	}
+//	
 
 	// RENDER AND UPDATE
 
@@ -238,11 +234,13 @@ public class Controls {
 		}
 	}
 	
+	
 	public void update(GameContainer gc, Airspace airspace) {
 		Input input = gc.getInput();
 
-		if (this.flight != null){
-		
+		if (this.selected_flight != null){
+			
+
 		// Update Heading TextField
 			this.headingHasFocus = this.headingControlTB.hasFocus();
 			if (this.headingHasFocus) {
@@ -254,7 +252,7 @@ public class Controls {
 					this.text = this.headingControlTB.getText();
 					this.text = this.text.replaceAll("\\D+", "");
 					if (!this.text.isEmpty()) {
-						this.flight.give_heading(Integer.valueOf(this.text));
+						this.selected_flight.give_heading(Integer.valueOf(this.text));
 	
 					}
 					this.headingControlTB.setFocus(false);
@@ -276,7 +274,7 @@ public class Controls {
 					this.text = this.turnLeftTB.getText();
 					this.text = this.text.replaceAll("\\D+", "");
 					if (!this.text.isEmpty() && Integer.valueOf(this.text) <= 360) {
-						this.flight.turn_flight_left(Integer.valueOf(this.text));
+						this.selected_flight.turn_flight_left(Integer.valueOf(this.text));
 						this.turnLeftTB.setText("");
 					}
 					this.turnLeftTB.setFocus(false);
@@ -297,7 +295,7 @@ public class Controls {
 					this.text = this.turnRightTB.getText();
 					this.text = this.text.replaceAll("\\D+", "");
 					if (!this.text.isEmpty() && Integer.valueOf(this.text) <= 360) {
-						this.flight.turn_flight_right(Integer.valueOf(this.text));
+						this.selected_flight.turn_flight_right(Integer.valueOf(this.text));
 						this.turnRightTB.setText("");
 					}
 					this.turnRightTB.setFocus(false);
@@ -337,23 +335,20 @@ public class Controls {
 				}
 			}
 			
-			this.setIncrease_alt((int)Math.round(this.flight.getTarget_altitude())+1000);
-			this.setDecrease_alt((int)Math.round(this.flight.getTarget_altitude())-1000);
-			this.setTarget_alt((int)Math.round(this.flight.getTarget_altitude()));
+			
 			if (!this.headingHasFocus()) {
 				this.getHeadingControlTB().setText(
-						String.valueOf(Math.round(this.flight.getTarget_heading())));
+						String.valueOf(Math.round(this.selected_flight.getTarget_heading())));
 			}
 			if(this.isIncrease_alt_clicked()) {
-				this.flight.setTarget_altitude(this.flight.getTarget_altitude()+1000);
-				System.out.println(this.flight.getTarget_altitude());
+				this.selected_flight.setTarget_altitude(this.selected_flight.getTarget_altitude()+1000);
+				
 			}
 			if(this.isDecrease_alt_clicked()) {
-				this.flight.setTarget_altitude(this.flight.getTarget_altitude()-1000);
-				System.out.println(this.flight.getTarget_altitude());
+				this.selected_flight.setTarget_altitude(this.selected_flight.getTarget_altitude()-1000);
 			}
 				
-			this.allow_all();
+			
 		
 		}
 				
@@ -365,7 +360,7 @@ public class Controls {
 			}
 				
 		if(Mouse.isButtonDown(1)){
-			if (this.flight!= null){
+			if (this.selected_flight!= null){
 			this.give_heading_with_mouse(posX, posY, airspace);
 			}
 		}
@@ -414,7 +409,7 @@ public class Controls {
 	}
 	
 	public void setFlight(Flight flight1){
-		this.flight = flight1;
+		this.selected_flight = flight1;
 	}
 
 
@@ -428,7 +423,7 @@ public class Controls {
 	}
 	
 	public Flight getFlight(){
-		return this.flight;
+		return this.selected_flight;
 	}
 }
 //test lock
