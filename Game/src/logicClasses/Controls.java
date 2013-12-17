@@ -24,7 +24,7 @@ public class Controls {
 	private boolean turnLeftHasFocus; // Is the text box currently selected?
 	private boolean turnRightHasFocus; // Is the text box currently selected?
 	private boolean heading_cleared_this_focus; // Has the text box been reset?
-	private boolean increase_alt_clicked,decrease_alt_clicked, mouse_pressed, max_alt, min_alt;
+	private boolean increase_alt_clicked,decrease_alt_clicked, mouse_held_down, max_alt, min_alt;
 	//private boolean alt_cleared_this_focus; // Has the text box been reset?
 	private boolean right_cleared_this_focus;
 	private boolean left_cleared_this_focus;
@@ -46,7 +46,7 @@ public class Controls {
 		this.increase_alt_clicked=false;
 		this.decrease_alt_clicked=false;
 		this.boxselected = 0;
-		this.mouse_pressed=false;
+		this.mouse_held_down=false;
 		this.increase_alt=0;
 		this.decrease_alt=0;
 		this.max_alt=false;
@@ -77,18 +77,18 @@ public class Controls {
 		
 		posY = 600 - posY; // Mapping Mouse coords onto graphic coords
 
-		if(!this.mouse_pressed) {
+		if(!this.mouse_held_down) {
 			if(posX>10&&posX<150&&posY<340&&posY>320&&Mouse.isButtonDown(0)) {
 				if(this.increase_alt<=31000) {
 					this.increase_alt_clicked=true;
-					this.mouse_pressed=true;
+					this.mouse_held_down=true;
 					this.min_alt=false;
 				}
 			}
 
 			else if(posX>10&&posX<150&&posY<370&&posY>350&&Mouse.isButtonDown(0)) {
 				if(this.decrease_alt>=26000) {
-					this.mouse_pressed=true;
+					this.mouse_held_down=true;
 					this.decrease_alt_clicked=true;
 					
 					this.max_alt=false;
@@ -116,7 +116,7 @@ public class Controls {
 			this.min_alt=false;
 		}
 		if(!Mouse.isButtonDown(0)){
-			this.mouse_pressed=false;
+			this.mouse_held_down=false;
 		}
 		
 		this.setIncrease_alt((int)Math.round(this.selected_flight.getTarget_altitude())+1000);
@@ -197,7 +197,7 @@ public class Controls {
 
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		if(this.increase_alt!=0) {
+		if(this.selected_flight != null) {
 			g.setColor(Color.white);
 			
 			g.drawString("Turn Left:", 10, 50);
@@ -320,6 +320,7 @@ public class Controls {
 				turnRightTB.setFocus(true);
 				break;
 			}
+			
 			this.check_alt_buttons_clicked();
 			
 			
@@ -347,8 +348,6 @@ public class Controls {
 			if(this.isDecrease_alt_clicked()) {
 				this.selected_flight.setTarget_altitude(this.selected_flight.getTarget_altitude()-1000);
 			}
-				
-			
 		
 		}
 				

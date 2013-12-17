@@ -170,35 +170,6 @@ public class Airspace {
 		this.score += value;
 	}
 	
-//	public void update_controls(Airspace airspace, GameContainer gc){
-//		
-//		
-//		// Update controls
-//		this.controls.update(gc, airspace);
-//		
-//		if (airspace.get_selected_flight() != null){
-//			this.controls.setIncrease_alt((int)Math.round(this.selected_flight.getTarget_altitude())+1000);
-//			this.controls.setDecrease_alt((int)Math.round(this.selected_flight.getTarget_altitude())-1000);
-//			this.controls.setTarget_alt((int)Math.round(this.selected_flight.getTarget_altitude()));
-//			if (!this.controls.headingHasFocus()) {
-//				this.controls.getHeadingControlTB().setText(
-//						String.valueOf(Math.round(this.selected_flight.getTarget_heading())));
-//			}
-//			if(this.controls.isIncrease_alt_clicked()) {
-//				this.selected_flight.setTarget_altitude(this.selected_flight.getTarget_altitude()+1000);
-//				System.out.println(this.selected_flight.getTarget_altitude());
-//			}
-//			if(this.controls.isDecrease_alt_clicked()) {
-//				this.selected_flight.setTarget_altitude(this.selected_flight.getTarget_altitude()-1000);
-//				System.out.println(this.selected_flight.getTarget_altitude());
-//			}
-//				
-//			this.controls.allow_all();
-//		
-//		}
-//		
-//	}		
-			
 
 
 	// INIT, RENDER, UPDATE
@@ -352,14 +323,7 @@ public class Airspace {
 	public void remove_specific_flight(int flight) {
 		this.list_of_flights_in_airspace.remove(flight); // remove that flight from the list
 		
-		this.controls.setIncrease_alt(0);
-		this.controls.setDecrease_alt(0);
-		this.controls.setTarget_alt(0);
-	
-		this.controls.getHeadingControlTB().setText("");
-													
-		
-		
+		// If flight was selected, deselect it
 		if (!(this.list_of_flights_in_airspace.contains(this.controls.getFlight()))) {
 			this.controls.setFlight(null);
 
