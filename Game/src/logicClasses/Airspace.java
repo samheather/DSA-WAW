@@ -24,7 +24,6 @@ public class Airspace {
 	private List<EntryPoint> list_of_entrypoints;
 	private List<ExitPoint> list_of_exitpoints;
 	private SeparationRules separationRules;
-	private Flight selected_flight;
 	private Airport airport;
 	private int game_difficulty_value; // !! Should be fetched by Difficulty Screen, currently fails to do so
 	private boolean warningViolation = false; // bool outlining whether a violation is present
@@ -49,7 +48,6 @@ public class Airspace {
 		this.max_rand = (int) Math.pow(2, this.difficulty_levels);
 		this.wp_counter = 64;
 		this.exp_counter = 0;
-		this.selected_flight = null;
 		this.controls = new Controls();
 		
 		
@@ -58,7 +56,6 @@ public class Airspace {
 	// METHODS
 	
 	public void reset_airspace() {
-		this.selected_flight=null;
 		for(int i = 0; i<this.list_of_flights_in_airspace.size();i++) {
 			this.list_of_flights_in_airspace.remove(i);
 		}
@@ -166,67 +163,6 @@ public class Airspace {
 
 	}
 
-	public void check_selected(int pointX, int pointY, Airspace airspace ){
-		double min_distance;
-		Flight nearest_flight;
-		int index_of_nearest_flight;
-		
-		pointY = 600-pointY; // Translating Mouse coordinates onto object coordinates
-		
-		// Working out nearest flight to click
-		
-		if(airspace.getList_of_flights().size()>=1){
-			min_distance = Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(0).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(0).getY(), 2));
-			nearest_flight = airspace.getList_of_flights().get(0);
-			index_of_nearest_flight = 0;
-			
-			for (int i =0; i< airspace.getList_of_flights().size(); i++){
-				if(Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(i).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(i).getY(), 2)) < min_distance){
-					min_distance = Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(i).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(i).getY(), 2));
-					nearest_flight = airspace.getList_of_flights().get(i);
-					index_of_nearest_flight = i;
-				}
-			}
-			
-			// Working out whether the nearest flight to click is close enough
-			// to be selected.
-			
-			if (min_distance <= 50){
-				nearest_flight.setSelected(true);
-				airspace.set_selected_flight(nearest_flight);
-				this.controls.setFlight(nearest_flight);
-				for (int i =0; i< airspace.getList_of_flights().size(); i++){
-					if(i != index_of_nearest_flight){
-						airspace.getList_of_flights().get(i).setSelected(false);
-					}
-				}
-			}
-		}
-	}
-	
-	public void give_heading_with_mouse(int pointX, int pointY, Airspace airspace){
-		
-		double deltaX, deltaY;
-		double distance_between_mouse_and_plane;
-		pointY = 600-pointY;
-		
-		distance_between_mouse_and_plane = Math.sqrt(Math.pow(pointX-airspace.get_selected_flight().getX(), 2)+Math.pow(pointY-airspace.get_selected_flight().getY(), 2));
-		System.out.println(distance_between_mouse_and_plane);
-		
-		if (distance_between_mouse_and_plane < 50)
-		{
-			deltaY = pointY - airspace.get_selected_flight().getY();
-			deltaX = pointX - airspace.get_selected_flight().getX();
-			double angle = Math.toDegrees(Math.atan2(deltaY, deltaX));
-			angle+=90;
-			if (angle < 0) {
-				angle += 360;
-			}
-			airspace.get_selected_flight().give_heading((int)angle);
-		
-		}
-		
-	}
 
 	
 
@@ -234,30 +170,34 @@ public class Airspace {
 		this.score += value;
 	}
 	
-	public void update_controls(Airspace airspace, GameContainer gc){
-		
-		
-		// Update controls
-		this.controls.update(gc);
-		this.controls.setIncrease_alt((int)Math.round(this.selected_flight.getTarget_altitude())+1000);
-		this.controls.setDecrease_alt((int)Math.round(this.selected_flight.getTarget_altitude())-1000);
-		this.controls.setTarget_alt((int)Math.round(this.selected_flight.getTarget_altitude()));
-		if (!this.controls.headingHasFocus()) {
-			this.controls.getHeadingControlTB().setText(
-					String.valueOf(Math.round(this.selected_flight.getTarget_heading())));
-		}
-		if(this.controls.isIncrease_alt_clicked()) {
-			this.selected_flight.setTarget_altitude(this.selected_flight.getTarget_altitude()+1000);
-			System.out.println(this.selected_flight.getTarget_altitude());
-		}
-		if(this.controls.isDecrease_alt_clicked()) {
-			this.selected_flight.setTarget_altitude(this.selected_flight.getTarget_altitude()-1000);
-			System.out.println(this.selected_flight.getTarget_altitude());
-		}
-			
-			this.controls.allow_all();
-		
-	}		
+//	public void update_controls(Airspace airspace, GameContainer gc){
+//		
+//		
+//		// Update controls
+//		this.controls.update(gc, airspace);
+//		
+//		if (airspace.get_selected_flight() != null){
+//			this.controls.setIncrease_alt((int)Math.round(this.selected_flight.getTarget_altitude())+1000);
+//			this.controls.setDecrease_alt((int)Math.round(this.selected_flight.getTarget_altitude())-1000);
+//			this.controls.setTarget_alt((int)Math.round(this.selected_flight.getTarget_altitude()));
+//			if (!this.controls.headingHasFocus()) {
+//				this.controls.getHeadingControlTB().setText(
+//						String.valueOf(Math.round(this.selected_flight.getTarget_heading())));
+//			}
+//			if(this.controls.isIncrease_alt_clicked()) {
+//				this.selected_flight.setTarget_altitude(this.selected_flight.getTarget_altitude()+1000);
+//				System.out.println(this.selected_flight.getTarget_altitude());
+//			}
+//			if(this.controls.isDecrease_alt_clicked()) {
+//				this.selected_flight.setTarget_altitude(this.selected_flight.getTarget_altitude()-1000);
+//				System.out.println(this.selected_flight.getTarget_altitude());
+//			}
+//				
+//			this.controls.allow_all();
+//		
+//		}
+//		
+//	}		
 			
 
 
@@ -293,19 +233,6 @@ public class Airspace {
 
 		}
 		
-		int posX=Mouse.getX();
-		int posY=Mouse.getY();
-		
-		if(Mouse.isButtonDown(0)){
-			this.check_selected(posX,posY,this);
-		}
-		
-		if(Mouse.isButtonDown(1)){
-			if (this.get_selected_flight()!= null){
-			this.give_heading_with_mouse(posX, posY,this );
-			}
-		}
-		
 		
 		for (int i = 0; i < this.list_of_flights_in_airspace.size(); i++) {
 			this.list_of_flights_in_airspace.get(i).update();
@@ -319,10 +246,8 @@ public class Airspace {
 		}
 		
 		this.separationRules.update(this);
+		this.controls.update(gc, this);
 		
-		if (this.selected_flight != null){
-			this.update_controls(this, gc);
-		}
 	}
 
 	public void render(Graphics g, GameContainer gc) throws SlickException { 
@@ -435,8 +360,8 @@ public class Airspace {
 													
 		
 		
-		if (!(this.list_of_flights_in_airspace.contains(this.selected_flight))) {
-			this.selected_flight = null;
+		if (!(this.list_of_flights_in_airspace.contains(this.controls.getFlight()))) {
+			this.controls.setFlight(null);
 
 		}
 	}
@@ -453,16 +378,6 @@ public class Airspace {
 		this.list_of_exitpoints.remove(exitpoint);
 	}
 
-
-	public void set_selected_flight(Flight flight) {
-		this.selected_flight = flight;
-	}
-
-	public Flight get_selected_flight() {
-		return this.selected_flight;
-
-	}
-	
 	public SeparationRules get_separation_rules(){
 		return this.separationRules;
 	}
@@ -480,5 +395,9 @@ public class Airspace {
 
 	public void setList_of_entrypoints(List<EntryPoint> list_of_entrypoints) {
 		this.list_of_entrypoints = list_of_entrypoints;
+	}
+	
+	public Controls getControls(){
+		return this.controls;
 	}
 }

@@ -62,8 +62,8 @@ public class Point {
         
    
     	
-    	if(airspace.get_selected_flight() !=null){
-    		if (airspace.get_selected_flight().getFlight_plan().getWaypoints().indexOf(this)==0){
+    	if(airspace.getControls().getFlight() !=null){
+    		if (airspace.getControls().getFlight().getFlight_plan().getWaypoints().indexOf(this)==0){
     			this.next_waypoint_image.draw((int)this.x-14, (int)this.y-14,30,30);
     		}
     		else{

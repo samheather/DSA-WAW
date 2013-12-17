@@ -64,6 +64,7 @@ public class Controls {
 		this.min_alt=false;
 		this.target_alt=0;
 		altitudeButton = new Image("res/graphics/graphics/altitudebutton.png");
+		this.flight = null;
 
 	}
 	
@@ -117,6 +118,68 @@ public class Controls {
 		if(!Mouse.isButtonDown(0)){
 			this.mouse_pressed=false;
 		}
+	}
+	
+
+	public void check_selected(int pointX, int pointY, Airspace airspace ){
+		double min_distance;
+		Flight nearest_flight;
+		int index_of_nearest_flight;
+		
+		pointY = 600-pointY; // Translating Mouse coordinates onto object coordinates
+		
+		// Working out nearest flight to click
+		
+		if(airspace.getList_of_flights().size()>=1){
+			min_distance = Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(0).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(0).getY(), 2));
+			nearest_flight = airspace.getList_of_flights().get(0);
+			index_of_nearest_flight = 0;
+			
+			for (int i =0; i< airspace.getList_of_flights().size(); i++){
+				if(Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(i).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(i).getY(), 2)) < min_distance){
+					min_distance = Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(i).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(i).getY(), 2));
+					nearest_flight = airspace.getList_of_flights().get(i);
+					index_of_nearest_flight = i;
+				}
+			}
+			
+			// Working out whether the nearest flight to click is close enough
+			// to be selected.
+			
+			if (min_distance <= 50){
+				nearest_flight.setSelected(true);
+				this.setFlight(nearest_flight);
+				for (int i =0; i< airspace.getList_of_flights().size(); i++){
+					if(i != index_of_nearest_flight){
+						airspace.getList_of_flights().get(i).setSelected(false);
+					}
+				}
+			}
+		}
+	}
+	
+	public void give_heading_with_mouse(int pointX, int pointY, Airspace airspace){
+		
+		double deltaX, deltaY;
+		double distance_between_mouse_and_plane;
+		pointY = 600-pointY;
+		
+		distance_between_mouse_and_plane = Math.sqrt(Math.pow(pointX-this.flight.getX(), 2)+Math.pow(pointY-this.flight.getY(), 2));
+		
+		
+		if (distance_between_mouse_and_plane < 50)
+		{
+			deltaY = pointY - this.flight.getY();
+			deltaX = pointX - this.flight.getX();
+			double angle = Math.toDegrees(Math.atan2(deltaY, deltaX));
+			angle+=90;
+			if (angle < 0) {
+				angle += 360;
+			}
+			this.flight.give_heading((int)angle);
+		
+		}
+		
 	}
 
 
@@ -175,102 +238,137 @@ public class Controls {
 		}
 	}
 	
-	public void update(GameContainer gc) {
+	public void update(GameContainer gc, Airspace airspace) {
 		Input input = gc.getInput();
 
+		if (this.flight != null){
+		
 		// Update Heading TextField
-		this.headingHasFocus = this.headingControlTB.hasFocus();
-		if (this.headingHasFocus) {
-			if (!this.heading_cleared_this_focus) {
-				this.heading_cleared_this_focus = true;
-				this.headingControlTB.setText("");
-			}
-			if (input.isKeyDown(Input.KEY_ENTER)) {
-				this.text = this.headingControlTB.getText();
-				this.text = this.text.replaceAll("\\D+", "");
-				if (!this.text.isEmpty()) {
-					this.flight.give_heading(Integer.valueOf(this.text));
-
+			this.headingHasFocus = this.headingControlTB.hasFocus();
+			if (this.headingHasFocus) {
+				if (!this.heading_cleared_this_focus) {
+					this.heading_cleared_this_focus = true;
+					this.headingControlTB.setText("");
 				}
-				this.headingControlTB.setFocus(false);
+				if (input.isKeyDown(Input.KEY_ENTER)) {
+					this.text = this.headingControlTB.getText();
+					this.text = this.text.replaceAll("\\D+", "");
+					if (!this.text.isEmpty()) {
+						this.flight.give_heading(Integer.valueOf(this.text));
+	
+					}
+					this.headingControlTB.setFocus(false);
+				}
 			}
-		}
-		if (this.heading_cleared_this_focus && !this.headingHasFocus) {
-			this.heading_cleared_this_focus = false;
-		}
-
-
-		// Update Turn Left Text Field
-		this.turnLeftHasFocus = this.turnLeftTB.hasFocus();
-		if (this.turnLeftHasFocus) {
-			if (!this.left_cleared_this_focus) {
-				this.left_cleared_this_focus = true;
-				this.turnLeftTB.setText("");
+			if (this.heading_cleared_this_focus && !this.headingHasFocus) {
+				this.heading_cleared_this_focus = false;
 			}
-			if (input.isKeyDown(Input.KEY_ENTER)) {
-				this.text = this.turnLeftTB.getText();
-				this.text = this.text.replaceAll("\\D+", "");
-				if (!this.text.isEmpty() && Integer.valueOf(this.text) <= 360) {
-					this.flight.turn_flight_left(Integer.valueOf(this.text));
+	
+	
+			// Update Turn Left Text Field
+			this.turnLeftHasFocus = this.turnLeftTB.hasFocus();
+			if (this.turnLeftHasFocus) {
+				if (!this.left_cleared_this_focus) {
+					this.left_cleared_this_focus = true;
 					this.turnLeftTB.setText("");
 				}
-				this.turnLeftTB.setFocus(false);
+				if (input.isKeyDown(Input.KEY_ENTER)) {
+					this.text = this.turnLeftTB.getText();
+					this.text = this.text.replaceAll("\\D+", "");
+					if (!this.text.isEmpty() && Integer.valueOf(this.text) <= 360) {
+						this.flight.turn_flight_left(Integer.valueOf(this.text));
+						this.turnLeftTB.setText("");
+					}
+					this.turnLeftTB.setFocus(false);
+				}
 			}
-		}
-		if (this.left_cleared_this_focus && !this.turnLeftHasFocus) {
-			this.left_cleared_this_focus = false;
-		}
-
-		// Update Turn Right Text Field
-		this.turnRightHasFocus = this.turnRightTB.hasFocus();
-		if (this.turnRightHasFocus) {
-			if (!this.right_cleared_this_focus) {
-				this.right_cleared_this_focus = true;
-				this.turnRightTB.setText("");
+			if (this.left_cleared_this_focus && !this.turnLeftHasFocus) {
+				this.left_cleared_this_focus = false;
 			}
-			if (input.isKeyDown(Input.KEY_ENTER)) {
-				this.text = this.turnRightTB.getText();
-				this.text = this.text.replaceAll("\\D+", "");
-				if (!this.text.isEmpty() && Integer.valueOf(this.text) <= 360) {
-					this.flight.turn_flight_right(Integer.valueOf(this.text));
+	
+			// Update Turn Right Text Field
+			this.turnRightHasFocus = this.turnRightTB.hasFocus();
+			if (this.turnRightHasFocus) {
+				if (!this.right_cleared_this_focus) {
+					this.right_cleared_this_focus = true;
 					this.turnRightTB.setText("");
 				}
-				this.turnRightTB.setFocus(false);
+				if (input.isKeyDown(Input.KEY_ENTER)) {
+					this.text = this.turnRightTB.getText();
+					this.text = this.text.replaceAll("\\D+", "");
+					if (!this.text.isEmpty() && Integer.valueOf(this.text) <= 360) {
+						this.flight.turn_flight_right(Integer.valueOf(this.text));
+						this.turnRightTB.setText("");
+					}
+					this.turnRightTB.setFocus(false);
+				}
+			}
+			if (this.right_cleared_this_focus && !this.turnRightHasFocus) {
+				this.right_cleared_this_focus = false;
+			}
+	
+			// CHECK KEYSTROKES
+		
+	
+			// UPDATE SELECTED BOX
+			switch (boxselected) {
+			case 1:
+				turnLeftTB.setFocus(true);
+				break;
+			case 2:
+				headingControlTB.setFocus(true);
+				break;
+			case 3:
+				turnRightTB.setFocus(true);
+				break;
+			}
+			this.check_alt_buttons_clicked();
+			
+			
+			//ALTITUDE KEYS
+			if(input.isKeyPressed(Input.KEY_UP)){
+				if(this.increase_alt<=31000) {
+				this.increase_alt_clicked = true;
+				}
+			}
+			if(input.isKeyPressed(Input.KEY_DOWN)){
+				if(this.decrease_alt>=26000) {
+				this.decrease_alt_clicked = true;
+				}
+			}
+			
+			this.setIncrease_alt((int)Math.round(this.flight.getTarget_altitude())+1000);
+			this.setDecrease_alt((int)Math.round(this.flight.getTarget_altitude())-1000);
+			this.setTarget_alt((int)Math.round(this.flight.getTarget_altitude()));
+			if (!this.headingHasFocus()) {
+				this.getHeadingControlTB().setText(
+						String.valueOf(Math.round(this.flight.getTarget_heading())));
+			}
+			if(this.isIncrease_alt_clicked()) {
+				this.flight.setTarget_altitude(this.flight.getTarget_altitude()+1000);
+				System.out.println(this.flight.getTarget_altitude());
+			}
+			if(this.isDecrease_alt_clicked()) {
+				this.flight.setTarget_altitude(this.flight.getTarget_altitude()-1000);
+				System.out.println(this.flight.getTarget_altitude());
+			}
+				
+			this.allow_all();
+		
+		}
+				
+		int posX=Mouse.getX();
+		int posY=Mouse.getY();
+				
+		if(Mouse.isButtonDown(0)){
+			this.check_selected(posX,posY,airspace);
+			}
+				
+		if(Mouse.isButtonDown(1)){
+			if (this.flight!= null){
+			this.give_heading_with_mouse(posX, posY, airspace);
 			}
 		}
-		if (this.right_cleared_this_focus && !this.turnRightHasFocus) {
-			this.right_cleared_this_focus = false;
-		}
-
-		// CHECK KEYSTROKES
-	
-
-		// UPDATE SELECTED BOX
-		switch (boxselected) {
-		case 1:
-			turnLeftTB.setFocus(true);
-			break;
-		case 2:
-			headingControlTB.setFocus(true);
-			break;
-		case 3:
-			turnRightTB.setFocus(true);
-			break;
-		}
-		this.check_alt_buttons_clicked();
-		
-		
-		//ALTITUDE KEYS
-				if(input.isKeyPressed(Input.KEY_UP)){
-					if(this.increase_alt<=31000) {
-					this.increase_alt_clicked = true;
-					}
-				}
-				if(input.isKeyPressed(Input.KEY_DOWN)){
-					if(this.decrease_alt>=26000) {
-					this.decrease_alt_clicked = true;
-					}
-				}
 	}
 	
 	//MUTATORS AND ACCESSORS
@@ -327,6 +425,10 @@ public class Controls {
 
 	public boolean headingHasFocus() {
 		return this.headingHasFocus;
+	}
+	
+	public Flight getFlight(){
+		return this.flight;
 	}
 }
 //test lock
