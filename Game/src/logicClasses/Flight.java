@@ -226,11 +226,13 @@ public class Flight {
 							if(i==0) {
 								if(!this.draggingFirstWaypoint&&!this.draggingOtherWaypoint){
 									if(this.mouseOverWaypoint==this.getFlight_plan().getWaypoints().get(i) && Mouse.isButtonDown(0)) {
+										this.mouseClickedWaypoint=this.mouseOverWaypoint;
 										this.draggingFirstWaypoint=true;
 									
 									}
 								}
 								if(!Mouse.isButtonDown(0)) {
+									this.mouseClickedWaypoint=null;
 									this.draggingFirstWaypoint=false;
 								}
 								if(this.draggingFirstWaypoint) {
@@ -265,14 +267,22 @@ public class Flight {
 									}
 									
 								}
-								if(this.getFlight_plan().getWaypoints().get(i)!=this.mouseClickedWaypoint ) {
-									g.drawLine((float)this.getFlight_plan().getWaypoints().get(i).getX(), (float)this.getFlight_plan().getWaypoints().get(i).getY(), (float)this.getFlight_plan().getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY());
+								if(this.getFlight_plan().getWaypoints().get(i)!=this.mouseClickedWaypoint  ) {
+									if(this.draggingFirstWaypoint) {
+										if(i!=1) {
+											g.drawLine((float)this.getFlight_plan().getWaypoints().get(i).getX(), (float)this.getFlight_plan().getWaypoints().get(i).getY(), (float)this.getFlight_plan().getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY());
+										}
+									}
+									else {
+										g.drawLine((float)this.getFlight_plan().getWaypoints().get(i).getX(), (float)this.getFlight_plan().getWaypoints().get(i).getY(), (float)this.getFlight_plan().getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY());
+									}
 								}
 								else {
 									i++;
 								}
 								
 							}
+							
 							
 							
 						}
