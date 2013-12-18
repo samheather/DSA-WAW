@@ -45,7 +45,7 @@ public class FlightPlan {
 				
 				// Adding Waypoints to Plan
 				
-				int pointsInPlan = rand.nextInt(4) + 2;
+				int pointsInPlan = rand.nextInt(3) + 4;
 				
 				for (int i = 0; i < pointsInPlan - 1; i++) {
 					int waypoint_index = rand.nextInt(temp_list_of_waypoints.size());

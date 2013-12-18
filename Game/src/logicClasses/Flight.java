@@ -1,5 +1,7 @@
 package logicClasses;
 import java.util.Random;
+
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -17,9 +19,12 @@ public class Flight {
 	private Image img, selected_img, slow_flight_img, fast_flight_img, shadow;
 	private Color color;
 	private boolean selected;
-	
+	private Point mouseOverWaypoint;
+	private Point mouseClickedWaypoint;
 	private EntryPoint entryPoint;
 	private Airspace airspace;
+	private boolean draggingFirstWaypoint;
+	private boolean draggingOtherWaypoint;
 	
 
 	// CONSTRUCTOR
@@ -37,6 +42,8 @@ public class Flight {
 		this.flight_plan = new FlightPlan(airspace, this.entryPoint);
 		this.color = Color.white;
 		this.selected = false;
+		this.draggingFirstWaypoint=false;
+		this.draggingOtherWaypoint=false;
 
 	}
 
@@ -142,15 +149,41 @@ public class Flight {
 	public static boolean isBetween(int x, int lower, int upper) {
 		  return lower <= x && x < upper;
 		}
+	
+	private boolean isMouseOnWaypoint() {
+		int mouseX = Mouse.getX();
+		int mouseY = Mouse.getY();
+		mouseY=600-mouseY;
+		if(this.getFlight_plan().getWaypoints().isEmpty()) {
+			return false;
+		}
+		for(int i=0; i<this.airspace.getList_of_way_points().size();i++) {
+			if (((Math.abs(Math.round(mouseX) - Math.round(this.airspace.getList_of_way_points().get(i).getX()))) <= 15)
+					&& (Math.abs(Math.round(mouseY) - Math.round(this.airspace.getList_of_way_points().get(i).getY()))) <= 15) {
+				
+					this.mouseOverWaypoint=this.airspace.getList_of_way_points().get(i);
+					System.out.println("Mouse over waypoint");
+					return true;
+					
+			}
+		}
+		this.mouseOverWaypoint=null;
+		return false;
+	}
+	
+
 
 	
 	
 	// DRAWING METHODS
 	
 	public void draw_flight(Graphics g, GameContainer gc ){
-		
+
 				g.setColor(color);
 				g.setWorldClip(150, 0, 1200, 600);
+				
+				this.isMouseOnWaypoint();
+
 				
 				//Scale the shadow in accordance to the altitude of the flight
 				float shadow_scale = (float) (36 - (this.current_altitude / 1000))/10;
@@ -176,10 +209,9 @@ public class Flight {
 					fast_flight_img.draw((int) this.x-10, (int) this.y-10);
 					
 				}
-				
+				g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
 				
 				if (this.selected){
-					
 					g.setColor(Color.white);
 					g.drawString(this.flight_name, (int) this.x-24, (int) this.y-44);
 					g.drawString(Math.round(this.current_altitude) + " ft",(int) this.x-30, (int) this.y + 10);
@@ -187,10 +219,66 @@ public class Flight {
 					
 					if (this.flight_plan.getWaypoints().size() > 0) {
 						g.drawString("Aim: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
+						
+						for(int i=0; i<this.flight_plan.getWaypoints().size();i++) {
+							g.setColor(Color.yellow);
+
+							if(i==0) {
+								if(!this.draggingFirstWaypoint&&!this.draggingOtherWaypoint){
+									if(this.mouseOverWaypoint==this.getFlight_plan().getWaypoints().get(i) && Mouse.isButtonDown(0)) {
+										this.draggingFirstWaypoint=true;
+									
+									}
+								}
+								if(!Mouse.isButtonDown(0)) {
+									this.draggingFirstWaypoint=false;
+								}
+								if(this.draggingFirstWaypoint) {
+									g.drawLine(Mouse.getX(),600-Mouse.getY() , (float)this.x, (float)this.y);
+								}
+								else {
+									g.drawLine((float)this.getFlight_plan().getWaypoints().get(i).getX(),(float)this.getFlight_plan().getWaypoints().get(i).getY() , (float)this.x, (float)this.y);
+								}
+							}
+							else {
+								if(!this.draggingFirstWaypoint&&!this.draggingOtherWaypoint){
+									if(this.mouseOverWaypoint==this.getFlight_plan().getWaypoints().get(i) && Mouse.isButtonDown(0)) {
+										this.mouseClickedWaypoint=this.mouseOverWaypoint;
+										this.draggingOtherWaypoint=true;
+									
+									}
+								}
+								if(!Mouse.isButtonDown(0)) {
+									this.mouseClickedWaypoint=null;
+									this.draggingOtherWaypoint=false;
+								
+								}
+								if(this.draggingFirstWaypoint) {
+									
+										g.drawLine((float)this.flight_plan.getWaypoints().get(1).getX(), (float)this.getFlight_plan().getWaypoints().get(1).getY(), Mouse.getX(), 600-Mouse.getY());
+								
+								}
+								else if(this.draggingOtherWaypoint) {
+									if(this.getFlight_plan().getWaypoints().get(i)==this.mouseClickedWaypoint ) {
+										g.drawLine((float)this.flight_plan.getWaypoints().get(i+1).getX(), (float)this.getFlight_plan().getWaypoints().get(i+1).getY(),Mouse.getX(),600-Mouse.getY());
+										g.drawLine((float)this.flight_plan.getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY(),Mouse.getX(),600-Mouse.getY());
+									}
+									
+								}
+								else {
+									g.drawLine((float)this.getFlight_plan().getWaypoints().get(i).getX(), (float)this.getFlight_plan().getWaypoints().get(i).getY(), (float)this.getFlight_plan().getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY());
+							
+								}
+								
+							}
+							
+							
+						}
 					}
 					
-					g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
-					g.setColor(color);
+					
+					//g.setColor(color);
+					
 					
 				}
 				
