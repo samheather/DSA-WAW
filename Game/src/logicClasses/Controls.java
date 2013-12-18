@@ -126,6 +126,11 @@ public class Controls {
 	
 
 	public void check_selected(int pointX, int pointY, Airspace airspace ){
+		for(int i=0; i<airspace.getList_of_flights().size();i++) {
+			if(airspace.getList_of_flights().get(i).isDraggingFirstWaypoint() || airspace.getList_of_flights().get(i).isDraggingOtherWaypoint()) {
+				return;
+			}
+		}
 		double min_distance;
 		Flight nearest_flight;
 		int index_of_nearest_flight;
