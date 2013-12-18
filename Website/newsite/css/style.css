@@ -9,6 +9,16 @@ body{
 	padding-right:0;
 }
 
+#header{
+	margin-right:0;
+	padding-right:0;
+	position:absolute;
+	top: 0%;
+	left: 8%;
+	width:92%;
+	height: 15%;
+}
+
 #main{
 	margin-right:0;
 	padding-right:0;
@@ -16,10 +26,10 @@ body{
 	background-repeat:repeat;
 	
 	position:absolute;
-	top: 10%;
+	top: 22%;
 	left: 9%;
 	width:91%;
-	height: 90%;
+	height: 78%;
 }
 
 #dark{
@@ -29,8 +39,21 @@ body{
 	background-repeat:repeat;
 
 	position:absolute;
-	top: 10%;
+	top: 0%;
 	left: 8%;
 	width:1%;
-	height: 90%;
+	height: 100%;
+}
+
+#nav{
+	margin-right:0;
+	padding-right:0;
+	background-image:url('../img/navbg.png');
+	background-repeat:repeat;
+
+	position:absolute;
+	top: 15%;
+	left: 0%;
+	width:100%;
+	height: 7%;
 }
