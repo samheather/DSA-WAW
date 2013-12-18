@@ -265,9 +265,11 @@ public class Flight {
 									}
 									
 								}
-								else {
+								if(this.getFlight_plan().getWaypoints().get(i)!=this.mouseClickedWaypoint ) {
 									g.drawLine((float)this.getFlight_plan().getWaypoints().get(i).getX(), (float)this.getFlight_plan().getWaypoints().get(i).getY(), (float)this.getFlight_plan().getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY());
-							
+								}
+								else {
+									i++;
 								}
 								
 							}
