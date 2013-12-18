@@ -21,3 +21,16 @@ body{
 	width:91%;
 	height: 90%;
 }
+
+#dark{
+	margin-right:0;
+	padding-right:0;
+	background-image:url('../img/darkbg.png');
+	background-repeat:repeat;
+
+	position:absolute;
+	top: 10%;
+	left: 8%;
+	width:91%;
+	height: 90%;
+}
