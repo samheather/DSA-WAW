@@ -23,9 +23,9 @@ public class Flight {
 	private Point waypointClicked;
 	private EntryPoint entryPoint;
 	private Airspace airspace;
-
+	private boolean changingPlan;
 	private boolean draggingWaypoint;
-	private boolean removeWaypoint;
+	
 	
 
 	// CONSTRUCTOR
@@ -43,9 +43,9 @@ public class Flight {
 		this.flight_plan = new FlightPlan(airspace, this.entryPoint);
 		this.color = Color.white;
 		this.selected = false;
-
+		this.changingPlan = false;
 		this.draggingWaypoint = false;
-		this.removeWaypoint=false;
+		
 
 	}
 
@@ -182,10 +182,7 @@ public class Flight {
 
 				g.setColor(color);
 				g.setWorldClip(150, 0, 1200, 600);
-				
-				
 
-				
 				//Scale the shadow in accordance to the altitude of the flight
 				float shadow_scale = (float) (36 - (this.current_altitude / 1000))/10;
 				shadow.setRotation((int) current_heading);
@@ -378,7 +375,7 @@ public class Flight {
 			}
 		}
 		
-		this.change_flight_plan();
+		
 
 		
 		
@@ -394,6 +391,7 @@ public class Flight {
 			
 			g.setColor(Color.cyan);
 			
+			// If not dragging waypoints, just draw lines between all waypoints in plan
 			if(!draggingWaypoint){
 				for(int i=1; i<this.flight_plan.getWaypoints().size();i++) {
 					g.drawLine((float)this.getFlight_plan().getWaypoints().get(i).getX(), (float)this.getFlight_plan().getWaypoints().get(i).getY(), (float)this.getFlight_plan().getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY());
@@ -402,6 +400,8 @@ public class Flight {
 			
 			else if(draggingWaypoint){
 				for(int i=1; i<this.flight_plan.getWaypoints().size();i++) {
+					
+					// This is needed as i=1 behavours differently to other values of i when first waypoint is being dragged.
 					if(i==1){
 						if(this.waypointClicked == this.getFlight_plan().getWaypoints().get(0) ) {
 							g.drawLine(Mouse.getX(),600-Mouse.getY() , (float)this.getFlight_plan().getWaypoints().get(1).getX(),(float)this.getFlight_plan().getWaypoints().get(1).getY());
@@ -422,6 +422,7 @@ public class Flight {
 					}
 					
 					else{
+						// If Waypoint is being changed draw lines between mouse and waypoint before and after the waypoint being changed. 
 						if (this.waypointClicked == this.getFlight_plan().getWaypoints().get(i)){
 							g.drawLine((float)this.flight_plan.getWaypoints().get(i+1).getX(), (float)this.getFlight_plan().getWaypoints().get(i+1).getY(),Mouse.getX(),600-Mouse.getY());
 							g.drawLine((float)this.flight_plan.getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY(),Mouse.getX(),600-Mouse.getY());
@@ -443,25 +444,31 @@ public class Flight {
 	public void change_flight_plan(){
 		if (this.selected && this.flight_plan.getWaypoints().size() > 0 ){
 			boolean mouseOverWaypoint = this.isMouseOnWaypoint();
-			//boolean check = false;
-				
+
+				// Checks if user is not currently dragging a waypoint
 				if (!draggingWaypoint){
+					//Checks is user has clicked on a waypoint
 					if(mouseOverWaypoint && Mouse.isButtonDown(0)) {
 						this.waypointClicked=this.waypointMouseIsOver;
 						this.draggingWaypoint=true;
 					}
 				}
-					
+				
+				// Checks if user is currently dragging a waypoint
 				else if(draggingWaypoint){
+					// Checks if user has released mouse from drag over empty airspace
 					if((!Mouse.isButtonDown(0)) && !mouseOverWaypoint){
 						this.waypointClicked=null;
 						this.draggingWaypoint=false;
 							
 					}
 					
+					// Checks if user has released mouse from drag over another waypoint
 					else if((!Mouse.isButtonDown(0)) && mouseOverWaypoint){
 						
 						for(int i=0; i<this.flight_plan.getWaypoints().size();i++) {
+							
+							// Checks if new waypoint is not already in the plan and adds if not in plan
 							if (this.waypointClicked == this.getFlight_plan().getWaypoints().get(i)&& (!this.getFlight_plan().getWaypoints().contains(this.waypointMouseIsOver)) ){
 								this.getFlight_plan().getWaypoints().remove(i);
 								this.getFlight_plan().getWaypoints().add(i,this.waypointMouseIsOver);
@@ -470,6 +477,7 @@ public class Flight {
 								
 							}
 							
+							// Checks if waypoint already in plan and doesn't add if not
 							else if(this.waypointClicked == this.getFlight_plan().getWaypoints().get(i)&& (this.getFlight_plan().getWaypoints().contains(this.waypointMouseIsOver))){
 								this.waypointClicked=null;
 								this.draggingWaypoint=false;
@@ -514,6 +522,10 @@ public class Flight {
 		this.update_altitude();
 		this.update_flight_plan();
 		
+		if(this.changingPlan == true){
+			this.change_flight_plan();
+		}
+		
 
 	}
 	
@@ -526,9 +538,10 @@ public class Flight {
 		
 
 		if(this.selected) {
-			
 			this.draw_selected_flight_information(g, gc);
-			this.draw_flights_plan(g, gc);
+			if(this.changingPlan == true){
+				this.draw_flights_plan(g, gc);
+			}
 			
 
 		}
@@ -648,6 +661,14 @@ public class Flight {
 	
 	public EntryPoint getEntryPoint(){
 		return this.entryPoint;
+	}
+	
+	public boolean getChangingPlan(){
+		return this.changingPlan;
+	}
+	
+	public void setChangingPlan(boolean bool){
+		this.changingPlan = bool;
 	}
 
 

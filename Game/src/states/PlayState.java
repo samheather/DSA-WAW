@@ -117,7 +117,7 @@ public class PlayState extends BasicGameState {
 		g.setColor(Color.white);
 		clock_image.draw(0,5);
 		g.drawString(this.string_time, 25, 11);
-		g.drawString("FPS:" + Integer.toString(gc.getFPS()), 48, 400);
+		
 		
 		
 		
