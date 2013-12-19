@@ -13,7 +13,7 @@ public class SeparationRules {
 	private boolean gameOverViolation; 
 	
 	// CONSTRUCTOR
-	 SeparationRules(int difficultyVal){//Ram - Value 1 = Easy, Value 2 = Med, Value 3 = Hard
+	public SeparationRules(int difficultyVal){//Ram - Value 1 = Easy, Value 2 = Med, Value 3 = Hard
 		this.warningLateralSeparation = 100; //Ram - WiP (work in progress) value.
 		this.warningVerticalSeparation = 1000; //Ram - Changed to 1000ft to mirror Air Regulators
 	 	this.gameOverViolation = false;

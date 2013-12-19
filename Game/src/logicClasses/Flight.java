@@ -670,6 +670,10 @@ public class Flight {
 	public void setChangingPlan(boolean bool){
 		this.changingPlan = bool;
 	}
+	
+	public boolean getDraggingWaypoint(){
+		return this.draggingWaypoint;
+	}
 
 
 

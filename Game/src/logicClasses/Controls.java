@@ -132,6 +132,13 @@ public class Controls {
 		Flight nearest_flight;
 		int index_of_nearest_flight;
 		
+		if (this.selected_flight != null){
+			if (this.selected_flight.getDraggingWaypoint()){
+				return;
+			}
+		}
+		
+		
 	 
 		
 		// Working out nearest flight to click
@@ -275,9 +282,6 @@ public class Controls {
 					this.selected_flight.setChangingPlan(true);
 				}
 				
-				else if(Mouse.isButtonDown(0)){
-					this.check_selected(posX,posY,airspace);
-				}
 				
 				if(Mouse.isButtonDown(1)){
 					this.give_heading_with_mouse(posX, posY, airspace);
@@ -403,15 +407,9 @@ public class Controls {
 		
 		}
 		
-		else{
-	
-			if(Mouse.isButtonDown(0)){
-				this.check_selected(posX,posY,airspace);
-				}
-				
-
-			
-		}
+		if(Mouse.isButtonDown(0)){
+			this.check_selected(posX,posY,airspace);
+			}
 				
 
 		
