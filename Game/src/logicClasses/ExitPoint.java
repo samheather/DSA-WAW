@@ -10,7 +10,7 @@ public class ExitPoint extends Point {
 	
 	Image exit_point_top, exit_point_right, exit_point_left;
 
-	ExitPoint(double xcoord, double ycoord) {
+	public ExitPoint(double xcoord, double ycoord) {
 	    super(xcoord, ycoord);
 	    pointCount += 1; 
 
