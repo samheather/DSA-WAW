@@ -10,7 +10,7 @@ public class EntryPoint extends Point {
 	
 	Image entry_point_top, entry_point_right, entry_point_left;
 
-	EntryPoint(double xcoord, double ycoord) {
+	public EntryPoint(double xcoord, double ycoord) {
 	    super(xcoord, ycoord);
 	    pointCount += 1; 
 
