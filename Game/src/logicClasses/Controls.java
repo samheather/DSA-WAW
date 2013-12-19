@@ -158,6 +158,7 @@ public class Controls {
 			
 			if (min_distance <= 50){
 				nearest_flight.setSelected(true);
+				nearest_flight.setChangingPlan(false);
 				this.setFlight(nearest_flight);
 				for (int i =0; i< airspace.getList_of_flights().size(); i++){
 					if(i != index_of_nearest_flight){
