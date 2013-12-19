@@ -447,7 +447,15 @@ public class Flight {
 				this.flight_plan.getWaypoints().remove(0);
 			}
 		}
+		
+		this.change_flight_plan();
 
+		
+		
+
+	}
+	
+	public void change_flight_plan(){
 		if (this.selected){
 			//boolean check = false;
 			if (this.flight_plan.getWaypoints().size() > 0) {
@@ -526,8 +534,6 @@ public class Flight {
 				}
 			}
 		}
-		
-
 	}
 
 
