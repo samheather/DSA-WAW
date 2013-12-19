@@ -32,7 +32,7 @@ public class Point {
 
     }
     
-    //Point Constructor that also takes pointRef string:
+    //[Not in use] Point Constructor that also takes pointRef string:
     Point(double xcoord, double ycoord, String name){
     x = xcoord; 
     y = ycoord;
@@ -41,7 +41,7 @@ public class Point {
     System.out.println("Point " + pointRef + " set:(" + x + "," + y +").");
     }
     
-    //Constructor pointing out that X,Y has not been set.
+    //[Not in use] Constructor pointing out that X,Y has not been set.
     Point(){
     System.out.println("Warning: Constructor method for Point Object called, "
             + "point set as (0,0) with no point ref.");
@@ -83,32 +83,34 @@ public class Point {
     
     // MUTATORS AND ACCESSORS
     
-    double getX() {
+    public double getX() {
     	return this.x;
     }
     
-    double getY() {
+    public double getY() {
     	return this.y;
     }
     
-    String getPointRef() {
-    	return this.pointRef;
-    }
-    int getPointCount() {
-    	return Point.pointCount;
-    }
-    
-    void setX(double newX) {
+    public void setX(double newX) {
     	this.x = newX;
     }
     
-    void setY(double newY) {
+    public void setY(double newY) {
     	this.y = newY;
+    }
+    
+    public String getPointRef() {
+    	return this.pointRef;
     }
     
     public void setPointRef(String pointRef) {
   		this.pointRef = pointRef;
   	}
+    
+
+    public int getPointCount() {
+    	return Point.pointCount;
+    }
     
     public boolean equals(Point point){
     	if(point instanceof Point){
@@ -117,7 +119,7 @@ public class Point {
     		}
     	}
     	return false;
-    }
+   }
 
 
 
