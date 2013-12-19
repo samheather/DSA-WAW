@@ -432,7 +432,7 @@ public class Flight {
 						
 						}
 						
-						if(this.draggingOtherWaypoint) {
+						if(this.draggingOtherWaypoint || this.draggingFirstWaypoint) {
 							if(this.getFlight_plan().getWaypoints().get(i)==this.waypointClicked ) {
 								g.drawLine((float)this.flight_plan.getWaypoints().get(i+1).getX(), (float)this.getFlight_plan().getWaypoints().get(i+1).getY(),Mouse.getX(),600-Mouse.getY());
 								g.drawLine((float)this.flight_plan.getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY(),Mouse.getX(),600-Mouse.getY());
