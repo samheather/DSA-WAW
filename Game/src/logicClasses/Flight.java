@@ -19,8 +19,8 @@ public class Flight {
 	private Image img, selected_img, slow_flight_img, fast_flight_img, shadow;
 	private Color color;
 	private boolean selected;
-	private Point mouseOverWaypoint;
-	private Point mouseClickedWaypoint;
+	private Point waypointMouseIsOver;
+	private Point waypointClicked;
 	private EntryPoint entryPoint;
 	private Airspace airspace;
 	private boolean draggingFirstWaypoint;
@@ -163,13 +163,12 @@ public class Flight {
 			if (((Math.abs(Math.round(mouseX) - Math.round(this.airspace.getList_of_way_points().get(i).getX()))) <= 15)
 					&& (Math.abs(Math.round(mouseY) - Math.round(this.airspace.getList_of_way_points().get(i).getY()))) <= 15) {
 				
-					this.mouseOverWaypoint=this.airspace.getList_of_way_points().get(i);
-					System.out.println("Mouse over waypoint");
+					this.waypointMouseIsOver=this.airspace.getList_of_way_points().get(i);
 					return true;
 					
 			}
 		}
-		this.mouseOverWaypoint=null;
+		this.waypointMouseIsOver=null;
 		return false;
 	}
 	
@@ -191,6 +190,8 @@ public class Flight {
 				float shadow_scale = (float) (36 - (this.current_altitude / 1000))/10;
 				shadow.setRotation((int) current_heading);
 				shadow.draw((int) this.x-35, (int) this.y, shadow_scale);
+				
+				//Depending on a plane's speed, different images for the plane are drawn
 					
 				if(this.flight_plan.getVelocity() <= 275){
 					
@@ -211,9 +212,13 @@ public class Flight {
 					fast_flight_img.draw((int) this.x-10, (int) this.y-10);
 					
 				}
+				
+				// Drawing Separation Circle
+				
 				g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
 				
 				
+				// Drawing information around flight
 				
 				if (this.selected){
 					g.setColor(Color.white);
@@ -225,11 +230,7 @@ public class Flight {
 						g.drawString("Aim: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
 						
 					}
-					
-					
-					//g.setColor(color);
-					
-					
+	
 				}
 				
 				else{
@@ -247,78 +248,7 @@ public class Flight {
 		
 	}
 	
-	public void draw_flights_plan(Graphics g, GameContainer gc){
-		
-		this.isMouseOnWaypoint();
-		
-		if (this.selected&& this.flight_plan.getWaypoints().size() > 0){
-			
-				
-				for(int i=0; i<this.flight_plan.getWaypoints().size();i++) {
-					g.setColor(Color.yellow);
 
-					if(i==0) {
-						if(!this.draggingFirstWaypoint&&!this.draggingOtherWaypoint){
-							if(this.mouseOverWaypoint==this.getFlight_plan().getWaypoints().get(i) && Mouse.isButtonDown(0)) {
-								this.mouseClickedWaypoint=this.mouseOverWaypoint;
-								this.draggingFirstWaypoint=true;
-							
-							}
-						}
-						if(!Mouse.isButtonDown(0)) {
-							this.mouseClickedWaypoint=null;
-							this.draggingFirstWaypoint=false;
-						}
-						if(this.draggingFirstWaypoint) {
-							g.drawLine(Mouse.getX(),600-Mouse.getY() , (float)this.x, (float)this.y);
-						}
-						else {
-							g.drawLine((float)this.getFlight_plan().getWaypoints().get(i).getX(),(float)this.getFlight_plan().getWaypoints().get(i).getY() , (float)this.x, (float)this.y);
-						}
-					}
-					else {
-						if(!this.draggingFirstWaypoint&&!this.draggingOtherWaypoint){
-							if(this.mouseOverWaypoint==this.getFlight_plan().getWaypoints().get(i) && Mouse.isButtonDown(0)) {
-								this.mouseClickedWaypoint=this.mouseOverWaypoint;
-								this.draggingOtherWaypoint=true;
-							
-							}
-						}
-						if(!Mouse.isButtonDown(0)) {
-							this.mouseClickedWaypoint=null;
-							this.draggingOtherWaypoint=false;
-						
-						}
-						if(this.draggingFirstWaypoint) {
-							
-								g.drawLine((float)this.flight_plan.getWaypoints().get(1).getX(), (float)this.getFlight_plan().getWaypoints().get(1).getY(), Mouse.getX(), 600-Mouse.getY());
-						
-						}
-						else if(this.draggingOtherWaypoint) {
-							if(this.getFlight_plan().getWaypoints().get(i)==this.mouseClickedWaypoint ) {
-								g.drawLine((float)this.flight_plan.getWaypoints().get(i+1).getX(), (float)this.getFlight_plan().getWaypoints().get(i+1).getY(),Mouse.getX(),600-Mouse.getY());
-								g.drawLine((float)this.flight_plan.getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY(),Mouse.getX(),600-Mouse.getY());
-							}
-							
-						}
-						if(this.getFlight_plan().getWaypoints().get(i)!=this.mouseClickedWaypoint  ) {
-							if(this.draggingFirstWaypoint) {
-								if(i!=1) {
-									g.drawLine((float)this.getFlight_plan().getWaypoints().get(i).getX(), (float)this.getFlight_plan().getWaypoints().get(i).getY(), (float)this.getFlight_plan().getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY());
-								}
-							}
-							else {
-								g.drawLine((float)this.getFlight_plan().getWaypoints().get(i).getX(), (float)this.getFlight_plan().getWaypoints().get(i).getY(), (float)this.getFlight_plan().getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY());
-							}
-						}
-						else {
-							i++;
-						}
-					}
-				}
-		}
-		
-	}
 	
 	public void draw_selected_flight_information(Graphics g, GameContainer gc) {
 		
@@ -455,6 +385,80 @@ public class Flight {
 
 	}
 	
+	
+//	if(!this.draggingFirstWaypoint&&!this.draggingOtherWaypoint){
+//		if(this.mouseOverWaypoint==this.getFlight_plan().getWaypoints().get(i) && Mouse.isButtonDown(0)) {
+//			this.mouseClickedWaypoint=this.mouseOverWaypoint;
+//			this.draggingFirstWaypoint=true;
+//		
+//		}
+//	}
+//	if(!Mouse.isButtonDown(0)) {
+//		this.mouseClickedWaypoint=null;
+//		this.draggingFirstWaypoint=false;
+//	}
+	
+	public void draw_flights_plan(Graphics g, GameContainer gc){
+		
+		this.isMouseOnWaypoint();
+		
+		if (this.selected&& this.flight_plan.getWaypoints().size() > 0){
+			
+				
+				for(int i=0; i<this.flight_plan.getWaypoints().size();i++) {
+					g.setColor(Color.cyan);
+
+					if(i==0) {
+						
+						// if dragging next waypoint
+						if(this.waypointClicked == this.getFlight_plan().getWaypoints().get(0) ) {
+							g.drawLine(Mouse.getX(),600-Mouse.getY() , (float)this.getFlight_plan().getWaypoints().get(1).getX(),(float)this.getFlight_plan().getWaypoints().get(1).getY());
+						}
+//						
+					}
+					else {
+						
+						
+						if(!this.draggingFirstWaypoint&&!this.draggingOtherWaypoint){
+							if(this.waypointMouseIsOver==this.getFlight_plan().getWaypoints().get(i) && Mouse.isButtonDown(0)) {
+								this.waypointClicked=this.waypointMouseIsOver;
+								this.draggingOtherWaypoint=true;
+							
+							}
+						}
+						if(!Mouse.isButtonDown(0)) {
+							this.waypointClicked=null;
+							this.draggingOtherWaypoint=false;
+						
+						}
+						
+						if(this.draggingOtherWaypoint) {
+							if(this.getFlight_plan().getWaypoints().get(i)==this.waypointClicked ) {
+								g.drawLine((float)this.flight_plan.getWaypoints().get(i+1).getX(), (float)this.getFlight_plan().getWaypoints().get(i+1).getY(),Mouse.getX(),600-Mouse.getY());
+								g.drawLine((float)this.flight_plan.getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY(),Mouse.getX(),600-Mouse.getY());
+							}
+							
+						}
+						
+						if(this.getFlight_plan().getWaypoints().get(i)!=this.waypointClicked  ) {
+							if(this.draggingFirstWaypoint) {
+								if(i!=1) {
+									g.drawLine((float)this.getFlight_plan().getWaypoints().get(i).getX(), (float)this.getFlight_plan().getWaypoints().get(i).getY(), (float)this.getFlight_plan().getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY());
+								}
+							}
+							else {
+								g.drawLine((float)this.getFlight_plan().getWaypoints().get(i).getX(), (float)this.getFlight_plan().getWaypoints().get(i).getY(), (float)this.getFlight_plan().getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY());
+							}
+							}
+						else {
+							i++;
+						}
+					}
+				}
+		}
+		
+	}
+	
 	public void change_flight_plan(){
 		if (this.selected){
 			//boolean check = false;
@@ -463,35 +467,26 @@ public class Flight {
 				for(int i=0; i<this.flight_plan.getWaypoints().size();i++) {
 					if(i==0) {
 						if(!this.draggingFirstWaypoint&&!this.draggingOtherWaypoint){
-							if(this.mouseOverWaypoint==this.getFlight_plan().getWaypoints().get(i) && Mouse.isButtonDown(0)) {
-								this.mouseClickedWaypoint=this.mouseOverWaypoint;
+							if(this.waypointMouseIsOver==this.getFlight_plan().getWaypoints().get(i) && Mouse.isButtonDown(0)) {
+								this.waypointClicked=this.waypointMouseIsOver;
 								this.draggingFirstWaypoint=true;
 
 							}
 						}
 						
-						if(this.draggingFirstWaypoint) {
-							if(this.isMouseOnWaypoint()) {
-								if(this.mouseOverWaypoint==this.getFlight_plan().getWaypoints().get(1)) {
-									if(!Mouse.isButtonDown(0)) {
-										this.getFlight_plan().getWaypoints().remove(0);
-										this.mouseClickedWaypoint=null;
-										this.draggingFirstWaypoint=false;
-									}
-								}
-							}
-						}
 						else if(!Mouse.isButtonDown(0)){
 							 
-								this.mouseClickedWaypoint=null;
+								this.waypointClicked=null;
 								this.draggingFirstWaypoint=false;
 							
 						}
 					}
+					
+					
 					else {
 						if(!this.draggingFirstWaypoint&&!this.draggingOtherWaypoint){
-							if(this.mouseOverWaypoint==this.getFlight_plan().getWaypoints().get(i) && Mouse.isButtonDown(0)) {
-								this.mouseClickedWaypoint=this.mouseOverWaypoint;
+							if(this.waypointMouseIsOver==this.getFlight_plan().getWaypoints().get(i) && Mouse.isButtonDown(0)) {
+								this.waypointClicked=this.waypointMouseIsOver;
 								this.draggingOtherWaypoint=true;
 
 							}
@@ -499,31 +494,29 @@ public class Flight {
 						
 						else if(this.draggingOtherWaypoint) {
 							
-							if(this.getFlight_plan().getWaypoints().get(i)==this.mouseClickedWaypoint ) {
-								System.out.println(this.getFlight_plan().getWaypoints().get(i+1));
-								if(this.mouseOverWaypoint==this.getFlight_plan().getWaypoints().get(i+1)) {
-									System.out.println("Check set");
+							if(this.getFlight_plan().getWaypoints().get(i)==this.waypointClicked ) {
+					
+								if(this.waypointMouseIsOver==this.getFlight_plan().getWaypoints().get(i+1)) {
 									this.removeWaypoint=true;
 									
 								}
 								
 							}
-							
 
 						}
 						else if(!Mouse.isButtonDown(0)) {
-							this.mouseClickedWaypoint=null;
+							this.waypointClicked=null;
 							this.draggingOtherWaypoint=false;
 
 						}
 						if(!Mouse.isButtonDown(0)&&this.removeWaypoint) {
 							System.out.println("ran set");
 							this.getFlight_plan().getWaypoints().remove(i);
-							this.mouseClickedWaypoint=null;
+							this.waypointClicked=null;
 							this.draggingOtherWaypoint=false;
 							this.removeWaypoint=false;
 						}
-						if(this.getFlight_plan().getWaypoints().get(i)!=this.mouseClickedWaypoint  ) {
+						if(this.getFlight_plan().getWaypoints().get(i)!=this.waypointClicked  ) {
 							
 
 					}
