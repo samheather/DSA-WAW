@@ -26,6 +26,8 @@ public class Controls {
 					mouseHeldDownOnFlight, atMaximumAltitude, atMinimumAltitude;
 	private boolean focusOnRightTextBoxCleared;
 	private boolean focusOnLeftTextBoxCleared;
+	private final int  MAXIMUM_ALTITUDE = 31000;
+	private final int  MINIMUM_ALTITUDE = 26000;
 	private Flight selectedFlight;
 	private String text;
 	private int boxselected, altitudeToIncreaseTo, altitudeToDecreaseTo, targetAltitude;
@@ -73,56 +75,37 @@ public class Controls {
 
 	// METHODS
 	public void check_alt_buttons_clicked() {
+		
+		if(this.mouseHeldDownOnAltitudeButton) {
+			return;
+		}
+		else{
+			this.mouseHeldDownOnAltitudeButton = true;
+		}
+		
 		int posX=Mouse.getX();
 		int posY=Mouse.getY();
 		
 		posY = 600 - posY; // Mapping Mouse coords onto graphic coords
 
-		if(!this.mouseHeldDownOnAltitudeButton) {
+		
 			if(posX>10&&posX<150&&posY<410&&posY>390&&Mouse.isButtonDown(0)) {
-				if(this.altitudeToIncreaseTo<=31000) {
-					this.increaseAltitudeButtonClicked=true;
-					this.mouseHeldDownOnAltitudeButton=true;
-					this.atMinimumAltitude=false;
+				if(this.selectedFlight.getTarget_altitude() < MAXIMUM_ALTITUDE) {
+					this.selectedFlight.setTarget_altitude(this.selectedFlight.getTarget_altitude()+1000);
 				}
 			}
 
-			else if(posX>10&&posX<150&&posY<430&&posY>410&&Mouse.isButtonDown(0)) {
-				if(this.altitudeToDecreaseTo>=26000) {
-					this.mouseHeldDownOnAltitudeButton=true;
-					this.decreaseAltitudeButtonClicked=true;
-					
-					this.atMaximumAltitude=false;
+			else if(posX>10&&posX<150&&posY<440&&posY>420&&Mouse.isButtonDown(0)) {
+				if(this.selectedFlight.getTarget_altitude()> MINIMUM_ALTITUDE) {
+					this.selectedFlight.setTarget_altitude(this.selectedFlight.getTarget_altitude()-1000);
 				}
 			}
-			else {
-				this.increaseAltitudeButtonClicked=false;
-				this.decreaseAltitudeButtonClicked=false;
-			}
-		}
-		else {
-			this.increaseAltitudeButtonClicked=false;
-			this.decreaseAltitudeButtonClicked=false;
-		}
-		if(this.altitudeToIncreaseTo>31000) {
-			this.atMaximumAltitude=true;
-		}
-		else {
-			this.atMaximumAltitude=false;
-		}
-		if(this.altitudeToDecreaseTo<26000) {
-			this.atMinimumAltitude=true;
-		}
-		else {
-			this.atMinimumAltitude=false;
-		}
-		if(!Mouse.isButtonDown(0)){
-			this.mouseHeldDownOnAltitudeButton=false;
-		}
+			
+			this.setIncrease_alt((int)Math.round(this.selectedFlight.getTarget_altitude())+1000);
+			this.setDecrease_alt((int)Math.round(this.selectedFlight.getTarget_altitude())-1000);
+			this.setTarget_alt((int)Math.round(this.selectedFlight.getTarget_altitude()));
+	
 		
-		this.setIncrease_alt((int)Math.round(this.selectedFlight.getTarget_altitude())+1000);
-		this.setDecrease_alt((int)Math.round(this.selectedFlight.getTarget_altitude())-1000);
-		this.setTarget_alt((int)Math.round(this.selectedFlight.getTarget_altitude()));
 	}
 	
 	public void changeModeByClickingOnFlight(Flight nearestFlight){
@@ -256,13 +239,13 @@ public class Controls {
 				altitudeButton.draw(0,420);
 				g.setColor(Color.white);
 				g.drawString("Target: "+this.targetAltitude+"Ft", 10, 360);
-				if(!this.atMaximumAltitude){
+				if(this.selectedFlight.getTarget_altitude() != Math.round(31000)){
 					g.drawString("Increase to "+this.altitudeToIncreaseTo, 10, 390);
 				}
 				else {
 					g.drawString("At max altitude", 10, 390);
 				}
-				if(!this.atMinimumAltitude){
+				if(this.selectedFlight.getTarget_altitude() != Math.round(26000)){
 					g.drawString("Decrease to "+this.altitudeToDecreaseTo, 10, 420);
 				}
 				else {
@@ -398,13 +381,13 @@ public class Controls {
 				
 				//ALTITUDE KEYS
 				if(input.isKeyPressed(Input.KEY_UP)){
-					if(this.altitudeToIncreaseTo<=31000) {
-					this.increaseAltitudeButtonClicked = true;
+					if(this.selectedFlight.getTarget_altitude() < MAXIMUM_ALTITUDE) {
+						this.selectedFlight.setTarget_altitude(this.selectedFlight.getTarget_altitude()+1000);
 					}
 				}
 				if(input.isKeyPressed(Input.KEY_DOWN)){
-					if(this.altitudeToDecreaseTo>=26000) {
-					this.decreaseAltitudeButtonClicked = true;
+					if(this.selectedFlight.getTarget_altitude() > MINIMUM_ALTITUDE) {
+						this.selectedFlight.setTarget_altitude(this.selectedFlight.getTarget_altitude()-1000);
 					}
 				}
 				
@@ -413,13 +396,7 @@ public class Controls {
 					this.getHeadingControlTB().setText(
 							String.valueOf(Math.round(this.selectedFlight.getTarget_heading())));
 				}
-				if(this.isIncrease_alt_clicked()) {
-					this.selectedFlight.setTarget_altitude(this.selectedFlight.getTarget_altitude()+1000);
-					
-				}
-				if(this.isDecrease_alt_clicked()) {
-					this.selectedFlight.setTarget_altitude(this.selectedFlight.getTarget_altitude()-1000);
-				}
+				
 			
 			}
 			
@@ -437,6 +414,7 @@ public class Controls {
 		
 		if(!Mouse.isButtonDown(0)){
 			this.mouseHeldDownOnFlight = false;
+			this.mouseHeldDownOnAltitudeButton = false;
 		}
 				
 
