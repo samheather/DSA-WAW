@@ -22,7 +22,8 @@ public class Controls {
 	private boolean turnLeftTextBoxHasFocus; // Is the text box currently selected?
 	private boolean turnRightTextBoxHasFocus; // Is the text box currently selected?
 	private boolean focusOnHeadingTextBoxCleared; // Has the text box been reset?
-	private boolean increaseAltitudeButtonClicked,decreaseAltitudeButtonClicked, mouse_held_down, atMaximumAltitude, atMinimumAltitude;
+	private boolean increaseAltitudeButtonClicked,decreaseAltitudeButtonClicked, mouseHeldDownOnAltitudeButton, 
+					mouseHeldDownOnFlight, atMaximumAltitude, atMinimumAltitude;
 	private boolean focusOnRightTextBoxCleared;
 	private boolean focusOnLeftTextBoxCleared;
 	private Flight selectedFlight;
@@ -43,13 +44,15 @@ public class Controls {
 		this.increaseAltitudeButtonClicked=false;
 		this.decreaseAltitudeButtonClicked=false;
 		this.boxselected = 0;
-		this.mouse_held_down=false;
+		this.mouseHeldDownOnAltitudeButton=false;
+		this.mouseHeldDownOnFlight = false;
 		this.altitudeToIncreaseTo=0;
 		this.altitudeToDecreaseTo=0;
 		this.atMaximumAltitude=false;
 		this.atMinimumAltitude=false;
 		this.targetAltitude=0;
 		this.selectedFlight = null;
+		
 		
 	}
 
@@ -75,18 +78,18 @@ public class Controls {
 		
 		posY = 600 - posY; // Mapping Mouse coords onto graphic coords
 
-		if(!this.mouse_held_down) {
+		if(!this.mouseHeldDownOnAltitudeButton) {
 			if(posX>10&&posX<150&&posY<410&&posY>390&&Mouse.isButtonDown(0)) {
 				if(this.altitudeToIncreaseTo<=31000) {
 					this.increaseAltitudeButtonClicked=true;
-					this.mouse_held_down=true;
+					this.mouseHeldDownOnAltitudeButton=true;
 					this.atMinimumAltitude=false;
 				}
 			}
 
 			else if(posX>10&&posX<150&&posY<430&&posY>410&&Mouse.isButtonDown(0)) {
 				if(this.altitudeToDecreaseTo>=26000) {
-					this.mouse_held_down=true;
+					this.mouseHeldDownOnAltitudeButton=true;
 					this.decreaseAltitudeButtonClicked=true;
 					
 					this.atMaximumAltitude=false;
@@ -114,7 +117,7 @@ public class Controls {
 			this.atMinimumAltitude=false;
 		}
 		if(!Mouse.isButtonDown(0)){
-			this.mouse_held_down=false;
+			this.mouseHeldDownOnAltitudeButton=false;
 		}
 		
 		this.setIncrease_alt((int)Math.round(this.selectedFlight.getTarget_altitude())+1000);
@@ -122,13 +125,34 @@ public class Controls {
 		this.setTarget_alt((int)Math.round(this.selectedFlight.getTarget_altitude()));
 	}
 	
+	public void changeModeByClickingOnFlight(Flight nearestFlight){
+		
+		
+		if (this.selectedFlight.getChangingPlan() == true){
+			nearestFlight.setChangingPlan(false);
+		}
+		else{
+			nearestFlight.setChangingPlan(true);
+		}
+		
+	}
+	
 
 	public void check_selected(int pointX, int pointY, Airspace airspace ){
 		
-		double min_distance;
-		Flight nearest_flight;
-		int index_of_nearest_flight;
+		double minimumDistanceBetweenFlightAndMouseClick;
+		Flight nearestFlight;
+		int indexOfNearestFlightInAirspaceListOfFlights;
 		
+		// If mouse is being held down don't change selected flight. 
+		if (this.mouseHeldDownOnFlight){
+			return;
+		}
+		else{
+			this.mouseHeldDownOnFlight = true;
+		}
+		
+		// Checking if user is dragging a waypoint they can't change flights
 		if (this.selectedFlight != null){
 			if (this.selectedFlight.getDraggingWaypoint()){
 				return;
@@ -141,27 +165,31 @@ public class Controls {
 		// Working out nearest flight to click
 		
 		if(airspace.getList_of_flights().size()>=1){
-			min_distance = Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(0).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(0).getY(), 2));
-			nearest_flight = airspace.getList_of_flights().get(0);
-			index_of_nearest_flight = 0;
+			minimumDistanceBetweenFlightAndMouseClick = Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(0).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(0).getY(), 2));
+			nearestFlight = airspace.getList_of_flights().get(0);
+			indexOfNearestFlightInAirspaceListOfFlights = 0;
 			
 			for (int i =0; i< airspace.getList_of_flights().size(); i++){
-				if(Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(i).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(i).getY(), 2)) < min_distance){
-					min_distance = Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(i).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(i).getY(), 2));
-					nearest_flight = airspace.getList_of_flights().get(i);
-					index_of_nearest_flight = i;
+				if(Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(i).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(i).getY(), 2)) < minimumDistanceBetweenFlightAndMouseClick){
+					minimumDistanceBetweenFlightAndMouseClick = Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(i).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(i).getY(), 2));
+					nearestFlight = airspace.getList_of_flights().get(i);
+					indexOfNearestFlightInAirspaceListOfFlights = i;
 				}
 			}
 			
 			// Working out whether the nearest flight to click is close enough
 			// to be selected.
 			
-			if (min_distance <= 50){
-				nearest_flight.setSelected(true);
-				nearest_flight.setChangingPlan(false);
-				this.setFlight(nearest_flight);
+			if (minimumDistanceBetweenFlightAndMouseClick <= 50){
+				
+				if (nearestFlight == this.selectedFlight){
+					this.changeModeByClickingOnFlight(nearestFlight);
+				}
+				
+				nearestFlight.setSelected(true);
+				this.setFlight(nearestFlight);
 				for (int i =0; i< airspace.getList_of_flights().size(); i++){
-					if(i != index_of_nearest_flight){
+					if(i != indexOfNearestFlightInAirspaceListOfFlights){
 						airspace.getList_of_flights().get(i).setSelected(false);
 					}
 				}
@@ -406,13 +434,13 @@ public class Controls {
 		if(Mouse.isButtonDown(0)){
 			this.check_selected(posX,posY,airspace);
 			}
+		
+		if(!Mouse.isButtonDown(0)){
+			this.mouseHeldDownOnFlight = false;
+		}
 				
 
-		
 
-		
-
-				
 
 	}
 	
