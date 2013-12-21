@@ -168,6 +168,7 @@ public class Controls {
 				for (int i =0; i< airspace.getList_of_flights().size(); i++){
 					if(i != indexOfNearestFlightInAirspaceListOfFlights){
 						airspace.getList_of_flights().get(i).setSelected(false);
+						airspace.getList_of_flights().get(i).getFlight_plan().setChangingPlan(false);
 					}
 				}
 			}

@@ -15,7 +15,7 @@ public class Flight {
 	private int currentAltitude, flightNumber;
 	private boolean turningRight, turningLeft;
 	private String flightName;
-	private FlightPlan currentFlightPlan;
+	private FlightPlan flightPlan;
 	private Image regularFlightImage, selectedFlightInformationBackgroundImage, slowFlightImage, fastFlightImage, shadowImage;
 	private Color color;
 	private boolean selected;
@@ -37,7 +37,7 @@ public class Flight {
 		this.turningLeft = false;
 		this.airspace = airspace;
 		this.entryPoint = generate_entry_point();
-		this.currentFlightPlan = new FlightPlan(airspace, this);
+		this.flightPlan = new FlightPlan(airspace, this);
 		this.color = Color.white;
 		this.selected = false;
 		
@@ -164,14 +164,14 @@ public class Flight {
 				
 				//Depending on a plane's speed, different images for the plane are drawn
 					
-				if(this.currentFlightPlan.getVelocity() <= 275){
+				if(this.flightPlan.getVelocity() <= 275){
 					
 					slowFlightImage.setRotation((int) currentHeading);
 					slowFlightImage.draw((int) this.x-10, (int) this.y-10);
 					
 				}
 				
-				else if(this.currentFlightPlan.getVelocity() > 270 && this.currentFlightPlan.getVelocity() < 340){
+				else if(this.flightPlan.getVelocity() > 270 && this.flightPlan.getVelocity() < 340){
 					
 					regularFlightImage.setRotation((int) currentHeading);
 					regularFlightImage.draw((int) this.x-10, (int) this.y-10);
@@ -197,8 +197,8 @@ public class Flight {
 					g.drawString(Math.round(this.currentAltitude) + " ft",(int) this.x-30, (int) this.y + 10);
 					g.drawString(Math.round(this.currentHeading) + "°",(int) this.x - 13, (int) this.y + 25);//-15,20
 					
-					if (this.currentFlightPlan.getWaypoints().size() > 0) {
-						g.drawString("Aim: "+this.currentFlightPlan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
+					if (this.flightPlan.getWaypoints().size() > 0) {
+						g.drawString("Aim: "+this.flightPlan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
 						
 					}
 	
@@ -209,8 +209,8 @@ public class Flight {
 					g.drawString(this.flightName, (int) this.x-24, (int) this.y-44);
 					g.drawString(Math.round(this.currentAltitude) + " ft",(int) this.x-30, (int) this.y + 10);
 					
-					if (this.currentFlightPlan.getWaypoints().size() > 0) {
-						g.drawString("Aim: "+this.currentFlightPlan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
+					if (this.flightPlan.getWaypoints().size() > 0) {
+						g.drawString("Aim: "+this.flightPlan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
 					}
 					g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
 				}
@@ -229,8 +229,8 @@ public class Flight {
 		g.drawString("Plan: ",  10, 480);
 		String plan = "";
 		
-		for(int i=0; i<this.currentFlightPlan.getWaypoints().size(); i++) {
-			plan += this.currentFlightPlan.getWaypoints().get(i).getPointRef()+", ";
+		for(int i=0; i<this.flightPlan.getWaypoints().size(); i++) {
+			plan += this.flightPlan.getWaypoints().get(i).getPointRef()+", ";
 		}
 		
 		
@@ -249,7 +249,7 @@ public class Flight {
 	
 
 	public void update_x_y_coordinates() {
-		double velocity = (this.currentFlightPlan.getVelocity()) / 1000;
+		double velocity = (this.flightPlan.getVelocity()) / 1000;
 
 		this.x += velocity * Math.sin(Math.toRadians(this.currentHeading));
 
@@ -367,7 +367,7 @@ public class Flight {
 		this.update_current_heading();
 		this.update_x_y_coordinates();
 		this.update_altitude();
-		this.currentFlightPlan.update();
+		this.flightPlan.update();
 		
 		
 
@@ -378,7 +378,7 @@ public class Flight {
 		
 		
 		this.draw_flight(g,  gc);
-		this.currentFlightPlan.render(g,gc);
+		this.flightPlan.render(g,gc);
 		
 		
 
@@ -498,7 +498,7 @@ public class Flight {
 	}
 
 	public FlightPlan getFlight_plan() {
-		return currentFlightPlan;
+		return flightPlan;
 	}
 	
 	public EntryPoint getEntryPoint(){

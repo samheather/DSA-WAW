@@ -15,6 +15,7 @@ public class FlightPlan {
 	
 	
 	private ArrayList<Point> currentRoute = new ArrayList<Point>();
+	private ArrayList<Point> waypointsAlreadyVisited;
 	private double velocity;
 	private Flight flight;
 	private Point waypointMouseIsOver;
@@ -30,6 +31,7 @@ public class FlightPlan {
 		this.flight = flight;
 		this.velocity = generate_velocity();
 		this.currentRoute = build_route(airspace, flight.getEntryPoint());
+		this.waypointsAlreadyVisited = new ArrayList<Point>();
 		this.changingPlan = false;
 		this.draggingWaypoint = false;
 	}
@@ -123,6 +125,7 @@ public class FlightPlan {
 		if (this.currentRoute.size() > 0) {
 			if (this.flight.check_if_flight_at_waypoint(currentRoute
 					.get(0))) {
+				this.waypointsAlreadyVisited.add(this.currentRoute.get(0));
 				this.currentRoute.remove(0);
 			}
 		}
@@ -158,7 +161,7 @@ public class FlightPlan {
 						for(int i=0; i<this.currentRoute.size();i++) {
 							
 							// Checks if new waypoint is not already in the plan and adds if not in plan
-							if (this.waypointClicked == this.currentRoute.get(i)&& (!this.currentRoute.contains(this.waypointMouseIsOver)) ){
+							if (this.waypointClicked == this.currentRoute.get(i)&& (!this.currentRoute.contains(this.waypointMouseIsOver))&& (!this.waypointsAlreadyVisited.contains(this.waypointMouseIsOver))){
 								this.currentRoute.remove(i);
 								this.currentRoute.add(i,this.waypointMouseIsOver);
 								this.waypointClicked=null;
@@ -167,7 +170,7 @@ public class FlightPlan {
 							}
 							
 							// Checks if waypoint already in plan and doesn't add if not
-							else if(this.waypointClicked == this.currentRoute.get(i)&& (this.currentRoute.contains(this.waypointMouseIsOver))){
+							else if(this.waypointClicked == this.currentRoute.get(i)&& ((this.currentRoute.contains(this.waypointMouseIsOver)) || (this.waypointsAlreadyVisited.contains(this.waypointMouseIsOver)))){
 								this.waypointClicked=null;
 								this.draggingWaypoint=false;
 								break;
@@ -233,6 +236,14 @@ public class FlightPlan {
 				
 		}
 		
+		
+	}
+	
+	public void markUnavailableWaypoints(Graphics g, GameContainer gc){
+		for (int i = 0; i < this.waypointsAlreadyVisited.size(); i++){
+			g.drawLine((float) this.waypointsAlreadyVisited.get(i).getX()-14, (float) this.waypointsAlreadyVisited.get(i).getY()-14, (float) this.waypointsAlreadyVisited.get(i).getX()+14, (float) this.waypointsAlreadyVisited.get(i).getY()+14);
+			g.drawLine((float) this.waypointsAlreadyVisited.get(i).getX()+14, (float) this.waypointsAlreadyVisited.get(i).getY()-14, (float) this.waypointsAlreadyVisited.get(i).getX()-14, (float) this.waypointsAlreadyVisited.get(i).getY()+14);
+		}
 	}
 	
 	public void update() {
@@ -250,6 +261,7 @@ public class FlightPlan {
 		if(this.flight.getSelected()) {
 			if(this.changingPlan == true){
 				this.draw_flights_plan(g, gc);
+				this.markUnavailableWaypoints(g, gc);
 			}
 			
 
