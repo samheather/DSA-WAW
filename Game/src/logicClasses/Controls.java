@@ -74,7 +74,7 @@ public class Controls {
 	
 
 	// METHODS
-	public void check_alt_buttons_clicked() {
+	public void handleAndUpdateAltitudeButtons() {
 		
 		if(this.mouseHeldDownOnAltitudeButton) {
 			return;
@@ -376,7 +376,9 @@ public class Controls {
 					break;
 				}
 				
-				this.check_alt_buttons_clicked();
+				// Handle and update Altitude Buttons
+				
+				this.handleAndUpdateAltitudeButtons();
 				
 				
 				//ALTITUDE KEYS
