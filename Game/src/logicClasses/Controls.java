@@ -22,15 +22,14 @@ public class Controls {
 	private boolean turnLeftTextBoxHasFocus; // Is the text box currently selected?
 	private boolean turnRightTextBoxHasFocus; // Is the text box currently selected?
 	private boolean focusOnHeadingTextBoxCleared; // Has the text box been reset?
-	private boolean increaseAltitudeButtonClicked,decreaseAltitudeButtonClicked, mouseHeldDownOnAltitudeButton, 
-					mouseHeldDownOnFlight, atMaximumAltitude, atMinimumAltitude;
+	private boolean mouseHeldDownOnAltitudeButton, mouseHeldDownOnFlight;
 	private boolean focusOnRightTextBoxCleared;
 	private boolean focusOnLeftTextBoxCleared;
 	private final int  MAXIMUM_ALTITUDE = 31000;
 	private final int  MINIMUM_ALTITUDE = 26000;
 	private Flight selectedFlight;
 	private String text;
-	private int boxselected, altitudeToIncreaseTo, altitudeToDecreaseTo, targetAltitude;
+	private int altitudeToIncreaseTo, altitudeToDecreaseTo, targetAltitude;
 	private Image altitudeButton, changePlanButton;
 	
 	
@@ -43,15 +42,10 @@ public class Controls {
 		this.focusOnHeadingTextBoxCleared = false;
 		this.focusOnLeftTextBoxCleared = false;
 		this.focusOnRightTextBoxCleared = false;
-		this.increaseAltitudeButtonClicked=false;
-		this.decreaseAltitudeButtonClicked=false;
-		this.boxselected = 0;
 		this.mouseHeldDownOnAltitudeButton=false;
 		this.mouseHeldDownOnFlight = false;
 		this.altitudeToIncreaseTo=0;
 		this.altitudeToDecreaseTo=0;
-		this.atMaximumAltitude=false;
-		this.atMinimumAltitude=false;
 		this.targetAltitude=0;
 		this.selectedFlight = null;
 		
@@ -273,6 +267,74 @@ public class Controls {
 		}	
 	}
 	
+	public void updateHeadingTextBox(Input input){
+		this.headingTextBoxHasFocus = this.headingControlTextBox.hasFocus();
+		if (this.headingTextBoxHasFocus) {
+			if (!this.focusOnHeadingTextBoxCleared) {
+				this.focusOnHeadingTextBoxCleared = true;
+				this.headingControlTextBox.setText("");
+			}
+			if (input.isKeyDown(Input.KEY_ENTER)) {
+				this.text = this.headingControlTextBox.getText();
+				this.text = this.text.replaceAll("\\D+", "");
+				if (!this.text.isEmpty()) {
+					this.selectedFlight.give_heading(Integer.valueOf(this.text));
+
+				}
+				this.headingControlTextBox.setFocus(false);
+			}
+		}
+		if (this.focusOnHeadingTextBoxCleared && !this.headingTextBoxHasFocus) {
+			this.focusOnHeadingTextBoxCleared = false;
+		}
+	}
+	
+	public void updateTurnLeftTextBox(Input input){
+		this.turnLeftTextBoxHasFocus = this.turnLeftTextBox.hasFocus();
+		if (this.turnLeftTextBoxHasFocus) {
+			if (!this.focusOnLeftTextBoxCleared) {
+				this.focusOnLeftTextBoxCleared = true;
+				this.turnLeftTextBox.setText("");
+			}
+			if (input.isKeyDown(Input.KEY_ENTER)) {
+				this.text = this.turnLeftTextBox.getText();
+				this.text = this.text.replaceAll("\\D+", "");
+				if (!this.text.isEmpty() && Integer.valueOf(this.text) <= 360) {
+					this.selectedFlight.turn_flight_left(Integer.valueOf(this.text));
+					this.turnLeftTextBox.setText("");
+				}
+				this.turnLeftTextBox.setFocus(false);
+			}
+		}
+		if (this.focusOnLeftTextBoxCleared && !this.turnLeftTextBoxHasFocus) {
+			this.focusOnLeftTextBoxCleared = false;
+		}
+
+	}
+	
+	public void updateTurnRightTextBox(Input input){
+		this.turnRightTextBoxHasFocus = this.turnRightTextBox.hasFocus();
+		if (this.turnRightTextBoxHasFocus) {
+			if (!this.focusOnRightTextBoxCleared) {
+				this.focusOnRightTextBoxCleared = true;
+				this.turnRightTextBox.setText("");
+			}
+			if (input.isKeyDown(Input.KEY_ENTER)) {
+				this.text = this.turnRightTextBox.getText();
+				this.text = this.text.replaceAll("\\D+", "");
+				if (!this.text.isEmpty() && Integer.valueOf(this.text) <= 360) {
+					this.selectedFlight.turn_flight_right(Integer.valueOf(this.text));
+					this.turnRightTextBox.setText("");
+				}
+				this.turnRightTextBox.setFocus(false);
+			}
+		}
+		if (this.focusOnRightTextBoxCleared && !this.turnRightTextBoxHasFocus) {
+			this.focusOnRightTextBoxCleared = false;
+		}
+	
+
+	}
 	
 	
 	
@@ -296,85 +358,11 @@ public class Controls {
 					this.give_heading_with_mouse(posX, posY, airspace);
 				}
 
-			// Update Heading TextField
-				this.headingTextBoxHasFocus = this.headingControlTextBox.hasFocus();
-				if (this.headingTextBoxHasFocus) {
-					if (!this.focusOnHeadingTextBoxCleared) {
-						this.focusOnHeadingTextBoxCleared = true;
-						this.headingControlTextBox.setText("");
-					}
-					if (input.isKeyDown(Input.KEY_ENTER)) {
-						this.text = this.headingControlTextBox.getText();
-						this.text = this.text.replaceAll("\\D+", "");
-						if (!this.text.isEmpty()) {
-							this.selectedFlight.give_heading(Integer.valueOf(this.text));
+				this.updateHeadingTextBox(input);
+				this.updateTurnLeftTextBox(input);
+				this.updateTurnRightTextBox(input);
 		
-						}
-						this.headingControlTextBox.setFocus(false);
-					}
-				}
-				if (this.focusOnHeadingTextBoxCleared && !this.headingTextBoxHasFocus) {
-					this.focusOnHeadingTextBoxCleared = false;
-				}
-		
-		
-				// Update Turn Left Text Field
-				this.turnLeftTextBoxHasFocus = this.turnLeftTextBox.hasFocus();
-				if (this.turnLeftTextBoxHasFocus) {
-					if (!this.focusOnLeftTextBoxCleared) {
-						this.focusOnLeftTextBoxCleared = true;
-						this.turnLeftTextBox.setText("");
-					}
-					if (input.isKeyDown(Input.KEY_ENTER)) {
-						this.text = this.turnLeftTextBox.getText();
-						this.text = this.text.replaceAll("\\D+", "");
-						if (!this.text.isEmpty() && Integer.valueOf(this.text) <= 360) {
-							this.selectedFlight.turn_flight_left(Integer.valueOf(this.text));
-							this.turnLeftTextBox.setText("");
-						}
-						this.turnLeftTextBox.setFocus(false);
-					}
-				}
-				if (this.focusOnLeftTextBoxCleared && !this.turnLeftTextBoxHasFocus) {
-					this.focusOnLeftTextBoxCleared = false;
-				}
-		
-				// Update Turn Right Text Field
-				this.turnRightTextBoxHasFocus = this.turnRightTextBox.hasFocus();
-				if (this.turnRightTextBoxHasFocus) {
-					if (!this.focusOnRightTextBoxCleared) {
-						this.focusOnRightTextBoxCleared = true;
-						this.turnRightTextBox.setText("");
-					}
-					if (input.isKeyDown(Input.KEY_ENTER)) {
-						this.text = this.turnRightTextBox.getText();
-						this.text = this.text.replaceAll("\\D+", "");
-						if (!this.text.isEmpty() && Integer.valueOf(this.text) <= 360) {
-							this.selectedFlight.turn_flight_right(Integer.valueOf(this.text));
-							this.turnRightTextBox.setText("");
-						}
-						this.turnRightTextBox.setFocus(false);
-					}
-				}
-				if (this.focusOnRightTextBoxCleared && !this.turnRightTextBoxHasFocus) {
-					this.focusOnRightTextBoxCleared = false;
-				}
-		
-				// CHECK KEYSTROKES
 			
-		
-				// UPDATE SELECTED BOX
-				switch (boxselected) {
-				case 1:
-					turnLeftTextBox.setFocus(true);
-					break;
-				case 2:
-					headingControlTextBox.setFocus(true);
-					break;
-				case 3:
-					turnRightTextBox.setFocus(true);
-					break;
-				}
 				
 				// Handle and update Altitude Buttons
 				
@@ -398,7 +386,6 @@ public class Controls {
 					this.getHeadingControlTB().setText(
 							String.valueOf(Math.round(this.selectedFlight.getTarget_heading())));
 				}
-				
 			
 			}
 			
@@ -418,29 +405,11 @@ public class Controls {
 			this.mouseHeldDownOnFlight = false;
 			this.mouseHeldDownOnAltitudeButton = false;
 		}
-				
-
-
 
 	}
 	
 	//MUTATORS AND ACCESSORS
 
-	public boolean isIncrease_alt_clicked() {
-		return increaseAltitudeButtonClicked;
-	}
-
-	public void setIncrease_alt_clicked(boolean increase_alt_clicked) {
-		this.increaseAltitudeButtonClicked = increase_alt_clicked;
-	}
-
-	public boolean isDecrease_alt_clicked() {
-		return decreaseAltitudeButtonClicked;
-	}
-
-	public void setDecrease_alt_clicked(boolean decrease_alt_clicked) {
-		this.decreaseAltitudeButtonClicked = decrease_alt_clicked;
-	}
 
 	public int getTarget_alt() {
 		return targetAltitude;
