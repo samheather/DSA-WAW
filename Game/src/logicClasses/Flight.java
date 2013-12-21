@@ -11,12 +11,12 @@ import org.newdawn.slick.SlickException;
 public class Flight {
 
 	// FIELDS
-	private double x, y, target_altitude, current_heading, target_heading;
-	private int current_altitude, flight_num;
-	private boolean turning_right, turning_left;
-	private String flight_name;
-	private FlightPlan flight_plan;
-	private Image img, selected_img, slow_flight_img, fast_flight_img, shadow;
+	private double x, y, targetAltitude, currentHeading, targetHeading;
+	private int currentAltitude, flightNumber;
+	private boolean turningRight, turningLeft;
+	private String flightName;
+	private FlightPlan flightPlan;
+	private Image regularFlightImage, selectedFlightInformationBackgroundImage, slowFlightImage, fastFlightImage, shadowImage;
 	private Color color;
 	private boolean selected;
 	private Point waypointMouseIsOver;
@@ -32,15 +32,15 @@ public class Flight {
 	public Flight(Airspace airspace) {
 		this.x = 0;
 		this.y = 0;
-		this.target_altitude = 0;
-		this.current_altitude = generate_altitude();
-		this.target_heading = 0;
-		this.current_heading = 0;
-		this.turning_right = false;
-		this.turning_left = false;
+		this.targetAltitude = 0;
+		this.currentAltitude = generate_altitude();
+		this.targetHeading = 0;
+		this.currentHeading = 0;
+		this.turningRight = false;
+		this.turningLeft = false;
 		this.airspace = airspace;
 		this.entryPoint = generate_entry_point();
-		this.flight_plan = new FlightPlan(airspace, this.entryPoint);
+		this.flightPlan = new FlightPlan(airspace, this.entryPoint);
 		this.color = Color.white;
 		this.selected = false;
 		this.changingPlan = false;
@@ -107,34 +107,34 @@ public class Flight {
 	
 	public void turn_flight_left(int degree_turned_by) {
 
-		this.turning_right = false;
-		this.turning_left = true;
+		this.turningRight = false;
+		this.turningLeft = true;
 
-		this.target_heading = Math.round(this.current_heading) - degree_turned_by;
-		if(this.target_heading < 0){
-			this.target_heading = 360 +this.target_heading;
+		this.targetHeading = Math.round(this.currentHeading) - degree_turned_by;
+		if(this.targetHeading < 0){
+			this.targetHeading = 360 +this.targetHeading;
 		}
 	}
 	
 	
 	public void turn_flight_right(int degree_turned_by) {
 
-		this.turning_left = false;
-		this.turning_right = true;
+		this.turningLeft = false;
+		this.turningRight = true;
 		
-		this.target_heading = Math.round(this.current_heading) + degree_turned_by;
-		if(this.target_heading >= 360){
-			this.target_heading = this.target_heading - 360;
+		this.targetHeading = Math.round(this.currentHeading) + degree_turned_by;
+		if(this.targetHeading >= 360){
+			this.targetHeading = this.targetHeading - 360;
 		}
 
 
 	}
 
 	public void give_heading(int new_heading) {
-		this.turning_right = false;
-		this.turning_left = false;
+		this.turningRight = false;
+		this.turningLeft = false;
 		new_heading = new_heading % 360;
-		this.target_heading = new_heading;
+		this.targetHeading = new_heading;
 	}
 	
 	
@@ -173,7 +173,7 @@ public class Flight {
 	}
 	
 	public void change_flight_plan(){
-		if (this.selected && this.flight_plan.getWaypoints().size() > 0 ){
+		if (this.selected && this.flightPlan.getWaypoints().size() > 0 ){
 			boolean mouseOverWaypoint = this.isMouseOnWaypoint();
 
 				// Checks if user is not currently dragging a waypoint
@@ -198,7 +198,7 @@ public class Flight {
 					else if((!Mouse.isButtonDown(0)) && mouseOverWaypoint){
 						
 						//Finding waypoint that mouse is over
-						for(int i=0; i<this.flight_plan.getWaypoints().size();i++) {
+						for(int i=0; i<this.flightPlan.getWaypoints().size();i++) {
 							
 							// Checks if new waypoint is not already in the plan and adds if not in plan
 							if (this.waypointClicked == this.getFlight_plan().getWaypoints().get(i)&& (!this.getFlight_plan().getWaypoints().contains(this.waypointMouseIsOver)) ){
@@ -234,29 +234,29 @@ public class Flight {
 				g.setWorldClip(150, 0, 1200, 600);
 
 				//Scale the shadow in accordance to the altitude of the flight
-				float shadow_scale = (float) (36 - (this.current_altitude / 1000))/10;
-				shadow.setRotation((int) current_heading);
-				shadow.draw((int) this.x-35, (int) this.y, shadow_scale);
+				float shadow_scale = (float) (36 - (this.currentAltitude / 1000))/10;
+				shadowImage.setRotation((int) currentHeading);
+				shadowImage.draw((int) this.x-35, (int) this.y, shadow_scale);
 				
 				//Depending on a plane's speed, different images for the plane are drawn
 					
-				if(this.flight_plan.getVelocity() <= 275){
+				if(this.flightPlan.getVelocity() <= 275){
 					
-					slow_flight_img.setRotation((int) current_heading);
-					slow_flight_img.draw((int) this.x-10, (int) this.y-10);
+					slowFlightImage.setRotation((int) currentHeading);
+					slowFlightImage.draw((int) this.x-10, (int) this.y-10);
 					
 				}
 				
-				else if(this.flight_plan.getVelocity() > 270 && this.flight_plan.getVelocity() < 340){
+				else if(this.flightPlan.getVelocity() > 270 && this.flightPlan.getVelocity() < 340){
 					
-					img.setRotation((int) current_heading);
-					img.draw((int) this.x-10, (int) this.y-10);
+					regularFlightImage.setRotation((int) currentHeading);
+					regularFlightImage.draw((int) this.x-10, (int) this.y-10);
 			
 				}
 				
 				else{
-					fast_flight_img.setRotation((int) current_heading);
-					fast_flight_img.draw((int) this.x-10, (int) this.y-10);
+					fastFlightImage.setRotation((int) currentHeading);
+					fastFlightImage.draw((int) this.x-10, (int) this.y-10);
 					
 				}
 				
@@ -269,12 +269,12 @@ public class Flight {
 				
 				if (this.selected){
 					g.setColor(Color.white);
-					g.drawString(this.flight_name, (int) this.x-24, (int) this.y-44);
-					g.drawString(Math.round(this.current_altitude) + " ft",(int) this.x-30, (int) this.y + 10);
-					g.drawString(Math.round(this.current_heading) + "°",(int) this.x - 13, (int) this.y + 25);//-15,20
+					g.drawString(this.flightName, (int) this.x-24, (int) this.y-44);
+					g.drawString(Math.round(this.currentAltitude) + " ft",(int) this.x-30, (int) this.y + 10);
+					g.drawString(Math.round(this.currentHeading) + "°",(int) this.x - 13, (int) this.y + 25);//-15,20
 					
-					if (this.flight_plan.getWaypoints().size() > 0) {
-						g.drawString("Aim: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
+					if (this.flightPlan.getWaypoints().size() > 0) {
+						g.drawString("Aim: "+this.flightPlan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
 						
 					}
 	
@@ -282,11 +282,11 @@ public class Flight {
 				
 				else{
 					g.setColor(Color.lightGray);
-					g.drawString(this.flight_name, (int) this.x-24, (int) this.y-44);
-					g.drawString(Math.round(this.current_altitude) + " ft",(int) this.x-30, (int) this.y + 10);
+					g.drawString(this.flightName, (int) this.x-24, (int) this.y-44);
+					g.drawString(Math.round(this.currentAltitude) + " ft",(int) this.x-30, (int) this.y + 10);
 					
-					if (this.flight_plan.getWaypoints().size() > 0) {
-						g.drawString("Aim: "+this.flight_plan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
+					if (this.flightPlan.getWaypoints().size() > 0) {
+						g.drawString("Aim: "+this.flightPlan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
 					}
 					g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
 				}
@@ -299,22 +299,22 @@ public class Flight {
 	
 	public void draw_selected_flight_information(Graphics g, GameContainer gc) {
 		
-		this.selected_img.draw(0,450);
+		this.selectedFlightInformationBackgroundImage.draw(0,450);
 		g.setColor(Color.white);
-		g.drawString(this.flight_name,  10, 460);
+		g.drawString(this.flightName,  10, 460);
 		g.drawString("Plan: ",  10, 480);
 		String plan = "";
 		
-		for(int i=0; i<this.flight_plan.getWaypoints().size(); i++) {
-			plan += this.flight_plan.getWaypoints().get(i).getPointRef()+", ";
+		for(int i=0; i<this.flightPlan.getWaypoints().size(); i++) {
+			plan += this.flightPlan.getWaypoints().get(i).getPointRef()+", ";
 		}
 		
 		
 		g.setColor(Color.white);
 		g.drawString(plan, 10, 500);
-		g.drawString(Math.round(this.current_altitude) + " Ft",
+		g.drawString(Math.round(this.currentAltitude) + " Ft",
 			 10, 520);
-		g.drawString(Math.round(this.current_heading) + " DEG",
+		g.drawString(Math.round(this.currentHeading) + " DEG",
 			10, 540);
 		g.drawString(Math.round(this.getFlight_plan().getVelocity()) + " MPH",
 			10, 560);
@@ -325,44 +325,44 @@ public class Flight {
 	
 
 	public void update_x_y_coordinates() {
-		double velocity = (this.flight_plan.getVelocity()) / 1000;
+		double velocity = (this.flightPlan.getVelocity()) / 1000;
 
-		this.x += velocity * Math.sin(Math.toRadians(this.current_heading));
+		this.x += velocity * Math.sin(Math.toRadians(this.currentHeading));
 
-		this.y -= velocity * Math.cos(Math.toRadians(this.current_heading));
+		this.y -= velocity * Math.cos(Math.toRadians(this.currentHeading));
 
 	}
 
 	public void update_altitude() {
-		if (this.current_altitude > this.target_altitude) {
-			this.current_altitude -= 1;
+		if (this.currentAltitude > this.targetAltitude) {
+			this.currentAltitude -= 1;
 		}
 
-		else if (this.current_altitude < this.target_altitude) {
-			this.current_altitude += 1;
+		else if (this.currentAltitude < this.targetAltitude) {
+			this.currentAltitude += 1;
 		}
 	}
 
 	public void update_current_heading() {
 	
 		double rate = 0.5;
-		if (Math.round(this.target_heading) != Math.round(this.current_heading)) {
-			if (this.turning_right == true) {// If plane is already turning
+		if (Math.round(this.targetHeading) != Math.round(this.currentHeading)) {
+			if (this.turningRight == true) {// If plane is already turning
 												// right or user has told it to
 												// turn right
-				this.current_heading += rate;
-				if (Math.round(this.current_heading) == 360
-						&& this.target_heading != 360) {
-					this.current_heading = 0;
+				this.currentHeading += rate;
+				if (Math.round(this.currentHeading) == 360
+						&& this.targetHeading != 360) {
+					this.currentHeading = 0;
 				}
 			}
 
 			// if plane is already turning left or user has told it to turn left
-			else if (this.turning_left == true) {
-				this.current_heading -= rate;
-				if (Math.round(this.current_heading) == 0
-						&& this.target_heading != 0) {
-					this.current_heading = 360;
+			else if (this.turningLeft == true) {
+				this.currentHeading -= rate;
+				if (Math.round(this.currentHeading) == 0
+						&& this.targetHeading != 0) {
+					this.currentHeading = 360;
 				}
 			}
 
@@ -370,43 +370,43 @@ public class Flight {
 			// Below works out whether it should turn left or right to that heading.
 			else {
 
-				if (this.target_heading - this.current_heading == 180) {
-					this.turning_right = true;
-					this.current_heading += rate;
-				} else if ((this.current_heading + 180) >= 359) {
+				if (this.targetHeading - this.currentHeading == 180) {
+					this.turningRight = true;
+					this.currentHeading += rate;
+				} else if ((this.currentHeading + 180) >= 359) {
 
-					if (this.target_heading > this.current_heading) {
-						this.turning_right = true;
-						this.current_heading += rate;
-						if (Math.round(this.current_heading) == 360) {
-							this.current_heading = 0;
+					if (this.targetHeading > this.currentHeading) {
+						this.turningRight = true;
+						this.currentHeading += rate;
+						if (Math.round(this.currentHeading) == 360) {
+							this.currentHeading = 0;
 						}
-					} else if ((180 - (360 - this.current_heading)) > this.target_heading) {
-						this.turning_right = true;
-						this.current_heading += rate;
-						if (Math.round(this.current_heading) == 360) {
-							this.current_heading = 0;
+					} else if ((180 - (360 - this.currentHeading)) > this.targetHeading) {
+						this.turningRight = true;
+						this.currentHeading += rate;
+						if (Math.round(this.currentHeading) == 360) {
+							this.currentHeading = 0;
 						}
 					} else {
-						this.turning_left = true;
-						this.current_heading -= rate;
-						if (Math.round(this.current_heading) == 0) {
-							this.current_heading = 360;
+						this.turningLeft = true;
+						this.currentHeading -= rate;
+						if (Math.round(this.currentHeading) == 0) {
+							this.currentHeading = 360;
 						}
 					}
 				} else {
-					if ((this.target_heading > this.current_heading)
-							&& (this.target_heading < this.current_heading + 180)) {
-						this.turning_right = true;
-						this.current_heading += rate;
-						if (Math.round(this.current_heading) == 360) {
-							this.current_heading = 0;
+					if ((this.targetHeading > this.currentHeading)
+							&& (this.targetHeading < this.currentHeading + 180)) {
+						this.turningRight = true;
+						this.currentHeading += rate;
+						if (Math.round(this.currentHeading) == 360) {
+							this.currentHeading = 0;
 						}
 					} else {
-						this.turning_left = true;
-						this.current_heading -= rate;
-						if (Math.round(this.current_heading) == 0) {
-							this.current_heading = 360;
+						this.turningLeft = true;
+						this.currentHeading -= rate;
+						if (Math.round(this.currentHeading) == 0) {
+							this.currentHeading = 360;
 						}
 					}
 				}
@@ -416,10 +416,10 @@ public class Flight {
 	
 	public void update_flight_plan(){
 
-		if (this.flight_plan.getWaypoints().size() > 0) {
-			if (this.check_if_flight_at_waypoint(flight_plan.getWaypoints()
+		if (this.flightPlan.getWaypoints().size() > 0) {
+			if (this.check_if_flight_at_waypoint(flightPlan.getWaypoints()
 					.get(0))) {
-				this.flight_plan.getWaypoints().remove(0);
+				this.flightPlan.getWaypoints().remove(0);
 			}
 		}
 
@@ -430,19 +430,19 @@ public class Flight {
 
 	public void draw_flights_plan(Graphics g, GameContainer gc){
 
-		if (this.flight_plan.getWaypoints().size() > 0){
+		if (this.flightPlan.getWaypoints().size() > 0){
 			
 			g.setColor(Color.cyan);
 			
 			// If not dragging waypoints, just draw lines between all waypoints in plan
 			if(!draggingWaypoint){
-				for(int i=1; i<this.flight_plan.getWaypoints().size();i++) {
+				for(int i=1; i<this.flightPlan.getWaypoints().size();i++) {
 					g.drawLine((float)this.getFlight_plan().getWaypoints().get(i).getX(), (float)this.getFlight_plan().getWaypoints().get(i).getY(), (float)this.getFlight_plan().getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY());
 				}
 			}
 			
 			else if(draggingWaypoint){
-				for(int i=1; i<this.flight_plan.getWaypoints().size();i++) {
+				for(int i=1; i<this.flightPlan.getWaypoints().size();i++) {
 					
 					// This is needed as i=1 behavours differently to other values of i when first waypoint is being dragged.
 					if(i==1){
@@ -451,8 +451,8 @@ public class Flight {
 						}
 						
 						else if (this.waypointClicked == this.getFlight_plan().getWaypoints().get(1)){
-							g.drawLine((float)this.flight_plan.getWaypoints().get(i+1).getX(), (float)this.getFlight_plan().getWaypoints().get(i+1).getY(),Mouse.getX(),600-Mouse.getY());
-							g.drawLine((float)this.flight_plan.getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY(),Mouse.getX(),600-Mouse.getY());
+							g.drawLine((float)this.flightPlan.getWaypoints().get(i+1).getX(), (float)this.getFlight_plan().getWaypoints().get(i+1).getY(),Mouse.getX(),600-Mouse.getY());
+							g.drawLine((float)this.flightPlan.getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY(),Mouse.getX(),600-Mouse.getY());
 							i++;
 							
 						}
@@ -467,8 +467,8 @@ public class Flight {
 					else{
 						// If Waypoint is being changed draw lines between mouse and waypoint before and after the waypoint being changed. 
 						if (this.waypointClicked == this.getFlight_plan().getWaypoints().get(i)){
-							g.drawLine((float)this.flight_plan.getWaypoints().get(i+1).getX(), (float)this.getFlight_plan().getWaypoints().get(i+1).getY(),Mouse.getX(),600-Mouse.getY());
-							g.drawLine((float)this.flight_plan.getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY(),Mouse.getX(),600-Mouse.getY());
+							g.drawLine((float)this.flightPlan.getWaypoints().get(i+1).getX(), (float)this.getFlight_plan().getWaypoints().get(i+1).getY(),Mouse.getX(),600-Mouse.getY());
+							g.drawLine((float)this.flightPlan.getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY(),Mouse.getX(),600-Mouse.getY());
 							i++;
 						}
 						
@@ -489,11 +489,11 @@ public class Flight {
 	
 	
 	public void init(GameContainer gc) throws SlickException {
-		this.img = new Image("/res/graphics/graphics/flight.png");
-		this.shadow = new Image("/res/graphics/graphics/flight_shadow.png");
-		this.slow_flight_img = new Image("/res/graphics/graphics/flight_slow.png");
-		this.fast_flight_img = new Image("/res/graphics/graphics/flight_fast.png");
-		this.selected_img = new Image("res/graphics/graphics/selected_flight2.jpg");
+		this.regularFlightImage = new Image("/res/graphics/graphics/flight.png");
+		this.shadowImage = new Image("/res/graphics/graphics/flight_shadow.png");
+		this.slowFlightImage = new Image("/res/graphics/graphics/flight_slow.png");
+		this.fastFlightImage = new Image("/res/graphics/graphics/flight_fast.png");
+		this.selectedFlightInformationBackgroundImage = new Image("res/graphics/graphics/selected_flight2.jpg");
 
 	}
 	
@@ -555,67 +555,67 @@ public class Flight {
 	}
 
 	public double getCurrent_heading() {
-		return this.current_heading;
+		return this.currentHeading;
 	}
 
 	public void setCurrent_heading(double current_heading) {
-		this.current_heading = current_heading;
+		this.currentHeading = current_heading;
 	}
 
 	public double getTarget_heading() {
-		return this.target_heading;
+		return this.targetHeading;
 	}
 
 	public void setTarget_heading(double target_heading) {
-		this.target_heading = target_heading;
+		this.targetHeading = target_heading;
 	}
 
 	public double getTarget_altitude() {
-		return this.target_altitude;
+		return this.targetAltitude;
 	}
 
 	public void setTarget_altitude(double target_altitude) {
-		this.target_altitude = target_altitude;
+		this.targetAltitude = target_altitude;
 	}
 
 	public int getAltitude() {
-		return this.current_altitude;
+		return this.currentAltitude;
 	}
 
 	public void setAltitude(int altitude) {
-		this.current_altitude = altitude;
+		this.currentAltitude = altitude;
 	}
 
 	public boolean isTurning_right() {
-		return this.turning_right;
+		return this.turningRight;
 	}
 
 	public void setTurning_right(boolean turning_right) {
-		this.turning_right = turning_right;
+		this.turningRight = turning_right;
 	}
 
 	public boolean isTurning_left() {
-		return this.turning_left;
+		return this.turningLeft;
 	}
 
 	public void setTurning_left(boolean turning_left) {
-		this.turning_left = turning_left;
+		this.turningLeft = turning_left;
 	}
 
 	public void setFlight_num(int i) {
-		this.flight_num = i;
+		this.flightNumber = i;
 	}
 
 	public int getFlight_num() {
-		return flight_num;
+		return flightNumber;
 	}
 
 	public String getFlight_name() {
-		return flight_name;
+		return flightName;
 	}
 
 	public void setFlight_name(String flight_name) {
-		this.flight_name = flight_name;
+		this.flightName = flight_name;
 	}
 
 	public boolean isSelected() {
@@ -630,19 +630,19 @@ public class Flight {
 	@Override
 	public String toString() {
 		return "X: " + this.x + " Y: " + this.y + " Flight Number: "
-				+ this.flight_num;
+				+ this.flightNumber;
 	}
 
 	public int getCurrent_altitude() {
-		return current_altitude;
+		return currentAltitude;
 	}
 
 	public void setCurrent_altitude(int current_altitude) {
-		this.current_altitude = current_altitude;
+		this.currentAltitude = current_altitude;
 	}
 
 	public FlightPlan getFlight_plan() {
-		return flight_plan;
+		return flightPlan;
 	}
 	
 	public EntryPoint getEntryPoint(){
