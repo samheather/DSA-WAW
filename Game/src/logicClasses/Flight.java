@@ -15,7 +15,7 @@ public class Flight {
 	private int currentAltitude, flightNumber;
 	private boolean turningRight, turningLeft;
 	private String flightName;
-	private FlightPlan flightPlan;
+	private FlightPlan currentFlightPlan;
 	private Image regularFlightImage, selectedFlightInformationBackgroundImage, slowFlightImage, fastFlightImage, shadowImage;
 	private Color color;
 	private boolean selected;
@@ -40,7 +40,7 @@ public class Flight {
 		this.turningLeft = false;
 		this.airspace = airspace;
 		this.entryPoint = generate_entry_point();
-		this.flightPlan = new FlightPlan(airspace, this.entryPoint);
+		this.currentFlightPlan = new FlightPlan(airspace, this.entryPoint);
 		this.color = Color.white;
 		this.selected = false;
 		this.changingPlan = false;
@@ -173,7 +173,7 @@ public class Flight {
 	}
 	
 	public void change_flight_plan(){
-		if (this.selected && this.flightPlan.getWaypoints().size() > 0 ){
+		if (this.selected && this.currentFlightPlan.getWaypoints().size() > 0 ){
 			boolean mouseOverWaypoint = this.isMouseOnWaypoint();
 
 				// Checks if user is not currently dragging a waypoint
@@ -198,7 +198,7 @@ public class Flight {
 					else if((!Mouse.isButtonDown(0)) && mouseOverWaypoint){
 						
 						//Finding waypoint that mouse is over
-						for(int i=0; i<this.flightPlan.getWaypoints().size();i++) {
+						for(int i=0; i<this.currentFlightPlan.getWaypoints().size();i++) {
 							
 							// Checks if new waypoint is not already in the plan and adds if not in plan
 							if (this.waypointClicked == this.getFlight_plan().getWaypoints().get(i)&& (!this.getFlight_plan().getWaypoints().contains(this.waypointMouseIsOver)) ){
@@ -240,14 +240,14 @@ public class Flight {
 				
 				//Depending on a plane's speed, different images for the plane are drawn
 					
-				if(this.flightPlan.getVelocity() <= 275){
+				if(this.currentFlightPlan.getVelocity() <= 275){
 					
 					slowFlightImage.setRotation((int) currentHeading);
 					slowFlightImage.draw((int) this.x-10, (int) this.y-10);
 					
 				}
 				
-				else if(this.flightPlan.getVelocity() > 270 && this.flightPlan.getVelocity() < 340){
+				else if(this.currentFlightPlan.getVelocity() > 270 && this.currentFlightPlan.getVelocity() < 340){
 					
 					regularFlightImage.setRotation((int) currentHeading);
 					regularFlightImage.draw((int) this.x-10, (int) this.y-10);
@@ -273,8 +273,8 @@ public class Flight {
 					g.drawString(Math.round(this.currentAltitude) + " ft",(int) this.x-30, (int) this.y + 10);
 					g.drawString(Math.round(this.currentHeading) + "°",(int) this.x - 13, (int) this.y + 25);//-15,20
 					
-					if (this.flightPlan.getWaypoints().size() > 0) {
-						g.drawString("Aim: "+this.flightPlan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
+					if (this.currentFlightPlan.getWaypoints().size() > 0) {
+						g.drawString("Aim: "+this.currentFlightPlan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
 						
 					}
 	
@@ -285,8 +285,8 @@ public class Flight {
 					g.drawString(this.flightName, (int) this.x-24, (int) this.y-44);
 					g.drawString(Math.round(this.currentAltitude) + " ft",(int) this.x-30, (int) this.y + 10);
 					
-					if (this.flightPlan.getWaypoints().size() > 0) {
-						g.drawString("Aim: "+this.flightPlan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
+					if (this.currentFlightPlan.getWaypoints().size() > 0) {
+						g.drawString("Aim: "+this.currentFlightPlan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
 					}
 					g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
 				}
@@ -305,8 +305,8 @@ public class Flight {
 		g.drawString("Plan: ",  10, 480);
 		String plan = "";
 		
-		for(int i=0; i<this.flightPlan.getWaypoints().size(); i++) {
-			plan += this.flightPlan.getWaypoints().get(i).getPointRef()+", ";
+		for(int i=0; i<this.currentFlightPlan.getWaypoints().size(); i++) {
+			plan += this.currentFlightPlan.getWaypoints().get(i).getPointRef()+", ";
 		}
 		
 		
@@ -325,7 +325,7 @@ public class Flight {
 	
 
 	public void update_x_y_coordinates() {
-		double velocity = (this.flightPlan.getVelocity()) / 1000;
+		double velocity = (this.currentFlightPlan.getVelocity()) / 1000;
 
 		this.x += velocity * Math.sin(Math.toRadians(this.currentHeading));
 
@@ -416,10 +416,10 @@ public class Flight {
 	
 	public void update_flight_plan(){
 
-		if (this.flightPlan.getWaypoints().size() > 0) {
-			if (this.check_if_flight_at_waypoint(flightPlan.getWaypoints()
+		if (this.currentFlightPlan.getWaypoints().size() > 0) {
+			if (this.check_if_flight_at_waypoint(currentFlightPlan.getWaypoints()
 					.get(0))) {
-				this.flightPlan.getWaypoints().remove(0);
+				this.currentFlightPlan.getWaypoints().remove(0);
 			}
 		}
 
@@ -430,19 +430,19 @@ public class Flight {
 
 	public void draw_flights_plan(Graphics g, GameContainer gc){
 
-		if (this.flightPlan.getWaypoints().size() > 0){
+		if (this.currentFlightPlan.getWaypoints().size() > 0){
 			
 			g.setColor(Color.cyan);
 			
 			// If not dragging waypoints, just draw lines between all waypoints in plan
 			if(!draggingWaypoint){
-				for(int i=1; i<this.flightPlan.getWaypoints().size();i++) {
+				for(int i=1; i<this.currentFlightPlan.getWaypoints().size();i++) {
 					g.drawLine((float)this.getFlight_plan().getWaypoints().get(i).getX(), (float)this.getFlight_plan().getWaypoints().get(i).getY(), (float)this.getFlight_plan().getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY());
 				}
 			}
 			
 			else if(draggingWaypoint){
-				for(int i=1; i<this.flightPlan.getWaypoints().size();i++) {
+				for(int i=1; i<this.currentFlightPlan.getWaypoints().size();i++) {
 					
 					// This is needed as i=1 behavours differently to other values of i when first waypoint is being dragged.
 					if(i==1){
@@ -451,8 +451,8 @@ public class Flight {
 						}
 						
 						else if (this.waypointClicked == this.getFlight_plan().getWaypoints().get(1)){
-							g.drawLine((float)this.flightPlan.getWaypoints().get(i+1).getX(), (float)this.getFlight_plan().getWaypoints().get(i+1).getY(),Mouse.getX(),600-Mouse.getY());
-							g.drawLine((float)this.flightPlan.getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY(),Mouse.getX(),600-Mouse.getY());
+							g.drawLine((float)this.currentFlightPlan.getWaypoints().get(i+1).getX(), (float)this.getFlight_plan().getWaypoints().get(i+1).getY(),Mouse.getX(),600-Mouse.getY());
+							g.drawLine((float)this.currentFlightPlan.getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY(),Mouse.getX(),600-Mouse.getY());
 							i++;
 							
 						}
@@ -467,8 +467,8 @@ public class Flight {
 					else{
 						// If Waypoint is being changed draw lines between mouse and waypoint before and after the waypoint being changed. 
 						if (this.waypointClicked == this.getFlight_plan().getWaypoints().get(i)){
-							g.drawLine((float)this.flightPlan.getWaypoints().get(i+1).getX(), (float)this.getFlight_plan().getWaypoints().get(i+1).getY(),Mouse.getX(),600-Mouse.getY());
-							g.drawLine((float)this.flightPlan.getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY(),Mouse.getX(),600-Mouse.getY());
+							g.drawLine((float)this.currentFlightPlan.getWaypoints().get(i+1).getX(), (float)this.getFlight_plan().getWaypoints().get(i+1).getY(),Mouse.getX(),600-Mouse.getY());
+							g.drawLine((float)this.currentFlightPlan.getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY(),Mouse.getX(),600-Mouse.getY());
 							i++;
 						}
 						
@@ -642,7 +642,7 @@ public class Flight {
 	}
 
 	public FlightPlan getFlight_plan() {
-		return flightPlan;
+		return currentFlightPlan;
 	}
 	
 	public EntryPoint getEntryPoint(){
