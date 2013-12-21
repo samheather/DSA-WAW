@@ -105,11 +105,11 @@ public class Controls {
 	public void changeModeByClickingOnFlight(Flight nearestFlight){
 		
 		
-		if (this.selectedFlight.getChangingPlan() == true){
-			nearestFlight.setChangingPlan(false);
+		if (this.selectedFlight.getFlight_plan().getChangingPlan() == true){
+			nearestFlight.getFlight_plan().setChangingPlan(false);
 		}
 		else{
-			nearestFlight.setChangingPlan(true);
+			nearestFlight.getFlight_plan().setChangingPlan(true);
 		}
 		
 	}
@@ -131,7 +131,7 @@ public class Controls {
 		
 		// Checking if user is dragging a waypoint they can't change flights
 		if (this.selectedFlight != null){
-			if (this.selectedFlight.getDraggingWaypoint()){
+			if (this.selectedFlight.getFlight_plan().getDraggingWaypoint()){
 				return;
 			}
 		}
@@ -211,7 +211,7 @@ public class Controls {
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		if(this.selectedFlight != null) {
-			if(!this.selectedFlight.getChangingPlan()){
+			if(!this.selectedFlight.getFlight_plan().getChangingPlan()){
 				g.setColor(Color.white);
 				
 				g.drawString("Turn Left:", 10, 125);
@@ -251,7 +251,7 @@ public class Controls {
 				}
 			changePlanButton.draw(0,45);
 			changePlanButton.draw(0, 75);
-			if(this.selectedFlight.getChangingPlan() == true){
+			if(this.selectedFlight.getFlight_plan().getChangingPlan() == true){
 				g.setColor(Color.yellow);
 				g.drawString("Plan Mode", 10, 45);
 				g.setColor(Color.white);
@@ -348,10 +348,10 @@ public class Controls {
 			
 			// Only allow controls if user isn't changing a plan
 			
-			if(!(this.selectedFlight.getChangingPlan())){
+			if(!(this.selectedFlight.getFlight_plan().getChangingPlan())){
 				
 				if(posX>10&&posX<150&&posY<65&&posY>45&&Mouse.isButtonDown(0)){
-					this.selectedFlight.setChangingPlan(true);
+					this.selectedFlight.getFlight_plan().setChangingPlan(true);
 				}
 				
 				if(Mouse.isButtonDown(1)){
@@ -391,7 +391,7 @@ public class Controls {
 			
 			else{
 				if(posX>10&&posX<150&&posY<95&&posY>75&&Mouse.isButtonDown(0)){
-					this.selectedFlight.setChangingPlan(false);
+					this.selectedFlight.getFlight_plan().setChangingPlan(false);
 				}
 			}
 		

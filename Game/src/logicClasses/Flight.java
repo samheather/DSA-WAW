@@ -19,12 +19,9 @@ public class Flight {
 	private Image regularFlightImage, selectedFlightInformationBackgroundImage, slowFlightImage, fastFlightImage, shadowImage;
 	private Color color;
 	private boolean selected;
-	private Point waypointMouseIsOver;
-	private Point waypointClicked;
 	private EntryPoint entryPoint;
 	private Airspace airspace;
-	private boolean changingPlan;
-	private boolean draggingWaypoint;
+
 	
 	
 
@@ -40,11 +37,9 @@ public class Flight {
 		this.turningLeft = false;
 		this.airspace = airspace;
 		this.entryPoint = generate_entry_point();
-		this.currentFlightPlan = new FlightPlan(airspace, this.entryPoint);
+		this.currentFlightPlan = new FlightPlan(airspace, this);
 		this.color = Color.white;
 		this.selected = false;
-		this.changingPlan = false;
-		this.draggingWaypoint = false;
 		
 
 	}
@@ -147,80 +142,9 @@ public class Flight {
 
 		return false;
 	}
-	
-	public static boolean isBetween(int x, int lower, int upper) {
-		  return lower <= x && x < upper;
-		}
-	
-	private boolean isMouseOnWaypoint() {
-		int mouseX = Mouse.getX();
-		int mouseY = Mouse.getY();
-		mouseY=600-mouseY;
-		if(this.getFlight_plan().getWaypoints().isEmpty()) {
-			return false;
-		}
-		for(int i=0; i<this.airspace.getList_of_way_points().size();i++) {
-			if (((Math.abs(Math.round(mouseX) - Math.round(this.airspace.getList_of_way_points().get(i).getX()))) <= 15)
-					&& (Math.abs(Math.round(mouseY) - Math.round(this.airspace.getList_of_way_points().get(i).getY()))) <= 15) {
-				
-					this.waypointMouseIsOver=this.airspace.getList_of_way_points().get(i);
-					return true;
-					
-			}
-		}
-		this.waypointMouseIsOver=null;
-		return false;
-	}
-	
-	public void change_flight_plan(){
-		if (this.selected && this.currentFlightPlan.getWaypoints().size() > 0 ){
-			boolean mouseOverWaypoint = this.isMouseOnWaypoint();
 
-				// Checks if user is not currently dragging a waypoint
-				if (!draggingWaypoint){
-					//Checks if user has clicked on a waypoint
-					if(mouseOverWaypoint && Mouse.isButtonDown(0)) {
-						this.waypointClicked=this.waypointMouseIsOver;
-						this.draggingWaypoint=true;
-					}
-				}
-				
-				// Checks if user is currently dragging a waypoint
-				else if(draggingWaypoint){
-					// Checks if user has released mouse from drag over empty airspace
-					if((!Mouse.isButtonDown(0)) && !mouseOverWaypoint){
-						this.waypointClicked=null;
-						this.draggingWaypoint=false;
-							
-					}
-					
-					// Checks if user has released mouse from drag over another waypoint
-					else if((!Mouse.isButtonDown(0)) && mouseOverWaypoint){
-						
-						//Finding waypoint that mouse is over
-						for(int i=0; i<this.currentFlightPlan.getWaypoints().size();i++) {
-							
-							// Checks if new waypoint is not already in the plan and adds if not in plan
-							if (this.waypointClicked == this.getFlight_plan().getWaypoints().get(i)&& (!this.getFlight_plan().getWaypoints().contains(this.waypointMouseIsOver)) ){
-								this.getFlight_plan().getWaypoints().remove(i);
-								this.getFlight_plan().getWaypoints().add(i,this.waypointMouseIsOver);
-								this.waypointClicked=null;
-								this.draggingWaypoint=false;
-								
-							}
-							
-							// Checks if waypoint already in plan and doesn't add if not
-							else if(this.waypointClicked == this.getFlight_plan().getWaypoints().get(i)&& (this.getFlight_plan().getWaypoints().contains(this.waypointMouseIsOver))){
-								this.waypointClicked=null;
-								this.draggingWaypoint=false;
-								break;
-								
-							}
-						}
-					}
-				}
-		}
-	}
+	
+	
 	
 
 
@@ -414,75 +338,12 @@ public class Flight {
 		}
 	}
 	
-	public void update_flight_plan(){
 
-		if (this.currentFlightPlan.getWaypoints().size() > 0) {
-			if (this.check_if_flight_at_waypoint(currentFlightPlan.getWaypoints()
-					.get(0))) {
-				this.currentFlightPlan.getWaypoints().remove(0);
-			}
-		}
-
-	}
 	
 	
 	
 
-	public void draw_flights_plan(Graphics g, GameContainer gc){
-
-		if (this.currentFlightPlan.getWaypoints().size() > 0){
-			
-			g.setColor(Color.cyan);
-			
-			// If not dragging waypoints, just draw lines between all waypoints in plan
-			if(!draggingWaypoint){
-				for(int i=1; i<this.currentFlightPlan.getWaypoints().size();i++) {
-					g.drawLine((float)this.getFlight_plan().getWaypoints().get(i).getX(), (float)this.getFlight_plan().getWaypoints().get(i).getY(), (float)this.getFlight_plan().getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY());
-				}
-			}
-			
-			else if(draggingWaypoint){
-				for(int i=1; i<this.currentFlightPlan.getWaypoints().size();i++) {
-					
-					// This is needed as i=1 behavours differently to other values of i when first waypoint is being dragged.
-					if(i==1){
-						if(this.waypointClicked == this.getFlight_plan().getWaypoints().get(0) ) {
-							g.drawLine(Mouse.getX(),600-Mouse.getY() , (float)this.getFlight_plan().getWaypoints().get(1).getX(),(float)this.getFlight_plan().getWaypoints().get(1).getY());
-						}
-						
-						else if (this.waypointClicked == this.getFlight_plan().getWaypoints().get(1)){
-							g.drawLine((float)this.currentFlightPlan.getWaypoints().get(i+1).getX(), (float)this.getFlight_plan().getWaypoints().get(i+1).getY(),Mouse.getX(),600-Mouse.getY());
-							g.drawLine((float)this.currentFlightPlan.getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY(),Mouse.getX(),600-Mouse.getY());
-							i++;
-							
-						}
-						
-						else{
-							g.drawLine((float)this.getFlight_plan().getWaypoints().get(i).getX(), (float)this.getFlight_plan().getWaypoints().get(i).getY(), (float)this.getFlight_plan().getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY());
-						}
-						
-
-					}
-					
-					else{
-						// If Waypoint is being changed draw lines between mouse and waypoint before and after the waypoint being changed. 
-						if (this.waypointClicked == this.getFlight_plan().getWaypoints().get(i)){
-							g.drawLine((float)this.currentFlightPlan.getWaypoints().get(i+1).getX(), (float)this.getFlight_plan().getWaypoints().get(i+1).getY(),Mouse.getX(),600-Mouse.getY());
-							g.drawLine((float)this.currentFlightPlan.getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY(),Mouse.getX(),600-Mouse.getY());
-							i++;
-						}
-						
-						else{
-							g.drawLine((float)this.getFlight_plan().getWaypoints().get(i).getX(), (float)this.getFlight_plan().getWaypoints().get(i).getY(), (float)this.getFlight_plan().getWaypoints().get(i-1).getX(), (float)this.getFlight_plan().getWaypoints().get(i-1).getY());
-						}
-						
-					}
-				}
-			}
-				
-		}
-		
-	}
+	
 
 
 	// UPDATE, RENDER, INIT
@@ -506,11 +367,8 @@ public class Flight {
 		this.update_current_heading();
 		this.update_x_y_coordinates();
 		this.update_altitude();
-		this.update_flight_plan();
+		this.currentFlightPlan.update();
 		
-		if(this.changingPlan == true){
-			this.change_flight_plan();
-		}
 		
 
 	}
@@ -520,14 +378,12 @@ public class Flight {
 		
 		
 		this.draw_flight(g,  gc);
+		this.currentFlightPlan.render(g,gc);
 		
 		
 
 		if(this.selected) {
 			this.draw_selected_flight_information(g, gc);
-			if(this.changingPlan == true){
-				this.draw_flights_plan(g, gc);
-			}
 			
 
 		}
@@ -648,17 +504,14 @@ public class Flight {
 	public EntryPoint getEntryPoint(){
 		return this.entryPoint;
 	}
+
 	
-	public boolean getChangingPlan(){
-		return this.changingPlan;
+	public Airspace getAirspace(){
+		return airspace;
 	}
 	
-	public void setChangingPlan(boolean bool){
-		this.changingPlan = bool;
-	}
-	
-	public boolean getDraggingWaypoint(){
-		return this.draggingWaypoint;
+	public boolean getSelected(){
+		return this.selected;
 	}
 
 

@@ -39,7 +39,7 @@ public class FlightPlan_Tests {
     	airspace.new_exit_point(150, 200);
     	airspace.new_exit_point(1200, 300);
     	flight1 = new Flight(airspace);
-    	flightplan = new FlightPlan(airspace, flight1.getEntryPoint());
+    	flightplan = new FlightPlan(airspace, flight1);
     	
 		
 	}
