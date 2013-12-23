@@ -4,6 +4,11 @@ body{
 	background-attachment:fixed;
 	background-position:center; 
 	background-color:#000;	
+	font-family:"Trebuchet MS";
+}
+
+#faq_body{
+	background-image:url('../img/bgimageclear.jpg');
 }
 
 #container{
@@ -34,3 +39,30 @@ img {
 img:hover { 
   opacity: 1.2; 
 }
+
+#faq{
+	position:relative;
+	margin:0 auto;
+	padding:10px;
+	top:33px;
+	width:60%;
+	color:#fff;
+}
+
+.q {
+	color:#ca2828
+}
+
+.a {
+	color:#999;
+}
+
+a {
+	color:#666;
+	text-decoration:none;
+}
+
+a:hover {
+	color:#999;
+}
+
