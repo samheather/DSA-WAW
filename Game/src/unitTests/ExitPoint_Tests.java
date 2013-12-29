@@ -57,7 +57,7 @@ public class ExitPoint_Tests {
 	@Test
 	public void setY_test(){
 		testexitpointPositive.setY(1001);
-		testexitpointNegative.setX(-1001);
+		testexitpointNegative.setY(-1001);
 		assertEquals("setY(double) test, positive double argument", testexitpointPositive.getY(), 1001, 0.1);
 		assertEquals("setY(double) test, negative double argument", testexitpointNegative.getY(), -1001, 0.1);
 	}

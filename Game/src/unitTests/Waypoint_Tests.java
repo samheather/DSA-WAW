@@ -58,7 +58,7 @@ public class Waypoint_Tests {
 	@Test
 	public void setY_test(){
 		testwaypointPositive.setY(1001);
-		testwaypointNegative.setX(-1001);
+		testwaypointNegative.setY(-1001);
 		assertEquals("setY(double) test, positive double argument", testwaypointPositive.getY(), 1001, 0.1);
 		assertEquals("setY(double) test, negative double argument", testwaypointNegative.getY(), -1001, 0.1);
 	}

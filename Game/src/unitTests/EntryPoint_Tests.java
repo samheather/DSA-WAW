@@ -57,7 +57,7 @@ public class EntryPoint_Tests {
 	@Test
 	public void setY_test(){
 		testentrypointPositive.setY(1001);
-		testentrypointNegative.setX(-1001);
+		testentrypointNegative.setY(-1001);
 		assertEquals("setY(double) test, positive double argument", testentrypointPositive.getY(), 1001, 0.1);
 		assertEquals("setY(double) test, negative double argument", testentrypointNegative.getY(), -1001, 0.1);
 	}

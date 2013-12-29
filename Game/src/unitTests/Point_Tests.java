@@ -52,7 +52,7 @@ public class Point_Tests {
 	@Test
 	public void setY_test(){
 		testpointPositive.setY(1001);
-		testpointNegative.setX(-1001);
+		testpointNegative.setY(-1001);
 		assertEquals("setY(double) test, positive double argument", testpointPositive.getY(), 1001, 0.1);
 		assertEquals("setY(double) test, negative double argument", testpointNegative.getY(), -1001, 0.1);
 	}
