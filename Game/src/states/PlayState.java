@@ -2,6 +2,7 @@ package states;
 
 import java.awt.Font;
 import java.io.InputStream;
+import java.math.*;
 
 import logicClasses.Airspace;
 
@@ -21,9 +22,11 @@ public class PlayState extends BasicGameState {
 	Image cursorImg;
 	public static float time;
 	private Sound end_of_game_sound;
+	private Music gameplay_music, gameplay_music2;
 	public static TrueTypeFont font;
 	private Image control_bar_image, clock_image, background_image;
 	private String string_time;
+	private double random_music_gen;
 
 	public PlayState(int state) {
 		
@@ -39,9 +42,7 @@ public class PlayState extends BasicGameState {
 		
 		gc.setAlwaysRender(true);
 		gc.setUpdateOnlyWhenVisible(false);
-		gc.setMouseCursor("graphics/graphics/cross.png",12,12); 
-
-		
+		gc.setMouseCursor("graphics/graphics/cross.png",12,12);
 	
 		
 		// Font
@@ -59,8 +60,12 @@ public class PlayState extends BasicGameState {
 		
 		// Music
 		
-
+		gameplay_music = new Music("Cold Funk.ogg");
+		gameplay_music2 = new Music("Jarvic 8.ogg");
 		end_of_game_sound = new Sound("res/175385__digitaldominic__scream.wav");
+		
+		//Setting random_music_gen to select music 
+		setMusic();
 		
 		
 		//Images
@@ -94,8 +99,6 @@ public class PlayState extends BasicGameState {
     	airspace.init(gc);
 		
 
-		
-
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
@@ -118,7 +121,14 @@ public class PlayState extends BasicGameState {
 		clock_image.draw(0,5);
 		g.drawString(this.string_time, 25, 11);
 		
-		
+		//Loops gameplay music based on random number created in init
+		if( random_music_gen >= 0.5 ){
+		if(!gameplay_music.playing()){
+			gameplay_music.loop(1.0f, 0.5f);}
+		} else {
+		if(!gameplay_music2.playing()){
+			gameplay_music2.loop(1.0f, 0.5f);}
+		}
 		
 		
 		
@@ -127,6 +137,8 @@ public class PlayState extends BasicGameState {
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
+		
+		
 		
 		// Updating Clock and Time
 		
@@ -166,10 +178,13 @@ public class PlayState extends BasicGameState {
 		if (airspace.get_separation_rules().getGameOverViolation() == true){
 			airspace.get_separation_rules().setGameOverViolation(false);
 			airspace.reset_airspace();
+			gameplay_music.stop();
+			gameplay_music2.stop();
 			end_of_game_sound.play();
 			sbg.enterState(3);
 			
 		}
+		
 		
 		Input input = gc.getInput();
 		
@@ -198,6 +213,10 @@ public class PlayState extends BasicGameState {
 
 	public void setAirspace(Airspace airspace) {
 		this.airspace = airspace;
+	}
+	
+	private void setMusic(){
+		random_music_gen = Math.random();
 	}
 
 }
