@@ -144,12 +144,6 @@ public class Flight {
 	}
 
 	
-	
-	
-
-
-	
-	
 	// DRAWING METHODS
 	
 	public void draw_flight(Graphics g, GameContainer gc ){
@@ -271,6 +265,63 @@ public class Flight {
 	
 		double rate = 0.5;
 		if (Math.round(this.targetHeading) != Math.round(this.currentHeading)) {
+			
+
+			// If plane has been given a heading so no turning direction specified
+			// Below works out whether it should turn left or right to that heading.
+			if(this.turningRight == false && this.turningLeft == false){
+
+				if (this.targetHeading - this.currentHeading == 180) {
+					this.turningRight = true;
+				} 
+				
+				else if (this.currentHeading + 180 <= 359){
+					
+					if (this.targetHeading < this.currentHeading + 180 && this.targetHeading > this.currentHeading){
+						this.turningRight = true;
+					}
+					else {
+						this.turningLeft = true;
+					}
+				}
+				
+				else {
+					
+					if (this.targetHeading > this.currentHeading - 180 && this.targetHeading < this.currentHeading){
+						this.turningLeft = true;
+					}
+					else {
+						this.turningRight = true;
+					}
+				}
+
+			}
+			
+			// If plane is already turning right or user has told it to turn right
+			
+			else if (this.turningRight == true) {
+				this.currentHeading += rate;
+				if (Math.round(this.currentHeading) == 360
+						&& this.targetHeading != 360) {
+					this.currentHeading = 0;
+				}
+			}
+
+			// if plane is already turning left or user has told it to turn left
+			else if (this.turningLeft == true) {
+				this.currentHeading -= rate;
+				if (Math.round(this.currentHeading) == 0 && this.targetHeading != 0) {
+					this.currentHeading = 360;
+				}
+			}
+		}
+	}
+	
+	/* 
+	public void update_current_heading() {
+		
+		double rate = 0.5;
+		if (Math.round(this.targetHeading) != Math.round(this.currentHeading)) {
 			if (this.turningRight == true) {// If plane is already turning
 												// right or user has told it to
 												// turn right
@@ -297,7 +348,9 @@ public class Flight {
 				if (this.targetHeading - this.currentHeading == 180) {
 					this.turningRight = true;
 					this.currentHeading += rate;
-				} else if ((this.currentHeading + 180) >= 359) {
+				} 
+				
+				else if ((this.currentHeading + 180) >= 359) {
 
 					if (this.targetHeading > this.currentHeading) {
 						this.turningRight = true;
@@ -338,12 +391,8 @@ public class Flight {
 		}
 	}
 	
+	*/
 
-	
-	
-	
-
-	
 
 
 	// UPDATE, RENDER, INIT
@@ -363,24 +412,17 @@ public class Flight {
 
 	public void update() {
 
-
 		this.update_current_heading();
 		this.update_x_y_coordinates();
 		this.update_altitude();
 		this.flightPlan.update();
-		
-		
-
 	}
 	
 
 	public void render(Graphics g, GameContainer gc) throws SlickException {
 		
-		
 		this.draw_flight(g,  gc);
 		this.flightPlan.render(g,gc);
-		
-		
 
 		if(this.selected) {
 			this.draw_selected_flight_information(g, gc);

@@ -474,34 +474,6 @@ public class Flight_Tests {
 		assertTrue(flight1.getFlight_plan() instanceof FlightPlan);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 
 }
