@@ -271,7 +271,7 @@ public class Flight {
 			// Below works out whether it should turn left or right to that heading.
 			if(this.turningRight == false && this.turningLeft == false){
 
-				if (this.targetHeading - this.currentHeading == 180) {
+				if (Math.abs(this.targetHeading - this.currentHeading) == 180) {
 					this.turningRight = true;
 				} 
 				
@@ -299,18 +299,18 @@ public class Flight {
 			
 			// If plane is already turning right or user has told it to turn right
 			
-			else if (this.turningRight == true) {
+			if (this.turningRight == true) {
 				this.currentHeading += rate;
-				if (Math.round(this.currentHeading) == 360
+				if (Math.round(this.currentHeading) >= 360
 						&& this.targetHeading != 360) {
 					this.currentHeading = 0;
 				}
 			}
 
 			// if plane is already turning left or user has told it to turn left
-			else if (this.turningLeft == true) {
+			if (this.turningLeft == true) {
 				this.currentHeading -= rate;
-				if (Math.round(this.currentHeading) == 0 && this.targetHeading != 0) {
+				if (Math.round(this.currentHeading) <= 0 && this.targetHeading != 0) {
 					this.currentHeading = 360;
 				}
 			}
@@ -484,7 +484,7 @@ public class Flight {
 		this.currentAltitude = altitude;
 	}
 
-	public boolean isTurningRight() {
+	public boolean getTurningRight() {
 		return this.turningRight;
 	}
 
@@ -492,7 +492,7 @@ public class Flight {
 		this.turningRight = turningRight;
 	}
 
-	public boolean isTurningLeft() {
+	public boolean getTurningLeft() {
 		return this.turningLeft;
 	}
 

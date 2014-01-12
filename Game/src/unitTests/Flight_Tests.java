@@ -65,7 +65,7 @@ public class Flight_Tests {
 	public void calculateHeadingToFirstWaypointTest1(){
 		flight1.setX(150);
 		flight1.setY(400);
-		assertEquals(38.65, flight1.calculateHeadingToFirstWaypoint(350,150), 4);
+		assertEquals(38.65, flight1.calculateHeadingToFirstWaypoint(350,150), 0.01);
 		
 	}
 	
@@ -73,7 +73,7 @@ public class Flight_Tests {
 	public void calculateHeadingToFirstWaypointTest2(){
 		flight1.setX(350);
 		flight1.setY(400);
-		assertEquals(321.34, flight1.calculateHeadingToFirstWaypoint(150,150), 4);
+		assertEquals(321.34, flight1.calculateHeadingToFirstWaypoint(150,150), 0.01);
 		
 	}
 	
@@ -88,7 +88,7 @@ public class Flight_Tests {
 		flight1.setTargetHeading(10);
 		flight1.setCurrentHeading(10);
 		flight1.turnFlightLeft(20);
-		assertEquals(350, flight1.getTargetHeading(), 3);
+		assertEquals(350, flight1.getTargetHeading(), 0.1);
 	}
 	
 	@Test
@@ -96,7 +96,7 @@ public class Flight_Tests {
 		flight1.setTargetHeading(270);
 		flight1.setCurrentHeading(270);
 		flight1.turnFlightLeft(90);
-		assertEquals(180, flight1.getTargetHeading(), 3);
+		assertEquals(180, flight1.getTargetHeading(), 0.1);
 	}
 	
 	@Test
@@ -104,7 +104,7 @@ public class Flight_Tests {
 		flight1.setTargetHeading(90);
 		flight1.setCurrentHeading(90);
 		flight1.turnFlightLeft(90);
-		assertEquals(0, flight1.getTargetHeading(), 3);
+		assertEquals(0, flight1.getTargetHeading(), 0.1);
 	}
 	
 	
@@ -115,7 +115,7 @@ public class Flight_Tests {
 		flight1.setTargetHeading(0);
 		flight1.setCurrentHeading(0);
 		flight1.turnFlightRight(30);
-		assertEquals(30, flight1.getTargetHeading(), 3);
+		assertEquals(30, flight1.getTargetHeading(), 0.1);
 	}
 	
 	@Test
@@ -123,7 +123,7 @@ public class Flight_Tests {
 		flight1.setTargetHeading(270);
 		flight1.setCurrentHeading(270);
 		flight1.turnFlightRight(100);
-		assertEquals(10, flight1.getTargetHeading(), 3);
+		assertEquals(10, flight1.getTargetHeading(),0.1);
 	}
 	
 	@Test
@@ -131,7 +131,7 @@ public class Flight_Tests {
 		flight1.setTargetHeading(270);
 		flight1.setCurrentHeading(270);
 		flight1.turnFlightRight(90);
-		assertEquals(0, flight1.getTargetHeading(), 3);
+		assertEquals(0, flight1.getTargetHeading(), 0.1);
 	}
 	
 
@@ -143,7 +143,7 @@ public class Flight_Tests {
 		flight1.setTargetHeading(0);
 		flight1.setCurrentHeading(0);
 		flight1.giveHeading(0);
-		assertEquals(0, flight1.getTargetHeading(), 3);
+		assertEquals(0, flight1.getTargetHeading(), 0.1);
 	}
 	
 	@Test
@@ -151,7 +151,7 @@ public class Flight_Tests {
 		flight1.setTargetHeading(0);
 		flight1.setCurrentHeading(0);
 		flight1.giveHeading(360);
-		assertEquals(0, flight1.getTargetHeading(), 3);
+		assertEquals(0, flight1.getTargetHeading(), 0.1);
 	}
 	
 	@Test
@@ -159,7 +159,7 @@ public class Flight_Tests {
 		flight1.setTargetHeading(0);
 		flight1.setCurrentHeading(0);
 		flight1.giveHeading(90);
-		assertEquals(90, flight1.getTargetHeading(), 3);
+		assertEquals(90, flight1.getTargetHeading(), 0.1);
 	}
 	
 	@Test
@@ -167,7 +167,7 @@ public class Flight_Tests {
 		flight1.setTargetHeading(0);
 		flight1.setCurrentHeading(0);
 		flight1.giveHeading(3610);
-		assertEquals(10, flight1.getTargetHeading(), 3);
+		assertEquals(10, flight1.getTargetHeading(), 0.1);
 	}
 	
 	
@@ -232,7 +232,7 @@ public class Flight_Tests {
 		flight1.setAltitude(27000);
 		flight1.setTargetAltitude(28000);
 		flight1.updateAltitude();
-		assertEquals(27001, flight1.getAltitude(), 3);
+		assertEquals(27001, flight1.getAltitude(), 0.1);
 		
 	}
 	
@@ -241,7 +241,7 @@ public class Flight_Tests {
 		flight1.setCurrentAltitude(27000);
 		flight1.setTargetAltitude(27000);
 		flight1.updateAltitude();
-		assertEquals(27000, flight1.getAltitude(), 3);
+		assertEquals(27000, flight1.getAltitude(), 0.1);
 		
 	}
 	
@@ -250,7 +250,7 @@ public class Flight_Tests {
 		flight1.setCurrentAltitude(26999);
 		flight1.setTargetAltitude(27000);
 		flight1.updateAltitude();
-		assertEquals(27000, flight1.getAltitude(), 3);
+		assertEquals(27000, flight1.getAltitude(), 0.1);
 		
 	}
 	
@@ -259,7 +259,7 @@ public class Flight_Tests {
 		flight1.setCurrentAltitude(28000);
 		flight1.setTargetAltitude(27000);
 		flight1.updateAltitude();
-		assertEquals(27999, flight1.getAltitude(), 3);
+		assertEquals(27999, flight1.getAltitude(), 0.1);
 		
 	}
 	
@@ -268,7 +268,7 @@ public class Flight_Tests {
 		flight1.setCurrentAltitude(27001);
 		flight1.setTargetAltitude(27000);
 		flight1.updateAltitude();
-		assertEquals(27000, flight1.getAltitude(), 3);
+		assertEquals(27000, flight1.getAltitude(), 0.1);
 		
 	}
 	
@@ -280,7 +280,9 @@ public class Flight_Tests {
 		flight1.setCurrentHeading(288);
 		flight1.setTargetHeading(0);
 		flight1.updateCurrentHeading();
-		assertEquals(288.4, flight1.getCurrentHeading(), 5);
+		assertTrue(flight1.getTurningRight());
+		assertFalse(flight1.getTurningLeft());
+		assertEquals(288.5, flight1.getCurrentHeading(), 0.1);
 		
 	}
 	
@@ -289,7 +291,9 @@ public class Flight_Tests {
 		flight1.setCurrentHeading(288);
 		flight1.setTargetHeading(270);
 		flight1.updateCurrentHeading();
-		assertEquals(287.6, flight1.getCurrentHeading(), 5);
+		assertTrue(flight1.getTurningLeft());
+		assertFalse(flight1.getTurningRight());
+		assertEquals(287.5, flight1.getCurrentHeading(), 0.1);
 		
 	}
 	
@@ -298,7 +302,64 @@ public class Flight_Tests {
 		flight1.setCurrentHeading(270);
 		flight1.setTargetHeading(90);
 		flight1.updateCurrentHeading();
-		assertEquals(270.4, flight1.getCurrentHeading(), 5);
+		assertTrue(flight1.getTurningRight());
+		assertFalse(flight1.getTurningLeft());
+		assertEquals(270.5, flight1.getCurrentHeading(), 0.1);
+		
+	}
+	
+	@Test
+	public void updateCurrentHeadingTest4(){
+		flight1.setCurrentHeading(288);
+		flight1.setTargetHeading(300);
+		flight1.updateCurrentHeading();
+		assertTrue(flight1.getTurningRight());
+		assertFalse(flight1.getTurningLeft());
+		assertEquals(288.5, flight1.getCurrentHeading(), 0.1);
+		
+	}
+	
+	@Test
+	public void updateCurrentHeadingTest5(){
+		flight1.setCurrentHeading(150);
+		flight1.setTargetHeading(200);
+		flight1.updateCurrentHeading();
+		assertTrue(flight1.getTurningRight());
+		assertFalse(flight1.getTurningLeft());
+		assertEquals(150.5, flight1.getCurrentHeading(), 0.1);
+		
+	}
+	
+	@Test
+	public void updateCurrentHeadingTest6(){
+		flight1.setCurrentHeading(20);
+		flight1.setTargetHeading(290);
+		flight1.updateCurrentHeading();
+		assertTrue(flight1.getTurningLeft());
+		assertFalse(flight1.getTurningRight());
+		assertEquals(19.5, flight1.getCurrentHeading(), 0.1);
+		
+	}
+	
+	@Test
+	public void updateCurrentHeadingTest7(){
+		flight1.setCurrentHeading(359.5);
+		flight1.setTargetHeading(10);
+		flight1.updateCurrentHeading();
+		assertTrue(flight1.getTurningRight());
+		assertFalse(flight1.getTurningLeft());
+		assertEquals(0, flight1.getCurrentHeading(), 0.1);
+		
+	}
+	
+	@Test
+	public void updateCurrentHeadingTest8(){
+		flight1.setCurrentHeading(0.5);
+		flight1.setTargetHeading(290);
+		flight1.updateCurrentHeading();
+		assertTrue(flight1.getTurningLeft());
+		assertFalse(flight1.getTurningRight());
+		assertEquals(360, flight1.getCurrentHeading(), 0.1);
 		
 	}
 	
@@ -316,107 +377,107 @@ public class Flight_Tests {
 	@Test
 	public void getXTest1(){
 		flight1.setX(0);
-		assertEquals(0, flight1.getX(), 3);
+		assertEquals(0, flight1.getX(), 0.1);
 		
 	}
 	
 	@Test
 	public void setXTest1(){
 		flight1.setX(0);
-		assertEquals(0, flight1.getX(), 3);
+		assertEquals(0, flight1.getX(), 0.1);
 		
 	}
 	
 	@Test
 	public void getYTest1(){
 		flight1.setY(0);
-		assertEquals(0, flight1.getY(), 3);
+		assertEquals(0, flight1.getY(),0.1);
 		
 	}
 	
 	@Test
 	public void setYTest1(){
 		flight1.setY(0);
-		assertEquals(0, flight1.getY(), 3);
+		assertEquals(0, flight1.getY(), 0.1);
 		
 	}
 	
 	@Test
 	public void getCurrentHeadingTest1(){
 		flight1.setCurrentHeading(0);
-		assertEquals(0, flight1.getCurrentHeading(), 3);
+		assertEquals(0, flight1.getCurrentHeading(), 0.1);
 		
 	}
 	
 	@Test
 	public void setCurrentHeadingTest1(){
 		flight1.setCurrentHeading(0);
-		assertEquals(0, flight1.getCurrentHeading(), 3);
+		assertEquals(0, flight1.getCurrentHeading(), 0.1);
 		
 	}
 	
 	@Test
 	public void getTargetHeadingTest1(){
 		flight1.setTargetHeading(0);
-		assertEquals(0, flight1.getTargetHeading(), 3);
+		assertEquals(0, flight1.getTargetHeading(), 0.1);
 		
 	}
 	
 	@Test
 	public void setTargetHeadingTest1(){
 		flight1.setTargetHeading(0);
-		assertEquals(0, flight1.getTargetHeading(), 3);
+		assertEquals(0, flight1.getTargetHeading(), 0.1);
 		
 	}
 	
 	@Test
 	public void getTargetAltitudeTest1(){
 		flight1.setTargetAltitude(0);
-		assertEquals(0, flight1.getTargetAltitude(), 3);
+		assertEquals(0, flight1.getTargetAltitude(), 0.1);
 		
 	}
 	
 	@Test
 	public void setTargetAltitudeTest1(){
 		flight1.setTargetAltitude(0);
-		assertEquals(0, flight1.getTargetAltitude(), 3);
+		assertEquals(0, flight1.getTargetAltitude(), 0.1);
 		
 	}
 	
 	@Test
 	public void getAltitudeTest1(){
 		flight1.setAltitude(0);
-		assertEquals(0, flight1.getAltitude(), 3);
+		assertEquals(0, flight1.getAltitude(), 0.1);
 		
 	}
 	
 	@Test
 	public void setAltitudeTest1(){
 		flight1.setAltitude(0);
-		assertEquals(0, flight1.getAltitude(), 3);
+		assertEquals(0, flight1.getAltitude(), 0.1);
 		
 	}
 	
 	@Test
 	public void isTurningRightTest1(){
-		assertEquals(false, flight1.isTurningRight());
+		assertEquals(false, flight1.getTurningRight());
 	}
 	
 	@Test
 	public void setTurningRightTest1(){
 		flight1.setTurningRight(true);
-		assertEquals(true, flight1.isTurningRight());
+		assertEquals(true, flight1.getTurningRight());
 	}
 	
 	@Test
 	public void isTurningLeftTest1(){
-		assertEquals(false, flight1.isTurningLeft());
+		assertEquals(false, flight1.getTurningLeft());
 	}
 	
 	@Test
 	public void setTurningLeftTest1(){
 		flight1.setTurningLeft(true);
-		assertEquals(true, flight1.isTurningLeft());
+		assertEquals(true, flight1.getTurningLeft());
 	}
 	
 	@Test
