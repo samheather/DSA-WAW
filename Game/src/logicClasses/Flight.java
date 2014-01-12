@@ -185,6 +185,8 @@ public class Flight {
 				
 				// Drawing information around flight
 				
+				// If flight is selected then also display current heading
+				
 				if (this.selected){
 					g.setColor(Color.white);
 					g.drawString(this.flightName, (int) this.x-24, (int) this.y-44);
@@ -198,6 +200,7 @@ public class Flight {
 	
 				}
 				
+				// If flight isn't selected then don't display current heading
 				else{
 					g.setColor(Color.lightGray);
 					g.drawString(this.flightName, (int) this.x-24, (int) this.y-44);
