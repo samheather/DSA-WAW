@@ -166,6 +166,13 @@ public class Airspace {
 		this.score += value;
 	}
 	
+	public void increaseDifficulty(){
+		this.numberOfGameLoopsWhenDifficultyIncreases += 10000;
+		if (this.maxRand - 200 > 0) {
+			this.maxRand -= 200;
+		}
+	}
+	
 
 
 	// INIT, RENDER, UPDATE
@@ -189,12 +196,7 @@ public class Airspace {
 		
 	}
 	
-	public void increaseDifficulty(){
-		this.numberOfGameLoopsWhenDifficultyIncreases += 10000;
-		if (this.maxRand -200 <= 0) {
-			this.maxRand -= 200;
-		}
-	}
+
 	
 	public void update(GameContainer gc) {
 		
