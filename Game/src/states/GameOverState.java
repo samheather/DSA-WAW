@@ -7,7 +7,7 @@ import org.newdawn.slick.state.*;
 
 public class GameOverState extends BasicGameState {
 	
-	private Image game_over_background, play_again_button, quit_button, menu_button;
+	private Image gameOverBackground, playAgainButton, quitButton, menuButton;
 	
 	public GameOverState(int state) {
 		
@@ -16,19 +16,19 @@ public class GameOverState extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame sbg)
 				throws SlickException {
 		
-		game_over_background = new Image("res/graphics/menu_graphics/gameover_screen.png");
-		play_again_button = new Image("res/graphics/menu_graphics/playagain_button.png");
-		quit_button = new Image("res/graphics/menu_graphics/quit_button.png");
-		menu_button = new Image("res/graphics/menu_graphics/menu_button.png");
+		gameOverBackground = new Image("res/graphics/menu_graphics/gameover_screen.png");
+		playAgainButton = new Image("res/graphics/menu_graphics/playagain_button.png");
+		quitButton = new Image("res/graphics/menu_graphics/quit_button.png");
+		menuButton = new Image("res/graphics/menu_graphics/menu_button.png");
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 				throws SlickException{
 		
-		game_over_background.draw(0,0);
-		play_again_button.draw(354,380);
-		menu_button.draw(728,380);
-		quit_button.draw(1148,556);
+		gameOverBackground.draw(0,0);
+		playAgainButton.draw(354,380);
+		menuButton.draw(728,380);
+		quitButton.draw(1148,556);
 		g.setColor(Color.white);
 	}
 

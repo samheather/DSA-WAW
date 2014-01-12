@@ -44,27 +44,27 @@ public class DontThrowaway {
                     throws SlickException {
             	Airspace airspace = new Airspace();
             	//Waypoints
-            	airspace.new_waypoint(350, 150);
-            	airspace.new_waypoint(400, 470);
-            	airspace.new_waypoint(700, 60);
-            	airspace.new_waypoint(800, 320);
-            	airspace.new_waypoint(600, 418);
-            	airspace.new_waypoint(500, 220);
-            	airspace.new_waypoint(950, 188);
-            	airspace.new_waypoint(1050, 272);
-            	airspace.new_waypoint(900, 420);
-            	airspace.new_waypoint(240, 250);
+            	airspace.newWaypoint(350, 150);
+            	airspace.newWaypoint(400, 470);
+            	airspace.newWaypoint(700, 60);
+            	airspace.newWaypoint(800, 320);
+            	airspace.newWaypoint(600, 418);
+            	airspace.newWaypoint(500, 220);
+            	airspace.newWaypoint(950, 188);
+            	airspace.newWaypoint(1050, 272);
+            	airspace.newWaypoint(900, 420);
+            	airspace.newWaypoint(240, 250);
             	//EntryPoints
-            	airspace.new_entry_point(150, 400);
-            	airspace.new_entry_point(1200, 200);
-            	airspace.new_entry_point(600, 0);
+            	airspace.newEntryPoint(150, 400);
+            	airspace.newEntryPoint(1200, 200);
+            	airspace.newEntryPoint(600, 0);
             	// Exit Points
-            	airspace.new_exit_point(800, 0);
-            	airspace.new_exit_point(150, 200);
-            	airspace.new_exit_point(1200, 300);
+            	airspace.newExitPoint(800, 0);
+            	airspace.newExitPoint(150, 200);
+            	airspace.newExitPoint(1200, 300);
             	Flight flight1 = new Flight(airspace);
 
-            	int result = flight1.generate_altitude();
+            	int result = flight1.generateAltitude();
             	assertEquals(27000, result);
             	container.exit();
             	

@@ -17,7 +17,7 @@ public class Airspace {
 
 	private int maximumNumberOfFlightsInAirspace;
 	private int score, numberOfLoopsSinceLastFlightAdded, numberOfTimesGameHasLooped,
-			numberOfGameLoopsWhenDifficultyIncreases, max_rand, difficulty_levels, waypointCounter,
+			numberOfGameLoopsWhenDifficultyIncreases, maxRand, difficultyLevels, waypointCounter,
 			exitpointCounter;
 	private List<Flight> listOfFlightsInAirspace;
 	private List<Waypoint> listOfWayppoints;
@@ -44,7 +44,7 @@ public class Airspace {
 		this.numberOfLoopsSinceLastFlightAdded = 0; // how many loops to wait before another flight can enter
 		this.numberOfTimesGameHasLooped = 0; // stores how many loops there have been in total
 		this.numberOfGameLoopsWhenDifficultyIncreases = 10000; // this is how many loops until planes come more quickly, divide by 60 for seconds
-		this.max_rand = 1000;
+		this.maxRand = 1000;
 		this.waypointCounter = 64; // Starts at 64 as this is ASCII value for A
 		this.exitpointCounter = 0;
 		this.controls = new Controls();
@@ -54,13 +54,13 @@ public class Airspace {
 
 	// METHODS
 	
-	public void reset_airspace() {
+	public void resetAirspace() {
 		for(int i = 0; i<this.listOfFlightsInAirspace.size();i++) {
 			this.listOfFlightsInAirspace.remove(i);
 		}
 	}
 	
-	public boolean new_waypoint(int x, int y)  {
+	public boolean newWaypoint(int x, int y)  {
 		if (x < 1250 && x > 150 && y < 650
 				&& y > -50){
 			this.waypointCounter++;
@@ -72,7 +72,7 @@ public class Airspace {
 			}
 		} return false;
 	}
-	public boolean new_exit_point(int x, int y) {
+	public boolean newExitPoint(int x, int y) {
 		if (x < 1250 && x > 100 && y < 650
 				&& y > -50){
 			ExitPoint tmpEp = new ExitPoint(x, y);
@@ -85,7 +85,7 @@ public class Airspace {
 		} return false;
 	}
 
-	public boolean new_entry_point(int x, int y)  {
+	public boolean newEntryPoint(int x, int y)  {
 		if (x < 1250 && x > 100 && y < 650
 				&& y > -50){
 			EntryPoint tmpEp = new EntryPoint(x, y);
@@ -96,36 +96,36 @@ public class Airspace {
 	}
 	
 	
-	public boolean new_flight(GameContainer gc) throws SlickException {
+	public boolean newFlight(GameContainer gc) throws SlickException {
 
 		if (this.listOfFlightsInAirspace.size() < this.maximumNumberOfFlightsInAirspace) {
 			
 			if ((this.numberOfLoopsSinceLastFlightAdded >= 850  || this.listOfFlightsInAirspace.isEmpty())) {
 					
 				Random rand = new Random();
-				int check_number;
+				int checkNumber;
 					
 				// A random number is generated, if that number is 1, a flight is added.
 					
 				if (this.listOfFlightsInAirspace.isEmpty()) {
-						check_number = rand.nextInt(100);
+						checkNumber = rand.nextInt(100);
 				} 
 					
 				else {
-					check_number = rand.nextInt(this.max_rand);
+					checkNumber = rand.nextInt(this.maxRand);
 				}
 		
-				if (check_number == 1) {
+				if (checkNumber == 1) {
 			
 					Flight tempFlight = new Flight(this);
 					//boolean isInViolation = this.separationRules.lateralDistanceBetweenFlights(flight1, flight2)
-					tempFlight.setFlight_name(this.generate_flight_name());
-					tempFlight.setTarget_altitude(tempFlight.getCurrent_altitude());
-					double heading = tempFlight.calculate_heading_to_first_waypoint(
-										tempFlight.getFlight_plan().getPointByIndex(0).getX() ,
-										tempFlight.getFlight_plan().getPointByIndex(0).getY());
-					tempFlight.setTarget_heading(heading);
-					tempFlight.setCurrent_heading(heading);
+					tempFlight.setFlightName(this.generateFlightName());
+					tempFlight.setTargetAltitude(tempFlight.getAltitude());
+					double heading = tempFlight.calculateHeadingToFirstWaypoint(
+										tempFlight.getFlightPlan().getPointByIndex(0).getX() ,
+										tempFlight.getFlightPlan().getPointByIndex(0).getY());
+					tempFlight.setTargetHeading(heading);
+					tempFlight.setCurrentHeading(heading);
 					this.numberOfLoopsSinceLastFlightAdded = 0;
 					if (this.listOfFlightsInAirspace.add(tempFlight)) {
 						this.listOfFlightsInAirspace.get(
@@ -140,7 +140,7 @@ public class Airspace {
 	}
 	
 	
-	public String generate_flight_name() {
+	public String generateFlightName() {
 		String name = "G-";
 		Random rand = new Random();
 		for (int i = 0; i < 4; i++) {
@@ -150,7 +150,7 @@ public class Airspace {
 		return name;
 	}
 
-	public boolean check_if_flight_has_left_airspace(Flight flight) {
+	public boolean checkIfFlightHasLeftAirspace(Flight flight) {
 
 		if (flight.getX() > 1250 || flight.getX() < 100 || flight.getY() > 650
 				|| flight.getY() < -50) {
@@ -191,8 +191,8 @@ public class Airspace {
 	
 	public void increaseDifficulty(){
 		this.numberOfGameLoopsWhenDifficultyIncreases += 10000;
-		if (this.max_rand -200 <= 0) {
-			this.max_rand -= 200;
+		if (this.maxRand -200 <= 0) {
+			this.maxRand -= 200;
 		}
 	}
 	
@@ -208,11 +208,11 @@ public class Airspace {
 		
 		for (int i = 0; i < this.listOfFlightsInAirspace.size(); i++) {
 			this.listOfFlightsInAirspace.get(i).update();
-			if(this.listOfFlightsInAirspace.get(i).getFlight_plan().getWaypoints().size()==0) {
-				this.remove_specific_flight(i);
+			if(this.listOfFlightsInAirspace.get(i).getFlightPlan().getWaypoints().size()==0) {
+				this.removeSpecificFlight(i);
 			}
-			else if (this.check_if_flight_has_left_airspace(this.getList_of_flights().get(i))) { // if a flight has left the airspace
-				this.remove_specific_flight(i);
+			else if (this.checkIfFlightHasLeftAirspace(this.getListOfFlights().get(i))) { // if a flight has left the airspace
+				this.removeSpecificFlight(i);
 			}
 			
 		}
@@ -249,7 +249,7 @@ public class Airspace {
 
 	// MUTATORS AND ACCESSORS
 
-	public int getMax_number_of_flights() {
+	public int getMaxNumberOfFlights() {
 		return this.maximumNumberOfFlightsInAirspace;
 	}
 
@@ -257,24 +257,24 @@ public class Airspace {
 		return this.score;
 	}
 
-	public List<Flight> getList_of_flights() {
+	public List<Flight> getListOfFlights() {
 		return this.listOfFlightsInAirspace;
 	}
 
-	public List<Waypoint> getList_of_way_points() {
+	public List<Waypoint> getListOfWaypoints() {
 		return this.listOfWayppoints;
 	}
 
-	public List<EntryPoint> getList_of_entry_points() {
+	public List<EntryPoint> getListOfEntryPoints() {
 		return this.listofEntrypoints;
 	}
 
-	public List<ExitPoint> getList_of_exit_points() {
+	public List<ExitPoint> getListOfExitPoints() {
 		return this.listOfExitPoints;
 	}
 
-	public void setMax_number_of_flights(int max_number_of_flights) {
-		this.maximumNumberOfFlightsInAirspace = max_number_of_flights;
+	public void setMaxNumberOfFlights(int maxNumberOfFlights) {
+		this.maximumNumberOfFlightsInAirspace = maxNumberOfFlights;
 	}
 
 	public boolean addWaypoint(Waypoint waypoint) {
@@ -303,7 +303,7 @@ public class Airspace {
 			return true;
 		}
 	}
-	public boolean add_flight(Flight flight) {
+	public boolean addFlight(Flight flight) {
 
 		// Checks whether the flight was already added before, and if it won't pass the maximum number of flights allowed
 		if ((this.listOfFlightsInAirspace.contains(flight))
@@ -316,7 +316,7 @@ public class Airspace {
 		 // I made them boolean so we can check if the plane was added successfully (we can change them later on)
 	}
 	
-	public void remove_specific_flight(int flight) {
+	public void removeSpecificFlight(int flight) {
 		this.listOfFlightsInAirspace.remove(flight); // remove that flight from the list
 		
 		// If flight was selected, deselect it
@@ -338,23 +338,25 @@ public class Airspace {
 		this.listOfExitPoints.remove(exitpoint);
 	}
 
-	public SeparationRules get_separation_rules(){
+	public SeparationRules getSeparationRules(){
 		return this.separationRules;
 	}
-	public boolean get_the_warning_violation() {
+	public boolean getTheWarningViolation() {
 		return this.warningViolation;
 	}
 	
-	public void set_the_warning_violation(boolean updatedbool) {
+	public void setTheWarningViolation(boolean updatedbool) {
 		this.warningViolation = updatedbool;
 	}
 
+	/*
 	public List<EntryPoint> getList_of_entrypoints() {
 		return listofEntrypoints;
 	}
-
-	public void setList_of_entrypoints(List<EntryPoint> list_of_entrypoints) {
-		this.listofEntrypoints = list_of_entrypoints;
+	*/
+	
+	public void setListOfEntryPoints(List<EntryPoint> listOfEntryPoints) {
+		this.listofEntrypoints = listOfEntryPoints;
 	}
 	
 	public Controls getControls(){

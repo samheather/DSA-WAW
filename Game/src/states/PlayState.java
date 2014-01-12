@@ -21,12 +21,12 @@ public class PlayState extends BasicGameState {
 	private int i;
 	Image cursorImg;
 	public static float time;
-	private Sound end_of_game_sound;
-	private Music gameplay_music, gameplay_music2;
+	private Sound endOfGameSound;
+	private Music gameplayMusic, gameplayMusic2;
 	public static TrueTypeFont font;
-	private Image control_bar_image, clock_image, background_image;
-	private String string_time;
-	private double random_music_gen;
+	private Image controlBarImage, clockImage, backgroundImage;
+	private String stringTime;
+	private double randomMusicGen;
 
 	public PlayState(int state) {
 		
@@ -38,7 +38,7 @@ public class PlayState extends BasicGameState {
 		time = 0;
 		airspace = new Airspace();
 		i = 1;
-		this.string_time="";
+		this.stringTime="";
 		
 		gc.setAlwaysRender(true);
 		gc.setUpdateOnlyWhenVisible(false);
@@ -60,9 +60,9 @@ public class PlayState extends BasicGameState {
 		
 		// Music
 		
-		gameplay_music = new Music("Cold Funk.ogg");
-		gameplay_music2 = new Music("Jarvic 8.ogg");
-		end_of_game_sound = new Sound("res/175385__digitaldominic__scream.wav");
+		gameplayMusic = new Music("Cold Funk.ogg");
+		gameplayMusic2 = new Music("Jarvic 8.ogg");
+		endOfGameSound = new Sound("res/175385__digitaldominic__scream.wav");
 		
 		//Setting random_music_gen to select music 
 		setMusic();
@@ -70,32 +70,32 @@ public class PlayState extends BasicGameState {
 		
 		//Images
 		
-		control_bar_image = new Image("/res/graphics/graphics/control_bar_vertical.png");
-		clock_image = new Image("/res/graphics/graphics/clock.PNG");
-		background_image = new Image("/res/graphics/graphics/background.png");
+		controlBarImage = new Image("/res/graphics/graphics/control_bar_vertical.png");
+		clockImage = new Image("/res/graphics/graphics/clock.PNG");
+		backgroundImage = new Image("/res/graphics/graphics/background.png");
 		
 		//initialise the airspace object;
 		
 		
     	//Waypoints
-    	airspace.new_waypoint(350, 150);
-    	airspace.new_waypoint(400, 470);
-    	airspace.new_waypoint(700, 60);
-    	airspace.new_waypoint(800, 320);
-    	airspace.new_waypoint(600, 418);
-    	airspace.new_waypoint(500, 220);
-    	airspace.new_waypoint(950, 188);
-    	airspace.new_waypoint(1050, 272);
-    	airspace.new_waypoint(900, 420);
-    	airspace.new_waypoint(240, 250);
+    	airspace.newWaypoint(350, 150);
+    	airspace.newWaypoint(400, 470);
+    	airspace.newWaypoint(700, 60);
+    	airspace.newWaypoint(800, 320);
+    	airspace.newWaypoint(600, 418);
+    	airspace.newWaypoint(500, 220);
+    	airspace.newWaypoint(950, 188);
+    	airspace.newWaypoint(1050, 272);
+    	airspace.newWaypoint(900, 420);
+    	airspace.newWaypoint(240, 250);
     	//EntryPoints
-    	airspace.new_entry_point(150, 400);
-    	airspace.new_entry_point(1200, 200);
-    	airspace.new_entry_point(600, 0);
+    	airspace.newEntryPoint(150, 400);
+    	airspace.newEntryPoint(1200, 200);
+    	airspace.newEntryPoint(600, 0);
     	// Exit Points
-    	airspace.new_exit_point(800, 0);
-    	airspace.new_exit_point(150, 200);
-    	airspace.new_exit_point(1200, 300);
+    	airspace.newExitPoint(800, 0);
+    	airspace.newExitPoint(150, 200);
+    	airspace.newExitPoint(1200, 300);
     	airspace.init(gc);
 		
 
@@ -108,8 +108,8 @@ public class PlayState extends BasicGameState {
 		
 		
 		// Drawing Side Images
-		background_image.draw(150,0);
-		control_bar_image.draw(0,0);
+		backgroundImage.draw(150,0);
+		controlBarImage.draw(0,0);
 		
 		// Drawing Airspace and elements within it
 		g.setColor(Color.white);
@@ -118,16 +118,16 @@ public class PlayState extends BasicGameState {
 		
 		// Drawing Clock and Time
 		g.setColor(Color.white);
-		clock_image.draw(0,5);
-		g.drawString(this.string_time, 25, 11);
+		clockImage.draw(0,5);
+		g.drawString(this.stringTime, 25, 11);
 		
 		//Loops gameplay music based on random number created in init
-		if( random_music_gen >= 0.5 ){
-		if(!gameplay_music.playing()){
-			gameplay_music.loop(1.0f, 0.5f);}
+		if( randomMusicGen >= 0.5 ){
+		if(!gameplayMusic.playing()){
+			gameplayMusic.loop(1.0f, 0.5f);}
 		} else {
-		if(!gameplay_music2.playing()){
-			gameplay_music2.loop(1.0f, 0.5f);}
+		if(!gameplayMusic2.playing()){
+			gameplayMusic2.loop(1.0f, 0.5f);}
 		}
 		
 		
@@ -143,44 +143,44 @@ public class PlayState extends BasicGameState {
 		// Updating Clock and Time
 		
 		time += delta;
-		float dec_mins=time/1000/60;
-		int mins = (int) dec_mins;
-		float dec_secs=dec_mins-mins;
+		float decMins=time/1000/60;
+		int mins = (int) decMins;
+		float decSecs=decMins-mins;
 
-		int secs = Math.round(dec_secs*60);
+		int secs = Math.round(decSecs*60);
 
-		String string_mins="";
-		String string_secs="";
+		String stringMins="";
+		String stringSecs="";
 		if(secs==60){
 			secs=0;
 			mins+=1;
 		}
 		if(mins<10) {
-			string_mins="0"+mins;
+			stringMins="0"+mins;
 		}
 		else {
-			string_mins=String.valueOf(mins);
+			stringMins=String.valueOf(mins);
 		}
 		if(secs<10) {
-			string_secs="0"+secs;
+			stringSecs="0"+secs;
 		}
 		else {
-			string_secs=String.valueOf(secs);
+			stringSecs=String.valueOf(secs);
 		}
 		
-		this.string_time=string_mins+":"+string_secs;
+		this.stringTime=stringMins+":"+stringSecs;
 		
 		
 		// Updating Airspace
 		
-		airspace.new_flight(gc);
+		airspace.newFlight(gc);
 		airspace.update(gc);
-		if (airspace.get_separation_rules().getGameOverViolation() == true){
-			airspace.get_separation_rules().setGameOverViolation(false);
-			airspace.reset_airspace();
-			gameplay_music.stop();
-			gameplay_music2.stop();
-			end_of_game_sound.play();
+		if (airspace.getSeparationRules().getGameOverViolation() == true){
+			airspace.getSeparationRules().setGameOverViolation(false);
+			airspace.resetAirspace();
+			gameplayMusic.stop();
+			gameplayMusic2.stop();
+			endOfGameSound.play();
 			sbg.enterState(3);
 			
 		}
@@ -216,7 +216,7 @@ public class PlayState extends BasicGameState {
 	}
 	
 	private void setMusic(){
-		random_music_gen = Math.random();
+		randomMusicGen = Math.random();
 	}
 
 }

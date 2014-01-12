@@ -33,21 +33,21 @@ public class ExitPoint_Tests {
 	// doubles being compared: difference can be as great as 0.1 before test fails. 
 	
 	@Test
-	public void getX_test(){
+	public void getXTest(){
 		assertEquals("getX() test zero value", testexitpointZero.getX(), 0, 0.1);
 		assertEquals("getX() test positive value", testexitpointPositive.getX(), 100, 0.1);
 		assertEquals("getX() test negative value", testexitpointNegative.getX(), -100, 0.1);
 	}
 	
 	@Test
-	public void getY_test(){
+	public void getYTest(){
 		assertEquals("getY() test zero value", testexitpointZero.getY(), 1, 0.1);
 		assertEquals("getY() test positive value", testexitpointPositive.getY(), 101, 0.1);
 		assertEquals("getY() test negative", testexitpointNegative.getY(), -101, 0.1);
 	}
 	
 	@Test
-	public void setX_test(){
+	public void setXTest(){
 		testexitpointPositive.setX(1000);
 		testexitpointNegative.setX(-1000);
 		assertEquals("setX(double) test, positive double argument", testexitpointPositive.getX(), 1000, 0.1);
@@ -55,7 +55,7 @@ public class ExitPoint_Tests {
 	}
 	
 	@Test
-	public void setY_test(){
+	public void setYTest(){
 		testexitpointPositive.setY(1001);
 		testexitpointNegative.setY(-1001);
 		assertEquals("setY(double) test, positive double argument", testexitpointPositive.getY(), 1001, 0.1);
@@ -63,19 +63,19 @@ public class ExitPoint_Tests {
 	}
 	
 	@Test
-	public void getPointRef_test(){
+	public void getPointRefTest(){
 		testexitpointZero.setPointRef("success");
 		assertEquals("getPointRef(string) test", testexitpointZero.getPointRef(), "success");
 	}
 	
 	@Test
-	public void setPointRef_test(){
+	public void setPointRefTest(){
 		testexitpointZero.setPointRef("success");
 		assertEquals("setPointRef(string) test", testexitpointZero.getPointRef(), "success");
 	}
 	
 	@Test
-	public void getPointCount_test(){
+	public void getPointCountTest(){
 		assertEquals("getPointCount() test; three created", testexitpointZero.getPointCount(), 3);
 	}
 }

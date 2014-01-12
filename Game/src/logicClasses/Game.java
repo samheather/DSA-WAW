@@ -12,23 +12,23 @@ import states.PlayState;
 public class Game extends StateBasedGame {
 
 	public static final String NAME = "Turbulence";
-	public static final int MENU_STATE = 0;
-	public static final int DIFFICULTY_STATE = 1;
-	public static final int PLAY_STATE = 2;
-	public static final int GAMEOVER_STATE = 3;
-	public static final int PAUSE_STATE = 4;
-	public static final int MAXIMUM_WIDTH = 1200;
-	public static final int MAXIMUM_HEIGHT = 600;
+	public static final int MENUSTATE = 0;
+	public static final int DIFFICULTYSTATE = 1;
+	public static final int PLAYSTATE = 2;
+	public static final int GAMEOVERSTATE = 3;
+	public static final int PAUSESTATE = 4;
+	public static final int MAXIMUMWIDTH = 1200;
+	public static final int MAXIMUMHEIGHT = 600;
 	
 
 	public Game(String NAME) {
 		super(NAME);
-		this.addState(new MenuState(MENU_STATE));
-		this.addState(new DifficultyState(DIFFICULTY_STATE));
-		this.addState(new PlayState(PLAY_STATE));
-		this.addState(new GameOverState(GAMEOVER_STATE));
-		this.addState(new PauseState(PAUSE_STATE));
-		this.enterState(MENU_STATE);
+		this.addState(new MenuState(MENUSTATE));
+		this.addState(new DifficultyState(DIFFICULTYSTATE));
+		this.addState(new PlayState(PLAYSTATE));
+		this.addState(new GameOverState(GAMEOVERSTATE));
+		this.addState(new PauseState(PAUSESTATE));
+		this.enterState(MENUSTATE);
 	}
 
 	public void initStatesList(GameContainer gc) throws SlickException {
@@ -41,7 +41,7 @@ public class Game extends StateBasedGame {
 		AppGameContainer appgc;
 		try {
 			appgc = new AppGameContainer(new Game(NAME));
-			appgc.setDisplayMode(MAXIMUM_WIDTH, MAXIMUM_HEIGHT, false);
+			appgc.setDisplayMode(MAXIMUMWIDTH, MAXIMUMHEIGHT, false);
 			appgc.setTargetFrameRate(60);
 			
 			appgc.setIcon("res/icon.png");

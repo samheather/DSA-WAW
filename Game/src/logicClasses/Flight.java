@@ -30,13 +30,13 @@ public class Flight {
 		this.x = 0;
 		this.y = 0;
 		this.targetAltitude = 0;
-		this.currentAltitude = generate_altitude();
+		this.currentAltitude = generateAltitude();
 		this.targetHeading = 0;
 		this.currentHeading = 0;
 		this.turningRight = false;
 		this.turningLeft = false;
 		this.airspace = airspace;
-		this.entryPoint = generate_entry_point();
+		this.entryPoint = generateEntryPoint();
 		this.flightPlan = new FlightPlan(airspace, this);
 		this.color = Color.white;
 		this.selected = false;
@@ -46,23 +46,23 @@ public class Flight {
 
 	// METHODS
 	
-	public EntryPoint generate_entry_point(){
+	public EntryPoint generateEntryPoint(){
 		
 		Random rand = new Random();
-		int random_number = rand.nextInt(3);
+		int randomNumber = rand.nextInt(3);
 		
 		
-		this.airspace.getList_of_entrypoints().get(random_number);
+		this.airspace.getListOfEntryPoints().get(randomNumber);
 			
 		// Setting flights x and y to the coordinates of it's entrypoint
-		this.x = this.airspace.getList_of_entrypoints().get(random_number).getX();// choose one a get the x and y values
-		this.y = this.airspace.getList_of_entrypoints().get(random_number).getY();
+		this.x = this.airspace.getListOfEntryPoints().get(randomNumber).getX();// choose one a get the x and y values
+		this.y = this.airspace.getListOfEntryPoints().get(randomNumber).getY();
 		
-		return this.airspace.getList_of_entrypoints().get(random_number);
+		return this.airspace.getListOfEntryPoints().get(randomNumber);
 		
 	}
 
-	public int generate_altitude() {
+	public int generateAltitude() {
 		Random rand = new Random();
 		int check = rand.nextInt(3);
 		switch(check) {
@@ -87,11 +87,11 @@ public class Flight {
 //		return false;
 //	}
 
-	public double calculate_heading_to_first_waypoint(double destination_x, double destination_y) {
+	public double calculateHeadingToFirstWaypoint(double destinationX, double destinationY) {
 		double deltaX;
 		double deltaY;
-		deltaY = destination_y - this.y;
-		deltaX = destination_x - this.x;
+		deltaY = destinationY - this.y;
+		deltaX = destinationX - this.x;
 		double angle = Math.toDegrees(Math.atan2(deltaY, deltaX));
 		angle += 90;
 		if (angle < 0) {
@@ -100,24 +100,24 @@ public class Flight {
 		return angle;
 	}
 	
-	public void turn_flight_left(int degree_turned_by) {
+	public void turnFlightLeft(int degreeTurnedBy) {
 
 		this.turningRight = false;
 		this.turningLeft = true;
 
-		this.targetHeading = Math.round(this.currentHeading) - degree_turned_by;
+		this.targetHeading = Math.round(this.currentHeading) - degreeTurnedBy;
 		if(this.targetHeading < 0){
 			this.targetHeading = 360 +this.targetHeading;
 		}
 	}
 	
 	
-	public void turn_flight_right(int degree_turned_by) {
+	public void turnFlightRight(int degreeTurnedBy) {
 
 		this.turningLeft = false;
 		this.turningRight = true;
 		
-		this.targetHeading = Math.round(this.currentHeading) + degree_turned_by;
+		this.targetHeading = Math.round(this.currentHeading) + degreeTurnedBy;
 		if(this.targetHeading >= 360){
 			this.targetHeading = this.targetHeading - 360;
 		}
@@ -125,15 +125,15 @@ public class Flight {
 
 	}
 
-	public void give_heading(int new_heading) {
+	public void giveHeading(int newHeading) {
 		this.turningRight = false;
 		this.turningLeft = false;
-		new_heading = new_heading % 360;
-		this.targetHeading = new_heading;
+		newHeading = newHeading % 360;
+		this.targetHeading = newHeading;
 	}
 	
 	
-	public boolean check_if_flight_at_waypoint(Point waypoint) {
+	public boolean checkIfFlightAtWaypoint(Point waypoint) {
 		
 		if (((Math.abs(Math.round(this.x) - Math.round(waypoint.getX()))) <= 15)
 				&& (Math.abs(Math.round(this.y) - Math.round(waypoint.getY()))) <= 15) {
@@ -146,15 +146,15 @@ public class Flight {
 	
 	// DRAWING METHODS
 	
-	public void draw_flight(Graphics g, GameContainer gc ){
+	public void drawFlight(Graphics g, GameContainer gc ){
 
 				g.setColor(color);
 				g.setWorldClip(150, 0, 1200, 600);
 
 				//Scale the shadow in accordance to the altitude of the flight
-				float shadow_scale = (float) (36 - (this.currentAltitude / 1000))/10;
+				float shadowScale = (float) (36 - (this.currentAltitude / 1000))/10;
 				shadowImage.setRotation((int) currentHeading);
-				shadowImage.draw((int) this.x-35, (int) this.y, shadow_scale);
+				shadowImage.draw((int) this.x-35, (int) this.y, shadowScale);
 				
 				//Depending on a plane's speed, different images for the plane are drawn
 					
@@ -215,7 +215,7 @@ public class Flight {
 	
 
 	
-	public void draw_selected_flight_information(Graphics g, GameContainer gc) {
+	public void drawSelectedFlightInformation(Graphics g, GameContainer gc) {
 		
 		this.selectedFlightInformationBackgroundImage.draw(0,450);
 		g.setColor(Color.white);
@@ -234,7 +234,7 @@ public class Flight {
 			 10, 520);
 		g.drawString(Math.round(this.currentHeading) + " DEG",
 			10, 540);
-		g.drawString(Math.round(this.getFlight_plan().getVelocity()) + " MPH",
+		g.drawString(Math.round(this.getFlightPlan().getVelocity()) + " MPH",
 			10, 560);
 		
 	}
@@ -242,7 +242,7 @@ public class Flight {
 	// UPDATE METHODS
 	
 
-	public void update_x_y_coordinates() {
+	public void updateXYCoordinates() {
 		double velocity = (this.flightPlan.getVelocity()) / 1000;
 
 		this.x += velocity * Math.sin(Math.toRadians(this.currentHeading));
@@ -251,7 +251,7 @@ public class Flight {
 
 	}
 
-	public void update_altitude() {
+	public void updateAltitude() {
 		if (this.currentAltitude > this.targetAltitude) {
 			this.currentAltitude -= 1;
 		}
@@ -261,7 +261,7 @@ public class Flight {
 		}
 	}
 
-	public void update_current_heading() {
+	public void updateCurrentHeading() {
 	
 		double rate = 0.5;
 		if (Math.round(this.targetHeading) != Math.round(this.currentHeading)) {
@@ -412,20 +412,20 @@ public class Flight {
 
 	public void update() {
 
-		this.update_current_heading();
-		this.update_x_y_coordinates();
-		this.update_altitude();
+		this.updateCurrentHeading();
+		this.updateXYCoordinates();
+		this.updateAltitude();
 		this.flightPlan.update();
 	}
 	
 
 	public void render(Graphics g, GameContainer gc) throws SlickException {
 		
-		this.draw_flight(g,  gc);
+		this.drawFlight(g,  gc);
 		this.flightPlan.render(g,gc);
 
 		if(this.selected) {
-			this.draw_selected_flight_information(g, gc);
+			this.drawSelectedFlightInformation(g, gc);
 			
 
 		}
@@ -452,28 +452,28 @@ public class Flight {
 		this.y = y;
 	}
 
-	public double getCurrent_heading() {
+	public double getCurrentHeading() {
 		return this.currentHeading;
 	}
 
-	public void setCurrent_heading(double current_heading) {
-		this.currentHeading = current_heading;
+	public void setCurrentHeading(double currentHeading) {
+		this.currentHeading = currentHeading;
 	}
 
-	public double getTarget_heading() {
+	public double getTargetHeading() {
 		return this.targetHeading;
 	}
 
-	public void setTarget_heading(double target_heading) {
-		this.targetHeading = target_heading;
+	public void setTargetHeading(double targetHeading) {
+		this.targetHeading = targetHeading;
 	}
 
-	public double getTarget_altitude() {
+	public double getTargetAltitude() {
 		return this.targetAltitude;
 	}
 
-	public void setTarget_altitude(double target_altitude) {
-		this.targetAltitude = target_altitude;
+	public void setTargetAltitude(double targetAltitude) {
+		this.targetAltitude = targetAltitude;
 	}
 
 	public int getAltitude() {
@@ -484,36 +484,36 @@ public class Flight {
 		this.currentAltitude = altitude;
 	}
 
-	public boolean isTurning_right() {
+	public boolean isTurningRight() {
 		return this.turningRight;
 	}
 
-	public void setTurning_right(boolean turning_right) {
-		this.turningRight = turning_right;
+	public void setTurningRight(boolean turningRight) {
+		this.turningRight = turningRight;
 	}
 
-	public boolean isTurning_left() {
+	public boolean isTurningLeft() {
 		return this.turningLeft;
 	}
 
-	public void setTurning_left(boolean turning_left) {
-		this.turningLeft = turning_left;
+	public void setTurningLeft(boolean turningLeft) {
+		this.turningLeft = turningLeft;
 	}
 
-	public void setFlight_num(int i) {
+	public void setFlightNum(int i) {
 		this.flightNumber = i;
 	}
 
-	public int getFlight_num() {
+	public int getFlightNum() {
 		return flightNumber;
 	}
 
-	public String getFlight_name() {
+	public String getFlightName() {
 		return flightName;
 	}
 
-	public void setFlight_name(String flight_name) {
-		this.flightName = flight_name;
+	public void setFlightName(String flightName) {
+		this.flightName = flightName;
 	}
 
 	public boolean isSelected() {
@@ -531,15 +531,15 @@ public class Flight {
 				+ this.flightNumber;
 	}
 
-	public int getCurrent_altitude() {
+	public int getCurrentAltitude() {
 		return currentAltitude;
 	}
 
-	public void setCurrent_altitude(int current_altitude) {
-		this.currentAltitude = current_altitude;
+	public void setCurrentAltitude(int currentAltitude) {
+		this.currentAltitude = currentAltitude;
 	}
 
-	public FlightPlan getFlight_plan() {
+	public FlightPlan getFlightPlan() {
 		return flightPlan;
 	}
 	

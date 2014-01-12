@@ -19,7 +19,7 @@ public class Point {
     protected double x;
     protected double y;
     protected String pointRef;
-    Image next_waypoint_image, waypoint_image;
+    Image nextWaypointImage, waypointImage;
 	protected static int pointCount = 0;
 	
 	// CONSTRUCTORS
@@ -52,8 +52,8 @@ public class Point {
     // INIT, RENDER, UPDATE
     
     public void init(GameContainer gc) throws SlickException {
-    	this.waypoint_image =new Image("res/graphics/graphics/waypoint.png"); 
-        this.next_waypoint_image =  new Image("res/graphics/graphics/waypoint_next.png");
+    	this.waypointImage =new Image("res/graphics/graphics/waypoint.png"); 
+        this.nextWaypointImage =  new Image("res/graphics/graphics/waypoint_next.png");
 
 	}
     
@@ -63,16 +63,16 @@ public class Point {
    
     	
     	if(airspace.getControls().getFlight() !=null){
-    		if (airspace.getControls().getFlight().getFlight_plan().getWaypoints().indexOf(this)==0){
-    			this.next_waypoint_image.draw((int)this.x-14, (int)this.y-14,30,30);
+    		if (airspace.getControls().getFlight().getFlightPlan().getWaypoints().indexOf(this)==0){
+    			this.nextWaypointImage.draw((int)this.x-14, (int)this.y-14,30,30);
     		}
     		else{
-    			this.waypoint_image.draw((int)this.x-14, (int)this.y-14,30,30);
+    			this.waypointImage.draw((int)this.x-14, (int)this.y-14,30,30);
     		}
     		
     	}
     	else{
-    		this.waypoint_image.draw((int)this.x-13, (int)this.y-14,30,30);
+    		this.waypointImage.draw((int)this.x-13, (int)this.y-14,30,30);
 	    	
     	}
     	g.setColor(Color.black);

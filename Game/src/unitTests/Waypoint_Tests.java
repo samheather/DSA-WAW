@@ -34,21 +34,21 @@ public class Waypoint_Tests {
 	// doubles being compared: difference can be as great as 0.1 before test fails. 
 	
 	@Test
-	public void getX_test(){
+	public void getXTest(){
 		assertEquals("getX() test zero value", testwaypointZero.getX(), 0, 0.1);
 		assertEquals("getX() test positive value", testwaypointPositive.getX(), 100, 0.1);
 		assertEquals("getX() test negative value", testwaypointNegative.getX(), -100, 0.1);
 	}
 	
 	@Test
-	public void getY_test(){
+	public void getYTest(){
 		assertEquals("getY() test zero value", testwaypointZero.getY(), 1, 0.1);
 		assertEquals("getY() test positive value", testwaypointPositive.getY(), 101, 0.1);
 		assertEquals("getY() test negative", testwaypointNegative.getY(), -101, 0.1);
 	}
 	
 	@Test
-	public void setX_test(){
+	public void setXTest(){
 		testwaypointPositive.setX(1000);
 		testwaypointNegative.setX(-1000);
 		assertEquals("setX(double) test, positive double argument", testwaypointPositive.getX(), 1000, 0.1);
@@ -56,7 +56,7 @@ public class Waypoint_Tests {
 	}
 	
 	@Test
-	public void setY_test(){
+	public void setYTest(){
 		testwaypointPositive.setY(1001);
 		testwaypointNegative.setY(-1001);
 		assertEquals("setY(double) test, positive double argument", testwaypointPositive.getY(), 1001, 0.1);
@@ -64,19 +64,19 @@ public class Waypoint_Tests {
 	}
 	
 	@Test
-	public void getPointRef_test(){
+	public void getPointRefTest(){
 		testwaypointZero.setPointRef("success");
 		assertEquals("getPointRef(string) test", testwaypointZero.getPointRef(), "success");
 	}
 	
 	@Test
-	public void setPointRef_test(){
+	public void setPointRefTest(){
 		testwaypointZero.setPointRef("success");
 		assertEquals("setPointRef(string) test", testwaypointZero.getPointRef(), "success");
 	}
 	
 	@Test
-	public void getPointCount_test(){
+	public void getPointCountTest(){
 		assertEquals("getPointCount() test; three created", testwaypointZero.getPointCount(), 3);
 	}
 	

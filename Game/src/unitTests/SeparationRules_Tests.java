@@ -19,28 +19,28 @@ public class SeparationRules_Tests {
 		separationRules = new SeparationRules(1);
 		
 		airspace = new Airspace();
-		airspace.new_waypoint(350, 150);
-    	airspace.new_waypoint(400, 470);
-    	airspace.new_waypoint(700, 60);
-    	airspace.new_waypoint(800, 320);
-    	airspace.new_waypoint(600, 418);
-    	airspace.new_waypoint(500, 220);
-    	airspace.new_waypoint(950, 188);
-    	airspace.new_waypoint(1050, 272);
-    	airspace.new_waypoint(900, 420);
-    	airspace.new_waypoint(240, 250);
-    	airspace.new_entry_point(150, 400);
-    	airspace.new_entry_point(1200, 200);
-    	airspace.new_entry_point(600, 0);
-    	airspace.new_exit_point(800, 0);
-    	airspace.new_exit_point(150, 200);
-    	airspace.new_exit_point(1200, 300);
+		airspace.newWaypoint(350, 150);
+    	airspace.newWaypoint(400, 470);
+    	airspace.newWaypoint(700, 60);
+    	airspace.newWaypoint(800, 320);
+    	airspace.newWaypoint(600, 418);
+    	airspace.newWaypoint(500, 220);
+    	airspace.newWaypoint(950, 188);
+    	airspace.newWaypoint(1050, 272);
+    	airspace.newWaypoint(900, 420);
+    	airspace.newWaypoint(240, 250);
+    	airspace.newEntryPoint(150, 400);
+    	airspace.newEntryPoint(1200, 200);
+    	airspace.newEntryPoint(600, 0);
+    	airspace.newExitPoint(800, 0);
+    	airspace.newExitPoint(150, 200);
+    	airspace.newExitPoint(1200, 300);
     	
 		flight1 = new Flight(airspace);
 		flight2 = new Flight(airspace);
 		
-		airspace.add_flight(flight1);
-		airspace.add_flight(flight2);
+		airspace.addFlight(flight1);
+		airspace.addFlight(flight2);
 		
 		flight1.setX(0);
 		flight2.setX(25);

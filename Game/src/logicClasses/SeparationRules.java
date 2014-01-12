@@ -47,14 +47,14 @@ public class SeparationRules {
 		
 		
 		// checks if flights are in violation with each other.
-		for (int i = 0; i < airspace.getList_of_flights().size(); i++){
+		for (int i = 0; i < airspace.getListOfFlights().size(); i++){
 			
-			for (int j = i+1; j < airspace.getList_of_flights().size(); j++){ // j = i + 1 : stops double checking
+			for (int j = i+1; j < airspace.getListOfFlights().size(); j++){ // j = i + 1 : stops double checking
 				
 						
 				// Ram - Changed Game Over cond. to require BOTH vertical and lateral screw up.
-				if ((lateralDistanceBetweenFlights(airspace.getList_of_flights().get(i), airspace.getList_of_flights().get(j)) < this.gameOverLateralSeparation)){
-					if ((verticalDistanceBetweenFlights(airspace.getList_of_flights().get(i), airspace.getList_of_flights().get(j)) < this.gameOverVerticalSeparation)){
+				if ((lateralDistanceBetweenFlights(airspace.getListOfFlights().get(i), airspace.getListOfFlights().get(j)) < this.gameOverLateralSeparation)){
+					if ((verticalDistanceBetweenFlights(airspace.getListOfFlights().get(i), airspace.getListOfFlights().get(j)) < this.gameOverVerticalSeparation)){
 					this.gameOverViolation = true;
 					}
 				}
@@ -63,20 +63,20 @@ public class SeparationRules {
 	}
 	
 	public void render(Graphics g, GameContainer gc, Airspace airspace){
-		for (int i = 0; i < airspace.getList_of_flights().size(); i++) {
+		for (int i = 0; i < airspace.getListOfFlights().size(); i++) {
 			
-			for (int j = i + 1; j < airspace.getList_of_flights().size(); j++ ) {	
+			for (int j = i + 1; j < airspace.getListOfFlights().size(); j++ ) {	
 				
-				if (this.lateralDistanceBetweenFlights(airspace.getList_of_flights().get(i), 
-						airspace.getList_of_flights().get(j)) <= this.getWarningLateralSeparation()) {
+				if (this.lateralDistanceBetweenFlights(airspace.getListOfFlights().get(i), 
+						airspace.getListOfFlights().get(j)) <= this.getWarningLateralSeparation()) {
 					
-					if (this.verticalDistanceBetweenFlights(airspace.getList_of_flights().get(i), 
-							airspace.getList_of_flights().get(j)) <= this.getWarningVerticalSeparation()) {
+					if (this.verticalDistanceBetweenFlights(airspace.getListOfFlights().get(i), 
+							airspace.getListOfFlights().get(j)) <= this.getWarningVerticalSeparation()) {
 						
-						float f1x = (float) airspace.getList_of_flights().get(i).getX();
-						float f1y = (float) airspace.getList_of_flights().get(i).getY();
-						float f2x = (float) airspace.getList_of_flights().get(j).getX();
-						float f2y = (float) airspace.getList_of_flights().get(j).getY();
+						float f1x = (float) airspace.getListOfFlights().get(i).getX();
+						float f1y = (float) airspace.getListOfFlights().get(i).getY();
+						float f2x = (float) airspace.getListOfFlights().get(j).getX();
+						float f2y = (float) airspace.getListOfFlights().get(j).getY();
 						g.setColor(Color.red);
 						g.setLineWidth(2);
 						g.drawLine(f1x, f1y, f2x, f2y);
@@ -96,12 +96,12 @@ public class SeparationRules {
 	
 	//MUTATORS AND ACCESSORS
 	
-	public void setGameOverLateralSeparation(int lateral_separation){
-		this.gameOverLateralSeparation = lateral_separation;
+	public void setGameOverLateralSeparation(int lateralSeparation){
+		this.gameOverLateralSeparation = lateralSeparation;
 	}
 	
-	public void setGameOverVerticalSeparation(int vertical_separation){
-		this.gameOverVerticalSeparation = vertical_separation;
+	public void setGameOverVerticalSeparation(int verticalSeparation){
+		this.gameOverVerticalSeparation = verticalSeparation;
 	}
 	
 	public int getGameOverLateralSeparation(){

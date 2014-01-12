@@ -29,8 +29,8 @@ public class FlightPlan {
 
 	public FlightPlan(Airspace airspace, Flight flight) {
 		this.flight = flight;
-		this.velocity = generate_velocity();
-		this.currentRoute = build_route(airspace, flight.getEntryPoint());
+		this.velocity = generateVelocity();
+		this.currentRoute = buildRoute(airspace, flight.getEntryPoint());
 		this.waypointsAlreadyVisited = new ArrayList<Point>();
 		this.changingPlan = false;
 		this.draggingWaypoint = false;
@@ -40,23 +40,23 @@ public class FlightPlan {
 	// METHODS
 	
 	
-	public ArrayList<Point> build_route(Airspace airspace, EntryPoint entryPoint) {
-		ArrayList<Point> temp_route = new ArrayList<Point>();
-		ArrayList<Point> temp_list_of_waypoints = new ArrayList<Point>();
-		ArrayList<Point> temp_list_of_exitpoints = new ArrayList<Point>();
-		Boolean exitpoint_added = false;
+	public ArrayList<Point> buildRoute(Airspace airspace, EntryPoint entryPoint) {
+		ArrayList<Point> tempRoute = new ArrayList<Point>();
+		ArrayList<Point> tempListOfWaypoints = new ArrayList<Point>();
+		ArrayList<Point> tempListOfExitPoints = new ArrayList<Point>();
+		Boolean exitpointAdded = false;
 		
-		if (!airspace.getList_of_way_points().isEmpty()&& !airspace.getList_of_exit_points().isEmpty()) {
+		if (!airspace.getListOfWaypoints().isEmpty()&& !airspace.getListOfExitPoints().isEmpty()) {
 				Random rand = new Random();
 				
 				// Initialising Temporary Lists
 				
-				for (int i = 0; i < airspace.getList_of_way_points().size(); i++) {
-					temp_list_of_waypoints.add(airspace.getList_of_way_points().get(i));
+				for (int i = 0; i < airspace.getListOfWaypoints().size(); i++) {
+					tempListOfWaypoints.add(airspace.getListOfWaypoints().get(i));
 				}
 				
-				for (int i = 0; i < airspace.getList_of_exit_points().size(); i++) {
-					temp_list_of_exitpoints.add(airspace.getList_of_exit_points().get(i));
+				for (int i = 0; i < airspace.getListOfExitPoints().size(); i++) {
+					tempListOfExitPoints.add(airspace.getListOfExitPoints().get(i));
 				}
 				
 				// Adding Waypoints to Plan
@@ -64,38 +64,38 @@ public class FlightPlan {
 				int pointsInPlan = rand.nextInt(3) + 4;
 				
 				for (int i = 0; i < pointsInPlan - 1; i++) {
-					int waypoint_index = rand.nextInt(temp_list_of_waypoints.size());
-					temp_route.add(temp_list_of_waypoints.get(waypoint_index));
-					temp_list_of_waypoints.remove(waypoint_index);
+					int waypointIndex = rand.nextInt(tempListOfWaypoints.size());
+					tempRoute.add(tempListOfWaypoints.get(waypointIndex));
+					tempListOfWaypoints.remove(waypointIndex);
 				}
 				
 				// Adding ExitPoint to Plan
 				
-				int ExitPointIndex = rand.nextInt(temp_list_of_exitpoints.size());
+				int ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
 				
-				while (exitpoint_added == false){
+				while (exitpointAdded == false){
 					
-					if (entryPoint.getY() == temp_list_of_exitpoints.get(ExitPointIndex).getY()){
-						temp_list_of_exitpoints.remove(ExitPointIndex);
-						ExitPointIndex = rand.nextInt(temp_list_of_exitpoints.size());
+					if (entryPoint.getY() == tempListOfExitPoints.get(ExitPointIndex).getY()){
+						tempListOfExitPoints.remove(ExitPointIndex);
+						ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
 					}
 					
-					else if (entryPoint.getX() == temp_list_of_exitpoints.get(ExitPointIndex).getX()){
-						temp_list_of_exitpoints.remove(ExitPointIndex);
-						ExitPointIndex = rand.nextInt(temp_list_of_exitpoints.size());
+					else if (entryPoint.getX() == tempListOfExitPoints.get(ExitPointIndex).getX()){
+						tempListOfExitPoints.remove(ExitPointIndex);
+						ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
 					}
 					else{
-						temp_route.add(temp_list_of_exitpoints.get(ExitPointIndex));
-						exitpoint_added = true;
+						tempRoute.add(tempListOfExitPoints.get(ExitPointIndex));
+						exitpointAdded = true;
 					}
 				}
 		}
 		
-		return temp_route;
+		return tempRoute;
 	}
 
 
-	public int generate_velocity() {
+	public int generateVelocity() {
 		Random rand = new Random();
 		return (rand.nextInt(200) + 200);
 	}
@@ -107,11 +107,11 @@ public class FlightPlan {
 		if(this.getWaypoints().isEmpty()) {
 			return false;
 		}
-		for(int i=0; i<this.flight.getAirspace().getList_of_way_points().size();i++) {
-			if (((Math.abs(Math.round(mouseX) - Math.round(this.flight.getAirspace().getList_of_way_points().get(i).getX()))) <= 15)
-					&& (Math.abs(Math.round(mouseY) - Math.round(this.flight.getAirspace().getList_of_way_points().get(i).getY()))) <= 15) {
+		for(int i=0; i<this.flight.getAirspace().getListOfWaypoints().size();i++) {
+			if (((Math.abs(Math.round(mouseX) - Math.round(this.flight.getAirspace().getListOfWaypoints().get(i).getX()))) <= 15)
+					&& (Math.abs(Math.round(mouseY) - Math.round(this.flight.getAirspace().getListOfWaypoints().get(i).getY()))) <= 15) {
 				
-					this.waypointMouseIsOver=this.flight.getAirspace().getList_of_way_points().get(i);
+					this.waypointMouseIsOver=this.flight.getAirspace().getListOfWaypoints().get(i);
 					return true;
 					
 			}
@@ -120,10 +120,10 @@ public class FlightPlan {
 		return false;
 	}
 	
-	public void update_flight_plan(){
+	public void updateFlightPlan(){
 
 		if (this.currentRoute.size() > 0) {
-			if (this.flight.check_if_flight_at_waypoint(currentRoute
+			if (this.flight.checkIfFlightAtWaypoint(currentRoute
 					.get(0))) {
 				this.waypointsAlreadyVisited.add(this.currentRoute.get(0));
 				this.currentRoute.remove(0);
@@ -132,7 +132,7 @@ public class FlightPlan {
 
 	}
 	
-	public void change_flight_plan(){
+	public void changeFlightPlan(){
 		if (this.flight.getSelected() && this.currentRoute.size() > 0 ){
 			boolean mouseOverWaypoint = this.isMouseOnWaypoint();
 
@@ -182,7 +182,7 @@ public class FlightPlan {
 		}
 	}
 	
-	public void draw_flights_plan(Graphics g, GameContainer gc){
+	public void drawFlightsPlan(Graphics g, GameContainer gc){
 
 		if (this.currentRoute.size() > 0){
 			
@@ -248,9 +248,9 @@ public class FlightPlan {
 	
 	public void update() {
 		
-		this.update_flight_plan();
+		this.updateFlightPlan();
 		if(this.changingPlan == true){
-			this.change_flight_plan();
+			this.changeFlightPlan();
 		}
 
 	}
@@ -260,7 +260,7 @@ public class FlightPlan {
 
 		if(this.flight.getSelected()) {
 			if(this.changingPlan == true){
-				this.draw_flights_plan(g, gc);
+				this.drawFlightsPlan(g, gc);
 				this.markUnavailableWaypoints(g, gc);
 			}
 			
@@ -276,8 +276,8 @@ public class FlightPlan {
 
 	// ACCESSORS AND MUTATORS
 
-	public void setVelocity(double new_velocity){
-		this.velocity = new_velocity;
+	public void setVelocity(double newVelocity){
+		this.velocity = newVelocity;
 		
 	}
 	

@@ -11,7 +11,7 @@ import org.newdawn.slick.TrueTypeFont;
 
 public class MenuState extends BasicGameState {
 	public static TrueTypeFont font;
-	private Image menu_background, play_button, quit_button, play_hover, quit_hover;
+	private Image menuBackground, playButton, quitButton, playHover, quitHover;
 	
 	
 	
@@ -23,11 +23,11 @@ public class MenuState extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
 		
-		menu_background = new Image("res/graphics/menu_graphics/menu_screen.png");
-		play_button = new Image("res/graphics/menu_graphics/play_button.png");
-		play_hover = new Image("res/graphics/menu_graphics/play_hover.png");
-		quit_button = new Image("res/graphics/menu_graphics/quit_button.png");
-		quit_hover = new Image("res/graphics/menu_graphics/quit_hover.png");
+		menuBackground = new Image("res/graphics/menu_graphics/menu_screen.png");
+		playButton = new Image("res/graphics/menu_graphics/play_button.png");
+		playHover = new Image("res/graphics/menu_graphics/play_hover.png");
+		quitButton = new Image("res/graphics/menu_graphics/quit_button.png");
+		quitHover = new Image("res/graphics/menu_graphics/quit_hover.png");
 		
 		
 		
@@ -49,24 +49,24 @@ public class MenuState extends BasicGameState {
 			throws SlickException {
 		g.setColor(Color.white);
 		g.setFont(font);
-		menu_background.draw(0,0);
+		menuBackground.draw(0,0);
 		
 		
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
 		
 		if ((posX > 439 && posX < 762) && (posY > 165 && posY < 255)){
-			play_hover.draw(439,349);
+			playHover.draw(439,349);
 		}
 		else{
-			play_button.draw(439,349);
+			playButton.draw(439,349);
 		}
 		
 		if((posX > 1140 && posX < 1262) && (posY > 25 && posY < 50)){
-			quit_hover.draw(1148,556);
+			quitHover.draw(1148,556);
 		}
 		else{
-			quit_button.draw(1148,556);
+			quitButton.draw(1148,556);
 		}
 
 		g.setColor(Color.white);
@@ -86,7 +86,7 @@ public class MenuState extends BasicGameState {
 		}
 
 		if ((posX > 439 && posX < 762) && (posY > 349 && posY < 439)) {
-			play_hover.draw(439,349);
+			playHover.draw(439,349);
 			if (Mouse.isButtonDown(0)) {
 				sbg.enterState(1);
 			}

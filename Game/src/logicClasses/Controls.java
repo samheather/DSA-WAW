@@ -25,8 +25,8 @@ public class Controls {
 	private boolean mouseHeldDownOnAltitudeButton, mouseHeldDownOnFlight;
 	private boolean focusOnRightTextBoxCleared;
 	private boolean focusOnLeftTextBoxCleared;
-	private final int  MAXIMUM_ALTITUDE = 31000;
-	private final int  MINIMUM_ALTITUDE = 26000;
+	private final int  MAXIMUMALTITUDE = 31000;
+	private final int  MINIMUMALTITUDE = 26000;
 	private Flight selectedFlight;
 	private String text;
 	private int altitudeToIncreaseTo, altitudeToDecreaseTo, targetAltitude;
@@ -84,20 +84,20 @@ public class Controls {
 
 		
 			if(posX>10&&posX<150&&posY<410&&posY>390&&Mouse.isButtonDown(0)) {
-				if(this.selectedFlight.getTarget_altitude() < MAXIMUM_ALTITUDE) {
-					this.selectedFlight.setTarget_altitude(this.selectedFlight.getTarget_altitude()+1000);
+				if(this.selectedFlight.getTargetAltitude() < MAXIMUMALTITUDE) {
+					this.selectedFlight.setTargetAltitude(this.selectedFlight.getTargetAltitude()+1000);
 				}
 			}
 
 			else if(posX>10&&posX<150&&posY<440&&posY>420&&Mouse.isButtonDown(0)) {
-				if(this.selectedFlight.getTarget_altitude()> MINIMUM_ALTITUDE) {
-					this.selectedFlight.setTarget_altitude(this.selectedFlight.getTarget_altitude()-1000);
+				if(this.selectedFlight.getTargetAltitude()> MINIMUMALTITUDE) {
+					this.selectedFlight.setTargetAltitude(this.selectedFlight.getTargetAltitude()-1000);
 				}
 			}
 			
-			this.setIncrease_alt((int)Math.round(this.selectedFlight.getTarget_altitude())+1000);
-			this.setDecrease_alt((int)Math.round(this.selectedFlight.getTarget_altitude())-1000);
-			this.setTarget_alt((int)Math.round(this.selectedFlight.getTarget_altitude()));
+			this.setIncreaseAlt((int)Math.round(this.selectedFlight.getTargetAltitude())+1000);
+			this.setDecreaseAlt((int)Math.round(this.selectedFlight.getTargetAltitude())-1000);
+			this.setTargetAlt((int)Math.round(this.selectedFlight.getTargetAltitude()));
 	
 		
 	}
@@ -105,17 +105,17 @@ public class Controls {
 	public void changeModeByClickingOnFlight(Flight nearestFlight){
 		
 		
-		if (this.selectedFlight.getFlight_plan().getChangingPlan() == true){
-			nearestFlight.getFlight_plan().setChangingPlan(false);
+		if (this.selectedFlight.getFlightPlan().getChangingPlan() == true){
+			nearestFlight.getFlightPlan().setChangingPlan(false);
 		}
 		else{
-			nearestFlight.getFlight_plan().setChangingPlan(true);
+			nearestFlight.getFlightPlan().setChangingPlan(true);
 		}
 		
 	}
 	
 
-	public void check_selected(int pointX, int pointY, Airspace airspace ){
+	public void checkSelected(int pointX, int pointY, Airspace airspace ){
 		
 		double minimumDistanceBetweenFlightAndMouseClick;
 		Flight nearestFlight;
@@ -131,7 +131,7 @@ public class Controls {
 		
 		// Checking if user is dragging a waypoint they can't change flights
 		if (this.selectedFlight != null){
-			if (this.selectedFlight.getFlight_plan().getDraggingWaypoint()){
+			if (this.selectedFlight.getFlightPlan().getDraggingWaypoint()){
 				return;
 			}
 		}
@@ -141,15 +141,15 @@ public class Controls {
 		
 		// Working out nearest flight to click
 		
-		if(airspace.getList_of_flights().size()>=1){
-			minimumDistanceBetweenFlightAndMouseClick = Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(0).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(0).getY(), 2));
-			nearestFlight = airspace.getList_of_flights().get(0);
+		if(airspace.getListOfFlights().size()>=1){
+			minimumDistanceBetweenFlightAndMouseClick = Math.sqrt(Math.pow(pointX-airspace.getListOfFlights().get(0).getX(), 2)+Math.pow(pointY-airspace.getListOfFlights().get(0).getY(), 2));
+			nearestFlight = airspace.getListOfFlights().get(0);
 			indexOfNearestFlightInAirspaceListOfFlights = 0;
 			
-			for (int i =0; i< airspace.getList_of_flights().size(); i++){
-				if(Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(i).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(i).getY(), 2)) < minimumDistanceBetweenFlightAndMouseClick){
-					minimumDistanceBetweenFlightAndMouseClick = Math.sqrt(Math.pow(pointX-airspace.getList_of_flights().get(i).getX(), 2)+Math.pow(pointY-airspace.getList_of_flights().get(i).getY(), 2));
-					nearestFlight = airspace.getList_of_flights().get(i);
+			for (int i =0; i< airspace.getListOfFlights().size(); i++){
+				if(Math.sqrt(Math.pow(pointX-airspace.getListOfFlights().get(i).getX(), 2)+Math.pow(pointY-airspace.getListOfFlights().get(i).getY(), 2)) < minimumDistanceBetweenFlightAndMouseClick){
+					minimumDistanceBetweenFlightAndMouseClick = Math.sqrt(Math.pow(pointX-airspace.getListOfFlights().get(i).getX(), 2)+Math.pow(pointY-airspace.getListOfFlights().get(i).getY(), 2));
+					nearestFlight = airspace.getListOfFlights().get(i);
 					indexOfNearestFlightInAirspaceListOfFlights = i;
 				}
 			}
@@ -165,27 +165,27 @@ public class Controls {
 				
 				nearestFlight.setSelected(true);
 				this.setFlight(nearestFlight);
-				for (int i =0; i< airspace.getList_of_flights().size(); i++){
+				for (int i =0; i< airspace.getListOfFlights().size(); i++){
 					if(i != indexOfNearestFlightInAirspaceListOfFlights){
-						airspace.getList_of_flights().get(i).setSelected(false);
-						airspace.getList_of_flights().get(i).getFlight_plan().setChangingPlan(false);
+						airspace.getListOfFlights().get(i).setSelected(false);
+						airspace.getListOfFlights().get(i).getFlightPlan().setChangingPlan(false);
 					}
 				}
 			}
 		}
 	}
 	
-	public void give_heading_with_mouse(int pointX, int pointY, Airspace airspace){
+	public void giveHeadingWithMouse(int pointX, int pointY, Airspace airspace){
 		
 		
 		double deltaX, deltaY;
-		double distance_between_mouse_and_plane;
+		double distanceBetweenMouseAndPlane;
 		
 		
-		distance_between_mouse_and_plane = Math.sqrt(Math.pow(pointX-this.selectedFlight.getX(), 2)+Math.pow(pointY-this.selectedFlight.getY(), 2));
+		distanceBetweenMouseAndPlane = Math.sqrt(Math.pow(pointX-this.selectedFlight.getX(), 2)+Math.pow(pointY-this.selectedFlight.getY(), 2));
 		
 		
-		if (distance_between_mouse_and_plane < 50)
+		if (distanceBetweenMouseAndPlane < 50)
 		{
 			deltaY = pointY - this.selectedFlight.getY();
 			deltaX = pointX - this.selectedFlight.getX();
@@ -194,7 +194,7 @@ public class Controls {
 			if (angle < 0) {
 				angle += 360;
 			}
-			this.selectedFlight.give_heading((int)angle);
+			this.selectedFlight.giveHeading((int)angle);
 		
 		}
 		
@@ -212,7 +212,7 @@ public class Controls {
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		if(this.selectedFlight != null) {
-			if(!this.selectedFlight.getFlight_plan().getChangingPlan()){
+			if(!this.selectedFlight.getFlightPlan().getChangingPlan()){
 				g.setColor(Color.white);
 				
 				g.drawString("Turn Left:", 10, 125);
@@ -234,13 +234,13 @@ public class Controls {
 				altitudeButton.draw(0,420);
 				g.setColor(Color.white);
 				g.drawString("Target: "+this.targetAltitude+"Ft", 10, 360);
-				if(this.selectedFlight.getTarget_altitude() != Math.round(31000)){
+				if(this.selectedFlight.getTargetAltitude() != Math.round(31000)){
 					g.drawString("Increase to "+this.altitudeToIncreaseTo, 10, 390);
 				}
 				else {
 					g.drawString("At max altitude", 10, 390);
 				}
-				if(this.selectedFlight.getTarget_altitude() != Math.round(26000)){
+				if(this.selectedFlight.getTargetAltitude() != Math.round(26000)){
 					g.drawString("Decrease to "+this.altitudeToDecreaseTo, 10, 420);
 				}
 				else {
@@ -252,7 +252,7 @@ public class Controls {
 				}
 			changePlanButton.draw(0,45);
 			changePlanButton.draw(0, 75);
-			if(this.selectedFlight.getFlight_plan().getChangingPlan() == true){
+			if(this.selectedFlight.getFlightPlan().getChangingPlan() == true){
 				g.setColor(Color.yellow);
 				g.drawString("Plan Mode", 10, 45);
 				g.setColor(Color.white);
@@ -279,7 +279,7 @@ public class Controls {
 				this.text = this.headingControlTextBox.getText();
 				this.text = this.text.replaceAll("\\D+", "");
 				if (!this.text.isEmpty()) {
-					this.selectedFlight.give_heading(Integer.valueOf(this.text));
+					this.selectedFlight.giveHeading(Integer.valueOf(this.text));
 
 				}
 				this.headingControlTextBox.setFocus(false);
@@ -301,7 +301,7 @@ public class Controls {
 				this.text = this.turnLeftTextBox.getText();
 				this.text = this.text.replaceAll("\\D+", "");
 				if (!this.text.isEmpty() && Integer.valueOf(this.text) <= 360) {
-					this.selectedFlight.turn_flight_left(Integer.valueOf(this.text));
+					this.selectedFlight.turnFlightLeft(Integer.valueOf(this.text));
 					this.turnLeftTextBox.setText("");
 				}
 				this.turnLeftTextBox.setFocus(false);
@@ -324,7 +324,7 @@ public class Controls {
 				this.text = this.turnRightTextBox.getText();
 				this.text = this.text.replaceAll("\\D+", "");
 				if (!this.text.isEmpty() && Integer.valueOf(this.text) <= 360) {
-					this.selectedFlight.turn_flight_right(Integer.valueOf(this.text));
+					this.selectedFlight.turnFlightRight(Integer.valueOf(this.text));
 					this.turnRightTextBox.setText("");
 				}
 				this.turnRightTextBox.setFocus(false);
@@ -349,14 +349,14 @@ public class Controls {
 			
 			// Only allow controls if user isn't changing a plan
 			
-			if(!(this.selectedFlight.getFlight_plan().getChangingPlan())){
+			if(!(this.selectedFlight.getFlightPlan().getChangingPlan())){
 				
 				if(posX>10&&posX<150&&posY<65&&posY>45&&Mouse.isButtonDown(0)){
-					this.selectedFlight.getFlight_plan().setChangingPlan(true);
+					this.selectedFlight.getFlightPlan().setChangingPlan(true);
 				}
 				
 				if(Mouse.isButtonDown(1)){
-					this.give_heading_with_mouse(posX, posY, airspace);
+					this.giveHeadingWithMouse(posX, posY, airspace);
 				}
 
 				this.updateHeadingTextBox(input);
@@ -372,34 +372,34 @@ public class Controls {
 				
 				//ALTITUDE KEYS
 				if(input.isKeyPressed(Input.KEY_UP)){
-					if(this.selectedFlight.getTarget_altitude() < MAXIMUM_ALTITUDE) {
-						this.selectedFlight.setTarget_altitude(this.selectedFlight.getTarget_altitude()+1000);
+					if(this.selectedFlight.getTargetAltitude() < MAXIMUMALTITUDE) {
+						this.selectedFlight.setTargetAltitude(this.selectedFlight.getTargetAltitude()+1000);
 					}
 				}
 				if(input.isKeyPressed(Input.KEY_DOWN)){
-					if(this.selectedFlight.getTarget_altitude() > MINIMUM_ALTITUDE) {
-						this.selectedFlight.setTarget_altitude(this.selectedFlight.getTarget_altitude()-1000);
+					if(this.selectedFlight.getTargetAltitude() > MINIMUMALTITUDE) {
+						this.selectedFlight.setTargetAltitude(this.selectedFlight.getTargetAltitude()-1000);
 					}
 				}
 				
 				
 				if (!this.headingHasFocus()) {
 					this.getHeadingControlTB().setText(
-							String.valueOf(Math.round(this.selectedFlight.getTarget_heading())));
+							String.valueOf(Math.round(this.selectedFlight.getTargetHeading())));
 				}
 			
 			}
 			
 			else{
 				if(posX>10&&posX<150&&posY<95&&posY>75&&Mouse.isButtonDown(0)){
-					this.selectedFlight.getFlight_plan().setChangingPlan(false);
+					this.selectedFlight.getFlightPlan().setChangingPlan(false);
 				}
 			}
 		
 		}
 		
 		if(Mouse.isButtonDown(0)){
-			this.check_selected(posX,posY,airspace);
+			this.checkSelected(posX,posY,airspace);
 			}
 		
 		if(!Mouse.isButtonDown(0)){
@@ -412,28 +412,28 @@ public class Controls {
 	//MUTATORS AND ACCESSORS
 
 
-	public int getTarget_alt() {
+	public int getTargetAlt() {
 		return targetAltitude;
 	}
 
-	public void setTarget_alt(int target_alt) {
-		this.targetAltitude = target_alt;
+	public void setTargetAlt(int targetAlt) {
+		this.targetAltitude = targetAlt;
 	}
 	
-	public int getIncrease_alt() {
+	public int getIncreaseAlt() {
 		return altitudeToIncreaseTo;
 	}
 
-	public void setIncrease_alt(int increase_alt) {
-		this.altitudeToIncreaseTo = increase_alt;
+	public void setIncreaseAlt(int increaseAlt) {
+		this.altitudeToIncreaseTo = increaseAlt;
 	}
 
-	public int getDecrease_alt() {
+	public int getDecreaseAlt() {
 		return altitudeToDecreaseTo;
 	}
 
-	public void setDecrease_alt(int decrease_alt) {
-		this.altitudeToDecreaseTo = decrease_alt;
+	public void setDecreaseAlt(int decreaseAlt) {
+		this.altitudeToDecreaseTo = decreaseAlt;
 	}
 	
 	public void setFlight(Flight flight1){

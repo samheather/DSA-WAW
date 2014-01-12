@@ -13,7 +13,7 @@ public class DifficultyState extends BasicGameState {
 	private Color colorEasyBtn = Color.green;
 	private Color colorMediumBtn = Color.green;
 	private Color colorHardBtn = Color.green;
-	private Image menu_background;
+	private Image menuBackground;
 
 	
 	public DifficultyState(int state){
@@ -22,7 +22,7 @@ public class DifficultyState extends BasicGameState {
 	
 	public void init(GameContainer gc, StateBasedGame sbj) throws SlickException {
 		try{
-			menu_background = new Image("res/graphics/menu_graphics/menu_screen.png");
+			menuBackground = new Image("res/graphics/menu_graphics/menu_screen.png");
 			InputStream inputStream = ResourceLoader.getResourceAsStream("res/Virgo-01/virgo.ttf");
 			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
 			awtFont = awtFont.deriveFont(20f);
@@ -35,7 +35,7 @@ public class DifficultyState extends BasicGameState {
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbj, Graphics g) throws SlickException {
-		menu_background.draw(0,0);
+		menuBackground.draw(0,0);
 		g.setColor(Color.white);
 		g.setFont(font);
 		g.drawString("Choose Difficulty", 10, 40);

@@ -24,24 +24,24 @@ public class Airspace_Tests {
 	public void setUp(){
     	airspace = new Airspace();
     	// Waypoints
-    	airspace.new_waypoint(350, 150);
-    	airspace.new_waypoint(400, 470);
-    	airspace.new_waypoint(700, 60);
-    	airspace.new_waypoint(800, 320);
-    	airspace.new_waypoint(600, 418);
-    	airspace.new_waypoint(500, 220);
-    	airspace.new_waypoint(950, 188);
-    	airspace.new_waypoint(1050, 272);
-    	airspace.new_waypoint(900, 420);
-    	airspace.new_waypoint(240, 250);
+    	airspace.newWaypoint(350, 150);
+    	airspace.newWaypoint(400, 470);
+    	airspace.newWaypoint(700, 60);
+    	airspace.newWaypoint(800, 320);
+    	airspace.newWaypoint(600, 418);
+    	airspace.newWaypoint(500, 220);
+    	airspace.newWaypoint(950, 188);
+    	airspace.newWaypoint(1050, 272);
+    	airspace.newWaypoint(900, 420);
+    	airspace.newWaypoint(240, 250);
     	// EntryPoints
-    	airspace.new_entry_point(150, 400);
-    	airspace.new_entry_point(1200, 200);
-    	airspace.new_entry_point(600, 0);
+    	airspace.newEntryPoint(150, 400);
+    	airspace.newEntryPoint(1200, 200);
+    	airspace.newEntryPoint(600, 0);
     	// Exit Points
-    	airspace.new_exit_point(800, 0);
-    	airspace.new_exit_point(150, 200);
-    	airspace.new_exit_point(1200, 300);
+    	airspace.newExitPoint(800, 0);
+    	airspace.newExitPoint(150, 200);
+    	airspace.newExitPoint(1200, 300);
     	// Get a Flight
     	flight1 = new Flight(airspace);
 		
@@ -49,23 +49,23 @@ public class Airspace_Tests {
 	
 	// Testing new_waypoint()
 	@Test
-	public void new_waypoint_test(){
-		assertTrue(airspace.new_waypoint(151, 500));
-		assertFalse(airspace.new_waypoint(-10000, 0));
+	public void newWaypointTest(){
+		assertTrue(airspace.newWaypoint(151, 500));
+		assertFalse(airspace.newWaypoint(-10000, 0));
 	}
 	
 	// Testing new_exit_point()
 	@Test
-	public void new_exit_point_test(){
-		assertTrue(airspace.new_exit_point(150, 500));
-		assertFalse(airspace.new_exit_point(-10000, 0));
+	public void newExitPointTest(){
+		assertTrue(airspace.newExitPoint(150, 500));
+		assertFalse(airspace.newExitPoint(-10000, 0));
 	}
 
 	// Testing new_entry_point()
 	@Test
-	public void new_entry_point_test(){
-		assertTrue(airspace.new_entry_point(150, 500));
-		assertFalse(airspace.new_entry_point(-10000, 0));
+	public void newEntryPointTest(){
+		assertTrue(airspace.newEntryPoint(150, 500));
+		assertFalse(airspace.newEntryPoint(-10000, 0));
 	}
 
 	
@@ -78,35 +78,35 @@ public class Airspace_Tests {
 	
 	// Testing generate_flight_name()
 	@Test
-	public void generate_flight_name_test(){
-		String name = airspace.generate_flight_name();
+	public void generateFlightNameTest(){
+		String name = airspace.generateFlightName();
 		assertTrue((name.length() == 6));
 	}
 	
 	// Testing check_if_flight_has_left_airspace()
 	@Test
-	public void check_if_flight_has_left_airspace_test(){
+	public void checkIfFlightHasLeftAirspaceTest(){
 			//check flight at limits
 			flight1.setX(100);
 			flight1.setY(-50);
-			assertFalse(airspace.check_if_flight_has_left_airspace(flight1));
+			assertFalse(airspace.checkIfFlightHasLeftAirspace(flight1));
 			
 			flight1.setX(1250);
 			flight1.setY(650);
-			assertFalse(airspace.check_if_flight_has_left_airspace(flight1));
+			assertFalse(airspace.checkIfFlightHasLeftAirspace(flight1));
 			
 			//Some other sets of tests
 			flight1.setX(1251);
 			flight1.setY(5);
-			assertTrue(airspace.check_if_flight_has_left_airspace(flight1));
+			assertTrue(airspace.checkIfFlightHasLeftAirspace(flight1));
 
 			flight1.setX(101);
 			flight1.setY(0);
-			assertFalse(airspace.check_if_flight_has_left_airspace(flight1));
+			assertFalse(airspace.checkIfFlightHasLeftAirspace(flight1));
 			
 			flight1.setX(-143401);
 			flight1.setY(101010);
-			assertTrue(airspace.check_if_flight_has_left_airspace(flight1));
+			assertTrue(airspace.checkIfFlightHasLeftAirspace(flight1));
 	}
 	
 	// Testing check_selected()
@@ -117,7 +117,7 @@ public class Airspace_Tests {
 //		}
 	// Testing changeScore()
 	@Test
-	public void changeScore_test() {
+	public void changeScoreTest() {
 		//Testing initialization of score
 		int score = 10;
 		int oldscore;
