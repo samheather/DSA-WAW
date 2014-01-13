@@ -406,6 +406,8 @@ public class Controls {
 			this.mouseHeldDownOnFlight = false;
 			this.mouseHeldDownOnAltitudeButton = false;
 		}
+		
+
 
 	}
 	

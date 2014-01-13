@@ -22,7 +22,7 @@ public class PlayState extends BasicGameState {
 	Image cursorImg;
 	public static float time;
 	private Sound endOfGameSound;
-	private Music gameplayMusic, gameplayMusic2;
+	private Music gameplayMusic;
 	public static TrueTypeFont font;
 	private Image controlBarImage, clockImage, backgroundImage;
 	private String stringTime;
@@ -60,12 +60,11 @@ public class PlayState extends BasicGameState {
 		
 		// Music
 		
-		gameplayMusic = new Music("Cold Funk.ogg");
-		gameplayMusic2 = new Music("Jarvic 8.ogg");
+		gameplayMusic = new Music("Jarvic 8.ogg");
+
+	
 		endOfGameSound = new Sound("res/175385__digitaldominic__scream.wav");
-		
-		//Setting random_music_gen to select music 
-		setMusic();
+	
 		
 		
 		//Images
@@ -121,14 +120,7 @@ public class PlayState extends BasicGameState {
 		clockImage.draw(0,5);
 		g.drawString(this.stringTime, 25, 11);
 		
-		//Loops gameplay music based on random number created in init
-		if( randomMusicGen >= 0.5 ){
-		if(!gameplayMusic.playing()){
-			gameplayMusic.loop(1.0f, 0.5f);}
-		} else {
-		if(!gameplayMusic2.playing()){
-			gameplayMusic2.loop(1.0f, 0.5f);}
-		}
+
 		
 		
 		
@@ -179,7 +171,6 @@ public class PlayState extends BasicGameState {
 			airspace.getSeparationRules().setGameOverViolation(false);
 			airspace.resetAirspace();
 			gameplayMusic.stop();
-			gameplayMusic2.stop();
 			endOfGameSound.play();
 			sbg.enterState(3);
 			
@@ -196,6 +187,13 @@ public class PlayState extends BasicGameState {
 		if(!gc.hasFocus()) {
 			sbg.enterState(4);
 		}
+		
+		if (!gameplayMusic.playing()){
+			//Loops gameplay music based on random number created in init
+			
+			gameplayMusic.loop(1.0f, 0.5f);
+		}
+		
 		
 		
 		
@@ -215,8 +213,6 @@ public class PlayState extends BasicGameState {
 		this.airspace = airspace;
 	}
 	
-	private void setMusic(){
-		randomMusicGen = Math.random();
-	}
+
 
 }
