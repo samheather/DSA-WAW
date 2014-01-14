@@ -164,7 +164,7 @@ public class Controls {
 				}
 				
 				nearestFlight.setSelected(true);
-				this.setFlight(nearestFlight);
+				this.setSelectedFlight(nearestFlight);
 				for (int i =0; i< airspace.getListOfFlights().size(); i++){
 					if(i != indexOfNearestFlightInAirspaceListOfFlights){
 						airspace.getListOfFlights().get(i).setSelected(false);
@@ -438,7 +438,7 @@ public class Controls {
 		this.altitudeToDecreaseTo = decreaseAlt;
 	}
 	
-	public void setFlight(Flight flight1){
+	public void setSelectedFlight(Flight flight1){
 		this.selectedFlight = flight1;
 	}
 
@@ -452,7 +452,7 @@ public class Controls {
 		return this.headingTextBoxHasFocus;
 	}
 	
-	public Flight getFlight(){
+	public Flight getSelectedFlight(){
 		return this.selectedFlight;
 	}
 }

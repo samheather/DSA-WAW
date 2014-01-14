@@ -34,7 +34,7 @@ public class PauseState extends BasicGameState {
 		gc.setShowFPS(false);
 	}
 	
-	public void render(GameContainer gc, StateBasedGame sbj, Graphics g) throws SlickException {
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		menuBackground.draw(0,0);
 		g.setColor(Color.white);
 		g.setFont(font);
@@ -52,26 +52,28 @@ public class PauseState extends BasicGameState {
 	
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		
-		int posiX = Mouse.getX();
-		int posiY = Mouse.getY();
+		int posX = Mouse.getX();
+		int posY = Mouse.getY();
+		
+		posY = 600 - posY;
 		
 		Input input = gc.getInput();
 		
 		if(input.isKeyPressed(Input.KEY_P)) {
-			sbg.enterState(2);
+			sbg.enterState(1);
 		}
 		
-		if((posiX>100&&posiX<300)&&(posiY>430&&posiY<500)) {
+		if((posX>100&&posX<300)&&(posY>100 &&posY<170)) {
 			colourContinueButton=Color.white;
 			if(Mouse.isButtonDown(0)) {
-				sbg.enterState(2);
+				sbg.enterState(1);
 			}
 			
 		}
 		else {
 			colourContinueButton=Color.green;
 		}
-		if((posiX>100&&posiX<300)&&(posiY>330&&posiY<400)) {
+		if((posX>100&&posX<300)&&(posY>200&&posY<270)) {
 			colourQuitButton=Color.white;
 			if(Mouse.isButtonDown(0)) {
 				System.exit(0);
@@ -84,6 +86,6 @@ public class PauseState extends BasicGameState {
 	}
 	
 	public int getID(){
-		return 4;
+		return 3;
 	}
 }

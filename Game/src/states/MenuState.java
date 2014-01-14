@@ -108,7 +108,7 @@ public class MenuState extends BasicGameState {
 		}
 		
 		if( (posX>20 && posX< 136 && posY>534 && posY<580) && Mouse.isButtonDown(0)) {
-			sbg.enterState(5);
+			sbg.enterState(4);
 		}
 	}
 

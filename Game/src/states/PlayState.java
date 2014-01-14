@@ -28,7 +28,7 @@ public class PlayState extends BasicGameState {
 	private Image controlBarImage, clockImage, backgroundImage, difficultyBackground, easyButton, mediumButton, hardButton;
 	private String stringTime;
 	private double randomMusicGen;
-	private boolean settingDifficulty;
+	private boolean settingDifficulty, gameEnded;
 
 	public PlayState(int state) {
 		
@@ -37,6 +37,7 @@ public class PlayState extends BasicGameState {
 
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		
+		gameEnded = false;
 		settingDifficulty = true;
 		time = 0;
 		airspace = new Airspace();
@@ -108,14 +109,15 @@ public class PlayState extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
 		
+		// Checks whether the user is still choosing the difficulty
+		
 		if(settingDifficulty){
 			
 			difficultyBackground.draw(0,0);
 			easyButton.draw(100,300);
 			mediumButton.draw(100,400);
 			hardButton.draw(100,500);
-			
-			
+
 			
 		}
 		
@@ -149,6 +151,19 @@ public class PlayState extends BasicGameState {
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
+		
+		// Checks if the game has been retried and if it has resets the airspace
+		
+		if (gameEnded){
+			
+			airspace.resetAirspace();
+	    	time = 0;
+	    	gameEnded = false;
+	    	settingDifficulty = true;
+			
+		}
+		
+		// Checks whether the user is still choosing the difficulty
 		
 		if(settingDifficulty){
 		
@@ -185,7 +200,7 @@ public class PlayState extends BasicGameState {
 			}
 			
 		
-			}
+		}
 		
 		else{
 			
@@ -229,7 +244,8 @@ public class PlayState extends BasicGameState {
 				airspace.resetAirspace();
 				gameplayMusic.stop();
 				endOfGameSound.play();
-				sbg.enterState(3);
+				sbg.enterState(2);
+				gameEnded = true;
 							
 			}
 						
@@ -239,10 +255,10 @@ public class PlayState extends BasicGameState {
 			// Checking For Pause Screen requested in game
 						
 			if (input.isKeyPressed(Input.KEY_P)) {
-				sbg.enterState(4);
+				sbg.enterState(3);
 			}
 			if(!gc.hasFocus()) {
-				sbg.enterState(4);
+				sbg.enterState(3);
 			}
 						
 			if (!gameplayMusic.playing()){

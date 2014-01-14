@@ -53,10 +53,18 @@ public class Airspace {
 	// METHODS
 	
 	public void resetAirspace() {
+		
 		for(int i = 0; i<this.listOfFlightsInAirspace.size();i++) {
 			this.listOfFlightsInAirspace.remove(i);
-			
 		}
+		
+		this.numberOfLoopsSinceLastFlightAdded = 0; // how many loops to wait before another flight can enter
+		this.numberOfTimesGameHasLooped = 0; // stores how many loops there have been in total
+		this.numberOfGameLoopsWhenDifficultyIncreases = 10000; // this is how many loops until planes come more quickly, divide by 60 for seconds
+		this.separationRules.setGameOverViolation(false);
+		this.controls.setSelectedFlight(null);
+		
+		
 	}
 	
 	public void createAndSetSeparationRules(){
@@ -325,8 +333,8 @@ public class Airspace {
 		this.listOfFlightsInAirspace.remove(flight); // remove that flight from the list
 		
 		// If flight was selected, deselect it
-		if (!(this.listOfFlightsInAirspace.contains(this.controls.getFlight()))) {
-			this.controls.setFlight(null);
+		if (!(this.listOfFlightsInAirspace.contains(this.controls.getSelectedFlight()))) {
+			this.controls.setSelectedFlight(null);
 
 		}
 	}
