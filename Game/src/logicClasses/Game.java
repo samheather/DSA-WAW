@@ -14,11 +14,10 @@ public class Game extends StateBasedGame {
 
 	public static final String NAME = "Turbulence";
 	public static final int MENUSTATE = 0;
-	public static final int DIFFICULTYSTATE = 1;
-	public static final int PLAYSTATE = 2;
-	public static final int GAMEOVERSTATE = 3;
-	public static final int PAUSESTATE = 4;
-	public static final int CREDITSSTATE = 5;
+	public static final int PLAYSTATE = 1;
+	public static final int GAMEOVERSTATE = 2;
+	public static final int PAUSESTATE = 3;
+	public static final int CREDITSSTATE = 4;
 	public static final int MAXIMUMWIDTH = 1200;
 	public static final int MAXIMUMHEIGHT = 600;
 	
@@ -26,7 +25,6 @@ public class Game extends StateBasedGame {
 	public Game(String NAME) {
 		super(NAME);
 		this.addState(new MenuState(MENUSTATE));
-		this.addState(new DifficultyState(DIFFICULTYSTATE));
 		this.addState(new PlayState(PLAYSTATE));
 		this.addState(new GameOverState(GAMEOVERSTATE));
 		this.addState(new PauseState(PAUSESTATE));

@@ -34,7 +34,7 @@ public class DifficultyState extends BasicGameState {
 		}
 	}
 	
-	public void render(GameContainer gc, StateBasedGame sbj, Graphics g) throws SlickException {
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		menuBackground.draw(0,0);
 		g.setColor(Color.white);
 		g.setFont(font);
@@ -62,7 +62,6 @@ public class DifficultyState extends BasicGameState {
 		if((posiX>100&&posiX<300)&&(posiY>430&&posiY<500)) {
 			colorEasyBtn=Color.white;
 			if(Mouse.isButtonDown(0)) {
-				//System.out.println(sbg.getState(2).getClass().);
 				sbg.enterState(2);
 			}
 			

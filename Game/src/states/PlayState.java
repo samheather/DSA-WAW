@@ -6,6 +6,7 @@ import java.math.*;
 
 import logicClasses.Airspace;
 
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 import org.newdawn.slick.util.ResourceLoader;
@@ -24,9 +25,10 @@ public class PlayState extends BasicGameState {
 	private Sound endOfGameSound;
 	private Music gameplayMusic;
 	public static TrueTypeFont font;
-	private Image controlBarImage, clockImage, backgroundImage;
+	private Image controlBarImage, clockImage, backgroundImage, difficultyBackground, easyButton, mediumButton, hardButton;
 	private String stringTime;
 	private double randomMusicGen;
+	private boolean settingDifficulty;
 
 	public PlayState(int state) {
 		
@@ -35,6 +37,7 @@ public class PlayState extends BasicGameState {
 
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		
+		settingDifficulty = true;
 		time = 0;
 		airspace = new Airspace();
 		i = 1;
@@ -61,8 +64,6 @@ public class PlayState extends BasicGameState {
 		// Music
 		
 		gameplayMusic = new Music("Jarvic 8.ogg");
-
-	
 		endOfGameSound = new Sound("res/175385__digitaldominic__scream.wav");
 	
 		
@@ -72,6 +73,10 @@ public class PlayState extends BasicGameState {
 		controlBarImage = new Image("/res/graphics/graphics/control_bar_vertical.png");
 		clockImage = new Image("/res/graphics/graphics/clock.PNG");
 		backgroundImage = new Image("/res/graphics/graphics/background.png");
+		difficultyBackground = new Image("res/graphics/menu_graphics/difficulty.jpg");
+		easyButton = new Image("res/graphics/menu_graphics/easy.png");
+		mediumButton = new Image("res/graphics/menu_graphics/medium.png");
+		hardButton = new Image("res/graphics/menu_graphics/hard.png");
 		
 		//initialise the airspace object;
 		
@@ -103,22 +108,37 @@ public class PlayState extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
 		
-		g.setFont(font);
+		if(settingDifficulty){
+			
+			difficultyBackground.draw(0,0);
+			easyButton.draw(100,300);
+			mediumButton.draw(100,400);
+			hardButton.draw(100,500);
+			
+			
+			
+		}
 		
+		else{
 		
-		// Drawing Side Images
-		backgroundImage.draw(150,0);
-		controlBarImage.draw(0,0);
+			g.setFont(font);
+			
+			
+			// Drawing Side Images
+			backgroundImage.draw(150,0);
+			controlBarImage.draw(0,0);
+			
+			// Drawing Airspace and elements within it
+			g.setColor(Color.white);
+			airspace.render(g, gc);
+			
+			
+			// Drawing Clock and Time
+			g.setColor(Color.white);
+			clockImage.draw(0,5);
+			g.drawString(this.stringTime, 25, 11);
 		
-		// Drawing Airspace and elements within it
-		g.setColor(Color.white);
-		airspace.render(g, gc);
-		
-		
-		// Drawing Clock and Time
-		g.setColor(Color.white);
-		clockImage.draw(0,5);
-		g.drawString(this.stringTime, 25, 11);
+		}
 		
 
 		
@@ -130,68 +150,104 @@ public class PlayState extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
 		
+		if(settingDifficulty){
 		
-		
-		// Updating Clock and Time
-		
-		time += delta;
-		float decMins=time/1000/60;
-		int mins = (int) decMins;
-		float decSecs=decMins-mins;
-
-		int secs = Math.round(decSecs*60);
-
-		String stringMins="";
-		String stringSecs="";
-		if(secs==60){
-			secs=0;
-			mins+=1;
-		}
-		if(mins<10) {
-			stringMins="0"+mins;
-		}
-		else {
-			stringMins=String.valueOf(mins);
-		}
-		if(secs<10) {
-			stringSecs="0"+secs;
-		}
-		else {
-			stringSecs=String.valueOf(secs);
-		}
-		
-		this.stringTime=stringMins+":"+stringSecs;
-		
-		
-		// Updating Airspace
-		
-		airspace.newFlight(gc);
-		airspace.update(gc);
-		if (airspace.getSeparationRules().getGameOverViolation() == true){
-			airspace.getSeparationRules().setGameOverViolation(false);
-			airspace.resetAirspace();
-			gameplayMusic.stop();
-			endOfGameSound.play();
-			sbg.enterState(3);
+			int posX = Mouse.getX();
+			int posY = Mouse.getY();
 			
-		}
-		
-		
-		Input input = gc.getInput();
-		
-		// Checking For Pause Screen requested in game
-		
-		if (input.isKeyPressed(Input.KEY_P)) {
-			sbg.enterState(4);
-		}
-		if(!gc.hasFocus()) {
-			sbg.enterState(4);
-		}
-		
-		if (!gameplayMusic.playing()){
-			//Loops gameplay music based on random number created in init
+			posY = 600-posY;
 			
-			gameplayMusic.loop(1.0f, 0.5f);
+			if((posX>100&&posX<216) && (posY>300&&posY<354) && Mouse.isButtonDown(0)) {
+				
+				airspace.setDifficultyValueOfGame(1);
+				settingDifficulty = false;
+				
+				
+			}
+			
+			
+			if((posX>100&&posX<284) && (posY>400&&posY<454) && Mouse.isButtonDown(0)) {
+				
+				airspace.setDifficultyValueOfGame(2);
+				settingDifficulty = false;
+				
+			}
+			
+			
+			if((posX>100&&posX<227) && (posY>500&&posY<554) && Mouse.isButtonDown(0)) {
+				
+				airspace.setDifficultyValueOfGame(3);
+				settingDifficulty = false;
+				
+			}
+			
+		
+			}
+		
+		else{
+			
+			// Updating Clock and Time
+			
+			time += delta;
+			float decMins=time/1000/60;
+			int mins = (int) decMins;
+			float decSecs=decMins-mins;
+				
+			int secs = Math.round(decSecs*60);
+				
+			String stringMins="";
+			String stringSecs="";
+			if(secs==60){
+				secs=0;
+				mins+=1;
+			}
+			if(mins<10) {
+				stringMins="0"+mins;
+			}
+			else {
+				stringMins=String.valueOf(mins);
+			}
+			if(secs<10) {
+				stringSecs="0"+secs;
+			}
+			else {
+				stringSecs=String.valueOf(secs);
+			}
+						
+			this.stringTime=stringMins+":"+stringSecs;
+						
+						
+			// Updating Airspace
+						
+			airspace.newFlight(gc);
+			airspace.update(gc);
+			if (airspace.getSeparationRules().getGameOverViolation() == true){
+				airspace.getSeparationRules().setGameOverViolation(false);
+				airspace.resetAirspace();
+				gameplayMusic.stop();
+				endOfGameSound.play();
+				sbg.enterState(3);
+							
+			}
+						
+						
+			Input input = gc.getInput();
+						
+			// Checking For Pause Screen requested in game
+						
+			if (input.isKeyPressed(Input.KEY_P)) {
+				sbg.enterState(4);
+			}
+			if(!gc.hasFocus()) {
+				sbg.enterState(4);
+			}
+						
+			if (!gameplayMusic.playing()){
+				//Loops gameplay music based on random number created in init
+							
+				gameplayMusic.loop(1.0f, 0.5f);
+			}
+			
 		}
 		
 		
@@ -202,7 +258,7 @@ public class PlayState extends BasicGameState {
 
 
 	public int getID() {
-		return 2;
+		return 1;
 	}
 
 	public Airspace getAirspace() {

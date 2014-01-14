@@ -25,7 +25,7 @@ public class Airspace {
 	private List<ExitPoint> listOfExitPoints;
 	private SeparationRules separationRules;
 	private Airport airport;
-	private int difficultyValueOfGame; // !! Should be fetched by Difficulty Screen, currently fails to do so
+	private int difficultyValueOfGame; 
 	private boolean warningViolation = false; // bool outlining whether a violation is present
 	private Controls controls;
 	
@@ -363,5 +363,10 @@ public class Airspace {
 	
 	public Controls getControls(){
 		return this.controls;
+	}
+	
+	public void setDifficultyValueOfGame(int i){
+		this.difficultyValueOfGame = i;
+		
 	}
 }

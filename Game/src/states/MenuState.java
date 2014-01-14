@@ -77,6 +77,7 @@ public class MenuState extends BasicGameState {
 		}
 
 		g.setColor(Color.white);
+		gc.setShowFPS(false);
 
 	}
 
