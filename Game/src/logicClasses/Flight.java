@@ -17,7 +17,6 @@ public class Flight {
 	private String flightName;
 	private FlightPlan flightPlan;
 	private Image regularFlightImage, selectedFlightInformationBackgroundImage, slowFlightImage, fastFlightImage, shadowImage;
-	private Color color;
 	private boolean selected;
 	private EntryPoint entryPoint;
 	private Airspace airspace;
@@ -38,7 +37,6 @@ public class Flight {
 		this.airspace = airspace;
 		this.entryPoint = generateEntryPoint();
 		this.flightPlan = new FlightPlan(airspace, this);
-		this.color = Color.white;
 		this.selected = false;
 		
 
@@ -138,7 +136,7 @@ public class Flight {
 	
 	public void drawFlight(Graphics g, GameContainer gc ){
 
-				g.setColor(color);
+				g.setColor(Color.white);
 				g.setWorldClip(150, 0, 1200, 600);
 
 				//Scale the shadow in accordance to the altitude of the flight
