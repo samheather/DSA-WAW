@@ -3,7 +3,6 @@ package logicClasses;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 
-import states.DifficultyState;
 import states.GameOverState;
 import states.MenuState;
 import states.PauseState;

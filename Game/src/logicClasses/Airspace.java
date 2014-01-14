@@ -17,7 +17,7 @@ public class Airspace {
 
 	private int maximumNumberOfFlightsInAirspace;
 	private int score, numberOfLoopsSinceLastFlightAdded, numberOfTimesGameHasLooped,
-			numberOfGameLoopsWhenDifficultyIncreases, maxRand, difficultyLevels, waypointCounter,
+			numberOfGameLoopsWhenDifficultyIncreases, maxRand, waypointCounter,
 			exitpointCounter;
 	private List<Flight> listOfFlightsInAirspace;
 	private List<Waypoint> listOfWayppoints;
@@ -39,8 +39,6 @@ public class Airspace {
 		this.listofEntrypoints = new ArrayList<EntryPoint>();
 		this.listOfExitPoints = new ArrayList<ExitPoint>();
 		this.airport = new Airport();
-		this.difficultyValueOfGame = 2;
-		this.separationRules = new SeparationRules(difficultyValueOfGame); 
 		this.numberOfLoopsSinceLastFlightAdded = 0; // how many loops to wait before another flight can enter
 		this.numberOfTimesGameHasLooped = 0; // stores how many loops there have been in total
 		this.numberOfGameLoopsWhenDifficultyIncreases = 10000; // this is how many loops until planes come more quickly, divide by 60 for seconds
@@ -57,7 +55,12 @@ public class Airspace {
 	public void resetAirspace() {
 		for(int i = 0; i<this.listOfFlightsInAirspace.size();i++) {
 			this.listOfFlightsInAirspace.remove(i);
+			
 		}
+	}
+	
+	public void createAndSetSeparationRules(){
+		this.separationRules = new SeparationRules(difficultyValueOfGame); 
 	}
 	
 	public boolean newWaypoint(int x, int y)  {

@@ -23,7 +23,7 @@ public class SeparationRules {
 			this.gameOverVerticalSeparation = 200;
 		}
 		if (difficultyVal == 2) { // Medium: Can Violate, but not too closely
-			this.gameOverLateralSeparation = 30;
+			this.gameOverLateralSeparation = 60;
 			this.gameOverVerticalSeparation = 350;
 		 }
 		 if (difficultyVal == 3) { // Hard: Warning Violation = Game Over

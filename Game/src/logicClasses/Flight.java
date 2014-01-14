@@ -76,16 +76,6 @@ public class Flight {
 		return 27000;
 	}
 
-//	public boolean check_other_flight_selection(Airspace a) {
-//		for (int i = 0; i < a.getList_of_flights().size(); i++) {
-//			if (a.getList_of_flights().get(i) != this) {
-//				if (a.getList_of_flights().get(i).isSelected()) {
-//					return true;
-//				}
-//			}
-//		}
-//		return false;
-//	}
 
 	public double calculateHeadingToFirstWaypoint(double destinationX, double destinationY) {
 		double deltaX;
@@ -320,82 +310,7 @@ public class Flight {
 		}
 	}
 	
-	/* 
-	public void update_current_heading() {
-		
-		double rate = 0.5;
-		if (Math.round(this.targetHeading) != Math.round(this.currentHeading)) {
-			if (this.turningRight == true) {// If plane is already turning
-												// right or user has told it to
-												// turn right
-				this.currentHeading += rate;
-				if (Math.round(this.currentHeading) == 360
-						&& this.targetHeading != 360) {
-					this.currentHeading = 0;
-				}
-			}
-
-			// if plane is already turning left or user has told it to turn left
-			else if (this.turningLeft == true) {
-				this.currentHeading -= rate;
-				if (Math.round(this.currentHeading) == 0
-						&& this.targetHeading != 0) {
-					this.currentHeading = 360;
-				}
-			}
-
-			// If plane has been given a heading so no turning direction specified
-			// Below works out whether it should turn left or right to that heading.
-			else {
-
-				if (this.targetHeading - this.currentHeading == 180) {
-					this.turningRight = true;
-					this.currentHeading += rate;
-				} 
-				
-				else if ((this.currentHeading + 180) >= 359) {
-
-					if (this.targetHeading > this.currentHeading) {
-						this.turningRight = true;
-						this.currentHeading += rate;
-						if (Math.round(this.currentHeading) == 360) {
-							this.currentHeading = 0;
-						}
-					} else if ((180 - (360 - this.currentHeading)) > this.targetHeading) {
-						this.turningRight = true;
-						this.currentHeading += rate;
-						if (Math.round(this.currentHeading) == 360) {
-							this.currentHeading = 0;
-						}
-					} else {
-						this.turningLeft = true;
-						this.currentHeading -= rate;
-						if (Math.round(this.currentHeading) == 0) {
-							this.currentHeading = 360;
-						}
-					}
-				} else {
-					if ((this.targetHeading > this.currentHeading)
-							&& (this.targetHeading < this.currentHeading + 180)) {
-						this.turningRight = true;
-						this.currentHeading += rate;
-						if (Math.round(this.currentHeading) == 360) {
-							this.currentHeading = 0;
-						}
-					} else {
-						this.turningLeft = true;
-						this.currentHeading -= rate;
-						if (Math.round(this.currentHeading) == 0) {
-							this.currentHeading = 360;
-						}
-					}
-				}
-			}
-		}
-	}
 	
-	*/
-
 
 
 	// UPDATE, RENDER, INIT
