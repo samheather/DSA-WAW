@@ -11,8 +11,8 @@ import org.newdawn.slick.SlickException;
 public class Flight {
 
 	// FIELDS
-	private double x, y, targetAltitude, currentHeading, targetHeading;
-	private int currentAltitude, flightNumber;
+	private double x, y, currentHeading, targetHeading;
+	private int currentAltitude, targetAltitude, flightNumber;
 	private boolean turningRight, turningLeft;
 	private String flightName;
 	private FlightPlan flightPlan;
@@ -75,11 +75,11 @@ public class Flight {
 	}
 
 
-	public double calculateHeadingToFirstWaypoint(double destinationX, double destinationY) {
+	public double calculateHeadingToFirstWaypoint(double desX, double desY) {
 		double deltaX;
 		double deltaY;
-		deltaY = destinationY - this.y;
-		deltaX = destinationX - this.x;
+		deltaY = desY - this.y;
+		deltaX = desX - this.x;
 		double angle = Math.toDegrees(Math.atan2(deltaY, deltaX));
 		angle += 90;
 		if (angle < 0) {
@@ -384,11 +384,11 @@ public class Flight {
 		this.targetHeading = targetHeading;
 	}
 
-	public double getTargetAltitude() {
+	public int getTargetAltitude() {
 		return this.targetAltitude;
 	}
 
-	public void setTargetAltitude(double targetAltitude) {
+	public void setTargetAltitude(int targetAltitude) {
 		this.targetAltitude = targetAltitude;
 	}
 
