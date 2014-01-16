@@ -47,6 +47,14 @@ public class GameOverState extends BasicGameState {
 			sbg.enterState(0);
 		}
 		
+		if((posX > 1150 && posX < 1170) && (posY > 550 && posY < 580)) {
+			if(Mouse.isButtonDown(0)) {
+				System.exit(0);
+			}
+			
+		}
+		else {
+		}
 	}
 
 	public int getID() {
