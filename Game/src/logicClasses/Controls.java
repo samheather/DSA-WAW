@@ -311,7 +311,11 @@ public class Controls {
 					this.turnLeftTextBox.setText("");
 				}
 				this.turnLeftTextBox.setFocus(false);
+				
 			}
+		}
+		else{
+			this.turnLeftTextBox.setText("");
 		}
 		if (this.focusOnLeftTextBoxCleared && !this.turnLeftTextBoxHasFocus) {
 			this.focusOnLeftTextBoxCleared = false;
@@ -335,6 +339,9 @@ public class Controls {
 				}
 				this.turnRightTextBox.setFocus(false);
 			}
+		}
+		else{
+			this.turnRightTextBox.setText("");
 		}
 		if (this.focusOnRightTextBoxCleared && !this.turnRightTextBoxHasFocus) {
 			this.focusOnRightTextBoxCleared = false;
