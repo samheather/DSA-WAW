@@ -60,6 +60,9 @@ public class Controls {
 		this.turnLeftTextBox = new TextField(gc, font, 10, 145, 100, 23);
 		this.headingControlTextBox = new TextField(gc, font, 10, 215, 100, 23);
 		this.turnRightTextBox = new TextField(gc, font, 10, 285, 100, 23);
+		this.turnLeftTextBox.setMaxLength(3);
+		this.turnRightTextBox.setMaxLength(3);
+		this.headingControlTextBox.setMaxLength(3);
 		altitudeButton = new Image("res/graphics/graphics/altitudebutton.png");
 		changePlanButton = new Image("res/graphics/graphics/altitudebutton.png"); // same as altitude button
 		
