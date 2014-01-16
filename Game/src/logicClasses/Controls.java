@@ -173,6 +173,8 @@ public class Controls {
 					if(i != indexOfNearestFlightInAirspaceListOfFlights){
 						airspace.getListOfFlights().get(i).setSelected(false);
 						airspace.getListOfFlights().get(i).getFlightPlan().setChangingPlan(false);
+						this.turnLeftTextBox.setText("");
+						this.turnRightTextBox.setText("");
 					}
 				}
 			}
