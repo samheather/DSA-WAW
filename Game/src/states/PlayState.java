@@ -72,7 +72,7 @@ public class PlayState extends BasicGameState {
 		//Images
 		
 		controlBarImage = new Image("/res/graphics/graphics/control_bar_vertical.png");
-		clockImage = new Image("/res/graphics/graphics/clock.PNG");
+		clockImage = new Image("/res/graphics/graphics/clock.png");
 		backgroundImage = new Image("/res/graphics/graphics/background.png");
 		difficultyBackground = new Image("res/graphics/menu_graphics/difficulty.jpg");
 		easyButton = new Image("res/graphics/menu_graphics/easy.png");
