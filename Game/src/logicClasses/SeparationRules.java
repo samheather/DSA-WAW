@@ -26,8 +26,8 @@ public class SeparationRules {
 			this.gameOverLateralSeparation = 60;
 			this.gameOverVerticalSeparation = 350;
 		 }
-		 if (difficultyVal == 3) { // Hard: Warning Violation = Game Over
-			this.gameOverLateralSeparation = 100;
+		 if (difficultyVal == 3) { // Hard: Minimal Warning Violation allowed before end game achieved.
+			this.gameOverLateralSeparation = 90;
 			this.gameOverVerticalSeparation = 500;
 		 }
 		 
