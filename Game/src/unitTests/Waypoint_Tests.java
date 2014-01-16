@@ -5,7 +5,6 @@ import logicClasses.*;
 
 import org.junit.Test;
 import org.junit.Before;
-import org.junit.AfterClass;
 
 
 // The testable behaviour of Entry, Exit and Way Points, at this point in time, 

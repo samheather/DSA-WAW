@@ -5,7 +5,6 @@ import logicClasses.*;
 
 import org.junit.Test;
 import org.junit.Before;
-import org.junit.AfterClass;
 
 public class Point_Tests {
 

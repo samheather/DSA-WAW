@@ -5,14 +5,6 @@ import logicClasses.*;
 
 import org.junit.Test;
 import org.junit.Before;
-import org.junit.AfterClass;
-
-
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
-import org.lwjgl.Sys;
-import org.lwjgl.input.Mouse;
 
 //NOT COMPLETED ;;
 public class Airspace_Tests {
