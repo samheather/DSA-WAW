@@ -49,6 +49,7 @@ public class Controls {
 		this.targetAltitude=0;
 		this.selectedFlight = null;
 		
+				
 		
 	}
 
