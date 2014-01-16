@@ -3,11 +3,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.lwjgl.input.Mouse;
 
 
 //@SuppressWarnings("unused")
@@ -332,7 +330,7 @@ public class Airspace {
 	public void removeSpecificFlight(int flight) {
 		this.listOfFlightsInAirspace.remove(flight); // remove that flight from the list
 		
-		// If flight was selected, deselect it
+		// If flight was selected, de-select it
 		if (!(this.listOfFlightsInAirspace.contains(this.controls.getSelectedFlight()))) {
 			this.controls.setSelectedFlight(null);
 
