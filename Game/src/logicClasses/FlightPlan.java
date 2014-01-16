@@ -94,7 +94,6 @@ public class FlightPlan {
 		return tempRoute;
 	}
 
-
 	public int generateVelocity() {
 		Random rand = new Random();
 		return (rand.nextInt(200) + 200);

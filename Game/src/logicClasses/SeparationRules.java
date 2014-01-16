@@ -34,7 +34,7 @@ public class SeparationRules {
 	 }
 		
 	//METHODS
-		
+	
 	public double lateralDistanceBetweenFlights(Flight flight1, Flight flight2){
 		return Math.sqrt(Math.pow((flight1.getX() - flight2.getX()), 2) + Math.pow(( flight1.getY() - flight2.getY()),2));
 		}

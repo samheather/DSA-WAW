@@ -70,7 +70,7 @@ public class SeparationRules_Tests {
 	//Test: checkViolation
 	
 	@Test
-	public void checkViolationTest(){
+	public void checkViolationTrueTest(){
 		flight1.setX(1);
 		flight2.setX(1);
 		flight1.setY(1);
@@ -79,6 +79,31 @@ public class SeparationRules_Tests {
 		separationRules.checkViolation(airspace);
 		assertTrue(separationRules.getGameOverViolation());
 	}
+	
+	@Test
+	public void checkViolationFalseVerticalTest(){
+		flight1.setX(1);
+		flight2.setX(1);
+		flight1.setY(1000);
+		flight2.setY(5000);
+		
+		separationRules.checkViolation(airspace);
+		assertFalse(separationRules.getGameOverViolation());
+	}
+	
+	@Test
+	public void checkViolationFalseLateralTest(){
+		flight1.setX(1000);
+		flight2.setX(1);
+		flight1.setY(1000);
+		flight2.setY(1000);
+		
+		separationRules.checkViolation(airspace);
+		assertFalse(separationRules.getGameOverViolation());
+	}
+	
+	
+	
 	
 	//Test: Mutators and Accessors
 	

@@ -14,13 +14,13 @@ import org.junit.Before;
 
 public class Waypoint_Tests {
 	
-	private Waypoint testwaypointZero, testwaypointPositive, testwaypointNegative;
+	private Waypoint testWaypointZero, testWaypointPositive, testWaypointNegative;
 	
 	@Before
 	public void setUp(){
-		testwaypointZero = new Waypoint(0,1);
-		testwaypointPositive = new Waypoint(100,101);
-		testwaypointNegative = new Waypoint (-100, -101);
+		testWaypointZero = new Waypoint(0,1);
+		testWaypointPositive = new Waypoint(100,101);
+		testWaypointNegative = new Waypoint (-100, -101);
 	// No constraints applied directly to point constructor; no irregular behaviour should occur
 		// from any non-numeric values for x and y.
 		
@@ -34,49 +34,49 @@ public class Waypoint_Tests {
 	
 	@Test
 	public void getXTest(){
-		assertEquals("getX() test zero value", testwaypointZero.getX(), 0, 0.1);
-		assertEquals("getX() test positive value", testwaypointPositive.getX(), 100, 0.1);
-		assertEquals("getX() test negative value", testwaypointNegative.getX(), -100, 0.1);
+		assertEquals("getX() test zero value", testWaypointZero.getX(), 0, 0.1);
+		assertEquals("getX() test positive value", testWaypointPositive.getX(), 100, 0.1);
+		assertEquals("getX() test negative value", testWaypointNegative.getX(), -100, 0.1);
 	}
 	
 	@Test
 	public void getYTest(){
-		assertEquals("getY() test zero value", testwaypointZero.getY(), 1, 0.1);
-		assertEquals("getY() test positive value", testwaypointPositive.getY(), 101, 0.1);
-		assertEquals("getY() test negative", testwaypointNegative.getY(), -101, 0.1);
+		assertEquals("getY() test zero value", testWaypointZero.getY(), 1, 0.1);
+		assertEquals("getY() test positive value", testWaypointPositive.getY(), 101, 0.1);
+		assertEquals("getY() test negative", testWaypointNegative.getY(), -101, 0.1);
 	}
 	
 	@Test
 	public void setXTest(){
-		testwaypointPositive.setX(1000);
-		testwaypointNegative.setX(-1000);
-		assertEquals("setX(double) test, positive double argument", testwaypointPositive.getX(), 1000, 0.1);
-		assertEquals("setX(double) test, negative double argument", testwaypointNegative.getX(), -1000, 0.1);
+		testWaypointPositive.setX(1000);
+		testWaypointNegative.setX(-1000);
+		assertEquals("setX(double) test, positive double argument", testWaypointPositive.getX(), 1000, 0.1);
+		assertEquals("setX(double) test, negative double argument", testWaypointNegative.getX(), -1000, 0.1);
 	}
 	
 	@Test
 	public void setYTest(){
-		testwaypointPositive.setY(1001);
-		testwaypointNegative.setY(-1001);
-		assertEquals("setY(double) test, positive double argument", testwaypointPositive.getY(), 1001, 0.1);
-		assertEquals("setY(double) test, negative double argument", testwaypointNegative.getY(), -1001, 0.1);
+		testWaypointPositive.setY(1001);
+		testWaypointNegative.setY(-1001);
+		assertEquals("setY(double) test, positive double argument", testWaypointPositive.getY(), 1001, 0.1);
+		assertEquals("setY(double) test, negative double argument", testWaypointNegative.getY(), -1001, 0.1);
 	}
 	
 	@Test
 	public void getPointRefTest(){
-		testwaypointZero.setPointRef("success");
-		assertEquals("getPointRef(string) test", testwaypointZero.getPointRef(), "success");
+		testWaypointZero.setPointRef("success");
+		assertEquals("getPointRef(string) test", testWaypointZero.getPointRef(), "success");
 	}
 	
 	@Test
 	public void setPointRefTest(){
-		testwaypointZero.setPointRef("success");
-		assertEquals("setPointRef(string) test", testwaypointZero.getPointRef(), "success");
+		testWaypointZero.setPointRef("success");
+		assertEquals("setPointRef(string) test", testWaypointZero.getPointRef(), "success");
 	}
 	
 	@Test
 	public void getPointCountTest(){
-		assertEquals("getPointCount() test; three created", testwaypointZero.getPointCount(), 3);
+		assertEquals("getPointCount() test; three created", testWaypointZero.getPointCount(), 3);
 	}
 	
 
