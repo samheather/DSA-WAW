@@ -175,8 +175,8 @@ public class Airspace {
 	
 	public void increaseDifficulty(){
 		this.numberOfGameLoopsWhenDifficultyIncreases += 3600;
-		if (this.maxRand - 100 > 0) {
-			this.maxRand -= 100;
+		if (this.maxRand - 50 > 0) {
+			this.maxRand -= 50;
 		}
 	}
 	
