@@ -31,6 +31,7 @@ public class Controls {
 	private String text;
 	private int altitudeToIncreaseTo, altitudeToDecreaseTo, targetAltitude;
 	private Image altitudeButton, changePlanButton;
+	private int difficultyValueOfGame;
 	
 	
 	// CONSTRUCTOR
@@ -368,7 +369,7 @@ public class Controls {
 					this.selectedFlight.getFlightPlan().setChangingPlan(true);
 				}
 				
-				if(Mouse.isButtonDown(1)){
+				if(Mouse.isButtonDown(1) && (this.difficultyValueOfGame != 3)){
 					this.giveHeadingWithMouse(posX, posY, airspace);
 				}
 
@@ -467,6 +468,11 @@ public class Controls {
 	
 	public Flight getSelectedFlight(){
 		return this.selectedFlight;
+	}
+	
+	public void setDifficultyValueOfGame(int value){
+		this.difficultyValueOfGame = value;
+		
 	}
 }
 

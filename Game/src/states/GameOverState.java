@@ -37,8 +37,14 @@ public class GameOverState extends BasicGameState {
 		int posX=Mouse.getX();
 		int posY=Mouse.getY();
 		
-		if(posX>354&&posX<354+228&&posY>176&&posY<220&&Mouse.isButtonDown(0)) {
+		posY = 600 - posY;
+		
+		if(posX>354&&posX<582+228&&posY>380&&posY<424&&Mouse.isButtonDown(0)) {
 			sbg.enterState(1);
+		}
+		
+		if(posX>728&&posX<844+228&&posY>380&&posY<426&&Mouse.isButtonDown(0)) { // 116 46
+			sbg.enterState(0);
 		}
 		
 	}

@@ -11,7 +11,7 @@ import org.newdawn.slick.TrueTypeFont;
 
 public class MenuState extends BasicGameState {
 	public static TrueTypeFont font;
-	private Image menuBackground, playButton, quitButton, playHover, quitHover, creditsButton;
+	private Image menuBackground, playButton, quitButton, playHover, quitHover, creditsButton, controlsButton;
 	
 
 	public MenuState(int state) {
@@ -29,6 +29,7 @@ public class MenuState extends BasicGameState {
 		//credits screen access needs their own graphics assets, currently using placeholder
 		//placeholder graphics has dimensions 116x46 pxls
 		creditsButton = new Image("res/graphics/menu_graphics/credits.png");
+		controlsButton = new Image("res/graphics/menu_graphics/controls_silver.png");
 		
 		
 		
@@ -76,6 +77,8 @@ public class MenuState extends BasicGameState {
 		} else {
 			creditsButton.draw(20,534);
 		}
+		
+		controlsButton.draw(490,534);
 
 		g.setColor(Color.white);
 		gc.setShowFPS(false);
@@ -98,6 +101,13 @@ public class MenuState extends BasicGameState {
 			playHover.draw(439,349);
 			if (Mouse.isButtonDown(0)) {
 				sbg.enterState(1);
+			}
+
+		} 
+		
+		if ((posX > 490 && posX < 725) && (posY > 534 && posY < 596)) {
+			if (Mouse.isButtonDown(0)) {
+				sbg.enterState(5);
 			}
 
 		} 

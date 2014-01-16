@@ -8,6 +8,7 @@ import states.MenuState;
 import states.PauseState;
 import states.PlayState;
 import states.CreditsState;
+import states.ControlsState;
 
 public class Game extends StateBasedGame {
 
@@ -17,6 +18,8 @@ public class Game extends StateBasedGame {
 	public static final int GAMEOVERSTATE = 2;
 	public static final int PAUSESTATE = 3;
 	public static final int CREDITSSTATE = 4;
+	public static final int CONTROLSSTATE = 5;
+	
 	public static final int MAXIMUMWIDTH = 1200;
 	public static final int MAXIMUMHEIGHT = 600;
 	
@@ -28,6 +31,7 @@ public class Game extends StateBasedGame {
 		this.addState(new GameOverState(GAMEOVERSTATE));
 		this.addState(new PauseState(PAUSESTATE));
 		this.addState(new CreditsState(CREDITSSTATE));
+		this.addState(new ControlsState(CONTROLSSTATE));
 		this.enterState(MENUSTATE);
 	}
 

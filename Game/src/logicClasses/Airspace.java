@@ -40,7 +40,7 @@ public class Airspace {
 		this.numberOfLoopsSinceLastFlightAdded = 0; // how many loops to wait before another flight can enter
 		this.numberOfTimesGameHasLooped = 0; // stores how many loops there have been in total
 		this.numberOfGameLoopsWhenDifficultyIncreases = 10000; // this is how many loops until planes come more quickly, divide by 60 for seconds
-		this.maxRand = 1000;
+		this.maxRand = 50;
 		this.waypointCounter = 64; // Starts at 64 as this is ASCII value for A
 		this.exitpointCounter = 0;
 		this.controls = new Controls();
@@ -52,9 +52,7 @@ public class Airspace {
 	
 	public void resetAirspace() {
 		
-		for(int i = 0; i<this.listOfFlightsInAirspace.size();i++) {
-			this.listOfFlightsInAirspace.remove(i);
-		}
+		this.listOfFlightsInAirspace = new ArrayList<Flight>();
 		
 		this.numberOfLoopsSinceLastFlightAdded = 0; // how many loops to wait before another flight can enter
 		this.numberOfTimesGameHasLooped = 0; // stores how many loops there have been in total
@@ -377,5 +375,9 @@ public class Airspace {
 	public void setDifficultyValueOfGame(int i){
 		this.difficultyValueOfGame = i;
 		
+	}
+	
+	public int getDifficultyValueOfGame(){
+	return this.difficultyValueOfGame;
 	}
 }
