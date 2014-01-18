@@ -15,8 +15,7 @@ public class Airspace {
 
 	private int maximumNumberOfFlightsInAirspace;
 	private int score, numberOfGameLoopsSinceLastFlightAdded, numberOfGameLoops,
-			numberOfGameLoopsWhenDifficultyIncreases, randomNumberForFlightGeneration, waypointCounter,
-			exitpointCounter;
+			numberOfGameLoopsWhenDifficultyIncreases, randomNumberForFlightGeneration;
 	private List<Flight> listOfFlightsInAirspace;
 	private List<Waypoint> listOfWayppoints;
 	private List<EntryPoint> listofEntrypoints;
@@ -40,8 +39,6 @@ public class Airspace {
 		this.numberOfGameLoops = 0; // stores how many loops there have been in total
 		this.numberOfGameLoopsWhenDifficultyIncreases = 3600; // this is how many loops until planes come more quickly, difficulty increase once a minute
 		this.randomNumberForFlightGeneration = 500;
-		this.waypointCounter = 64; // Starts at 64 as this is ASCII value for A
-		this.exitpointCounter = 0;
 		this.controls = new Controls();
 		this.difficultyValueOfGame = 0; // This value will be changed when the user selects a difficulty in the playstate
 		
@@ -67,25 +64,23 @@ public class Airspace {
 		this.separationRules = new SeparationRules(difficultyValueOfGame); 
 	}
 	
-	public boolean newWaypoint(int x, int y)  {
+	public boolean newWaypoint(int x, int y, String name)  {
 		if (x < 1250 && x > 150 && y < 650
 				&& y > -50){
-			this.waypointCounter++;
-			Waypoint tmpWp = new Waypoint(x, y);
 			
-			tmpWp.setPointRef(String.valueOf((char) this.waypointCounter));
+			Waypoint tmpWp = new Waypoint(x, y, name);
+			
 			if (this.addWaypoint(tmpWp)) {
 				return true;
 			}
 		} return false;
 	}
-	public boolean newExitPoint(int x, int y) {
+	public boolean newExitPoint(int x, int y, String name) {
 		if (x < 1250 && x > 100 && y < 650
 				&& y > -50){
-			ExitPoint tmpEp = new ExitPoint(x, y);
-			this.exitpointCounter++;
+			ExitPoint tmpEp = new ExitPoint(x, y, name);
 			
-			tmpEp.setPointRef("EXP" + this.exitpointCounter);
+			tmpEp.setPointRef("EXP" + name);
 			if (this.addExitPoint(tmpEp)) {
 				return true;
 			}

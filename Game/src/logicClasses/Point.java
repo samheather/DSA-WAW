@@ -20,7 +20,7 @@ public class Point {
     protected double y;
     protected String pointRef;
     Image nextWaypointImage, waypointImage;
-	protected static int pointCount = 0;
+
 	
 	// CONSTRUCTORS
     
@@ -28,7 +28,7 @@ public class Point {
     public Point(double xcoord, double ycoord) {
     x = xcoord;
     y = ycoord;
-    pointCount += 1;
+    
 
     }
     
@@ -36,8 +36,7 @@ public class Point {
     Point(double xcoord, double ycoord, String name){
     x = xcoord; 
     y = ycoord;
-    //pointRef = name;
-    pointCount += 1;
+    pointRef = name;
     System.out.println("Point " + pointRef + " set:(" + x + "," + y +").");
     }
     
@@ -45,7 +44,7 @@ public class Point {
     Point(){
     System.out.println("Warning: Constructor method for Point Object called, "
             + "point set as (0,0) with no point ref.");
-    pointCount +=1;
+ 
     }
     
     
@@ -72,7 +71,7 @@ public class Point {
     		
     	}
     	else{
-    		this.waypointImage.draw((int)this.x-13, (int)this.y-14,30,30);
+    		this.waypointImage.draw((int)this.x-14, (int)this.y-14,30,30);
 	    	
     	}
     	g.setColor(Color.black);
@@ -108,9 +107,7 @@ public class Point {
   	}
     
 
-    public int getPointCount() {
-    	return Point.pointCount;
-    }
+
     
     public boolean equals(Point point){
     	if(point instanceof Point){

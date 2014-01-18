@@ -19,24 +19,24 @@ public class FlightPlan_Tests {
 	public void setUp(){
     	airspace = new Airspace();
     	//Waypoints
-    	airspace.newWaypoint(350, 150);
-    	airspace.newWaypoint(400, 470);
-    	airspace.newWaypoint(700, 60);
-    	airspace.newWaypoint(800, 320);
-    	airspace.newWaypoint(600, 418);
-    	airspace.newWaypoint(500, 220);
-    	airspace.newWaypoint(950, 188);
-    	airspace.newWaypoint(1050, 272);
-    	airspace.newWaypoint(900, 420);
-    	airspace.newWaypoint(240, 250);
+    	airspace.newWaypoint(350, 150, "A");
+    	airspace.newWaypoint(400, 470, "B");
+    	airspace.newWaypoint(700, 60,  "C");
+    	airspace.newWaypoint(800, 320, "D");
+    	airspace.newWaypoint(600, 418, "E");
+    	airspace.newWaypoint(500, 220, "F");
+    	airspace.newWaypoint(950, 188, "G");
+    	airspace.newWaypoint(1050, 272,"H");
+    	airspace.newWaypoint(900, 420, "I");
+    	airspace.newWaypoint(240, 250, "J");
     	//EntryPoints
     	airspace.newEntryPoint(150, 400);
     	airspace.newEntryPoint(1200, 200);
     	airspace.newEntryPoint(600, 0);
     	// Exit Points
-    	airspace.newExitPoint(800, 0);
-    	airspace.newExitPoint(150, 200);
-    	airspace.newExitPoint(1200, 300);
+    	airspace.newExitPoint(800, 0, "1");
+    	airspace.newExitPoint(150, 200, "2");
+    	airspace.newExitPoint(1200, 300, "3");
     	flight1 = new Flight(airspace);
     	flightplan = new FlightPlan(airspace, flight1);
     	
@@ -97,16 +97,16 @@ public class FlightPlan_Tests {
     	airspaceMissingExitPoints.newEntryPoint(1200, 200);
     	airspaceMissingExitPoints.newEntryPoint(600, 0);
     	//Waypoints
-    	airspaceMissingExitPoints.newWaypoint(350, 150);
-    	airspaceMissingExitPoints.newWaypoint(400, 470);
-    	airspaceMissingExitPoints.newWaypoint(700, 60);
-    	airspaceMissingExitPoints.newWaypoint(800, 320);
-    	airspaceMissingExitPoints.newWaypoint(600, 418);
-    	airspaceMissingExitPoints.newWaypoint(500, 220);
-    	airspaceMissingExitPoints.newWaypoint(950, 188);
-    	airspaceMissingExitPoints.newWaypoint(1050, 272);
-    	airspaceMissingExitPoints.newWaypoint(900, 420);
-    	airspaceMissingExitPoints.newWaypoint(240, 250);
+    	airspaceMissingExitPoints.newWaypoint(350, 150, "A");
+    	airspaceMissingExitPoints.newWaypoint(400, 470, "B");
+    	airspaceMissingExitPoints.newWaypoint(700, 60,  "C");
+    	airspaceMissingExitPoints.newWaypoint(800, 320, "D");
+    	airspaceMissingExitPoints.newWaypoint(600, 418, "E");
+    	airspaceMissingExitPoints.newWaypoint(500, 220, "F");
+    	airspaceMissingExitPoints.newWaypoint(950, 188, "G");
+    	airspaceMissingExitPoints.newWaypoint(1050, 272,"H");
+    	airspaceMissingExitPoints.newWaypoint(900, 420, "I");
+    	airspaceMissingExitPoints.newWaypoint(240, 250, "J");
     	
     	Flight flight1 = new Flight(airspaceMissingExitPoints);
     	
@@ -127,9 +127,9 @@ public class FlightPlan_Tests {
     	airspaceMissingWaypoints.newEntryPoint(1200, 200);
     	airspaceMissingWaypoints.newEntryPoint(600, 0);
     	// Exit Points
-    	airspaceMissingWaypoints.newExitPoint(800, 0);
-    	airspaceMissingWaypoints.newExitPoint(150, 200);
-    	airspaceMissingWaypoints.newExitPoint(1200, 300);
+    	airspaceMissingWaypoints.newExitPoint(800, 0, "1");
+    	airspaceMissingWaypoints.newExitPoint(150, 200, "2");
+    	airspaceMissingWaypoints.newExitPoint(1200, 300, "3");
     	
     	Flight flight1 = new Flight(airspaceMissingWaypoints);
     	

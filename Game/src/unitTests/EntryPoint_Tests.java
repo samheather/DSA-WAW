@@ -73,8 +73,5 @@ public class EntryPoint_Tests {
 		assertEquals("setPointRef(string) test", testentrypointZero.getPointRef(), "success");
 	}
 	
-	@Test
-	public void getPointCountTest(){
-		assertEquals("getPointCount() test; three created", testentrypointZero.getPointCount(), 3);
-	}
+
 }

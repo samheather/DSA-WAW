@@ -46,13 +46,11 @@ public class SeparationRules {
 	public void checkViolation(Airspace airspace){
 		
 		
-		// checks if flights are in violation with each other.
+		// Checks if flights are in violation with each other.
 		for (int i = 0; i < airspace.getListOfFlights().size(); i++){
 			
 			for (int j = i+1; j < airspace.getListOfFlights().size(); j++){ // j = i + 1 : stops double checking
 				
-						
-				// Ram - Changed Game Over cond. to require BOTH vertical and lateral screw up.
 				if ((lateralDistanceBetweenFlights(airspace.getListOfFlights().get(i), airspace.getListOfFlights().get(j)) < this.gameOverLateralSeparation)){
 					if ((verticalDistanceBetweenFlights(airspace.getListOfFlights().get(i), airspace.getListOfFlights().get(j)) < this.gameOverVerticalSeparation)){
 					this.gameOverViolation = true;
@@ -61,6 +59,11 @@ public class SeparationRules {
 			}
 		}
 	}
+	
+	/**
+	render: This calculates whether any flights in the airspace are breaking warning separation rules
+	If two flight are breaking warning separation rules, a line is drawn between them.
+	 */
 	
 	public void render(Graphics g, GameContainer gc, Airspace airspace){
 		for (int i = 0; i < airspace.getListOfFlights().size(); i++) {

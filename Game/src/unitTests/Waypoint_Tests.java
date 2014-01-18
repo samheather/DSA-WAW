@@ -74,10 +74,7 @@ public class Waypoint_Tests {
 		assertEquals("setPointRef(string) test", testWaypointZero.getPointRef(), "success");
 	}
 	
-	@Test
-	public void getPointCountTest(){
-		assertEquals("getPointCount() test; three created", testWaypointZero.getPointCount(), 3);
-	}
+	
 	
 
 }

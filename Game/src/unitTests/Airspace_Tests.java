@@ -16,24 +16,24 @@ public class Airspace_Tests {
 	public void setUp(){
     	airspace = new Airspace();
     	// Waypoints
-    	airspace.newWaypoint(350, 150);
-    	airspace.newWaypoint(400, 470);
-    	airspace.newWaypoint(700, 60);
-    	airspace.newWaypoint(800, 320);
-    	airspace.newWaypoint(600, 418);
-    	airspace.newWaypoint(500, 220);
-    	airspace.newWaypoint(950, 188);
-    	airspace.newWaypoint(1050, 272);
-    	airspace.newWaypoint(900, 420);
-    	airspace.newWaypoint(240, 250);
+    	airspace.newWaypoint(350, 150, "A");
+    	airspace.newWaypoint(400, 470, "B");
+    	airspace.newWaypoint(700, 60,  "C");
+    	airspace.newWaypoint(800, 320, "D");
+    	airspace.newWaypoint(600, 418, "E");
+    	airspace.newWaypoint(500, 220, "F");
+    	airspace.newWaypoint(950, 188, "G");
+    	airspace.newWaypoint(1050, 272,"H");
+    	airspace.newWaypoint(900, 420, "I");
+    	airspace.newWaypoint(240, 250, "J");
     	// EntryPoints
     	airspace.newEntryPoint(150, 400);
     	airspace.newEntryPoint(1200, 200);
     	airspace.newEntryPoint(600, 0);
     	// Exit Points
-    	airspace.newExitPoint(800, 0);
-    	airspace.newExitPoint(150, 200);
-    	airspace.newExitPoint(1200, 300);
+    	airspace.newExitPoint(800, 0, "1");
+    	airspace.newExitPoint(150, 200, "2");
+    	airspace.newExitPoint(1200, 300, "3");
     	// Get a Flight
     	flight1 = new Flight(airspace);
 		
@@ -42,15 +42,15 @@ public class Airspace_Tests {
 	// Testing new_waypoint()
 	@Test
 	public void newWaypointTest(){
-		assertTrue(airspace.newWaypoint(151, 500));
-		assertFalse(airspace.newWaypoint(-10000, 0));
+		assertTrue(airspace.newWaypoint(151, 500, "TEST"));
+		assertFalse(airspace.newWaypoint(-10000, 0, "TEST2"));
 	}
 	
 	// Testing new_exit_point()
 	@Test
 	public void newExitPointTest(){
-		assertTrue(airspace.newExitPoint(150, 500));
-		assertFalse(airspace.newExitPoint(-10000, 0));
+		assertTrue(airspace.newExitPoint(150, 500, "TEST"));
+		assertFalse(airspace.newExitPoint(-10000, 0, "TEST2"));
 	}
 
 	// Testing new_entry_point()
