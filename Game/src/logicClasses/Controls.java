@@ -18,10 +18,8 @@ public class Controls {
 	private TextField headingControlTextBox;
 	private TextField turnRightTextBox;
 	private TextField turnLeftTextBox;
-	private boolean focusOnHeadingTextBoxCleared; // Has the text box been reset?
+	private boolean selectingHeadingUsingTextBox; // Has the text box been reset?
 	private boolean mouseHeldDownOnAltitudeButton, mouseHeldDownOnFlight;
-	private boolean focusOnRightTextBoxCleared;
-	private boolean focusOnLeftTextBoxCleared;
 	private final int  MAXIMUMALTITUDE = 31000;
 	private final int  MINIMUMALTITUDE = 26000;
 	private Flight selectedFlight;
@@ -33,9 +31,7 @@ public class Controls {
 	// CONSTRUCTOR
 	public Controls() {
 		
-		this.focusOnHeadingTextBoxCleared = false;
-		this.focusOnLeftTextBoxCleared = false;
-		this.focusOnRightTextBoxCleared = false;
+		this.selectingHeadingUsingTextBox = false;
 		this.mouseHeldDownOnAltitudeButton=false;
 		this.mouseHeldDownOnFlight = false;
 		this.selectedFlight = null;
@@ -191,6 +187,74 @@ public class Controls {
 		}
 		
 	}
+	
+	public void updateHeadingTextBox(Input input){
+		boolean headingTextBoxHasFocus = this.headingControlTextBox.hasFocus();
+		if (headingTextBoxHasFocus) {
+			
+			// If the user has just selected the textbox, clear the textbox 
+			if (!this.selectingHeadingUsingTextBox) {
+				this.selectingHeadingUsingTextBox = true;
+				this.headingControlTextBox.setText("");
+			}
+			
+			if (input.isKeyDown(Input.KEY_ENTER)) {
+				this.text = this.headingControlTextBox.getText();
+				this.text = this.text.replaceAll("\\D+", "");
+				if (!this.text.isEmpty()) {
+					this.selectedFlight.giveHeading(Integer.valueOf(this.text));
+					this.headingControlTextBox.setFocus(false);
+
+				}
+				
+			}
+		}
+		
+		if (this.selectingHeadingUsingTextBox && !headingTextBoxHasFocus) {
+			this.selectingHeadingUsingTextBox = false;
+		}
+	}
+	
+	public void updateTurnLeftTextBox(Input input){
+		boolean turnLeftTextBoxHasFocus = this.turnLeftTextBox.hasFocus();
+		if (turnLeftTextBoxHasFocus) {
+			
+			if (input.isKeyDown(Input.KEY_ENTER)) {
+				this.text = this.turnLeftTextBox.getText();
+				this.text = this.text.replaceAll("\\D+", "");
+				if (!this.text.isEmpty() && Integer.valueOf(this.text) <= 360) {
+					this.selectedFlight.turnFlightLeft(Integer.valueOf(this.text));
+					this.turnLeftTextBox.setText("");
+				}
+				this.turnLeftTextBox.setFocus(false);
+				
+			}
+		}
+		else{
+			this.turnLeftTextBox.setText("");
+		}
+		
+	}
+	
+	public void updateTurnRightTextBox(Input input){
+		if (this.turnRightTextBox.hasFocus()) {
+
+			if (input.isKeyDown(Input.KEY_ENTER)) {
+				this.text = this.turnRightTextBox.getText();
+				this.text = this.text.replaceAll("\\D+", "");
+				if (!this.text.isEmpty() && Integer.valueOf(this.text) <= 360) {
+					this.selectedFlight.turnFlightRight(Integer.valueOf(this.text));
+					this.turnRightTextBox.setText("");
+				}
+				this.turnRightTextBox.setFocus(false);
+				
+			}
+		}
+		else{
+			this.turnRightTextBox.setText("");
+		}
+
+	}
 
 
 	// RENDER AND UPDATE
@@ -254,82 +318,6 @@ public class Controls {
 		}	
 	}
 	
-	public void updateHeadingTextBox(Input input){
-		boolean headingTextBoxHasFocus = this.headingControlTextBox.hasFocus();
-		if (headingTextBoxHasFocus) {
-			if (!this.focusOnHeadingTextBoxCleared) {
-				this.focusOnHeadingTextBoxCleared = true;
-				this.headingControlTextBox.setText("");
-			}
-			if (input.isKeyDown(Input.KEY_ENTER)) {
-				this.text = this.headingControlTextBox.getText();
-				this.text = this.text.replaceAll("\\D+", "");
-				if (!this.text.isEmpty()) {
-					this.selectedFlight.giveHeading(Integer.valueOf(this.text));
-
-				}
-				this.headingControlTextBox.setFocus(false);
-			}
-		}
-		
-		if (this.focusOnHeadingTextBoxCleared && !headingTextBoxHasFocus) {
-			this.focusOnHeadingTextBoxCleared = false;
-		}
-	}
-	
-	public void updateTurnLeftTextBox(Input input){
-		boolean turnLeftTextBoxHasFocus = this.turnLeftTextBox.hasFocus();
-		if (turnLeftTextBoxHasFocus) {
-			if (!this.focusOnLeftTextBoxCleared) {
-				this.focusOnLeftTextBoxCleared = true;
-				this.turnLeftTextBox.setText("");
-			}
-			if (input.isKeyDown(Input.KEY_ENTER)) {
-				this.text = this.turnLeftTextBox.getText();
-				this.text = this.text.replaceAll("\\D+", "");
-				if (!this.text.isEmpty() && Integer.valueOf(this.text) <= 360) {
-					this.selectedFlight.turnFlightLeft(Integer.valueOf(this.text));
-					this.turnLeftTextBox.setText("");
-				}
-				this.turnLeftTextBox.setFocus(false);
-				
-			}
-		}
-		else{
-			this.turnLeftTextBox.setText("");
-		}
-		if (this.focusOnLeftTextBoxCleared && !turnLeftTextBoxHasFocus) {
-			this.focusOnLeftTextBoxCleared = false;
-		}
-
-	}
-	
-	public void updateTurnRightTextBox(Input input){
-		boolean turnRightTextBoxHasFocus = this.turnRightTextBox.hasFocus();
-		if (turnRightTextBoxHasFocus) {
-			if (!this.focusOnRightTextBoxCleared) {
-				this.focusOnRightTextBoxCleared = true;
-				this.turnRightTextBox.setText("");
-			}
-			if (input.isKeyDown(Input.KEY_ENTER)) {
-				this.text = this.turnRightTextBox.getText();
-				this.text = this.text.replaceAll("\\D+", "");
-				if (!this.text.isEmpty() && Integer.valueOf(this.text) <= 360) {
-					this.selectedFlight.turnFlightRight(Integer.valueOf(this.text));
-					this.turnRightTextBox.setText("");
-				}
-				this.turnRightTextBox.setFocus(false);
-			}
-		}
-		else{
-			this.turnRightTextBox.setText("");
-		}
-		if (this.focusOnRightTextBoxCleared && !turnRightTextBoxHasFocus) {
-			this.focusOnRightTextBoxCleared = false;
-		}
-	
-
-	}
 	
 	
 	
