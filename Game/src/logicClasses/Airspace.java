@@ -43,6 +43,7 @@ public class Airspace {
 		this.waypointCounter = 64; // Starts at 64 as this is ASCII value for A
 		this.exitpointCounter = 0;
 		this.controls = new Controls();
+		this.difficultyValueOfGame = 0; // This value will be changed when the user selects a difficulty in the playstate
 		
 		
 	}
