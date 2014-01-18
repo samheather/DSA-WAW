@@ -29,7 +29,6 @@ public class Controls {
 	private final int  MINIMUMALTITUDE = 26000;
 	private Flight selectedFlight;
 	private String text;
-	private int altitudeToIncreaseTo, altitudeToDecreaseTo, targetAltitude;
 	private Image altitudeButton, changePlanButton;
 	private int difficultyValueOfGame;
 	
@@ -45,10 +44,8 @@ public class Controls {
 		this.focusOnRightTextBoxCleared = false;
 		this.mouseHeldDownOnAltitudeButton=false;
 		this.mouseHeldDownOnFlight = false;
-		this.altitudeToIncreaseTo=0;
-		this.altitudeToDecreaseTo=0;
-		this.targetAltitude=0;
 		this.selectedFlight = null;
+		
 		
 				
 		
@@ -100,9 +97,6 @@ public class Controls {
 				}
 			}
 			
-			this.setIncreaseAlt((int)Math.round(this.selectedFlight.getTargetAltitude())+1000);
-			this.setDecreaseAlt((int)Math.round(this.selectedFlight.getTargetAltitude())-1000);
-			this.setTargetAlt((int)Math.round(this.selectedFlight.getTargetAltitude()));
 	
 		
 	}
@@ -207,12 +201,6 @@ public class Controls {
 		
 	}
 
-//	public void allow_all() {
-//		this.headingControlTB.setAcceptingInput(true);
-//		this.turnLeftTB.setAcceptingInput(true);
-//		this.turnRightTB.setAcceptingInput(true);
-//	}
-//	
 
 	// RENDER AND UPDATE
 
@@ -240,15 +228,15 @@ public class Controls {
 				altitudeButton.draw(0,390);
 				altitudeButton.draw(0,420);
 				g.setColor(Color.white);
-				g.drawString("Target: "+this.targetAltitude+"Ft", 10, 360);
+				g.drawString("Target: "+this.selectedFlight.getTargetAltitude()+"Ft", 10, 360);
 				if(this.selectedFlight.getTargetAltitude() != Math.round(31000)){
-					g.drawString("Increase to "+this.altitudeToIncreaseTo, 10, 390);
+					g.drawString("Increase to "+ (this.selectedFlight.getTargetAltitude()+1000), 10, 390);
 				}
 				else {
 					g.drawString("At max altitude", 10, 390);
 				}
 				if(this.selectedFlight.getTargetAltitude() != Math.round(26000)){
-					g.drawString("Decrease to "+this.altitudeToDecreaseTo, 10, 420);
+					g.drawString("Decrease to "+ (this.selectedFlight.getTargetAltitude()-1000), 10, 420);
 				}
 				else {
 					g.drawString("At min altitude", 10, 420);
@@ -428,30 +416,7 @@ public class Controls {
 	//MUTATORS AND ACCESSORS
 
 
-	public int getTargetAlt() {
-		return targetAltitude;
-	}
 
-	public void setTargetAlt(int targetAlt) {
-		this.targetAltitude = targetAlt;
-	}
-	
-	public int getIncreaseAlt() {
-		return altitudeToIncreaseTo;
-	}
-
-	public void setIncreaseAlt(int increaseAlt) {
-		this.altitudeToIncreaseTo = increaseAlt;
-	}
-
-	public int getDecreaseAlt() {
-		return altitudeToDecreaseTo;
-	}
-
-	public void setDecreaseAlt(int decreaseAlt) {
-		this.altitudeToDecreaseTo = decreaseAlt;
-	}
-	
 	public void setSelectedFlight(Flight flight1){
 		this.selectedFlight = flight1;
 	}
