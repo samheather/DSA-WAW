@@ -14,8 +14,8 @@ public class Airspace {
 	// FIELDS
 
 	private int maximumNumberOfFlightsInAirspace;
-	private int score, numberOfLoopsSinceLastFlightAdded, numberOfTimesGameHasLooped,
-			numberOfGameLoopsWhenDifficultyIncreases, maxRand, waypointCounter,
+	private int score, numberOfGameLoopsSinceLastFlightAdded, numberOfGameLoops,
+			numberOfGameLoopsWhenDifficultyIncreases, randomNumberForFlightGeneration, waypointCounter,
 			exitpointCounter;
 	private List<Flight> listOfFlightsInAirspace;
 	private List<Waypoint> listOfWayppoints;
@@ -24,7 +24,6 @@ public class Airspace {
 	private SeparationRules separationRules;
 	private Airport airport;
 	private int difficultyValueOfGame; 
-	private boolean warningViolation = false; // bool outlining whether a violation is present
 	private Controls controls;
 	
 	// CONSTRUCTOR
@@ -37,10 +36,10 @@ public class Airspace {
 		this.listofEntrypoints = new ArrayList<EntryPoint>();
 		this.listOfExitPoints = new ArrayList<ExitPoint>();
 		this.airport = new Airport();
-		this.numberOfLoopsSinceLastFlightAdded = 0; // how many loops to wait before another flight can enter
-		this.numberOfTimesGameHasLooped = 0; // stores how many loops there have been in total
+		this.numberOfGameLoopsSinceLastFlightAdded = 0; // how many loops to wait before another flight can enter
+		this.numberOfGameLoops = 0; // stores how many loops there have been in total
 		this.numberOfGameLoopsWhenDifficultyIncreases = 3600; // this is how many loops until planes come more quickly, difficulty increase once a minute
-		this.maxRand = 500;
+		this.randomNumberForFlightGeneration = 500;
 		this.waypointCounter = 64; // Starts at 64 as this is ASCII value for A
 		this.exitpointCounter = 0;
 		this.controls = new Controls();
@@ -54,9 +53,9 @@ public class Airspace {
 		
 		this.listOfFlightsInAirspace = new ArrayList<Flight>();
 		
-		this.numberOfLoopsSinceLastFlightAdded = 0; // how many loops to wait before another flight can enter
-		this.numberOfTimesGameHasLooped = 0; // stores how many loops there have been in total
-		this.numberOfGameLoopsWhenDifficultyIncreases = 10000; // this is how many loops until planes come more quickly, divide by 60 for seconds
+		this.numberOfGameLoopsSinceLastFlightAdded = 0; // how many loops to wait before another flight can enter
+		this.numberOfGameLoops = 0; // stores how many loops there have been in total
+		this.numberOfGameLoopsWhenDifficultyIncreases = 3600; // this is how many loops until planes come more quickly, divide by 60 for seconds
 		this.separationRules.setGameOverViolation(false);
 		this.controls.setSelectedFlight(null);
 		
@@ -107,7 +106,7 @@ public class Airspace {
 
 		if (this.listOfFlightsInAirspace.size() < this.maximumNumberOfFlightsInAirspace) {
 			
-			if ((this.numberOfLoopsSinceLastFlightAdded >= 850  || this.listOfFlightsInAirspace.isEmpty())) {
+			if ((this.numberOfGameLoopsSinceLastFlightAdded >= 850  || this.listOfFlightsInAirspace.isEmpty())) {
 					
 				Random rand = new Random();
 				int checkNumber;
@@ -119,7 +118,7 @@ public class Airspace {
 				} 
 					
 				else {
-					checkNumber = rand.nextInt(this.maxRand);
+					checkNumber = rand.nextInt(this.randomNumberForFlightGeneration);
 				}
 		
 				if (checkNumber == 1) {
@@ -133,7 +132,7 @@ public class Airspace {
 										tempFlight.getFlightPlan().getPointByIndex(0).getY());
 					tempFlight.setTargetHeading(heading);
 					tempFlight.setCurrentHeading(heading);
-					this.numberOfLoopsSinceLastFlightAdded = 0;
+					this.numberOfGameLoopsSinceLastFlightAdded = 0;
 					if (this.listOfFlightsInAirspace.add(tempFlight)) {
 						this.listOfFlightsInAirspace.get(
 								this.listOfFlightsInAirspace.size() - 1)
@@ -175,8 +174,8 @@ public class Airspace {
 	
 	public void increaseDifficulty(){
 		this.numberOfGameLoopsWhenDifficultyIncreases += 3600;
-		if (this.maxRand - 50 > 0) {
-			this.maxRand -= 50;
+		if (this.randomNumberForFlightGeneration - 50 > 0) {
+			this.randomNumberForFlightGeneration -= 50;
 		}
 	}
 	
@@ -207,9 +206,9 @@ public class Airspace {
 	
 	public void update(GameContainer gc) {
 		
-		this.numberOfLoopsSinceLastFlightAdded++;
-		this.numberOfTimesGameHasLooped++;
-		if (this.numberOfTimesGameHasLooped >= this.numberOfGameLoopsWhenDifficultyIncreases) {
+		this.numberOfGameLoopsSinceLastFlightAdded++;
+		this.numberOfGameLoops++;
+		if (this.numberOfGameLoops >= this.numberOfGameLoopsWhenDifficultyIncreases) {
 			this.increaseDifficulty();
 
 		}
@@ -350,19 +349,7 @@ public class Airspace {
 	public SeparationRules getSeparationRules(){
 		return this.separationRules;
 	}
-	public boolean getTheWarningViolation() {
-		return this.warningViolation;
-	}
-	
-	public void setTheWarningViolation(boolean updatedbool) {
-		this.warningViolation = updatedbool;
-	}
 
-	/*
-	public List<EntryPoint> getList_of_entrypoints() {
-		return listofEntrypoints;
-	}
-	*/
 	
 	public void setListOfEntryPoints(List<EntryPoint> listOfEntryPoints) {
 		this.listofEntrypoints = listOfEntryPoints;
