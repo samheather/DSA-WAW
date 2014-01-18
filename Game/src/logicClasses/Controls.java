@@ -31,7 +31,7 @@ public class Controls {
 	// CONSTRUCTOR
 	public Controls() {
 		
-		this.selectingHeadingUsingTextBox = false;
+		this.selectingHeadingUsingTextBox = false; 
 		this.mouseHeldDownOnAltitudeButton=false;
 		this.mouseHeldDownOnFlight = false;
 		this.selectedFlight = null;
@@ -216,6 +216,7 @@ public class Controls {
 	}
 	
 	public void updateTurnLeftTextBox(Input input){
+		
 		boolean turnLeftTextBoxHasFocus = this.turnLeftTextBox.hasFocus();
 		if (turnLeftTextBoxHasFocus) {
 			
@@ -237,6 +238,7 @@ public class Controls {
 	}
 	
 	public void updateTurnRightTextBox(Input input){
+		
 		if (this.turnRightTextBox.hasFocus()) {
 
 			if (input.isKeyDown(Input.KEY_ENTER)) {
