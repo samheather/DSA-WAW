@@ -18,9 +18,6 @@ public class Controls {
 	private TextField headingControlTextBox;
 	private TextField turnRightTextBox;
 	private TextField turnLeftTextBox;
-	private boolean headingTextBoxHasFocus; // Is the text box currently selected?
-	private boolean turnLeftTextBoxHasFocus; // Is the text box currently selected?
-	private boolean turnRightTextBoxHasFocus; // Is the text box currently selected?
 	private boolean focusOnHeadingTextBoxCleared; // Has the text box been reset?
 	private boolean mouseHeldDownOnAltitudeButton, mouseHeldDownOnFlight;
 	private boolean focusOnRightTextBoxCleared;
@@ -36,19 +33,13 @@ public class Controls {
 	// CONSTRUCTOR
 	public Controls() {
 		
-		this.headingTextBoxHasFocus = false;
-		this.turnLeftTextBoxHasFocus = false;
-		this.turnRightTextBoxHasFocus = false;
 		this.focusOnHeadingTextBoxCleared = false;
 		this.focusOnLeftTextBoxCleared = false;
 		this.focusOnRightTextBoxCleared = false;
 		this.mouseHeldDownOnAltitudeButton=false;
 		this.mouseHeldDownOnFlight = false;
 		this.selectedFlight = null;
-		
-		
-				
-		
+
 	}
 
 
@@ -264,8 +255,8 @@ public class Controls {
 	}
 	
 	public void updateHeadingTextBox(Input input){
-		this.headingTextBoxHasFocus = this.headingControlTextBox.hasFocus();
-		if (this.headingTextBoxHasFocus) {
+		boolean headingTextBoxHasFocus = this.headingControlTextBox.hasFocus();
+		if (headingTextBoxHasFocus) {
 			if (!this.focusOnHeadingTextBoxCleared) {
 				this.focusOnHeadingTextBoxCleared = true;
 				this.headingControlTextBox.setText("");
@@ -280,14 +271,15 @@ public class Controls {
 				this.headingControlTextBox.setFocus(false);
 			}
 		}
-		if (this.focusOnHeadingTextBoxCleared && !this.headingTextBoxHasFocus) {
+		
+		if (this.focusOnHeadingTextBoxCleared && !headingTextBoxHasFocus) {
 			this.focusOnHeadingTextBoxCleared = false;
 		}
 	}
 	
 	public void updateTurnLeftTextBox(Input input){
-		this.turnLeftTextBoxHasFocus = this.turnLeftTextBox.hasFocus();
-		if (this.turnLeftTextBoxHasFocus) {
+		boolean turnLeftTextBoxHasFocus = this.turnLeftTextBox.hasFocus();
+		if (turnLeftTextBoxHasFocus) {
 			if (!this.focusOnLeftTextBoxCleared) {
 				this.focusOnLeftTextBoxCleared = true;
 				this.turnLeftTextBox.setText("");
@@ -306,15 +298,15 @@ public class Controls {
 		else{
 			this.turnLeftTextBox.setText("");
 		}
-		if (this.focusOnLeftTextBoxCleared && !this.turnLeftTextBoxHasFocus) {
+		if (this.focusOnLeftTextBoxCleared && !turnLeftTextBoxHasFocus) {
 			this.focusOnLeftTextBoxCleared = false;
 		}
 
 	}
 	
 	public void updateTurnRightTextBox(Input input){
-		this.turnRightTextBoxHasFocus = this.turnRightTextBox.hasFocus();
-		if (this.turnRightTextBoxHasFocus) {
+		boolean turnRightTextBoxHasFocus = this.turnRightTextBox.hasFocus();
+		if (turnRightTextBoxHasFocus) {
 			if (!this.focusOnRightTextBoxCleared) {
 				this.focusOnRightTextBoxCleared = true;
 				this.turnRightTextBox.setText("");
@@ -332,7 +324,7 @@ public class Controls {
 		else{
 			this.turnRightTextBox.setText("");
 		}
-		if (this.focusOnRightTextBoxCleared && !this.turnRightTextBoxHasFocus) {
+		if (this.focusOnRightTextBoxCleared && !turnRightTextBoxHasFocus) {
 			this.focusOnRightTextBoxCleared = false;
 		}
 	
@@ -385,7 +377,7 @@ public class Controls {
 				}
 				
 				
-				if (!this.headingHasFocus()) {
+				if (!this.headingControlTextBox.hasFocus()) {
 					this.getHeadingControlTB().setText(
 							String.valueOf(Math.round(this.selectedFlight.getTargetHeading())));
 				}
@@ -427,9 +419,6 @@ public class Controls {
 		return headingControlTextBox;
 	}
 
-	public boolean headingHasFocus() {
-		return this.headingTextBoxHasFocus;
-	}
 	
 	public Flight getSelectedFlight(){
 		return this.selectedFlight;
