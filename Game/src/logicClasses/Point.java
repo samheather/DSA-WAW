@@ -32,7 +32,7 @@ public class Point {
 
     }
     
-    //[Not in use] Point Constructor that also takes pointRef string:
+    //Point Constructor that also takes pointRef string:
     Point(double xcoord, double ycoord, String name){
     x = xcoord; 
     y = ycoord;
@@ -40,13 +40,7 @@ public class Point {
     System.out.println("Point " + pointRef + " set:(" + x + "," + y +").");
     }
     
-    //[Not in use] Constructor pointing out that X,Y has not been set.
-    Point(){
-    System.out.println("Warning: Constructor method for Point Object called, "
-            + "point set as (0,0) with no point ref.");
- 
-    }
-    
+
     
     // INIT, RENDER, UPDATE
     
