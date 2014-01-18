@@ -17,7 +17,6 @@ public class Flight {
 	private FlightPlan flightPlan;
 	private Image regularFlightImage, selectedFlightInformationBackgroundImage, slowFlightImage, fastFlightImage, shadowImage;
 	private boolean selected;
-	private EntryPoint entryPoint;
 	private Airspace airspace;
 
 	
@@ -34,7 +33,6 @@ public class Flight {
 		this.turningRight = false;
 		this.turningLeft = false;
 		this.airspace = airspace;
-		this.entryPoint = generateEntryPoint();
 		this.flightPlan = new FlightPlan(airspace, this);
 		this.selected = false;
 		
@@ -43,21 +41,7 @@ public class Flight {
 
 	// METHODS
 	
-	public EntryPoint generateEntryPoint(){
-		
-		Random rand = new Random();
-		int randomNumber = rand.nextInt(3);
-		
-		
-		this.airspace.getListOfEntryPoints().get(randomNumber);
-			
-		// Setting flights x and y to the coordinates of it's entrypoint
-		this.x = this.airspace.getListOfEntryPoints().get(randomNumber).getX();// choose one a get the x and y values
-		this.y = this.airspace.getListOfEntryPoints().get(randomNumber).getY();
-		
-		return this.airspace.getListOfEntryPoints().get(randomNumber);
-		
-	}
+
 
 	public int generateAltitude() {
 		Random rand = new Random();
@@ -458,9 +442,6 @@ public class Flight {
 		return flightPlan;
 	}
 	
-	public EntryPoint getEntryPoint(){
-		return this.entryPoint;
-	}
 
 	
 	public Airspace getAirspace(){

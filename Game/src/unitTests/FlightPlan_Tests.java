@@ -43,6 +43,16 @@ public class FlightPlan_Tests {
 		
 	}
 	
+	// Testing generate_entry_point()
+	
+	@Test
+	public void generateEntryPointTest1(){
+		// Testing on airspace with entrypoints
+    	EntryPoint result = flight1.getFlightPlan().generateEntryPoint(airspace);
+    	assertTrue(result == airspace.getListOfEntryPoints().get(0) || result == airspace.getListOfEntryPoints().get(1) || result == airspace.getListOfEntryPoints().get(2));
+		
+	}
+	
 	@Test
 	public void generateVelocityTest(){
 		for (int i = 0; i < 100; i++){
@@ -58,7 +68,7 @@ public class FlightPlan_Tests {
 		
 		// Testing Length of Route
 		for (int i = 0; i < 100; i++){
-			ArrayList<Point> route = flightplan.buildRoute(airspace, flight1.getEntryPoint());
+			ArrayList<Point> route = flightplan.buildRoute(airspace, flight1.getFlightPlan().getEntryPoint());
 			assertTrue(route.size() >= 2 && route.size() <= 5);
 		}
 	}
@@ -68,7 +78,7 @@ public class FlightPlan_Tests {
 		
 		//Testing that it doesn't repeat waypoints
 		for (int i = 0; i < 100; i++){
-			ArrayList<Point> route = flightplan.buildRoute(airspace, flight1.getEntryPoint());
+			ArrayList<Point> route = flightplan.buildRoute(airspace, flight1.getFlightPlan().getEntryPoint());
 			boolean samePoint = false;
 			
 			
@@ -110,7 +120,7 @@ public class FlightPlan_Tests {
     	
     	Flight flight1 = new Flight(airspaceMissingExitPoints);
     	
-    	ArrayList<Point> route = flightplan.buildRoute(airspaceMissingExitPoints, flight1.getEntryPoint());
+    	ArrayList<Point> route = flightplan.buildRoute(airspaceMissingExitPoints, flight1.getFlightPlan().getEntryPoint());
     	assertTrue(route.size() == 0);
 		
 	}
@@ -133,7 +143,7 @@ public class FlightPlan_Tests {
     	
     	Flight flight1 = new Flight(airspaceMissingWaypoints);
     	
-    	ArrayList<Point> route = flightplan.buildRoute(airspaceMissingWaypoints, flight1.getEntryPoint());
+    	ArrayList<Point> route = flightplan.buildRoute(airspaceMissingWaypoints, flight1.getFlightPlan().getEntryPoint());
     	assertTrue(route.size() == 0);
 		
 	}

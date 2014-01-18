@@ -120,7 +120,6 @@ public class Airspace {
 				if (checkNumber == 1) {
 			
 					Flight tempFlight = new Flight(this);
-					//boolean isInViolation = this.separationRules.lateralDistanceBetweenFlights(flight1, flight2)
 					tempFlight.setFlightName(this.generateFlightName());
 					tempFlight.setTargetAltitude(tempFlight.getAltitude());
 					double heading = tempFlight.calculateHeadingToFirstWaypoint(

@@ -36,15 +36,7 @@ public class Flight_Tests {
 		
 	}
 	
-	// Testing generate_entry_point()
 	
-	@Test
-	public void generateEntryPointTest1(){
-		// Testing on airspace with entrypoints
-    	EntryPoint result = flight1.generateEntryPoint();
-    	assertTrue(result == airspace.getListOfEntryPoints().get(0) || result == airspace.getListOfEntryPoints().get(1) || result == airspace.getListOfEntryPoints().get(2));
-		
-	}
 	
 
 	

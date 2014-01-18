@@ -22,6 +22,7 @@ public class FlightPlan {
 	private Point waypointClicked;
 	private boolean changingPlan;
 	private boolean draggingWaypoint;
+	private EntryPoint entryPoint;
 	
 
 	// CONSTRUCTOR
@@ -30,14 +31,29 @@ public class FlightPlan {
 	public FlightPlan(Airspace airspace, Flight flight) {
 		this.flight = flight;
 		this.velocity = generateVelocity();
-		this.currentRoute = buildRoute(airspace, flight.getEntryPoint());
+		this.entryPoint = generateEntryPoint(airspace);
+		this.currentRoute = buildRoute(airspace, this.entryPoint);
 		this.waypointsAlreadyVisited = new ArrayList<Point>();
 		this.changingPlan = false;
 		this.draggingWaypoint = false;
+		
 	}
 	
 
 	// METHODS
+	
+	public EntryPoint generateEntryPoint(Airspace airspace){
+		
+		Random rand = new Random();
+		int randomNumber = rand.nextInt(3);
+			
+		// Setting flights x and y to the coordinates of it's entrypoint
+		flight.setX(airspace.getListOfEntryPoints().get(randomNumber).getX()); // choose one a get the x and y values
+		flight.setY(airspace.getListOfEntryPoints().get(randomNumber).getY());
+		
+		return airspace.getListOfEntryPoints().get(randomNumber);
+		
+	}
 	
 	
 	public ArrayList<Point> buildRoute(Airspace airspace, EntryPoint entryPoint) {
@@ -61,7 +77,7 @@ public class FlightPlan {
 				
 				// Adding Waypoints to Plan
 				
-				int pointsInPlan = rand.nextInt(3) + 4;
+				int pointsInPlan = rand.nextInt(3) + 3;
 				
 				for (int i = 0; i < pointsInPlan - 1; i++) {
 					int waypointIndex = rand.nextInt(tempListOfWaypoints.size());
@@ -75,12 +91,12 @@ public class FlightPlan {
 				
 				while (exitpointAdded == false){
 					
-					if (entryPoint.getY() == tempListOfExitPoints.get(ExitPointIndex).getY()){
+					if (this.entryPoint.getY() == tempListOfExitPoints.get(ExitPointIndex).getY()){
 						tempListOfExitPoints.remove(ExitPointIndex);
 						ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
 					}
 					
-					else if (entryPoint.getX() == tempListOfExitPoints.get(ExitPointIndex).getX()){
+					else if (this.entryPoint.getX() == tempListOfExitPoints.get(ExitPointIndex).getX()){
 						tempListOfExitPoints.remove(ExitPointIndex);
 						ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
 					}
@@ -303,6 +319,10 @@ public class FlightPlan {
 	
 	public boolean getDraggingWaypoint(){
 		return this.draggingWaypoint;
+	}
+	
+	public EntryPoint getEntryPoint(){
+		return this.entryPoint;
 	}
 
 	@Override
