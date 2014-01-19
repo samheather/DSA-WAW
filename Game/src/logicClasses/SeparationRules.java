@@ -35,13 +35,33 @@ public class SeparationRules {
 		
 	//METHODS
 	
+	/**
+	 * lateralDistanceBetweenFlights: Calculates the lateral distance between two flights.
+	 * @param flight1 - A flight from the airspace.
+	 * @param flight2 - A flight from the airspace.
+	 * @return A double representing the lateral distance between the two flights passed as parameters.
+	 */
+	
 	public double lateralDistanceBetweenFlights(Flight flight1, Flight flight2){
 		return Math.sqrt(Math.pow((flight1.getX() - flight2.getX()), 2) + Math.pow(( flight1.getY() - flight2.getY()),2));
 		}
 	
+	/**
+	 * verticalDistanceBetweenFlights: Calculates the vertical distance between two flights.
+	 * @param flight1 - A flight from the airspace.
+	 * @param flight2 - A flight from the airspace.
+	 * @return An int representing the vertical distance between the two flights passed as parameters.
+	 */
+	
 	public int verticalDistanceBetweenFlights(Flight flight1, Flight flight2){
 		return Math.abs(flight1.getAltitude() - flight2.getAltitude());	
 		}
+	
+	/**
+	 * checkViolation: Calculates whether two flights have breached the game over separation rules.
+	 * @param airspace - The airspace object is passed as the checkViolation() method requires knowledge of
+	 * flights in the airspace, which is stored within the airspace.
+	 */
 	
 	public void checkViolation(Airspace airspace){
 		
@@ -61,8 +81,12 @@ public class SeparationRules {
 	}
 	
 	/**
-	render: This calculates whether any flights in the airspace are breaking warning separation rules
-	If two flight are breaking warning separation rules, a line is drawn between them.
+	 * render: This calculates whether any flights in the airspace are breaking warning separation rules
+	 * If two flight are breaking warning separation rules, a line is drawn between them.
+	 * @param g - Graphics libraries required by slick2d.
+	 * @param gc - GameContainer required by slick2d.
+	 * @param airspace - The airspace object is passed as the render method requires knowledge of
+	 * flights in the airspace, which is stored within the airspace. 
 	 */
 	
 	public void render(Graphics g, GameContainer gc, Airspace airspace){
@@ -90,6 +114,13 @@ public class SeparationRules {
 		}
 		
 	}
+	
+	/**
+	 * update: This calls the checkViolation method to detect whether the game over separation rules
+	 * have been breached.
+	 * @param airspace - The airspace object is passed as the checkViolation method requires knowledge of
+	 * flights in the airspace, which is stored within the airspace.
+	 */
 	
 	public void update(Airspace airspace) {
 		
