@@ -44,6 +44,7 @@ public class Flight {
 	
 	/**
 	 * generateAltitude: Randomly assigns one of three different altitudes to a flight
+	 * @return A random altitude (either 28000, 29000 or 30000)
 	 */
 
 	public int generateAltitude() {
@@ -64,6 +65,9 @@ public class Flight {
  * calculateHeadingToFirstWaypoint: calculates heading between flight's current position and the first waypoint
  * in the flight's plan. The flight's current position will always be it's entrypoint because this method
  * is only called within the newFlight() function in airspace.
+ * @param desX - The X coordinate of the waypoint
+ * @param dexY - The Y coordinate of the waypoint
+ * @return The heading between the flight and first waypoint.
  */
 	
 	public double calculateHeadingToFirstWaypoint(double desX, double desY) {
@@ -84,6 +88,7 @@ public class Flight {
 	 * When an angle is entered in the textfields found in Controls, the value is passed to turnFlightLeft. The
 	 * turningLeft boolean is set in order to tell the updateCurrentHeading() method that the flight should turn left 
 	 * towards it's target heading.
+	 * @param degreeTurnedBy - The amount of degrees you want to turn left by.
 	 */
 	
 	public void turnFlightLeft(int degreeTurnedBy) {
@@ -102,6 +107,7 @@ public class Flight {
 	 * When an angle is entered in the textfields found in Controls, the value is passed to turnFlightRight. The
 	 * turningRight boolean is set in order to tell the updateCurrentHeading() method that the flight should turn right
 	 * towards it's target heading.
+	 * @param degreeTurnedBy - The amount of degrees you want to turn right by.
 	 */
 	
 	public void turnFlightRight(int degreeTurnedBy) {
@@ -121,6 +127,7 @@ public class Flight {
 	 * giveHeading: Changes the target heading to newHeading. Whenever a command is issued by the user to change the heading,
 	 * the method is passed the value of that command. The heading is always adjusted to a value between 0 and 359. This is 
 	 * done using newHeading % 360.
+	 * @param newHeading - The heading the flight has been commmanded to fly at.
 	 */
 
 	public void giveHeading(int newHeading) {
@@ -133,6 +140,8 @@ public class Flight {
 	/**
 	 * checkIfFlightAtWaypoint: checks whether a flight is close enough to the next waypoint in it's plan
 	 * for it to be considered at that waypoint.
+	 * @param Waypoint - The next waypoint in the flight's plan.
+	 * @return True if flight is at it's next waypoint.
 	 */
 	
 	public boolean checkIfFlightAtWaypoint(Point waypoint) {
@@ -151,6 +160,8 @@ public class Flight {
 	/**
 	 * drawFlight: draws the flight at it's current x,y and draws its information around within a circle.
 	 * Different images for the flight are used depending on how fast the plane is.
+	 * @param g - Graphics libraries required by slick2d.
+	 * @param gc - GameContainer required by slick2d.
 	 */
 	
 	public void drawFlight(Graphics g, GameContainer gc ){
@@ -225,6 +236,8 @@ public class Flight {
 	
 	/**
 	 * drawSelectedFlightInformation: draws the selected flight's information in the bottom left hand corner.
+	 * @param g - Graphics libraries required by slick2d.
+	 * @param gc - GameContainer required by slick2d.
 	 */
 	
 	public void drawSelectedFlightInformation(Graphics g, GameContainer gc) {
@@ -352,6 +365,7 @@ public class Flight {
 	
 	/**
 	 * init: initialises resources such as images.
+	 * @param gc - GameContainer required by slick2d.
 	 */
 	
 	public void init(GameContainer gc) throws SlickException {
@@ -378,6 +392,8 @@ public class Flight {
 	
 /**
  * render: draw's all elements of the flight and it's information.
+ * @param g - Graphics libraries required by slick2d.
+ * @param gc - GameContainer required by slick2d.
  */
 	
 
