@@ -41,7 +41,10 @@ public class Flight {
 
 	// METHODS
 	
-
+	
+	/**
+	 * generateAltitude: Randomly assigns one of three different altitudes to a flight
+	 */
 
 	public int generateAltitude() {
 		Random rand = new Random();
@@ -57,7 +60,12 @@ public class Flight {
 		return 27000;
 	}
 
-
+/**
+ * calculateHeadingToFirstWaypoint: calculates heading between flight's current position and the first waypoint
+ * in the flight's plan. The flight's current position will always be it's entrypoint because this method
+ * is only called within the newFlight() function in airspace.
+ */
+	
 	public double calculateHeadingToFirstWaypoint(double desX, double desY) {
 		double deltaX;
 		double deltaY;
@@ -71,6 +79,13 @@ public class Flight {
 		return angle;
 	}
 	
+	/**
+	 * turnFlightLeft: sets the target heading to certain amount to to the left of the flight's current heading. 
+	 * When an angle is entered in the textfields found in Controls, the value is passed to turnFlightLeft. The
+	 * turningLeft boolean is set in order to tell the updateCurrentHeading() method that the flight should turn left 
+	 * towards it's target heading.
+	 */
+	
 	public void turnFlightLeft(int degreeTurnedBy) {
 
 		this.turningRight = false;
@@ -82,6 +97,12 @@ public class Flight {
 		}
 	}
 	
+	/**
+	 * turnFlightRight: sets the target heading to certain amount to to the right of the flight's current heading. 
+	 * When an angle is entered in the textfields found in Controls, the value is passed to turnFlightRight. The
+	 * turningRight boolean is set in order to tell the updateCurrentHeading() method that the flight should turn right
+	 * towards it's target heading.
+	 */
 	
 	public void turnFlightRight(int degreeTurnedBy) {
 
@@ -95,6 +116,12 @@ public class Flight {
 
 
 	}
+	
+	/**
+	 * giveHeading: Changes the target heading to newHeading. Whenever a command is issued by the user to change the heading,
+	 * the method is passed the value of that command. The heading is always adjusted to a value between 0 and 359. This is 
+	 * done using newHeading % 360.
+	 */
 
 	public void giveHeading(int newHeading) {
 		this.turningRight = false;
@@ -103,6 +130,10 @@ public class Flight {
 		this.targetHeading = newHeading;
 	}
 	
+	/**
+	 * checkIfFlightAtWaypoint: checks whether a flight is close enough to the next waypoint in it's plan
+	 * for it to be considered at that waypoint.
+	 */
 	
 	public boolean checkIfFlightAtWaypoint(Point waypoint) {
 		
@@ -116,6 +147,11 @@ public class Flight {
 
 	
 	// DRAWING METHODS
+	
+	/**
+	 * drawFlight: draws the flight at it's current x,y and draws its information around within a circle.
+	 * Different images for the flight are used depending on how fast the plane is.
+	 */
 	
 	public void drawFlight(Graphics g, GameContainer gc ){
 
@@ -187,7 +223,9 @@ public class Flight {
 		
 	}
 	
-
+	/**
+	 * drawSelectedFlightInformation: draws the selected flight's information in the bottom left hand corner.
+	 */
 	
 	public void drawSelectedFlightInformation(Graphics g, GameContainer gc) {
 		
@@ -215,6 +253,11 @@ public class Flight {
 	
 	// UPDATE METHODS
 	
+	/**
+	 * updateXYCoordinates: updates the x and y values of the plane depending on it's velocity 
+	 * and it's current heading. The velocity of the plane is scaled so that it can be used for 
+	 * movement in terms of pixels.
+	 */
 
 	public void updateXYCoordinates() {
 		double velocity = (this.flightPlan.getVelocity()) / 1000;
@@ -225,6 +268,12 @@ public class Flight {
 
 	}
 
+	/**
+	 * updateAltitude(): If the target altitude is higher than the current altitude, increase current altitude.
+	 * If target altitude is less than current altitude, decrease current altitude. If current altitude and
+	 * target altitude are the same, do nothing.
+	 */
+	
 	public void updateAltitude() {
 		if (this.currentAltitude > this.targetAltitude) {
 			this.currentAltitude -= 1;
@@ -234,6 +283,12 @@ public class Flight {
 			this.currentAltitude += 1;
 		}
 	}
+	
+	/**
+	 * updateCurrentHeading(): Moves the current heading towards the target heading. If a user has issued
+	 * a heading but not specified what way to turn, this method will determine what way it would be quicker 
+	 * to turn towards it's target heading.
+	 */
 
 	public void updateCurrentHeading() {
 	
@@ -275,8 +330,7 @@ public class Flight {
 			
 			if (this.turningRight == true) {
 				this.currentHeading += rate;
-				if (Math.round(this.currentHeading) >= 360
-						&& this.targetHeading != 360) {
+				if (Math.round(this.currentHeading) >= 360 && this.targetHeading != 360) {
 					this.currentHeading = 0;
 				}
 			}
@@ -296,6 +350,9 @@ public class Flight {
 
 	// UPDATE, RENDER, INIT
 	
+	/**
+	 * init: initialises resources such as images.
+	 */
 	
 	public void init(GameContainer gc) throws SlickException {
 		this.regularFlightImage = new Image("/res/graphics/graphics/flight.png");
@@ -307,7 +364,9 @@ public class Flight {
 	}
 	
 	
-
+/**
+ * Update: calls all the update functions.
+ */
 
 	public void update() {
 
@@ -316,6 +375,10 @@ public class Flight {
 		this.updateAltitude();
 		this.flightPlan.update();
 	}
+	
+/**
+ * render: draw's all elements of the flight and it's information.
+ */
 	
 
 	public void render(Graphics g, GameContainer gc) throws SlickException {
