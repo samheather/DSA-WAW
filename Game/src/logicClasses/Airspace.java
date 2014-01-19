@@ -8,7 +8,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 
-//@SuppressWarnings("unused")
+
 public class Airspace {
 
 	// FIELDS
@@ -47,6 +47,10 @@ public class Airspace {
 
 	// METHODS
 	
+	/**
+	 * resetAirspace: reset all of the attributes in airspace back to default
+	 */
+	
 	public void resetAirspace() {
 		
 		this.listOfFlightsInAirspace = new ArrayList<Flight>();
@@ -60,9 +64,21 @@ public class Airspace {
 		
 	}
 	
+	/**
+	 * createAndSetSeperationRules: create and set the seperation rules for the airpsace based on the difficulty value of the game
+	 */
+	
 	public void createAndSetSeparationRules(){
 		this.separationRules = new SeparationRules(difficultyValueOfGame); 
 	}
+	
+	/**
+	 * newWaypoint: Add a new waypoint to the list of waypoints in the airspace
+	 * @param x
+	 * @param y
+	 * @param name
+	 * @return
+	 */
 	
 	public boolean newWaypoint(int x, int y, String name)  {
 		if (x < 1250 && x > 150 && y < 650
@@ -75,6 +91,14 @@ public class Airspace {
 			}
 		} return false;
 	}
+	
+	/**
+	 * newExitPoint: add a new exitpoint to the list in the airspace
+	 * @param x
+	 * @param y
+	 * @param name
+	 * @return
+	 */
 	public boolean newExitPoint(int x, int y, String name) {
 		if (x < 1250 && x > 100 && y < 650
 				&& y > -50){
@@ -86,7 +110,14 @@ public class Airspace {
 			}
 		} return false;
 	}
-
+	
+	/**
+	 * newEntryPoint: add a new entrypoint to the the list in the airspace
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	
 	public boolean newEntryPoint(int x, int y)  {
 		if (x < 1250 && x > 100 && y < 650
 				&& y > -50){
@@ -97,7 +128,13 @@ public class Airspace {
 		} return false;
 	}
 	
-	
+	/**
+	 * newFlight: add a new flight to the list in the airspace if it has been long enough since the last flight was added and if random number is right
+	 * The flight is also given a name 
+	 * @param gc
+	 * @return
+	 * @throws SlickException
+	 */
 	public boolean newFlight(GameContainer gc) throws SlickException {
 
 		if (this.listOfFlightsInAirspace.size() < this.maximumNumberOfFlightsInAirspace) {
@@ -141,6 +178,11 @@ public class Airspace {
 	}
 	
 	
+	/**
+	 * generateFlightName: generate a random name for a flight, based on UK flight tail numbers
+	 * @return
+	 */
+	
 	public String generateFlightName() {
 		String name = "G-";
 		Random rand = new Random();
@@ -150,6 +192,13 @@ public class Airspace {
 		}
 		return name;
 	}
+	
+	/**
+	 * checkIfFlightHasLeftAirspace: check if a flight is outside the area of the game, and if it is removed the object so it is not
+	 * using unnecessary resources.
+	 * @param flight
+	 * @return
+	 */
 
 	public boolean checkIfFlightHasLeftAirspace(Flight flight) {
 
@@ -162,7 +211,10 @@ public class Airspace {
 
 	}
 
-
+	/**
+	 * changeScore: add a value to the current score
+	 * @param value
+	 */
 	public void changeScore(int value) {
 		this.score += value;
 	}
@@ -177,7 +229,11 @@ public class Airspace {
 
 
 	// INIT, RENDER, UPDATE
-
+	/**
+	 * init: initialises all the resources required for the airspace class, and any other classes that are rendered within it
+	 * @param gc
+	 * @throws SlickException
+	 */
 	public void init(GameContainer gc) throws SlickException {
 		
 		this.controls.init(gc);
@@ -197,7 +253,10 @@ public class Airspace {
 		
 	}
 	
-
+	/**
+	 * update: update all logic in the airspace class
+	 * @param gc
+	 */
 	
 	public void update(GameContainer gc) {
 		
@@ -224,7 +283,12 @@ public class Airspace {
 		this.controls.update(gc, this);
 		
 	}
-
+	/**
+	 * render: render all of the graphics in the airspace
+	 * @param g
+	 * @param gc
+	 * @throws SlickException
+	 */
 	public void render(Graphics g, GameContainer gc) throws SlickException { 
 		
 		this.airport.render(g, gc);
