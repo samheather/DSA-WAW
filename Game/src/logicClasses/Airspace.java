@@ -48,7 +48,7 @@ public class Airspace {
 	// METHODS
 	
 	/**
-	 * resetAirspace: reset all of the attributes in airspace back to default
+	 * resetAirspace: Reset all of the attributes in airspace back to default
 	 */
 	
 	public void resetAirspace() {
@@ -65,7 +65,7 @@ public class Airspace {
 	}
 	
 	/**
-	 * createAndSetSeperationRules: create and set the seperation rules for the airpsace based on the difficulty value of the game
+	 * createAndSetSeperationRules: Create and set the seperation rules for the airpsace based on the difficulty value of the game
 	 */
 	
 	public void createAndSetSeparationRules(){
@@ -74,10 +74,7 @@ public class Airspace {
 	
 	/**
 	 * newWaypoint: Add a new waypoint to the list of waypoints in the airspace
-	 * @param x
-	 * @param y
-	 * @param name
-	 * @return
+
 	 */
 	
 	public boolean newWaypoint(int x, int y, String name)  {
@@ -93,11 +90,8 @@ public class Airspace {
 	}
 	
 	/**
-	 * newExitPoint: add a new exitpoint to the list in the airspace
-	 * @param x
-	 * @param y
-	 * @param name
-	 * @return
+	 * newExitPoint: Add a new exitpoint to the list in the airspace
+
 	 */
 	public boolean newExitPoint(int x, int y, String name) {
 		if (x < 1250 && x > 100 && y < 650
@@ -112,10 +106,8 @@ public class Airspace {
 	}
 	
 	/**
-	 * newEntryPoint: add a new entrypoint to the the list in the airspace
-	 * @param x
-	 * @param y
-	 * @return
+	 * newEntryPoint: Add a new entrypoint to the the list in the airspace
+
 	 */
 	
 	public boolean newEntryPoint(int x, int y)  {
@@ -129,11 +121,8 @@ public class Airspace {
 	}
 	
 	/**
-	 * newFlight: add a new flight to the list in the airspace if it has been long enough since the last flight was added and if random number is right
+	 * newFlight: Add a new flight to the list in the airspace if it has been long enough since the last flight was added and if random number is right
 	 * The flight is also given a name 
-	 * @param gc
-	 * @return
-	 * @throws SlickException
 	 */
 	public boolean newFlight(GameContainer gc) throws SlickException {
 
@@ -179,7 +168,7 @@ public class Airspace {
 	
 	
 	/**
-	 * generateFlightName: generate a random name for a flight, based on UK flight tail numbers
+	 * generateFlightName: Generate a random name for a flight, based on UK flight tail numbers
 	 * @return
 	 */
 	
@@ -194,7 +183,7 @@ public class Airspace {
 	}
 	
 	/**
-	 * checkIfFlightHasLeftAirspace: check if a flight is outside the area of the game, and if it is removed the object so it is not
+	 * checkIfFlightHasLeftAirspace: Check if a flight is outside the area of the game, and if it is removed the object so it is not
 	 * using unnecessary resources.
 	 * @param flight
 	 * @return
@@ -212,7 +201,7 @@ public class Airspace {
 	}
 
 	/**
-	 * changeScore: add a value to the current score
+	 * changeScore: Add a value to the current score
 	 * @param value
 	 */
 	public void changeScore(int value) {
@@ -230,7 +219,7 @@ public class Airspace {
 
 	// INIT, RENDER, UPDATE
 	/**
-	 * init: initialises all the resources required for the airspace class, and any other classes that are rendered within it
+	 * init: Initialises all the resources required for the airspace class, and any other classes that are rendered within it
 	 * @param gc
 	 * @throws SlickException
 	 */
@@ -254,7 +243,7 @@ public class Airspace {
 	}
 	
 	/**
-	 * update: update all logic in the airspace class
+	 * update: Update all logic in the airspace class
 	 * @param gc
 	 */
 	
@@ -284,7 +273,7 @@ public class Airspace {
 		
 	}
 	/**
-	 * render: render all of the graphics in the airspace
+	 * render: Render all of the graphics in the airspace
 	 * @param g
 	 * @param gc
 	 * @throws SlickException
