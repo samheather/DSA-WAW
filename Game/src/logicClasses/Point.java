@@ -52,7 +52,7 @@ public class Point {
     /**
 	 * render: Render the graphics for the Point class (Draws all Waypoints)
 	 * @param g
-	 * @param gc
+	 * @param airspace
 	 * @throws SlickException
 	 */
     

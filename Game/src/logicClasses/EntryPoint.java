@@ -38,7 +38,6 @@ public class EntryPoint extends Point {
     /**
 	 * render: Render method for the EntryPoint object, position determines orientation of image
 	 * @param g
-	 * @param gc
 	 * @throws SlickException
 	 */
     

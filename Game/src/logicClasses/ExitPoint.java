@@ -40,7 +40,7 @@ public class ExitPoint extends Point {
 	/**
 	 * render: Render method for the ExitPoint object, position determines orientation of image and String of name
 	 * @param g
-	 * @param gc
+	 * @param airspace
 	 * @throws SlickException
 	 */
 	
