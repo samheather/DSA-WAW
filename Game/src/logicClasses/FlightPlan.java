@@ -42,6 +42,12 @@ public class FlightPlan {
 
 	// METHODS
 	
+	/**
+	 * generateEntryPoint: Creates the entry point for the flight
+	 * @param airspace
+	 * @return airspace.getListofEntryPoints
+	 */
+	
 	public EntryPoint generateEntryPoint(Airspace airspace){
 		
 		Random rand = new Random();
@@ -55,6 +61,12 @@ public class FlightPlan {
 		
 	}
 	
+	/**
+	 * buildRoute: Creates an array of waypoints that the aircraft will be initially given  
+	 * @param airspace
+	 * @param entryPoint
+	 * @return tempRoute
+	 */
 	
 	public ArrayList<Point> buildRoute(Airspace airspace, EntryPoint entryPoint) {
 		ArrayList<Point> tempRoute = new ArrayList<Point>();
@@ -109,11 +121,19 @@ public class FlightPlan {
 		
 		return tempRoute;
 	}
+	
+	/**
+	 * generateVelocity: Creates a velocity from a range of values
+	 */
 
 	public int generateVelocity() {
 		Random rand = new Random();
 		return (rand.nextInt(200) + 200);
 	}
+	
+	/**
+	 * isMouseOnWaypoint: Used to tell what waypoint the mouse is currently over
+	 */
 	
 	private boolean isMouseOnWaypoint() {
 		int mouseX = Mouse.getX();
@@ -135,6 +155,10 @@ public class FlightPlan {
 		return false;
 	}
 	
+	/**
+	 * updateFlightPlan: Handles updating the flight plan when a flight passes through a waypoint
+	 */
+	
 	public void updateFlightPlan(){
 
 		if (this.currentRoute.size() > 0) {
@@ -146,6 +170,11 @@ public class FlightPlan {
 		}
 
 	}
+	
+	/**
+	 * changeFlightPlan: Handles the user changing the flightplan using the mouse in 
+	 * plan mode
+	 */
 	
 	public void changeFlightPlan(){
 		if (this.flight.getSelected() && this.currentRoute.size() > 0 ){
@@ -196,6 +225,12 @@ public class FlightPlan {
 				}
 		}
 	}
+	
+	/**
+	 * drawFlightsPlan: Draws the graphics required for the flightplan
+	 * @param g
+	 * @param gs
+	 */
 	
 	public void drawFlightsPlan(Graphics g, GameContainer gc){
 
@@ -253,6 +288,13 @@ public class FlightPlan {
 		
 		
 	}
+	
+	/**
+	 * markUnavaliableWaypoints: Handles alerting the user to any waypoints that are
+	 * invalid for selection
+	 * @param g
+	 * @param gc
+	 */
 	
 	public void markUnavailableWaypoints(Graphics g, GameContainer gc){
 		for (int i = 0; i < this.waypointsAlreadyVisited.size(); i++){
