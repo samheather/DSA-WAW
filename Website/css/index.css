@@ -12,8 +12,7 @@ body{
 }
 
 #container{
-	width:100%;
-	overflow:auto;
+	width:100%;	
 	text-align: center;
 }
 
@@ -25,6 +24,10 @@ body{
 #navbar{
 	position:relative;
 	margin-top: 10%;
+}
+
+#footer{
+	text-align: center;
 }
 
 .nav{
@@ -57,7 +60,10 @@ img:hover {
 
 a {
 	color:#666;
-	text-decoration:none;
+	text-decoration:underline;
+}
+p{
+	color:#666;
 }
 
 a:hover {
