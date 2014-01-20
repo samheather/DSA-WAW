@@ -32,19 +32,7 @@ public class MenuState extends BasicGameState {
 		controlsButton = new Image("res/graphics/menu_graphics/controls_silver.png");
 		
 		
-		
-		
-		try{
-
-			InputStream inputStream = ResourceLoader.getResourceAsStream("res/Virgo-01/virgo.ttf");
-			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
-			awtFont = awtFont.deriveFont(30f);
-			font = new TrueTypeFont(awtFont, false);
-			
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+	
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
