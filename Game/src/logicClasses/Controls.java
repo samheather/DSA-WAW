@@ -19,7 +19,7 @@ public class Controls {
 	private TextField turnRightTextBox;
 	private TextField turnLeftTextBox;
 	private boolean selectingHeadingUsingTextBox; // Has the text box been reset?
-	private boolean mouseHeldDownOnAltitudeButton, mouseHeldDownOnFlight;
+	private boolean mouseHeldDownOnAltitudeButton, mouseHeldDownOnFlight, headingAlreadyChangedByMouse;
 	private final int  MAXIMUMALTITUDE = 31000;
 	private final int  MINIMUMALTITUDE = 26000;
 	private Flight selectedFlight;
@@ -34,7 +34,10 @@ public class Controls {
 		this.selectingHeadingUsingTextBox = false; 
 		this.mouseHeldDownOnAltitudeButton=false;
 		this.mouseHeldDownOnFlight = false;
+		this.headingAlreadyChangedByMouse = false;
 		this.selectedFlight = null;
+		
+		
 
 	}
 
@@ -168,6 +171,14 @@ public class Controls {
 		
 		double deltaX, deltaY;
 		double distanceBetweenMouseAndPlane;
+		
+		// If mouse is being held down don't change selected flight. 
+		if (this.headingAlreadyChangedByMouse){
+			return;
+		}
+		else{
+			this.headingAlreadyChangedByMouse = true;
+		}
 		
 		
 		distanceBetweenMouseAndPlane = Math.sqrt(Math.pow(pointX-this.selectedFlight.getX(), 2)+Math.pow(pointY-this.selectedFlight.getY(), 2));
@@ -389,6 +400,10 @@ public class Controls {
 		if(!Mouse.isButtonDown(0)){
 			this.mouseHeldDownOnFlight = false;
 			this.mouseHeldDownOnAltitudeButton = false;
+		}
+		
+		if (!Mouse.isButtonDown(1)){
+			this.headingAlreadyChangedByMouse = false;
 		}
 		
 

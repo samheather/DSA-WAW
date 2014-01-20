@@ -45,7 +45,7 @@ public class PlayState extends BasicGameState {
 		this.stringTime="";
 		
 		gc.setAlwaysRender(true);
-		gc.setUpdateOnlyWhenVisible(false);
+		gc.setUpdateOnlyWhenVisible(true);
 		gc.setMouseCursor("graphics/graphics/cross.png",12,12);
 	
 		
@@ -260,9 +260,7 @@ public class PlayState extends BasicGameState {
 			if (input.isKeyPressed(Input.KEY_P)) {
 				sbg.enterState(3);
 			}
-			if(!gc.hasFocus()) {
-				sbg.enterState(3);
-			}
+			
 						
 			if (!gameplayMusic.playing()){
 				//Loops gameplay music based on random number created in init
