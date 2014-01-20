@@ -60,6 +60,12 @@ public class Controls {
 	
 
 	// METHODS
+	
+	/**
+	 * handleAndUpdateAltitudeButtons: Deals with analysing and updating the selected flights altitude
+	 * based on the altitude adjustment buttons 
+	 */
+	
 	public void handleAndUpdateAltitudeButtons() {
 		
 		if(this.mouseHeldDownOnAltitudeButton) {
@@ -91,6 +97,10 @@ public class Controls {
 		
 	}
 	
+	/**
+	 * changeModeByClickingOnFlight: Handles changing between plan and nav modes by clicking on the selected flight
+	 * @param nearestFlight 
+	 */
 	public void changeModeByClickingOnFlight(Flight nearestFlight){
 		
 		
@@ -103,7 +113,12 @@ public class Controls {
 		
 	}
 	
-
+	/**
+	 * checkSelected: Handles changing the selected flight and ensures that the flight is a valid selection
+	 * @param pointX
+	 * @param pointY
+	 * @param airspace
+	 */
 	public void checkSelected(int pointX, int pointY, Airspace airspace ){
 		
 		double minimumDistanceBetweenFlightAndMouseClick;
@@ -166,6 +181,14 @@ public class Controls {
 		}
 	}
 	
+	/**
+	 * giveHeadingWithMouse: Handles updating the currently selected flights heading by clicking in it's
+	 * control circle with the left mouse button
+	 * @param pointX
+	 * @param pointY
+	 * @param airspace
+	 */
+	
 	public void giveHeadingWithMouse(int pointX, int pointY, Airspace airspace){
 		
 		
@@ -199,6 +222,12 @@ public class Controls {
 		
 	}
 	
+	/**
+	 * updateHeadingTextBox: Handles updating the currently selected flights heading by typing a value
+	 * into a text-box as well as checking the input is valid
+	 * @param input
+	 */
+	
 	public void updateHeadingTextBox(Input input){
 		boolean headingTextBoxHasFocus = this.headingControlTextBox.hasFocus();
 		if (headingTextBoxHasFocus) {
@@ -226,6 +255,12 @@ public class Controls {
 		}
 	}
 	
+	/**
+	 * updateTurnLeftTextBox: Handles turning the currently selected flight left by typing a value
+	 * into a text-box as well as checking the input is valid
+	 * @param input
+	 */
+	
 	public void updateTurnLeftTextBox(Input input){
 		
 		boolean turnLeftTextBoxHasFocus = this.turnLeftTextBox.hasFocus();
@@ -247,6 +282,12 @@ public class Controls {
 		}
 		
 	}
+	
+	/**
+	 * updateTurnRightTextBox: Handles turning the currently selected flight right by typing a value
+	 * into a text-box as well as checking the input is valid
+	 * @param input
+	 */
 	
 	public void updateTurnRightTextBox(Input input){
 		
@@ -272,7 +313,13 @@ public class Controls {
 
 	// RENDER AND UPDATE
 
-
+	/**
+	 * render: Render all of the graphics required by controls
+	 * @param g
+	 * @param gc
+	 * @throws SlickException
+	 */
+	
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		if(this.selectedFlight != null) {
 			if(!this.selectedFlight.getFlightPlan().getChangingPlan()){
