@@ -316,15 +316,15 @@ public class Controls {
 			changePlanButton.draw(0,45);
 			changePlanButton.draw(0, 75);
 			if(this.selectedFlight.getFlightPlan().getChangingPlan() == true){
-				g.setColor(Color.yellow);
-				g.drawString("Plan Mode", 10, 45);
 				g.setColor(Color.white);
+				g.drawString("Plan Mode", 10, 45);
+				g.setColor(Color.lightGray);
 				g.drawString("Navigator Mode", 10, 75);
 			}
 			else{
-				g.setColor(Color.yellow);
-				g.drawString("Navigator Mode", 10, 75);
 				g.setColor(Color.white);
+				g.drawString("Navigator Mode", 10, 75);
+				g.setColor(Color.lightGray);
 				g.drawString("Plan Mode", 10, 45);
 				
 			}
@@ -412,7 +412,7 @@ public class Controls {
 	
 	//MUTATORS AND ACCESSORS
 
-
+	
 
 	public void setSelectedFlight(Flight flight1){
 		this.selectedFlight = flight1;
