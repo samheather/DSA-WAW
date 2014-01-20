@@ -12,21 +12,22 @@ body{
 }
 
 #container{
-	width:1200px;
+	width:100%;
 	overflow:auto;
+	text-align: center;
 }
 
 #download{
-	position:absolute;
-	top: 50%;
-	left: 27%;
+	position:relative;
+	margin-top: 300px;
 }
 
 #navbar{
 	position:absolute;
 	top: 80%;
-	left: 9%;
-	width:90%;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .nav{
