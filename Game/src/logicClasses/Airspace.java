@@ -65,7 +65,7 @@ public class Airspace {
 	}
 	
 	/**
-	 * createAndSetSeperationRules: Create and set the seperation rules for the airpsace based on the difficulty value of the game
+	 * createAndSetSeperationRules: Create and set the separation rules for the airpsace based on the difficulty value of the game
 	 */
 	
 	public void createAndSetSeparationRules(){
@@ -74,7 +74,9 @@ public class Airspace {
 	
 	/**
 	 * newWaypoint: Add a new waypoint to the list of waypoints in the airspace
-
+	 * @param x
+	 * @param y
+	 * @param name
 	 */
 	
 	public boolean newWaypoint(int x, int y, String name)  {
@@ -91,7 +93,9 @@ public class Airspace {
 	
 	/**
 	 * newExitPoint: Add a new exitpoint to the list in the airspace
-
+	 * @param x
+	 * @param y
+	 * @param name
 	 */
 	public boolean newExitPoint(int x, int y, String name) {
 		if (x < 1250 && x > 100 && y < 650
@@ -107,7 +111,8 @@ public class Airspace {
 	
 	/**
 	 * newEntryPoint: Add a new entrypoint to the the list in the airspace
-
+	 * @param x
+	 * @param y
 	 */
 	
 	public boolean newEntryPoint(int x, int y)  {
@@ -123,6 +128,8 @@ public class Airspace {
 	/**
 	 * newFlight: Add a new flight to the list in the airspace if it has been long enough since the last flight was added and if random number is right
 	 * The flight is also given a name 
+	 * @param gc
+	 * @throws SlickException
 	 */
 	public boolean newFlight(GameContainer gc) throws SlickException {
 
@@ -186,7 +193,6 @@ public class Airspace {
 	 * checkIfFlightHasLeftAirspace: Check if a flight is outside the area of the game, and if it is removed the object so it is not
 	 * using unnecessary resources.
 	 * @param flight
-	 * @return
 	 */
 
 	public boolean checkIfFlightHasLeftAirspace(Flight flight) {
