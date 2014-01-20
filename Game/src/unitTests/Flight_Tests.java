@@ -168,7 +168,7 @@ public class Flight_Tests {
 	@Test
 	public void checkIfFlightAtWaypoinTest1(){
 		// Exactly 15 away
-		Waypoint waypoint = new Waypoint(350, 150);
+		Waypoint waypoint = new Waypoint(350, 150, "TEST");
 		flight1.setX(335);
 		flight1.setY(135);
 		assertTrue(flight1.checkIfFlightAtWaypoint(waypoint));
@@ -177,7 +177,7 @@ public class Flight_Tests {
 	@Test
 	public void checkIfFlightAtWaypointTest2(){
 		//Within 15
-		Waypoint waypoint = new Waypoint(350, 150);
+		Waypoint waypoint = new Waypoint(350, 150, "TEST");
 		flight1.setX(350);
 		flight1.setY(150);
 		assertTrue(flight1.checkIfFlightAtWaypoint(waypoint));
@@ -186,7 +186,7 @@ public class Flight_Tests {
 	@Test
 	public void checkIfFlightAtWaypointTest3(){
 		// Both outside 15
-		Waypoint waypoint = new Waypoint(350, 150);
+		Waypoint waypoint = new Waypoint(350, 150, "TEST");
 		flight1.setX(1000);
 		flight1.setY(1000);
 		assertFalse(flight1.checkIfFlightAtWaypoint(waypoint));
@@ -195,7 +195,7 @@ public class Flight_Tests {
 	@Test
 	public void checkIfFlightAtWaypointTest4(){
 		// X too far away but Y close enough
-		Waypoint waypoint = new Waypoint(350, 150);
+		Waypoint waypoint = new Waypoint(350, 150, "TEST");
 		flight1.setX(1000);
 		flight1.setY(150);
 		assertFalse(flight1.checkIfFlightAtWaypoint(waypoint));
@@ -204,7 +204,7 @@ public class Flight_Tests {
 	@Test
 	public void checkIfFlightAtWaypointTest5(){
 		// Y too far away but X close enough
-		Waypoint waypoint = new Waypoint(350, 150);
+		Waypoint waypoint = new Waypoint(350, 150, "TEST");
 		flight1.setX(350);
 		flight1.setY(1000);
 		assertFalse(flight1.checkIfFlightAtWaypoint(waypoint));

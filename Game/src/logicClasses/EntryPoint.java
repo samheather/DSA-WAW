@@ -10,16 +10,15 @@ public class EntryPoint extends Point {
 	
 	Image entryPointTop, entryPointRight, entryPointLeft;
 
-	public EntryPoint(double xcoord, double ycoord) {
-	    super(xcoord, ycoord);
+    //Point Constructor take two doubles, for x then y.
+    public EntryPoint(double xcoord, double ycoord) {
 
-	}
-	
-	EntryPoint(double xcoord, double ycoord, String name){
-	    super(xcoord, ycoord, name);
+    	super(xcoord, ycoord);
+    
+    }
+    
+    
 
-	    System.out.println("EntryPoint " + pointRef + " set:(" + x + "," + y +").");
-	}
 	
     public void init(GameContainer gc) throws SlickException {
     	

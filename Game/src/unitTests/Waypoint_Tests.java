@@ -18,9 +18,9 @@ public class Waypoint_Tests {
 	
 	@Before
 	public void setUp(){
-		testWaypointZero = new Waypoint(0,1);
-		testWaypointPositive = new Waypoint(100,101);
-		testWaypointNegative = new Waypoint (-100, -101);
+		testWaypointZero = new Waypoint(0,1, "TEST");
+		testWaypointPositive = new Waypoint(100,101, "TEST");
+		testWaypointNegative = new Waypoint (-100, -101, "TEST");
 	// No constraints applied directly to point constructor; no irregular behaviour should occur
 		// from any non-numeric values for x and y.
 		
