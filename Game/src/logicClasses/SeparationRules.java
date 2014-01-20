@@ -12,10 +12,10 @@ public class SeparationRules {
 	private int gameOverLateralSeparation, gameOverVerticalSeparation;
 	private boolean gameOverViolation; 
 	
-	// CONSTRUCTOR
-	public SeparationRules(int difficultyVal){//Ram - Value 1 = Easy, Value 2 = Med, Value 3 = Hard
-		this.warningLateralSeparation = 100; //Ram - WiP (work in progress) value.
-		this.warningVerticalSeparation = 999; //Ram - Changed to 1000ft to mirror Air Regulators
+	//CONSTRUCTOR
+	public SeparationRules(int difficultyVal){
+		this.warningLateralSeparation = 100; 
+		this.warningVerticalSeparation = 999; 
 	 	this.gameOverViolation = false;
 	 	
 		if (difficultyVal == 1) { // Easy: Only a Crash will cause a Game Over
