@@ -9,13 +9,6 @@ import org.newdawn.slick.SlickException;
 
 public class Point {
 
-    //A "Point" object has a (X,Y) co-ordinate, representing a line in the
-    //game airspace along the altitude axis. Values set individually as (xCoOrd, 
-    // yCoOrd) double variables, initialised by default as 0,0.
-    
-    //If this helps:
-    //String pointRef is the letter reference (Point A would be "A").
-    //Class Var. static int PointCount tracks number of Points set up.
     protected double x;
     protected double y;
     protected String pointRef;
@@ -32,7 +25,7 @@ public class Point {
 
     }
     
-    //Point Constructor that also takes pointRef string:
+    //Point Constructor that also takes pointRef string, more commonly used.
     Point(double xcoord, double ycoord, String name){
     x = xcoord; 
     y = ycoord;
@@ -44,11 +37,24 @@ public class Point {
     
     // INIT, RENDER, UPDATE
     
+	/**
+	 * init: Initialises the variables and resources required for the Point class render (Sets Waypoint Images)
+	 * @param gc
+	 * @throws SlickException
+	 */
+    
     public void init(GameContainer gc) throws SlickException {
     	this.waypointImage =new Image("res/graphics/graphics/waypoint.png"); 
         this.nextWaypointImage =  new Image("res/graphics/graphics/waypoint_next.png");
 
 	}
+    
+    /**
+	 * render: Render the graphics for the Point class (Draws all Waypoints)
+	 * @param g
+	 * @param gc
+	 * @throws SlickException
+	 */
     
     public void render(Graphics g, Airspace airspace) throws SlickException {
     	

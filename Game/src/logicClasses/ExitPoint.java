@@ -22,7 +22,13 @@ public class ExitPoint extends Point {
 	    System.out.println("Waypoint " + pointRef + " set:(" + x + "," + y +").");
 	}
 	
-	   public void init(GameContainer gc) throws SlickException {
+    /**
+     * init: Initialises the variables and resources required for the ExitPoint object render (Sets ExitPoint Images)
+     * @param gc
+     * @throws SlickException
+     */
+	
+	public void init(GameContainer gc) throws SlickException {
 
 		    this.exitPointTop = new Image("/res/graphics/graphics/exitpoint_top.png");
 			this.exitPointRight = new Image("/res/graphics/graphics/exitpoint_right.png");
@@ -31,12 +37,14 @@ public class ExitPoint extends Point {
 
 		}
 	
-	@Override
+	/**
+	 * render: Render method for the ExitPoint object, position determines orientation of image and String of name
+	 * @param g
+	 * @param gc
+	 * @throws SlickException
+	 */
+	
 	public void render(Graphics g, Airspace airspace) throws SlickException {
-		
-
-		
-
 		
 		if(this.y == 0){
 			this.exitPointTop.draw((int)this.x-20, (int)this.y);
