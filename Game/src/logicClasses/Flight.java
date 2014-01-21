@@ -211,7 +211,7 @@ public class Flight {
 					g.drawString(Math.round(this.currentAltitude) + " ft",(int) this.x-30, (int) this.y + 10);
 					g.drawString(Math.round(this.currentHeading) + "°",(int) this.x - 13, (int) this.y + 25);//-15,20
 					
-					if (this.flightPlan.getWaypoints().size() > 0) {
+					if (this.flightPlan.getCurrentRoute().size() > 0) {
 						g.drawString("Aim: "+this.flightPlan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
 						
 					}
@@ -224,7 +224,7 @@ public class Flight {
 					g.drawString(this.flightName, (int) this.x-24, (int) this.y-44);
 					g.drawString(Math.round(this.currentAltitude) + " ft",(int) this.x-30, (int) this.y + 10);
 					
-					if (this.flightPlan.getWaypoints().size() > 0) {
+					if (this.flightPlan.getCurrentRoute().size() > 0) {
 						g.drawString("Aim: "+this.flightPlan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
 					}
 					g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
@@ -248,8 +248,8 @@ public class Flight {
 		g.drawString("Plan: ",  10, 480);
 		String plan = "";
 		
-		for(int i=0; i<this.flightPlan.getWaypoints().size(); i++) {
-			plan += this.flightPlan.getWaypoints().get(i).getPointRef()+", ";
+		for(int i=0; i<this.flightPlan.getCurrentRoute().size(); i++) {
+			plan += this.flightPlan.getCurrentRoute().get(i).getPointRef()+", ";
 		}
 		
 		

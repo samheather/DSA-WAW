@@ -214,6 +214,19 @@ public class Flight_Tests {
 	
 	// Testing update_x_y_coordinates()
 	
+	@Test
+	public void updateXYCoordinates(){
+		flight1.getFlightPlan().setVelocity(300);
+		flight1.setCurrentHeading(50);
+		flight1.setTargetHeading(50);
+		flight1.setX(100);
+		flight1.setY(100);
+		flight1.updateXYCoordinates();
+		assertEquals(100.2, flight1.getX(), 0.1);
+		assertEquals(99.8, flight1.getY(), 0.1);
+		
+	}
+	
 	
 	
 	//Testing update_altitude()

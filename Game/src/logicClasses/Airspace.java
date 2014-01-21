@@ -265,7 +265,7 @@ public class Airspace {
 		
 		for (int i = 0; i < this.listOfFlightsInAirspace.size(); i++) {
 			this.listOfFlightsInAirspace.get(i).update();
-			if(this.listOfFlightsInAirspace.get(i).getFlightPlan().getWaypoints().size()==0) {
+			if(this.listOfFlightsInAirspace.get(i).getFlightPlan().getCurrentRoute().size()==0) {
 				this.removeSpecificFlight(i);
 			}
 			else if (this.checkIfFlightHasLeftAirspace(this.getListOfFlights().get(i))) { // if a flight has left the airspace

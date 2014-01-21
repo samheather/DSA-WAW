@@ -139,7 +139,7 @@ public class FlightPlan {
 		int mouseX = Mouse.getX();
 		int mouseY = Mouse.getY();
 		mouseY=600-mouseY;
-		if(this.getWaypoints().isEmpty()) {
+		if(this.getCurrentRoute().isEmpty()) {
 			return false;
 		}
 		for(int i=0; i<this.flight.getAirspace().getListOfWaypoints().size();i++) {
@@ -342,7 +342,7 @@ public class FlightPlan {
 		return this.velocity;
 	}
 
-	public ArrayList<Point> getWaypoints() {
+	public ArrayList<Point> getCurrentRoute() {
 		return currentRoute;
 	}
 
