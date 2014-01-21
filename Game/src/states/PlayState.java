@@ -75,11 +75,11 @@ public class PlayState extends BasicGameState {
 		backgroundImage = new Image("res/graphics/background.png");
 		difficultyBackground = new Image("res/menu_graphics/difficulty.jpg");
 		easyButton = new Image("res/menu_graphics/easy.png");
-		easyHover = new Image("res/menu_graphics/easy_Hover.png");
+		easyHover = new Image("res/menu_graphics/easy_hover.png");
 		mediumButton = new Image("res/menu_graphics/medium.png");
-		mediumHover = new Image("res/menu_graphics/medium_Hover.png");
+		mediumHover = new Image("res/menu_graphics/medium_hover.png");
 		hardButton = new Image("res/menu_graphics/hard.png");
-		hardHover = new Image("res/menu_graphics/hard_Hover.png");
+		hardHover = new Image("res/menu_graphics/hard_hover.png");
 		
 		//initialise the airspace object;
 		
