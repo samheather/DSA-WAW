@@ -29,6 +29,10 @@ body{
 #footer{
 	text-align: center;
 }
+#contact{
+	position:relative;
+	top:200px;
+}
 
 .nav{
 	padding-left:10%;
@@ -56,6 +60,9 @@ img:hover {
 
 .a {
 	color:#999;
+}
+h1{
+	color:#777;
 }
 
 a {
