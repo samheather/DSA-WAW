@@ -74,9 +74,9 @@ public class Airspace {
 	
 	/**
 	 * newWaypoint: Add a new waypoint to the list of waypoints in the airspace
-	 * @param x
-	 * @param y
-	 * @param name
+	 * @param x The x coordinate of the waypoint
+	 * @param y The y coordinate of the waypoint
+	 * @param name The name used to reference the waypoint
 	 */
 	
 	public boolean newWaypoint(int x, int y, String name)  {
@@ -93,9 +93,9 @@ public class Airspace {
 	
 	/**
 	 * newExitPoint: Add a new exitpoint to the list in the airspace
-	 * @param x
-	 * @param y
-	 * @param name
+	 * @param x The x coordinate of the exitpoint
+	 * @param y The y coordinate of the exitpoint
+	 * @param name The name used to reference the exitpoint
 	 */
 	public boolean newExitPoint(int x, int y, String name) {
 		if (x < 1250 && x > 100 && y < 650
@@ -111,8 +111,8 @@ public class Airspace {
 	
 	/**
 	 * newEntryPoint: Add a new entrypoint to the the list in the airspace
-	 * @param x
-	 * @param y
+	 * @param x The x coordinate of the entry point
+	 * @param y The y coordinate of the entrypoint
 	 */
 	
 	public boolean newEntryPoint(int x, int y)  {
@@ -128,7 +128,7 @@ public class Airspace {
 	/**
 	 * newFlight: Add a new flight to the list in the airspace if it has been long enough since the last flight was added and if random number is right
 	 * The flight is also given a name 
-	 * @param gc
+	 * @param gc - Game Container
 	 * @throws SlickException
 	 */
 	public boolean newFlight(GameContainer gc) throws SlickException {
@@ -176,7 +176,7 @@ public class Airspace {
 	
 	/**
 	 * generateFlightName: Generate a random name for a flight, based on UK flight tail numbers
-	 * @return
+	 * @return Returns a random string that can be used to identify a flight.
 	 */
 	
 	public String generateFlightName() {
@@ -192,7 +192,7 @@ public class Airspace {
 	/**
 	 * checkIfFlightHasLeftAirspace: Check if a flight is outside the area of the game, and if it is removed the object so it is not
 	 * using unnecessary resources.
-	 * @param flight
+	 * @param flight The flight being checked.
 	 */
 
 	public boolean checkIfFlightHasLeftAirspace(Flight flight) {
@@ -208,7 +208,7 @@ public class Airspace {
 
 	/**
 	 * changeScore: Add a value to the current score
-	 * @param value
+	 * @param value the amount the score is increased by. 
 	 */
 	public void changeScore(int value) {
 		this.score += value;
@@ -226,7 +226,7 @@ public class Airspace {
 	// INIT, RENDER, UPDATE
 	/**
 	 * init: Initialises all the resources required for the airspace class, and any other classes that are rendered within it
-	 * @param gc
+	 * @param gc GameContainer
 	 * @throws SlickException
 	 */
 	public void init(GameContainer gc) throws SlickException {
@@ -250,7 +250,7 @@ public class Airspace {
 	
 	/**
 	 * update: Update all logic in the airspace class
-	 * @param gc
+	 * @param gc GameContainer
 	 */
 	
 	public void update(GameContainer gc) {
@@ -280,8 +280,9 @@ public class Airspace {
 	}
 	/**
 	 * render: Render all of the graphics in the airspace
-	 * @param g
-	 * @param gc
+	 * @param g Graphics
+	 * @param gc GameContainer
+	 * 
 	 * @throws SlickException
 	 */
 	public void render(Graphics g, GameContainer gc) throws SlickException { 
