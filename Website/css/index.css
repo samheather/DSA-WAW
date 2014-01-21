@@ -1,44 +1,59 @@
 body{
-	background-image:url('../img/bgimage.jpg');
-	background-repeat:no-repeat;
-	background-attachment:fixed;
-	background-position:center; 
-	background-color:#000;	
+	background-color:black;
 	font-family:"Trebuchet MS";
+	margin:0px;
+	padding:0px;
 }
 
 #faq_body{
-	background-image:url('../img/bgimageclear.jpg');
+	
+	
 }
 
 #container{
-	width:100%;	
+	background-image:url('../img/bgimage.jpg');
+	background-repeat:no-repeat;
+	width:1200px;
+	height:300px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:100px;
 	text-align: center;
+	padding-top:300px;
 }
 
 #download{
 	position:relative;
-	margin-top:25%;
+	width:550px;
+	height:100px;
+	text-align:center;
+	margin-left:auto;
+	margin-right:auto;
+
+
+
 }
 
 #navbar{
-	position:relative;
-	margin-top: 2.5%;
+	margin-left:80px;
+	margin-top:100px;
+	width:1000px;
+	height:200px;
+
 }
 
 #footer{
 	text-align: center;
-	position: absolute;
 	width:99%;
 	bottom:10px;
 	margin-left: auto ;
   	margin-right: auto ;
 }
 #contact{
-	position:absolute;
-	top:40%;
-	width:99%;
-	bottom:10px;
+	
+	
+	width:100%;
+	margin-top:-80px;
 	margin-left: auto ;
   	margin-right: auto ;
 }
