@@ -147,12 +147,7 @@ public class FlightPlan_Tests {
     	assertTrue(route.size() == 0);
 		
 	}
-	
-	@Test 
-	public void setVelocityTest(){
-		flightplan.setVelocity(350);
-		assertEquals(350, flightplan.getVelocity(),3);
-	}
+
 	
 	
 	
