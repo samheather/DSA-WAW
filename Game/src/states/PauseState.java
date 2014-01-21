@@ -23,15 +23,15 @@ public class PauseState extends BasicGameState {
 		try{
 			pageNumber = 1;
 			
-			pauseBackgroundPage1 = new Image("res/graphics/menu_graphics/pause_screen.jpg");
-			pauseBackgroundPage2 = new Image("res/graphics/menu_graphics/controls2.jpg");
-			backButton = new Image("res/graphics/menu_graphics/back.png");
-			nextPageButton = new Image("res/graphics/menu_graphics/next page.png");
-			previousPageButton = new Image("res/graphics/menu_graphics/previous page.png");
-			menuButton = new Image("res/graphics/menu_graphics/menu_button.png");
-			quitButton = new Image("res/graphics/menu_graphics/quit_button.png");
+			pauseBackgroundPage1 = new Image("res/menu_graphics/pause_screen.jpg");
+			pauseBackgroundPage2 = new Image("res/menu_graphics/controls2.jpg");
+			backButton = new Image("res/menu_graphics/back.png");
+			nextPageButton = new Image("res/menu_graphics/next page.png");
+			previousPageButton = new Image("res/menu_graphics/previous page.png");
+			menuButton = new Image("res/menu_graphics/menu_button.png");
+			quitButton = new Image("res/menu_graphics/quit_button.png");
 			
-			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway font/bluehigh.ttf");
+			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway_font/bluehigh.ttf");
 			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
 			awtFont = awtFont.deriveFont(20f);
 			font = new TrueTypeFont(awtFont, false);

@@ -52,8 +52,8 @@ public class Controls {
 		this.turnLeftTextBox.setMaxLength(3);
 		this.turnRightTextBox.setMaxLength(3);
 		this.headingControlTextBox.setMaxLength(3);
-		altitudeButton = new Image("res/graphics/graphics/altitudebutton.png");
-		changePlanButton = new Image("res/graphics/graphics/altitudebutton.png"); // same as altitude button
+		altitudeButton = new Image("res/graphics/altitudebutton.png");
+		changePlanButton = new Image("res/graphics/altitudebutton.png"); // same as altitude button
 		
 	}
 	

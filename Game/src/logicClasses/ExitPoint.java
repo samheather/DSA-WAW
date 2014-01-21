@@ -24,9 +24,9 @@ public class ExitPoint extends Point {
 	
 	public void init(GameContainer gc) throws SlickException {
 
-		    this.exitPointTop = new Image("/res/graphics/graphics/exitpoint_top.png");
-			this.exitPointRight = new Image("/res/graphics/graphics/exitpoint_right.png");
-			this.exitPointLeft = new Image("/res/graphics/graphics/exitpoint_left.png");	
+		    this.exitPointTop = new Image("res/graphics/exitpoint_top.png");
+			this.exitPointRight = new Image("res/graphics/exitpoint_right.png");
+			this.exitPointLeft = new Image("res/graphics/exitpoint_left.png");	
 	   
 
 		}

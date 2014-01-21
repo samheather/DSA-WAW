@@ -26,8 +26,8 @@ public class Waypoint extends Point {
 		 */
 	    
 	    public void init(GameContainer gc) throws SlickException {
-	    	this.waypointImage =new Image("res/graphics/graphics/waypoint.png"); 
-	        this.nextWaypointImage =  new Image("res/graphics/graphics/waypoint_next.png");
+	    	this.waypointImage =new Image("res/graphics/waypoint.png"); 
+	        this.nextWaypointImage =  new Image("res/graphics/waypoint_next.png");
 
 		}
 	

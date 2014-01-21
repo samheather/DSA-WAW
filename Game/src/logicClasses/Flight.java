@@ -369,11 +369,11 @@ public class Flight {
 	 */
 	
 	public void init(GameContainer gc) throws SlickException {
-		this.regularFlightImage = new Image("/res/graphics/graphics/flight.png");
-		this.shadowImage = new Image("/res/graphics/graphics/flight_shadow.png");
-		this.slowFlightImage = new Image("/res/graphics/graphics/flight_slow.png");
-		this.fastFlightImage = new Image("/res/graphics/graphics/flight_fast.png");
-		this.selectedFlightInformationBackgroundImage = new Image("res/graphics/graphics/selected_flight2.jpg");
+		this.regularFlightImage = new Image("res/graphics/flight.png");
+		this.shadowImage = new Image("res/graphics/flight_shadow.png");
+		this.slowFlightImage = new Image("res/graphics/flight_slow.png");
+		this.fastFlightImage = new Image("res/graphics/flight_fast.png");
+		this.selectedFlightInformationBackgroundImage = new Image("res/graphics/selected_flight2.jpg");
 
 	}
 	

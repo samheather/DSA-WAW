@@ -25,15 +25,15 @@ public class ControlsState extends BasicGameState {
 		try{
 			pageNumber = 1;
 			
-			controlsBackgroundPage1 = new Image("res/graphics/menu_graphics/controls1.jpg");
-			controlsBackgroundPage2 = new Image("res/graphics/menu_graphics/controls2.jpg");
-			backButton = new Image("res/graphics/menu_graphics/back.png");
-			nextPageButton = new Image("res/graphics/menu_graphics/next page.png");
-			nextPageHover = new Image("res/graphics/menu_graphics/next page_hover.png");
-			previousPageButton = new Image("res/graphics/menu_graphics/previous page.png");
-			previousPageHover = new Image("res/graphics/menu_graphics/previous hover.png");
-			quitButton = new Image("res/graphics/menu_graphics/quit_button.png");
-			quitHover = new Image("res/graphics/menu_graphics/quit_hover.png");
+			controlsBackgroundPage1 = new Image("res/menu_graphics/controls1.jpg");
+			controlsBackgroundPage2 = new Image("res/menu_graphics/controls2.jpg");
+			backButton = new Image("res/menu_graphics/back.png");
+			nextPageButton = new Image("res/menu_graphics/next page.png");
+			nextPageHover = new Image("res/menu_graphics/next page_hover.png");
+			previousPageButton = new Image("res/menu_graphics/previous page.png");
+			previousPageHover = new Image("res/menu_graphics/previous hover.png");
+			quitButton = new Image("res/menu_graphics/quit_button.png");
+			quitHover = new Image("res/menu_graphics/quit_hover.png");
 			
 			
 			

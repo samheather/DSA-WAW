@@ -17,13 +17,13 @@ public class GameOverState extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame sbg)
 				throws SlickException {
 		
-		gameOverBackground = new Image("res/graphics/menu_graphics/gameover_screen.png");
-		playAgainButton = new Image("res/graphics/menu_graphics/playagain_button.png");
-		quitButton = new Image("res/graphics/menu_graphics/quit_button.png");
-		menuButton = new Image("res/graphics/menu_graphics/menu_button.png");
-		playAgainHover = new Image("res/graphics/menu_graphics/playagain_hover.png");
-		quitHover = new Image("res/graphics/menu_graphics/quit_hover.png");
-		menuHover = new Image("res/graphics/menu_graphics/menu_hover.png");
+		gameOverBackground = new Image("res/menu_graphics/gameover_screen.png");
+		playAgainButton = new Image("res/menu_graphics/playagain_button.png");
+		quitButton = new Image("res/menu_graphics/quit_button.png");
+		menuButton = new Image("res/menu_graphics/menu_button.png");
+		playAgainHover = new Image("res/menu_graphics/playagain_hover.png");
+		quitHover = new Image("res/menu_graphics/quit_hover.png");
+		menuHover = new Image("res/menu_graphics/menu_hover.png");
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)

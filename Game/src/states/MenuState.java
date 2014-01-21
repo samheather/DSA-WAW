@@ -22,15 +22,15 @@ public class MenuState extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
 
-		menuBackground = new Image("res/graphics/menu_graphics/menu_screen.png");
-		playButton = new Image("res/graphics/menu_graphics/play_button.png");
-		playHover = new Image("res/graphics/menu_graphics/play_hover.png");
-		quitButton = new Image("res/graphics/menu_graphics/quit_button.png");
-		quitHover = new Image("res/graphics/menu_graphics/quit_hover.png");
-		creditsButton = new Image("res/graphics/menu_graphics/credits.png");
-		creditsHover = new Image("res/graphics/menu_graphics/credits_hover.png");
-		controlsButton = new Image("res/graphics/menu_graphics/controls_silver.png");
-		controlsHover = new Image("res/graphics/menu_graphics/controls_hover.png");
+		menuBackground = new Image("res/menu_graphics/menu_screen.png");
+		playButton = new Image("res/menu_graphics/play_button.png");
+		playHover = new Image("res/menu_graphics/play_hover.png");
+		quitButton = new Image("res/menu_graphics/quit_button.png");
+		quitHover = new Image("res/menu_graphics/quit_hover.png");
+		creditsButton = new Image("res/menu_graphics/credits.png");
+		creditsHover = new Image("res/menu_graphics/credits_hover.png");
+		controlsButton = new Image("res/menu_graphics/controls_silver.png");
+		controlsHover = new Image("res/menu_graphics/controls_hover.png");
 
 
 	}

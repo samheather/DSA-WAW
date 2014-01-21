@@ -28,9 +28,9 @@ public class EntryPoint extends Point {
      * @throws SlickException
      */
     	
-    	this.entryPointTop = new Image("/res/graphics/graphics/entrypoint_top.png");
-		this.entryPointRight = new Image("/res/graphics/graphics/entrypoint_right.png");
-		this.entryPointLeft = new Image("/res/graphics/graphics/entrypoint_left.png");
+    	this.entryPointTop = new Image("res/graphics/entrypoint_top.png");
+		this.entryPointRight = new Image("res/graphics/entrypoint_right.png");
+		this.entryPointLeft = new Image("res/graphics/entrypoint_left.png");
 
 	}
     

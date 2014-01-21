@@ -48,7 +48,7 @@ public class Game extends StateBasedGame {
 			appgc.setDisplayMode(MAXIMUMWIDTH, MAXIMUMHEIGHT, false);
 			appgc.setTargetFrameRate(60);
 			
-			appgc.setIcon("res/icon.png");
+			appgc.setIcon("res/graphics/icon.png");
 			appgc.start();
 		} catch (SlickException e) {
 			e.printStackTrace();

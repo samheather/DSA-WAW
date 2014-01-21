@@ -16,9 +16,9 @@ public class CreditsState extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
 	
-	menuBackground = new Image("res/graphics/menu_graphics/menu_screen.png");
-	menuButton = new Image("res/graphics/menu_graphics/menu_button.png");
-	menuHover = new Image("res/graphics/menu_graphics/menu_hover.png");
+	menuBackground = new Image("res/menu_graphics/menu_screen.png");
+	menuButton = new Image("res/menu_graphics/menu_button.png");
+	menuHover = new Image("res/menu_graphics/menu_hover.png");
 	
 	}
 

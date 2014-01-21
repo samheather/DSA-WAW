@@ -19,7 +19,7 @@ public class Airport {
 	}
 	
 	public void init(GameContainer gc) throws SlickException {
-		airportImage = new Image("res/graphics/graphics/airport.png");
+		airportImage = new Image("res/graphics/airport.png");
 	}
 	
 	public void render(Graphics g, GameContainer gc) throws SlickException { 

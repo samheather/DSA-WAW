@@ -45,13 +45,13 @@ public class PlayState extends BasicGameState {
 		
 		gc.setAlwaysRender(true);
 		gc.setUpdateOnlyWhenVisible(true);
-		gc.setMouseCursor("graphics/graphics/cross.png",12,12);
+		gc.setMouseCursor("res/graphics/cross.png",12,12);
 	
 		
 		// Font
 		
 		try{
-			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway font/bluehigh.ttf");
+			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway_font/bluehigh.ttf");
 			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
 			awtFont = awtFont.deriveFont(20f);
 			font = new TrueTypeFont(awtFont, true);
@@ -63,23 +63,23 @@ public class PlayState extends BasicGameState {
 		
 		// Music
 		
-		gameplayMusic = new Music("Jarvic 8.ogg");
-		endOfGameSound = new Sound("res/175385__digitaldominic__scream.wav");
+		gameplayMusic = new Music("res/music/Jarvic 8.ogg");
+		endOfGameSound = new Sound("res/music/175385__digitaldominic__scream.wav");
 	
 		
 		
 		//Images
 		
-		controlBarImage = new Image("/res/graphics/graphics/control_bar_vertical.png");
-		clockImage = new Image("/res/graphics/graphics/clock.png");
-		backgroundImage = new Image("/res/graphics/graphics/background.png");
-		difficultyBackground = new Image("res/graphics/menu_graphics/difficulty.jpg");
-		easyButton = new Image("res/graphics/menu_graphics/easy.png");
-		easyHover = new Image("res/graphics/menu_graphics/easy_Hover.png");
-		mediumButton = new Image("res/graphics/menu_graphics/medium.png");
-		mediumHover = new Image("res/graphics/menu_graphics/medium_Hover.png");
-		hardButton = new Image("res/graphics/menu_graphics/hard.png");
-		hardHover = new Image("res/graphics/menu_graphics/hard_Hover.png");
+		controlBarImage = new Image("res/graphics/control_bar_vertical.png");
+		clockImage = new Image("res/graphics/clock.png");
+		backgroundImage = new Image("res/graphics/background.png");
+		difficultyBackground = new Image("res/menu_graphics/difficulty.jpg");
+		easyButton = new Image("res/menu_graphics/easy.png");
+		easyHover = new Image("res/menu_graphics/easy_Hover.png");
+		mediumButton = new Image("res/menu_graphics/medium.png");
+		mediumHover = new Image("res/menu_graphics/medium_Hover.png");
+		hardButton = new Image("res/menu_graphics/hard.png");
+		hardHover = new Image("res/menu_graphics/hard_Hover.png");
 		
 		//initialise the airspace object;
 		
