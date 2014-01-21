@@ -17,14 +17,7 @@ public class Point {
 	
 	// CONSTRUCTORS
     
-
-    //Point Constructor that also takes pointRef string, more commonly used.
-    public Point(double xcoord, double ycoord, String name){
-    x = xcoord; 
-    y = ycoord;
-    pointRef = name;
-    System.out.println("Point " + pointRef + " set:(" + x + "," + y +").");
-    }
+    //Point Constructor taking two doubles for X then Y coordinates.
     public Point(double xcoord, double ycoord) {
 
         x = xcoord;
@@ -32,6 +25,15 @@ public class Point {
         
      }
     
+    //Point Constructor that also takes pointRef string, more commonly used.
+    public Point(double xcoord, double ycoord, String name){
+    x = xcoord; 
+    y = ycoord;
+    pointRef = name;
+    System.out.println("Point " + pointRef + " set:(" + x + "," + y +").");
+    }
+    
+
     
     
     // MUTATORS AND ACCESSORS

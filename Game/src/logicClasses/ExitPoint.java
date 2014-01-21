@@ -9,17 +9,11 @@ import org.newdawn.slick.SlickException;
 public class ExitPoint extends Point {
 	
 	Image exitPointTop, exitPointRight, exitPointLeft;
-
-	public ExitPoint(double xcoord, double ycoord) {
-	    super(xcoord, ycoord);
-	    
-
-	}
 	
-	ExitPoint(double xcoord, double ycoord, String name){
+	public ExitPoint(double xcoord, double ycoord, String name){
 	    super(xcoord, ycoord, name);
 	    
-	    System.out.println("Waypoint " + pointRef + " set:(" + x + "," + y +").");
+	    System.out.println("ExitPoint " + pointRef + " set:(" + x + "," + y +").");
 	}
 	
     /**

@@ -6,8 +6,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-
-
 public class Waypoint extends Point {
 	
 	Image nextWaypointImage, waypointImage;
@@ -19,10 +17,10 @@ public class Waypoint extends Point {
 	    System.out.println("Waypoint " + pointRef + " set:(" + x + "," + y +").");
 	}
 	
-	   // INIT, RENDER, UPDATE
+	   // INIT, RENDER
     
 		/**
-		 * init: Initialises the variables and resources required for the Point class render (Sets Waypoint Images)
+		 * init: Initialises the variables and resources required for the Waypoint class render (Sets Waypoint Images)
 		 * @param gc
 		 * @throws SlickException
 		 */
@@ -34,7 +32,7 @@ public class Waypoint extends Point {
 		}
 	
 	   /**
-		 * render: Render the graphics for the Point class (Draws all Waypoints)
+		 * render: Render the graphics for the Waypoint class (Draws all Waypoints)
 		 * @param g
 		 * @param airspace
 		 * @throws SlickException
