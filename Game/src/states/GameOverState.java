@@ -36,13 +36,13 @@ public class GameOverState extends BasicGameState {
 		//Fixing posY to reflect graphics coords
 		int posY = 600 - flippedposY;
 		
-		if (posX>778&&posX<844+228&&posY>380&&posY<426){
+		if (posX>728&&posX<844&&posY>380&&posY<426){
 			menuHover.draw(728,380);
 		} else {
 			menuButton.draw(728,380);
 		}
 		
-		if (posX>354&&posX<582+228&&posY>380&&posY<424){
+		if (posX>354&&posX<582&&posY>380&&posY<424){
 			playAgainHover.draw(354,380);
 		} else {
 			playAgainButton.draw(354,380);
@@ -64,11 +64,11 @@ public class GameOverState extends BasicGameState {
 		
 		posY = 600 - posY;
 		
-		if(posX>354&&posX<582+228&&posY>380&&posY<424&&Mouse.isButtonDown(0)) {
+		if(posX>354&&posX<582&&posY>380&&posY<424&&Mouse.isButtonDown(0)) {
 			sbg.enterState(1);
 		}
 		
-		if(posX>778&&posX<844+228&&posY>380&&posY<426&&Mouse.isButtonDown(0)) { // 116 46
+		if(posX>728&&posX<844&&posY>380&&posY<426&&Mouse.isButtonDown(0)) { // 116 46
 			sbg.enterState(0);
 		}
 		
