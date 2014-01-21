@@ -13,7 +13,8 @@ public class ControlsState extends BasicGameState {
 	
 	private int pageNumber;
 	private Image controlsBackgroundPage1,controlsBackgroundPage2, backButton, nextPageButton, previousPageButton, menuButton, quitButton;
-
+    private Image nextPageHover, previousPageHover, quitHover;
+    
 	public ControlsState(int state){
 		
 	}
@@ -28,9 +29,12 @@ public class ControlsState extends BasicGameState {
 			controlsBackgroundPage2 = new Image("res/graphics/menu_graphics/controls2.jpg");
 			backButton = new Image("res/graphics/menu_graphics/back.png");
 			nextPageButton = new Image("res/graphics/menu_graphics/next page.png");
+			nextPageHover = new Image("res/graphics/menu_graphics/next page_hover.png");
 			previousPageButton = new Image("res/graphics/menu_graphics/previous page.png");
-			menuButton = new Image("res/graphics/menu_graphics/menu_button.png");
+			previousPageHover = new Image("res/graphics/menu_graphics/previous hover.png");
 			quitButton = new Image("res/graphics/menu_graphics/quit_button.png");
+			quitHover = new Image("res/graphics/menu_graphics/quit_hover.png");
+			
 			
 			
 		}catch(Exception e){
@@ -41,21 +45,48 @@ public class ControlsState extends BasicGameState {
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException{
+		
+		int posX=Mouse.getX();
+		int flippedposY=Mouse.getY();
+		//Fixing posY to reflect graphics coords
+		int posY = 600 - flippedposY;
+		
 		if (pageNumber == 1) {
 			controlsBackgroundPage1.draw(0,0);
 			backButton.draw(20,20);
-			nextPageButton.draw(1030,280);
+			
+			if ((posX > 1030 && posX < 1193) && (posY > 280 && posY < 315)){
+				nextPageHover.draw(1030,280);
+			} else {
+				nextPageButton.draw(1030,280);
+			}
 			//menuButton.draw(1050, 20);
-			quitButton.draw(1150,550);
+			
+			if ((posX > 1150 && posX < 1170) && (posY > 550 && posY < 580)){
+				quitHover.draw(1148,556);
+			} else {
+				quitButton.draw(1148,556);
+			}
 			
 		}
 		
 		else if (pageNumber == 2){
 			controlsBackgroundPage2.draw(0,0);
 			backButton.draw(20,20);
-			previousPageButton.draw(30,280);
+
+			if ((posX > 30 && posX < 241) && (posY > 280 && posY < 315)){
+				previousPageHover.draw(30,280);
+			} else {
+				previousPageButton.draw(30,280);
+			}
+			
 			//menuButton.draw(1050, 20);
-			quitButton.draw(1150,550);
+			
+			if ((posX > 1150 && posX < 1170) && (posY > 550 && posY < 580)){
+				quitHover.draw(1148,556);
+			} else {
+				quitButton.draw(1148,556);
+			}
 			
 		}
 

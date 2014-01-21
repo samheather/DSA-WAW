@@ -25,9 +25,8 @@ public class PlayState extends BasicGameState {
 	private Sound endOfGameSound;
 	private Music gameplayMusic;
 	public static TrueTypeFont font;
-	private Image controlBarImage, clockImage, backgroundImage, difficultyBackground, easyButton, mediumButton, hardButton;
+	private Image controlBarImage, clockImage, backgroundImage, difficultyBackground, easyButton, easyHover, mediumButton, mediumHover, hardButton, hardHover;
 	private String stringTime;
-	private double randomMusicGen;
 	private boolean settingDifficulty, gameEnded;
 
 	public PlayState(int state) {
@@ -76,8 +75,11 @@ public class PlayState extends BasicGameState {
 		backgroundImage = new Image("/res/graphics/graphics/background.png");
 		difficultyBackground = new Image("res/graphics/menu_graphics/difficulty.jpg");
 		easyButton = new Image("res/graphics/menu_graphics/easy.png");
+		easyHover = new Image("res/graphics/menu_graphics/easy_Hover.png");
 		mediumButton = new Image("res/graphics/menu_graphics/medium.png");
+		mediumHover = new Image("res/graphics/menu_graphics/medium_Hover.png");
 		hardButton = new Image("res/graphics/menu_graphics/hard.png");
+		hardHover = new Image("res/graphics/menu_graphics/hard_Hover.png");
 		
 		//initialise the airspace object;
 		
@@ -113,12 +115,30 @@ public class PlayState extends BasicGameState {
 		
 		if(settingDifficulty){
 			
-			difficultyBackground.draw(0,0);
-			easyButton.draw(100,300);
-			mediumButton.draw(100,400);
-			hardButton.draw(100,500);
-
+			int posX = Mouse.getX();
+			int flippedposY=Mouse.getY();
+			//Fixing posY to reflect graphics coords
+			int posY = 600 - flippedposY;
 			
+			difficultyBackground.draw(0,0);
+
+		if (posX>100 && posX<216 && posY>300 && posY<354){
+			easyHover.draw(100,300);
+		} else {
+			easyButton.draw(100,300);
+		}
+
+		if (posX>100 && posX<284 && posY>400 && posY<454){
+			mediumHover.draw(100,400);
+		} else {
+			mediumButton.draw(100,400);
+		}
+		
+		if (posX>100 && posX<227 && posY>500 && posY<554){
+			hardHover.draw(100,500);
+		} else {
+			hardButton.draw(100,500);
+		}		
 		}
 		
 		else{

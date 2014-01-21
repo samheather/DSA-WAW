@@ -11,7 +11,7 @@ import org.newdawn.slick.TrueTypeFont;
 
 public class MenuState extends BasicGameState {
 	public static TrueTypeFont font;
-	private Image menuBackground, playButton, quitButton, playHover, quitHover, creditsButton, controlsButton;
+	private Image creditsHover, controlsHover, menuBackground, playButton, quitButton, playHover, quitHover, creditsButton, controlsButton;
 	
 
 	public MenuState(int state) {
@@ -26,11 +26,10 @@ public class MenuState extends BasicGameState {
 		playHover = new Image("res/graphics/menu_graphics/play_hover.png");
 		quitButton = new Image("res/graphics/menu_graphics/quit_button.png");
 		quitHover = new Image("res/graphics/menu_graphics/quit_hover.png");
-		//credits screen access needs their own graphics assets, currently using placeholder
-		//placeholder graphics has dimensions 116x46 pxls
 		creditsButton = new Image("res/graphics/menu_graphics/credits.png");
+		creditsHover = new Image("res/graphics/menu_graphics/credits_hover.png");
 		controlsButton = new Image("res/graphics/menu_graphics/controls_silver.png");
-		
+		controlsHover = new Image("res/graphics/menu_graphics/controls_hover.png");
 		
 	
 	}
@@ -60,13 +59,17 @@ public class MenuState extends BasicGameState {
 		}
 		
 		if (posX>20 && posX< 136 && posY>20 && posY<66){
-			
-			creditsButton.draw(20,534);
+			creditsHover.draw(20,534);
 		} else {
 			creditsButton.draw(20,534);
 		}
 		
-		controlsButton.draw(490,534);
+		if (posX>490 && posX<725 && posY>20 && posY<66){
+			controlsHover.draw(490,534);
+		} else {
+			controlsButton.draw(490,534);
+		}
+
 
 		g.setColor(Color.white);
 		gc.setShowFPS(false);
