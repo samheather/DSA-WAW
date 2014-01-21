@@ -49,6 +49,15 @@ public class CreditsState extends BasicGameState {
 		String MusicAssetsL3 = "Licensed under Creative Commons: By Attribution 3.0";
 		String MusicAssetsL4 = "http://creativecommons.org/licenses/by/3.0/";
 		
+		String Title2 = "Images";
+		String Image2 = "Background image attirubted to Rijksdienst voor het Cultureel Erfgoed";
+		String Image3 = "This files are licensed under the Creative Commons Attribution-Share Alike 3.0 Netherlands license.";
+		
+		String Image4 = "Clouds image attirubted to Keith Pomakis";
+		
+
+
+		
 		g.drawString(Title, 60f, 240f);
 		g.drawString(MusicAssetsL1, 60f, 255f);
 		g.drawString(MusicAssetsL3, 60f, 270f);
@@ -57,6 +66,11 @@ public class CreditsState extends BasicGameState {
 		g.drawString(MusicAssetsL2, 60f, 330f);
 		g.drawString(MusicAssetsL3, 60f, 345f);
 		g.drawString(MusicAssetsL4, 60f, 360f);
+		
+		g.drawString(Title2, 60f, 405f);
+		g.drawString(Image2, 60f, 420f);
+		g.drawString(Image4, 60f, 435f);
+		g.drawString(Image3, 60f, 450f);
 		
 	}
 
