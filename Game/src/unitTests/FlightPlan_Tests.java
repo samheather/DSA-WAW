@@ -147,6 +147,17 @@ public class FlightPlan_Tests {
     	assertTrue(route.size() == 0);
 		
 	}
+	
+	@Test
+	public void updateFlightPlanTest(){
+		int previousSize = flight1.getFlightPlan().getCurrentRoute().size();
+		flight1.setX(flight1.getFlightPlan().getCurrentRoute().get(0).getX());
+		flight1.setY(flight1.getFlightPlan().getCurrentRoute().get(0).getY());
+		flight1.getFlightPlan().updateFlightPlan();
+		assertEquals(previousSize - 1, flight1.getFlightPlan().getCurrentRoute().size(), 0 );
+		
+		
+	}
 
 	
 	
