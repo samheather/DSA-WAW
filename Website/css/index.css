@@ -28,6 +28,9 @@ body{
 
 #footer{
 	text-align: center;
+	position: absolute;
+	bottom:10px;
+	left:32.5%;
 }
 #contact{
 	position:relative;
