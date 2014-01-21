@@ -17,9 +17,9 @@ public class ExitPoint_Tests {
 	
 	@Before
 	public void setUp(){
-		testexitpointZero = new ExitPoint(0,1);
-		testexitpointPositive = new ExitPoint(100,101);
-		testexitpointNegative = new ExitPoint (-100, -101);
+		testexitpointZero = new ExitPoint(0,1,"Z");
+		testexitpointPositive = new ExitPoint(100,101,"P");
+		testexitpointNegative = new ExitPoint (-100, -101,"N");
 	// No constraints applied directly to point constructor; no irregular behaviour should occur
 		// from any non-numeric values for x and y.
 		
