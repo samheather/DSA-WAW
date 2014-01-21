@@ -6,7 +6,6 @@ import logicClasses.*;
 import org.junit.Test;
 import org.junit.Before;
 
-//NOT COMPLETED ;;
 public class Airspace_Tests {
 	
 	private Airspace airspace;
@@ -43,30 +42,27 @@ public class Airspace_Tests {
 	@Test
 	public void newWaypointTest(){
 		assertTrue(airspace.newWaypoint(151, 500, "TEST"));
-		assertFalse(airspace.newWaypoint(-10000, 0, "TEST2"));
+		assertFalse(airspace.newWaypoint(-10000, 151, "TEST2"));
+		assertFalse(airspace.newWaypoint(50, 0, "TEST3"));
 	}
+	
 	
 	// Testing new_exit_point()
 	@Test
 	public void newExitPointTest(){
 		assertTrue(airspace.newExitPoint(150, 500, "TEST"));
-		assertFalse(airspace.newExitPoint(-10000, 0, "TEST2"));
+		assertFalse(airspace.newExitPoint(-100, 220, "TEST2"));
+		assertFalse(airspace.newExitPoint(0, 23, "TEST3"));
 	}
 
 	// Testing new_entry_point()
 	@Test
 	public void newEntryPointTest(){
 		assertTrue(airspace.newEntryPoint(150, 500));
-		assertFalse(airspace.newEntryPoint(-10000, 0));
+		assertFalse(airspace.newEntryPoint(60, -540));
+		assertFalse(airspace.newEntryPoint(0, 0));
 	}
 
-	
-	// Testing new_flight()
-	//@Test	
-	//public void new_flight_test(){
-		//assertTrue(airspace.new_flight(GameContainer gc));
-		//assertFalse(airspace.new_exit_point(-10000, 0));
-	//}
 	
 	// Testing generate_flight_name()
 	@Test
@@ -101,12 +97,6 @@ public class Airspace_Tests {
 			assertTrue(airspace.checkIfFlightHasLeftAirspace(flight1));
 	}
 	
-	// Testing check_selected()
-//		@Test
-//		public void check_selected_test(){
-//			
-//			
-//		}
 	// Testing changeScore()
 	@Test
 	public void changeScoreTest() {
