@@ -54,11 +54,7 @@ public class ControlsState extends BasicGameState {
 		
 		if (pageNumber == 1) {
 			controlsBackgroundPage1.draw(0,0);
-			if ((posX > 20 && posX < 40) && (posY > 20 && posY < 40)){
-				backButtonHover.draw(20,20);
-			}else{
-				backButton.draw(20,20);
-			}
+			
 			
 			if ((posX > 1030 && posX < 1193) && (posY > 280 && posY < 315)){
 				nextPageHover.draw(1030,280);
@@ -93,6 +89,12 @@ public class ControlsState extends BasicGameState {
 				quitButton.draw(1148,556);
 			}
 			
+		}
+		
+		if ((posX > 20 && posX < 40) && (posY > 20 && posY < 40)){
+			backButtonHover.draw(20,20);
+		}else{
+			backButton.draw(20,20);
 		}
 
 		
