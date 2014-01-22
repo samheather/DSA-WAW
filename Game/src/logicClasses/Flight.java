@@ -58,7 +58,7 @@ public class Flight {
 		case 2:
 			return 30000;
 		}
-		return 27000;
+		return 27000; // Default state (this won't ever be returned)
 	}
 
 /**

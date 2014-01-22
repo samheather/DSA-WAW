@@ -18,7 +18,7 @@ public class EntryPoint extends Point {
     	
     /**
      * init: Initialises the variables and resources required for the EntryPoint object render (Sets EntryPoint Images)
-     * @param gc
+     * @param gc Game container required by Slick2d
      * @throws SlickException
      */
     	
@@ -30,7 +30,7 @@ public class EntryPoint extends Point {
     
     /**
 	 * render: Render method for the EntryPoint object, position determines orientation of image
-	 * @param g
+	 * @param g Graphics required by Slick2d
 	 * @throws SlickException
 	 */
     
