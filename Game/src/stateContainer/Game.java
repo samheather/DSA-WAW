@@ -1,4 +1,4 @@
-package logicClasses;
+package stateContainer;
 
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
