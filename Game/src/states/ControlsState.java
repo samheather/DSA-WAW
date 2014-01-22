@@ -12,7 +12,7 @@ import org.lwjgl.input.Mouse;
 public class ControlsState extends BasicGameState {
 	
 	private int pageNumber;
-	private Image controlsBackgroundPage1,controlsBackgroundPage2, backButton, nextPageButton, previousPageButton, menuButton, quitButton;
+	private Image controlsBackgroundPage1,controlsBackgroundPage2, backButton, nextPageButton, previousPageButton, menuButton, quitButton, backButtonHover;
     private Image nextPageHover, previousPageHover, quitHover;
     
 	public ControlsState(int state){
@@ -28,6 +28,7 @@ public class ControlsState extends BasicGameState {
 			controlsBackgroundPage1 = new Image("res/menu_graphics/controls1.jpg");
 			controlsBackgroundPage2 = new Image("res/menu_graphics/controls2.jpg");
 			backButton = new Image("res/menu_graphics/back.png");
+			backButtonHover = new Image("res/menu_graphics/back_hover.png");
 			nextPageButton = new Image("res/menu_graphics/next page.png");
 			nextPageHover = new Image("res/menu_graphics/next page_hover.png");
 			previousPageButton = new Image("res/menu_graphics/previous page.png");
@@ -53,7 +54,11 @@ public class ControlsState extends BasicGameState {
 		
 		if (pageNumber == 1) {
 			controlsBackgroundPage1.draw(0,0);
-			backButton.draw(20,20);
+			if ((posX > 20 && posX < 40) && (posY > 20 && posY < 40)){
+				backButtonHover.draw(20,20);
+			}else{
+				backButton.draw(20,20);
+			}
 			
 			if ((posX > 1030 && posX < 1193) && (posY > 280 && posY < 315)){
 				nextPageHover.draw(1030,280);
