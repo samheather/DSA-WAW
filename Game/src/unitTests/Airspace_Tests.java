@@ -45,7 +45,7 @@ public class Airspace_Tests {
 	//Testing resetAirspace()
 	@Test
 	public void resetAirspaceTest(){
-		
+		// Test that the function resets the airspace.
 		airspace.resetAirspace();
 		assertTrue(airspace.getListOfFlights().size() == 0);
 		assertTrue(airspace.getNumberOfGameLoops() == 0);
@@ -58,6 +58,8 @@ public class Airspace_Tests {
 	// Testing new_waypoint()
 	@Test
 	public void newWaypointTest(){
+		// Tests that waypoint added when placed within airspace. Also
+		// tests that waypoint isn't added when outside range of the airspace.
 		assertTrue(airspace.newWaypoint(151, 500, "TEST"));
 		assertFalse(airspace.newWaypoint(-10000, 151, "TEST2"));
 		assertFalse(airspace.newWaypoint(50, 0, "TEST3"));
@@ -67,6 +69,8 @@ public class Airspace_Tests {
 	// Testing new_exit_point()
 	@Test
 	public void newExitPointTest(){
+		// Tests that exitpoint added when placed within airspace. Also
+		// tests that exitpoint isn't added when outside range of the airspace.
 		assertTrue(airspace.newExitPoint(150, 500, "TEST"));
 		assertFalse(airspace.newExitPoint(-100, 220, "TEST2"));
 		assertFalse(airspace.newExitPoint(0, 23, "TEST3"));
@@ -75,6 +79,8 @@ public class Airspace_Tests {
 	// Testing new_entry_point()
 	@Test
 	public void newEntryPointTest(){
+		// Tests that entrypoint added when placed within airspace. Also
+		// tests that entrypoint isn't added when outside range of the airspace.
 		assertTrue(airspace.newEntryPoint(150, 500));
 		assertFalse(airspace.newEntryPoint(60, -540));
 		assertFalse(airspace.newEntryPoint(0, 0));
@@ -84,6 +90,7 @@ public class Airspace_Tests {
 	// Testing generate_flight_name()
 	@Test
 	public void generateFlightNameTest(){
+		// Test that the name generated is the correct length.
 		String name = airspace.generateFlightName();
 		assertTrue((name.length() == 6));
 	}
@@ -91,7 +98,7 @@ public class Airspace_Tests {
 	// Testing check_if_flight_has_left_airspace()
 	@Test
 	public void checkIfFlightHasLeftAirspaceTest(){
-			//check flight at limits
+			//Testing that a flight leaves the airspace when appropriate.
 			flight1.setX(100);
 			flight1.setY(-50);
 			assertFalse(airspace.checkIfFlightHasLeftAirspace(flight1));
@@ -100,7 +107,6 @@ public class Airspace_Tests {
 			flight1.setY(650);
 			assertFalse(airspace.checkIfFlightHasLeftAirspace(flight1));
 			
-			//Some other sets of tests
 			flight1.setX(1251);
 			flight1.setY(5);
 			assertTrue(airspace.checkIfFlightHasLeftAirspace(flight1));

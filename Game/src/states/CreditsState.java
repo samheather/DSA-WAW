@@ -45,7 +45,6 @@ public class CreditsState extends BasicGameState {
 		//setting text for credits
 		String Title = "Music Assets";
 		String MusicAssetsL1 = "\"Jarvic 8\" Kevin MacLeod (incompetech.com)";
-		String MusicAssetsL2 = "\"Cold Funk\" Kevin MacLeod (incompetech.com)";
 		String MusicAssetsL3 = "Licensed under Creative Commons: By Attribution 3.0";
 		String MusicAssetsL4 = "http://creativecommons.org/licenses/by/3.0/";
 		
@@ -63,7 +62,7 @@ public class CreditsState extends BasicGameState {
 		g.drawString(MusicAssetsL3, 60f, 270f);
 		g.drawString(MusicAssetsL4, 60f, 285f);
 		
-		g.drawString(MusicAssetsL2, 60f, 330f);
+		
 		g.drawString(MusicAssetsL3, 60f, 345f);
 		g.drawString(MusicAssetsL4, 60f, 360f);
 		

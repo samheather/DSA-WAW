@@ -71,6 +71,8 @@ public class SeparationRules_Tests {
 	
 	@Test
 	public void checkViolationTrueTest(){
+		
+		// Tests that game over is achieved when two flights are too close.
 		flight1.setX(1);
 		flight2.setX(1);
 		flight1.setY(1);
@@ -82,6 +84,7 @@ public class SeparationRules_Tests {
 	
 	@Test
 	public void checkViolationFalseVerticalTest(){
+		// Tests that game over is not achieved when two flights aren't too close.
 		flight1.setX(1);
 		flight2.setX(1);
 		flight1.setY(1000);
@@ -93,6 +96,7 @@ public class SeparationRules_Tests {
 	
 	@Test
 	public void checkViolationFalseLateralTest(){
+		// Tests that game over is not achieved when two flights aren't too close.
 		flight1.setX(1000);
 		flight2.setX(1);
 		flight1.setY(1000);
