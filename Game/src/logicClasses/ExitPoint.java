@@ -18,8 +18,8 @@ public class ExitPoint extends Point {
 	
     /**
      * init: Initialises the variables and resources required for the ExitPoint object render (Sets ExitPoint Images)
-     * @param gc
-     * @throws SlickException
+     * @param gc Slick2d game container object
+     * @throws SlickException Slick2d exception handler
      */
 	
 	public void init(GameContainer gc) throws SlickException {
@@ -33,9 +33,9 @@ public class ExitPoint extends Point {
 	
 	/**
 	 * render: Render method for the ExitPoint object, position determines orientation of image and String of name
-	 * @param g
-	 * @param airspace
-	 * @throws SlickException
+	 * @param g Slick2d graphics object 
+	 * @param airspace Airpace object
+	 * @throws SlickException Slick2d exception handler
 	 */
 	
 	public void render(Graphics g, Airspace airspace) throws SlickException {
