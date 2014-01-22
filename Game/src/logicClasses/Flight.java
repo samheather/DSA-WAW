@@ -71,6 +71,7 @@ public class Flight {
  */
 	
 	public double calculateHeadingToFirstWaypoint(double desX, double desY) {
+		
 		double deltaX;
 		double deltaY;
 		deltaY = desY - this.y;
@@ -169,8 +170,8 @@ public class Flight {
 				g.setColor(Color.white);
 				g.setWorldClip(150, 0, 1200, 600);
 
-				//Scale the shadow in accordance to the altitude of the flight
-				float shadowScale = (float) (36 - (this.currentAltitude / 1000))/10;
+				
+				float shadowScale = (float) (36 - (this.currentAltitude / 1000))/10; // Scale the shadow in accordance to the altitude of the flight
 				shadowImage.setRotation((int) currentHeading);
 				shadowImage.draw((int) this.x-35, (int) this.y, shadowScale);
 				
@@ -202,7 +203,6 @@ public class Flight {
 				
 				
 				// Drawing information around flight
-				
 				// If flight is selected then also display current heading
 				
 				if (this.selected){
@@ -309,8 +309,11 @@ public class Flight {
 		if (Math.round(this.targetHeading) != Math.round(this.currentHeading)) {
 			
 
-			// If plane has been given a heading so no turning direction specified
-			// Below works out whether it should turn left or right to that heading.
+			/*
+			 * If plane has been given a heading so no turning direction specified,
+			 * below works out whether it should turn left or right to that heading
+			 */
+			
 			if(this.turningRight == false && this.turningLeft == false){
 
 				if (Math.abs(this.targetHeading - this.currentHeading) == 180) {
@@ -348,7 +351,8 @@ public class Flight {
 				}
 			}
 
-			// if plane is already turning left or user has told it to turn left
+			// If plane is already turning left or user has told it to turn left
+			
 			if (this.turningLeft == true) {
 				this.currentHeading -= rate;
 				if (Math.round(this.currentHeading) <= 0 && this.targetHeading != 0) {
@@ -369,6 +373,7 @@ public class Flight {
 	 */
 	
 	public void init(GameContainer gc) throws SlickException {
+		
 		this.regularFlightImage = new Image("res/graphics/flight.png");
 		this.shadowImage = new Image("res/graphics/flight_shadow.png");
 		this.slowFlightImage = new Image("res/graphics/flight_slow.png");
@@ -502,7 +507,7 @@ public class Flight {
 		this.selected = selected;
 	}
 
-	// tostring function to display a flight object so we can read it
+	// toString function to display a flight object so we can read it
 	@Override
 	public String toString() {
 		return "X: " + this.x + " Y: " + this.y + " Flight Number: "

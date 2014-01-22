@@ -66,10 +66,9 @@ public class SeparationRules {
 	public void checkViolation(Airspace airspace){
 		
 		
-		// Checks if flights are in violation with each other.
 		for (int i = 0; i < airspace.getListOfFlights().size(); i++){
 			
-			for (int j = i+1; j < airspace.getListOfFlights().size(); j++){ // j = i + 1 : stops double checking
+			for (int j = i+1; j < airspace.getListOfFlights().size(); j++){
 				
 				if ((lateralDistanceBetweenFlights(airspace.getListOfFlights().get(i), airspace.getListOfFlights().get(j)) < this.gameOverLateralSeparation)){
 					if ((verticalDistanceBetweenFlights(airspace.getListOfFlights().get(i), airspace.getListOfFlights().get(j)) < this.gameOverVerticalSeparation)){
@@ -90,6 +89,7 @@ public class SeparationRules {
 	 */
 	
 	public void render(Graphics g, GameContainer gc, Airspace airspace){
+		
 		for (int i = 0; i < airspace.getListOfFlights().size(); i++) {
 			
 			for (int j = i + 1; j < airspace.getListOfFlights().size(); j++ ) {	

@@ -23,6 +23,10 @@ public class Game extends StateBasedGame {
 	public static final int MAXIMUMWIDTH = 1200;
 	public static final int MAXIMUMHEIGHT = 600;
 	
+	/**
+	 * Adds all states to a container 
+	 * @param NAME The game's title
+	 */
 
 	public Game(String NAME) {
 		super(NAME);
@@ -49,7 +53,7 @@ public class Game extends StateBasedGame {
 			appgc.setTargetFrameRate(60);
 			
 			appgc.setIcon("res/graphics/icon.png");
-			appgc.start();
+			appgc.start(); 
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

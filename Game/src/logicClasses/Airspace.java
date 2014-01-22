@@ -96,6 +96,7 @@ public class Airspace {
 	 * @param y The y coordinate of the exitpoint
 	 * @param name The name used to reference the exitpoint
 	 */
+	
 	public boolean newExitPoint(int x, int y, String name) {
 		if (x < 1250 && x > 100 && y < 650 && y > -50){ // x and y must be within these bounds to be within screen space
 			
@@ -111,7 +112,7 @@ public class Airspace {
 	/**
 	 * newEntryPoint: Add a new entrypoint to the the list in the airspace
 	 * @param x The x coordinate of the entry point
-	 * @param y The y coordinate of the entrypoint
+	 * @param y The y coordinate of the entry point
 	 */
 	
 	public boolean newEntryPoint(int x, int y)  {
@@ -126,11 +127,12 @@ public class Airspace {
 	}
 	
 	/**
-	 * newFlight: Add a new flight to the list in the airspace if it has been long enough since the last flight was added and if random number is right
+	 * newFlight: Add a new flight to the list of flights in the airspace if it has been long enough since the last flight was added and if random number satisfies condition
 	 * The flight is also given a name 
-	 * @param gc - Game Container
+	 * @param gc Game container required by Slick2d
 	 * @throws SlickException
 	 */
+	
 	public boolean newFlight(GameContainer gc) throws SlickException {
 
 		if (this.listOfFlightsInAirspace.size() < this.maximumNumberOfFlightsInAirspace) {
