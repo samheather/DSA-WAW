@@ -21,8 +21,8 @@ public class Waypoint extends Point {
     
 		/**
 		 * init: Initialises the variables and resources required for the Waypoint class render (Sets Waypoint Images)
-		 * @param gc
-		 * @throws SlickException
+		 * @param gc Slick2d game container
+		 * @throws SlickException Slick2d exception handler
 		 */
 	    
 	    public void init(GameContainer gc) throws SlickException {
@@ -33,9 +33,9 @@ public class Waypoint extends Point {
 	
 	   /**
 		 * render: Render the graphics for the Waypoint class (Draws all Waypoints)
-		 * @param g
-		 * @param airspace
-		 * @throws SlickException
+		 * @param g slick2d graphics object
+		 * @param airspace object
+		 * @throws SlickException Slick2d exception handler
 		 */
 	    
 	    public void render(Graphics g, Airspace airspace) throws SlickException {
@@ -43,7 +43,7 @@ public class Waypoint extends Point {
 	        
 	   
 	    	
-	    	if(airspace.getControls().getSelectedFlight() !=null){
+	    	if(airspace.getControls().getSelectedFlight() !=null){ // If there is a selected flight use its next waypoint and draw it as next
 	    		if (airspace.getControls().getSelectedFlight().getFlightPlan().getCurrentRoute().indexOf(this)==0){
 	    			this.nextWaypointImage.draw((int)this.x-14, (int)this.y-14,30,30);
 	    		}
@@ -53,7 +53,7 @@ public class Waypoint extends Point {
 	    		
 	    	}
 	    	else{
-	    		this.waypointImage.draw((int)this.x-14, (int)this.y-14,30,30);
+	    		this.waypointImage.draw((int)this.x-14, (int)this.y-14,30,30); // If there is no flight then draw the waypoint as not next
 		    	
 	    	}
 	    	g.setColor(Color.black);
