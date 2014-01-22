@@ -138,7 +138,7 @@ public class FlightPlan {
 		int mouseX = Mouse.getX(); //Get mouse coordinates
 		int mouseY = Mouse.getY();
 		mouseY=600-mouseY;
-		if(this.getWaypoints().isEmpty()) { //If there are no waypouints
+		if(this.getCurrentRoute().isEmpty()) { //If there are no waypouints
 			return false;
 		}
 		for(int i=0; i<this.flight.getAirspace().getListOfWaypoints().size();i++) { // calculate if the mouse is over the waypoint and set the value
@@ -340,7 +340,7 @@ public class FlightPlan {
 		return this.velocity;
 	}
 
-	public ArrayList<Point> getWaypoints() {
+	public ArrayList<Point> getCurrentRoute() {
 		return currentRoute;
 	}
 
