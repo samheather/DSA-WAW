@@ -56,7 +56,26 @@ public class PauseState extends BasicGameState {
 		
 		g.setFont(font);
 		
-		pauseBackgroundPage1.draw(0,0);
+		if (pageNumber == 1) {
+			
+			pauseBackgroundPage1.draw(0,0);
+			
+			if((posX > 1020 && posX < 1150) && (posY > 270 && posY < 330)) {
+				nextPageButtonHover.draw(1030,280);
+			} else {
+				nextPageButton.draw(1030,280);
+			}
+			g.setColor(Color.white);
+		}else if (pageNumber == 2){
+						
+			pauseBackgroundPage2.draw(0,0);
+
+			if((posX > 50 && posX < 240) && (posY > 280 && posY < 320)) {
+				previousPageButtonHover.draw(30,280);
+			} else {
+				previousPageButton.draw(30,280);				
+			}			
+		}
 		
 		if((posX > 20 && posX < 40) && (posY > 20 && posY < 40)) {
 			backHover.draw(20,20);
@@ -69,23 +88,6 @@ public class PauseState extends BasicGameState {
 			quitButtonHover.draw(1150,550);
 		}else{
 			quitButton.draw(1150,550);
-		}
-		
-		if (pageNumber == 1) {
-			
-			if((posX > 1020 && posX < 1150) && (posY > 270 && posY < 330)) {
-				nextPageButtonHover.draw(1030,280);
-			} else {
-				nextPageButton.draw(1030,280);
-			}
-			g.setColor(Color.white);
-		}else if (pageNumber == 2){
-						
-			if((posX > 50 && posX < 240) && (posY > 280 && posY < 320)) {
-				previousPageButtonHover.draw(30,280);
-			} else {
-				previousPageButton.draw(30,280);				
-			}			
 		}
 	
 	}
