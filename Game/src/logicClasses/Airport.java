@@ -23,9 +23,9 @@ public class Airport {
 	}
 	
 	public void render(Graphics g, GameContainer gc) throws SlickException { 
-		// Airport image centred in middle of airspace
-		airportImage.draw(572,197);
-	}
+		
+		airportImage.draw(572,197); // Airport image centred in middle of airspace
+	} 
 	
 	
 	

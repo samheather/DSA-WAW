@@ -35,8 +35,25 @@ public class Airspace_Tests {
     	airspace.newExitPoint(1200, 300, "3");
     	// Get a Flight
     	flight1 = new Flight(airspace);
+    	
+    	airspace.setDifficultyValueOfGame(1);
+    	airspace.createAndSetSeparationRules();
+
 		
 	}
+	
+	//Testing resetAirspace()
+	@Test
+	public void resetAirspaceTest(){
+		
+		airspace.resetAirspace();
+		assertTrue(airspace.getListOfFlights().size() == 0);
+		assertTrue(airspace.getNumberOfGameLoops() == 0);
+		assertTrue(airspace.getNumberOfGameLoopsWhenDifficultyIncreases() == 3600);
+		assertTrue(airspace.getSeparationRules().getGameOverViolation() == false);
+		assertTrue(airspace.getControls().getSelectedFlight() == null);
+	}
+	
 	
 	// Testing new_waypoint()
 	@Test

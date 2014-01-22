@@ -15,7 +15,7 @@ public class Airspace {
 
 	private int maximumNumberOfFlightsInAirspace;
 	private int score, numberOfGameLoopsSinceLastFlightAdded, numberOfGameLoops,
-			numberOfGameLoopsWhenDifficultyIncreases, randomNumberForFlightGeneration;
+				numberOfGameLoopsWhenDifficultyIncreases, randomNumberForFlightGeneration;
 	private List<Flight> listOfFlightsInAirspace;
 	private List<Waypoint> listOfWayppoints;
 	private List<EntryPoint> listofEntrypoints;
@@ -35,8 +35,8 @@ public class Airspace {
 		this.listofEntrypoints = new ArrayList<EntryPoint>();
 		this.listOfExitPoints = new ArrayList<ExitPoint>();
 		this.airport = new Airport();
-		this.numberOfGameLoopsSinceLastFlightAdded = 0; // how many loops to wait before another flight can enter
-		this.numberOfGameLoops = 0; // stores how many loops there have been in total
+		this.numberOfGameLoopsSinceLastFlightAdded = 0; // Stores how many loops since the last flight was spawned before another flight can enter
+		this.numberOfGameLoops = 0; // Stores how many loops there have been in total
 		this.numberOfGameLoopsWhenDifficultyIncreases = 3600; // this is how many loops until planes come more quickly, difficulty increase once a minute
 		this.randomNumberForFlightGeneration = 500;
 		this.controls = new Controls();
@@ -55,11 +55,11 @@ public class Airspace {
 		
 		this.listOfFlightsInAirspace = new ArrayList<Flight>();
 		
-		this.numberOfGameLoopsSinceLastFlightAdded = 0; // how many loops to wait before another flight can enter
-		this.numberOfGameLoops = 0; // stores how many loops there have been in total
-		this.numberOfGameLoopsWhenDifficultyIncreases = 3600; // this is how many loops until planes come more quickly, divide by 60 for seconds
-		this.separationRules.setGameOverViolation(false);
-		this.controls.setSelectedFlight(null);
+		this.numberOfGameLoopsSinceLastFlightAdded = 0; 
+		this.numberOfGameLoops = 0; 
+		this.numberOfGameLoopsWhenDifficultyIncreases = 3600;
+		this.separationRules.setGameOverViolation(false); // Prevents user immediately entering game over state upon replay
+		this.controls.setSelectedFlight(null); // Prevents information about flight from previous game being displayed 
 		
 		
 	}
@@ -80,8 +80,7 @@ public class Airspace {
 	 */
 	
 	public boolean newWaypoint(int x, int y, String name)  {
-		if (x < 1250 && x > 150 && y < 650
-				&& y > -50){
+		if (x < 1250 && x > 150 && y < 650 && y > -50){ // x and y must be within these bounds to be within screen space
 			
 			Waypoint tmpWp = new Waypoint(x, y, name);
 			
@@ -98,8 +97,8 @@ public class Airspace {
 	 * @param name The name used to reference the exitpoint
 	 */
 	public boolean newExitPoint(int x, int y, String name) {
-		if (x < 1250 && x > 100 && y < 650
-				&& y > -50){
+		if (x < 1250 && x > 100 && y < 650 && y > -50){ // x and y must be within these bounds to be within screen space
+			
 			ExitPoint tmpEp = new ExitPoint(x, y, name);
 			
 			tmpEp.setPointRef("EXP" + name);
@@ -116,9 +115,10 @@ public class Airspace {
 	 */
 	
 	public boolean newEntryPoint(int x, int y)  {
-		if (x < 1250 && x > 100 && y < 650
-				&& y > -50){
+		if (x < 1250 && x > 100 && y < 650 && y > -50){
+			
 			EntryPoint tmpEp = new EntryPoint(x, y);
+			
 			if (this.addEntryPoint(tmpEp)) {
 				return true;
 			}
@@ -140,15 +140,21 @@ public class Airspace {
 				Random rand = new Random();
 				int checkNumber;
 					
-				// A random number is generated, if that number is 1, a flight is added.
-					
 				if (this.listOfFlightsInAirspace.isEmpty()) {
-						checkNumber = rand.nextInt(100);
+						checkNumber = rand.nextInt(100); // A random number (checkNumber) is generated in the range [0, 100) 
 				} 
 					
 				else {
-					checkNumber = rand.nextInt(this.randomNumberForFlightGeneration);
+					checkNumber = rand.nextInt(this.randomNumberForFlightGeneration); // A random number (checkNumber) is generated in range [0, randomNumberForFlightGeneration)
 				}
+				
+				/* 
+				 * The random number is generated in the range [0, 100) if the airspace is empty, as this increases 
+				 * the likelihood of a value of 1 being returned, and therefore a flight being generated; this stops the user
+				 * having to potentially wait a long period of time for a flight to be generated. 
+				 * If the airspace is not empty, the random number generated is in the range [0, randomNumberForFlight Generation)
+				 * which is > 100. This decreases the likelihood of a flight being generated.
+				 */
 		
 				if (checkNumber == 1) {
 			
@@ -183,8 +189,8 @@ public class Airspace {
 		String name = "G-";
 		Random rand = new Random();
 		for (int i = 0; i < 4; i++) {
-			int thisChar = rand.nextInt(10) + 65;
-			name += (char) thisChar;
+			int thisChar = rand.nextInt(10) + 65; // Generates int in range [65, 74]
+			name += (char) thisChar; // Generate corresponding ascii character for int 
 		}
 		return name;
 	}
@@ -197,8 +203,7 @@ public class Airspace {
 
 	public boolean checkIfFlightHasLeftAirspace(Flight flight) {
 
-		if (flight.getX() > 1250 || flight.getX() < 100 || flight.getY() > 650
-				|| flight.getY() < -50) {
+		if (flight.getX() > 1250 || flight.getX() < 100 || flight.getY() > 650 || flight.getY() < -50) { // x and y must be within these bounds to be within screen space
 			return true;
 		} else {
 			return false;
@@ -210,9 +215,14 @@ public class Airspace {
 	 * changeScore: Add a value to the current score
 	 * @param value the amount the score is increased by. 
 	 */
+	
 	public void changeScore(int value) {
 		this.score += value;
 	}
+	
+	/**
+	 * increaseDifficulty 
+	 */
 	
 	public void increaseDifficulty(){
 		this.numberOfGameLoopsWhenDifficultyIncreases += 3600;
@@ -224,25 +234,27 @@ public class Airspace {
 
 
 	// INIT, RENDER, UPDATE
+	
 	/**
 	 * init: Initialises all the resources required for the airspace class, and any other classes that are rendered within it
 	 * @param gc GameContainer
 	 * @throws SlickException
 	 */
+	
 	public void init(GameContainer gc) throws SlickException {
 		
 		this.controls.init(gc);
 		this.airport.init(gc);
 		
-		for (int i = 0; i < this.listOfWayppoints.size(); i++) {
+		for (int i = 0; i < this.listOfWayppoints.size(); i++) { // Initialising waypoints
 			this.listOfWayppoints.get(i).init(gc);
 		}
 		
-		for (int i = 0; i < this.listOfExitPoints.size(); i++) {
+		for (int i = 0; i < this.listOfExitPoints.size(); i++) { // Initailising exit points
 			this.listOfExitPoints.get(i).init(gc);
 		}
 		
-		for (int i = 0; i < this.listofEntrypoints.size(); i++) {
+		for (int i = 0; i < this.listofEntrypoints.size(); i++) { // Initialising entry point
 			this.listofEntrypoints.get(i).init(gc);
 		}
 		
@@ -268,7 +280,7 @@ public class Airspace {
 			if(this.listOfFlightsInAirspace.get(i).getFlightPlan().getCurrentRoute().size()==0) {
 				this.removeSpecificFlight(i);
 			}
-			else if (this.checkIfFlightHasLeftAirspace(this.getListOfFlights().get(i))) { // if a flight has left the airspace
+			else if (this.checkIfFlightHasLeftAirspace(this.getListOfFlights().get(i))) {
 				this.removeSpecificFlight(i);
 			}
 			
@@ -289,16 +301,16 @@ public class Airspace {
 		
 		this.airport.render(g, gc);
 
-		for (int i = 0; i < this.listOfWayppoints.size(); i++) {
+		for (int i = 0; i < this.listOfWayppoints.size(); i++) { // Draws waypoints
 			this.listOfWayppoints.get(i).render(g, this);
 		}
-		for (int i = 0; i < this.listOfExitPoints.size(); i++) {
+		for (int i = 0; i < this.listOfExitPoints.size(); i++) { // Draws exit points
 			this.listOfExitPoints.get(i).render(g, this);
 		}
-		for (int i = 0; i < this.listofEntrypoints.size(); i++) {
+		for (int i = 0; i < this.listofEntrypoints.size(); i++) { // Draws entry points
 			this.listofEntrypoints.get(i).render(g);
 		}
-		for (int i = 0; i < this.listOfFlightsInAirspace.size(); i++) {
+		for (int i = 0; i < this.listOfFlightsInAirspace.size(); i++) { // Draws flights in airspace
 			this.listOfFlightsInAirspace.get(i).render(g, gc);
 		}
 		
@@ -376,11 +388,10 @@ public class Airspace {
 			this.listOfFlightsInAirspace.add(flight);
 			return true;
 		}
-		 // I made them boolean so we can check if the plane was added successfully (we can change them later on)
 	}
 	
 	public void removeSpecificFlight(int flight) {
-		this.listOfFlightsInAirspace.remove(flight); // remove that flight from the list
+		this.listOfFlightsInAirspace.remove(flight);
 		
 		// If flight was selected, de-select it
 		if (!(this.listOfFlightsInAirspace.contains(this.controls.getSelectedFlight()))) {
@@ -420,6 +431,14 @@ public class Airspace {
 	}
 	
 	public int getDifficultyValueOfGame(){
-	return this.difficultyValueOfGame;
+		return this.difficultyValueOfGame;
+	}
+	
+	public int getNumberOfGameLoops(){
+		return this.numberOfGameLoops;
+	}
+	
+	public int getNumberOfGameLoopsWhenDifficultyIncreases(){
+		return this.numberOfGameLoopsWhenDifficultyIncreases;
 	}
 }
