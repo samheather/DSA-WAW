@@ -302,7 +302,7 @@ public class GameWindow extends BasicGameState {
 			this.fontColor = Color.white;
 			this.speedDifficulty = 0.5;
 			this.spawnRate = 40;
-			this.spawnCount = 2;
+			this.spawnCount = 1;
 		} else if(((WindowManager) game).getCurrentLevel() == 2) {
 			// Play level 2
 			this.currentGame = new Game(75, 200, this);
