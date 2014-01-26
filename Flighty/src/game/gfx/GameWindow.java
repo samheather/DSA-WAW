@@ -432,31 +432,31 @@ public class GameWindow extends BasicGameState {
 		
 
 		// End game
-//		if(this.collision) {
-//			if(this.ending) {
-//				// Draw the two colliding planes
-//				for(Plane plane : this.collidedPlanes) {
-//					this.planeNormal.setRotation((float) Math.toDegrees(
-//							plane.getBearing()) - 90);
-//					this.planeNormal.draw((float) plane.getX(),
-//											(float) plane.getY());
-//				}
-//				
-//				new TrueTypeFont(this.fontPrimitive.deriveFont(50f), true)
-//									.drawString(375f, 200f, "Game Over");
-//				new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
-//									.drawString(440, 275,
-//											"Return in: " + (int)
-//											(5 - ((this.time - this.endTime)
-//						/ 1000)));
-//				if(this.time > (this.endTime + (5 * 1000))) {
-//					game.closeRequested();
-//				}
-//			} else {
-//				this.endTime = this.time;
-//				this.ending = true;
-//			}
-//		}
+		if(this.collision) {
+			if(this.ending) {
+				// Draw the two colliding planes
+				for(Plane plane : this.collidedPlanes) {
+					this.planeNormal.setRotation((float) Math.toDegrees(
+							plane.getBearing()) - 90);
+					this.planeNormal.draw((float) plane.getX(),
+											(float) plane.getY());
+				}
+				
+				new TrueTypeFont(this.fontPrimitive.deriveFont(50f), true)
+									.drawString(375f, 200f, "Game Over");
+				new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
+									.drawString(440, 275,
+											"Return in: " + (int)
+											(5 - ((this.time - this.endTime)
+						/ 1000)));
+				if(this.time > (this.endTime + (5 * 1000))) {
+					game.closeRequested();
+				}
+			} else {
+				this.endTime = this.time;
+				this.ending = true;
+			}
+		}
 	}
 	
 	/**
