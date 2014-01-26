@@ -9,22 +9,11 @@ package game.struct;
  */
 public class Waypoint {
 	
-	/** Current X co-ordinate */
     protected double x;
-    
-    /** Current Y co-ordinate */
     protected double y;
-    
-    /** Current altitude */
     protected double altitude;
-    
-    /** Next Waypoint in list */
     protected Waypoint next;
-    
-    /** Previous Waypoint in list */
     protected Waypoint prev;
-    
-    /** Should the Waypoint be displayed */
     protected boolean visible;
     
     
@@ -66,8 +55,92 @@ public class Waypoint {
     	this.visible = visible;
     }
     
+    // MAIN METHODS
     
-    // Accessors
+    
+    /**
+     * Creates a new hidden Waypoint
+     * <p>
+     * The new Waypoint will be hidden, and inserted before the current Waypoint
+     * </p>
+     * <p>
+     * Note: this is preferred to {@link #setPrev(Waypoint)} as it will
+     * maintain the state of the list
+     * </p>
+     * 
+     * @param x				the point's horizontal position
+     * @param y				the point's vertical position
+     * @return				the new Waypoint
+     */
+    public Waypoint createWaypoint(double x, double y) {
+    	return this.createWaypoint(x, y, false);
+    }
+    
+    /**
+     * Creates a new Waypoint
+     * <p>
+     * This is an alternative to {@link #createWaypoint(double, double)},
+     * allowing the visibility of the new Waypoint to be set
+     * <p>
+     * Note: this is preferred to {@link #setPrev(Waypoint)} as it will
+     * maintain the state of the list
+     * </p>
+     * 
+     * @param x				the point's horizontal position
+     * @param y				the point's vertical position
+     * @param visible		<code>true</code> if the point should be shown,
+     * 						<code>false</code> if the point should be hidden
+     * @return				the new waypoint
+     */
+    public Waypoint createWaypoint(double x, double y, boolean visible) {
+    	Waypoint newWaypoint = new Waypoint(x, y, visible);
+    	newWaypoint.next = this;
+    	newWaypoint.prev = this.prev;
+    	this.prev = newWaypoint;
+    	return newWaypoint;
+    }
+    
+    /**
+     * Removes a Waypoint
+     * <p>
+     * Causes the Waypoint to be removed from the list
+     * </p>
+     * <p>
+     * Note: this will not actually delete references to the Waypoint
+     * (i.e. the Waypoint will still exist) - it will only be <b>removed</b>
+     * from the list of Waypoints.
+     */
+    public void deleteWaypoint() {
+    	if(this.getPrev() != null) {
+    		this.getPrev().setNext(this.next);
+    	}
+    	
+    	if(this.getNext() != null) {
+    		this.getNext().setPrev(this.prev);
+    	}
+    }
+    
+    /**
+     * Moves the Waypoint
+     * 
+     * @param x				the point's horizontal position
+     * @param y				the point's vertical position
+     */
+    public void moveWaypoint(double x, double y, double altitude) {
+    	this.x = x;
+    	this.y = y;
+    	this.altitude = altitude;
+    }
+    
+    
+    
+    
+    // ACCESSORS
+    
+    
+    
+    
+    
     /**
      * @return				the point's horizontal position
      */
@@ -157,80 +230,7 @@ public class Waypoint {
     }
     
     
-    // Other methods
-    /**
-     * Creates a new hidden Waypoint
-     * <p>
-     * The new Waypoint will be hidden, and inserted before the current Waypoint
-     * </p>
-     * <p>
-     * Note: this is preferred to {@link #setPrev(Waypoint)} as it will
-     * maintain the state of the list
-     * </p>
-     * 
-     * @param x				the point's horizontal position
-     * @param y				the point's vertical position
-     * @return				the new Waypoint
-     */
-    public Waypoint createWaypoint(double x, double y) {
-    	return this.createWaypoint(x, y, false);
-    }
-    
-    /**
-     * Creates a new Waypoint
-     * <p>
-     * This is an alternative to {@link #createWaypoint(double, double)},
-     * allowing the visibility of the new Waypoint to be set
-     * <p>
-     * Note: this is preferred to {@link #setPrev(Waypoint)} as it will
-     * maintain the state of the list
-     * </p>
-     * 
-     * @param x				the point's horizontal position
-     * @param y				the point's vertical position
-     * @param visible		<code>true</code> if the point should be shown,
-     * 						<code>false</code> if the point should be hidden
-     * @return				the new waypoint
-     */
-    public Waypoint createWaypoint(double x, double y, boolean visible) {
-    	Waypoint newWaypoint = new Waypoint(x, y, visible);
-    	newWaypoint.next = this;
-    	newWaypoint.prev = this.prev;
-    	this.prev = newWaypoint;
-    	return newWaypoint;
-    }
-    
-    /**
-     * Removes a Waypoint
-     * <p>
-     * Causes the Waypoint to be removed from the list
-     * </p>
-     * <p>
-     * Note: this will not actually delete references to the Waypoint
-     * (i.e. the Waypoint will still exist) - it will only be <b>removed</b>
-     * from the list of Waypoints.
-     */
-    public void deleteWaypoint() {
-    	if(this.getPrev() != null) {
-    		this.getPrev().setNext(this.next);
-    	}
-    	
-    	if(this.getNext() != null) {
-    		this.getNext().setPrev(this.prev);
-    	}
-    }
-    
-    /**
-     * Moves the Waypoint
-     * 
-     * @param x				the point's horizontal position
-     * @param y				the point's vertical position
-     */
-    public void moveWaypoint(double x, double y, double altitude) {
-    	this.x = x;
-    	this.y = y;
-    	this.altitude = altitude;
-    }
+ 
 
 
     // Overrides

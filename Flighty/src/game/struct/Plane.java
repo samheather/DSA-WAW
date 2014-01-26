@@ -83,167 +83,11 @@ public class Plane {
 	}
 
 
-	// Accessors
-	/**
-	 * @return			the Plane's unique ID
-	 */
-	public String getID() {
-		return this.id;
-	}
-
-	/**
-	 * @return			the number of crew on board
-	 */
-	public int getCrew() {
-		return this.crew;
-	}
 	
-	/**
-	 * @return			the size the plane displays at
-	 */
-	public int getSize() {
-		return this.size;
-	}
 
-	/**
-	 * @return			the plane's current speed
-	 */
-	public int getVelocity() {
-		return this.velocity;
-	}
 
-	/**
-	 * @return			the plane's current altitude
-	 */
-	public double getAltitude() {
-		return this.altitude;
-	}
-
-	/**
-	 * @return			the plane's current bearing
-	 */
-	public double getBearing() {
-		return this.bearing;
-	}
-
-	/**
-	 * @return			the plane's current X position
-	 */
-	public double getX() {
-		return this.x;
-	}
-
-	/**
-	 * @return			the plane's current Y position
-	 */
-	public double getY() {
-		return this.y;
-	}
+	// MAIN METHODS
 	
-	/**
-	 * @return			<code>true</code> if the plane is alerting,
-	 * 					<code>false</code> otherwise
-	 */
-	public boolean getAlertStatus() {
-		return this.alertStatus;
-	}
-
-	/**
-	 * @return			the plane's current destination
-	 */
-	public Waypoint getTarget() {
-		return this.target;
-	}
-	
-	/**
-	 * @return			the plane's target altitude
-	 */
-	public double getTargetAltitude() {
-		return this.targetAltitude;
-	}
-
-
-	// Mutators
-	/**
-	 * @param id		the new unique ID
-	 */
-	public void setID(String id) {
-		this.id = id;
-	}
-
-	/**
-	 * @param crew		the new crew count
-	 */
-	public void setCrew(int crew) {
-		this.crew = crew;
-	}
-	
-	/**
-	 * @param size		the new display size
-	 */
-	public void setSize(int size) {
-		this.size = size;
-	}
-
-	/**
-	 * @param velocity	the new speed
-	 */
-	public void setVelocity(int velocity) {
-		this.velocity = velocity;
-	}
-
-	/**
-	 * @param altitude	the new altitude
-	 */
-	public void setAltitude(double altitude) {
-		this.altitude = altitude;
-	}
-
-	/**
-	 * @param bearing	the new bearing
-	 */
-	public void setBearing(double bearing) {
-		this.bearing = bearing;
-	}
-
-	/**
-	 * @param x			the new X co-ordinate
-	 */
-	public void setX(double x) {
-		this.x = x;
-	}
-
-	/**
-	 * @param y			the new Y co-ordinate
-	 */
-	public void setY(double y) {
-		this.y = y;
-	}
-
-	/**
-	 * @param status	<code>true</code> if the plane should be alerting,
-	 * 					<code>false</code> otherwise
-	 */
-	public void setAlertStatus(boolean status) {
-		this.alertStatus = status;
-	}
-
-	/**
-	 * @param target	the new target Waypoint
-	 */
-	public void setTarget(Waypoint target) {
-		this.target = target;
-	}
-	
-	/**
-	 * @param targetAltitude	the new target altitude
-	 */
-	public void setTargetAltitude(double targetAltitude) {
-		this.targetAltitude = targetAltitude;
-	}
-
-
-	// Other methods
 	/**
 	 * Increments the Plane's bearing by 5 degrees
 	 */
@@ -510,6 +354,165 @@ public class Plane {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
+	
+	// Accessors
+		/**
+		 * @return			the Plane's unique ID
+		 */
+		public String getID() {
+			return this.id;
+		}
+
+		/**
+		 * @return			the number of crew on board
+		 */
+		public int getCrew() {
+			return this.crew;
+		}
+		
+		/**
+		 * @return			the size the plane displays at
+		 */
+		public int getSize() {
+			return this.size;
+		}
+
+		/**
+		 * @return			the plane's current speed
+		 */
+		public int getVelocity() {
+			return this.velocity;
+		}
+
+		/**
+		 * @return			the plane's current altitude
+		 */
+		public double getAltitude() {
+			return this.altitude;
+		}
+
+		/**
+		 * @return			the plane's current bearing
+		 */
+		public double getBearing() {
+			return this.bearing;
+		}
+
+		/**
+		 * @return			the plane's current X position
+		 */
+		public double getX() {
+			return this.x;
+		}
+
+		/**
+		 * @return			the plane's current Y position
+		 */
+		public double getY() {
+			return this.y;
+		}
+		
+		/**
+		 * @return			<code>true</code> if the plane is alerting,
+		 * 					<code>false</code> otherwise
+		 */
+		public boolean getAlertStatus() {
+			return this.alertStatus;
+		}
+
+		/**
+		 * @return			the plane's current destination
+		 */
+		public Waypoint getTarget() {
+			return this.target;
+		}
+		
+		/**
+		 * @return			the plane's target altitude
+		 */
+		public double getTargetAltitude() {
+			return this.targetAltitude;
+		}
+
+
+		// Mutators
+		/**
+		 * @param id		the new unique ID
+		 */
+		public void setID(String id) {
+			this.id = id;
+		}
+
+		/**
+		 * @param crew		the new crew count
+		 */
+		public void setCrew(int crew) {
+			this.crew = crew;
+		}
+		
+		/**
+		 * @param size		the new display size
+		 */
+		public void setSize(int size) {
+			this.size = size;
+		}
+
+		/**
+		 * @param velocity	the new speed
+		 */
+		public void setVelocity(int velocity) {
+			this.velocity = velocity;
+		}
+
+		/**
+		 * @param altitude	the new altitude
+		 */
+		public void setAltitude(double altitude) {
+			this.altitude = altitude;
+		}
+
+		/**
+		 * @param bearing	the new bearing
+		 */
+		public void setBearing(double bearing) {
+			this.bearing = bearing;
+		}
+
+		/**
+		 * @param x			the new X co-ordinate
+		 */
+		public void setX(double x) {
+			this.x = x;
+		}
+
+		/**
+		 * @param y			the new Y co-ordinate
+		 */
+		public void setY(double y) {
+			this.y = y;
+		}
+
+		/**
+		 * @param status	<code>true</code> if the plane should be alerting,
+		 * 					<code>false</code> otherwise
+		 */
+		public void setAlertStatus(boolean status) {
+			this.alertStatus = status;
+		}
+
+		/**
+		 * @param target	the new target Waypoint
+		 */
+		public void setTarget(Waypoint target) {
+			this.target = target;
+		}
+		
+		/**
+		 * @param targetAltitude	the new target altitude
+		 */
+		public void setTargetAltitude(double targetAltitude) {
+			this.targetAltitude = targetAltitude;
+		}
 
 	@Override
 	public boolean equals(Object obj) {

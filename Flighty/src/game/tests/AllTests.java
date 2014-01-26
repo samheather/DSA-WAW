@@ -1,3 +1,5 @@
+
+/**
 package game.tests;
 
 
@@ -13,3 +15,5 @@ import org.junit.runners.Suite;
 public class AllTests {
 	// Runs all tests
 }
+
+**/

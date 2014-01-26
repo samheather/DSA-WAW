@@ -1,3 +1,5 @@
+
+/**
 package game.tests;
 
 
@@ -298,3 +300,5 @@ public class WaypointTests {
 				true);
 	}
 }
+
+**/

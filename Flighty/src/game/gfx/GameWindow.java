@@ -120,429 +120,7 @@ public class GameWindow extends BasicGameState {
 	GameContainer currentGameContainer;
 
 
-	// Accessors
-	/**
-	 * @return					the current window width
-	 */
-	public int getWindowWidth() {
-		return this.windowWidth;
-	}
 	
-	/**
-	 * @return					the current window height
-	 */
-	public int getWindowHeight() {
-		return this.windowHeight;
-	}
-	
-	/**
-	 * @return					the time
-	 */
-	public double getTime() {
-		return this.time;
-	}
-
-	/**
-	 * @return					the time the game ended at
-	 */
-	public double getEndTime() {
-		return this.endTime;
-	}
-
-	/**
-	 * @return					the time until the next plane spawns
-	 */
-	public double getCountToNextPlane() {
-		return this.countToNextPlane;
-	}
-
-	/**
-	 * @return					the collision state
-	 */
-	public boolean isCollision() {
-		return this.collision;
-	}
-
-	/**
-	 * @return					the ending state
-	 */
-	public boolean isEnding() {
-		return this.ending;
-	}
-
-	/**
-	 * @return					the speed modifier
-	 */
-	public double getSpeedDifficulty() {
-		return this.speedDifficulty;
-	}
-
-	/**
-	 * @return					the spawn rate modifier
-	 */
-	public int getSpawnRate() {
-		return this.spawnRate;
-	}
-
-	/**
-	 * @return					the list of planes under manual control
-	 */
-	public ArrayList<Plane> getManualPlanes() {
-		return this.manualPlanes;
-	}
-
-	/**
-	 * @return					the list of planes which have collided
-	 */
-	public ArrayList<Plane> getCollidedPlanes() {
-		return this.collidedPlanes;
-	}
-
-	/**
-	 * @return					the current game
-	 */
-	public Game getCurrentGame() {
-		return this.currentGame;
-	}
-
-	/**
-	 * @return					the currently selected plane
-	 */
-	public Plane getCurrentPlane() {
-		return this.currentPlane;
-	}
-
-	/**
-	 * @return					the current map
-	 */
-	public Image getMap() {
-		return this.map;
-	}
-
-	/**
-	 * @return					the map for level 1
-	 */
-	public Image getMap1() {
-		return this.map1;
-	}
-
-	/**
-	 * @return					the map for level 2
-	 */
-	public Image getMap2() {
-		return this.map2;
-	}
-
-	/**
-	 * @return					the normal waypoint image
-	 */
-	public Image getWaypointNormal() {
-		return this.waypointNormal;
-	}
-
-	/**
-	 * @return					the next waypoint image
-	 */
-	public Image getWaypointNext() {
-		return this.waypointNext;
-	}
-
-	/**
-	 * @return					the exit waypoint image
-	 */
-	public Image getWaypointExit() {
-		return this.waypointExit;
-	}
-
-	/**
-	 * @return					the last waypoint image
-	 */
-	public Image getWaypointLast() {
-		return this.waypointLast;
-	}
-
-	/**
-	 * @return					the normal plane image
-	 */
-	public Image getPlaneNormal() {
-		return this.planeNormal;
-	}
-
-	/**
-	 * @return					the in-use plane image
-	 */
-	public Image getPlaneNormalCur() {
-		return this.planeNormalCur;
-	}
-
-	/**
-	 * @return					the selected plane image
-	 */
-	public Image getPlaneSelected() {
-		return this.planeSelected;
-	}
-
-	/**
-	 * @return					the in-use selected plane image
-	 */
-	public Image getPlaneSelectedCur() {
-		return this.planeSelectedCur;
-	}
-
-	/**
-	 * @return					the plane alert range image
-	 */
-	public Image getPlaneAlert() {
-		return this.planeAlert;
-	}
-
-	/**
-	 * @return					the plane collision range image
-	 */
-	public Image getPlaneAlertMax() {
-		return this.planeAlertMax;
-	}
-
-	/**
-	 * @return					the base font
-	 */
-	public Font getFontPrimitive() {
-		return this.fontPrimitive;
-	}
-
-	/**
-	 * @return					the font
-	 */
-	public TrueTypeFont getFont() {
-		return this.font;
-	}
-	
-	/**
-	 * @return					the font colour
-	 */
-	public Color getFontColor() {
-		return this.fontColor;
-	}
-	
-	/**
-	 * @return					a reference to the current game container
-	 */
-	public GameContainer getCurrentGameContainer() {
-		return this.currentGameContainer;
-	}
-
-	
-	// Mutators
-	/**
-	 * @param windowWidth		the new window width
-	 */
-	public void setWindowWidth(int windowWidth) {
-		this.windowWidth = windowWidth;
-	}
-	
-	/**
-	 * @param windowHeight		the new window height
-	 */
-	public void setWindowHeight(int windowHeight) {
-		this.windowHeight = windowHeight;
-	}
-	
-	/**
-	 * @param time				the time to set
-	 */
-	public void setTime(double time) {
-		this.time = time;
-	}
-
-	/**
-	 * @param endTime			the ending time to set
-	 */
-	public void setEndTime(double endTime) {
-		this.endTime = endTime;
-	}
-
-	/**
-	 * @param countToNextPlane	the new time until the next plane spawns
-	 */
-	public void setCountToNextPlane(double countToNextPlane) {
-		this.countToNextPlane = countToNextPlane;
-	}
-
-	/**
-	 * @param collision			the collision state to set
-	 */
-	public void setCollision(boolean collision) {
-		this.collision = collision;
-	}
-
-	/**
-	 * @param ending			the ending state to set
-	 */
-	public void setEnding(boolean ending) {
-		this.ending = ending;
-	}
-
-	/**
-	 * @param speedDifficulty	the speed modifier to set
-	 */
-	public void setSpeedDifficulty(double speedDifficulty) {
-		this.speedDifficulty = speedDifficulty;
-	}
-
-	/**
-	 * @param spawnRate	the spawn rate modifier to set
-	 */
-	public void setSpawnRate(int spawnRate) {
-		this.spawnRate = spawnRate;
-	}
-
-	/**
-	 * @param manualPlanes		the list of manual planes to set
-	 */
-	public void setManualPlanes(ArrayList<Plane> manualPlanes) {
-		this.manualPlanes = manualPlanes;
-	}
-
-	/**
-	 * @param collidedPlanes	the list of collided planes to set
-	 */
-	public void setCollidedPlanes(ArrayList<Plane> collidedPlanes) {
-		this.collidedPlanes = collidedPlanes;
-	}
-
-	/**
-	 * @param currentGame		the new current game
-	 */
-	public void setCurrentGame(Game currentGame) {
-		this.currentGame = currentGame;
-	}
-
-	/**
-	 * @param currentPlane		the new current plane
-	 */
-	public void setCurrentPlane(Plane currentPlane) {
-		this.currentPlane = currentPlane;
-	}
-
-	/**
-	 * @param map				the map to set
-	 */
-	public void setMap(Image map) {
-		this.map = map;
-	}
-
-	/**
-	 * @param map1				the map to set for level 1
-	 */
-	public void setMap1(Image map1) {
-		this.map1 = map1;
-	}
-
-	/**
-	 * @param map2				the map to set for level 2
-	 */
-	public void setMap2(Image map2) {
-		this.map2 = map2;
-	}
-
-	/**
-	 * @param waypointNormal	the normal waypoint image to set
-	 */
-	public void setWaypointNormal(Image waypointNormal) {
-		this.waypointNormal = waypointNormal;
-	}
-
-	/**
-	 * @param waypointNext		the next waypoint image to set
-	 */
-	public void setWaypointNext(Image waypointNext) {
-		this.waypointNext = waypointNext;
-	}
-
-	/**
-	 * @param waypointExit		the exit waypoint image to set
-	 */
-	public void setWaypointExit(Image waypointExit) {
-		this.waypointExit = waypointExit;
-	}
-
-	/**
-	 * @param waypointLast		the last waypoint image to set
-	 */
-	public void setWaypointLast(Image waypointLast) {
-		this.waypointLast = waypointLast;
-	}
-
-	/**
-	 * @param planeNormal		the normal plane image to set
-	 */
-	public void setPlaneNormal(Image planeNormal) {
-		this.planeNormal = planeNormal;
-	}
-
-	/**
-	 * @param planeNormalCur	the in-use plane image to set
-	 */
-	public void setPlaneNormalCur(Image planeNormalCur) {
-		this.planeNormalCur = planeNormalCur;
-	}
-
-	/**
-	 * @param planeSelected		the selected plane image to set
-	 */
-	public void setPlaneSelected(Image planeSelected) {
-		this.planeSelected = planeSelected;
-	}
-
-	/**
-	 * @param planeSelectedCur	the in-use selected plane image to set
-	 */
-	public void setPlaneSelectedCur(Image planeSelectedCur) {
-		this.planeSelectedCur = planeSelectedCur;
-	}
-
-	/**
-	 * @param planeAlert		the plane alert range image to set
-	 */
-	public void setPlaneAlert(Image planeAlert) {
-		this.planeAlert = planeAlert;
-	}
-
-	/**
-	 * @param planeAlertMax		the plane collision range image to set
-	 */
-	public void setPlaneAlertMax(Image planeAlertMax) {
-		this.planeAlertMax = planeAlertMax;
-	}
-
-	/**
-	 * @param fontPrimitive		the new font primitive
-	 */
-	public void setFontPrimitive(Font fontPrimitive) {
-		this.fontPrimitive = fontPrimitive;
-	}
-
-	/**
-	 * @param font				the font derivative to set
-	 */
-	public void setFont(TrueTypeFont font) {
-		this.font = font;
-	}
-	
-	/**
-	 * @param fontColor			the font color to set
-	 */
-	public void setFontColor(Color fontColor) {
-		this.fontColor = fontColor;
-	}
-	
-	/**
-	 * @param currentGameContainer	a reference to the new game container to set
-	 */
-	public void setCurrentGameContainer(
-			GameContainer currentGameContainer) {
-		this.currentGameContainer = currentGameContainer;
-	}
 
 	
 	// Other methods										(<- locator TODO)
@@ -1157,4 +735,428 @@ public class GameWindow extends BasicGameState {
 	public int getID() {
 		return WindowManager.GAME_STATE;
 	}
+	
+	// Accessors
+		/**
+		 * @return					the current window width
+		 */
+		public int getWindowWidth() {
+			return this.windowWidth;
+		}
+		
+		/**
+		 * @return					the current window height
+		 */
+		public int getWindowHeight() {
+			return this.windowHeight;
+		}
+		
+		/**
+		 * @return					the time
+		 */
+		public double getTime() {
+			return this.time;
+		}
+
+		/**
+		 * @return					the time the game ended at
+		 */
+		public double getEndTime() {
+			return this.endTime;
+		}
+
+		/**
+		 * @return					the time until the next plane spawns
+		 */
+		public double getCountToNextPlane() {
+			return this.countToNextPlane;
+		}
+
+		/**
+		 * @return					the collision state
+		 */
+		public boolean isCollision() {
+			return this.collision;
+		}
+
+		/**
+		 * @return					the ending state
+		 */
+		public boolean isEnding() {
+			return this.ending;
+		}
+
+		/**
+		 * @return					the speed modifier
+		 */
+		public double getSpeedDifficulty() {
+			return this.speedDifficulty;
+		}
+
+		/**
+		 * @return					the spawn rate modifier
+		 */
+		public int getSpawnRate() {
+			return this.spawnRate;
+		}
+
+		/**
+		 * @return					the list of planes under manual control
+		 */
+		public ArrayList<Plane> getManualPlanes() {
+			return this.manualPlanes;
+		}
+
+		/**
+		 * @return					the list of planes which have collided
+		 */
+		public ArrayList<Plane> getCollidedPlanes() {
+			return this.collidedPlanes;
+		}
+
+		/**
+		 * @return					the current game
+		 */
+		public Game getCurrentGame() {
+			return this.currentGame;
+		}
+
+		/**
+		 * @return					the currently selected plane
+		 */
+		public Plane getCurrentPlane() {
+			return this.currentPlane;
+		}
+
+		/**
+		 * @return					the current map
+		 */
+		public Image getMap() {
+			return this.map;
+		}
+
+		/**
+		 * @return					the map for level 1
+		 */
+		public Image getMap1() {
+			return this.map1;
+		}
+
+		/**
+		 * @return					the map for level 2
+		 */
+		public Image getMap2() {
+			return this.map2;
+		}
+
+		/**
+		 * @return					the normal waypoint image
+		 */
+		public Image getWaypointNormal() {
+			return this.waypointNormal;
+		}
+
+		/**
+		 * @return					the next waypoint image
+		 */
+		public Image getWaypointNext() {
+			return this.waypointNext;
+		}
+
+		/**
+		 * @return					the exit waypoint image
+		 */
+		public Image getWaypointExit() {
+			return this.waypointExit;
+		}
+
+		/**
+		 * @return					the last waypoint image
+		 */
+		public Image getWaypointLast() {
+			return this.waypointLast;
+		}
+
+		/**
+		 * @return					the normal plane image
+		 */
+		public Image getPlaneNormal() {
+			return this.planeNormal;
+		}
+
+		/**
+		 * @return					the in-use plane image
+		 */
+		public Image getPlaneNormalCur() {
+			return this.planeNormalCur;
+		}
+
+		/**
+		 * @return					the selected plane image
+		 */
+		public Image getPlaneSelected() {
+			return this.planeSelected;
+		}
+
+		/**
+		 * @return					the in-use selected plane image
+		 */
+		public Image getPlaneSelectedCur() {
+			return this.planeSelectedCur;
+		}
+
+		/**
+		 * @return					the plane alert range image
+		 */
+		public Image getPlaneAlert() {
+			return this.planeAlert;
+		}
+
+		/**
+		 * @return					the plane collision range image
+		 */
+		public Image getPlaneAlertMax() {
+			return this.planeAlertMax;
+		}
+
+		/**
+		 * @return					the base font
+		 */
+		public Font getFontPrimitive() {
+			return this.fontPrimitive;
+		}
+
+		/**
+		 * @return					the font
+		 */
+		public TrueTypeFont getFont() {
+			return this.font;
+		}
+		
+		/**
+		 * @return					the font colour
+		 */
+		public Color getFontColor() {
+			return this.fontColor;
+		}
+		
+		/**
+		 * @return					a reference to the current game container
+		 */
+		public GameContainer getCurrentGameContainer() {
+			return this.currentGameContainer;
+		}
+
+		
+		// Mutators
+		/**
+		 * @param windowWidth		the new window width
+		 */
+		public void setWindowWidth(int windowWidth) {
+			this.windowWidth = windowWidth;
+		}
+		
+		/**
+		 * @param windowHeight		the new window height
+		 */
+		public void setWindowHeight(int windowHeight) {
+			this.windowHeight = windowHeight;
+		}
+		
+		/**
+		 * @param time				the time to set
+		 */
+		public void setTime(double time) {
+			this.time = time;
+		}
+
+		/**
+		 * @param endTime			the ending time to set
+		 */
+		public void setEndTime(double endTime) {
+			this.endTime = endTime;
+		}
+
+		/**
+		 * @param countToNextPlane	the new time until the next plane spawns
+		 */
+		public void setCountToNextPlane(double countToNextPlane) {
+			this.countToNextPlane = countToNextPlane;
+		}
+
+		/**
+		 * @param collision			the collision state to set
+		 */
+		public void setCollision(boolean collision) {
+			this.collision = collision;
+		}
+
+		/**
+		 * @param ending			the ending state to set
+		 */
+		public void setEnding(boolean ending) {
+			this.ending = ending;
+		}
+
+		/**
+		 * @param speedDifficulty	the speed modifier to set
+		 */
+		public void setSpeedDifficulty(double speedDifficulty) {
+			this.speedDifficulty = speedDifficulty;
+		}
+
+		/**
+		 * @param spawnRate	the spawn rate modifier to set
+		 */
+		public void setSpawnRate(int spawnRate) {
+			this.spawnRate = spawnRate;
+		}
+
+		/**
+		 * @param manualPlanes		the list of manual planes to set
+		 */
+		public void setManualPlanes(ArrayList<Plane> manualPlanes) {
+			this.manualPlanes = manualPlanes;
+		}
+
+		/**
+		 * @param collidedPlanes	the list of collided planes to set
+		 */
+		public void setCollidedPlanes(ArrayList<Plane> collidedPlanes) {
+			this.collidedPlanes = collidedPlanes;
+		}
+
+		/**
+		 * @param currentGame		the new current game
+		 */
+		public void setCurrentGame(Game currentGame) {
+			this.currentGame = currentGame;
+		}
+
+		/**
+		 * @param currentPlane		the new current plane
+		 */
+		public void setCurrentPlane(Plane currentPlane) {
+			this.currentPlane = currentPlane;
+		}
+
+		/**
+		 * @param map				the map to set
+		 */
+		public void setMap(Image map) {
+			this.map = map;
+		}
+
+		/**
+		 * @param map1				the map to set for level 1
+		 */
+		public void setMap1(Image map1) {
+			this.map1 = map1;
+		}
+
+		/**
+		 * @param map2				the map to set for level 2
+		 */
+		public void setMap2(Image map2) {
+			this.map2 = map2;
+		}
+
+		/**
+		 * @param waypointNormal	the normal waypoint image to set
+		 */
+		public void setWaypointNormal(Image waypointNormal) {
+			this.waypointNormal = waypointNormal;
+		}
+
+		/**
+		 * @param waypointNext		the next waypoint image to set
+		 */
+		public void setWaypointNext(Image waypointNext) {
+			this.waypointNext = waypointNext;
+		}
+
+		/**
+		 * @param waypointExit		the exit waypoint image to set
+		 */
+		public void setWaypointExit(Image waypointExit) {
+			this.waypointExit = waypointExit;
+		}
+
+		/**
+		 * @param waypointLast		the last waypoint image to set
+		 */
+		public void setWaypointLast(Image waypointLast) {
+			this.waypointLast = waypointLast;
+		}
+
+		/**
+		 * @param planeNormal		the normal plane image to set
+		 */
+		public void setPlaneNormal(Image planeNormal) {
+			this.planeNormal = planeNormal;
+		}
+
+		/**
+		 * @param planeNormalCur	the in-use plane image to set
+		 */
+		public void setPlaneNormalCur(Image planeNormalCur) {
+			this.planeNormalCur = planeNormalCur;
+		}
+
+		/**
+		 * @param planeSelected		the selected plane image to set
+		 */
+		public void setPlaneSelected(Image planeSelected) {
+			this.planeSelected = planeSelected;
+		}
+
+		/**
+		 * @param planeSelectedCur	the in-use selected plane image to set
+		 */
+		public void setPlaneSelectedCur(Image planeSelectedCur) {
+			this.planeSelectedCur = planeSelectedCur;
+		}
+
+		/**
+		 * @param planeAlert		the plane alert range image to set
+		 */
+		public void setPlaneAlert(Image planeAlert) {
+			this.planeAlert = planeAlert;
+		}
+
+		/**
+		 * @param planeAlertMax		the plane collision range image to set
+		 */
+		public void setPlaneAlertMax(Image planeAlertMax) {
+			this.planeAlertMax = planeAlertMax;
+		}
+
+		/**
+		 * @param fontPrimitive		the new font primitive
+		 */
+		public void setFontPrimitive(Font fontPrimitive) {
+			this.fontPrimitive = fontPrimitive;
+		}
+
+		/**
+		 * @param font				the font derivative to set
+		 */
+		public void setFont(TrueTypeFont font) {
+			this.font = font;
+		}
+		
+		/**
+		 * @param fontColor			the font color to set
+		 */
+		public void setFontColor(Color fontColor) {
+			this.fontColor = fontColor;
+		}
+		
+		/**
+		 * @param currentGameContainer	a reference to the new game container to set
+		 */
+		public void setCurrentGameContainer(
+				GameContainer currentGameContainer) {
+			this.currentGameContainer = currentGameContainer;
+		}
 }

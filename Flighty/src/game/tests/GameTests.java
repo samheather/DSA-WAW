@@ -1,3 +1,4 @@
+/**
 package game.tests;
 
 
@@ -540,3 +541,5 @@ public class GameTests {
 		return true;
 	}
 }
+
+**/
