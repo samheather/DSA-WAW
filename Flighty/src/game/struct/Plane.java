@@ -163,29 +163,7 @@ public class Plane {
 
 
 
-	// Overrides
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = (int) (prime * result + altitude);
-		long temp;
-		temp = Double.doubleToLongBits(bearing);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		//result = prime * result + crew;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		temp = Double.doubleToLongBits(startX);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(startY);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((target == null) ? 0 : target.hashCode());
-		result = prime * result + velocity;
-		temp = Double.doubleToLongBits(x);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(y);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
-	}
+
 	
 	// Accessors
 		/**
