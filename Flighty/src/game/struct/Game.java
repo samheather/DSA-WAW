@@ -87,78 +87,7 @@ public class Game {
 	}
 
 
-	// Accessors
-	/**
-	 * @return				separation distance (the collision range)
-	 */
-	public int getSeparationDistance() {
-		return this.separationDistance;
-	}
 	
-	/**
-	 * @return				penalty distance (the alert range)
-	 */
-	public int getPenaltyDistance() {
-		return this.penaltyDistance;
-	}
-	
-	/**
-	 * @return				list of planes attached to the game
-	 */
-	public ArrayList<Plane> getCurrentPlanes() {
-		return this.currentPlanes;
-	}
-	
-	/**
-	 * @return				list of carriers attached to the game
-	 */
-	public ArrayList<String> getCarriers() {
-		return this.carriers;
-	}
-	
-	/**
-	 * @return				a reference to the current game window
-	 */
-	public GameWindow getCurrentGameWindow() {
-		return this.currentGameWindow;
-	}
-	
-	
-	// Mutators
-	/**
-	 * @param separationDistance	distance at which planes should collide
-	 */
-	public void setSeparationDistance(int separationDistance) {
-		this.separationDistance = separationDistance;
-	}
-	
-	/**
-	 * @param penaltyDistance		distance at which planes should alert
-	 */
-	public void setPenaltyDistance(int penaltyDistance) {
-		this.penaltyDistance = penaltyDistance;
-	}
-	
-	/**
-	 * @param currentPlanes	the array of planes to set
-	 */
-	public void setCurrentPlanes(ArrayList<Plane> currentPlanes) {
-		this.currentPlanes = currentPlanes;
-	}
-	
-	/**
-	 * @param carriers		the array of carrier ID's to set
-	 */
-	public void setCarriers(ArrayList<String> carriers) {
-		this.carriers = carriers;
-	}
-	
-	/**
-	 * @param currentGameWindow		a new parent game window
-	 */
-	public void setCurrentGameWindow(GameWindow currentGameWindow) {
-		this.currentGameWindow = currentGameWindow;
-	}
 	
 
 	// Other methods
@@ -379,4 +308,81 @@ public class Game {
 	
 		return result;
 	}
+	
+	// ACCESSORS
+	
+	
+		/**
+		 * @return				separation distance (the collision range)
+		 */
+		public int getSeparationDistance() {
+			return this.separationDistance;
+		}
+		
+		/**
+		 * @return				penalty distance (the alert range)
+		 */
+		public int getPenaltyDistance() {
+			return this.penaltyDistance;
+		}
+		
+		/**
+		 * @return				list of planes attached to the game
+		 */
+		public ArrayList<Plane> getCurrentPlanes() {
+			return this.currentPlanes;
+		}
+		
+		/**
+		 * @return				list of carriers attached to the game
+		 */
+		public ArrayList<String> getCarriers() {
+			return this.carriers;
+		}
+		
+		/**
+		 * @return				a reference to the current game window
+		 */
+		public GameWindow getCurrentGameWindow() {
+			return this.currentGameWindow;
+		}
+		
+		
+		// MUTATORS
+		
+		
+		/**
+		 * @param separationDistance	distance at which planes should collide
+		 */
+		public void setSeparationDistance(int separationDistance) {
+			this.separationDistance = separationDistance;
+		}
+		
+		/**
+		 * @param penaltyDistance		distance at which planes should alert
+		 */
+		public void setPenaltyDistance(int penaltyDistance) {
+			this.penaltyDistance = penaltyDistance;
+		}
+		
+		/**
+		 * @param currentPlanes	the array of planes to set
+		 */
+		public void setCurrentPlanes(ArrayList<Plane> currentPlanes) {
+			this.currentPlanes = currentPlanes;
+		}
+		
+		/**
+		 * @param carriers		the array of carrier ID's to set
+		 */
+		public void setCarriers(ArrayList<String> carriers) {
+			this.carriers = carriers;
+		}
+		
+		/**
+		 * @param currentGameWindow		a new parent game window
+		 */
+		public void setCurrentGameWindow(GameWindow currentGameWindow) {
+			this.currentGameWindow = currentGameWindow;
+		}
 }
