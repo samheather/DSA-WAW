@@ -19,7 +19,10 @@ import java.util.ListIterator;
  * </p>
  */
 public class Game {
-
+	
+	private ArrayList<ExitPoint> listOfExitPoints = new ArrayList<ExitPoint>();
+	private ArrayList<Waypoint> listOfWaypoints = new ArrayList<Waypoint>();
+	private ArrayList<EntryPoint> listOfEntryPoints  = new ArrayList<EntryPoint>();
 	/** Distance at which planes crash */
 	private int separationDistance;
 	
@@ -51,12 +54,15 @@ public class Game {
 			GameWindow currentGameWindow) {
 		this.separationDistance = separationDistance;
 		this.penaltyDistance = penaltyDistance;
-		
+		this.listOfExitPoints = new ArrayList<ExitPoint>();
+		this.listOfWaypoints = new ArrayList<Waypoint>();
+		this.listOfEntryPoints = new ArrayList<EntryPoint>();
 		this.carriers.add("BA");
 		this.carriers.add("EZY");
 		this.carriers.add("NZ");
 		this.carriers.add("RY");
 		this.carriers.add("QU");
+		this.addPointsForGame();
 		
 		this.currentGameWindow = currentGameWindow;
 	}
@@ -84,11 +90,38 @@ public class Game {
 		this.carriers.add("QU");
 		
 		this.currentGameWindow = null;
+		
+		//this.addPointsForGame();
 	}
 
 	
 
 	// MAIN METHODS
+	
+	public void addPointsForGame(){
+		this.listOfEntryPoints.add(new EntryPoint(0,400));
+		this.listOfEntryPoints.add(new EntryPoint(1200,200));
+		this.listOfEntryPoints.add(new EntryPoint(600,0));
+		
+		this.listOfWaypoints.add(new Waypoint(350,150));
+		this.listOfWaypoints.add(new Waypoint(400,470));
+		this.listOfWaypoints.add(new Waypoint(700,60));
+		this.listOfWaypoints.add(new Waypoint(800,320));
+		this.listOfWaypoints.add(new Waypoint(600, 418));
+		this.listOfWaypoints.add(new Waypoint(500, 220));
+		this.listOfWaypoints.add(new Waypoint(950, 188));
+		this.listOfWaypoints.add(new Waypoint(1050, 272));
+		this.listOfWaypoints.add(new Waypoint(900, 420));
+		this.listOfWaypoints.add(new Waypoint(240, 250));
+		
+		this.listOfExitPoints.add(new ExitPoint(800,0));
+		this.listOfExitPoints.add(new ExitPoint(0,200));
+		this.listOfExitPoints.add(new ExitPoint(1200,300));
+		
+		
+	}
+	
+	
 	
 	public String generateFlightID(){
 		
@@ -171,34 +204,25 @@ public class Game {
 		// Use new size to adjust velocity
 		velocity += (1000 * size);
 		
-		// Ensure planes aren't going to collide immediately
-		do {
-			// Generate a random plane position
-			if(Math.random() > 0.5) {
-				x = (float) (Math.random() * width);
-				y = (float) ((Math.random() > 0.5) ? 0 : height);
-				altitude = (int) (1 + Math.round((Math.random() * 3) % 3));
-			} else {
-				x = (float) ((Math.random() > 0.5) ?  0 : width);
-				y = (float) (Math.random() * height);
-				altitude = (int) (1 + Math.round((Math.random() * 3) % 3));
-			}
-
-			// Construct the plane
-			newPlane = new Plane(id, size, velocity, altitude, bearing, x, y);
-			penaltyTest = this.collisionHelper(newPlane);
-		} while(penaltyTest[0] || penaltyTest[1]);
+		newPlane = new Plane(id, size, velocity, altitude, bearing, this);
+		newPlane.setX(newPlane.getFlightPlan().getEntryPoint().getX());
+		newPlane.setY(newPlane.getFlightPlan().getEntryPoint().getY());
+		newPlane.setStartX(newPlane.getX());
+		newPlane.setStartY(newPlane.getY());
+		
+		
 		
 		// Skip adding flight plan if testing toggle on
 		if(!testing) {
-			// Create a flight plan for the plane
-			newPlane.generateFlightPlan(4, this);
+			
 
 			// Add new plane to the game
 			this.currentPlanes.add(newPlane);
 		}
+		System.out.println("Plane HAPPENED");
 		
 		return newPlane;
+		
 	}
 
 	/**
@@ -392,5 +416,29 @@ public class Game {
 		 */
 		public void setCurrentGameWindow(GameWindow currentGameWindow) {
 			this.currentGameWindow = currentGameWindow;
+		}
+
+		public ArrayList<ExitPoint> getListOfExitPoints() {
+			return listOfExitPoints;
+		}
+
+		public void setListOfExitPoints(ArrayList<ExitPoint> listOfExitPoints) {
+			this.listOfExitPoints = listOfExitPoints;
+		}
+
+		public ArrayList<Waypoint> getListOfWaypoints() {
+			return listOfWaypoints;
+		}
+
+		public void setListOfWaypoints(ArrayList<Waypoint> listOfWaypoints) {
+			this.listOfWaypoints = listOfWaypoints;
+		}
+
+		public ArrayList<EntryPoint> getListOfEntryPoints() {
+			return listOfEntryPoints;
+		}
+
+		public void setListOfEntryPoints(ArrayList<EntryPoint> listOfEntryPoints) {
+			this.listOfEntryPoints = listOfEntryPoints;
 		}
 }
