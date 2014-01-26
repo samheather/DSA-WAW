@@ -183,6 +183,12 @@ public class GameWindow extends BasicGameState {
 		}
 	}
 	
+	private void deleteFromManual(Plane plane) {
+		while(this.manualPlanes.contains(plane)) {
+			this.manualPlanes.remove(plane);
+		}
+	}
+	
 
 
 	
@@ -608,7 +614,7 @@ public class GameWindow extends BasicGameState {
 			
 			// Remove planes
 			for(Plane plane : planesToRemove) {
-				this.removeFromManual(plane);
+				this.deleteFromManual(plane);
 				this.currentGame.getCurrentPlanes().remove(plane);
 			}
 
