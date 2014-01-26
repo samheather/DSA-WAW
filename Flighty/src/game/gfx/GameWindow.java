@@ -32,6 +32,9 @@ public class GameWindow extends BasicGameState {
 	/** The height the game is displayed at */
 	public int windowHeight;
 	
+	/** The player's score*/
+	private double score;
+	
 	/** The time the game has been running for */
 	private double time;
 	
@@ -282,6 +285,7 @@ public class GameWindow extends BasicGameState {
 				this.windowWidth, this.windowHeight, false);
 		
 		this.time = 0;
+		this.score = 0;
 		this.endTime = 0;
 		this.countToNextPlane = 0;
 		
@@ -298,7 +302,7 @@ public class GameWindow extends BasicGameState {
 			this.fontColor = Color.white;
 			this.speedDifficulty = 0.5;
 			this.spawnRate = 40;
-			this.spawnCount = 1;
+			this.spawnCount = 2;
 		} else if(((WindowManager) game).getCurrentLevel() == 2) {
 			// Play level 2
 			this.currentGame = new Game(75, 200, this);
@@ -335,6 +339,8 @@ public class GameWindow extends BasicGameState {
 		if(!this.ending) {
 			// Display the game duration (time)
 			g.drawString("Time : " + ((int) (this.time / 1000)) + "s", 925, 15);
+			g.drawString("Score : " + ((int) (this.score)) + " pts", 925, 35);
+
 			
 			for(Plane plane : this.currentGame.getCurrentPlanes()) {
 				// If plane is within penalty distance, apply alert images
@@ -451,7 +457,9 @@ public class GameWindow extends BasicGameState {
 				new TrueTypeFont(this.fontPrimitive.deriveFont(50f), true)
 									.drawString(375f, 200f, "Game Over");
 				new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
-									.drawString(440, 275,
+									.drawString(470f, 260f, "Score: " + (int) this.score);
+				new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
+									.drawString(450f, 310,
 											"Return in: " + (int)
 											(5 - ((this.time - this.endTime)
 						/ 1000)));
@@ -595,7 +603,7 @@ public class GameWindow extends BasicGameState {
 						if(plane.getFlightPlan().getCurrentRoute().size()!= 0){
 							plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
 						}
-						
+						this.score +=10;
 					}
 				}
 
@@ -616,6 +624,7 @@ public class GameWindow extends BasicGameState {
 			for(Plane plane : planesToRemove) {
 				this.deleteFromManual(plane);
 				this.currentGame.getCurrentPlanes().remove(plane);
+				this.score += 20;
 			}
 
 			this.countToNextPlane--;
