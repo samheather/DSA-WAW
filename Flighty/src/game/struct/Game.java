@@ -90,6 +90,25 @@ public class Game {
 
 	// MAIN METHODS
 	
+	public String generateFlightID(){
+		
+		String id = "DEFAULT_ID", idRandNum;
+		// Generate a random id, consisting of a carrier ID and a
+		// random 2-digit number
+		do {
+			idRandNum = String.valueOf(Math.round(Math.random() * 100)
+					% 100);
+			idRandNum = idRandNum.length() == 1 ?
+					"0".concat(idRandNum) : idRandNum;
+			id = carriers.get((int) (Math.round(Math.random()
+					* carriers.size()) % carriers.size())).concat(
+							String.valueOf(idRandNum));
+		} while (this.getPlaneFromID(id) != null);
+		
+		return id;
+
+	}
+	
 	/**
 	 * Creates a plane
 	 * <p>
@@ -125,8 +144,8 @@ public class Game {
 	*/
 	public Plane createPlane(boolean testing) {
 		Plane newPlane;
-		String id = "DEFAULT_ID", idRandNum;
-		int crew, size, velocity = 7000;
+		String id;
+		int size, velocity = 7000;
 		double altitude = 1;
 		float x, y;
 		double bearing = 0;
@@ -143,18 +162,8 @@ public class Game {
 
 		// Generate a random id, consisting of a carrier ID and a
 		// random 2-digit number
-		do {
-			idRandNum = String.valueOf(Math.round(Math.random() * 100)
-					% 100);
-			idRandNum = idRandNum.length() == 1 ?
-					"0".concat(idRandNum) : idRandNum;
-			id = carriers.get((int) (Math.round(Math.random()
-					* carriers.size()) % carriers.size())).concat(
-							String.valueOf(idRandNum));
-		} while (this.getPlaneFromID(id) != null);
+		id = this.generateFlightID();
 
-		// Generate a random number of crew, between 3 and 12
-		crew = (int) (3 + (Math.round(Math.random()*100) % 10));
 		
 		// Generate a random size, between 1 and 3
 		size = (int) (1 + (Math.round(Math.random()*100) % 2));
@@ -176,7 +185,7 @@ public class Game {
 			}
 
 			// Construct the plane
-			newPlane = new Plane(id, crew, size, velocity, altitude, bearing, x, y);
+			newPlane = new Plane(id, size, velocity, altitude, bearing, x, y);
 			penaltyTest = this.collisionHelper(newPlane);
 		} while(penaltyTest[0] || penaltyTest[1]);
 		

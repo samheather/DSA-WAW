@@ -12,8 +12,6 @@ public class Plane {
 	/** Unique identifier */
 	private String id;
 	
-	/** Number of crew on board */
-	private int crew;
 	
 	/** Size to display plane */
 	private int size;
@@ -66,10 +64,9 @@ public class Plane {
 	 * @param y			the y position to create the plane at
 	 */
 	// Constructor
-	public Plane(String id, int crew, int size, int velocity, double altitude, 
+	public Plane(String id, int size, int velocity, double altitude, 
 					double bearing, float x, float y) {
 		this.id = id;
-		this.crew = crew;
 		this.size = size;
 		this.velocity = velocity;
 		this.altitude = altitude;
@@ -340,7 +337,7 @@ public class Plane {
 		long temp;
 		temp = Double.doubleToLongBits(bearing);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + crew;
+		//result = prime * result + crew;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		temp = Double.doubleToLongBits(startX);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -363,12 +360,7 @@ public class Plane {
 			return this.id;
 		}
 
-		/**
-		 * @return			the number of crew on board
-		 */
-		public int getCrew() {
-			return this.crew;
-		}
+
 		
 		/**
 		 * @return			the size the plane displays at
@@ -443,13 +435,7 @@ public class Plane {
 			this.id = id;
 		}
 
-		/**
-		 * @param crew		the new crew count
-		 */
-		public void setCrew(int crew) {
-			this.crew = crew;
-		}
-		
+
 		/**
 		 * @param size		the new display size
 		 */
