@@ -313,7 +313,7 @@ public class Plane {
 			this.targetAltitude = targetAltitude;
 		}
 
-	public FlightPlan getFlightPlan() {
+		public FlightPlan getFlightPlan() {
 			return flightPlan;
 		}
 
