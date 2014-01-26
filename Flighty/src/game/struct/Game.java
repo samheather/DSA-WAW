@@ -86,11 +86,10 @@ public class Game {
 		this.currentGameWindow = null;
 	}
 
-
-	
 	
 
-	// Other methods
+	// MAIN METHODS
+	
 	/**
 	 * Creates a plane
 	 * <p>
