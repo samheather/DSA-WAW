@@ -159,7 +159,7 @@ public class GameWindow extends BasicGameState {
 				
 			}
 			else {
-				plane.updateCurrentHeading();
+				//plane.updateCurrentHeading();
 				//; <----- does not work
 			}
 
@@ -582,6 +582,8 @@ public class GameWindow extends BasicGameState {
 			}
 
 			// Handle directional controls
+			
+			//NOTE: THESE NEED TO SET TURNINGLEFT AND TURNINGRIGHT TO FALSE FOR THE PLANE YOU ARE CONTROLLING
 			if(this.currentPlane != null) {
 				// Action on 'a' and 'left' keys
 				if(gameContainer.getInput().isKeyDown(203)
