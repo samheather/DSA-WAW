@@ -585,7 +585,7 @@ public class GameWindow extends BasicGameState {
 						this.manualPlanes.add(this.currentPlane);
 					}
 					
-					//this.currentPlane.decrementBearing();
+					this.currentPlane.decrementBearing();
 				}
 
 				// Action on 'd' and 'right' keys
@@ -595,7 +595,7 @@ public class GameWindow extends BasicGameState {
 						this.manualPlanes.add(this.currentPlane);
 					}
 					
-					//this.currentPlane.incrementBearing();
+					this.currentPlane.incrementBearing();
 				}
 
 				// Action on 'w' and 'up' keys
@@ -648,11 +648,11 @@ public class GameWindow extends BasicGameState {
 				}
 
 				// Check if colliding with another plane
-				if(this.currentGame.collision(plane)) {
-					this.currentPlane = null;
-					this.collidedPlanes.add(plane);
-					this.collision = true;
-				}
+				//if(this.currentGame.collision(plane)) {
+				//	this.currentPlane = null;
+				//	this.collidedPlanes.add(plane);
+				//	this.collision = true;
+				//}
 				
 				// If plane has no more waypoints, remove it
 				if(plane.getFlightPlan().getCurrentRoute().size() == 0) {

@@ -148,6 +148,14 @@ public class Plane {
 	 * Note: highest flight level allowed for planes is 4
 	 * </p>
 	 */
+	public void incrementBearing() {
+		this.bearing+=1;
+	}
+	
+	public void decrementBearing() {
+		this.bearing-=1;
+	}
+	
 	public void incrementAltitude() {
 		this.altitude += 0.005;
 	}
