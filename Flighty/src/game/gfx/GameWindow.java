@@ -152,7 +152,7 @@ public class GameWindow extends BasicGameState {
 				if(angle<0) {
 					angle +=360;
 				}
-				System.out.println(angle);
+				//System.out.println(angle);
 			}
 
 			// Set plane's bearing

@@ -232,6 +232,10 @@ public class Plane {
 				}
 			}
 		}
+		else {
+			this.turningLeft=false;
+			this.turningRight=false;
+		}
 	}
 
 	/**
