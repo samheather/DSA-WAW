@@ -159,7 +159,8 @@ public class GameWindow extends BasicGameState {
 				
 			}
 			else {
-				//plane.updateCurrentHeading(); <----- does not work
+				plane.updateCurrentHeading();
+				//; <----- does not work
 			}
 
 			// Move the plane
@@ -210,7 +211,7 @@ public class GameWindow extends BasicGameState {
 			newBearing+=360;
 		}
 		System.out.println(newBearing);
-		this.currentPlane.setTargetBearing(this.currentPlane.getTargetBearing());
+		this.currentPlane.setTargetBearing(newBearing);
 		
 		
 	}
