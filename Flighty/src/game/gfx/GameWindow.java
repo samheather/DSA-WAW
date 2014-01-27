@@ -153,14 +153,9 @@ public class GameWindow extends BasicGameState {
 				if(angle<0) {
 					angle +=360;
 				}
-				//System.out.println(angle);
-				
-			}
-
-			// Set plane's bearing
-			if(!this.manualPlanes.contains(plane)) {
 				plane.setTargetBearing(angle);
 				plane.updateCurrentHeading();
+				//System.out.println(angle);
 				
 			}
 			else {
