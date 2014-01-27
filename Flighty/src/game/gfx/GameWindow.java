@@ -1,6 +1,7 @@
 package game.gfx;
 
 
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -199,16 +200,17 @@ public class GameWindow extends BasicGameState {
 	}
 	
 	public void giveHeadingThroughMouse(Plane currentPlane, int x, int y){
+		
 		this.manualPlanes.add(this.currentPlane);
 		double newBearing = Math.toDegrees(Math.atan2(this.currentPlane.getY() - y,
 				this.currentPlane.getX() - x));
 		if(newBearing<0) {
 			newBearing+=360;
 		}
-		this.currentPlane.setTargetBearing(
-				Math.toDegrees(newBearing));
+		System.out.println(newBearing);
+		this.currentPlane.setTargetBearing(this.currentPlane.getTargetBearing());
 		
-		System.out.println(this.currentPlane.getTargetBearing());
+		
 	}
 	
 	public Boolean selectFlight(int x, int y){
@@ -639,6 +641,7 @@ public class GameWindow extends BasicGameState {
 			for(Plane plane : this.currentGame.getCurrentPlanes()) {
 
 				// Check plane still in game area
+				
 				if(this.manualPlanes.contains(plane)
 						&& ((plane.getX() > this.windowWidth)
 						|| (plane.getX() < 0)
@@ -685,6 +688,7 @@ public class GameWindow extends BasicGameState {
 				}
 				
 				this.movePlane(plane);
+				
 			}
 			
 			// Remove planes
@@ -728,6 +732,8 @@ public class GameWindow extends BasicGameState {
 			else if (button == 1) {
 				if(this.currentPlane != null) {
 					this.giveHeadingThroughMouse(currentPlane, x, y);
+					System.out.println(x);
+					System.out.println(y);
 				}
 			}
 		}
