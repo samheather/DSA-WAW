@@ -192,6 +192,13 @@ public class GameWindow extends BasicGameState {
 		}
 	}
 	
+	private void giveHeadingThroughMouse(Plane currentPlane, int x, int y){
+		this.manualPlanes.add(this.currentPlane);
+		this.currentPlane.setBearing(
+				Math.atan2(this.currentPlane.getY() - y,
+						this.currentPlane.getX() - x));
+	}
+	
 
 
 	
@@ -677,14 +684,8 @@ public class GameWindow extends BasicGameState {
 				}
 			} else {
 				if(this.currentPlane != null) {
-					
-					
-					// Get the angle to the mouse click point
-					// and add plane to manual control list
-					this.manualPlanes.add(this.currentPlane);
-					this.currentPlane.setBearing(
-							Math.atan2(this.currentPlane.getY() - y,
-									this.currentPlane.getX() - x));
+						
+					this.giveHeadingThroughMouse(currentPlane, x, y);
 				}
 			}
 		}
