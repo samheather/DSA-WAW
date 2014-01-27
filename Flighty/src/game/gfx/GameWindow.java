@@ -545,6 +545,8 @@ public class GameWindow extends BasicGameState {
 				}
 			}
 			
+			
+			
 			// Action on TAB key
 			if(gameContainer.getInput().isKeyPressed(15)) {
 				if(currentPlane != null) {
@@ -652,8 +654,8 @@ public class GameWindow extends BasicGameState {
 					planeX = plane.getX();
 					planeY = plane.getY();
 
-					if((Math.pow(x - planeX, 2)
-							+ Math.pow(y - planeY, 2)) < 100) {
+					if(Math.sqrt(Math.pow(x - planeX, 2)
+							+ Math.pow(y - planeY, 2)) < 50) {
 						if(plane.equals(this.currentPlane)) {
 							if(this.manualPlanes.contains(plane)) {
 								this.removeFromManual(plane);
@@ -670,17 +672,19 @@ public class GameWindow extends BasicGameState {
 				}
 
 				if(!clickedPlane && (this.currentPlane != null)) {
+					this.removeFromManual(this.currentPlane);
+					this.currentPlane = null;
+				}
+			} else {
+				if(this.currentPlane != null) {
+					
+					
 					// Get the angle to the mouse click point
 					// and add plane to manual control list
 					this.manualPlanes.add(this.currentPlane);
 					this.currentPlane.setBearing(
 							Math.atan2(this.currentPlane.getY() - y,
 									this.currentPlane.getX() - x));
-				}
-			} else {
-				if(this.currentPlane != null) {
-					this.removeFromManual(this.currentPlane);
-					this.currentPlane = null;
 				}
 			}
 		}
