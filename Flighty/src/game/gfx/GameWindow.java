@@ -656,39 +656,82 @@ public class GameWindow extends BasicGameState {
 			if(button == 0) {
 				boolean clickedPlane = false;
 				double planeX, planeY;
-
-				for(Plane plane : this.currentGame.getCurrentPlanes()) {
-					planeX = plane.getX();
-					planeY = plane.getY();
-
-					if(Math.sqrt(Math.pow(x - planeX, 2)
-							+ Math.pow(y - planeY, 2)) < 50) {
-						if(plane.equals(this.currentPlane)) {
-							if(this.manualPlanes.contains(plane)) {
-								this.removeFromManual(plane);
-							}
-
-							this.currentPlane = null;
-						} else {
-							this.currentPlane = plane;
+				Plane nearestPlane;
+				double distanceBetweenMouseClickAndNearestFlight;
+				
+				if(this.currentGame.getCurrentPlanes().size()>=1){
+					
+					distanceBetweenMouseClickAndNearestFlight = Math.sqrt(Math.pow(x-this.currentGame.getCurrentPlanes().get(0).getX(), 2)+Math.pow(y-this.currentGame.getCurrentPlanes().get(0).getY(), 2));
+					nearestPlane = this.currentGame.getCurrentPlanes().get(0);
+					
+					for (int i =0; i< this.currentGame.getCurrentPlanes().size(); i++){ //Loop through all flights and find the nearest one
+						if(Math.sqrt(Math.pow(x-this.currentGame.getCurrentPlanes().get(i).getX(), 2)+Math.pow(y-this.currentGame.getCurrentPlanes().get(i).getY(), 2)) < distanceBetweenMouseClickAndNearestFlight){
+							distanceBetweenMouseClickAndNearestFlight = Math.sqrt(Math.pow(x-this.currentGame.getCurrentPlanes().get(i).getX(), 2)+Math.pow(y-this.currentGame.getCurrentPlanes().get(i).getY(), 2));
+							nearestPlane = this.currentGame.getCurrentPlanes().get(i);
+							
 						}
-
-						clickedPlane = true;
-						break;
+						
+						if (distanceBetweenMouseClickAndNearestFlight <= 50){
+							
+							if (nearestPlane.equals(this.currentPlane)){
+								
+								if(this.manualPlanes.contains(nearestPlane)) {
+									this.removeFromManual(nearestPlane);
+								}
+	
+								this.currentPlane = null;
+								
+							}
+							
+							else{
+								this.currentPlane = nearestPlane;
+								clickedPlane = true;
+								System.out.println("Here");
+								//this.manualPlanes.add(this.currentPlane);
+							}
+							
+						}
 					}
-				}
+					
+
+//				for(Plane plane : this.currentGame.getCurrentPlanes()) {
+//					planeX = plane.getX();
+//					planeY = plane.getY();
+//					
+//					
+//
+//					if(Math.sqrt(Math.pow(x - planeX, 2)
+//							+ Math.pow(y - planeY, 2)) < 50) {
+//						if(plane.equals(this.currentPlane)) {
+//							if(this.manualPlanes.contains(plane)) {
+//								this.removeFromManual(plane);
+//							}
+//
+//							this.currentPlane = null;
+//							
+//						} else {
+//							this.currentPlane = plane;
+//						}
+//
+//						clickedPlane = true;
+//						break;
+//					}
+//				}
 
 				if(!clickedPlane && (this.currentPlane != null)) {
 					this.removeFromManual(this.currentPlane);
 					this.currentPlane = null;
 				}
-			} else {
+				
+			} 
+			
+			
+			else if (button == 1) {
 				if(this.currentPlane != null) {
-						
 					this.giveHeadingThroughMouse(currentPlane, x, y);
 				}
 			}
-		}
+		}}
 	}
 	
 	/**
