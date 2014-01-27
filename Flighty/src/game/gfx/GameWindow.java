@@ -511,7 +511,7 @@ public class GameWindow extends BasicGameState {
 				}
 				
 				new TrueTypeFont(this.fontPrimitive.deriveFont(50f), true)
-									.drawString(375f, 200f, "Game Over");
+									.drawString(375f, 200f, "You Fucked Up!");
 				new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
 									.drawString(470f, 260f, "Score: " + (int) this.score);
 				new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
