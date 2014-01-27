@@ -111,7 +111,7 @@ public class Game {
 		this.listOfWaypoints.add(new Waypoint(400, 220));
 		this.listOfWaypoints.add(new Waypoint(850, 188));
 		this.listOfWaypoints.add(new Waypoint(950, 272));
-		this.listOfWaypoints.add(new Waypoint(800, 700));
+		this.listOfWaypoints.add(new Waypoint(100, 100));
 		this.listOfWaypoints.add(new Waypoint(140, 250));
 		
 		this.listOfExitPoints.add(new ExitPoint(800,0));

@@ -149,11 +149,20 @@ public class Plane {
 	 * </p>
 	 */
 	public void incrementBearing() {
-		this.bearing+=1;
+		
+		this.targetBearing+=1;
+		
+		if (targetBearing >= 360){
+			this.targetBearing = 0;
+		}
 	}
 	
 	public void decrementBearing() {
-		this.bearing-=1;
+		this.targetBearing-=1;
+		
+		if (targetBearing < 0){
+			this.targetBearing = 359;
+		}
 	}
 	
 	public void incrementAltitude() {
@@ -469,6 +478,8 @@ public class Plane {
 	public void setTargetBearing(double targetBearing) {
 		this.targetBearing = targetBearing;
 	}
+	
+
 
 
 
