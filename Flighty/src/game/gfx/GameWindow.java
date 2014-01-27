@@ -142,7 +142,7 @@ public class GameWindow extends BasicGameState {
 	 * @param plane				the plane to move
 	 */
 	private void movePlane(Plane plane) {
-		double angle = plane.getBearing();
+		double angle = plane.getTargetBearing();
 
 		// Get the angle to the next waypoint
 		if(plane.getTarget() != null) {
@@ -154,11 +154,18 @@ public class GameWindow extends BasicGameState {
 					angle +=360;
 				}
 				//System.out.println(angle);
+				
 			}
 
 			// Set plane's bearing
-			plane.setTargetBearing(angle);
-			plane.updateCurrentHeading();
+			if(!this.manualPlanes.contains(plane)) {
+				plane.setTargetBearing(angle);
+				plane.updateCurrentHeading();
+				
+			}
+			else {
+				//plane.updateCurrentHeading(); <----- does not work
+			}
 
 			// Move the plane
 			plane.setX((float) (plane.getX()
