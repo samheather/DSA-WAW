@@ -228,7 +228,7 @@ public class WindowManager extends StateBasedGame {
 		} else if(this.getCurrentStateID() == LEVEL_SELECT_STATE) {
 			return true;
 		} else if(this.getCurrentStateID() == GAME_STATE) {
-			return true;
+			this.enterState(MAIN_MENU_STATE);
 		} else if(this.getCurrentStateID() == CREDITS_STATE) {
 			return true;
 		}

@@ -355,7 +355,7 @@ public class GameWindow extends BasicGameState {
 			this.currentGame = new Game(50, 100, this);
 			this.map = this.map1;
 			this.fontColor = Color.white;
-			this.speedDifficulty = 0.5;
+			this.speedDifficulty = 0.7;
 			this.spawnRate = 40;
 			this.spawnCount = 1;
 		} else if(((WindowManager) game).getCurrentLevel() == 2) {
@@ -363,7 +363,7 @@ public class GameWindow extends BasicGameState {
 			this.currentGame = new Game(75, 200, this);
 			this.map = this.map2;
 			this.fontColor = Color.black;
-			this.speedDifficulty = 0.5;
+			this.speedDifficulty = 0.7;
 			this.spawnRate = 30;
 			this.spawnCount = 1;
 		} else {
@@ -561,7 +561,7 @@ public class GameWindow extends BasicGameState {
 				if(this.spawnRate == 0) {
 					this.countToNextPlane = -1;
 				} else {
-					this.countToNextPlane = (60 * ((new Random()).nextInt(
+					this.countToNextPlane = (15 * ((new Random()).nextInt(
 							this.spawnRate / 2) + this.spawnRate));
 				}
 			}

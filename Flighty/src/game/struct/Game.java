@@ -103,16 +103,16 @@ public class Game {
 		this.listOfEntryPoints.add(new EntryPoint(1200,200));
 		this.listOfEntryPoints.add(new EntryPoint(600,0));
 		
-		this.listOfWaypoints.add(new Waypoint(350,150));
-		this.listOfWaypoints.add(new Waypoint(400,470));
-		this.listOfWaypoints.add(new Waypoint(700,60));
-		this.listOfWaypoints.add(new Waypoint(800,320));
-		this.listOfWaypoints.add(new Waypoint(600, 418));
-		this.listOfWaypoints.add(new Waypoint(500, 220));
-		this.listOfWaypoints.add(new Waypoint(950, 188));
-		this.listOfWaypoints.add(new Waypoint(1050, 272));
-		this.listOfWaypoints.add(new Waypoint(900, 420));
-		this.listOfWaypoints.add(new Waypoint(240, 250));
+		this.listOfWaypoints.add(new Waypoint(250,150));
+		this.listOfWaypoints.add(new Waypoint(300,470));
+		this.listOfWaypoints.add(new Waypoint(600,60));
+		this.listOfWaypoints.add(new Waypoint(700,320));
+		this.listOfWaypoints.add(new Waypoint(500, 418));
+		this.listOfWaypoints.add(new Waypoint(400, 220));
+		this.listOfWaypoints.add(new Waypoint(850, 188));
+		this.listOfWaypoints.add(new Waypoint(950, 272));
+		this.listOfWaypoints.add(new Waypoint(800, 700));
+		this.listOfWaypoints.add(new Waypoint(140, 250));
 		
 		this.listOfExitPoints.add(new ExitPoint(800,0));
 		this.listOfExitPoints.add(new ExitPoint(0,200));
