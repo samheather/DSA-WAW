@@ -146,20 +146,26 @@ public class GameWindow extends BasicGameState {
 		// Get the angle to the next waypoint
 		if(plane.getTarget() != null) {
 			if(!this.manualPlanes.contains(plane)) {
-				angle = Math.atan2(plane.getY() - plane.getTarget().getY(),
-						plane.getX() - plane.getTarget().getX());
+				angle = Math.toDegrees(Math.atan2(plane.getY() - plane.getTarget().getY(),
+						plane.getX() - plane.getTarget().getX()));
+				//System.out.println(angle);
+				if(angle<0) {
+					angle +=360;
+				}
+				System.out.println(angle);
 			}
 
 			// Set plane's bearing
-			plane.setBearing(angle);
+			plane.setTargetBearing(angle);
+			plane.updateCurrentHeading();
 
 			// Move the plane
 			plane.setX((float) (plane.getX()
-					- (Math.cos(angle)
+					- (Math.cos(Math.toRadians(plane.getBearing()))
 							* (this.speedDifficulty
 									* plane.getVelocity() / 7000d))));
 			plane.setY((float) (plane.getY()
-					- (Math.sin(angle)
+					- (Math.sin(Math.toRadians(plane.getBearing()))
 							* (this.speedDifficulty
 									* plane.getVelocity() / 7000d))));
 		}
@@ -194,9 +200,15 @@ public class GameWindow extends BasicGameState {
 	
 	public void giveHeadingThroughMouse(Plane currentPlane, int x, int y){
 		this.manualPlanes.add(this.currentPlane);
-		this.currentPlane.setBearing(
-				Math.atan2(this.currentPlane.getY() - y,
-						this.currentPlane.getX() - x));
+		double newBearing = Math.toDegrees(Math.atan2(this.currentPlane.getY() - y,
+				this.currentPlane.getX() - x));
+		if(newBearing<0) {
+			newBearing+=360;
+		}
+		this.currentPlane.setTargetBearing(
+				Math.toDegrees(newBearing));
+		
+		System.out.println(this.currentPlane.getTargetBearing());
 	}
 	
 	public Boolean selectFlight(int x, int y){
@@ -418,15 +430,13 @@ public class GameWindow extends BasicGameState {
 				if(plane.equals(this.currentPlane)) {
 					this.planeSelectedCur = this.planeSelected.getScaledCopy(
 							1 + ((((float) (plane.getSize())) - 1) / 5));
-					this.planeSelectedCur.setRotation((float) Math.toDegrees(
-														plane.getBearing()) - 90);
+					this.planeSelectedCur.setRotation((float)plane.getBearing() - 90);
 					this.planeSelectedCur.drawCentered((float)plane.getX(),
 													(float)plane.getY());
 				} else {
 					this.planeNormalCur = this.planeNormal.getScaledCopy(
 							1 + ((((float) (plane.getSize())) - 1) / 5));
-					this.planeNormalCur.setRotation((float) Math.toDegrees(
-														plane.getBearing()) - 90);
+					this.planeNormalCur.setRotation((float) plane.getBearing() - 90);
 					this.planeNormalCur.drawCentered((float)plane.getX(), 
 													(float)plane.getY());
 				}
@@ -575,7 +585,7 @@ public class GameWindow extends BasicGameState {
 						this.manualPlanes.add(this.currentPlane);
 					}
 					
-					this.currentPlane.decrementBearing();
+					//this.currentPlane.decrementBearing();
 				}
 
 				// Action on 'd' and 'right' keys
@@ -585,7 +595,7 @@ public class GameWindow extends BasicGameState {
 						this.manualPlanes.add(this.currentPlane);
 					}
 					
-					this.currentPlane.incrementBearing();
+					//this.currentPlane.incrementBearing();
 				}
 
 				// Action on 'w' and 'up' keys

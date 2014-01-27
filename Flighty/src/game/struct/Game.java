@@ -177,6 +177,7 @@ public class Game {
 	*/
 	public Plane createPlane(boolean testing) {
 		Plane newPlane;
+		double angle;
 		String id;
 		int size, velocity = 7000;
 		double altitude = 1;
@@ -207,6 +208,13 @@ public class Game {
 		newPlane = new Plane(id, size, velocity, altitude, bearing, this);
 		newPlane.setX(newPlane.getFlightPlan().getEntryPoint().getX());
 		newPlane.setY(newPlane.getFlightPlan().getEntryPoint().getY());
+		angle = Math.toDegrees(Math.atan2(newPlane.getY() - newPlane.getTarget().getY(),
+				newPlane.getX() - newPlane.getTarget().getX()));
+		//System.out.println(angle);
+		if(angle<0) {
+			angle +=360;
+		}
+		newPlane.setBearing(angle);
 		newPlane.setStartX(newPlane.getX());
 		newPlane.setStartY(newPlane.getY());
 		
