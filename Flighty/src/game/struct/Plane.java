@@ -53,6 +53,10 @@ public class Plane {
 	private double targetAltitude;
 
 	private FlightPlan flightPlan;
+	
+	private boolean landing, needsToLand;
+	
+	private Game currentGame;
 
 
 	/**
@@ -73,7 +77,8 @@ public class Plane {
 	 */
 	// Constructor
 	public Plane(String id, int size, int velocity, double altitude, 
-			double bearing,Game currentGame) {
+			double bearing, Game currentGame) {
+		this.currentGame = currentGame;
 		this.id = id;
 		this.size = size;
 		this.velocity = velocity;
@@ -89,6 +94,9 @@ public class Plane {
 		this.targetAltitude = altitude;
 		this.turningLeft=false;
 		this.turningRight=false;
+		this.landing = false;
+		this.needsToLand = false;
+		
 
 	}
 
@@ -255,6 +263,22 @@ public class Plane {
 	public void decrementTargetAltitude() {
 		if(this.targetAltitude > 1) {
 			this.targetAltitude--;
+		}
+	}
+	
+	public void landPlane(){
+		
+		System.out.println("Lands");
+		System.out.println(this.currentGame.getAirport().getApproachPolygon().closed());
+		if (this.currentGame.getAirport().getApproachPolygon().contains((float)this.x, (float)this.y)){
+			if (this.bearing >= 60 && this.bearing <= 120){
+				this.needsToLand = false;
+				this.landing = true;
+				this.currentGame.getManualPlanes().remove(this);
+				this.currentGame.setCurrentPlane(null);
+				System.out.println("Lands");
+				
+			}
 		}
 	}
 
@@ -425,6 +449,22 @@ public class Plane {
 
 
 
+	public boolean isNeedsToLand() {
+		return needsToLand;
+	}
+
+
+
+
+
+	public void setNeedsToLand(boolean needsToLand) {
+		this.needsToLand = needsToLand;
+	}
+
+
+
+
+
 	public void setFlightPlan(FlightPlan flightPlan) {
 		this.flightPlan = flightPlan;
 	}
@@ -504,6 +544,13 @@ public class Plane {
 		this.turningLeft = turningLeft;
 	}
 	
+	public boolean isLanding(){
+		return this.landing;
+	}
+	
+	public void setLanding(boolean bool){
+		this.landing = bool;
+	}
 	
 
 

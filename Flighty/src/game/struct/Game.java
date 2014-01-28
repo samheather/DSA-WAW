@@ -176,8 +176,8 @@ public class Game {
 		this.listOfWaypoints.add(new Waypoint(1000, 300));
 		this.listOfWaypoints.add(new Waypoint(140, 250));
 		
-		this.listOfExitPoints.add(new ExitPoint(800,0));
-		this.listOfExitPoints.add(new ExitPoint(0,200));
+		//this.listOfExitPoints.add(new ExitPoint(800,0));
+		//this.listOfExitPoints.add(new ExitPoint(0,200));
 		this.listOfExitPoints.add(new ExitPoint(1200,300));
 		this.listOfExitPoints.add(this.airport);
 		
@@ -542,6 +542,14 @@ public class Game {
 						|| gameContainer.getInput().isKeyPressed(31)) {
 					this.currentPlane.decrementTargetAltitude();
 				}
+				
+				//Action on 'l' Key
+				
+				if(gameContainer.getInput().isKeyPressed(38)) {
+					if (this.currentPlane.isNeedsToLand()){
+						this.currentPlane.landPlane();
+					}
+				}
 			}
 			
 			
@@ -602,6 +610,12 @@ public class Game {
 							
 						plane.getFlightPlan().getCurrentRoute().remove(0);
 						if(plane.getFlightPlan().getCurrentRoute().size()!= 0){
+						
+							if (plane.getFlightPlan().getCurrentRoute().get(0).equals(this.airport.getBeginningOfRunway())){
+								this.manualPlanes.add(plane);
+								plane.setNeedsToLand(true);
+							}
+							
 							plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
 						}
 						this.score +=100000; // We've got to raise the players self esteem:)
