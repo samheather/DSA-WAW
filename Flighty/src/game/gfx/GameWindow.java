@@ -312,6 +312,7 @@ public class GameWindow extends BasicGameState {
 		if(!this.currentGame.isEnding()) {
 			// Display the game duration (time)
 			
+			g.draw(currentGame.getAirport().getApproachPolygon());
 			g.drawString("Time : " + ((int) (this.time / 1000)) + "s", 1050, 15);
 			g.drawString("Score : " + ((int) (this.currentGame.getScore())) + " pts", 1050, 35);
 

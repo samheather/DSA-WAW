@@ -9,7 +9,7 @@ public class FlightPlan {
 	
 	private ArrayList<Point> currentRoute = new ArrayList<Point>();
 	private Plane plane;
-	private EntryPoint entryPoint;
+	private Point entryPoint;
 	
 	// CONSTRUCTOR
 	
@@ -22,7 +22,7 @@ public class FlightPlan {
 		
 	}
 	
-	public EntryPoint generateEntryPoint(Game currentGame){
+	public Point generateEntryPoint(Game currentGame){
 		
 		Random rand = new Random();
 		int randomNumber = rand.nextInt(3);
@@ -37,7 +37,7 @@ public class FlightPlan {
 	
 	
 	
-	public ArrayList<Point> buildRoute(Game currentGame, EntryPoint entryPoint) {
+	public ArrayList<Point> buildRoute(Game currentGame, Point entryPoint) {
 		ArrayList<Point> tempRoute = new ArrayList<Point>();  // Create the array lists for route and points
 		ArrayList<Point> tempListOfWaypoints = new ArrayList<Point>();
 		ArrayList<Point> tempListOfExitPoints = new ArrayList<Point>();
@@ -58,7 +58,7 @@ public class FlightPlan {
 				
 				// Adding Waypoints to Plan
 				
-				int pointsInPlan = rand.nextInt(3) + 3; 
+				int pointsInPlan = rand.nextInt(1) + 2; 
 				
 				for (int i = 0; i < pointsInPlan - 1; i++) {
 					int waypointIndex = rand.nextInt(tempListOfWaypoints.size());
@@ -82,6 +82,10 @@ public class FlightPlan {
 						ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
 					}
 					else{
+						if(tempListOfExitPoints.get(ExitPointIndex).equals(currentGame.getAirport())){
+							tempRoute.add(currentGame.getAirport().getBeginningOfRunway());
+							tempRoute.add(currentGame.getAirport().getEndOfRunway());
+						}
 						tempRoute.add(tempListOfExitPoints.get(ExitPointIndex));
 						exitpointAdded = true;
 					}
@@ -107,7 +111,7 @@ public class FlightPlan {
 		this.plane = plane;
 	}
 
-	public EntryPoint getEntryPoint() {
+	public Point getEntryPoint() {
 		return entryPoint;
 	}
 

@@ -25,9 +25,9 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class Game {
 	
-	private ArrayList<ExitPoint> listOfExitPoints = new ArrayList<ExitPoint>();
+	private ArrayList<Point> listOfExitPoints = new ArrayList<Point>();
 	private ArrayList<Waypoint> listOfWaypoints = new ArrayList<Waypoint>();
-	private ArrayList<EntryPoint> listOfEntryPoints  = new ArrayList<EntryPoint>();
+	private ArrayList<Point> listOfEntryPoints  = new ArrayList<Point>();
 	/** Distance at which planes crash */
 	private int separationDistance;
 	
@@ -89,6 +89,8 @@ public class Game {
 	/** The current map */
 	private Image map;
 	
+	private Airport airport;
+	
 	
 	// Constructors
 	/**
@@ -102,19 +104,18 @@ public class Game {
 	 * @param currentGameWindow		reference to the current game window
 	 */
 	public Game(int separationDistance, int penaltyDistance) {
-		this.separationDistance = separationDistance;
-		this.penaltyDistance = penaltyDistance;
-		this.listOfExitPoints = new ArrayList<ExitPoint>();
-		this.listOfWaypoints = new ArrayList<Waypoint>();
-		this.listOfEntryPoints = new ArrayList<EntryPoint>();
 		this.windowWidth = 1200;
 		this.windowHeight = 600;
-		this.time = 0;
+		this.separationDistance = separationDistance;
+		this.penaltyDistance = penaltyDistance;
+		this.listOfExitPoints = new ArrayList<Point>();
+		this.listOfWaypoints = new ArrayList<Waypoint>();
+		this.listOfEntryPoints = new ArrayList<Point>();
 		this.score = 0;
-		this.endTime = 0;
 		this.countToNextPlane = 0;
 		this.collision = false;
 		this.ending = false;
+		this.airport = new Airport(-100,-100); // Placing Airport off screen
 		this.manualPlanes = new ArrayList<Plane>();
 		this.collidedPlanes = new ArrayList<Plane>();
 		this.currentPlane = null;
@@ -166,18 +167,19 @@ public class Game {
 		
 		this.listOfWaypoints.add(new Waypoint(250,150));
 		this.listOfWaypoints.add(new Waypoint(300,470));
-		this.listOfWaypoints.add(new Waypoint(600,60));
+		this.listOfWaypoints.add(new Waypoint(600,160));
 		this.listOfWaypoints.add(new Waypoint(700,320));
-		this.listOfWaypoints.add(new Waypoint(500, 418));
+		this.listOfWaypoints.add(new Waypoint(500, 200));
 		this.listOfWaypoints.add(new Waypoint(400, 220));
 		this.listOfWaypoints.add(new Waypoint(850, 188));
 		this.listOfWaypoints.add(new Waypoint(950, 272));
-		this.listOfWaypoints.add(new Waypoint(100, 100));
+		this.listOfWaypoints.add(new Waypoint(1000, 300));
 		this.listOfWaypoints.add(new Waypoint(140, 250));
 		
 		this.listOfExitPoints.add(new ExitPoint(800,0));
 		this.listOfExitPoints.add(new ExitPoint(0,200));
 		this.listOfExitPoints.add(new ExitPoint(1200,300));
+		this.listOfExitPoints.add(this.airport);
 		
 		
 	}
@@ -580,11 +582,11 @@ public class Game {
 				}
 
 				// Check if colliding with another plane
-				if(this.collision(plane)) {
-					this.currentPlane = null;
-					this.collidedPlanes.add(plane);
-					this.collision = true;
-				}
+//				if(this.collision(plane)) {
+//					this.currentPlane = null;
+//					this.collidedPlanes.add(plane);
+//					this.collision = true;
+//				}
 				
 				// If plane has no more waypoints, remove it
 				if(plane.getFlightPlan().getCurrentRoute().size() == 0) {
@@ -602,7 +604,7 @@ public class Game {
 						if(plane.getFlightPlan().getCurrentRoute().size()!= 0){
 							plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
 						}
-						this.score +=10;
+						this.score +=100000; // We've got to raise the players self esteem:)
 					}
 				}
 
@@ -795,11 +797,11 @@ public class Game {
 			this.currentGameWindow = currentGameWindow;
 		}
 
-		public ArrayList<ExitPoint> getListOfExitPoints() {
+		public ArrayList<Point> getListOfExitPoints() {
 			return listOfExitPoints;
 		}
 
-		public void setListOfExitPoints(ArrayList<ExitPoint> listOfExitPoints) {
+		public void setListOfExitPoints(ArrayList<Point> listOfExitPoints) {
 			this.listOfExitPoints = listOfExitPoints;
 		}
 
@@ -811,11 +813,17 @@ public class Game {
 			this.listOfWaypoints = listOfWaypoints;
 		}
 
-		public ArrayList<EntryPoint> getListOfEntryPoints() {
+		public ArrayList<Point> getListOfEntryPoints() {
 			return listOfEntryPoints;
 		}
 
-		public void setListOfEntryPoints(ArrayList<EntryPoint> listOfEntryPoints) {
+		public void setListOfEntryPoints(ArrayList<Point> listOfEntryPoints) {
 			this.listOfEntryPoints = listOfEntryPoints;
 		}
+
+		public Airport getAirport() {
+			return airport;
+		}
+		
+		
 }
