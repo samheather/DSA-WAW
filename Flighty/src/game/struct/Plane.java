@@ -150,7 +150,10 @@ public class Plane {
 	 */
 	public void incrementBearing() {
 		
-		this.targetBearing+=1;
+		this.turningLeft = false;
+		this.turningRight = true;
+		
+		this.targetBearing = this.bearing + 10;
 		
 		if (targetBearing >= 360){
 			this.targetBearing = 0;
@@ -158,7 +161,11 @@ public class Plane {
 	}
 	
 	public void decrementBearing() {
-		this.targetBearing-=1;
+		
+		this.turningRight = false;
+		this.turningLeft = true;
+		
+		this.targetBearing = this.bearing - 10;
 		
 		if (targetBearing < 0){
 			this.targetBearing = 359;
