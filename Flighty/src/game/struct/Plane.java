@@ -31,10 +31,6 @@ public class Plane {
 
 
 
-
-
-
-
 	/** Current X co-ordinate */
 	private double x;
 
@@ -271,6 +267,9 @@ public class Plane {
 
 
 	// Accessors
+	
+	
+	
 	/**
 	 * @return			the Plane's unique ID
 	 */
@@ -504,6 +503,8 @@ public class Plane {
 	public void setTurningLeft(boolean turningLeft) {
 		this.turningLeft = turningLeft;
 	}
+	
+	
 
 
 

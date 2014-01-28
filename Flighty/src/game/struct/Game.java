@@ -5,6 +5,11 @@ import game.gfx.GameWindow;
 
 import java.util.ArrayList;
 import java.util.ListIterator;
+import java.util.Random;
+
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.state.StateBasedGame;
 
 
 /**
@@ -38,6 +43,52 @@ public class Game {
 	/** Reference to the game window  */
 	private GameWindow currentGameWindow;	
 	
+	/** The width the game is displayed at */
+	public int windowWidth;
+	
+	/** The height the game is displayed at */
+	public int windowHeight;
+	
+	/** The player's score*/
+	private double score;
+	
+	/** The time the game has been running for */
+	private double time;
+	
+	/** The time the game ended at */
+	private double endTime;
+	
+	/** The amount of time before another plane will enter the game */
+	private double countToNextPlane;
+	
+	/** The collision state - <code>true</code> if two planes have collided */
+	private boolean collision;
+	
+	/** The ending state - <code>true</code> if the game is ending */
+	private boolean ending;
+	
+	/** The speed modifier */
+	private double speedDifficulty;
+	
+	/** The (plane) spawn rate modifier */
+	private int spawnRate;
+	
+	/** The number of planes to spawn at a time */
+	private int spawnCount;
+	
+	/** A list of planes under manual control */
+	private ArrayList<Plane> manualPlanes;
+	
+	/** A list of planes which are colliding */
+	private ArrayList<Plane> collidedPlanes;
+
+	
+	/** The plane currently being controlled by the player */
+	private Plane currentPlane;
+	
+	/** The current map */
+	private Image map;
+	
 	
 	// Constructors
 	/**
@@ -50,13 +101,23 @@ public class Game {
 	 * @param penaltyDistance		the distance at which planes should alert
 	 * @param currentGameWindow		reference to the current game window
 	 */
-	public Game(int separationDistance, int penaltyDistance, 
-			GameWindow currentGameWindow) {
+	public Game(int separationDistance, int penaltyDistance) {
 		this.separationDistance = separationDistance;
 		this.penaltyDistance = penaltyDistance;
 		this.listOfExitPoints = new ArrayList<ExitPoint>();
 		this.listOfWaypoints = new ArrayList<Waypoint>();
 		this.listOfEntryPoints = new ArrayList<EntryPoint>();
+		this.windowWidth = 1200;
+		this.windowHeight = 600;
+		this.time = 0;
+		this.score = 0;
+		this.endTime = 0;
+		this.countToNextPlane = 0;
+		this.collision = false;
+		this.ending = false;
+		this.manualPlanes = new ArrayList<Plane>();
+		this.collidedPlanes = new ArrayList<Plane>();
+		this.currentPlane = null;
 		this.carriers.add("BA");
 		this.carriers.add("EZY");
 		this.carriers.add("NZ");
@@ -64,7 +125,7 @@ public class Game {
 		this.carriers.add("QU");
 		this.addPointsForGame();
 		
-		this.currentGameWindow = currentGameWindow;
+		
 	}
 	
 	/**
@@ -143,6 +204,53 @@ public class Game {
 	}
 	
 	/**
+	 * Moves a plane
+	 * <p>
+	 * If the plane is under manual control, it will follow the
+	 * bearing specified by the player.
+	 * </p>
+	 * <p>
+	 * If the plane is following its flight path, it will tend towards
+	 * its next target.
+	 * </p>
+	 * 
+	 * @param plane				the plane to move
+	 */
+	public void movePlane(Plane plane) {
+		double angle = plane.getTargetBearing();
+
+		// Get the angle to the next waypoint
+		if(plane.getTarget() != null) {
+			if(!this.manualPlanes.contains(plane)) {
+				angle = Math.toDegrees(Math.atan2(plane.getY() - plane.getTarget().getY(),
+						plane.getX() - plane.getTarget().getX()));
+				//System.out.println(angle);
+				if(angle<0) {
+					angle +=360;
+				}
+				plane.setTargetBearing(angle);
+				plane.updateCurrentHeading();
+				//System.out.println(angle);
+				
+			}
+			else {
+				plane.updateCurrentHeading();
+				//; <----- does not work
+			}
+
+			// Move the plane
+			plane.setX((float) (plane.getX()
+					- (Math.cos(Math.toRadians(plane.getBearing()))
+							* (this.speedDifficulty
+									* plane.getVelocity() / 7000d))));
+			plane.setY((float) (plane.getY()
+					- (Math.sin(Math.toRadians(plane.getBearing()))
+							* (this.speedDifficulty
+									* plane.getVelocity() / 7000d))));
+		}
+	}
+	
+	/**
 	 * Creates a plane
 	 * <p>
 	 * Calls {@link #createPlane(boolean)} with testing = false,
@@ -186,14 +294,6 @@ public class Game {
 		int width, height;
 		boolean[] penaltyTest;
 		
-		if(this.currentGameWindow != null) {
-			width = this.currentGameWindow.getWindowWidth();
-			height = this.currentGameWindow.getWindowHeight();
-		} else {
-			width = 1024;
-			height = 512;
-		}
-
 		// Generate a random id, consisting of a carrier ID and a
 		// random 2-digit number
 		id = this.generateFlightID();
@@ -349,6 +449,187 @@ public class Game {
 		return result;
 	}
 	
+	/**
+	 * Removes a plane from manual control
+	 * 
+	 * @param plane				the plane to remove from manual control
+	 */
+	public void removeFromManual(Plane plane) {
+		while(this.manualPlanes.contains(plane)) {
+			this.manualPlanes.remove(plane);
+			plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
+		}
+	}
+	
+	public void deleteFromManual(Plane plane) {
+		while(this.manualPlanes.contains(plane)) {
+			this.manualPlanes.remove(plane);
+		}
+	}
+	
+	
+	
+	/**
+	 * Updates the state
+	 * 
+	 * @param gameContainer		the game container holding this state
+	 * @param game				the game running this state
+	 * @param delta				the time change between calls
+	 */
+	
+	public void update(GameContainer gameContainer,
+			StateBasedGame game) {
+		ArrayList<Plane> planesToRemove = new ArrayList<Plane>();
+		Waypoint tempNextVisibleTarget;
+		
+
+		
+		// Spawn more planes when no planes present
+		if(this.currentPlanes.size() == 0) {
+			this.countToNextPlane = 0;
+		}
+		
+		if(!this.collision && !gameContainer.isPaused()
+				&& gameContainer.hasFocus()) {
+			// Create planes			
+			if (this.countToNextPlane == 0) {
+				for(int i = 0; i < this.spawnCount; i++) {
+					this.createPlane();
+				}
+
+				if(this.spawnRate == 0) {
+					this.countToNextPlane = -1;
+				} else {
+					this.countToNextPlane = (15 * ((new Random()).nextInt(
+							this.spawnRate / 2) + this.spawnRate));
+				}
+			}
+
+			// Handle directional controls
+			
+			//NOTE: THESE NEED TO SET TURNINGLEFT AND TURNINGRIGHT TO FALSE FOR THE PLANE YOU ARE CONTROLLING
+			if(this.currentPlane != null) {
+				// Action on 'a' and 'left' keys
+				if(gameContainer.getInput().isKeyDown(203)
+						|| gameContainer.getInput().isKeyDown(30)) {
+					if(!this.manualPlanes.contains(this.currentPlane)) {
+						this.manualPlanes.add(this.currentPlane);
+					}
+					
+					this.currentPlane.decrementBearing();
+				}
+
+				// Action on 'd' and 'right' keys
+				if(gameContainer.getInput().isKeyDown(205)
+						|| gameContainer.getInput().isKeyDown(32)) {
+					if(!this.manualPlanes.contains(this.currentPlane)) {
+						this.manualPlanes.add(this.currentPlane);
+					}
+					
+					this.currentPlane.incrementBearing();
+				}
+
+				// Action on 'w' and 'up' keys
+				if(gameContainer.getInput().isKeyPressed(200)
+						|| gameContainer.getInput().isKeyPressed(17)) {
+					this.currentPlane.incrementTargetAltitude();
+				}
+				
+				// Action on 's' and 'down' keys
+				if(gameContainer.getInput().isKeyPressed(208)
+						|| gameContainer.getInput().isKeyPressed(31)) {
+					this.currentPlane.decrementTargetAltitude();
+				}
+			}
+			
+			
+			
+			// Action on TAB key
+			if(gameContainer.getInput().isKeyPressed(15)) {
+				if(currentPlane != null) {
+					int index = 0;
+					int planeCount = this
+							.getCurrentPlanes().size();
+				
+					for(int i = 0; i < planeCount; i++) {
+						if(this.getCurrentPlanes()
+								.get(i) == this.currentPlane) {
+							index = ((i + 1) % planeCount);
+						}
+					}
+					
+					this.currentPlane = this
+							.getCurrentPlanes().get(index);
+				} else {
+					this.currentPlane = this
+							.getCurrentPlanes().get(0);
+				}
+			}
+			
+			// Update planes
+			for(Plane plane : this.getCurrentPlanes()) {
+
+				// Check plane still in game area
+				
+				if(this.manualPlanes.contains(plane)
+						&& ((plane.getX() > this.windowWidth)
+						|| (plane.getX() < 0)
+						|| (plane.getY() > this.windowHeight)
+						|| (plane.getY() < 0))) {
+					planesToRemove.add(plane);
+				}
+
+				// Check if colliding with another plane
+				//if(this.currentGame.collision(plane)) {
+				//	this.currentPlane = null;
+				//	this.collidedPlanes.add(plane);
+				//	this.collision = true;
+				//}
+				
+				// If plane has no more waypoints, remove it
+				if(plane.getFlightPlan().getCurrentRoute().size() == 0) {
+					planesToRemove.add(plane);
+					
+					
+				} else {
+					// Check if plane at waypoint
+					
+					
+
+					if(plane.checkIfFlightAtWaypoint(plane.getFlightPlan().getCurrentRoute().get(0))) {
+							
+						plane.getFlightPlan().getCurrentRoute().remove(0);
+						if(plane.getFlightPlan().getCurrentRoute().size()!= 0){
+							plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
+						}
+						this.score +=10;
+					}
+				}
+
+				// Change altitude
+				if(!(plane.getAltitude() > (plane.getTargetAltitude() - 0.001))
+						|| !(plane.getAltitude() < (plane.getTargetAltitude() + 0.001))) {
+					if(plane.getAltitude() > plane.getTargetAltitude()) {
+						plane.decrementAltitude();
+					} else {
+						plane.incrementAltitude();
+					}
+				}
+				
+				this.movePlane(plane);
+				
+			}
+			
+			// Remove planes
+			for(Plane plane : planesToRemove) {
+				this.deleteFromManual(plane);
+				this.getCurrentPlanes().remove(plane);
+				this.score += 20;
+			}
+
+			this.countToNextPlane--;
+		}
+	}
 	// ACCESSORS
 	
 	
@@ -359,6 +640,94 @@ public class Game {
 			return this.separationDistance;
 		}
 		
+		public double getScore() {
+			return score;
+		}
+
+		public void setScore(double score) {
+			this.score = score;
+		}
+
+		public double getEndTime() {
+			return endTime;
+		}
+
+		public void setEndTime(double endTime) {
+			this.endTime = endTime;
+		}
+
+		public double getCountToNextPlane() {
+			return countToNextPlane;
+		}
+
+		public void setCountToNextPlane(double countToNextPlane) {
+			this.countToNextPlane = countToNextPlane;
+		}
+
+		public boolean isCollision() {
+			return collision;
+		}
+
+		public void setCollision(boolean collision) {
+			this.collision = collision;
+		}
+
+		public boolean isEnding() {
+			return ending;
+		}
+
+		public void setEnding(boolean ending) {
+			this.ending = ending;
+		}
+
+		public double getSpeedDifficulty() {
+			return speedDifficulty;
+		}
+
+		public void setSpeedDifficulty(double speedDifficulty) {
+			this.speedDifficulty = speedDifficulty;
+		}
+
+		public int getSpawnRate() {
+			return spawnRate;
+		}
+
+		public void setSpawnRate(int spawnRate) {
+			this.spawnRate = spawnRate;
+		}
+
+		public int getSpawnCount() {
+			return spawnCount;
+		}
+
+		public void setSpawnCount(int spawnCount) {
+			this.spawnCount = spawnCount;
+		}
+
+		public ArrayList<Plane> getManualPlanes() {
+			return manualPlanes;
+		}
+
+		public void setManualPlanes(ArrayList<Plane> manualPlanes) {
+			this.manualPlanes = manualPlanes;
+		}
+
+		public ArrayList<Plane> getCollidedPlanes() {
+			return collidedPlanes;
+		}
+
+		public void setCollidedPlanes(ArrayList<Plane> collidedPlanes) {
+			this.collidedPlanes = collidedPlanes;
+		}
+
+		public Plane getCurrentPlane() {
+			return currentPlane;
+		}
+
+		public void setCurrentPlane(Plane currentPlane) {
+			this.currentPlane = currentPlane;
+		}
+
 		/**
 		 * @return				penalty distance (the alert range)
 		 */
