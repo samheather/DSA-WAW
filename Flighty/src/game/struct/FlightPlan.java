@@ -85,9 +85,13 @@ public class FlightPlan {
 						if(tempListOfExitPoints.get(ExitPointIndex).equals(currentGame.getAirport())){
 							tempRoute.add(currentGame.getAirport().getBeginningOfRunway());
 							tempRoute.add(currentGame.getAirport().getEndOfRunway());
+							exitpointAdded = true;
 						}
-						tempRoute.add(tempListOfExitPoints.get(ExitPointIndex));
-						exitpointAdded = true;
+						else{
+							tempRoute.add(tempListOfExitPoints.get(ExitPointIndex));
+						    exitpointAdded = true;
+						     
+						}
 					}
 				}
 		}
