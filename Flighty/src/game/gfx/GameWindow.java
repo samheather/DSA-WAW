@@ -159,7 +159,7 @@ public class GameWindow extends BasicGameState {
 				
 			}
 			else {
-				//plane.updateCurrentHeading();
+				plane.updateCurrentHeading();
 				//; <----- does not work
 			}
 
