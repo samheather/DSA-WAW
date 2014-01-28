@@ -269,9 +269,12 @@ public class Plane {
 	public void landPlane(){
 		
 		System.out.println("Lands");
-		System.out.println(this.currentGame.getAirport().getApproachPolygon().closed());
+		System.out.println(this.currentGame.getAirport().getApproachPolygon().contains((float)this.x, (float)this.y));
+		System.out.println(this.bearing);
+		System.out.println(this.bearing >= 60 && this.bearing <= 120);
+		
 		if (this.currentGame.getAirport().getApproachPolygon().contains((float)this.x, (float)this.y)){
-			if (this.bearing >= 60 && this.bearing <= 120){
+			if (this.bearing >= 150 && this.bearing <= 210){
 				this.needsToLand = false;
 				this.landing = true;
 				this.currentGame.getManualPlanes().remove(this);
