@@ -203,7 +203,8 @@ public class GameWindow extends BasicGameState {
 	}
 	
 	public void giveHeadingThroughMouse(Plane currentPlane, int x, int y){
-		
+		this.currentPlane.setTurningLeft(false);
+		this.currentPlane.setTurningRight(false);
 		this.manualPlanes.add(this.currentPlane);
 		double newBearing = Math.toDegrees(Math.atan2(this.currentPlane.getY() - y,
 				this.currentPlane.getX() - x));
@@ -459,12 +460,6 @@ public class GameWindow extends BasicGameState {
 
 				// Render each waypoint
 				boolean testing = false;
-				
-
-				
-
-				
-				
 				
 			}
 			

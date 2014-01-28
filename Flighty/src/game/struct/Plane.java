@@ -115,39 +115,6 @@ public class Plane {
 	/**
 	 * Increments the Plane's bearing by 5 degrees
 	 */
-	/*public void turnFlightRight(int degreeTurnedBy) {
-
-		this.turningLeft = false;
-		this.turningRight = true;
-
-		this.targetHeading = Math.round(this.currentHeading) + degreeTurnedBy;
-		if(this.targetHeading >= 360){
-			this.targetHeading = this.targetHeading - 360;
-		}
-
-
-	}*/
-
-	/**
-	 * Decrements the Plane's bearing by 5 degrees
-	 */
-	/*public void turnFlightLeft(int degreeTurnedBy) {
-
-		this.turningRight = false;
-		this.turningLeft = true;
-
-		this.targetHeading = Math.round(this.currentHeading) - degreeTurnedBy;
-		if(this.targetHeading < 0){
-			this.targetHeading = 360 +this.targetHeading;
-		}
-	}*/
-
-	/**
-	 * Increments the Plane's altitude to the next flight level
-	 * <p>
-	 * Note: highest flight level allowed for planes is 4
-	 * </p>
-	 */
 	public void incrementBearing() {
 		
 		this.turningLeft = false;
@@ -162,7 +129,11 @@ public class Plane {
 			this.targetBearing = 0;
 		}
 	}
-	
+
+	/**
+	 * Decrements the Plane's bearing by 5 degrees
+	 */
+
 	public void decrementBearing() {
 		
 		this.turningRight = false;
@@ -176,6 +147,18 @@ public class Plane {
 			this.targetBearing = 359;
 		}
 	}
+	
+	
+	
+
+	/**
+	 * Increments the Plane's altitude to the next flight level
+	 * <p>
+	 * Note: highest flight level allowed for planes is 4
+	 * </p>
+	 */
+	
+
 	
 	public void incrementAltitude() {
 		this.altitude += 0.005;
@@ -490,12 +473,39 @@ public class Plane {
 	public void setTargetBearing(double targetBearing) {
 		this.targetBearing = targetBearing;
 	}
-	
 
 
 
 
-	
+	public boolean isTurningRight() {
+		return turningRight;
+	}
+
+
+
+
+
+	public void setTurningRight(boolean turningRight) {
+		this.turningRight = turningRight;
+	}
+
+
+
+
+
+	public boolean isTurningLeft() {
+		return turningLeft;
+	}
+
+
+
+
+
+	public void setTurningLeft(boolean turningLeft) {
+		this.turningLeft = turningLeft;
+	}
+
+
 
 
 
