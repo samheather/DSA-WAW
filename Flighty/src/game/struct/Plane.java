@@ -153,9 +153,12 @@ public class Plane {
 		this.turningLeft = false;
 		this.turningRight = true;
 		
-		this.targetBearing = this.bearing + 10;
+		this.bearing +=1;
+		this.targetBearing = this.bearing;
 		
-		if (targetBearing >= 360){
+		
+		if (bearing >= 360){
+			this.bearing = 0;
 			this.targetBearing = 0;
 		}
 	}
@@ -165,9 +168,11 @@ public class Plane {
 		this.turningRight = false;
 		this.turningLeft = true;
 		
-		this.targetBearing = this.bearing - 10;
+		this.bearing -=1;
+		this.targetBearing = this.bearing; 
 		
-		if (targetBearing < 0){
+		if (bearing < 0){
+			this.bearing = 359;
 			this.targetBearing = 359;
 		}
 	}
