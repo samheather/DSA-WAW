@@ -259,6 +259,7 @@ public class GameWindow extends BasicGameState {
 			StateBasedGame game) throws SlickException {
 		this.currentGameContainer = gameContainer;
 		
+		time = 0;
 		this.windowWidth = 1200;
 		this.windowHeight = 600;
 		
