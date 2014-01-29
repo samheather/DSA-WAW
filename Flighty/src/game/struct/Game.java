@@ -164,7 +164,7 @@ public class Game {
 	public void addPointsForGame(){
 		//this.listOfEntryPoints.add(new EntryPoint(0,400));
 		//this.listOfEntryPoints.add(new EntryPoint(1200,200));
-		//this.listOfEntryPoints.add(new EntryPoint(600,0));
+		this.listOfEntryPoints.add(new EntryPoint(600,0));
 		this.listOfEntryPoints.add(this.airport);
 		
 		this.listOfWaypoints.add(new Waypoint(250,150));
@@ -232,6 +232,8 @@ public class Game {
 				if(angle<0) {
 					angle +=360;
 				}
+				plane.setTurningRight(false);
+				plane.setTurningLeft(false);
 				plane.setTargetBearing(angle);
 				plane.updateCurrentHeading();
 				//System.out.println(angle);
@@ -637,10 +639,10 @@ public class Game {
 						plane.getFlightPlan().getCurrentRoute().remove(0);
 						if(plane.getFlightPlan().getCurrentRoute().size()!= 0){
 						
-							/*if (plane.getFlightPlan().getCurrentRoute().get(0).equals(this.airport.getBeginningOfRunway())){
+							if (plane.getFlightPlan().getCurrentRoute().get(0).equals(this.airport.getBeginningOfRunway())&& plane.getFlightPlan().getCurrentRoute().size()==2){
 								this.manualPlanes.add(plane);
 								plane.setNeedsToLand(true);
-							}*/
+							}
 							
 							plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
 						}
