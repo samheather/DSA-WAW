@@ -606,7 +606,7 @@ public class Game {
 				//if(plane.getVelocity()==0) {
 				//	this.manualPlanes.add(plane);
 				//}
-				if(this.manualPlanes.contains(plane)) { //<- this is what I'm talking about on google, you can only take of if you press an arrow first or right click
+				if(plane.equals(this.currentPlane)) { //<- this is what I'm talking about on google, you can only take of if you press an arrow first or right click
 					if(plane.getVelocity()==0) {
 						if(gameContainer.getInput().isKeyPressed(Input.KEY_T)) {
 							
