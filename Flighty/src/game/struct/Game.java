@@ -9,6 +9,7 @@ import java.util.Random;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
 
@@ -161,9 +162,10 @@ public class Game {
 	// MAIN METHODS
 	
 	public void addPointsForGame(){
-		this.listOfEntryPoints.add(new EntryPoint(0,400));
-		this.listOfEntryPoints.add(new EntryPoint(1200,200));
-		this.listOfEntryPoints.add(new EntryPoint(600,0));
+		//this.listOfEntryPoints.add(new EntryPoint(0,400));
+		//this.listOfEntryPoints.add(new EntryPoint(1200,200));
+		//this.listOfEntryPoints.add(new EntryPoint(600,0));
+		this.listOfEntryPoints.add(this.airport);
 		
 		this.listOfWaypoints.add(new Waypoint(250,150));
 		this.listOfWaypoints.add(new Waypoint(300,470));
@@ -308,8 +310,20 @@ public class Game {
 		velocity += (1000 * size);
 		
 		newPlane = new Plane(id, size, velocity, altitude, bearing, this);
-		newPlane.setX(newPlane.getFlightPlan().getEntryPoint().getX());
-		newPlane.setY(newPlane.getFlightPlan().getEntryPoint().getY());
+		if(newPlane.getFlightPlan().getEntryPoint()==this.airport) {
+			
+			newPlane.getFlightPlan().setEntryPoint((new EntryPoint(1150,590)));
+			newPlane.getFlightPlan().getCurrentRoute().add(0,this.airport.getBeginningOfRunway());
+			newPlane.getFlightPlan().getCurrentRoute().add(0,this.airport.getEndOfRunway());
+			
+			newPlane.setTarget(newPlane.getFlightPlan().getCurrentRoute().get(0));
+			newPlane.setVelocity(0);
+			
+		}
+
+			newPlane.setX(newPlane.getFlightPlan().getEntryPoint().getX());
+			newPlane.setY(newPlane.getFlightPlan().getEntryPoint().getY());
+
 		angle = Math.toDegrees(Math.atan2(newPlane.getY() - newPlane.getTarget().getY(),
 				newPlane.getX() - newPlane.getTarget().getX()));
 		//System.out.println(angle);
@@ -319,6 +333,7 @@ public class Game {
 		newPlane.setBearing(angle);
 		newPlane.setStartX(newPlane.getX());
 		newPlane.setStartY(newPlane.getY());
+		
 		
 		
 		
@@ -588,7 +603,18 @@ public class Game {
 						|| (plane.getY() < 0))) {
 					planesToRemove.add(plane);
 				}
-
+				//if(plane.getVelocity()==0) {
+				//	this.manualPlanes.add(plane);
+				//}
+				if(this.manualPlanes.contains(plane)) { //<- this is what I'm talking about on google, you can only take of if you press an arrow first or right click
+					if(plane.getVelocity()==0) {
+						if(gameContainer.getInput().isKeyPressed(Input.KEY_T)) {
+							
+							plane.setVelocity(7000);
+							this.manualPlanes.remove(plane);
+						}
+					}
+				}
 				// Check if colliding with another plane
 //				if(this.collision(plane)) {
 //					this.currentPlane = null;
@@ -611,10 +637,10 @@ public class Game {
 						plane.getFlightPlan().getCurrentRoute().remove(0);
 						if(plane.getFlightPlan().getCurrentRoute().size()!= 0){
 						
-							if (plane.getFlightPlan().getCurrentRoute().get(0).equals(this.airport.getBeginningOfRunway())){
+							/*if (plane.getFlightPlan().getCurrentRoute().get(0).equals(this.airport.getBeginningOfRunway())){
 								this.manualPlanes.add(plane);
 								plane.setNeedsToLand(true);
-							}
+							}*/
 							
 							plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
 						}
