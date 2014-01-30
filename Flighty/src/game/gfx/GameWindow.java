@@ -102,6 +102,17 @@ public class GameWindow extends BasicGameState {
 	
 	/** Reference to the game container */
 	GameContainer currentGameContainer;
+	
+	/** Whether it should display extrapoints taken (e.g. above waypoints) **/
+	boolean display = false;
+	
+	/** How long the extrapoints should be displayed for **/
+	double synch = 100;
+	
+	/** Coordinates of last waypoint passed **/
+	double prevX;
+	double prevY;
+
 
 
 	
@@ -339,7 +350,7 @@ public class GameWindow extends BasicGameState {
 	@Override
 	public void render(GameContainer gameContainer, StateBasedGame game, Graphics g) {
 		Waypoint tempWaypoint, tempNextVisibleWaypoint;
-
+		
 		
 		// Draw the game map
 		this.map.draw(0, 0, this.windowWidth, this.windowHeight);
@@ -357,6 +368,23 @@ public class GameWindow extends BasicGameState {
 
 			
 			for(Plane plane : this.currentGame.getCurrentPlanes()) {
+				
+				// Displays +5 above the passed waypoint
+				if (plane.getFlightPlan().getCurrentRoute().size() > 1){
+					if (plane.checkIfFlightAtWaypoint(plane.getFlightPlan().getCurrentRoute().get(0))){
+						prevX = plane.getFlightPlan().getCurrentRoute().get(0).getX();
+						prevY = plane.getFlightPlan().getCurrentRoute().get(0).getY();
+						synch = 100;
+						display = true;
+					}
+					if (display && synch>0){
+						g.drawString("+5", (float) prevX - 8, 
+											(float) prevY - 30);
+						synch--;
+					} else {
+						display = false;
+					}
+				}
 				
 				// If plane is within penalty distance, apply alert images
 				if(plane.getAlertStatus()) {
