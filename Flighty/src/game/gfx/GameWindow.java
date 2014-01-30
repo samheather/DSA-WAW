@@ -77,6 +77,14 @@ public class GameWindow extends BasicGameState {
 	/** The edited plane image for the selected plane */
 	private Image planeSelectedCur;
 	
+	//Introducing Plane Needs Landing Image
+	private Image planeNeedsLanding;
+	private Image planeNeedsLandingCur;
+	
+	//Introducing Approach Highlight Image, plus a boolean tracking whether it's been drawn
+	private Image approachHighlight;
+	private boolean approachHighlightDrawn;
+	
 	/** The plane alert range image */
 	private Image planeAlert;
 	
@@ -228,17 +236,34 @@ public class GameWindow extends BasicGameState {
 				.getResourceAsStream("/resources/planes/PlaneAlert.png");
 		InputStream planeAlertMaxStream = this.getClass()
 				.getResourceAsStream("/resources/planes/PlaneAlertMax.png");
+		// - Introducing Landing Alert Image
+		InputStream planeNeedsLandingStream = this.getClass()
+				.getResourceAsStream("/resources/planes/PlaneNeedsLanding.png");
+		
+		// - Introducing approach highlight image
+		InputStream approachHighlightStream = this.getClass()
+				.getResourceAsStream("/resources/other/airspaceIndicator.png");
+		this.approachHighlight = new Image(approachHighlightStream,
+				"Approach area Highlight Image", false);
 		
 		this.planeNormal = new Image(planeNormalStream,
 				"Plane Normal Image", false).getScaledCopy(14, 18);
 		this.planeNormalCur = this.planeNormal;
+		
 		this.planeSelected = new Image(planeSelectedStream,
 				"Plane Selected Image", false).getScaledCopy(14, 18);
 		this.planeSelectedCur = this.planeSelected;
+		
 		this.planeAlert = new Image(planeAlertStream,
 				"Plane Alert Image", false);
+		
 		this.planeAlertMax = new Image(planeAlertMaxStream,
 				"Plane Alert Max Image", false);
+		
+		// - Continued Landing Image Introduction
+		this.planeNeedsLanding = new Image(planeNeedsLandingStream, 
+				"Plane Needs Landing Image", false).getScaledCopy(14, 18);
+		this.planeNeedsLandingCur = this.planeNeedsLanding;
 		
 		// Load map images
 		InputStream map1Stream = this.getClass()
@@ -248,6 +273,8 @@ public class GameWindow extends BasicGameState {
 		
 		this.map1 = new Image(map1Stream, "Map 1 Image", false);
 		this.map2 = new Image(map2Stream, "Map 2 Image", false);
+		
+
 		
 		// Set the font (used for altitudes etc.)
 		this.fontPrimitive = new Font("Lucida Sans", Font.PLAIN, 12);
@@ -360,7 +387,30 @@ public class GameWindow extends BasicGameState {
 					this.planeNormalCur.drawCentered((float)plane.getX(), 
 													(float)plane.getY());
 				}
-				
+				// Ram-  Reviews list of planes in airspace; if they need landing...:
+				// Highlights approach
+				// Renders red plane that needs landing, only if timer is currently an odd number(?)
+				// - Prevents introducing new counter logic that we seem to want to avoid
+				approachHighlightDrawn = false;
+				for (int i=0; i < currentGame.getCurrentPlanes().size(); i++){
+					if(currentGame.getCurrentPlanes().get(i).isNeedsToLand() == true 
+							&& approachHighlightDrawn == false){
+						approachHighlight.draw(400, 344);
+						approachHighlightDrawn = true; 
+						break;
+						}
+					}
+				if(time % 2 != 0){
+					for (int i=0; i < currentGame.getCurrentPlanes().size(); i++){
+						if(currentGame.getCurrentPlanes().get(i).isNeedsToLand() == true){
+							this.planeNeedsLandingCur = this.planeNeedsLanding.getScaledCopy(
+									1 + ((((float) (plane.getSize())) - 1) / 5));
+							this.planeNeedsLandingCur.setRotation((float)plane.getBearing() - 90);
+							this.planeNeedsLandingCur.drawCentered((float)plane.getX(),
+															(float)plane.getY());
+						}
+					}
+				}
 				// Render each plane's altitude
 				g.drawString((this.getHeightFromAltitude(
 						plane.getAltitude()) + " ft"),
