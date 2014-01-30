@@ -242,7 +242,7 @@ public class GameWindow extends BasicGameState {
 		
 		// - Introducing approach highlight image
 		InputStream approachHighlightStream = this.getClass()
-				.getResourceAsStream("/resources/other/airspaceIndicator.png");
+				.getResourceAsStream("/resources/other/airspaceIndicatorGreen.png");
 		this.approachHighlight = new Image(approachHighlightStream,
 				"Approach area Highlight Image", false);
 		
@@ -351,7 +351,7 @@ public class GameWindow extends BasicGameState {
 		if(!this.currentGame.isEnding()) {
 			// Display the game duration (time)
 			
-			g.draw(currentGame.getAirport().getApproachPolygon());
+			//g.draw(currentGame.getAirport().getApproachPolygon());
 			g.drawString("Time : " + ((int) (this.time / 1000)) + "s", 1050, 15);
 			g.drawString("Score : " + ((int) (this.currentGame.getScore())) + " pts", 1050, 35);
 
@@ -388,28 +388,40 @@ public class GameWindow extends BasicGameState {
 													(float)plane.getY());
 				}
 				// Ram-  Reviews list of planes in airspace; if they need landing...:
-				// Highlights approach
-				// Renders red plane that needs landing, only if timer is currently an odd number(?)
-				// - Prevents introducing new counter logic that we seem to want to avoid
+				// Highlights approach, Renders all planes that need landing as red needs landing
+				// Currently selected plane rendered flashing red on odd seconds 
 				approachHighlightDrawn = false;
-				for (int i=0; i < currentGame.getCurrentPlanes().size(); i++){
-					if(currentGame.getCurrentPlanes().get(i).isNeedsToLand() == true 
+					if(plane.equals(this.currentGame.getCurrentPlane())) {
+					if(this.currentGame.getCurrentPlane().isNeedsToLand() == true 
 							&& approachHighlightDrawn == false){
 						approachHighlight.draw(400, 344);
 						approachHighlightDrawn = true; 
-						break;
 						}
-					}
-				if(time % 2 != 0){
-					for (int i=0; i < currentGame.getCurrentPlanes().size(); i++){
-						if(currentGame.getCurrentPlanes().get(i).isNeedsToLand() == true){
+					}				
+					if(plane.equals(this.currentGame.getCurrentPlane())) {
+						if(((int) (this.time / 1000)) %2 == 0){
+							if(plane.isNeedsToLand() == true){
+								this.planeNeedsLandingCur = this.planeNeedsLanding.getScaledCopy(
+										1 + ((((float) (plane.getSize())) - 1) / 5));
+								this.planeNeedsLandingCur.setRotation((float)plane.getBearing() - 90);
+								this.planeNeedsLandingCur.drawCentered((float)plane.getX(),
+																(float)plane.getY());
+							}
+						} else {
+							this.planeSelectedCur = this.planeSelected.getScaledCopy(
+									1 + ((((float) (plane.getSize())) - 1) / 5));
+							this.planeSelectedCur.setRotation((float)plane.getBearing() - 90);
+							this.planeSelectedCur.drawCentered((float)plane.getX(),
+															(float)plane.getY());
+						}
+					} else {
+						if(plane.isNeedsToLand() == true){
 							this.planeNeedsLandingCur = this.planeNeedsLanding.getScaledCopy(
 									1 + ((((float) (plane.getSize())) - 1) / 5));
 							this.planeNeedsLandingCur.setRotation((float)plane.getBearing() - 90);
 							this.planeNeedsLandingCur.drawCentered((float)plane.getX(),
 															(float)plane.getY());
 						}
-					}
 				}
 				// Render each plane's altitude
 				g.drawString((this.getHeightFromAltitude(
