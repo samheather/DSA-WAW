@@ -52,6 +52,9 @@ public class Game {
 	
 	/** The player's score*/
 	private double score;
+
+	/** Whether the player should be penalised **/
+	boolean penalty;
 	
 	/** The time the game has been running for */
 	private double time;
@@ -113,6 +116,7 @@ public class Game {
 		this.listOfWaypoints = new ArrayList<Waypoint>();
 		this.listOfEntryPoints = new ArrayList<Point>();
 		this.score = 0;
+		this.penalty = true;
 		this.countToNextPlane = 0;
 		this.collision = false;
 		this.ending = false;
@@ -126,6 +130,7 @@ public class Game {
 		this.carriers.add("RY");
 		this.carriers.add("QU");
 		this.addPointsForGame();
+		this.penalty = true;
 		
 		
 	}
@@ -436,11 +441,14 @@ public class Game {
 		double distIJSqr;
 		boolean risk = false;
 		
+		
 		// First -> are planes colliding? {1:true, 0:false}
 		// Second -> result used for testing purposes {1:true, 0:false}
 		boolean[] result = new boolean[] {false, false};
 
 		for(Plane planeJ : this.currentPlanes) {
+			
+			
 			if((planeI.equals(planeJ))
 					|| (planeJ.getAltitude()
 							> (planeI.getAltitude() + 1.1))
@@ -457,14 +465,29 @@ public class Game {
 				result[0] = true;
 				return result;
 			} else if(distIJSqr < Math.pow(this.penaltyDistance, 2)) {
+				// Two planes are in penalty distance
 				planeJ.setAlertStatus(true);
-				risk = true;
+				risk = true; 
+				if (penalty){
+					if (this.score >= 2){
+						this.score -= 2;
+					}
+					penalty = false;
+				}
+				
+				}
 			}
-		}
+		
 		
 		planeI.setAlertStatus(risk);
 		result[1] = risk;
-	
+		for (Plane p : this.currentPlanes){ 
+			if (p.getAlertStatus()){
+				penalty = false;
+				break;
+			}
+			penalty = true;
+		}
 		return result;
 	}
 	
@@ -603,6 +626,9 @@ public class Game {
 						|| (plane.getX() < 0)
 						|| (plane.getY() > this.windowHeight)
 						|| (plane.getY() < 0))) {
+					if (this.score >= 5){
+						this.score -= 5;
+					}
 					planesToRemove.add(plane);
 				}
 				//if(plane.getVelocity()==0) {
@@ -618,11 +644,11 @@ public class Game {
 					}
 				}
 				// Check if colliding with another plane
-//				if(this.collision(plane)) {
-//					this.currentPlane = null;
-//					this.collidedPlanes.add(plane);
-//					this.collision = true;
-//				}
+				if(this.collision(plane)) {
+					this.currentPlane = null;
+					this.collidedPlanes.add(plane);
+					this.collision = true;
+				}
 				
 				// If plane has no more waypoints, remove it
 				if(plane.getFlightPlan().getCurrentRoute().size() == 0) {
@@ -631,8 +657,6 @@ public class Game {
 					
 				} else {
 					// Check if plane at waypoint
-					
-					
 
 					if(plane.checkIfFlightAtWaypoint(plane.getFlightPlan().getCurrentRoute().get(0))) {
 							
@@ -646,7 +670,14 @@ public class Game {
 							
 							plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
 						}
-						this.score +=100000; // We've got to raise the players self esteem:)
+						
+						// Scoring 10 for exitpoints and airport, and 5 for normal waypoints
+						if (plane.getFlightPlan().getCurrentRoute().size() == 0){
+							this.score += 10;
+						} else {
+							this.score += 5; 
+						}
+						
 					}
 				}
 
@@ -668,7 +699,6 @@ public class Game {
 			for(Plane plane : planesToRemove) {
 				this.deleteFromManual(plane);
 				this.getCurrentPlanes().remove(plane);
-				this.score += 20;
 			}
 
 			this.countToNextPlane--;

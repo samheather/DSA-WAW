@@ -42,6 +42,8 @@ public class GameWindow extends BasicGameState {
 	
 	private Game currentGame;
 	
+	private float timer = 0;
+	
 	/** The current map */
 	private Image map;
 	
@@ -310,6 +312,7 @@ public class GameWindow extends BasicGameState {
 	@Override
 	public void render(GameContainer gameContainer, StateBasedGame game, Graphics g) {
 		Waypoint tempWaypoint, tempNextVisibleWaypoint;
+
 		
 		// Draw the game map
 		this.map.draw(0, 0, this.windowWidth, this.windowHeight);
@@ -327,6 +330,7 @@ public class GameWindow extends BasicGameState {
 
 			
 			for(Plane plane : this.currentGame.getCurrentPlanes()) {
+				
 				// If plane is within penalty distance, apply alert images
 				if(plane.getAlertStatus()) {
 					this.planeAlert
@@ -377,6 +381,7 @@ public class GameWindow extends BasicGameState {
 			
 			for (int i = 0; i < this.currentGame.getListOfWaypoints().size(); i++) { // Draws waypoints
 				if (this.currentGame.getCurrentPlane() != null){
+					//selected plane
 					if (this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().indexOf(this.currentGame.getListOfWaypoints().get(i)) ==0){
 						this.waypointNext.drawCentered((int)this.currentGame.getListOfWaypoints().get(i).getX(),(int) this.currentGame.getListOfWaypoints().get(i).getY());
 					}

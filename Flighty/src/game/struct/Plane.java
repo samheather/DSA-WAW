@@ -110,6 +110,7 @@ public class Plane {
 
 		if (((Math.abs(Math.round(this.x) - Math.round(waypoint.getX()))) <= 15)
 				&& (Math.abs(Math.round(this.y) - Math.round(waypoint.getY()))) <= 15) {
+			
 			return true;
 		}
 
