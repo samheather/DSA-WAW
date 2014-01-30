@@ -416,8 +416,8 @@ public class GameWindow extends BasicGameState {
 													(float)plane.getY());
 				}
 				// Ram-  Reviews list of planes in airspace; if they need landing...:
-				// Highlights approach, Renders all planes that need landing as red needs landing
-				// Currently selected plane rendered flashing red on odd seconds 
+				// Highlights approach, Renders all planes that need landing as green
+				// Not currently selected plane rendered flashing green on odd seconds 
 				approachHighlightDrawn = false;
 					if(plane.equals(this.currentGame.getCurrentPlane())) {
 					if(this.currentGame.getCurrentPlane().isNeedsToLand() == true 
@@ -427,6 +427,12 @@ public class GameWindow extends BasicGameState {
 						}
 					}				
 					if(plane.equals(this.currentGame.getCurrentPlane())) {
+							this.planeSelectedCur = this.planeSelected.getScaledCopy(
+									1 + ((((float) (plane.getSize())) - 1) / 5));
+							this.planeSelectedCur.setRotation((float)plane.getBearing() - 90);
+							this.planeSelectedCur.drawCentered((float)plane.getX(),
+															(float)plane.getY());
+					} else {
 						if(((int) (this.time / 1000)) %2 == 0){
 							if(plane.isNeedsToLand() == true){
 								this.planeNeedsLandingCur = this.planeNeedsLanding.getScaledCopy(
@@ -434,21 +440,7 @@ public class GameWindow extends BasicGameState {
 								this.planeNeedsLandingCur.setRotation((float)plane.getBearing() - 90);
 								this.planeNeedsLandingCur.drawCentered((float)plane.getX(),
 																(float)plane.getY());
-							}
-						} else {
-							this.planeSelectedCur = this.planeSelected.getScaledCopy(
-									1 + ((((float) (plane.getSize())) - 1) / 5));
-							this.planeSelectedCur.setRotation((float)plane.getBearing() - 90);
-							this.planeSelectedCur.drawCentered((float)plane.getX(),
-															(float)plane.getY());
-						}
-					} else {
-						if(plane.isNeedsToLand() == true){
-							this.planeNeedsLandingCur = this.planeNeedsLanding.getScaledCopy(
-									1 + ((((float) (plane.getSize())) - 1) / 5));
-							this.planeNeedsLandingCur.setRotation((float)plane.getBearing() - 90);
-							this.planeNeedsLandingCur.drawCentered((float)plane.getX(),
-															(float)plane.getY());
+								}
 						}
 				}
 				// Render each plane's altitude
