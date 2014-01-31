@@ -108,6 +108,7 @@ public class Plane {
 
 	public boolean checkIfFlightAtWaypoint(Point waypoint, Game game) {
 		
+		// Ensuring that the plane cannot go through its landing waypoint when it isnt landing
 		if (waypoint.equals(game.getAirport().getBeginningOfRunway()) && this.landing != true){
 			return false;
 		}

@@ -425,7 +425,9 @@ public class GameWindow extends BasicGameState {
 						approachHighlight.draw(400, 344);
 						approachHighlightDrawn = true; 
 						}
-					}				
+					}			
+					
+					
 					if(plane.equals(this.currentGame.getCurrentPlane())) {
 							this.planeSelectedCur = this.planeSelected.getScaledCopy(
 									1 + ((((float) (plane.getSize())) - 1) / 5));
@@ -444,10 +446,23 @@ public class GameWindow extends BasicGameState {
 						}
 				}
 				// Render each plane's altitude
-				g.drawString((this.getHeightFromAltitude(
-						plane.getAltitude()) + " ft"),
-								(float) plane.getX() + 5,
-								(float) plane.getY() + 15);
+				
+			
+				if (plane.isLanding()){
+					
+					g.drawString("Landing",
+									(float) plane.getX() + 5,
+									(float) plane.getY() + 15);
+					
+				}
+				
+				else{
+					g.drawString((this.getHeightFromAltitude(
+							plane.getAltitude()) + " ft"),
+							(float) plane.getX() + 5,
+							(float) plane.getY() + 15);
+				}
+						
 				
 				// Render each plane's ID
 				g.drawString((plane.getID()),
