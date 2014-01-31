@@ -451,23 +451,32 @@ public class GameWindow extends BasicGameState {
 				if (plane.isLanding()){
 					
 					g.drawString("Landing",
-									(float) plane.getX() + 5,
+									(float) plane.getX() ,
 									(float) plane.getY() + 15);
 					
 				}
 				
+
+				
 				else{
 					g.drawString((this.getHeightFromAltitude(
 							plane.getAltitude()) + " ft"),
-							(float) plane.getX() + 5,
+							(float) plane.getX(),
 							(float) plane.getY() + 15);
+				}
+				
+				if(plane.isNeedsToLand()){
+					
+				g.drawString("Land Me!",
+									(float) (plane.getX() - 5),
+								    (float) (plane.getY() - 30));
 				}
 						
 				
 				// Render each plane's ID
-				g.drawString((plane.getID()),
-								(float) (plane.getX() + 5),
-								(float) (plane.getY() - 30));
+//				g.drawString((plane.getID()),
+//								(float) (plane.getX() + 5),
+//								(float) (plane.getY() - 30));
 
 				// Render each waypoint
 				boolean testing = false;

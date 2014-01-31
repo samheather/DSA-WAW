@@ -446,9 +446,9 @@ public class Game {
 			
 			if((planeI.equals(planeJ))
 					|| (planeJ.getAltitude()
-							> (planeI.getAltitude() + 1.1))
+							> (planeI.getAltitude() + 0.4))
 					|| (planeJ.getAltitude()
-							< (planeI.getAltitude() - 1.1))) {
+							< (planeI.getAltitude() - 0.4))) {
 				continue;
 			}
 
