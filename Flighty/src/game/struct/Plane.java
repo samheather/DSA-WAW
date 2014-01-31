@@ -106,7 +106,11 @@ public class Plane {
 
 	// MAIN METHODS
 
-	public boolean checkIfFlightAtWaypoint(Point waypoint) {
+	public boolean checkIfFlightAtWaypoint(Point waypoint, Game game) {
+		
+		if (waypoint.equals(game.getAirport().getBeginningOfRunway()) && this.landing != true){
+			return false;
+		}
 
 		if (((Math.abs(Math.round(this.x) - Math.round(waypoint.getX()))) <= 15)
 				&& (Math.abs(Math.round(this.y) - Math.round(waypoint.getY()))) <= 15) {
@@ -189,6 +193,20 @@ public class Plane {
 		if(this.targetAltitude <= 3) {
 			this.targetAltitude++;
 		}
+	}
+	
+	public void calculateHeadingToNextWaypoint(){
+		double angle;
+		angle = Math.toDegrees(Math.atan2(this.y - this.target.getY(),
+				this.x - this.target.getX()));
+		//System.out.println(angle);
+		if(angle<0) {
+			angle +=360;
+		}
+		this.turningRight = false;
+		this.turningLeft = false;
+		this.targetBearing = angle;
+
 	}
 
 	public void updateCurrentHeading() {
@@ -274,6 +292,8 @@ public class Plane {
 			if (this.bearing >= 150 && this.bearing <= 210){
 				this.needsToLand = false;
 				this.landing = true;
+				this.target = this.flightPlan.getCurrentRoute().get(0);
+				this.calculateHeadingToNextWaypoint();
 				this.currentGame.getManualPlanes().remove(this);
 				this.currentGame.setCurrentPlane(null);
 

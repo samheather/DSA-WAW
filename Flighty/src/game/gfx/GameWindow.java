@@ -371,7 +371,7 @@ public class GameWindow extends BasicGameState {
 				
 				// Displays +5 above the passed waypoint
 				if (plane.getFlightPlan().getCurrentRoute().size() > 1){
-					if (plane.checkIfFlightAtWaypoint(plane.getFlightPlan().getCurrentRoute().get(0))){
+					if (plane.checkIfFlightAtWaypoint(plane.getFlightPlan().getCurrentRoute().get(0), this.currentGame)){
 						prevX = plane.getFlightPlan().getCurrentRoute().get(0).getX();
 						prevY = plane.getFlightPlan().getCurrentRoute().get(0).getY();
 						synch = 100;

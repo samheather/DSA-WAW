@@ -212,6 +212,8 @@ public class Game {
 
 	}
 	
+	
+	
 	/**
 	 * Moves a plane
 	 * <p>
@@ -231,15 +233,8 @@ public class Game {
 		// Get the angle to the next waypoint
 		if(plane.getTarget() != null) {
 			if(!this.manualPlanes.contains(plane)) {
-				angle = Math.toDegrees(Math.atan2(plane.getY() - plane.getTarget().getY(),
-						plane.getX() - plane.getTarget().getX()));
-				//System.out.println(angle);
-				if(angle<0) {
-					angle +=360;
-				}
-				plane.setTurningRight(false);
-				plane.setTurningLeft(false);
-				plane.setTargetBearing(angle);
+				
+				plane.calculateHeadingToNextWaypoint();
 				plane.updateCurrentHeading();
 				//System.out.println(angle);
 				
@@ -658,7 +653,7 @@ public class Game {
 				} else {
 					// Check if plane at waypoint
 
-					if(plane.checkIfFlightAtWaypoint(plane.getFlightPlan().getCurrentRoute().get(0))) {
+					if(plane.checkIfFlightAtWaypoint(plane.getFlightPlan().getCurrentRoute().get(0), this)) {
 							
 						plane.getFlightPlan().getCurrentRoute().remove(0);
 						if(plane.getFlightPlan().getCurrentRoute().size()!= 0){
