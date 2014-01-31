@@ -613,6 +613,7 @@ public class Game {
 			
 			// Update planes
 			for(Plane plane : this.getCurrentPlanes()) {
+				
 
 				// Check plane still in game area
 				

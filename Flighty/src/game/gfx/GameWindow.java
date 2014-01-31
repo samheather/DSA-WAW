@@ -140,7 +140,6 @@ public class GameWindow extends BasicGameState {
 		if(newBearing<0) {
 			newBearing+=360;
 		}
-		System.out.println(newBearing);
 		this.currentGame.getCurrentPlane().setTargetBearing(newBearing);
 		
 		
@@ -473,11 +472,6 @@ public class GameWindow extends BasicGameState {
 				}
 						
 				
-				// Render each plane's ID
-//				g.drawString((plane.getID()),
-//								(float) (plane.getX() + 5),
-//								(float) (plane.getY() - 30));
-
 				// Render each waypoint
 				boolean testing = false;
 				

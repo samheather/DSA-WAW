@@ -288,7 +288,7 @@ public class Plane {
 	
 	public void landPlane(){
 		
-		System.out.println(this.altitude);
+		
 		
 		if (this.currentGame.getAirport().getApproachPolygon().contains((float)this.x, (float)this.y)){
 			if (this.bearing >= 150 && this.bearing <= 210 && this.altitude <= 1){
