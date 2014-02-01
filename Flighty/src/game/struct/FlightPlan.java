@@ -10,14 +10,17 @@ public class FlightPlan {
 	private ArrayList<Point> currentRoute = new ArrayList<Point>();
 	private Plane plane;
 	private Point entryPoint;
+	private Game currentGame;
 	
 	// CONSTRUCTOR
 	
 
 	public FlightPlan(Game currentGame, Plane plane) {
 		this.plane = plane;
+		this.currentGame = currentGame;
 		this.entryPoint = generateEntryPoint(currentGame);
 		this.currentRoute = buildRoute(currentGame, this.entryPoint);
+		
 
 		
 	}
@@ -25,6 +28,7 @@ public class FlightPlan {
 	public Point generateEntryPoint(Game currentGame){
 		
 		Random rand = new Random();
+		
 		int randomNumber = rand.nextInt(1); // CHANGE THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			
 		// Setting flights x and y to the coordinates of it's entrypoint
