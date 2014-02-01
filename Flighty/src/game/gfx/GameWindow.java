@@ -181,7 +181,7 @@ public class GameWindow extends BasicGameState {
 					
 					else{
 						
-						if(!nearestPlane.isLanding()){
+						if(!nearestPlane.isLanding() && !nearestPlane.isTakingOff()){
 							this.currentGame.setCurrentPlane(nearestPlane);
 							return true;
 						}
@@ -321,7 +321,7 @@ public class GameWindow extends BasicGameState {
 			this.currentGame = new Game(50, 100);
 			this.map = this.map1;
 			this.fontColor = Color.white;
-			this.currentGame.setSpeedDifficulty(0.7);
+			this.currentGame.setSpeedDifficulty(0.5);
 			this.currentGame.setSpawnRate(40);
 			this.currentGame.setSpawnCount(1);
 		} else if(((WindowManager) game).getCurrentLevel() == 2) {
@@ -329,7 +329,7 @@ public class GameWindow extends BasicGameState {
 			this.currentGame = new Game(75, 200);
 			this.map = this.map2;
 			this.fontColor = Color.black;
-			this.currentGame.setSpeedDifficulty(0.7);
+			this.currentGame.setSpeedDifficulty(0.5);
 			this.currentGame.setSpawnRate(30);
 			this.currentGame.setSpawnCount(1);
 		} else {

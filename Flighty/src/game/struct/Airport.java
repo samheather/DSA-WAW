@@ -19,10 +19,10 @@ public class Airport extends Point {
     	this.planeLandingOrTakingOff = false;
     	this.planeWaitingtoTakeoff = null;
     	this.landingAltitude = 20000;
-    	this.beginningOfRunway = new Waypoint(720,460);
-    	this.endOfRunway = new Waypoint(1180,460);
+    	this.beginningOfRunway = new Waypoint(720,465);
+    	this.endOfRunway = new Waypoint(1180,465);
     	approachPolygon = new Polygon();
-    	approachPolygon.addPoint(720, 460);
+    	approachPolygon.addPoint(720, 465);
     	approachPolygon.addPoint(400, 344);
     	approachPolygon.addPoint(400, 576);
     	

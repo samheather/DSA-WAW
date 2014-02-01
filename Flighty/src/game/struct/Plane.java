@@ -56,6 +56,8 @@ public class Plane {
 	
 	private boolean landing, needsToLand;
 	
+	private boolean takingOff, needsToTakeOff;
+	
 	private Game currentGame;
 
 
@@ -96,6 +98,8 @@ public class Plane {
 		this.turningRight=false;
 		this.landing = false;
 		this.needsToLand = false;
+		this.needsToTakeOff = false;
+		this.takingOff = false;
 		
 
 	}
@@ -109,7 +113,7 @@ public class Plane {
 	public boolean checkIfFlightAtWaypoint(Point waypoint, Game game) {
 		
 		// Ensuring that the plane cannot go through its landing waypoint when it isnt landing
-		if (waypoint.equals(game.getAirport().getBeginningOfRunway()) && this.landing != true){
+		if (waypoint.equals(game.getAirport().getBeginningOfRunway()) && this.landing != true && this.takingOff != true){
 			return false;
 		}
 
@@ -575,6 +579,38 @@ public class Plane {
 		this.landing = bool;
 	}
 	
+
+
+
+
+
+	public boolean isTakingOff() {
+		return takingOff;
+	}
+
+
+
+
+
+	public void setTakingOff(boolean takingOff) {
+		this.takingOff = takingOff;
+	}
+
+
+
+
+
+	public boolean isNeedsToTakeOff() {
+		return needsToTakeOff;
+	}
+
+
+
+
+
+	public void setNeedsToTakeOff(boolean needsToTakeOff) {
+		this.needsToTakeOff = needsToTakeOff;
+	}
 
 
 

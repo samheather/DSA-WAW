@@ -25,7 +25,7 @@ public class FlightPlan {
 	public Point generateEntryPoint(Game currentGame){
 		
 		Random rand = new Random();
-		int randomNumber = rand.nextInt(2); // CHANGE THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		int randomNumber = rand.nextInt(1); // CHANGE THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			
 		// Setting flights x and y to the coordinates of it's entrypoint
 		this.plane.setX(currentGame.getListOfEntryPoints().get(randomNumber).getX()); // choose one a get the x and y values

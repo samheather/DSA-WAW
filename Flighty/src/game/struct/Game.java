@@ -169,7 +169,7 @@ public class Game {
 	public void addPointsForGame(){
 		//this.listOfEntryPoints.add(new EntryPoint(0,400));
 		//this.listOfEntryPoints.add(new EntryPoint(1200,200));
-		this.listOfEntryPoints.add(new EntryPoint(600,0));
+		//this.listOfEntryPoints.add(new EntryPoint(600,0));
 		this.listOfEntryPoints.add(this.airport);
 		
 		this.listOfWaypoints.add(new Waypoint(250,150));
@@ -314,7 +314,7 @@ public class Game {
 		newPlane = new Plane(id, size, velocity, altitude, bearing, this);
 		if(newPlane.getFlightPlan().getEntryPoint()==this.airport) {
 			
-			newPlane.getFlightPlan().setEntryPoint((new EntryPoint(1150,590)));
+			newPlane.getFlightPlan().setEntryPoint((new EntryPoint(1180,580)));
 			newPlane.getFlightPlan().getCurrentRoute().add(0,this.airport.getBeginningOfRunway());
 			newPlane.getFlightPlan().getCurrentRoute().add(0,this.airport.getEndOfRunway());
 			
@@ -636,6 +636,8 @@ public class Game {
 							
 							plane.setVelocity(7000);
 							this.manualPlanes.remove(plane);
+							plane.setTakingOff(true);
+							this.currentPlane = null;
 						}
 					}
 				}
@@ -653,9 +655,16 @@ public class Game {
 					
 				} else {
 					// Check if plane at waypoint
-
+					
 					if(plane.checkIfFlightAtWaypoint(plane.getFlightPlan().getCurrentRoute().get(0), this)) {
+						
+						System.out.println("here");
+						
+						if(plane.getFlightPlan().getCurrentRoute().get(0).equals(this.airport.getBeginningOfRunway()) && plane.isTakingOff()){
 							
+							plane.setTakingOff(false);
+						}
+						
 						plane.getFlightPlan().getCurrentRoute().remove(0);
 						if(plane.getFlightPlan().getCurrentRoute().size()!= 0){
 						
@@ -664,8 +673,13 @@ public class Game {
 								plane.setNeedsToLand(true);
 							}
 							
+
+							
 							plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
 						}
+						
+						
+						
 						
 						// Scoring 10 for exitpoints and airport, and 5 for normal waypoints
 						if (plane.getFlightPlan().getCurrentRoute().size() == 0){
