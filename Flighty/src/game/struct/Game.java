@@ -185,7 +185,7 @@ public class Game {
 		
 		//this.listOfExitPoints.add(new ExitPoint(800,0));
 		//this.listOfExitPoints.add(new ExitPoint(0,200));
-		this.listOfExitPoints.add(new ExitPoint(1200,300));
+		//this.listOfExitPoints.add(new ExitPoint(1200,300));
 		this.listOfExitPoints.add(this.airport);
 		
 		
@@ -294,7 +294,7 @@ public class Game {
 		double angle;
 		String id;
 		int size, velocity = 7000;
-		double altitude = 1;
+		int altitude = 20000;
 		float x, y;
 		double bearing = 0;
 		int width, height;
@@ -506,6 +506,8 @@ public class Game {
 	
 	
 	
+	
+	
 	/**
 	 * Updates the state
 	 * 
@@ -641,6 +643,18 @@ public class Game {
 						}
 					}
 				}
+				
+				if(plane.getLandingDescentRate()!=0 ) {
+					if(plane.getAltitude()<0) {
+						plane.setAltitude(0);
+						plane.setLandingDescentRate(0);
+						plane.setTargetAltitude(0);
+					}
+					else{
+						plane.setAltitude(plane.getAltitude()-(int)Math.round(plane.getLandingDescentRate()));
+					}
+					//System.out.println(plane.getAltitudeFromHeight(plane.getAltitude())-plane.getLandingDescentRate());
+				}
 				// Check if colliding with another plane
 				/*if(this.collision(plane)) {
 					this.currentPlane = null;
@@ -692,14 +706,13 @@ public class Game {
 				}
 
 				// Change altitude
-				if(!(plane.getAltitude() > (plane.getTargetAltitude() - 0.001))
-						|| !(plane.getAltitude() < (plane.getTargetAltitude() + 0.001))) {
 					if(plane.getAltitude() > plane.getTargetAltitude()) {
 						plane.decrementAltitude();
-					} else {
+					} 
+					else if(plane.getAltitude()<plane.getTargetAltitude()) {
 						plane.incrementAltitude();
 					}
-				}
+
 				
 				this.movePlane(plane);
 				

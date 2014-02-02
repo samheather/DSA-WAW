@@ -20,7 +20,7 @@ public class Plane {
 	private int velocity;
 
 	/** Current altitude */
-	private double altitude;
+	private int altitude;
 
 	/** Current bearing in radians */
 	private double bearing;
@@ -58,6 +58,8 @@ public class Plane {
 	
 	private boolean takingOff, needsToTakeOff;
 	
+	private double landingDescentRate;
+	
 	private Game currentGame;
 
 
@@ -78,7 +80,7 @@ public class Plane {
 	 * @param y			the y position to create the plane at
 	 */
 	// Constructor
-	public Plane(String id, int size, int velocity, double altitude, 
+	public Plane(String id, int size, int velocity, int altitude, 
 			double bearing, Game currentGame) {
 		this.currentGame = currentGame;
 		this.id = id;
@@ -100,7 +102,7 @@ public class Plane {
 		this.needsToLand = false;
 		this.needsToTakeOff = false;
 		this.takingOff = false;
-		
+		this.landingDescentRate=0;
 
 	}
 
@@ -175,7 +177,7 @@ public class Plane {
 
 	
 	public void incrementAltitude() {
-		this.altitude += 0.005;
+		this.altitude += 1;
 	}
 
 	/**
@@ -185,7 +187,7 @@ public class Plane {
 	 * </p>
 	 */
 	public void decrementAltitude() {
-		this.altitude -= 0.005;
+		this.altitude -= 1;
 	}
 
 	/**
@@ -195,8 +197,14 @@ public class Plane {
 	 * </p>
 	 */
 	public void incrementTargetAltitude() {
-		if(this.targetAltitude <= 3) {
-			this.targetAltitude++;
+		if(this.targetAltitude <= 24000) {
+			this.targetAltitude+=1000;
+		}
+	}
+	
+	public void decrementTargetAltitude() {
+		if(this.targetAltitude >= 21000) {
+			this.targetAltitude-=1000;
 		}
 	}
 	
@@ -284,10 +292,28 @@ public class Plane {
 	 * Note: lowest flight level allowed for planes is 1
 	 * </p>
 	 */
-	public void decrementTargetAltitude() {
-		if(this.targetAltitude > 1) {
-			this.targetAltitude--;
-		}
+	
+	//public int getHeightFromAltitude(double altitude) {
+	//	return (int) Math.round(18000 + (altitude * 2000));
+	//}
+	//public int getAltitudeFromHeight(double altitude) {
+	//	return (int) Math.round((altitude / 2000d)-18000);
+	//}
+	
+	public double findLandingDescentRate() {
+		
+		double rate;
+		//find distance to runway waypoint
+		double distanceFromRunway =  Math.sqrt(Math.pow(this.x-this.getFlightPlan().getCurrentRoute().get(0).getX(), 2)+Math.pow(this.y-this.getFlightPlan().getCurrentRoute().get(0).getY(), 2));
+		System.out.println(distanceFromRunway);
+		System.out.println(this.altitude);
+		double descentPerPixel = this.altitude/distanceFromRunway;
+		System.out.println(descentPerPixel);
+		rate = descentPerPixel*((float)this.velocity/7000);
+		System.out.println((float)this.velocity/7000);
+		System.out.println(rate);
+		
+		return rate;
 	}
 	
 	public void landPlane(){
@@ -295,11 +321,12 @@ public class Plane {
 		
 		
 		if (this.currentGame.getAirport().getApproachPolygon().contains((float)this.x, (float)this.y)){
-			if (this.bearing >= 150 && this.bearing <= 210 && this.altitude <= 1){
+			if (this.bearing >= 150 && this.bearing <= 210 && this.altitude <= 20000){
 				this.needsToLand = false;
 				this.landing = true;
 				this.target = this.flightPlan.getCurrentRoute().get(0);
 				this.calculateHeadingToNextWaypoint();
+				this.landingDescentRate=this.findLandingDescentRate();
 				this.currentGame.getManualPlanes().remove(this);
 				this.currentGame.setCurrentPlane(null);
 
@@ -347,7 +374,7 @@ public class Plane {
 	/**
 	 * @return			the plane's current altitude
 	 */
-	public double getAltitude() {
+	public int getAltitude() {
 		return this.altitude;
 	}
 
@@ -421,7 +448,7 @@ public class Plane {
 	/**
 	 * @param altitude	the new altitude
 	 */
-	public void setAltitude(double altitude) {
+	public void setAltitude(int altitude) {
 		this.altitude = altitude;
 	}
 
@@ -610,6 +637,22 @@ public class Plane {
 
 	public void setNeedsToTakeOff(boolean needsToTakeOff) {
 		this.needsToTakeOff = needsToTakeOff;
+	}
+
+
+
+
+
+	public double getLandingDescentRate() {
+		return landingDescentRate;
+	}
+
+
+
+
+
+	public void setLandingDescentRate(double landingDescentRate) {
+		this.landingDescentRate = landingDescentRate;
 	}
 
 

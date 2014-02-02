@@ -126,9 +126,7 @@ public class GameWindow extends BasicGameState {
 	 * 
 	 * @param altitude				the altitude level to convert
 	 */
-	private int getHeightFromAltitude(double altitude) {
-		return (int) Math.round(18000 + (altitude * 2000));
-	}
+	
 
 	
 	public void giveHeadingThroughMouse(Plane currentPlane, int x, int y){
@@ -447,22 +445,22 @@ public class GameWindow extends BasicGameState {
 				// Render each plane's altitude
 				
 			
-				if (plane.isLanding()){
+				/*if (plane.isLanding()){
 					
 					g.drawString("Landing",
 									(float) plane.getX() ,
 									(float) plane.getY() + 15);
 					
-				}
+				}*/
 				
 
 				
-				else{
-					g.drawString((this.getHeightFromAltitude(
-							plane.getAltitude()) + " ft"),
+				//else{
+					g.drawString(
+							plane.getAltitude() + " ft",
 							(float) plane.getX(),
 							(float) plane.getY() + 15);
-				}
+				//}
 				
 				if(plane.isNeedsToLand()){
 					
