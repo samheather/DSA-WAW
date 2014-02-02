@@ -76,16 +76,15 @@ public class FlightPlan {
 				
 				while (exitpointAdded == false){
 					
-					if (this.entryPoint.getY() == tempListOfExitPoints.get(ExitPointIndex).getY()){
+					/*if (this.entryPoint.getY() == tempListOfExitPoints.get(ExitPointIndex).getY()){
 						tempListOfExitPoints.remove(ExitPointIndex);
 						ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
-					}
+					}*/
 					
-					else if (this.entryPoint.getX() == tempListOfExitPoints.get(ExitPointIndex).getX()){
+					/*else if (this.entryPoint.getX() == tempListOfExitPoints.get(ExitPointIndex).getX()){
 						tempListOfExitPoints.remove(ExitPointIndex);
 						ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
-					}
-					else{
+					}*/
 						if(tempListOfExitPoints.get(ExitPointIndex).equals(currentGame.getAirport())){
 							tempRoute.add(currentGame.getAirport().getBeginningOfRunway());
 							tempRoute.add(currentGame.getAirport().getEndOfRunway());
@@ -95,7 +94,6 @@ public class FlightPlan {
 							tempRoute.add(tempListOfExitPoints.get(ExitPointIndex));
 						    exitpointAdded = true;
 						     
-						}
 					}
 				}
 		}
