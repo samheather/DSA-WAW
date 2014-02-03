@@ -311,7 +311,7 @@ public class Game {
 		double angle;
 		String id;
 		int size, velocity = 7000;
-		int altitude = 20000;
+		int altitude = 3000;
 		float x, y;
 		double bearing = 0;
 		int width, height;
@@ -699,7 +699,7 @@ public class Game {
 							
 							plane.setTakingOff(false);
 							plane.setBearing(360);
-							plane.setTargetAltitude(20000);
+							plane.setTargetAltitude(3000);
 						}
 						
 						plane.getFlightPlan().getCurrentRoute().remove(0);

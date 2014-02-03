@@ -197,13 +197,13 @@ public class Plane {
 	 * </p>
 	 */
 	public void incrementTargetAltitude() {
-		if(this.targetAltitude <= 24000) {
+		if(this.targetAltitude <= 6000) {
 			this.targetAltitude+=1000;
 		}
 	}
 	
 	public void decrementTargetAltitude() {
-		if(this.targetAltitude >= 21000) {
+		if(this.targetAltitude >= 3000) {
 			this.targetAltitude-=1000;
 		}
 	}
@@ -321,7 +321,7 @@ public class Plane {
 		
 		
 		if (this.currentGame.getAirport().getApproachPolygon().contains((float)this.x, (float)this.y)){
-			if (this.bearing >= 150 && this.bearing <= 210 && this.altitude <= 20000){
+			if (this.bearing >= 150 && this.bearing <= 210 && this.altitude <= 2000){
 				this.needsToLand = false;
 				this.landing = true;
 				this.target = this.flightPlan.getCurrentRoute().get(0);
