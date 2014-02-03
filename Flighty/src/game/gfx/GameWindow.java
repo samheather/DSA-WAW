@@ -143,7 +143,7 @@ public class GameWindow extends BasicGameState {
 		
 	}
 	
-	public Boolean selectFlight(int x, int y){
+	public Plane selectFlight(int x, int y){
 		Plane nearestPlane;
 		double distanceBetweenMouseClickAndNearestFlight;
 		
@@ -166,7 +166,7 @@ public class GameWindow extends BasicGameState {
 						if(this.currentGame.getManualPlanes().contains(nearestPlane)) {
 							
 							if(!this.currentGame.getCurrentPlane().isNeedsToLand()){ // doesnt need to land
-								this.currentGame.removeFromManual(nearestPlane);
+								//this.currentGame.removeFromManual(nearestPlane);
 							}
 
 						}
@@ -180,8 +180,8 @@ public class GameWindow extends BasicGameState {
 					else{
 						
 						if(!nearestPlane.isLanding() && !nearestPlane.isTakingOff()){
-							this.currentGame.setCurrentPlane(nearestPlane);
-							return true;
+							//this.currentGame.setCurrentPlane(nearestPlane);
+							return nearestPlane;
 						}
 						
 						
@@ -191,11 +191,11 @@ public class GameWindow extends BasicGameState {
 				
 			} 
 			
-			return false;
+			return null;
 			
 		}
 		
-		return false;
+		return null;
 				
 			
 	}
@@ -589,17 +589,19 @@ public class GameWindow extends BasicGameState {
 	{
 		if(!this.currentGame.isEnding()) {
 			if(button == 0) {
-				boolean clickedPlane = false;
+				Plane clickedPlane;
 				clickedPlane = this.selectFlight(x, y);
+				this.currentGame.removeFromManual(this.currentGame.getCurrentPlane());
+				this.currentGame.setCurrentPlane(null);
+				this.currentGame.setCurrentPlane(clickedPlane);
+
+				if(clickedPlane!=this.currentGame.getCurrentPlane()&&(this.currentGame.getCurrentPlane() != null)) {
 					
-
-
-				if(!clickedPlane && (this.currentGame.getCurrentPlane() != null)) {
 					if(this.currentGame.getCurrentPlane().isNeedsToLand()){
 						this.currentGame.setCurrentPlane(null);
 					}
-					this.currentGame.removeFromManual(this.currentGame.getCurrentPlane());
-					this.currentGame.setCurrentPlane(null);
+					
+					
 				}
 				
 			} 
