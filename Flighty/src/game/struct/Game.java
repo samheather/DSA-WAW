@@ -228,7 +228,7 @@ public class Game {
 	 * @param plane				the plane to move
 	 */
 	public void movePlane(Plane plane) {
-		if(plane.getAltitude() < 2000 && plane.getTargetAltitude()>0) {
+		if(plane.getAltitude() < 2000 && plane.getTargetAltitude()>0 && !plane.isLanding()) {
 			// Move the plane
 			plane.setX((float) (plane.getX()
 					- (Math.cos(Math.toRadians(plane.getBearing()))
@@ -676,6 +676,14 @@ public class Game {
 					}
 					//System.out.println(plane.getAltitudeFromHeight(plane.getAltitude())-plane.getLandingDescentRate());
 				}
+				else {
+					if(plane.getAltitude() > plane.getTargetAltitude()) {
+						plane.decrementAltitude();
+					} 
+					else if(plane.getAltitude()<plane.getTargetAltitude()) {
+						plane.incrementAltitude();
+					}
+				}
 				// Check if colliding with another plane
 				/*if(this.collision(plane)) {
 					this.currentPlane = null;
@@ -729,12 +737,7 @@ public class Game {
 				}
 
 				// Change altitude
-					if(plane.getAltitude() > plane.getTargetAltitude()) {
-						plane.decrementAltitude();
-					} 
-					else if(plane.getAltitude()<plane.getTargetAltitude()) {
-						plane.incrementAltitude();
-					}
+					
 
 				
 				this.movePlane(plane);
