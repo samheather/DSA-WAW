@@ -591,20 +591,23 @@ public class GameWindow extends BasicGameState {
 			if(button == 0) {
 				Plane clickedPlane;
 				clickedPlane = this.selectFlight(x, y);
-				this.currentGame.removeFromManual(this.currentGame.getCurrentPlane());
+				if(this.currentGame.getCurrentPlane()!=null) {
+					if(!this.currentGame.getCurrentPlane().isNeedsToLand()){
+						this.currentGame.removeFromManual(this.currentGame.getCurrentPlane());
+					}
+				}
 				this.currentGame.setCurrentPlane(null);
 				this.currentGame.setCurrentPlane(clickedPlane);
-
-				if(clickedPlane!=this.currentGame.getCurrentPlane()&&(this.currentGame.getCurrentPlane() != null)) {
-					
+				/*if(this.currentGame.getCurrentPlane()!=null){
 					if(this.currentGame.getCurrentPlane().isNeedsToLand()){
+						//this.currentGame.removeFromManual(this)
 						this.currentGame.setCurrentPlane(null);
 					}
-					
-					
-				}
-				
-			} 
+				}*/
+
+
+			}
+				 
 			
 			
 			else if (button == 1) {
