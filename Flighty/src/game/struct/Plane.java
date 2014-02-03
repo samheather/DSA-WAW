@@ -309,7 +309,7 @@ public class Plane {
 		System.out.println(this.altitude);
 		double descentPerPixel = this.altitude/distanceFromRunway;
 		System.out.println(descentPerPixel);
-		rate = descentPerPixel*((float)this.velocity/7000);
+		rate = descentPerPixel*((float)this.velocity/7000)*this.currentGame.getSpeedDifficulty();
 		System.out.println((float)this.velocity/7000);
 		System.out.println(rate);
 		

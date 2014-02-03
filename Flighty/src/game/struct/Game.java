@@ -249,6 +249,8 @@ public class Game {
 					- (Math.cos(Math.toRadians(plane.getBearing()))
 							* (this.speedDifficulty
 									* plane.getVelocity() / 7000d))));
+			//System.out.println(String.valueOf((double)((double)plane.getVelocity()/7000d)));
+			//System.out.println(this.speedDifficulty*plane.getVelocity()/7000d);
 			plane.setY((float) (plane.getY()
 					- (Math.sin(Math.toRadians(plane.getBearing()))
 							* (this.speedDifficulty
