@@ -660,7 +660,7 @@ public class Game {
 							this.manualPlanes.remove(plane);
 							plane.setTakingOff(true);
 							this.currentPlane = null;
-							this.listOfEntryPoints.add(this.airport);
+							
 						}
 					}
 				}
@@ -685,11 +685,11 @@ public class Game {
 					}
 				}
 				// Check if colliding with another plane
-				/*if(this.collision(plane)) {
+				if(this.collision(plane)) {
 					this.currentPlane = null;
 					this.collidedPlanes.add(plane);
 					this.collision = true;
-				}*/
+				}
 				
 				// If plane has no more waypoints, remove it
 				if(plane.getFlightPlan().getCurrentRoute().size() == 0) {
@@ -708,6 +708,7 @@ public class Game {
 							plane.setTakingOff(false);
 							plane.setBearing(360);
 							plane.setTargetAltitude(3000);
+							this.listOfEntryPoints.add(this.airport);
 						}
 						
 						plane.getFlightPlan().getCurrentRoute().remove(0);
