@@ -177,7 +177,7 @@ public class Plane {
 
 	
 	public void incrementAltitude() {
-		this.altitude += 1;
+		this.altitude += 5;
 	}
 
 	/**
@@ -187,7 +187,7 @@ public class Plane {
 	 * </p>
 	 */
 	public void decrementAltitude() {
-		this.altitude -= 1;
+		this.altitude -= 5;
 	}
 
 	/**

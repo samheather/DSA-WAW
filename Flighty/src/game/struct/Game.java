@@ -228,22 +228,7 @@ public class Game {
 	 * @param plane				the plane to move
 	 */
 	public void movePlane(Plane plane) {
-		double angle = plane.getTargetBearing();
-
-		// Get the angle to the next waypoint
-		if(plane.getTarget() != null) {
-			if(!this.manualPlanes.contains(plane)) {
-				
-				plane.calculateHeadingToNextWaypoint();
-				plane.updateCurrentHeading();
-				//System.out.println(angle);
-				
-			}
-			else {
-				plane.updateCurrentHeading();
-				//; <----- does not work
-			}
-
+		if(plane.getAltitude() < 2000 && plane.getTargetAltitude()>0) {
 			// Move the plane
 			plane.setX((float) (plane.getX()
 					- (Math.cos(Math.toRadians(plane.getBearing()))
@@ -255,6 +240,36 @@ public class Game {
 					- (Math.sin(Math.toRadians(plane.getBearing()))
 							* (this.speedDifficulty
 									* plane.getVelocity() / 7000d))));
+		}
+		else {
+			double angle = plane.getTargetBearing();
+
+			// Get the angle to the next waypoint
+			if(plane.getTarget() != null) {
+				if(!this.manualPlanes.contains(plane)) {
+
+					plane.calculateHeadingToNextWaypoint();
+					plane.updateCurrentHeading();
+					//System.out.println(angle);
+
+				}
+				else {
+					plane.updateCurrentHeading();
+					//; <----- does not work
+				}
+
+				// Move the plane
+				plane.setX((float) (plane.getX()
+						- (Math.cos(Math.toRadians(plane.getBearing()))
+								* (this.speedDifficulty
+										* plane.getVelocity() / 7000d))));
+				//System.out.println(String.valueOf((double)((double)plane.getVelocity()/7000d)));
+				//System.out.println(this.speedDifficulty*plane.getVelocity()/7000d);
+				plane.setY((float) (plane.getY()
+						- (Math.sin(Math.toRadians(plane.getBearing()))
+								* (this.speedDifficulty
+										* plane.getVelocity() / 7000d))));
+			}
 		}
 	}
 	
@@ -322,6 +337,8 @@ public class Game {
 			
 			newPlane.setTarget(newPlane.getFlightPlan().getCurrentRoute().get(0));
 			newPlane.setVelocity(0);
+			newPlane.setAltitude(0);
+			newPlane.setTargetAltitude(0);
 			this.listOfEntryPoints.remove(this.airport);
 			
 		}
@@ -681,6 +698,8 @@ public class Game {
 						if(plane.getFlightPlan().getCurrentRoute().get(0).equals(this.airport.getBeginningOfRunway()) && plane.isTakingOff()){
 							
 							plane.setTakingOff(false);
+							plane.setBearing(360);
+							plane.setTargetAltitude(20000);
 						}
 						
 						plane.getFlightPlan().getCurrentRoute().remove(0);
