@@ -467,6 +467,11 @@ public class GameWindow extends BasicGameState {
 				g.drawString("Land Me!",
 									(float) (plane.getX() - 5),
 								    (float) (plane.getY() - 30));
+				if(plane.getAltitude()>2000) {
+					g.drawString("Descend me to land!!!!",
+							(float) (plane.getX() - 40),
+						    (float) (plane.getY() - 50));
+				}
 				}
 						
 				
