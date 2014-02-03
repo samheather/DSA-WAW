@@ -169,7 +169,7 @@ public class Game {
 	public void addPointsForGame(){
 		//this.listOfEntryPoints.add(new EntryPoint(0,400));
 		//this.listOfEntryPoints.add(new EntryPoint(1200,200));
-		//this.listOfEntryPoints.add(new EntryPoint(600,0));
+		this.listOfEntryPoints.add(new EntryPoint(600,0));
 		this.listOfEntryPoints.add(this.airport);
 		
 		this.listOfWaypoints.add(new Waypoint(250,150));
@@ -322,6 +322,7 @@ public class Game {
 			
 			newPlane.setTarget(newPlane.getFlightPlan().getCurrentRoute().get(0));
 			newPlane.setVelocity(0);
+			this.listOfEntryPoints.remove(this.airport);
 			
 		}
 
@@ -642,6 +643,7 @@ public class Game {
 							this.manualPlanes.remove(plane);
 							plane.setTakingOff(true);
 							this.currentPlane = null;
+							this.listOfEntryPoints.add(this.airport);
 						}
 					}
 				}
