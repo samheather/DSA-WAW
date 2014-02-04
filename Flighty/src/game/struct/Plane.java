@@ -52,6 +52,8 @@ public class Plane {
 	
 	private boolean takingOff, needsToTakeOff;
 	
+	private boolean violationOccurred;
+	
 	private double landingDescentRate;
 	
 	private Game currentGame;
@@ -95,6 +97,7 @@ public class Plane {
 		this.needsToTakeOff = false;
 		this.takingOff = false;
 		this.landingDescentRate=0;
+		this.violationOccurred = false;
 
 	}
 
@@ -342,6 +345,12 @@ public class Plane {
 
 	// Accessors
 	
+	/**
+	 * @return the violationOccurred boolean
+	 */
+	public boolean getViolationOccurred(){
+		return this.violationOccurred;
+	}
 	
 	
 	/**
@@ -419,6 +428,13 @@ public class Plane {
 
 
 	// Mutators
+	
+	/**
+	 * Set violationOccurred boolean to true
+	 */
+	public void setViolationOccurred(){
+		this.violationOccurred = true;
+	}
 	/**
 	 * @param id		the new unique ID
 	 */

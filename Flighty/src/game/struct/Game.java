@@ -32,6 +32,9 @@ public class Game {
 	/** Distance at which planes crash */
 	private int separationDistance;
 	
+	/** Score multiplier */
+	private int multiplier;
+	
 	/** Distance at which warning ring around appears */
 	private int  penaltyDistance;
 	
@@ -131,6 +134,7 @@ public class Game {
 		this.carriers.add("QU");
 		this.addPointsForGame();
 		this.penalty = true;
+		this.multiplier = 1;
 		
 		
 	}
@@ -487,6 +491,7 @@ public class Game {
 						this.score -= 2;
 					}
 					penalty = false;
+					planeJ.setViolationOccurred();
 				}
 				
 				}
@@ -646,6 +651,9 @@ public class Game {
 					if (this.score >= 5){
 						this.score -= 5;
 					}
+					if (plane == this.currentPlane){
+						this.currentPlane = null;
+					}
 					planesToRemove.add(plane);
 				}
 				//if(plane.getVelocity()==0) {
@@ -692,6 +700,12 @@ public class Game {
 				
 				// If plane has no more waypoints, remove it
 				if(plane.getFlightPlan().getCurrentRoute().size() == 0) {
+					if (plane.getViolationOccurred() == false){ 
+						this.multiplier ++;
+					}
+					else if (plane.getViolationOccurred() == true && this.multiplier > 1){
+						this.multiplier --;
+					}
 					planesToRemove.add(plane);
 					
 					
@@ -736,9 +750,9 @@ public class Game {
 						
 						// Scoring 10 for exitpoints and airport, and 5 for normal waypoints
 						if (plane.getFlightPlan().getCurrentRoute().size() == 0){
-							this.score += 10;
+							this.score += 10 * this.multiplier;
 						} else {
-							this.score += 5; 
+							this.score += 5 * this.multiplier; 
 						}
 						
 					}
@@ -763,6 +777,12 @@ public class Game {
 	}
 	// ACCESSORS
 	
+		/**
+		 * @return multiplier
+		 */
+		public int getMultiplier(){
+			return this.multiplier;
+		}
 	
 		/**
 		 * @return				separation distance (the collision range)

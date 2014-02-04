@@ -364,6 +364,7 @@ public class GameWindow extends BasicGameState {
 			//g.draw(currentGame.getAirport().getApproachPolygon());
 			g.drawString("Time : " + ((int) (this.time / 1000)) + "s", 1050, 15);
 			g.drawString("Score : " + ((int) (this.currentGame.getScore())) + " pts", 1050, 35);
+			g.drawString("Multiplier :" + ((int) (this.currentGame.getMultiplier())), 1050, 55);
 
 			
 			for(Plane plane : this.currentGame.getCurrentPlanes()) {
@@ -377,8 +378,7 @@ public class GameWindow extends BasicGameState {
 						display = true;
 					}
 					if (display && synch>0){
-						g.drawString("+5", (float) prevX - 8, 
-											(float) prevY - 30);
+						g.drawString("+" + Integer.toString(this.getCurrentGame().getMultiplier()*5), (float) prevX - 8, (float) prevY - 30);
 						synch--;
 					} else {
 						display = false;
