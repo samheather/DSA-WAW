@@ -218,64 +218,7 @@ public class Game {
 	
 	
 	
-	/**
-	 * Moves a plane
-	 * <p>
-	 * If the plane is under manual control, it will follow the
-	 * bearing specified by the player.
-	 * </p>
-	 * <p>
-	 * If the plane is following its flight path, it will tend towards
-	 * its next target.
-	 * </p>
-	 * 
-	 * @param plane				the plane to move
-	 */
-	public void movePlane(Plane plane) { // MOVE THIS TO PLANE CLASS
-		if(plane.getAltitude() < 2000 && plane.getTargetAltitude()>0 && !plane.isLanding()) {
-			// Move the plane
-			plane.setX((float) (plane.getX()
-					- (Math.cos(Math.toRadians(plane.getBearing()))
-							* (this.speedDifficulty
-									* plane.getVelocity() / 7000d))));
-			//System.out.println(String.valueOf((double)((double)plane.getVelocity()/7000d)));
-			//System.out.println(this.speedDifficulty*plane.getVelocity()/7000d);
-			plane.setY((float) (plane.getY()
-					- (Math.sin(Math.toRadians(plane.getBearing()))
-							* (this.speedDifficulty
-									* plane.getVelocity() / 7000d))));
-		}
-		else {
-			double angle = plane.getTargetBearing();
-
-			// Get the angle to the next waypoint
-			if(plane.getTarget() != null) {
-				if(!this.manualPlanes.contains(plane)) {
-
-					plane.calculateHeadingToNextWaypoint();
-					plane.updateCurrentHeading();
-					//System.out.println(angle);
-
-				}
-				else {
-					plane.updateCurrentHeading();
-					//; <----- does not work
-				}
-
-				// Move the plane
-				plane.setX((float) (plane.getX()
-						- (Math.cos(Math.toRadians(plane.getBearing()))
-								* (this.speedDifficulty
-										* plane.getVelocity() / 7000d))));
-				//System.out.println(String.valueOf((double)((double)plane.getVelocity()/7000d)));
-				//System.out.println(this.speedDifficulty*plane.getVelocity()/7000d);
-				plane.setY((float) (plane.getY()
-						- (Math.sin(Math.toRadians(plane.getBearing()))
-								* (this.speedDifficulty
-										* plane.getVelocity() / 7000d))));
-			}
-		}
-	}
+	
 	
 	/**
 	 * Creates a plane
@@ -762,7 +705,7 @@ public class Game {
 					
 
 				
-				this.movePlane(plane);
+				plane.movePlane();
 				
 			}
 			

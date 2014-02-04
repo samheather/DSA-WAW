@@ -281,32 +281,15 @@ public class Plane {
 		}
 	}
 
-	/**
-	 * Decrements the Plane's altitude to the next flight level
-	 * <p>
-	 * Note: lowest flight level allowed for planes is 1
-	 * </p>
-	 */
-	
-	//public int getHeightFromAltitude(double altitude) {
-	//	return (int) Math.round(18000 + (altitude * 2000));
-	//}
-	//public int getAltitudeFromHeight(double altitude) {
-	//	return (int) Math.round((altitude / 2000d)-18000);
-	//}
-	
+
 	public double findLandingDescentRate() {
 		
 		double rate;
 		//find distance to runway waypoint
 		double distanceFromRunway =  Math.sqrt(Math.pow(this.x-this.getFlightPlan().getCurrentRoute().get(0).getX(), 2)+Math.pow(this.y-this.getFlightPlan().getCurrentRoute().get(0).getY(), 2));
-		System.out.println(distanceFromRunway);
-		System.out.println(this.altitude);
 		double descentPerPixel = this.altitude/distanceFromRunway;
-		System.out.println(descentPerPixel);
 		rate = descentPerPixel*((float)this.velocity/7000)*this.currentGame.getSpeedDifficulty();
-		System.out.println((float)this.velocity/7000);
-		System.out.println(rate);
+
 		
 		return rate;
 	}
@@ -336,7 +319,62 @@ public class Plane {
 	}
 
 
+	/**
+	 * Moves a plane
+	 * <p>
+	 * If the plane is under manual control, it will follow the
+	 * bearing specified by the player.
+	 * </p>
+	 * <p>
+	 * If the plane is following its flight path, it will tend towards
+	 * its next target.
+	 * </p>
+	 * 
+	 * @param plane				the plane to move
+	 */
+	public void movePlane() { // MOVE THIS TO PLANE CLASS
+		if(this.altitude < 2000 && this.targetAltitude>0 && !this.landing) {
+			// Move the plane
+			this.setX((float) (this.x
+					- (Math.cos(Math.toRadians(this.bearing))
+							* (this.currentGame.getSpeedDifficulty()
+									* this.velocity / 7000d))));
+			
+			this.setY((float) (this.y
+					- (Math.sin(Math.toRadians(this.bearing))
+							* (this.currentGame.getSpeedDifficulty()
+									* this.velocity/ 7000d))));
+		}
+		else {
+			double angle = this.targetBearing;
 
+			// Get the angle to the next waypoint
+			if(this.target != null) {
+				if(!this.currentGame.getManualPlanes().contains(this)) {
+
+					this.calculateHeadingToNextWaypoint();
+					this.updateCurrentHeading();
+					
+
+				}
+				else {
+					this.updateCurrentHeading();
+					
+				}
+
+				// Move the plane
+				this.setX((float) (this.x
+						- (Math.cos(Math.toRadians(this.bearing))
+								* (this.currentGame.getSpeedDifficulty()
+										* this.velocity / 7000d))));
+
+				this.setY((float) (this.y
+						- (Math.sin(Math.toRadians(this.bearing))
+								* (this.currentGame.getSpeedDifficulty()
+										* this.velocity / 7000d))));
+			}
+		}
+	}
 
 
 
