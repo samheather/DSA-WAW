@@ -442,42 +442,42 @@ public class GameWindow extends BasicGameState {
 								}
 						}
 				}
-				// Render each plane's altitude
-				
-			
-				/*if (plane.isLanding()){
-					
-					g.drawString("Landing",
-									(float) plane.getX() ,
-									(float) plane.getY() + 15);
-					
-				}*/
-				
+					// Render each plane's altitude
 
-				
-				//else{
+
+
+
 					g.drawString(
 							plane.getAltitude() + " ft",
 							(float) plane.getX(),
 							(float) plane.getY() + 15);
-				//}
-				
-				if(plane.isNeedsToLand()){
+
+
+					if(plane.isNeedsToLand() && !plane.equals(currentGame.getCurrentPlane())){
+
+						g.drawString("Land Me!",
+								(float) (plane.getX() - 5),
+								(float) (plane.getY() - 30));
+					}
 					
-				g.drawString("Land Me!",
-									(float) (plane.getX() - 5),
-								    (float) (plane.getY() - 30));
-				if(plane.getAltitude()>2000) {
-					g.drawString("Descend me to land!!!!",
-							(float) (plane.getX() - 40),
-						    (float) (plane.getY() - 50));
-				}
-				}
-						
-				
-				// Render each waypoint
-				boolean testing = false;
-				
+					else if(plane.isNeedsToLand() && plane.getAltitude()>2000) {
+						g.drawString("Lower Me!",
+								(float) (plane.getX() - 5),
+								(float) (plane.getY() - 30));
+					}
+					
+					else if(plane.isNeedsToLand() && plane.getAltitude()<=2000) {
+						g.drawString("Perfect Height!",
+								(float) (plane.getX() - 5),
+								(float) (plane.getY() - 30));
+					}
+					
+					
+
+
+					// Render each waypoint
+					boolean testing = false;
+
 			}
 			
 			// Set next Waypoint images

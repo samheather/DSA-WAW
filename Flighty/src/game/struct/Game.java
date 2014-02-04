@@ -685,11 +685,11 @@ public class Game {
 					}
 				}
 				// Check if colliding with another plane
-				if(this.collision(plane)) {
-					this.currentPlane = null;
-					this.collidedPlanes.add(plane);
-					this.collision = true;
-				}
+//				if(this.collision(plane)) {
+//					this.currentPlane = null;
+//					this.collidedPlanes.add(plane);
+//					this.collision = true;
+//				}
 				
 				// If plane has no more waypoints, remove it
 				if(plane.getFlightPlan().getCurrentRoute().size() == 0) {
