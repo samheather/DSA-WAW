@@ -37,12 +37,6 @@ public class Plane {
 	/** Current Y co-ordinate */
 	private double y;
 
-	/** Original X co-ordinate */
-	private double startX;
-
-	/** Original Y co-ordinate */
-	private double startY;
-
 	/** Is the plane alerting */
 	private boolean alertStatus;
 
@@ -88,11 +82,9 @@ public class Plane {
 		this.velocity = velocity;
 		this.altitude = altitude;
 		this.bearing = bearing;
-		this.targetBearing=0;
+		this.targetBearing=bearing;
 		this.x = 0;
 		this.y = 0;
-		this.startX = 0;
-		this.startY = 0;
 		this.flightPlan = new FlightPlan(currentGame, this);
 		this.target = this.flightPlan.getCurrentRoute().get(0);
 		this.targetAltitude = altitude;
@@ -228,7 +220,7 @@ public class Plane {
 		if (Math.round(this.targetBearing) <= Math.round(this.bearing)-3 || Math.round(this.targetBearing) >= Math.round(this.bearing)+3) {
 			//System.out.println(Math.round(this.targetBearing));
 			//System.out.println(Math.round(this.bearing));
-
+			
 
 			/*
 			 * If plane has been given a heading so no turning direction specified,
@@ -525,35 +517,6 @@ public class Plane {
 
 
 
-
-
-	public double getStartX() {
-		return startX;
-	}
-
-
-
-
-
-	public void setStartX(double startX) {
-		this.startX = startX;
-	}
-
-
-
-
-
-	public double getStartY() {
-		return startY;
-	}
-
-
-
-
-
-	public void setStartY(double startY) {
-		this.startY = startY;
-	}
 
 	public double getTargetBearing() {
 		return targetBearing;

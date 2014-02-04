@@ -227,7 +227,7 @@ public class Game {
 	 * 
 	 * @param plane				the plane to move
 	 */
-	public void movePlane(Plane plane) {
+	public void movePlane(Plane plane) { // MOVE THIS TO PLANE CLASS
 		if(plane.getAltitude() < 2000 && plane.getTargetAltitude()>0 && !plane.isLanding()) {
 			// Move the plane
 			plane.setX((float) (plane.getX()
@@ -353,8 +353,7 @@ public class Game {
 			angle +=360;
 		}
 		newPlane.setBearing(angle);
-		newPlane.setStartX(newPlane.getX());
-		newPlane.setStartY(newPlane.getY());
+
 		
 		
 		
@@ -466,9 +465,9 @@ public class Game {
 			
 			if((planeI.equals(planeJ))
 					|| (planeJ.getAltitude()
-							> (planeI.getAltitude() + 0.4))
+							> (planeI.getAltitude() + 400))
 					|| (planeJ.getAltitude()
-							< (planeI.getAltitude() - 0.4))) {
+							< (planeI.getAltitude() - 400))) {
 				continue;
 			}
 
@@ -715,7 +714,10 @@ public class Game {
 						if(plane.getFlightPlan().getCurrentRoute().size()!= 0){
 						
 							if (plane.getFlightPlan().getCurrentRoute().get(0).equals(this.airport.getBeginningOfRunway())&& plane.getFlightPlan().getCurrentRoute().size()==2){
-								this.manualPlanes.add(plane);
+								if(!this.manualPlanes.contains(plane)) {
+									this.manualPlanes.add(plane);
+								}
+								
 								plane.setNeedsToLand(true);
 							}
 							

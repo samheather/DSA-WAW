@@ -132,7 +132,9 @@ public class GameWindow extends BasicGameState {
 	public void giveHeadingThroughMouse(Plane currentPlane, int x, int y){
 		this.currentGame.getCurrentPlane().setTurningLeft(false);
 		this.currentGame.getCurrentPlane().setTurningRight(false);
-		this.currentGame.getManualPlanes().add(this.currentGame.getCurrentPlane());
+		if(!this.currentGame.getManualPlanes().contains(currentPlane)) {
+			this.currentGame.getManualPlanes().add(currentPlane);
+		}
 		double newBearing = Math.toDegrees(Math.atan2(this.currentGame.getCurrentPlane().getY() - y,
 				this.currentGame.getCurrentPlane().getX() - x));
 		if(newBearing<0) {
@@ -595,6 +597,7 @@ public class GameWindow extends BasicGameState {
 					if(!this.currentGame.getCurrentPlane().isNeedsToLand()){
 						this.currentGame.removeFromManual(this.currentGame.getCurrentPlane());
 					}
+					
 				}
 				this.currentGame.setCurrentPlane(null);
 				this.currentGame.setCurrentPlane(clickedPlane);
