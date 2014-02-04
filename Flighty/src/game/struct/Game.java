@@ -700,7 +700,6 @@ public class Game {
 					
 					if(plane.checkIfFlightAtWaypoint(plane.getFlightPlan().getCurrentRoute().get(0), this)) {
 						
-						System.out.println("here");
 						
 						if(plane.getFlightPlan().getCurrentRoute().get(0).equals(this.airport.getBeginningOfRunway()) && plane.isTakingOff()){
 							
@@ -711,6 +710,7 @@ public class Game {
 						}
 						
 						plane.getFlightPlan().getCurrentRoute().remove(0);
+						
 						if(plane.getFlightPlan().getCurrentRoute().size()!= 0){
 						
 							if (plane.getFlightPlan().getCurrentRoute().get(0).equals(this.airport.getBeginningOfRunway())&& plane.getFlightPlan().getCurrentRoute().size()==2){
@@ -722,8 +722,13 @@ public class Game {
 							}
 							
 
-							
 							plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
+						}
+						
+						else{
+							if (plane.isLanding()){
+								this.getAirport().setPlaneLanding(false);
+							}
 						}
 						
 						

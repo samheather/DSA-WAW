@@ -311,21 +311,25 @@ public class Plane {
 	public void landPlane(){
 		
 		
-		
-		if (this.currentGame.getAirport().getApproachPolygon().contains((float)this.x, (float)this.y)){
-			if (this.bearing >= 150 && this.bearing <= 210 && this.altitude <= 2000){
-				this.needsToLand = false;
-				this.landing = true;
-				this.target = this.flightPlan.getCurrentRoute().get(0);
-				this.calculateHeadingToNextWaypoint();
-				this.landingDescentRate=this.findLandingDescentRate();
-				this.currentGame.getManualPlanes().remove(this);
-				this.currentGame.setCurrentPlane(null);
+		if (!this.currentGame.getAirport().isPlaneLanding()){
+			if (this.currentGame.getAirport().getApproachPolygon().contains((float)this.x, (float)this.y)){
+				if (this.bearing >= 150 && this.bearing <= 210 && this.altitude <= 2000){
+					this.currentGame.getAirport().setPlaneLanding(true);
+					this.needsToLand = false;
+					this.landing = true;
+					this.target = this.flightPlan.getCurrentRoute().get(0);
+					this.calculateHeadingToNextWaypoint();
+					this.landingDescentRate=this.findLandingDescentRate();
+					this.currentGame.getManualPlanes().remove(this);
+					this.currentGame.setCurrentPlane(null);
 
-				
-				
+					
+					
+				}
 			}
+			
 		}
+
 	}
 
 

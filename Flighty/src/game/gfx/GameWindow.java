@@ -455,9 +455,16 @@ public class GameWindow extends BasicGameState {
 							(float) plane.getY() + 15);
 
 
-					if(plane.isNeedsToLand() && !plane.equals(currentGame.getCurrentPlane())){
+					if(plane.isNeedsToLand() && !plane.equals(currentGame.getCurrentPlane()) && !currentGame.getAirport().isPlaneLanding()){
 
 						g.drawString("Land Me!",
+								(float) (plane.getX() - 5),
+								(float) (plane.getY() - 30));
+					}
+					
+					else if(plane.isNeedsToLand() && currentGame.getAirport().isPlaneLanding()){
+
+						g.drawString("Wait to Land Me!",
 								(float) (plane.getX() - 5),
 								(float) (plane.getY() - 30));
 					}
