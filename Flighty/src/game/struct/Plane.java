@@ -67,7 +67,6 @@ public class Plane {
 	 * 
 	 * @param id		a unique identifier
 	 * @param crew		the number of crew on board
-	 * @param size		the size to display the plane at
 	 * @param velocity	the speed at which the plane is traveling
 	 * @param altitude	the altitude at which the plane is traveling
 	 * @param bearing	the bearing the plane is following
@@ -76,15 +75,15 @@ public class Plane {
 	 * @param y			the y position to create the plane at
 	 */
 	// Constructor
-	public Plane(String id, int size, int velocity, int altitude, 
+	public Plane(String id, int velocity, int altitude, 
 			double bearing, Game currentGame) {
 		this.currentGame = currentGame;
 		this.id = id;
-		this.size = size;
 		this.velocity = velocity;
 		this.altitude = altitude;
 		this.bearing = bearing;
 		this.targetBearing=bearing;
+		this.size = 2;
 		this.x = 0;
 		this.y = 0;
 		this.flightPlan = new FlightPlan(currentGame, this);

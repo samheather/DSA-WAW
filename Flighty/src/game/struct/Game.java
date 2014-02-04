@@ -314,7 +314,7 @@ public class Game {
 		Plane newPlane;
 		double angle;
 		String id;
-		int size, velocity = 7000;
+		int velocity = 7000;
 		int altitude = 3000;
 		float x, y;
 		double bearing = 0;
@@ -324,15 +324,11 @@ public class Game {
 		// Generate a random id, consisting of a carrier ID and a
 		// random 2-digit number
 		id = this.generateFlightID();
-
 		
-		// Generate a random size, between 1 and 3
-		size = (int) (1 + (Math.round(Math.random()*100) % 2));
+		// Randomise the velocity
+		velocity += (1000 * (int) (1 + (Math.round(Math.random()*100) % 2)));
 		
-		// Use new size to adjust velocity
-		velocity += (1000 * size);
-		
-		newPlane = new Plane(id, size, velocity, altitude, bearing, this);
+		newPlane = new Plane(id, velocity, altitude, bearing, this);
 		if(newPlane.getFlightPlan().getEntryPoint()==this.airport) {
 			
 			newPlane.getFlightPlan().setEntryPoint((new EntryPoint(1180,580)));
