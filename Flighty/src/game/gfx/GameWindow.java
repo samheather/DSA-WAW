@@ -635,11 +635,13 @@ public class GameWindow extends BasicGameState {
 			}
 				 
 			
-			else if (button == 1 && currentGame.getCurrentPlane().getVelocity() > 0) {
+			else if (button == 1 ) {
 				if(this.currentGame.getCurrentPlane() != null) {
-					this.giveHeadingThroughMouse(this.currentGame.getCurrentPlane(), x, y);
-					System.out.println(x);
-					System.out.println(y);
+					if(currentGame.getCurrentPlane().getVelocity() > 0) {
+						this.giveHeadingThroughMouse(this.currentGame.getCurrentPlane(), x, y);
+						System.out.println(x);
+						System.out.println(y);
+					}
 				}
 			}
 		}
