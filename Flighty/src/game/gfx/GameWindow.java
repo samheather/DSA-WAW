@@ -402,14 +402,24 @@ public class GameWindow extends BasicGameState {
 				
 				// Render each plane
 				if(plane.equals(this.currentGame.getCurrentPlane())) {
-					this.planeSelectedCur = this.planeSelected.getScaledCopy(
+
+					if (plane.getAltitude()>=2000){
+						this.planeSelectedCur = this.planeSelected.getScaledCopy(
 							1 + ((((float) (plane.getSize())) - 1) / 5));
+					}
 					this.planeSelectedCur.setRotation((float)plane.getBearing() - 90);
 					this.planeSelectedCur.drawCentered((float)plane.getX(),
 													(float)plane.getY());
 				} else {
-					this.planeNormalCur = this.planeNormal.getScaledCopy(
+					if (plane.getAltitude() < 2000){
+						this.planeNormalCur = this.planeNormal.getScaledCopy(
+							(float) (1+ ((plane.getSize() - 2.5f + (float) plane.getAltitude()/1000)) / 5));
+							System.out.println("bau");
+							System.out.println((float) (1+ ((plane.getSize() - 2.5f + (float) plane.getAltitude()/1000)) / 5));
+					}else {
+						this.planeNormalCur = this.planeNormal.getScaledCopy(
 							1 + ((((float) (plane.getSize())) - 1) / 5));
+					}
 					this.planeNormalCur.setRotation((float) plane.getBearing() - 90);
 					this.planeNormalCur.drawCentered((float)plane.getX(), 
 													(float)plane.getY());
@@ -428,8 +438,15 @@ public class GameWindow extends BasicGameState {
 					
 					
 					if(plane.equals(this.currentGame.getCurrentPlane())) {
-							this.planeSelectedCur = this.planeSelected.getScaledCopy(
+							if (plane.getAltitude() < 2000){
+								this.planeSelectedCur = this.planeSelected.getScaledCopy(
+									(float) (1+ ((plane.getSize() - 2.5f + (float) plane.getAltitude()/1000)) / 5));
+									System.out.println("bau");
+									System.out.println((float) (1+ ((plane.getSize() - 2.5f + (float) plane.getAltitude()/1000)) / 5));
+							}else {
+								this.planeSelectedCur = this.planeSelected.getScaledCopy(
 									1 + ((((float) (plane.getSize())) - 1) / 5));
+							}
 							this.planeSelectedCur.setRotation((float)plane.getBearing() - 90);
 							this.planeSelectedCur.drawCentered((float)plane.getX(),
 															(float)plane.getY());
