@@ -259,7 +259,7 @@ public class Game {
 		double angle;
 		String id;
 		int velocity = 7000;
-		int altitude = 3000;
+		int altitude;
 		float x, y;
 		double bearing = 0;
 		int width, height;
@@ -270,7 +270,11 @@ public class Game {
 		id = this.generateFlightID();
 		
 		// Randomise velocity
-		velocity += (1000 * (int) (1 + (Math.round(Math.random()*100) % 2)));
+		velocity += this.generateVelocity();
+		
+		// Randomise altitude
+		altitude =  2000;//this.generateAltitude();
+		
 		
 		newPlane = new Plane(id, velocity, altitude, bearing, this);
 		if(newPlane.getFlightPlan().getEntryPoint()==this.airport) {
@@ -313,6 +317,18 @@ public class Game {
 		
 		return newPlane;
 		
+	}
+
+	private int generateVelocity() {
+		int velocity;
+		velocity = 1000 * (int) (1 + (Math.random()*100) % 2);
+		return velocity;
+	}
+
+	private int generateAltitude() {
+		int altitude;
+		altitude = 2000 + (int) ((Math.random())*7) * 1000;
+		return altitude;
 	}
 
 	/**
