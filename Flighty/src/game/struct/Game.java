@@ -510,7 +510,7 @@ public class Game {
 			// Handle directional controls
 			
 			//NOTE: THESE NEED TO SET TURNINGLEFT AND TURNINGRIGHT TO FALSE FOR THE PLANE YOU ARE CONTROLLING
-			if(this.currentPlane != null) {
+			if(this.currentPlane != null && this.currentPlane.getVelocity() > 0) {
 				// Action on 'a' and 'left' keys
 				if(gameContainer.getInput().isKeyDown(203)
 						|| gameContainer.getInput().isKeyDown(30)) {
