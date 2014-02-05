@@ -76,11 +76,11 @@ public class Plane {
 	 * @param y			the y position to create the plane at
 	 */
 	// Constructor
-	public Plane(String id, int size, int velocity, int altitude, 
+	public Plane(String id, int velocity, int altitude, 
 			double bearing, Game currentGame) {
 		this.currentGame = currentGame;
 		this.id = id;
-		this.size = size;
+		this.size = 2;
 		this.velocity = velocity;
 		this.altitude = altitude;
 		this.bearing = bearing;
