@@ -517,6 +517,12 @@ public class GameWindow extends BasicGameState {
 
 			}
 			
+			if (currentGameContainer.isPaused()){
+				new TrueTypeFont(this.fontPrimitive.deriveFont(30f), true)
+				.drawString(this.getWindowWidth()/2-30, this.getWindowHeight()/2-30, "PAUSE");
+			}
+			
+			
 			// Set next Waypoint images
 			
 			for (int i = 0; i < this.currentGame.getListOfWaypoints().size(); i++) { // Draws waypoints
@@ -696,7 +702,7 @@ public class GameWindow extends BasicGameState {
 	 */
 	public void keyPressed(int key, char c) {
 		// Handle game pausing
-		if(key == 57) {
+		if(key == 57 || key == 25) {
 			if(this.currentGameContainer.isPaused()) {
 				this.currentGameContainer.resume();
 			} else {
