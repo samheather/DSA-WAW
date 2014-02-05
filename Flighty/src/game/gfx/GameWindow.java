@@ -106,6 +106,9 @@ public class GameWindow extends BasicGameState {
 	/** Whether it should display extrapoints taken (e.g. above waypoints) **/
 	boolean display = false;
 	
+	/** Whether it should display more points for some points (e.g. airport) **/
+	boolean morePoints = false;
+	
 	/** How long the extrapoints should be displayed for **/
 	double synch = 100;
 	
@@ -375,13 +378,22 @@ public class GameWindow extends BasicGameState {
 				// Displays +5 above the passed waypoint
 				if (plane.getFlightPlan().getCurrentRoute().size() > 1){
 					if (plane.checkIfFlightAtWaypoint(plane.getFlightPlan().getCurrentRoute().get(0), this.currentGame)){
+						if (plane.getFlightPlan().getCurrentRoute().get(0) == currentGame.getAirport().getBeginningOfRunway()){
+							morePoints = true;
+						}
 						prevX = plane.getFlightPlan().getCurrentRoute().get(0).getX();
 						prevY = plane.getFlightPlan().getCurrentRoute().get(0).getY();
 						synch = 100;
 						display = true;
 					}
 					if (display && synch>0){
-						g.drawString("+" + Integer.toString(this.getCurrentGame().getMultiplier()*5), (float) prevX - 8, (float) prevY - 30);
+						if (morePoints ){
+							g.drawString("+" + Integer.toString(this.getCurrentGame().getMultiplier()*10), (float) prevX - 8, (float) prevY - 30);
+							morePoints = synch <= 1 ? false : true;
+						}else{
+				
+							g.drawString("+" + Integer.toString(this.getCurrentGame().getMultiplier()*5), (float) prevX - 8, (float) prevY - 30);	
+						}
 						synch--;
 					} else {
 						display = false;
@@ -505,6 +517,14 @@ public class GameWindow extends BasicGameState {
 
 			}
 			
+			if (currentGameContainer.isPaused()){
+				new TrueTypeFont(this.fontPrimitive.deriveFont(30f), true)
+				.drawString(this.getWindowWidth()/2-30, this.getWindowHeight()/2-50, "PAUSE");
+				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
+				.drawString(this.getWindowWidth()/2-30-20, this.getWindowHeight()/2-15, "Press p to unpause");
+			}
+			
+			
 			// Set next Waypoint images
 			
 			for (int i = 0; i < this.currentGame.getListOfWaypoints().size(); i++) { // Draws waypoints
@@ -596,8 +616,9 @@ public class GameWindow extends BasicGameState {
 		
 		// Update the time
 		this.time += delta;
-		
-		currentGame.update(gameContainer, game);
+		if (!currentGameContainer.isPaused()){
+			currentGame.update(gameContainer, game);
+		}
 	}
 	
 	/**
@@ -612,6 +633,10 @@ public class GameWindow extends BasicGameState {
 	@Override
 	public void mouseClicked(int button, int x, int y, int clickCount) 
 	{
+		if (currentGameContainer.isPaused()){
+			return;
+		}
+		
 		if(!this.currentGame.isEnding()) {
 			if(button == 0) {
 				Plane clickedPlane;
@@ -657,6 +682,11 @@ public class GameWindow extends BasicGameState {
 	 */
 	@Override
 	public void mouseWheelMoved(int change) {
+		
+		if (currentGameContainer.isPaused()){
+			return;
+		}
+		
 		if(!this.currentGame.isEnding()) {
 			if((this.currentGame.getCurrentPlane() != null) && (change > 0)) {
 				this.currentGame.getCurrentPlane().incrementTargetAltitude();
@@ -674,7 +704,7 @@ public class GameWindow extends BasicGameState {
 	 */
 	public void keyPressed(int key, char c) {
 		// Handle game pausing
-		if(key == 57) {
+		if(key == 57 || key == 25) {
 			if(this.currentGameContainer.isPaused()) {
 				this.currentGameContainer.resume();
 			} else {
