@@ -362,7 +362,10 @@ public class GameWindow extends BasicGameState {
 			// Display the game duration (time)
 			
 			//g.draw(currentGame.getAirport().getApproachPolygon());
-			g.drawString("Time : " + ((int) (this.time / 1000)) + "s", 1050, 15);
+
+			g.drawString("Time : " + ((int) this.time/1000/60 < 10 ? "0" + (int) (this.time / 1000)/60 : (int) (this.time / 1000)/60) 
+					+ ":" + ((int) (this.time / 1000) %60 < 10 ? "0" + (int) (this.time / 1000)%60  : (int) (this.time / 1000)%60) 
+								, 1050, 15);
 			g.drawString("Score : " + ((int) (this.currentGame.getScore())) + " pts", 1050, 35);
 			g.drawString("Multiplier :" + ((int) (this.currentGame.getMultiplier())), 1050, 55);
 
