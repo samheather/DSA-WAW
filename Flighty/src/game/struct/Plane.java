@@ -228,33 +228,34 @@ public class Plane {
 			 * If plane has been given a heading so no turning direction specified,
 			 * below works out whether it should turn left or right to that heading
 			 */
-
-			if(this.turningRight == false && this.turningLeft == false){
-
-				if (Math.abs(this.targetBearing - this.bearing) == 180) {
-					this.turningRight = true;
-				} 
-
-				else if (this.bearing + 180 <= 359){
-
-					if (this.targetBearing < this.bearing + 180 && this.targetBearing > this.bearing){
+			if (this.velocity > 0){ 
+				if(this.turningRight == false && this.turningLeft == false){
+	
+					if (Math.abs(this.targetBearing - this.bearing) == 180) {
 						this.turningRight = true;
+					} 
+	
+					else if (this.bearing + 180 <= 359){
+	
+						if (this.targetBearing < this.bearing + 180 && this.targetBearing > this.bearing){
+							this.turningRight = true;
+						}
+						else {
+							this.turningLeft = true;
+						}
 					}
+	
 					else {
-						this.turningLeft = true;
+	
+						if (this.targetBearing > this.bearing - 180 && this.targetBearing < this.bearing){
+							this.turningLeft = true;
+						}
+						else {
+							this.turningRight = true;
+						}
 					}
+	
 				}
-
-				else {
-
-					if (this.targetBearing > this.bearing - 180 && this.targetBearing < this.bearing){
-						this.turningLeft = true;
-					}
-					else {
-						this.turningRight = true;
-					}
-				}
-
 			}
 			// If plane is already turning right or user has told it to turn right
 

@@ -414,8 +414,6 @@ public class GameWindow extends BasicGameState {
 					if (plane.getAltitude() < 2000){
 						this.planeNormalCur = this.planeNormal.getScaledCopy(
 							(float) (1+ ((plane.getSize() - 2.5f + (float) plane.getAltitude()/1000)) / 5));
-							System.out.println("bau");
-							System.out.println((float) (1+ ((plane.getSize() - 2.5f + (float) plane.getAltitude()/1000)) / 5));
 					}else {
 						this.planeNormalCur = this.planeNormal.getScaledCopy(
 							1 + ((((float) (plane.getSize())) - 1) / 5));
@@ -441,8 +439,6 @@ public class GameWindow extends BasicGameState {
 							if (plane.getAltitude() < 2000){
 								this.planeSelectedCur = this.planeSelected.getScaledCopy(
 									(float) (1+ ((plane.getSize() - 2.5f + (float) plane.getAltitude()/1000)) / 5));
-									System.out.println("bau");
-									System.out.println((float) (1+ ((plane.getSize() - 2.5f + (float) plane.getAltitude()/1000)) / 5));
 							}else {
 								this.planeSelectedCur = this.planeSelected.getScaledCopy(
 									1 + ((((float) (plane.getSize())) - 1) / 5));

@@ -657,6 +657,7 @@ public class Game {
 				//}
 				if(plane.equals(this.currentPlane)) { //<- this is what I'm talking about on google, you can only take of if you press an arrow first or right click
 					if(plane.getVelocity()==0) {
+						//HERE
 						if(gameContainer.getInput().isKeyPressed(Input.KEY_T)) {
 							
 							plane.setVelocity(7000);
