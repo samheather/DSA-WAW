@@ -502,8 +502,8 @@ public class Game {
 				if(this.spawnRate == 0) {
 					this.countToNextPlane = -1;
 				} else {
-					this.countToNextPlane = (15 * ((new Random()).nextInt(
-							this.spawnRate / 2) + this.spawnRate));
+					Random rand = new Random();
+					this.countToNextPlane = (rand.nextInt(360)+720);
 				}
 			}
 
