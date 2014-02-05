@@ -596,8 +596,9 @@ public class GameWindow extends BasicGameState {
 		
 		// Update the time
 		this.time += delta;
-		
-		currentGame.update(gameContainer, game);
+		if (!currentGameContainer.isPaused()){
+			currentGame.update(gameContainer, game);
+		}
 	}
 	
 	/**
@@ -612,6 +613,10 @@ public class GameWindow extends BasicGameState {
 	@Override
 	public void mouseClicked(int button, int x, int y, int clickCount) 
 	{
+		if (currentGameContainer.isPaused()){
+			return;
+		}
+		
 		if(!this.currentGame.isEnding()) {
 			if(button == 0) {
 				Plane clickedPlane;
@@ -657,6 +662,11 @@ public class GameWindow extends BasicGameState {
 	 */
 	@Override
 	public void mouseWheelMoved(int change) {
+		
+		if (currentGameContainer.isPaused()){
+			return;
+		}
+		
 		if(!this.currentGame.isEnding()) {
 			if((this.currentGame.getCurrentPlane() != null) && (change > 0)) {
 				this.currentGame.getCurrentPlane().incrementTargetAltitude();
