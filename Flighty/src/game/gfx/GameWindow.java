@@ -106,6 +106,9 @@ public class GameWindow extends BasicGameState {
 	/** Whether it should display extrapoints taken (e.g. above waypoints) **/
 	boolean display = false;
 	
+	/** Whether it should display more points for some points (e.g. airport) **/
+	boolean morePoints = false;
+	
 	/** How long the extrapoints should be displayed for **/
 	double synch = 100;
 	
@@ -375,13 +378,22 @@ public class GameWindow extends BasicGameState {
 				// Displays +5 above the passed waypoint
 				if (plane.getFlightPlan().getCurrentRoute().size() > 1){
 					if (plane.checkIfFlightAtWaypoint(plane.getFlightPlan().getCurrentRoute().get(0), this.currentGame)){
+						if (plane.getFlightPlan().getCurrentRoute().get(0) == currentGame.getAirport().getBeginningOfRunway()){
+							morePoints = true;
+						}
 						prevX = plane.getFlightPlan().getCurrentRoute().get(0).getX();
 						prevY = plane.getFlightPlan().getCurrentRoute().get(0).getY();
 						synch = 100;
 						display = true;
 					}
 					if (display && synch>0){
-						g.drawString("+" + Integer.toString(this.getCurrentGame().getMultiplier()*5), (float) prevX - 8, (float) prevY - 30);
+						if (morePoints ){
+							g.drawString("+" + Integer.toString(this.getCurrentGame().getMultiplier()*10), (float) prevX - 8, (float) prevY - 30);
+							morePoints = synch <= 1 ? false : true;
+						}else{
+				
+							g.drawString("+" + Integer.toString(this.getCurrentGame().getMultiplier()*5), (float) prevX - 8, (float) prevY - 30);	
+						}
 						synch--;
 					} else {
 						display = false;

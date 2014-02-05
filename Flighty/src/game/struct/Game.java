@@ -688,10 +688,12 @@ public class Game {
 						
 						
 						// Scoring 10 for exitpoints and airport, and 5 for normal waypoints
-						if (plane.getFlightPlan().getCurrentRoute().size() == 0){
-							this.score += 10 * this.multiplier;
-						} else {
-							this.score += 5 * this.multiplier; 
+						if (!plane.getFlightPlan().getCurrentRoute().isEmpty()){	
+							if (plane.getFlightPlan().getCurrentRoute().get(0) == this.getAirport().getEndOfRunway()){
+								this.score += 10 * this.multiplier;
+							} else {
+								this.score += 5 * this.multiplier; 
+							}
 						}
 						
 					}
