@@ -519,7 +519,9 @@ public class GameWindow extends BasicGameState {
 			
 			if (currentGameContainer.isPaused()){
 				new TrueTypeFont(this.fontPrimitive.deriveFont(30f), true)
-				.drawString(this.getWindowWidth()/2-30, this.getWindowHeight()/2-30, "PAUSE");
+				.drawString(this.getWindowWidth()/2-30, this.getWindowHeight()/2-50, "PAUSE");
+				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
+				.drawString(this.getWindowWidth()/2-30-20, this.getWindowHeight()/2-15, "Press p to unpause");
 			}
 			
 			
