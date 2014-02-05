@@ -84,7 +84,7 @@ public class Plane {
 		this.velocity = velocity;
 		this.altitude = altitude;
 		this.bearing = bearing;
-		this.targetBearing=bearing;
+		this.targetBearing= bearing;
 		this.x = 0;
 		this.y = 0;
 		this.flightPlan = new FlightPlan(currentGame, this);
@@ -207,7 +207,7 @@ public class Plane {
 		double angle;
 		angle = Math.toDegrees(Math.atan2(this.y - this.target.getY(),
 				this.x - this.target.getX()));
-		//System.out.println(angle);
+		
 		if(angle<0) {
 			angle +=360;
 		}
@@ -217,12 +217,10 @@ public class Plane {
 
 	}
 
-	public void updateCurrentHeading() {
+	public void updateCurrentBearing() {
 
 		double rate = 0.9;
 		if (Math.round(this.targetBearing) <= Math.round(this.bearing)-3 || Math.round(this.targetBearing) >= Math.round(this.bearing)+3) {
-			//System.out.println(Math.round(this.targetBearing));
-			//System.out.println(Math.round(this.bearing));
 			
 
 			/*
@@ -332,7 +330,7 @@ public class Plane {
 	 * 
 	 * @param plane				the plane to move
 	 */
-	public void movePlane() { // MOVE THIS TO PLANE CLASS
+	public void movePlane() { 
 		if(this.altitude < 2000 && this.targetAltitude>0 && !this.landing) {
 			// Move the plane
 			this.setX((float) (this.x
@@ -353,12 +351,12 @@ public class Plane {
 				if(!this.currentGame.getManualPlanes().contains(this)) {
 
 					this.calculateHeadingToNextWaypoint();
-					this.updateCurrentHeading();
+					this.updateCurrentBearing();
 					
 
 				}
 				else {
-					this.updateCurrentHeading();
+					this.updateCurrentBearing();
 					
 				}
 

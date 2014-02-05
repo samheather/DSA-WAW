@@ -171,8 +171,8 @@ public class Game {
 	// MAIN METHODS
 	
 	public void addPointsForGame(){
-		//this.listOfEntryPoints.add(new EntryPoint(0,400));
-		//this.listOfEntryPoints.add(new EntryPoint(1200,200));
+		this.listOfEntryPoints.add(new EntryPoint(0,400));
+		this.listOfEntryPoints.add(new EntryPoint(1200,200));
 		this.listOfEntryPoints.add(new EntryPoint(600,0));
 		this.listOfEntryPoints.add(this.airport);
 		
@@ -187,10 +187,11 @@ public class Game {
 		this.listOfWaypoints.add(new Waypoint(1000, 300));
 		this.listOfWaypoints.add(new Waypoint(140, 250));
 		
-		//this.listOfExitPoints.add(new ExitPoint(800,0));
-		//this.listOfExitPoints.add(new ExitPoint(0,200));
-		//this.listOfExitPoints.add(new ExitPoint(1200,300));
 		this.listOfExitPoints.add(this.airport);
+		this.listOfExitPoints.add(new ExitPoint(800,0));
+		this.listOfExitPoints.add(new ExitPoint(0,200));
+		this.listOfExitPoints.add(new ExitPoint(1200,300));
+		
 		
 		
 	}
