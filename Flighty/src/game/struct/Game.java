@@ -134,7 +134,7 @@ public class Game {
 		this.carriers.add("QU");
 		this.addPointsForGame();
 		this.penalty = true;
-		this.multiplier = 1;
+		this.multiplier = 10;
 		
 		
 	}
@@ -445,6 +445,7 @@ public class Game {
 				if (penalty){
 					if (this.score >= 2){
 						this.score -= 2;
+						this.multiplier --;
 					}
 					penalty = false;
 					planeJ.setViolationOccurred();
@@ -648,15 +649,15 @@ public class Game {
 					}
 				}
 				// Check if colliding with another plane
-//				if(this.collision(plane)) {
-//					this.currentPlane = null;
-//					this.collidedPlanes.add(plane);
-//					this.collision = true;
-//				}
+   			    if(this.collision(plane)) {
+					this.currentPlane = null;
+					this.collidedPlanes.add(plane);
+					this.collision = true;
+				}
 				
 				// If plane has no more waypoints, remove it
 				if(plane.getFlightPlan().getCurrentRoute().size() == 0) {
-					if (plane.getViolationOccurred() == false){ 
+					if (plane.getViolationOccurred() == false && this.multiplier < 20){ 
 						this.multiplier ++;
 					}
 					else if (plane.getViolationOccurred() == true && this.multiplier > 1){
