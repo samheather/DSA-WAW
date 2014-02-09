@@ -166,6 +166,18 @@ public class PlaneTests {
 	
 	// Testing Calculating the heading to next Waypoint
 	
+	@Test
+	public void calculateBearingToFirstWaypointTest1(){
+		//Testing it calculates the heading to the first waypoint.
+		plane1.setX(150);
+		plane1.setY(400);
+		plane1.setTarget(game.getListOfWaypoints().get(0));
+		plane1.calculateBearingToNextWaypoint();
+		assertEquals(111.8, plane1.getTargetBearing(), 0.01);
+		assertFalse(plane1.isTurningLeft());
+		assertFalse(plane1.isTurningRight());
+		
+	}
 	
 	
 	// Testing Update Current Bearing
@@ -265,8 +277,39 @@ public class PlaneTests {
 		assertEquals(360, plane1.getBearing(), 0.1);
 		
 	}
-
-
+	
+	// Testing findLandingDescentRate
+	
+	@Test
+	public void findLandingDescentRateTest1(){
+		plane1.setX(695);
+		plane1.setY(465);
+		plane1.setVelocity(8000);
+		game.setSpeedDifficulty(0.5);
+		plane1.setAltitude(2000);
+		assertEquals(45.71, plane1.findLandingDescentRate(), 0.01);
+		
+	}
+	
+	// Testing Landing Plane
+	
+	@Test
+	public void landPlane(){
+		plane1.setX(695);
+		plane1.setY(465);
+		plane1.setAltitude(2000);
+		plane1.setBearing(170);
+		plane1.landPlane();
+		assertTrue(game.getAirport().isPlaneLanding());
+		assertFalse(plane1.isNeedsToLand());
+		assertTrue(plane1.isLanding());
+		assertEquals(plane1.getTarget(), plane1.getFlightPlan().getCurrentRoute().get(0));
+		assertFalse(game.getManualPlanes().contains(plane1));
+		assertEquals(null, game.getCurrentPlane());
+		
+	}
+	
+	
 
 	
 }

@@ -202,7 +202,7 @@ public class Plane {
 		}
 	}
 	
-	public void calculateHeadingToNextWaypoint(){
+	public void calculateBearingToNextWaypoint(){
 		double angle;
 		angle = Math.toDegrees(Math.atan2(this.y - this.target.getY(),
 				this.x - this.target.getX()));
@@ -283,7 +283,7 @@ public class Plane {
 		
 		double rate;
 		//find distance to runway waypoint
-		double distanceFromRunway =  Math.sqrt(Math.pow(this.x-this.getFlightPlan().getCurrentRoute().get(0).getX(), 2)+Math.pow(this.y-this.getFlightPlan().getCurrentRoute().get(0).getY(), 2));
+		double distanceFromRunway =  Math.sqrt(Math.pow(this.x-this.currentGame.getAirport().getBeginningOfRunway().getX(), 2)+Math.pow(this.y-this.currentGame.getAirport().getBeginningOfRunway().getY(), 2));
 		double descentPerPixel = this.altitude/distanceFromRunway;
 		rate = descentPerPixel*((float)this.velocity/7000)*this.currentGame.getSpeedDifficulty();
 
@@ -301,7 +301,7 @@ public class Plane {
 					this.needsToLand = false;
 					this.landing = true;
 					this.target = this.flightPlan.getCurrentRoute().get(0);
-					this.calculateHeadingToNextWaypoint();
+					this.calculateBearingToNextWaypoint();
 					this.landingDescentRate=this.findLandingDescentRate();
 					this.currentGame.getManualPlanes().remove(this);
 					this.currentGame.setCurrentPlane(null);
@@ -345,7 +345,7 @@ public class Plane {
 				if(!this.currentGame.getManualPlanes().contains(this)) {
 					
 					// Get the angle to the next waypoint
-					this.calculateHeadingToNextWaypoint();
+					this.calculateBearingToNextWaypoint();
 					this.updateCurrentBearing();
 					
 
