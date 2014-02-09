@@ -30,7 +30,6 @@ public class Plane {
 	private boolean turningRight, turningLeft;
 
 
-
 	/** Current X co-ordinate */
 	private double x;
 
@@ -331,25 +330,21 @@ public class Plane {
 	 * @param plane				the plane to move
 	 */
 	public void movePlane() { 
+		
+		// If Plane is taking off, don't change the bearing
 		if(this.altitude < 2000 && this.targetAltitude>0 && !this.landing) {
-			// Move the plane
-			this.setX((float) (this.x
-					- (Math.cos(Math.toRadians(this.bearing))
-							* (this.currentGame.getSpeedDifficulty()
-									* this.velocity / 7000d))));
 			
-			this.setY((float) (this.y
-					- (Math.sin(Math.toRadians(this.bearing))
-							* (this.currentGame.getSpeedDifficulty()
-									* this.velocity/ 7000d))));
+			this.updateXYCoordinates();
+			
 		}
 		else {
 			double angle = this.targetBearing;
 
-			// Get the angle to the next waypoint
+			
 			if(this.target != null) {
 				if(!this.currentGame.getManualPlanes().contains(this)) {
-
+					
+					// Get the angle to the next waypoint
 					this.calculateHeadingToNextWaypoint();
 					this.updateCurrentBearing();
 					
@@ -361,17 +356,26 @@ public class Plane {
 				}
 
 				// Move the plane
-				this.setX((float) (this.x
-						- (Math.cos(Math.toRadians(this.bearing))
-								* (this.currentGame.getSpeedDifficulty()
-										* this.velocity / 7000d))));
-
-				this.setY((float) (this.y
-						- (Math.sin(Math.toRadians(this.bearing))
-								* (this.currentGame.getSpeedDifficulty()
-										* this.velocity / 7000d))));
+				
+				this.updateXYCoordinates();
 			}
 		}
+	}
+	
+
+	
+	public void updateXYCoordinates(){
+		
+		this.setX((float) (this.x
+				- (Math.cos(Math.toRadians(this.bearing))
+						* (this.currentGame.getSpeedDifficulty()
+								* this.velocity / 7000d))));
+		
+		this.setY((float) (this.y
+				- (Math.sin(Math.toRadians(this.bearing))
+						* (this.currentGame.getSpeedDifficulty()
+								* this.velocity/ 7000d))));
+		
 	}
 
 
