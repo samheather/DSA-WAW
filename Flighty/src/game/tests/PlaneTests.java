@@ -21,7 +21,7 @@ public class PlaneTests {
 	@Before
 	public void beforeTests() {
 		game = new Game(50, 100);
-		plane1 = new Plane("TEST", 500, 3000, 50, game);
+		plane1 = new Plane("Test", 500, 3000, 50, game);
 		
 	}
 	
@@ -294,7 +294,7 @@ public class PlaneTests {
 	// Testing Landing Plane
 	
 	@Test
-	public void landPlane(){
+	public void landPlaneTest1(){
 		plane1.setX(695);
 		plane1.setY(465);
 		plane1.setAltitude(2000);
@@ -309,6 +309,58 @@ public class PlaneTests {
 		
 	}
 	
+	// Testing Update X and Y Coordinates
+	
+	@Test
+	public void updateXYCoordinatesTest1(){
+		plane1.setX(150);
+		plane1.setY(450);
+		plane1.setVelocity(8000);
+		plane1.setBearing(100);
+		game.setSpeedDifficulty(0.5);
+		plane1.updateXYCoordinates();
+		assertEquals(150.099, plane1.getX(), 0.001);
+		assertEquals(449.437, plane1.getY(), 0.001);
+		
+	}
+	
+	// Testing Move Plane
+	
+	
+	// Testing Update X and Y Coordinates
+	
+	@Test
+	public void movePlaneTest1(){
+		plane1.setX(150);
+		plane1.setY(450);
+		plane1.setVelocity(8000);
+		plane1.setBearing(100);
+		plane1.setAltitude(100);
+		plane1.setTargetAltitude(100);
+		plane1.setLanding(false);
+		game.setSpeedDifficulty(0.5);
+		plane1.movePlane();
+		assertEquals(150.099, plane1.getX(), 0.001);
+		assertEquals(449.437, plane1.getY(), 0.001);
+		
+	}
+	
+//	@Test
+//	public void movePlaneTest2(){
+//		plane1.setX(150);
+//		plane1.setY(450);
+//		plane1.setVelocity(8000);
+//		plane1.setBearing(100);
+//		plane1.setTargetBearing(150);
+//		plane1.setAltitude(3000);
+//		game.setSpeedDifficulty(0.5);
+//		game.getManualPlanes().add(plane1);
+//		plane1.movePlane();
+//		assertEquals(150.099, plane1.getX(), 0.001);
+//		assertEquals(449.437, plane1.getY(), 0.001);
+//		assertEquals(100.9, plane1.get
+//		
+//	}
 	
 
 	

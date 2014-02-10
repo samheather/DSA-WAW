@@ -330,33 +330,33 @@ public class Plane {
 	 * @param plane				the plane to move
 	 */
 	public void movePlane() { 
-		
+
 		// If Plane is taking off, don't change the bearing
 		if(this.altitude < 2000 && this.targetAltitude>0 && !this.landing) {
-			
+
 			this.updateXYCoordinates();
-			
+
 		}
 		else {
 			double angle = this.targetBearing;
 
-			
+
 			if(this.target != null) {
 				if(!this.currentGame.getManualPlanes().contains(this)) {
-					
+
 					// Get the angle to the next waypoint
 					this.calculateBearingToNextWaypoint();
 					this.updateCurrentBearing();
-					
+
 
 				}
 				else {
 					this.updateCurrentBearing();
-					
+
 				}
 
 				// Move the plane
-				
+
 				this.updateXYCoordinates();
 			}
 		}
