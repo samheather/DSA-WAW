@@ -132,47 +132,9 @@ public class Game {
 		this.carriers.add("NZ");
 		this.carriers.add("RY");
 		this.carriers.add("QU");
-		this.addPointsForGame();
-		this.penalty = true;
-		this.multiplier = 10;
 		
-		
-	}
-	
-	/**
-	 * Constructor for Game
-	 * <p>
-	 * <b>Should be used for testing ONLY.</b>
-	 * </p>
-	 * 
-	 * @param separationDistance	the distance at which planes should collide
-	 * @param penaltyDistance		the distance at which planes should alert
-	 * @param testing				<code>true</code> if testing,
-	 * 								<code>false</code> otherwise
-	 */
-	public Game(int separationDistance, int penaltyDistance, 
-			boolean testing) {
-		this.separationDistance = separationDistance;
-		this.penaltyDistance = penaltyDistance;
-		
-		this.carriers.add("BA");
-		this.carriers.add("EZY");
-		this.carriers.add("NZ");
-		this.carriers.add("RY");
-		this.carriers.add("QU");
-		
-		this.currentGameWindow = null;
-		
-		//this.addPointsForGame();
-	}
-
-	
-
-	// MAIN METHODS
-	
-	public void addPointsForGame(){
-		//this.listOfEntryPoints.add(new EntryPoint(0,400));
-		//this.listOfEntryPoints.add(new EntryPoint(1200,200));
+		this.listOfEntryPoints.add(new EntryPoint(0,400));
+		this.listOfEntryPoints.add(new EntryPoint(1200,200));
 		this.listOfEntryPoints.add(new EntryPoint(600,0));
 		this.listOfEntryPoints.add(this.airport);
 		
@@ -188,13 +150,18 @@ public class Game {
 		this.listOfWaypoints.add(new Waypoint(140, 250));
 		
 		this.listOfExitPoints.add(this.airport);
-		//this.listOfExitPoints.add(new ExitPoint(800,0));
-		//this.listOfExitPoints.add(new ExitPoint(0,200));
-		//this.listOfExitPoints.add(new ExitPoint(1200,300));
-		
+		this.listOfExitPoints.add(new ExitPoint(800,0));
+		this.listOfExitPoints.add(new ExitPoint(0,200));
+		this.listOfExitPoints.add(new ExitPoint(1200,300));
+		this.penalty = true;
+		this.multiplier = 10;
 		
 		
 	}
+
+	
+
+	// MAIN METHODS
 	
 	
 	
