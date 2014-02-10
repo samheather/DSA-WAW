@@ -42,7 +42,7 @@ public class Game {
 	private ArrayList<Plane> currentPlanes = new ArrayList<Plane>();
 	
 	/** List of strings that make up first part of a plane's unique ID */
-	private ArrayList<String> carriers = new ArrayList<String>();	
+	//private ArrayList<String> carriers = new ArrayList<String>();	
 	
 	/** Reference to the game window  */
 	private GameWindow currentGameWindow;	
@@ -96,6 +96,8 @@ public class Game {
 	/** The current map */
 	private Image map;
 	
+	int planeCount;
+	
 	private Airport airport;
 	
 	
@@ -127,52 +129,10 @@ public class Game {
 		this.manualPlanes = new ArrayList<Plane>();
 		this.collidedPlanes = new ArrayList<Plane>();
 		this.currentPlane = null;
-		this.carriers.add("BA");
-		this.carriers.add("EZY");
-		this.carriers.add("NZ");
-		this.carriers.add("RY");
-		this.carriers.add("QU");
-		this.addPointsForGame();
-		this.penalty = true;
-		this.multiplier = 1;
+		this.planeCount=0;
 		
-		
-	}
-	
-	/**
-	 * Constructor for Game
-	 * <p>
-	 * <b>Should be used for testing ONLY.</b>
-	 * </p>
-	 * 
-	 * @param separationDistance	the distance at which planes should collide
-	 * @param penaltyDistance		the distance at which planes should alert
-	 * @param testing				<code>true</code> if testing,
-	 * 								<code>false</code> otherwise
-	 */
-	public Game(int separationDistance, int penaltyDistance, 
-			boolean testing) {
-		this.separationDistance = separationDistance;
-		this.penaltyDistance = penaltyDistance;
-		
-		this.carriers.add("BA");
-		this.carriers.add("EZY");
-		this.carriers.add("NZ");
-		this.carriers.add("RY");
-		this.carriers.add("QU");
-		
-		this.currentGameWindow = null;
-		
-		//this.addPointsForGame();
-	}
-
-	
-
-	// MAIN METHODS
-	
-	public void addPointsForGame(){
-		//this.listOfEntryPoints.add(new EntryPoint(0,400));
-		//this.listOfEntryPoints.add(new EntryPoint(1200,200));
+		this.listOfEntryPoints.add(new EntryPoint(0,400));
+		this.listOfEntryPoints.add(new EntryPoint(1200,200));
 		this.listOfEntryPoints.add(new EntryPoint(600,0));
 		this.listOfEntryPoints.add(this.airport);
 		
@@ -187,35 +147,19 @@ public class Game {
 		this.listOfWaypoints.add(new Waypoint(1000, 300));
 		this.listOfWaypoints.add(new Waypoint(140, 250));
 		
-		//this.listOfExitPoints.add(new ExitPoint(800,0));
-		//this.listOfExitPoints.add(new ExitPoint(0,200));
-		//this.listOfExitPoints.add(new ExitPoint(1200,300));
 		this.listOfExitPoints.add(this.airport);
+		this.listOfExitPoints.add(new ExitPoint(800,0));
+		this.listOfExitPoints.add(new ExitPoint(0,200));
+		this.listOfExitPoints.add(new ExitPoint(1200,300));
+		this.penalty = true;
+		this.multiplier = 10;
 		
 		
 	}
-	
-	
-	
-	public String generateFlightID(){
-		
-		String id = "DEFAULT_ID", idRandNum;
-		// Generate a random id, consisting of a carrier ID and a
-		// random 2-digit number
-		do {
-			idRandNum = String.valueOf(Math.round(Math.random() * 100)
-					% 100);
-			idRandNum = idRandNum.length() == 1 ?
-					"0".concat(idRandNum) : idRandNum;
-			id = carriers.get((int) (Math.round(Math.random()
-					* carriers.size()) % carriers.size())).concat(
-							String.valueOf(idRandNum));
-		} while (this.getPlaneFromID(id) != null);
-		
-		return id;
 
-	}
 	
+
+	// MAIN METHODS
 	
 	
 	
@@ -229,7 +173,7 @@ public class Game {
 	 * @see					#createPlane(boolean)
 	 * @return				the plane
 	*/
-	public String createPlane() {
+	public int createPlane() {
 		return this.createPlane(false).getID();
 	}
 	
@@ -263,19 +207,17 @@ public class Game {
 		double bearing = 0;
 		int width, height;
 		boolean[] penaltyTest;
+		this.planeCount++;
 		
-		// Generate a random id, consisting of a carrier ID and a
-		// random 2-digit number
-		id = this.generateFlightID();
 		
 		// Randomise velocity
 		velocity += this.generateVelocity();
 		
 		// Randomise altitude
-		altitude =  2000;//this.generateAltitude();
+		altitude =  this.generateAltitude();
 		
-		
-		newPlane = new Plane(id, velocity, altitude, bearing, this);
+	
+		newPlane = new Plane(this.planeCount, velocity, altitude, bearing, this);
 		if(newPlane.getFlightPlan().getEntryPoint()==this.airport) {
 			
 			newPlane.getFlightPlan().setEntryPoint((new EntryPoint(1180,580)));
@@ -295,7 +237,6 @@ public class Game {
 
 		angle = Math.toDegrees(Math.atan2(newPlane.getY() - newPlane.getTarget().getY(),
 				newPlane.getX() - newPlane.getTarget().getX()));
-		//System.out.println(angle);
 		if(angle<0) {
 			angle +=360;
 		}
@@ -312,7 +253,6 @@ public class Game {
 			// Add new plane to the game
 			this.currentPlanes.add(newPlane);
 		}
-		System.out.println("Plane HAPPENED");
 		
 		return newPlane;
 		
@@ -358,9 +298,9 @@ public class Game {
 	 * @param id			the ID of the plane to find
 	 * @return				plane specified by id
 	*/
-	public Plane getPlaneFromID(String id) {
+	public Plane getPlaneFromID(int id) {
 		for(Plane plane : this.currentPlanes) {
-			if(plane.getID().equals(id)) {
+			if(plane.getID()==id) {
 				return plane;
 			}
 		}
@@ -444,6 +384,7 @@ public class Game {
 				if (penalty){
 					if (this.score >= 2){
 						this.score -= 2;
+						this.multiplier --;
 					}
 					penalty = false;
 					planeJ.setViolationOccurred();
@@ -647,15 +588,15 @@ public class Game {
 					}
 				}
 				// Check if colliding with another plane
-//				if(this.collision(plane)) {
-//					this.currentPlane = null;
-//					this.collidedPlanes.add(plane);
-//					this.collision = true;
-//				}
+   			    if(this.collision(plane)) {
+					this.currentPlane = null;
+					this.collidedPlanes.add(plane);
+					this.collision = true;
+				}
 				
 				// If plane has no more waypoints, remove it
 				if(plane.getFlightPlan().getCurrentRoute().size() == 0) {
-					if (plane.getViolationOccurred() == false){ 
+					if (plane.getViolationOccurred() == false && this.multiplier < 20){ 
 						this.multiplier ++;
 					}
 					else if (plane.getViolationOccurred() == true && this.multiplier > 1){
@@ -853,9 +794,9 @@ public class Game {
 		/**
 		 * @return				list of carriers attached to the game
 		 */
-		public ArrayList<String> getCarriers() {
+		/*public ArrayList<String> getCarriers() {
 			return this.carriers;
-		}
+		}*/
 		
 		/**
 		 * @return				a reference to the current game window
@@ -892,9 +833,6 @@ public class Game {
 		/**
 		 * @param carriers		the array of carrier ID's to set
 		 */
-		public void setCarriers(ArrayList<String> carriers) {
-			this.carriers = carriers;
-		}
 		
 		/**
 		 * @param currentGameWindow		a new parent game window

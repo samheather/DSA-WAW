@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Plane {
 
 	/** Unique identifier */
-	private String id;
+	private int id;
 
 
 	/** Size to display plane */
@@ -28,7 +28,6 @@ public class Plane {
 	private double targetBearing;
 
 	private boolean turningRight, turningLeft;
-
 
 
 	/** Current X co-ordinate */
@@ -76,7 +75,7 @@ public class Plane {
 	 * @param y			the y position to create the plane at
 	 */
 	// Constructor
-	public Plane(String id, int velocity, int altitude, 
+	public Plane(int id, int velocity, int altitude, 
 			double bearing, Game currentGame) {
 		this.currentGame = currentGame;
 		this.id = id;
@@ -84,7 +83,7 @@ public class Plane {
 		this.velocity = velocity;
 		this.altitude = altitude;
 		this.bearing = bearing;
-		this.targetBearing=bearing;
+		this.targetBearing= bearing;
 		this.x = 0;
 		this.y = 0;
 		this.flightPlan = new FlightPlan(currentGame, this);
@@ -203,11 +202,11 @@ public class Plane {
 		}
 	}
 	
-	public void calculateHeadingToNextWaypoint(){
+	public void calculateBearingToNextWaypoint(){
 		double angle;
 		angle = Math.toDegrees(Math.atan2(this.y - this.target.getY(),
 				this.x - this.target.getX()));
-		//System.out.println(angle);
+		
 		if(angle<0) {
 			angle +=360;
 		}
@@ -217,12 +216,10 @@ public class Plane {
 
 	}
 
-	public void updateCurrentHeading() {
+	public void updateCurrentBearing() {
 
 		double rate = 0.9;
 		if (Math.round(this.targetBearing) <= Math.round(this.bearing)-3 || Math.round(this.targetBearing) >= Math.round(this.bearing)+3) {
-			//System.out.println(Math.round(this.targetBearing));
-			//System.out.println(Math.round(this.bearing));
 			
 
 			/*
@@ -286,7 +283,7 @@ public class Plane {
 		
 		double rate;
 		//find distance to runway waypoint
-		double distanceFromRunway =  Math.sqrt(Math.pow(this.x-this.getFlightPlan().getCurrentRoute().get(0).getX(), 2)+Math.pow(this.y-this.getFlightPlan().getCurrentRoute().get(0).getY(), 2));
+		double distanceFromRunway =  Math.sqrt(Math.pow(this.x-this.currentGame.getAirport().getBeginningOfRunway().getX(), 2)+Math.pow(this.y-this.currentGame.getAirport().getBeginningOfRunway().getY(), 2));
 		double descentPerPixel = this.altitude/distanceFromRunway;
 		rate = descentPerPixel*((float)this.velocity/7000)*this.currentGame.getSpeedDifficulty();
 
@@ -304,7 +301,7 @@ public class Plane {
 					this.needsToLand = false;
 					this.landing = true;
 					this.target = this.flightPlan.getCurrentRoute().get(0);
-					this.calculateHeadingToNextWaypoint();
+					this.calculateBearingToNextWaypoint();
 					this.landingDescentRate=this.findLandingDescentRate();
 					this.currentGame.getManualPlanes().remove(this);
 					this.currentGame.setCurrentPlane(null);
@@ -332,48 +329,53 @@ public class Plane {
 	 * 
 	 * @param plane				the plane to move
 	 */
-	public void movePlane() { // MOVE THIS TO PLANE CLASS
+	public void movePlane() { 
+
+		// If Plane is taking off, don't change the bearing
 		if(this.altitude < 2000 && this.targetAltitude>0 && !this.landing) {
-			// Move the plane
-			this.setX((float) (this.x
-					- (Math.cos(Math.toRadians(this.bearing))
-							* (this.currentGame.getSpeedDifficulty()
-									* this.velocity / 7000d))));
-			
-			this.setY((float) (this.y
-					- (Math.sin(Math.toRadians(this.bearing))
-							* (this.currentGame.getSpeedDifficulty()
-									* this.velocity/ 7000d))));
+
+			this.updateXYCoordinates();
+
 		}
 		else {
 			double angle = this.targetBearing;
 
-			// Get the angle to the next waypoint
+
 			if(this.target != null) {
 				if(!this.currentGame.getManualPlanes().contains(this)) {
 
-					this.calculateHeadingToNextWaypoint();
-					this.updateCurrentHeading();
-					
+					// Get the angle to the next waypoint
+					this.calculateBearingToNextWaypoint();
+					this.updateCurrentBearing();
+
 
 				}
 				else {
-					this.updateCurrentHeading();
-					
+					this.updateCurrentBearing();
+
 				}
 
 				// Move the plane
-				this.setX((float) (this.x
-						- (Math.cos(Math.toRadians(this.bearing))
-								* (this.currentGame.getSpeedDifficulty()
-										* this.velocity / 7000d))));
 
-				this.setY((float) (this.y
-						- (Math.sin(Math.toRadians(this.bearing))
-								* (this.currentGame.getSpeedDifficulty()
-										* this.velocity / 7000d))));
+				this.updateXYCoordinates();
 			}
 		}
+	}
+	
+
+	
+	public void updateXYCoordinates(){
+		
+		this.setX((float) (this.x
+				- (Math.cos(Math.toRadians(this.bearing))
+						* (this.currentGame.getSpeedDifficulty()
+								* this.velocity / 7000d))));
+		
+		this.setY((float) (this.y
+				- (Math.sin(Math.toRadians(this.bearing))
+						* (this.currentGame.getSpeedDifficulty()
+								* this.velocity/ 7000d))));
+		
 	}
 
 
@@ -394,7 +396,7 @@ public class Plane {
 	/**
 	 * @return			the Plane's unique ID
 	 */
-	public String getID() {
+	public int getID() {
 		return this.id;
 	}
 
@@ -476,7 +478,7 @@ public class Plane {
 	/**
 	 * @param id		the new unique ID
 	 */
-	public void setID(String id) {
+	public void setID(int id) {
 		this.id = id;
 	}
 
@@ -676,29 +678,4 @@ public class Plane {
 		this.landingDescentRate = landingDescentRate;
 	}
 
-
-
-
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof Plane)) {
-			return false;
-		}
-		Plane other = (Plane) obj;
-		if (id == null) {
-			if (other.id != null) {
-				return false;
-			}
-		} else if (!id.equals(other.id)) {
-			return false;
-		}
-		return true;
-	}
 }

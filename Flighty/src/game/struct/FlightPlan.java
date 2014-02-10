@@ -28,8 +28,6 @@ public class FlightPlan {
 	public Point generateEntryPoint(Game currentGame){
 		
 		Random rand = new Random();
-		
-		
 
 		return currentGame.getListOfEntryPoints().get(rand.nextInt(currentGame.getListOfEntryPoints().size()));
 		

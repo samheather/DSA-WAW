@@ -584,7 +584,7 @@ public class GameWindow extends BasicGameState {
 				}
 				
 				new TrueTypeFont(this.fontPrimitive.deriveFont(50f), true)
-									.drawString(375f, 200f, "You Fucked Up!");
+									.drawString(300f, 200f, "That didn't end well...");
 				new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
 									.drawString(470f, 260f, "Score: " + (int) this.currentGame.getScore());
 				new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
@@ -675,26 +675,28 @@ public class GameWindow extends BasicGameState {
 	
 	
 	
-	/**
-	 * Handles mouse wheel events
-	 * 
-	 * @param change			the amount the wheel was turned by
-	 */
-	@Override
-	public void mouseWheelMoved(int change) {
-		
-		if (currentGameContainer.isPaused()){
-			return;
-		}
-		
-		if(!this.currentGame.isEnding()) {
-			if((this.currentGame.getCurrentPlane() != null) && (change > 0)) {
-				this.currentGame.getCurrentPlane().incrementTargetAltitude();
-			} else if((this.currentGame.getCurrentPlane() != null) && (change < 0)){
-				this.currentGame.getCurrentPlane().decrementTargetAltitude();
-			}
-		}
-	}
+//	/**
+//	 * Handles mouse wheel events
+//	 * 
+//	 * @param change			the amount the wheel was turned by
+//	 */
+//	@Override
+//	public void mouseWheelMoved(int change) {
+//		
+//		if (currentGameContainer.isPaused()){
+//			return;
+//		}
+//		
+//		
+//		
+//		if(!this.currentGame.isEnding()) {
+//			if((this.currentGame.getCurrentPlane() != null) && (change > 0)) {
+//				this.currentGame.getCurrentPlane().incrementTargetAltitude();
+//			} else if((this.currentGame.getCurrentPlane() != null) && (change < 0)){
+//				this.currentGame.getCurrentPlane().decrementTargetAltitude();
+//			}
+//		}
+//	}
 	
 	/**
 	 * Handles key press events
