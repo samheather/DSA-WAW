@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Plane {
 
 	/** Unique identifier */
-	private String id;
+	private int id;
 
 
 	/** Size to display plane */
@@ -75,7 +75,7 @@ public class Plane {
 	 * @param y			the y position to create the plane at
 	 */
 	// Constructor
-	public Plane(String id, int velocity, int altitude, 
+	public Plane(int id, int velocity, int altitude, 
 			double bearing, Game currentGame) {
 		this.currentGame = currentGame;
 		this.id = id;
@@ -396,7 +396,7 @@ public class Plane {
 	/**
 	 * @return			the Plane's unique ID
 	 */
-	public String getID() {
+	public int getID() {
 		return this.id;
 	}
 
@@ -478,7 +478,7 @@ public class Plane {
 	/**
 	 * @param id		the new unique ID
 	 */
-	public void setID(String id) {
+	public void setID(int id) {
 		this.id = id;
 	}
 
@@ -678,29 +678,4 @@ public class Plane {
 		this.landingDescentRate = landingDescentRate;
 	}
 
-
-
-
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof Plane)) {
-			return false;
-		}
-		Plane other = (Plane) obj;
-		if (id == null) {
-			if (other.id != null) {
-				return false;
-			}
-		} else if (!id.equals(other.id)) {
-			return false;
-		}
-		return true;
-	}
 }

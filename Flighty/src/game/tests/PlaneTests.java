@@ -21,7 +21,7 @@ public class PlaneTests {
 	@Before
 	public void beforeTests() {
 		game = new Game(50, 100);
-		plane1 = new Plane("Test", 500, 3000, 50, game);
+		plane1 = new Plane(1, 500, 3000, 50, game);
 		
 	}
 	
