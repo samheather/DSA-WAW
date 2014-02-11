@@ -345,11 +345,11 @@ public class Game {
 	 * (but will still return the check result).
 	 * </p>
 	 * 
-	 * @param planeI		the plane to test
+	 * @param plane1		the plane to test
 	 * @return				an array of size 2, with the 0th element set if the plane
 	 * 						is colliding, and the 1th element set if the plane is alerting
 	*/
-	public boolean[] collisionHelper(Plane planeI) {
+	public boolean[] collisionHelper(Plane plane1) {
 
 		double distIJSqr;
 		boolean risk = false;
@@ -359,19 +359,19 @@ public class Game {
 		// Second -> result used for testing purposes {1:true, 0:false}
 		boolean[] result = new boolean[] {false, false};
 
-		for(Plane planeJ : this.currentPlanes) {
+		for(Plane plane2 : this.currentPlanes) {
 			
 			
-			if((planeI.equals(planeJ))
-					|| (planeJ.getAltitude()
-							> (planeI.getAltitude() + 400))
-					|| (planeJ.getAltitude()
-							< (planeI.getAltitude() - 400))) {
+			if((plane1.equals(plane2))
+					|| (plane2.getAltitude()
+							> (plane1.getAltitude() + 400))
+					|| (plane2.getAltitude()
+							< (plane1.getAltitude() - 400))) {
 				continue;
 			}
 
-			distIJSqr = Math.pow(planeJ.getX() - planeI.getX(), 2)
-					+ Math.pow(planeJ.getY() - planeI.getY(), 2);
+			distIJSqr = Math.pow(plane2.getX() - plane1.getX(), 2)
+					+ Math.pow(plane2.getY() - plane1.getY(), 2);
 
 			if(distIJSqr < Math.pow(this.separationDistance, 2)) {
 				// Two planes have collided
@@ -379,7 +379,7 @@ public class Game {
 				return result;
 			} else if(distIJSqr < Math.pow(this.penaltyDistance, 2)) {
 				// Two planes are in penalty distance
-				planeJ.setAlertStatus(true);
+				plane2.setAlertStatus(true);
 				risk = true; 
 				if (penalty){
 					if (this.score >= 2){
@@ -387,14 +387,14 @@ public class Game {
 						this.multiplier --;
 					}
 					penalty = false;
-					planeJ.setViolationOccurred();
+					plane2.setViolationOccurred();
 				}
 				
 				}
 			}
 		
 		
-		planeI.setAlertStatus(risk);
+		plane1.setAlertStatus(risk);
 		result[1] = risk;
 		for (Plane p : this.currentPlanes){ 
 			if (p.getAlertStatus()){

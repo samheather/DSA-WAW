@@ -675,29 +675,6 @@ public class GameWindow extends BasicGameState {
 	
 	
 	
-//	/**
-//	 * Handles mouse wheel events
-//	 * 
-//	 * @param change			the amount the wheel was turned by
-//	 */
-//	@Override
-//	public void mouseWheelMoved(int change) {
-//		
-//		if (currentGameContainer.isPaused()){
-//			return;
-//		}
-//		
-//		
-//		
-//		if(!this.currentGame.isEnding()) {
-//			if((this.currentGame.getCurrentPlane() != null) && (change > 0)) {
-//				this.currentGame.getCurrentPlane().incrementTargetAltitude();
-//			} else if((this.currentGame.getCurrentPlane() != null) && (change < 0)){
-//				this.currentGame.getCurrentPlane().decrementTargetAltitude();
-//			}
-//		}
-//	}
-	
 	/**
 	 * Handles key press events
 	 * 
