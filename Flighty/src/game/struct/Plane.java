@@ -17,7 +17,7 @@ public class Plane {
 	private int size;
 
 	/** Speed the plane is traveling at */
-	private int velocity;
+	private double velocity;
 
 	/** Current altitude */
 	private int altitude;
@@ -75,7 +75,7 @@ public class Plane {
 	 * @param y			the y position to create the plane at
 	 */
 	// Constructor
-	public Plane(int id, int velocity, int altitude, 
+	public Plane(int id, double velocity, int altitude, 
 			double bearing, Game currentGame) {
 		this.currentGame = currentGame;
 		this.id = id;
@@ -285,7 +285,7 @@ public class Plane {
 		//find distance to runway waypoint
 		double distanceFromRunway =  Math.sqrt(Math.pow(this.x-this.currentGame.getAirport().getBeginningOfRunway().getX(), 2)+Math.pow(this.y-this.currentGame.getAirport().getBeginningOfRunway().getY(), 2));
 		double descentPerPixel = this.altitude/distanceFromRunway;
-		rate = descentPerPixel*((float)this.velocity/7000)*this.currentGame.getSpeedDifficulty();
+		rate = descentPerPixel*(this.velocity)*this.currentGame.getSpeedDifficulty();
 
 		
 		return rate;
@@ -369,12 +369,12 @@ public class Plane {
 		this.setX((float) (this.x
 				- (Math.cos(Math.toRadians(this.bearing))
 						* (this.currentGame.getSpeedDifficulty()
-								* this.velocity / 7000d))));
+								* this.velocity))));
 		
 		this.setY((float) (this.y
 				- (Math.sin(Math.toRadians(this.bearing))
 						* (this.currentGame.getSpeedDifficulty()
-								* this.velocity/ 7000d))));
+								* this.velocity))));
 		
 	}
 
@@ -412,7 +412,7 @@ public class Plane {
 	/**
 	 * @return			the plane's current speed
 	 */
-	public int getVelocity() {
+	public double getVelocity() {
 		return this.velocity;
 	}
 
@@ -493,7 +493,7 @@ public class Plane {
 	/**
 	 * @param velocity	the new speed
 	 */
-	public void setVelocity(int velocity) {
+	public void setVelocity(double velocity) {
 		this.velocity = velocity;
 	}
 

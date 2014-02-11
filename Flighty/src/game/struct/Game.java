@@ -41,9 +41,6 @@ public class Game {
 	/** List of planes currently in the game */
 	private ArrayList<Plane> currentPlanes = new ArrayList<Plane>();
 	
-	/** List of strings that make up first part of a plane's unique ID */
-	//private ArrayList<String> carriers = new ArrayList<String>();	
-	
 	/** Reference to the game window  */
 	private GameWindow currentGameWindow;	
 	
@@ -173,9 +170,9 @@ public class Game {
 	 * @see					#createPlane(boolean)
 	 * @return				the plane
 	*/
-	public int createPlane() {
+	/*public int createPlane() {
 		return this.createPlane(false).getID();
-	}
+	}*/
 	
 	/**
 	 * Creates a plane
@@ -197,11 +194,11 @@ public class Game {
 	 * 						or <code>false</code> otherwise
 	 * @return				plane's ID
 	*/
-	public Plane createPlane(boolean testing) {
+	public void createPlane() {
 		Plane newPlane;
 		double angle;
 		String id;
-		int velocity = 7000;
+		double velocity = 0;
 		int altitude;
 		float x, y;
 		double bearing = 0;
@@ -211,7 +208,7 @@ public class Game {
 		
 		
 		// Randomise velocity
-		velocity += this.generateVelocity();
+		velocity = this.generateVelocity();
 		
 		// Randomise altitude
 		altitude =  this.generateAltitude();
@@ -243,30 +240,39 @@ public class Game {
 		newPlane.setBearing(angle);
 
 		
-		
-		
-		
 		// Skip adding flight plan if testing toggle on
-		if(!testing) {
-			
+
 
 			// Add new plane to the game
-			this.currentPlanes.add(newPlane);
-		}
-		
-		return newPlane;
+		this.currentPlanes.add(newPlane);		
+
 		
 	}
 
-	private int generateVelocity() {
-		int velocity;
-		velocity = 1000 * (int) (1 + (Math.random()*100) % 2);
+	private double generateVelocity() {
+		double velocity = 0;
+		Random rand = new Random();
+		int random = rand.nextInt(3);
+		switch (random) {
+		case 0:
+			velocity = 1;
+			break;
+		case 1:
+			velocity = 0.8;
+			break;
+		case 2:
+			velocity = 1.2;
+			break;
+		default:
+			break;
+		}
+
 		return velocity;
 	}
 
 	private int generateAltitude() {
 		int altitude;
-		altitude = 2000 + (int) ((Math.random())*7) * 1000;
+		altitude = 2000 + (int) ((Math.random())*6) * 1000;
 		return altitude;
 	}
 
@@ -464,7 +470,6 @@ public class Game {
 
 			// Handle directional controls
 			
-			//NOTE: THESE NEED TO SET TURNINGLEFT AND TURNINGRIGHT TO FALSE FOR THE PLANE YOU ARE CONTROLLING
 			if(this.currentPlane != null && this.currentPlane.getVelocity() > 0) {
 				// Action on 'a' and 'left' keys
 				if(gameContainer.getInput().isKeyDown(203)
@@ -550,14 +555,13 @@ public class Game {
 					}
 					planesToRemove.add(plane);
 				}
-				//if(plane.getVelocity()==0) {
-				//	this.manualPlanes.add(plane);
-				//}
+
+				
 				if(plane.equals(this.currentPlane)) { //<- this is what I'm talking about on google, you can only take of if you press an arrow first or right click
 					if(plane.getVelocity()==0) {
 						if(gameContainer.getInput().isKeyDown(Input.KEY_T)) {
 							
-							plane.setVelocity(7000);
+							plane.setVelocity(this.generateVelocity());
 							this.manualPlanes.remove(plane);
 							plane.setTakingOff(true);
 							this.currentPlane = null;
@@ -575,7 +579,7 @@ public class Game {
 					else{
 						plane.setAltitude(plane.getAltitude()-(int)Math.round(plane.getLandingDescentRate()));
 					}
-					//System.out.println(plane.getAltitudeFromHeight(plane.getAltitude())-plane.getLandingDescentRate());
+
 				}
 				else {
 					if(plane.getAltitude() > plane.getTargetAltitude()) {
@@ -654,9 +658,8 @@ public class Game {
 					}
 				}
 
-				// Change altitude
+				
 					
-
 				
 				plane.movePlane();
 				

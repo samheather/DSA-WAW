@@ -53,41 +53,42 @@ public class FlightPlan {
 				for (int i = 0; i < currentGame.getListOfExitPoints().size(); i++) {// loop through all exit points and add them to temppoints
 					tempListOfExitPoints.add(currentGame.getListOfExitPoints().get(i));
 				}
-				
+
 				// Adding Waypoints to Plan
-				
+
 				int pointsInPlan = rand.nextInt(2) + 3; 
-				
+
 				for (int i = 0; i < pointsInPlan - 1; i++) {
 					int waypointIndex = rand.nextInt(tempListOfWaypoints.size());
 					tempRoute.add(tempListOfWaypoints.get(waypointIndex));
 					tempListOfWaypoints.remove(waypointIndex);
 				}
-				
+
 				// Adding ExitPoint to Plan
-				
+
 				int ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
-				
+
 				while (exitpointAdded == false){
-					
-					/*if (this.entryPoint.getY() == tempListOfExitPoints.get(ExitPointIndex).getY()){
+
+					if (this.entryPoint.getY() == tempListOfExitPoints.get(ExitPointIndex).getY()){
 						tempListOfExitPoints.remove(ExitPointIndex);
 						ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
-					}*/
-					
-					/*else if (this.entryPoint.getX() == tempListOfExitPoints.get(ExitPointIndex).getX()){
+					}
+
+					else if (this.entryPoint.getX() == tempListOfExitPoints.get(ExitPointIndex).getX()){
 						tempListOfExitPoints.remove(ExitPointIndex);
 						ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
-					}*/
-						if(tempListOfExitPoints.get(ExitPointIndex).equals(currentGame.getAirport())){
-							tempRoute.add(currentGame.getAirport().getBeginningOfRunway());
-							tempRoute.add(currentGame.getAirport().getEndOfRunway());
-							exitpointAdded = true;
-						}
-						else{
-							tempRoute.add(tempListOfExitPoints.get(ExitPointIndex));
-						    exitpointAdded = true;
-						     
+					}
+					
+					if(tempListOfExitPoints.get(ExitPointIndex).equals(currentGame.getAirport())){
+						tempRoute.add(currentGame.getAirport().getBeginningOfRunway());
+						tempRoute.add(currentGame.getAirport().getEndOfRunway());
+						exitpointAdded = true;
+					}
+					else{
+						tempRoute.add(tempListOfExitPoints.get(ExitPointIndex));
+						exitpointAdded = true;
+
 					}
 				}
 		}
