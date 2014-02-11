@@ -476,12 +476,12 @@ public class GameWindow extends BasicGameState {
 
 
 
-
-					g.drawString(
-							plane.getAltitude() + " ft",
-							(float) plane.getX(),
-							(float) plane.getY() + 15);
-
+					if (plane.getVelocity() > 0){
+						g.drawString(
+								plane.getAltitude() + " ft",
+								(float) plane.getX(),
+								(float) plane.getY() + 15);
+					}
 
 					if(plane.isNeedsToLand() && !plane.equals(currentGame.getCurrentPlane()) && !currentGame.getAirport().isPlaneLanding()){
 
