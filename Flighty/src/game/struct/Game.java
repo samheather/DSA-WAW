@@ -426,8 +426,6 @@ public class Game {
 	
 	
 	
-	
-	
 	/**
 	 * Updates the state
 	 * 
@@ -474,7 +472,7 @@ public class Game {
 					if(!this.manualPlanes.contains(this.currentPlane)) {
 						this.manualPlanes.add(this.currentPlane);
 					}
-			
+					
 					this.currentPlane.decrementBearing();
 				}
 
@@ -555,10 +553,9 @@ public class Game {
 				//if(plane.getVelocity()==0) {
 				//	this.manualPlanes.add(plane);
 				//}
-				// Press 't' to take off
 				if(plane.equals(this.currentPlane)) { //<- this is what I'm talking about on google, you can only take of if you press an arrow first or right click
 					if(plane.getVelocity()==0) {
-						if(gameContainer.getInput().isKeyDown(Input.KEY_T)) {
+						if(gameContainer.getInput().isKeyPressed(Input.KEY_T)) {
 							
 							plane.setVelocity(7000);
 							this.manualPlanes.remove(plane);
