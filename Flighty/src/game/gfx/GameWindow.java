@@ -582,6 +582,8 @@ public class GameWindow extends BasicGameState {
 					this.planeNormal.draw((float) plane.getX(),
 											(float) plane.getY());
 				}
+				//Erase the extrapoints above the waypoints
+				display = false;
 				
 				new TrueTypeFont(this.fontPrimitive.deriveFont(50f), true)
 									.drawString(300f, 200f, "That didn't end well...");
