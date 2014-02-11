@@ -476,12 +476,12 @@ public class GameWindow extends BasicGameState {
 
 
 
-
-					g.drawString(
-							plane.getAltitude() + " ft",
-							(float) plane.getX(),
-							(float) plane.getY() + 15);
-
+					if (plane.getVelocity() > 0){
+						g.drawString(
+								plane.getAltitude() + " ft",
+								(float) plane.getX(),
+								(float) plane.getY() + 15);
+					}
 
 					if(plane.isNeedsToLand() && !plane.equals(currentGame.getCurrentPlane()) && !currentGame.getAirport().isPlaneLanding()){
 
@@ -582,6 +582,8 @@ public class GameWindow extends BasicGameState {
 					this.planeNormal.draw((float) plane.getX(),
 											(float) plane.getY());
 				}
+				//Erase the extrapoints above the waypoints
+				display = false;
 				
 				new TrueTypeFont(this.fontPrimitive.deriveFont(50f), true)
 									.drawString(300f, 200f, "That didn't end well...");
