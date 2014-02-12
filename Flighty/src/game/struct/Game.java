@@ -170,9 +170,6 @@ public class Game {
 	 * @see					#createPlane(boolean)
 	 * @return				the plane
 	*/
-	/*public int createPlane() {
-		return this.createPlane(false).getID();
-	}*/
 	
 	/**
 	 * Creates a plane

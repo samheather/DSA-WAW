@@ -295,7 +295,7 @@ public class Plane {
 		
 		
 		if (!this.currentGame.getAirport().isPlaneLanding()){
-			if (this.currentGame.getAirport().getApproachPolygon().contains((float)this.x, (float)this.y)){
+			if (this.currentGame.getAirport().getLandingApproachArea().contains((float)this.x, (float)this.y)){
 				if (this.bearing >= 150 && this.bearing <= 210 && this.altitude <= 2000){
 					this.currentGame.getAirport().setPlaneLanding(true);
 					this.needsToLand = false;

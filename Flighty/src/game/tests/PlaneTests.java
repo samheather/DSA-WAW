@@ -56,6 +56,14 @@ public class PlaneTests {
 		assertFalse(plane1.checkIfFlightAtWaypoint(plane1.getFlightPlan().getCurrentRoute().get(0), game));
 	}
 	
+	@Test 
+	public void checkIfFlightAtWaypointTest5(){
+		
+		plane1.setX(plane1.getFlightPlan().getCurrentRoute().get(0).getX() +20);
+		plane1.setY(plane1.getFlightPlan().getCurrentRoute().get(0).getY() +20);
+		assertFalse(plane1.checkIfFlightAtWaypoint(game.getAirport().getBeginningOfRunway(), game));
+	}
+	
 	
 	// Testing increment bearing
 	
@@ -284,10 +292,10 @@ public class PlaneTests {
 	public void findLandingDescentRateTest1(){
 		plane1.setX(695);
 		plane1.setY(465);
-		plane1.setVelocity(8000);
+		plane1.setVelocity(1);
 		game.setSpeedDifficulty(0.5);
 		plane1.setAltitude(2000);
-		assertEquals(45.71, plane1.findLandingDescentRate(), 0.01);
+		assertEquals(40, plane1.findLandingDescentRate(), 0);
 		
 	}
 	
@@ -314,13 +322,13 @@ public class PlaneTests {
 	@Test
 	public void updateXYCoordinatesTest1(){
 		plane1.setX(150);
-		plane1.setY(450);
-		plane1.setVelocity(8000);
+		plane1.setY(400);
+		plane1.setVelocity(1);
 		plane1.setBearing(100);
 		game.setSpeedDifficulty(0.5);
 		plane1.updateXYCoordinates();
-		assertEquals(150.099, plane1.getX(), 0.001);
-		assertEquals(449.437, plane1.getY(), 0.001);
+		assertEquals(150.086, plane1.getX(), 0.001);
+		assertEquals(399.507, plane1.getY(), 0.001);
 		
 	}
 	
@@ -332,32 +340,32 @@ public class PlaneTests {
 	@Test
 	public void movePlaneTest1(){
 		plane1.setX(150);
-		plane1.setY(450);
-		plane1.setVelocity(8000);
+		plane1.setY(400);
+		plane1.setVelocity(1);
 		plane1.setBearing(100);
 		plane1.setAltitude(100);
 		plane1.setTargetAltitude(100);
 		plane1.setLanding(false);
 		game.setSpeedDifficulty(0.5);
 		plane1.movePlane();
-		assertEquals(150.099, plane1.getX(), 0.001);
-		assertEquals(449.437, plane1.getY(), 0.001);
+		assertEquals(150.086, plane1.getX(), 0.001);
+		assertEquals(399.507, plane1.getY(), 0.001);
 		
 	}
 	
 	@Test
 	public void movePlaneTest2(){
 		plane1.setX(150);
-		plane1.setY(450);
-		plane1.setVelocity(8000);
+		plane1.setY(400);
+		plane1.setVelocity(1);
 		plane1.setBearing(100);
 		plane1.setTargetBearing(150);
 		plane1.setAltitude(3000);
 		game.setSpeedDifficulty(0.5);
 		game.getManualPlanes().add(plane1);
 		plane1.movePlane();
-		assertEquals(150.108, plane1.getX(), 0.001);
-		assertEquals(449.438, plane1.getY(), 0.001);
+		assertEquals(150.094, plane1.getX(), 0.001);
+		assertEquals(399.509, plane1.getY(), 0.001);
 		assertEquals(100.9, plane1.getBearing(), 0.1);
 		
 	}
@@ -366,15 +374,15 @@ public class PlaneTests {
 	public void movePlaneTest3(){
 		plane1.setX(150);
 		plane1.setY(400);
-		plane1.setVelocity(8000);
+		plane1.setVelocity(1);
 		plane1.setBearing(100);
 		plane1.setTargetBearing(100);
 		plane1.setAltitude(3000);
 		plane1.setTarget(game.getListOfWaypoints().get(0));
 		game.setSpeedDifficulty(0.5);
 		plane1.movePlane();
-		assertEquals(150.108, plane1.getX(), 0.001);
-		assertEquals(399.438, plane1.getY(), 0.001);
+		assertEquals(150.094, plane1.getX(), 0.001);
+		assertEquals(399.509, plane1.getY(), 0.001);
 		assertEquals(111.8, plane1.getTargetBearing(), 0.1);
 		assertEquals(100.9, plane1.getBearing(), 0.1);
 		

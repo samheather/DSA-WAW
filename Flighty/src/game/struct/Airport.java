@@ -10,7 +10,7 @@ public class Airport extends Point {
 	private boolean planeLanding;
 	private Plane planeWaitingtoTakeoff;
 	private Waypoint beginningOfRunway, endOfRunway;
-	private Polygon approachPolygon;
+	private Polygon landingApproachArea;
 	
 	
 	
@@ -19,12 +19,12 @@ public class Airport extends Point {
     	this.planeLanding = false;
     	this.planeWaitingtoTakeoff = null;
     	this.landingAltitude = 20000;
-    	this.beginningOfRunway = new Waypoint(720,465);
+    	this.beginningOfRunway = new Waypoint(720,460);
     	this.endOfRunway = new Waypoint(1180,465);
-    	approachPolygon = new Polygon();
-    	approachPolygon.addPoint(720, 465);
-    	approachPolygon.addPoint(400, 344);
-    	approachPolygon.addPoint(400, 576);
+    	landingApproachArea = new Polygon();
+    	landingApproachArea.addPoint(720, 465);
+    	landingApproachArea.addPoint(400, 344);
+    	landingApproachArea.addPoint(400, 576);
     	
     	
     }
@@ -81,12 +81,12 @@ public class Airport extends Point {
 		this.planeWaitingtoTakeoff = planeWaitingtoTakeoff;
 	}
 
-	public Polygon getApproachPolygon() {
-		return approachPolygon;
+	public Polygon getLandingApproachArea() {
+		return landingApproachArea;
 	}
 
-	public void setApproachPolygon(Polygon approachPolygon) {
-		this.approachPolygon = approachPolygon;
+	public void setLandingApproachArea(Polygon landingApproachArea) {
+		this.landingApproachArea = landingApproachArea;
 	}
 
     
