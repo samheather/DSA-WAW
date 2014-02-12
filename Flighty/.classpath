@@ -17,5 +17,7 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/Flighty/lib/docs/slick-docs.jar!/slick"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/jars/jogg-0.0.7.jar"/>
+	<classpathentry kind="lib" path="lib/jars/jorbis-0.0.17-1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
