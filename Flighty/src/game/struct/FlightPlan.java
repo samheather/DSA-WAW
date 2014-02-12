@@ -7,34 +7,53 @@ import java.util.Random;
 
 public class FlightPlan {
 	
+	/** Array list which contains waypoints of flight plan*/
 	private ArrayList<Point> currentRoute = new ArrayList<Point>();
+	
+	/** Plane for which flight plan is generated */
 	private Plane plane;
+	
+	/** Entry point i.e. first waypoint of flight plan */
 	private Point entryPoint;
+	
+	/** Required by Slick2D */
 	private Game currentGame;
 	
 	// CONSTRUCTOR
 	
-
+	/** 
+	 * Constructor for FlightPlan
+	 * 
+	 * @param currentGame Required by Slick2D
+	 * @param plane Plane for which flight plan is generated
+	 */
 	public FlightPlan(Game currentGame, Plane plane) {
 		this.plane = plane;
 		this.currentGame = currentGame;
 		this.entryPoint = generateEntryPoint(currentGame);
-		this.currentRoute = buildRoute(currentGame, this.entryPoint);
-		
-
-		
+		this.currentRoute = buildRoute(currentGame, this.entryPoint);	
 	}
 	
+	/**
+	 * Randomly chooses entry point i.e. the first waypoint, of a plane's flight plan
+	 * from list of entry points
+	 * 
+	 * @param currentGame Required by Slick2D
+	 * @return Entry point
+	 */
 	public Point generateEntryPoint(Game currentGame){
 		
 		Random rand = new Random();
 
-		return currentGame.getListOfEntryPoints().get(rand.nextInt(currentGame.getListOfEntryPoints().size()));
-		
+		return currentGame.getListOfEntryPoints().get(rand.nextInt(currentGame.getListOfEntryPoints().size()));	
 	}
 	
-	
-	
+	/**
+	 * Builds route for flight plan
+	 * @param currentGame Required by Slick2D
+	 * @param entryPoint The entry point for a flight i.e. the first waypoint the plane must fly through
+	 * @return The route which the plane must fly
+	 */
 	public ArrayList<Point> buildRoute(Game currentGame, Point entryPoint) {
 		ArrayList<Point> tempRoute = new ArrayList<Point>();  // Create the array lists for route and points
 		ArrayList<Point> tempListOfWaypoints = new ArrayList<Point>();
@@ -92,35 +111,54 @@ public class FlightPlan {
 					}
 				}
 		}
-		
 		return tempRoute;
 	}
 
+	/**
+	 * 
+	 * @return Current route for selected plane
+	 */
 	public ArrayList<Point> getCurrentRoute() {
 		return currentRoute;
 	}
 
+	/**
+	 * Sets currentRoute
+	 * @param currentRoute New route
+	 */
 	public void setCurrentRoute(ArrayList<Point> currentRoute) {
 		this.currentRoute = currentRoute;
 	}
 
+	/**
+	 * 
+	 * @return Selected plane
+	 */
 	public Plane getPlane() {
 		return plane;
 	}
 
+	/**
+	 * 
+	 * @param plane Plane to set
+	 */
 	public void setPlane(Plane plane) {
 		this.plane = plane;
 	}
 
+	/**
+	 * 
+	 * @return Entry point for selected flight
+	 */
 	public Point getEntryPoint() {
 		return entryPoint;
 	}
 
+	/**
+	 * 
+	 * @param entryPoint Entry point to set
+	 */
 	public void setEntryPoint(EntryPoint entryPoint) {
 		this.entryPoint = entryPoint;
 	}
-	
-	
-	
-
 }
