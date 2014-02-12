@@ -329,11 +329,11 @@ public class GameWindow extends BasicGameState {
 			this.currentGame.setSpawnCount(1);
 		} else if(((WindowManager) game).getCurrentLevel() == 2) {
 			// Play level 2
-			this.currentGame = new Game(75, 200);
-			this.map = this.map2;
-			this.fontColor = Color.black;
+			this.currentGame = new Game(70, 100);
+			this.map = this.map1;
+			this.fontColor = Color.white;
 			this.currentGame.setSpeedDifficulty(0.5);
-			this.currentGame.setSpawnRate(30);
+			this.currentGame.setSpawnRate(20);
 			this.currentGame.setSpawnCount(1);
 		} else {
 			// ERROR
@@ -363,7 +363,7 @@ public class GameWindow extends BasicGameState {
 
 		if(!this.currentGame.isEnding()) {
 			// Display the game duration (time)
-			
+
 			//g.draw(currentGame.getAirport().getApproachPolygon());
 
 			g.drawString("Time : " + ((int) this.time/1000/60 < 10 ? "0" + (int) (this.time / 1000)/60 : (int) (this.time / 1000)/60) 

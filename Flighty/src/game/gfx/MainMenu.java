@@ -218,9 +218,9 @@ public class MainMenu extends GenericWindow {
 				- (this.titleFont.getWidth("UNDER RENOVATION") / 2);
 		
 		this.drawShadowedText(this.titleFont, xPos+125, 50,
-				"CURRENTLY", Color.orange);
-		this.drawShadowedText(this.titleFont, xPos, 125,
-				"UNDER RENOVATION", Color.orange);
+				"FLIGHTY", Color.orange);
+		this.drawShadowedText(this.titleFont, xPos+200, 125,
+				"ATC", Color.orange);
 		
 		// Draw other text
 		this.checkForSelection(gameContainer, game);
