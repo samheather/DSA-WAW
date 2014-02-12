@@ -134,22 +134,22 @@ public class Game {
 		this.listOfEntryPoints.add(this.airport);
 		
 		this.listOfWaypoints.add(new Waypoint(250,150));
-		this.listOfWaypoints.add(new Waypoint(300,470));
-		this.listOfWaypoints.add(new Waypoint(600,160));
-		this.listOfWaypoints.add(new Waypoint(700,320));
-		this.listOfWaypoints.add(new Waypoint(500, 200));
-		this.listOfWaypoints.add(new Waypoint(400, 220));
-		this.listOfWaypoints.add(new Waypoint(850, 188));
-		this.listOfWaypoints.add(new Waypoint(950, 272));
-		this.listOfWaypoints.add(new Waypoint(1000, 300));
-		this.listOfWaypoints.add(new Waypoint(140, 250));
+		this.listOfWaypoints.add(new Waypoint(100,100));
+		this.listOfWaypoints.add(new Waypoint(950,140));
+		this.listOfWaypoints.add(new Waypoint(100,350));
+		this.listOfWaypoints.add(new Waypoint(550, 200));
+		this.listOfWaypoints.add(new Waypoint(400, 310));
+		this.listOfWaypoints.add(new Waypoint(700, 310));
+		this.listOfWaypoints.add(new Waypoint(100, 550));
+		this.listOfWaypoints.add(new Waypoint(1000, 330));
+		this.listOfWaypoints.add(new Waypoint(760, 150));
 		
 		this.listOfExitPoints.add(this.airport);
 		this.listOfExitPoints.add(new ExitPoint(800,0));
 		this.listOfExitPoints.add(new ExitPoint(0,200));
 		this.listOfExitPoints.add(new ExitPoint(1200,300));
 		this.penalty = true;
-		this.multiplier = 10;
+		this.multiplier = 1;
 		
 		
 	}
