@@ -12,6 +12,8 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+
+
 import java.awt.Font;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -115,6 +117,8 @@ public class GameWindow extends BasicGameState {
 	/** Coordinates of last waypoint passed **/
 	double prevX;
 	double prevY;
+	
+	
 
 
 
@@ -287,11 +291,15 @@ public class GameWindow extends BasicGameState {
 		this.map1 = new Image(map1Stream, "Map 1 Image", false);
 		this.map2 = new Image(map2Stream, "Map 2 Image", false);
 		
+		
+		
 
 		
 		// Set the font (used for altitudes etc.)
 		this.fontPrimitive = new Font("Lucida Sans", Font.PLAIN, 12);
 		this.font = new TrueTypeFont(this.fontPrimitive, true);
+		
+		
 	}
 	
 	/**
@@ -313,6 +321,8 @@ public class GameWindow extends BasicGameState {
 		time = 0;
 		this.windowWidth = 1200;
 		this.windowHeight = 600;
+		
+		
 		
 		((AppGameContainer) gameContainer).setDisplayMode(
 				this.windowWidth, this.windowHeight, false);

@@ -7,6 +7,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.Music;
 
 import java.io.InputStream;
 
@@ -24,6 +25,8 @@ public class MainMenu extends GenericWindow {
 	
 	/** The waypoint icon */
 	private Image waypointIcon;
+	
+	Music gameMusic;
 	
 	
 	// Accessors
@@ -222,6 +225,9 @@ public class MainMenu extends GenericWindow {
 				"Plane Icon", false);		
 		this.waypointIcon = new Image(waypointStream,
 				"Waypoint Icon", false);
+		
+		gameMusic = new Music("resources/music/Galavanting_Through_Low_Rez_Forests.ogg");
+		gameMusic.loop();
 	}
 
 	/**
