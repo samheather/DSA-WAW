@@ -45,6 +45,9 @@ public class WindowManager extends StateBasedGame {
 	/** Reference to the credits state */
 	public static final int CREDITS_STATE = 4;
 	
+	/** Reference to the credits state */
+	public static final int CONTROLS_STATE = 5;
+	
 	/** The level currently being played */
 	private int currentLevel;
 	
@@ -114,6 +117,7 @@ public class WindowManager extends StateBasedGame {
 		this.addState(new LevelSelect());
 		this.addState(new GameWindow());
 		this.addState(new Credits());
+		this.addState(new Controls());
 	}
 	
 	
@@ -231,7 +235,9 @@ public class WindowManager extends StateBasedGame {
 			this.enterState(MAIN_MENU_STATE);
 		} else if(this.getCurrentStateID() == CREDITS_STATE) {
 			return true;
-		}
+		} else if(this.getCurrentStateID() == CONTROLS_STATE) {
+			return true;
+		} 
 		
 		return false;
 	}

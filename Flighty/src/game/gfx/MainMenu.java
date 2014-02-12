@@ -93,16 +93,19 @@ public class MainMenu extends GenericWindow {
 		
 		String startGameText = "Start Game";
 		String creditsText = "Credits";
+		String controlsText = "Controls";
 		String exitText = "Exit";
 		
 		int startGameWidth = this.font.getWidth(startGameText);
 		int creditsWidth = this.font.getWidth(creditsText);
+		int controlsWidth = this.font.getWidth(controlsText);
 		int exitWidth = this.font.getWidth(exitText);
 		
 		int textHeight = this.font.getHeight();
 		
 		Color startGameColor = Color.orange;
 		Color creditsColor = Color.orange;
+		Color controlsColor = Color.orange;
 		Color exitColor = Color.orange;
 		
 		// Start Game
@@ -140,7 +143,7 @@ public class MainMenu extends GenericWindow {
 			} else {
 				creditsColor = Color.white;
 				this.waypointIcon.draw((gameContainer.getWidth() / 3)
-						+ 175, (gameContainer.getHeight() /3 + 132));
+						+ 175, (gameContainer.getHeight() /3 + 149));
 			}
 		} else {
 			creditsColor = Color.orange;
@@ -149,6 +152,31 @@ public class MainMenu extends GenericWindow {
 		this.drawShadowedText(this.font, (gameContainer.getWidth() / 3)
 				+ 30, (gameContainer.getHeight() / 3) + 50
 				+ (this.font.getHeight() * 4), creditsText, creditsColor);
+		
+		// Controls
+				if((x >= (gameContainer.getWidth() / 3) + 30 - 25)
+						&& (y >= (gameContainer.getHeight() / 3) + 150 
+						+ (this.font.getHeight() * 4))
+						&& (x <= (gameContainer.getWidth() / 3) + 30
+						+ creditsWidth + 25)
+						&& (y <= (gameContainer.getHeight() / 3) + 160
+						+ (this.font.getHeight() * 4) + textHeight + 25)) {
+					if(clicked) {
+						game.enterState(WindowManager.CONTROLS_STATE);
+					} else {
+						controlsColor = Color.white;
+						this.waypointIcon.draw((gameContainer.getWidth() / 3)
+								+ 210, (gameContainer.getHeight() /3 + 249));
+					}
+				} else {
+					controlsColor = Color.orange;
+				}
+				
+		this.drawShadowedText(this.font, (gameContainer.getWidth() / 3)
+					+ 30, (gameContainer.getHeight() / 3) + 150
+					+ (this.font.getHeight() * 4), controlsText, controlsColor);
+				
+		
 		
 		// Exit
 		if((x >= (50 - 25))
