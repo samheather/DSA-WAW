@@ -7,12 +7,11 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.util.ResourceLoader;
+
 
 
 import java.awt.Font;
@@ -119,7 +118,7 @@ public class GameWindow extends BasicGameState {
 	double prevX;
 	double prevY;
 	
-	Music gameMusic;
+	
 
 
 
@@ -293,7 +292,7 @@ public class GameWindow extends BasicGameState {
 		this.map2 = new Image(map2Stream, "Map 2 Image", false);
 		
 		
-		//gameMusic = new Music("/resources/music/Galavanting_Through_Low_Rez_Forests.ogg");
+		
 
 		
 		// Set the font (used for altitudes etc.)
@@ -322,7 +321,7 @@ public class GameWindow extends BasicGameState {
 		time = 0;
 		this.windowWidth = 1200;
 		this.windowHeight = 600;
-		//gameMusic.loop();
+		
 		
 		
 		((AppGameContainer) gameContainer).setDisplayMode(
