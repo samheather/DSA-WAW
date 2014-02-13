@@ -398,7 +398,7 @@ public class GameWindow extends BasicGameState {
 					}
 					if (display && synch>0){
 						if (morePoints ){
-							g.drawString("+" + Integer.toString(this.getCurrentGame().getMultiplier()*10), (float) prevX - 8, (float) prevY - 30);
+							g.drawString("+" + Integer.toString(this.getCurrentGame().getMultiplier()*5), (float) prevX - 8, (float) prevY - 30);
 							morePoints = synch <= 1 ? false : true;
 						}else{
 				
@@ -587,7 +587,9 @@ public class GameWindow extends BasicGameState {
 			
 		} else {
 			// Display the game duration (time)
-			g.drawString("Time : " + ((int) (this.endTime / 1000)) + "s", 925, 15);
+			g.drawString("Time : " + ((int) this.endTime/1000/60 < 10 ? "0" + (int) (this.endTime / 1000)/60 : (int) (this.endTime / 1000)/60) 
+					+ ":" + ((int) (this.endTime / 1000) %60 < 10 ? "0" + (int) (this.endTime / 1000)%60  : (int) (this.endTime / 1000)%60) 
+								, 1050, 15);
 		}
 		
 

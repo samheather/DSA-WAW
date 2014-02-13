@@ -156,7 +156,7 @@ public class Game {
 		this.listOfExitPoints.add(new ExitPoint(0,200));
 		this.listOfExitPoints.add(new ExitPoint(1200,300));
 		this.penalty = true;
-		this.multiplier = 1;	
+		this.multiplier = 2;	
 	}
 	
 	// METHODS
@@ -381,12 +381,18 @@ public class Game {
 				plane2.setAlertStatus(true);
 				risk = true; 
 				if (penalty){
-					if (this.score >= 2){
-						this.score -= 2;
+					if (this.score >= 5 * this.multiplier){
+						this.score -= 5 * this.multiplier;
 						if (this.multiplier > 1){
 							this.multiplier --;
 							}
 						}
+					else {
+						this.score = 0;
+						if (this.multiplier > 1){
+							this.multiplier --;
+						}
+					}
 					penalty = false;
 					plane2.setViolationOccurred();
 					}
@@ -541,8 +547,11 @@ public class Game {
 						|| (plane.getX() < 0)
 						|| (plane.getY() > this.windowHeight)
 						|| (plane.getY() < 0))) {
-					if (this.score >= 5){
-						this.score -= 5;
+					if (this.score >= 10){
+						this.score -= 10 * this.multiplier;
+					}
+					else {
+						this.score = 0;
 					}
 					if (plane == this.currentPlane){
 						this.currentPlane = null;
