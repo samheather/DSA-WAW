@@ -531,7 +531,10 @@ public class GameWindow extends BasicGameState {
 
 			}
 			
+			// Drawing Pause Screen
+			
 			if (currentGameContainer.isPaused()){
+				
 				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
 				.drawString(this.getWindowWidth()/2-30, this.getWindowHeight()/2-100, "PAUSE");
 				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
@@ -545,34 +548,37 @@ public class GameWindow extends BasicGameState {
 			
 				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
 				.drawString(this.getWindowWidth()/2-30-50, this.getWindowHeight()/2+70, "Press p to unpause");
+				
 			}
 			
 			
-			// Set next Waypoint images
+			// Draws Waypoints
 			
-			for (int i = 0; i < this.currentGame.getListOfWaypoints().size(); i++) { // Draws waypoints
+			for (int i = 0; i < this.currentGame.getListOfWaypoints().size(); i++) { 
 				if(this.currentGame.getCurrentPlane()!=null) {
+					
+					//Draws Waypoints arrows for points in current planes plan
 					for(int j=0; j<this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().size()-1;j++) {
 						int headingToWaypoint;
 						double deltaY = this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j+1).getY()-this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j).getY();
-						System.out.println(deltaY);
 						double deltaX = this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j+1).getX()-this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j).getX();
-						System.out.println(deltaX);
-						System.out.println("atan2: " + Math.atan2(deltaY , deltaX));
 						headingToWaypoint = (int)Math.round(Math.toDegrees(Math.atan2(deltaY , deltaX)));
-						System.out.println(headingToWaypoint);
 						this.waypointArrow.setRotation(headingToWaypoint-90);
-						
 						this.waypointArrow.drawCentered((int)this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j).getX(),(int)this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j).getY());
 						
 					}
+					
+					
 					if(this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().size()>0){
 						if(this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(0)==this.currentGame.getListOfWaypoints().get(i)) {
 							this.waypointNext.drawCentered((int)this.currentGame.getListOfWaypoints().get(i).getX(),(int) this.currentGame.getListOfWaypoints().get(i).getY());
 						}
-					else {
-						this.waypointNormal.drawCentered((int)this.currentGame.getListOfWaypoints().get(i).getX(),(int) this.currentGame.getListOfWaypoints().get(i).getY());
-					}
+						
+						else if(!this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().contains(currentGame.getListOfWaypoints().get(i))){
+							this.waypointNormal.drawCentered((int)this.currentGame.getListOfWaypoints().get(i).getX(),(int) this.currentGame.getListOfWaypoints().get(i).getY());
+							
+						}
+
 					}
 				}
 				else {
@@ -581,7 +587,9 @@ public class GameWindow extends BasicGameState {
 			}
 			
 			
-			for (int i = 0; i < this.currentGame.getListOfExitPoints().size(); i++) { // Draws waypoints
+			// Draws ExitPoints
+			
+			for (int i = 0; i < this.currentGame.getListOfExitPoints().size(); i++) { 
 				if (this.currentGame.getCurrentPlane()!= null){
 					if (this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().indexOf(this.currentGame.getListOfExitPoints().get(i)) ==0){
 						this.waypointNext.drawCentered((int)this.currentGame.getListOfExitPoints().get(i).getX(),(int) this.currentGame.getListOfExitPoints().get(i).getY());
@@ -610,7 +618,8 @@ public class GameWindow extends BasicGameState {
 		}
 		
 
-		// End game
+		// Drawing End Game Screen
+		
 		if(this.currentGame.isCollision()) {
 			if(this.currentGame.isEnding()) {
 				// Draw the two colliding planes
