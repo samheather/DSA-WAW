@@ -295,7 +295,7 @@ public class PlaneTests {
 		plane1.setVelocity(1);
 		game.setSpeedDifficulty(0.5);
 		plane1.setAltitude(2000);
-		assertEquals(40, plane1.findLandingDescentRate(), 0);
+		assertEquals(39.223, plane1.findLandingDescentRate(), 0.001);
 		
 	}
 	
@@ -335,7 +335,6 @@ public class PlaneTests {
 	// Testing Move Plane
 	
 	
-	// Testing Update X and Y Coordinates
 	
 	@Test
 	public void movePlaneTest1(){

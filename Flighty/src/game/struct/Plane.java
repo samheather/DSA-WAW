@@ -102,7 +102,7 @@ public class Plane {
 		this.x = 0;
 		this.y = 0;
 		this.flightPlan = new FlightPlan(currentGame, this);
-		this.target = this.flightPlan.getCurrentRoute().get(0);
+		if (this.flightPlan.getCurrentRoute().size() != 0){ this.target = this.flightPlan.getCurrentRoute().get(0);}
 		this.targetAltitude = altitude;
 		this.turningLeft=false;
 		this.turningRight=false;
