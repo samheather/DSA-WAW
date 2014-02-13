@@ -212,6 +212,7 @@ public class Game {
 			newPlane.setVelocity(0);
 			newPlane.setAltitude(0);
 			newPlane.setTargetAltitude(0);
+			newPlane.setNeedsToTakeOff(true);
 			this.listOfEntryPoints.remove(this.airport);
 			
 		}
@@ -238,7 +239,7 @@ public class Game {
 	 * Randomly assigns plane one of three fixed velocities
 	 * @return Velocity value
 	 */
-	private double generateVelocity() {
+	public double generateVelocity() {
 		double velocity = 0;
 		Random rand = new Random();
 		int random = rand.nextInt(3);
@@ -470,48 +471,66 @@ public class Game {
 
 			// Handle directional controls
 			
-			if(this.currentPlane != null && this.currentPlane.getVelocity() > 0) {
-				// Action on 'a' and 'left' keys
-				if(gameContainer.getInput().isKeyDown(203)
-						|| gameContainer.getInput().isKeyDown(30)) {
-					if(!this.manualPlanes.contains(this.currentPlane)) {
-						this.manualPlanes.add(this.currentPlane);
-					}
-					
-					this.currentPlane.decrementBearing();
-				}
+			if(this.currentPlane != null  ) {
+				
+				if(!this.currentPlane.isNeedsToTakeOff()){
+					// Action on 'a' and 'left' keys
+					if(gameContainer.getInput().isKeyDown(203)
+							|| gameContainer.getInput().isKeyDown(30)) {
+						if(!this.manualPlanes.contains(this.currentPlane)) {
+							this.manualPlanes.add(this.currentPlane);
+						}
 
-				// Action on 'd' and 'right' keys
-				if(gameContainer.getInput().isKeyDown(205)
-						|| gameContainer.getInput().isKeyDown(32)) {
-					if(!this.manualPlanes.contains(this.currentPlane)) {
-						this.manualPlanes.add(this.currentPlane);
+						this.currentPlane.decrementBearing();
 					}
-					
-					this.currentPlane.incrementBearing();
-				}
 
-				// Action on 'w' and 'up' keys
-				if(gameContainer.getInput().isKeyPressed(200)
-						|| gameContainer.getInput().isKeyPressed(17)) {
-					this.currentPlane.incrementTargetAltitude();
+					// Action on 'd' and 'right' keys
+					if(gameContainer.getInput().isKeyDown(205)
+							|| gameContainer.getInput().isKeyDown(32)) {
+						if(!this.manualPlanes.contains(this.currentPlane)) {
+							this.manualPlanes.add(this.currentPlane);
+						}
+
+						this.currentPlane.incrementBearing();
+					}
+
+					// Action on 'w' and 'up' keys
+					if(gameContainer.getInput().isKeyPressed(200)
+							|| gameContainer.getInput().isKeyPressed(17)) {
+						this.currentPlane.incrementTargetAltitude();
+					}
+
+					// Action on 's' and 'down' keys
+					if(gameContainer.getInput().isKeyPressed(208)
+							|| gameContainer.getInput().isKeyPressed(31)) {
+						this.currentPlane.decrementTargetAltitude();
+					}
+
+					//Action on 'l' Key
+
+					if(gameContainer.getInput().isKeyPressed(38)) {
+						if (this.currentPlane.isNeedsToLand()){
+							this.currentPlane.land();
+						}
+					}
+
 				}
 				
-				// Action on 's' and 'down' keys
-				if(gameContainer.getInput().isKeyPressed(208)
-						|| gameContainer.getInput().isKeyPressed(31)) {
-					this.currentPlane.decrementTargetAltitude();
-				}
+				// Action on 'T' Key
 				
-				//Action on 'l' Key
-				
-				if(gameContainer.getInput().isKeyPressed(38)) {
-					if (this.currentPlane.isNeedsToLand()){
-						this.currentPlane.landPlane();
+				else if(this.currentPlane.isNeedsToTakeOff()){
+					if(gameContainer.getInput().isKeyDown(Input.KEY_T)) {
+						System.out.println(this.currentPlane.isNeedsToTakeOff());
+						if(this.currentPlane.isNeedsToTakeOff()){
+							this.currentPlane.takeOff();
+						}
+						
 					}
 				}
+				
 			}
 			
+
 			
 			
 			// Action on TAB key
@@ -560,18 +579,6 @@ public class Game {
 				}
 
 				
-				if(plane.equals(this.currentPlane)) { //<- this is what I'm talking about on google, you can only take of if you press an arrow first or right click
-					if(plane.getVelocity()==0) {
-						if(gameContainer.getInput().isKeyDown(Input.KEY_T)) {
-							
-							plane.setVelocity(this.generateVelocity());
-							this.manualPlanes.remove(plane);
-							plane.setTakingOff(true);
-							this.currentPlane = null;
-							
-						}
-					}
-				}
 				
 				if(plane.getLandingDescentRate()!=0 ) {
 					if(plane.getAltitude()<0) {

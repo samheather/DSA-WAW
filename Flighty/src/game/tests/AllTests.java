@@ -1,5 +1,5 @@
 
-/**
+
 package game.tests;
 
 
@@ -8,12 +8,12 @@ import org.junit.runners.Suite;
 
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({GameTests.class,
+@Suite.SuiteClasses({FlightPlanTests.class,
 						PlaneTests.class,
-						WaypointTests.class,
+						
 						})
 public class AllTests {
 	// Runs all tests
 }
 
-**/
+
