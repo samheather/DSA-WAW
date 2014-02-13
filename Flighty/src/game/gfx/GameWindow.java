@@ -587,7 +587,9 @@ public class GameWindow extends BasicGameState {
 			
 		} else {
 			// Display the game duration (time)
-			g.drawString("Time : " + ((int) (this.endTime / 1000)) + "s", 925, 15);
+			g.drawString("Time : " + ((int) this.endTime/1000/60 < 10 ? "0" + (int) (this.endTime / 1000)/60 : (int) (this.endTime / 1000)/60) 
+					+ ":" + ((int) (this.endTime / 1000) %60 < 10 ? "0" + (int) (this.endTime / 1000)%60  : (int) (this.endTime / 1000)%60) 
+								, 1050, 15);
 		}
 		
 
