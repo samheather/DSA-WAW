@@ -398,7 +398,7 @@ public class GameWindow extends BasicGameState {
 					}
 					if (display && synch>0){
 						if (morePoints ){
-							g.drawString("+" + Integer.toString(this.getCurrentGame().getMultiplier()*10), (float) prevX - 8, (float) prevY - 30);
+							g.drawString("+" + Integer.toString(this.getCurrentGame().getMultiplier()*5), (float) prevX - 8, (float) prevY - 30);
 							morePoints = synch <= 1 ? false : true;
 						}else{
 				

@@ -156,7 +156,7 @@ public class Game {
 		this.listOfExitPoints.add(new ExitPoint(0,200));
 		this.listOfExitPoints.add(new ExitPoint(1200,300));
 		this.penalty = true;
-		this.multiplier = 1;	
+		this.multiplier = 2;	
 	}
 	
 	// METHODS
