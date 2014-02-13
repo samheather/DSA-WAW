@@ -566,13 +566,14 @@ public class GameWindow extends BasicGameState {
 						this.waypointArrow.drawCentered((int)this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j).getX(),(int)this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j).getY());
 						
 					}
-					if(this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(0)==this.currentGame.getListOfWaypoints().get(i)) {
-						this.waypointNext.drawCentered((int)this.currentGame.getListOfWaypoints().get(i).getX(),(int) this.currentGame.getListOfWaypoints().get(i).getY());
-					}
+					if(this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().size()>0){
+						if(this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(0)==this.currentGame.getListOfWaypoints().get(i)) {
+							this.waypointNext.drawCentered((int)this.currentGame.getListOfWaypoints().get(i).getX(),(int) this.currentGame.getListOfWaypoints().get(i).getY());
+						}
 					else {
 						this.waypointNormal.drawCentered((int)this.currentGame.getListOfWaypoints().get(i).getX(),(int) this.currentGame.getListOfWaypoints().get(i).getY());
 					}
-					
+					}
 				}
 				else {
 					this.waypointNormal.drawCentered((int)this.currentGame.getListOfWaypoints().get(i).getX(),(int) this.currentGame.getListOfWaypoints().get(i).getY());
