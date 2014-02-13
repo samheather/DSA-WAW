@@ -264,7 +264,7 @@ public class Game {
 	 * Randomly generates altitude in range [2000, 7000], with increments of 1000
 	 * @return Random altitude
 	 */
-	private int generateAltitude() {
+	public int generateAltitude() {
 		int altitude;
 		altitude = 2000 + (int) ((Math.random())*6) * 1000;
 		return altitude;

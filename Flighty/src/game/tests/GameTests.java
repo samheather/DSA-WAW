@@ -16,9 +16,61 @@ import game.struct.Plane;
 
 public class GameTests {
 
-	
+	Game game;
 	//@Test
 	//public 
+	
+	@Before
+	public void beforeTests() {
+		
+		game = new Game(100,100);
+	
+	}
+	
+	@Test
+	public void testCreatePlane() {
+		assertTrue(this.game.getCurrentPlanes().size() == 0);
+		this.game.createPlane();
+		assertTrue(this.game.getCurrentPlanes().size()==1);
+	}
+	
+	@Test
+	public void testGenerateAltitude() {
+		for(int i = 0; i<200; i++) {
+			int alt = this.game.generateAltitude();
+			assertTrue(alt>=1000&&alt<=7000);
+		}
+	}
+	
+	@Test
+	public void testGenerateVelocity() {
+		for(int i = 0; i<200; i++) {
+			double velocity = this.game.generateVelocity();
+			assertTrue(velocity==1||velocity==0.8||velocity==1.2);
+		}
+	}
+	
+	@Test
+	public void testRemovePlane() {
+		this.game.createPlane();
+		assertTrue(this.game.getCurrentPlanes().size()==1);
+		this.game.removePlane(this.game.getCurrentPlanes().get(0));
+		assertTrue(this.game.getCurrentPlanes().size()==0);
+	}
+	
+	@Test
+	public void testGetPlaneFromID() {
+		//can't test?
+	}
+	
+	@Test
+	public void testRemoveFromManual() {
+		this.game.createPlane();
+		this.game.getManualPlanes().add(this.game.getCurrentPlanes().get(0));
+		assertTrue(this.game.getManualPlanes().size()==1);
+		this.game.removeFromManual(this.game.getCurrentPlanes().get(0));
+		assertTrue(this.game.getManualPlanes().size()==0);
+	}
 	
 	
 	
