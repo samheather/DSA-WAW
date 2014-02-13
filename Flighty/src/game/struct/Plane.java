@@ -308,7 +308,7 @@ public class Plane {
 	 * to initiate landing before finally checking that the plane's current bearing is such that the plane
 	 * is facing the runway. If all these conditions are met, the plane begins to land.
 	 */
-	public void landPlane(){
+	public void land(){
 		
 		if (!this.currentGame.getAirport().isPlaneLanding()){
 			if (this.currentGame.getAirport().getLandingApproachArea().contains((float)this.x, (float)this.y)){
@@ -324,6 +324,16 @@ public class Plane {
 				}
 			}
 		}
+	}
+	
+	
+	
+	public void takeOff(){
+		this.velocity = currentGame.generateVelocity();
+		currentGame.getManualPlanes().remove(this);
+		this.needsToTakeOff = false;
+		this.takingOff = true;
+		currentGame.setCurrentPlane(null);
 	}
 
 

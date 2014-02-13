@@ -307,7 +307,7 @@ public class PlaneTests {
 		plane1.setY(465);
 		plane1.setAltitude(2000);
 		plane1.setBearing(170);
-		plane1.landPlane();
+		plane1.land();
 		assertTrue(game.getAirport().isPlaneLanding());
 		assertFalse(plane1.isNeedsToLand());
 		assertTrue(plane1.isLanding());
