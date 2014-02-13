@@ -12,12 +12,11 @@ public class Plane {
 	/** Unique identifier */
 	private int id;
 
-
 	/** Size to display plane */
 	private int size;
 
 	/** Speed the plane is traveling at */
-	private int velocity;
+	private double velocity;
 
 	/** Current altitude */
 	private int altitude;
@@ -25,10 +24,14 @@ public class Plane {
 	/** Current bearing in radians */
 	private double bearing;
 
+	/** Target bearing in radians */
 	private double targetBearing;
 
-	private boolean turningRight, turningLeft;
-
+	/** Turning right boolean */
+	private boolean turningRight; 
+	
+	/** Turning left boolean */
+	private boolean turningLeft;
 
 	/** Current X co-ordinate */
 	private double x;
@@ -45,19 +48,32 @@ public class Plane {
 	/** Current target altitude */
 	private double targetAltitude;
 
+	/** Necessary for creation of plane's flight plan */
 	private FlightPlan flightPlan;
 	
-	private boolean landing, needsToLand;
+	/** Boolean to express whether plane is currently landing */
+	private boolean landing;
 	
-	private boolean takingOff, needsToTakeOff;
+	/** Boolean to express whether a plane needs to land */
+	private boolean needsToLand;
 	
+	/** Boolean to express whether a plane is currently taking off */
+	private boolean takingOff;
+	
+	/**Boolean to express whether a plane needs to take off */
+	private boolean needsToTakeOff;
+	
+	/** Boolean to express whether a plane has ever broken the separation rules */
 	private boolean violationOccurred;
 	
+	/** Necessary for calculation of plane's landing descent rate */
 	private double landingDescentRate;
 	
+	/** Required by Slick2D */
 	private Game currentGame;
 
-
+	// Constructor
+	
 	/**
 	 * Constructor for Plane
 	 * <p>
@@ -74,8 +90,7 @@ public class Plane {
 	 * @param x			the x position to create the plane at
 	 * @param y			the y position to create the plane at
 	 */
-	// Constructor
-	public Plane(int id, int velocity, int altitude, 
+	public Plane(int id, double velocity, int altitude, 
 			double bearing, Game currentGame) {
 		this.currentGame = currentGame;
 		this.id = id;
@@ -97,15 +112,16 @@ public class Plane {
 		this.takingOff = false;
 		this.landingDescentRate=0;
 		this.violationOccurred = false;
-
 	}
 
+	// METHODS
 
-
-
-
-	// MAIN METHODS
-
+	/**
+	 * Determine whether a plane is currently at waypoint
+	 * @param waypoint The waypoint which is currently being checked
+	 * @param game Required by Slick2D library
+	 * @return Boolean which is set to true if  a flight is currently at the waypoint; false otherwise
+	 */
 	public boolean checkIfFlightAtWaypoint(Point waypoint, Game game) {
 		
 		// Ensuring that the plane cannot go through its landing waypoint when it isnt landing
@@ -143,7 +159,6 @@ public class Plane {
 	/**
 	 * Decrements the Plane's bearing by 5 degrees
 	 */
-
 	public void decrementBearing() {
 		
 		this.turningRight = false;
@@ -158,18 +173,12 @@ public class Plane {
 		}
 	}
 	
-	
-	
-
 	/**
 	 * Increments the Plane's altitude to the next flight level
 	 * <p>
 	 * Note: highest flight level allowed for planes is 4
 	 * </p>
 	 */
-	
-
-	
 	public void incrementAltitude() {
 		this.altitude += 5;
 	}
@@ -196,12 +205,14 @@ public class Plane {
 		}
 	}
 	
+	/** Decrements the altitude by 1000 units, so long as the current altitude is greater than or equal to 3000 */
 	public void decrementTargetAltitude() {
 		if(this.targetAltitude >= 3000) {
 			this.targetAltitude-=1000;
 		}
 	}
 	
+	/** Calculates bearing from plane's current position, to its next waypoint */
 	public void calculateBearingToNextWaypoint(){
 		double angle;
 		angle = Math.toDegrees(Math.atan2(this.y - this.target.getY(),
@@ -213,9 +224,9 @@ public class Plane {
 		this.turningRight = false;
 		this.turningLeft = false;
 		this.targetBearing = angle;
-
 	}
 
+	/** Updates current bearing */
 	public void updateCurrentBearing() {
 
 		double rate = 0.9;
@@ -278,24 +289,29 @@ public class Plane {
 		}
 	}
 
-
+    /** Calculates the rate at which a plane has to descend, given its current altitude, such
+     * that by the time it reaches the runway, its altitude is 0
+     * @return Rate at which plane needs to descend
+     */
 	public double findLandingDescentRate() {
 		
 		double rate;
 		//find distance to runway waypoint
 		double distanceFromRunway =  Math.sqrt(Math.pow(this.x-this.currentGame.getAirport().getBeginningOfRunway().getX(), 2)+Math.pow(this.y-this.currentGame.getAirport().getBeginningOfRunway().getY(), 2));
 		double descentPerPixel = this.altitude/distanceFromRunway;
-		rate = descentPerPixel*((float)this.velocity/7000)*this.currentGame.getSpeedDifficulty();
+		rate = descentPerPixel*(this.velocity)*this.currentGame.getSpeedDifficulty();
 
-		
 		return rate;
 	}
 	
+	/** First checks that another plane is not landing, then checks whether plane is in valid position
+	 * to initiate landing before finally checking that the plane's current bearing is such that the plane
+	 * is facing the runway. If all these conditions are met, the plane begins to land.
+	 */
 	public void landPlane(){
 		
-		
 		if (!this.currentGame.getAirport().isPlaneLanding()){
-			if (this.currentGame.getAirport().getApproachPolygon().contains((float)this.x, (float)this.y)){
+			if (this.currentGame.getAirport().getLandingApproachArea().contains((float)this.x, (float)this.y)){
 				if (this.bearing >= 150 && this.bearing <= 210 && this.altitude <= 2000){
 					this.currentGame.getAirport().setPlaneLanding(true);
 					this.needsToLand = false;
@@ -304,15 +320,10 @@ public class Plane {
 					this.calculateBearingToNextWaypoint();
 					this.landingDescentRate=this.findLandingDescentRate();
 					this.currentGame.getManualPlanes().remove(this);
-					this.currentGame.setCurrentPlane(null);
-
-					
-					
+					this.currentGame.setCurrentPlane(null);					
 				}
 			}
-			
 		}
-
 	}
 
 
@@ -362,26 +373,20 @@ public class Plane {
 		}
 	}
 	
-
-	
+	/** Updates x and y coordinates */
 	public void updateXYCoordinates(){
 		
 		this.setX((float) (this.x
 				- (Math.cos(Math.toRadians(this.bearing))
 						* (this.currentGame.getSpeedDifficulty()
-								* this.velocity / 7000d))));
+								* this.velocity))));
 		
 		this.setY((float) (this.y
 				- (Math.sin(Math.toRadians(this.bearing))
 						* (this.currentGame.getSpeedDifficulty()
-								* this.velocity/ 7000d))));
+								* this.velocity))));
 		
 	}
-
-
-
-
-
 
 	// Accessors
 	
@@ -392,15 +397,12 @@ public class Plane {
 		return this.violationOccurred;
 	}
 	
-	
 	/**
 	 * @return			the Plane's unique ID
 	 */
 	public int getID() {
 		return this.id;
 	}
-
-
 
 	/**
 	 * @return			the size the plane displays at
@@ -412,7 +414,7 @@ public class Plane {
 	/**
 	 * @return			the plane's current speed
 	 */
-	public int getVelocity() {
+	public double getVelocity() {
 		return this.velocity;
 	}
 
@@ -466,7 +468,6 @@ public class Plane {
 		return this.targetAltitude;
 	}
 
-
 	// Mutators
 	
 	/**
@@ -475,13 +476,13 @@ public class Plane {
 	public void setViolationOccurred(){
 		this.violationOccurred = true;
 	}
+
 	/**
 	 * @param id		the new unique ID
 	 */
 	public void setID(int id) {
 		this.id = id;
 	}
-
 
 	/**
 	 * @param size		the new display size
@@ -493,7 +494,7 @@ public class Plane {
 	/**
 	 * @param velocity	the new speed
 	 */
-	public void setVelocity(int velocity) {
+	public void setVelocity(double velocity) {
 		this.velocity = velocity;
 	}
 
@@ -547,66 +548,56 @@ public class Plane {
 		this.targetAltitude = targetAltitude;
 	}
 
+	/**  
+	 * @return Plane's flight plan
+	 */
 	public FlightPlan getFlightPlan() {
 		return flightPlan;
 	}
-
-
-
-
-
+	
+	/** 
+	 * @return Boolean expressing whether plane needs to land
+	 */
 	public boolean isNeedsToLand() {
 		return needsToLand;
 	}
 
-
-
-
-
+	/** Set boolean expressing whether plane needs to land */
 	public void setNeedsToLand(boolean needsToLand) {
 		this.needsToLand = needsToLand;
 	}
 
-
-
-
-
+	/** Sets plane's flight plan */
 	public void setFlightPlan(FlightPlan flightPlan) {
 		this.flightPlan = flightPlan;
 	}
 
-
-
-
+	/**
+	 * @return Get plane's target bearing
+	 */
 	public double getTargetBearing() {
 		return targetBearing;
 	}
 
-
-
-
-
+	/** Set plane's target bearing */
 	public void setTargetBearing(double targetBearing) {
 		this.targetBearing = targetBearing;
 	}
 
-
-
-
+	/**
+	 * @return Boolean expressing whether plane is turning right 
+	 */
 	public boolean isTurningRight() {
 		return turningRight;
 	}
 
-
-
-
-
+	/**
+	 * 
+	 * @param turningRight
+	 */
 	public void setTurningRight(boolean turningRight) {
 		this.turningRight = turningRight;
 	}
-
-
-
 
 
 	public boolean isTurningLeft() {
@@ -614,32 +605,24 @@ public class Plane {
 	}
 
 
-
-
-
 	public void setTurningLeft(boolean turningLeft) {
 		this.turningLeft = turningLeft;
 	}
+
 	
 	public boolean isLanding(){
 		return this.landing;
 	}
 	
+	
 	public void setLanding(boolean bool){
 		this.landing = bool;
 	}
 	
-
-
-
-
-
+	
 	public boolean isTakingOff() {
 		return takingOff;
 	}
-
-
-
 
 
 	public void setTakingOff(boolean takingOff) {
@@ -647,15 +630,9 @@ public class Plane {
 	}
 
 
-
-
-
 	public boolean isNeedsToTakeOff() {
 		return needsToTakeOff;
 	}
-
-
-
 
 
 	public void setNeedsToTakeOff(boolean needsToTakeOff) {
@@ -663,15 +640,9 @@ public class Plane {
 	}
 
 
-
-
-
 	public double getLandingDescentRate() {
 		return landingDescentRate;
 	}
-
-
-
 
 
 	public void setLandingDescentRate(double landingDescentRate) {

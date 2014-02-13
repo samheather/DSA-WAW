@@ -12,6 +12,8 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+
+
 import java.awt.Font;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -115,6 +117,8 @@ public class GameWindow extends BasicGameState {
 	/** Coordinates of last waypoint passed **/
 	double prevX;
 	double prevY;
+	
+	
 
 
 
@@ -287,11 +291,15 @@ public class GameWindow extends BasicGameState {
 		this.map1 = new Image(map1Stream, "Map 1 Image", false);
 		this.map2 = new Image(map2Stream, "Map 2 Image", false);
 		
+		
+		
 
 		
 		// Set the font (used for altitudes etc.)
 		this.fontPrimitive = new Font("Lucida Sans", Font.PLAIN, 12);
 		this.font = new TrueTypeFont(this.fontPrimitive, true);
+		
+		
 	}
 	
 	/**
@@ -314,6 +322,8 @@ public class GameWindow extends BasicGameState {
 		this.windowWidth = 1200;
 		this.windowHeight = 600;
 		
+		
+		
 		((AppGameContainer) gameContainer).setDisplayMode(
 				this.windowWidth, this.windowHeight, false);
 		
@@ -329,11 +339,11 @@ public class GameWindow extends BasicGameState {
 			this.currentGame.setSpawnCount(1);
 		} else if(((WindowManager) game).getCurrentLevel() == 2) {
 			// Play level 2
-			this.currentGame = new Game(75, 200);
-			this.map = this.map2;
-			this.fontColor = Color.black;
+			this.currentGame = new Game(70, 100);
+			this.map = this.map1;
+			this.fontColor = Color.white;
 			this.currentGame.setSpeedDifficulty(0.5);
-			this.currentGame.setSpawnRate(30);
+			this.currentGame.setSpawnRate(20);
 			this.currentGame.setSpawnCount(1);
 		} else {
 			// ERROR
@@ -363,7 +373,7 @@ public class GameWindow extends BasicGameState {
 
 		if(!this.currentGame.isEnding()) {
 			// Display the game duration (time)
-			
+
 			//g.draw(currentGame.getAirport().getApproachPolygon());
 
 			g.drawString("Time : " + ((int) this.time/1000/60 < 10 ? "0" + (int) (this.time / 1000)/60 : (int) (this.time / 1000)/60) 
@@ -371,7 +381,7 @@ public class GameWindow extends BasicGameState {
 								, 1050, 15);
 			g.drawString("Score : " + ((int) (this.currentGame.getScore())) + " pts", 1050, 35);
 			g.drawString("Multiplier :" + ((int) (this.currentGame.getMultiplier())), 1050, 55);
-
+			g.drawString("Pause/Controls: P ", 1050, 75);
 			
 			for(Plane plane : this.currentGame.getCurrentPlanes()) {
 				
@@ -476,12 +486,12 @@ public class GameWindow extends BasicGameState {
 
 
 
-
-					g.drawString(
-							plane.getAltitude() + " ft",
-							(float) plane.getX(),
-							(float) plane.getY() + 15);
-
+					if (plane.getVelocity() > 0){
+						g.drawString(
+								plane.getAltitude() + " ft",
+								(float) plane.getX(),
+								(float) plane.getY() + 15);
+					}
 
 					if(plane.isNeedsToLand() && !plane.equals(currentGame.getCurrentPlane()) && !currentGame.getAirport().isPlaneLanding()){
 
@@ -518,10 +528,19 @@ public class GameWindow extends BasicGameState {
 			}
 			
 			if (currentGameContainer.isPaused()){
-				new TrueTypeFont(this.fontPrimitive.deriveFont(30f), true)
-				.drawString(this.getWindowWidth()/2-30, this.getWindowHeight()/2-50, "PAUSE");
 				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-				.drawString(this.getWindowWidth()/2-30-20, this.getWindowHeight()/2-15, "Press p to unpause");
+				.drawString(this.getWindowWidth()/2-30, this.getWindowHeight()/2-100, "PAUSE");
+				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
+				.drawString(this.getWindowWidth()/2-30-200, this.getWindowHeight()/2-65, "Steer a plane by selecting it and using the key arrows/ right click");
+				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
+				.drawString(this.getWindowWidth()/2-30-190, this.getWindowHeight()/2-25, "Land a plane by lowering it to 2000ft when it needs to land");
+				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
+				.drawString(this.getWindowWidth()/2-30-130, this.getWindowHeight()/2- 5, "and pressing L when in the airport zone");
+				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
+				.drawString(this.getWindowWidth()/2-30-190, this.getWindowHeight()/2+35, "Take off a plane by selecting an airport plane and pressing T");
+			
+				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
+				.drawString(this.getWindowWidth()/2-30-50, this.getWindowHeight()/2+70, "Press p to unpause");
 			}
 			
 			
@@ -582,6 +601,8 @@ public class GameWindow extends BasicGameState {
 					this.planeNormal.draw((float) plane.getX(),
 											(float) plane.getY());
 				}
+				//Erase the extrapoints above the waypoints
+				display = false;
 				
 				new TrueTypeFont(this.fontPrimitive.deriveFont(50f), true)
 									.drawString(300f, 200f, "That didn't end well...");
@@ -674,29 +695,6 @@ public class GameWindow extends BasicGameState {
 		
 	
 	
-	
-//	/**
-//	 * Handles mouse wheel events
-//	 * 
-//	 * @param change			the amount the wheel was turned by
-//	 */
-//	@Override
-//	public void mouseWheelMoved(int change) {
-//		
-//		if (currentGameContainer.isPaused()){
-//			return;
-//		}
-//		
-//		
-//		
-//		if(!this.currentGame.isEnding()) {
-//			if((this.currentGame.getCurrentPlane() != null) && (change > 0)) {
-//				this.currentGame.getCurrentPlane().incrementTargetAltitude();
-//			} else if((this.currentGame.getCurrentPlane() != null) && (change < 0)){
-//				this.currentGame.getCurrentPlane().decrementTargetAltitude();
-//			}
-//		}
-//	}
 	
 	/**
 	 * Handles key press events

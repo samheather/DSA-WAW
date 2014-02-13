@@ -180,7 +180,7 @@ public class LevelSelect extends GenericWindow {
 		Color level2Color = Color.orange;
 		Color mainMenuColor = Color.orange;
 		Image level1ImageCurrent = this.level1Image;
-		Image level2ImageCurrent = this.level2Image;
+		Image level2ImageCurrent = this.level1Image;
 
 		// Level 1 Text
 		this.drawShadowedText(this.font, 150, 130, level1Text, level1Color);
@@ -224,10 +224,10 @@ public class LevelSelect extends GenericWindow {
 				((WindowManager) game).setCurrentLevel(2);
 				game.enterState(WindowManager.GAME_STATE);
 			} else {
-				level2ImageCurrent = this.level2ImageHover;
+				level2ImageCurrent = this.level1ImageHover;
 			}
 		} else {
-			level2ImageCurrent = this.level2Image;
+			level2ImageCurrent = this.level1Image;
 		}
 
 		level2ImageCurrent.draw((gameContainer.getWidth() / 2)
