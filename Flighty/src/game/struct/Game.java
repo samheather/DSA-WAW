@@ -387,6 +387,12 @@ public class Game {
 							this.multiplier --;
 							}
 						}
+					else {
+						this.score = 0;
+						if (this.multiplier > 1){
+							this.multiplier --;
+						}
+					}
 					penalty = false;
 					plane2.setViolationOccurred();
 					}
