@@ -516,6 +516,8 @@ public class Game {
 
 				}
 				
+				// Action on 'T' Key
+				
 				else if(this.currentPlane.isNeedsToTakeOff()){
 					if(gameContainer.getInput().isKeyDown(Input.KEY_T)) {
 						System.out.println(this.currentPlane.isNeedsToTakeOff());
