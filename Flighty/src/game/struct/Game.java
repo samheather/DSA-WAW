@@ -156,7 +156,7 @@ public class Game {
 		this.listOfExitPoints.add(new ExitPoint(0,200));
 		this.listOfExitPoints.add(new ExitPoint(1200,300));
 		this.penalty = true;
-		this.multiplier = 2;	
+		this.multiplier = 1;	
 	}
 	
 	// METHODS
@@ -464,7 +464,7 @@ public class Game {
 					this.countToNextPlane = -1;
 				} else {
 					Random rand = new Random();
-					this.countToNextPlane = (rand.nextInt(360)+720);
+					this.countToNextPlane = (rand.nextInt(360)+this.spawnRate*60);
 				}
 			}
 

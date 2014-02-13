@@ -66,6 +66,8 @@ public class GameWindow extends BasicGameState {
 	
 	/** The waypoint image for the current plane's exit waypoint */
 	private Image waypointLast;
+	
+	private Image waypointArrow;
 
 	/** The normal plane image */
 	private Image planeNormal;
@@ -234,6 +236,7 @@ public class GameWindow extends BasicGameState {
 				.getResourceAsStream("/resources/waypoints/WaypointGreen.png");
 		InputStream waypointExitStream = this.getClass()
 				.getResourceAsStream("/resources/waypoints/WaypointBlue.png");
+		InputStream waypointArrowStream = this.getClass().getResourceAsStream("/resources/waypoints/arrow.png");
 		
 		this.waypointNormal = new Image(waypointNormalStream,
 				"Waypoint Normal Image", false);
@@ -243,6 +246,7 @@ public class GameWindow extends BasicGameState {
 				"Waypoint Last Image", false);
 		this.waypointExit = new Image(waypointExitStream,
 				"Waypoint Exit Image", false);
+		this.waypointArrow = new Image(waypointArrowStream, "Waypoint Arrow Image", false);
 		
 		// Load plane images
 		InputStream planeNormalStream = this.getClass()
@@ -335,7 +339,7 @@ public class GameWindow extends BasicGameState {
 			this.map = this.map1;
 			this.fontColor = Color.white;
 			this.currentGame.setSpeedDifficulty(0.5);
-			this.currentGame.setSpawnRate(40);
+			this.currentGame.setSpawnRate(12);
 			this.currentGame.setSpawnCount(1);
 		} else if(((WindowManager) game).getCurrentLevel() == 2) {
 			// Play level 2
@@ -343,7 +347,7 @@ public class GameWindow extends BasicGameState {
 			this.map = this.map1;
 			this.fontColor = Color.white;
 			this.currentGame.setSpeedDifficulty(0.5);
-			this.currentGame.setSpawnRate(20);
+			this.currentGame.setSpawnRate(4);
 			this.currentGame.setSpawnCount(1);
 		} else {
 			// ERROR
@@ -547,18 +551,30 @@ public class GameWindow extends BasicGameState {
 			// Set next Waypoint images
 			
 			for (int i = 0; i < this.currentGame.getListOfWaypoints().size(); i++) { // Draws waypoints
-				if (this.currentGame.getCurrentPlane() != null){
-					//selected plane
-					if (this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().indexOf(this.currentGame.getListOfWaypoints().get(i)) ==0){
+				if(this.currentGame.getCurrentPlane()!=null) {
+					for(int j=0; j<this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().size()-1;j++) {
+						int headingToWaypoint;
+						double deltaY = this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j+1).getY()-this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j).getY();
+						System.out.println(deltaY);
+						double deltaX = this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j+1).getX()-this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j).getX();
+						System.out.println(deltaX);
+						System.out.println("atan2: " + Math.atan2(deltaY , deltaX));
+						headingToWaypoint = (int)Math.round(Math.toDegrees(Math.atan2(deltaY , deltaX)));
+						System.out.println(headingToWaypoint);
+						this.waypointArrow.setRotation(headingToWaypoint-90);
+						
+						this.waypointArrow.drawCentered((int)this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j).getX(),(int)this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j).getY());
+						
+					}
+					if(this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(0)==this.currentGame.getListOfWaypoints().get(i)) {
 						this.waypointNext.drawCentered((int)this.currentGame.getListOfWaypoints().get(i).getX(),(int) this.currentGame.getListOfWaypoints().get(i).getY());
 					}
-					else{
+					else {
 						this.waypointNormal.drawCentered((int)this.currentGame.getListOfWaypoints().get(i).getX(),(int) this.currentGame.getListOfWaypoints().get(i).getY());
 					}
 					
 				}
-				
-				else{
+				else {
 					this.waypointNormal.drawCentered((int)this.currentGame.getListOfWaypoints().get(i).getX(),(int) this.currentGame.getListOfWaypoints().get(i).getY());
 				}
 			}

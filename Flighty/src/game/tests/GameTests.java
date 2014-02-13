@@ -16,14 +16,6 @@ import game.struct.Plane;
 
 public class GameTests {
 
-	Game game;
-	
-	@Before
-	public void beforeTests() {
-		
-		game = new Game(50, 100);
-		
-	}
 	
 	//@Test
 	//public 
