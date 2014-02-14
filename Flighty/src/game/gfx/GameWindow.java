@@ -556,31 +556,35 @@ public class GameWindow extends BasicGameState {
 			
 			for (int i = 0; i < this.currentGame.getListOfWaypoints().size(); i++) { 
 				if(this.currentGame.getCurrentPlane()!=null) {
-					
-					
+
+
 					if(this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().size()>0){
 						if(this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(0)==this.currentGame.getListOfWaypoints().get(i)) {
 							this.waypointNext.drawCentered((int)this.currentGame.getListOfWaypoints().get(i).getX(),(int) this.currentGame.getListOfWaypoints().get(i).getY());
 						}
-						
+
 						else {
 							this.waypointNormal.drawCentered((int)this.currentGame.getListOfWaypoints().get(i).getX(),(int) this.currentGame.getListOfWaypoints().get(i).getY());
-							
+
 						}
 
 					}
-					for(int j=0; j<this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().size()-1;j++) {
-						int headingToWaypoint;
-						double deltaY = this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j+1).getY()-this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j).getY();
-						double deltaX = this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j+1).getX()-this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j).getX();
-						headingToWaypoint = (int)Math.round(Math.toDegrees(Math.atan2(deltaY , deltaX)));
-						this.waypointArrow.setRotation(headingToWaypoint-90);
-						this.waypointArrow.drawCentered((int)this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j).getX(),(int)this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j).getY());
-						
-					}
+
 				}
 				else {
 					this.waypointNormal.drawCentered((int)this.currentGame.getListOfWaypoints().get(i).getX(),(int) this.currentGame.getListOfWaypoints().get(i).getY());
+				}
+			}
+
+			if (this.currentGame.getCurrentPlane()!=null){
+				for(int j=0; j<this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().size()-1;j++) {
+					int headingToWaypoint;
+					double deltaY = this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j+1).getY()-this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j).getY();
+					double deltaX = this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j+1).getX()-this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j).getX();
+					headingToWaypoint = (int)Math.round(Math.toDegrees(Math.atan2(deltaY , deltaX)));
+					this.waypointArrow.setRotation(headingToWaypoint-90);
+					this.waypointArrow.drawCentered((int)this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j).getX(),(int)this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(j).getY());
+					
 				}
 			}
 			
