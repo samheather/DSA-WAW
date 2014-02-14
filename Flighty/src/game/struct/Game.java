@@ -585,27 +585,11 @@ public class Game {
 					planesToRemove.add(plane);
 				}
 
+				// Updating the Planes altitude and adjusting it accordingly.
+				
+				plane.updatePlaneAltitude();
 				
 				
-				if(plane.getLandingDescentRate()!=0 ) {
-					if(plane.getAltitude()<0) {
-						plane.setAltitude(0);
-						plane.setLandingDescentRate(0);
-						plane.setTargetAltitude(0);
-					}
-					else{
-						plane.setAltitude(plane.getAltitude()-(int)Math.round(plane.getLandingDescentRate()));
-					}
-
-				}
-				else {
-					if(plane.getAltitude() > plane.getTargetAltitude()) {
-						plane.decrementAltitude();
-					} 
-					else if(plane.getAltitude()<plane.getTargetAltitude()) {
-						plane.incrementAltitude();
-					}
-				}
 				// Check if colliding with another plane
    			    if(this.collision(plane)) {
 					this.currentPlane = null;

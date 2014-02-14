@@ -483,9 +483,7 @@ public class GameWindow extends BasicGameState {
 								}
 						}
 				}
-					// Render each plane's altitude
-
-
+					// Render plane's altitude
 
 					if (plane.getVelocity() > 0){
 						g.drawString(
@@ -493,6 +491,8 @@ public class GameWindow extends BasicGameState {
 								(float) plane.getX(),
 								(float) plane.getY() + 15);
 					}
+					
+					// Render Landing Information above flight
 
 					if(plane.isNeedsToLand() && !plane.equals(currentGame.getCurrentPlane()) && !currentGame.getAirport().isPlaneLanding()){
 

@@ -335,6 +335,28 @@ public class Plane {
 		this.takingOff = true;
 		currentGame.setCurrentPlane(null);
 	}
+	
+	public void updatePlaneAltitude(){
+		if(this.landingDescentRate != 0 ) {
+			if(this.altitude < 0) {
+				this.altitude = 0;
+				this.landingDescentRate = 0;
+				this.targetAltitude = 0;
+			}
+			else{
+				this.altitude  = this.altitude -(int)Math.round(this.landingDescentRate);
+			}
+
+		}
+		else {
+			if(this.altitude > this.targetAltitude) {
+				this.decrementAltitude();
+			} 
+			else if(this.altitude < this.targetAltitude) {
+				this.incrementAltitude();
+			}
+		}
+	}
 
 
 	/**
