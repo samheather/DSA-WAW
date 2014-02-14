@@ -535,28 +535,7 @@ public class Game {
 			
 
 			
-			
-			// Action on TAB key
-			if(gameContainer.getInput().isKeyPressed(15)) {
-				if(currentPlane != null) {
-					int index = 0;
-					int planeCount = this
-							.getCurrentPlanes().size();
-				
-					for(int i = 0; i < planeCount; i++) {
-						if(this.getCurrentPlanes()
-								.get(i) == this.currentPlane) {
-							index = ((i + 1) % planeCount);
-						}
-					}
-					
-					this.currentPlane = this
-							.getCurrentPlanes().get(index);
-				} else {
-					this.currentPlane = this
-							.getCurrentPlanes().get(0);
-				}
-			}
+
 			
 			// Update planes
 			for(Plane plane : this.getCurrentPlanes()) {
