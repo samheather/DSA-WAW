@@ -233,7 +233,7 @@ public class GameWindow extends BasicGameState {
 				.getResourceAsStream("/resources/waypoints/WaypointGreen.png");
 		InputStream waypointExitStream = this.getClass()
 				.getResourceAsStream("/resources/waypoints/WaypointBlue.png");
-		InputStream waypointArrowStream = this.getClass().getResourceAsStream("/resources/waypoints/arrow.png");
+		InputStream waypointArrowStream = this.getClass().getResourceAsStream("/resources/other/ArrowW.png");
 		
 		this.waypointNormal = new Image(waypointNormalStream,
 				"Waypoint Normal Image", false);
