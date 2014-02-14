@@ -157,58 +157,55 @@ public class GameWindow extends BasicGameState {
 	public Plane selectFlight(int x, int y){
 		Plane nearestPlane;
 		double distanceBetweenMouseClickAndNearestFlight;
-		
+
 		if(this.currentGame.getCurrentPlanes().size()>=1){
-			
+
 			distanceBetweenMouseClickAndNearestFlight = Math.sqrt(Math.pow(x-this.currentGame.getCurrentPlanes().get(0).getX(), 2)+Math.pow(y-this.currentGame.getCurrentPlanes().get(0).getY(), 2));
 			nearestPlane = this.currentGame.getCurrentPlanes().get(0);
-			
+
 			for (int i =0; i< this.currentGame.getCurrentPlanes().size(); i++){ //Loop through all flights and find the nearest one
 				if(Math.sqrt(Math.pow(x-this.currentGame.getCurrentPlanes().get(i).getX(), 2)+Math.pow(y-this.currentGame.getCurrentPlanes().get(i).getY(), 2)) < distanceBetweenMouseClickAndNearestFlight){
 					distanceBetweenMouseClickAndNearestFlight = Math.sqrt(Math.pow(x-this.currentGame.getCurrentPlanes().get(i).getX(), 2)+Math.pow(y-this.currentGame.getCurrentPlanes().get(i).getY(), 2));
 					nearestPlane = this.currentGame.getCurrentPlanes().get(i);
-					
+
 				}
-				
+
 				if (distanceBetweenMouseClickAndNearestFlight <= 30){
-					
+
 					if (nearestPlane.equals(this.currentGame.getCurrentPlane())){
-						
+
 						if(this.currentGame.getManualPlanes().contains(nearestPlane)) {
-							
+
 							if(!this.currentGame.getCurrentPlane().isNeedsToLand()){ // doesnt need to land
 								//this.currentGame.removeFromManual(nearestPlane);
 							}
 
 						}
-						
-	
 
-						this.currentGame.setCurrentPlane(null);
-						
+						this.currentGame.setCurrentPlane(null); //// NEEDS TO BE LOOKED AT
+
 					}
-					
+
 					else{
-						
+
 						if(!nearestPlane.isLanding() && !nearestPlane.isTakingOff()){
-							//this.currentGame.setCurrentPlane(nearestPlane);
 							return nearestPlane;
 						}
-						
-						
+
+
 					}
-					
+
 				}
-				
+
 			} 
-			
+
 			return null;
-			
+
 		}
-		
+
 		return null;
-				
-			
+
+
 	}
 	
 
@@ -567,6 +564,13 @@ public class GameWindow extends BasicGameState {
 							this.waypointNormal.drawCentered((int)this.currentGame.getListOfWaypoints().get(i).getX(),(int) this.currentGame.getListOfWaypoints().get(i).getY());
 
 						}
+					
+					
+
+					}
+					
+					else {
+						this.waypointNormal.drawCentered((int)this.currentGame.getListOfWaypoints().get(i).getX(),(int) this.currentGame.getListOfWaypoints().get(i).getY());
 
 					}
 

@@ -420,7 +420,10 @@ public class Game {
 	public void removeFromManual(Plane plane) {
 		while(this.manualPlanes.contains(plane)) {
 			this.manualPlanes.remove(plane);
-			plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
+			if (plane.getFlightPlan().getCurrentRoute().size() != 0){
+				plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
+			}
+			
 		}
 	}
 	
@@ -572,9 +575,13 @@ public class Game {
 					else {
 						this.score = 0;
 					}
-					if (plane == this.currentPlane){
-						this.currentPlane = null;
+					
+					if(this.currentPlane != null){
+						if (plane.equals(this.currentPlane)){
+							this.currentPlane = null;
+						}
 					}
+					
 					planesToRemove.add(plane);
 				}
 
@@ -613,6 +620,12 @@ public class Game {
 					}
 					else if (plane.getViolationOccurred() == true && this.multiplier > 1){
 						this.multiplier --;
+					}
+					
+					if(this.currentPlane != null){
+						if (plane.equals(this.currentPlane)){
+							this.currentPlane = null;
+						}
 					}
 					planesToRemove.add(plane);
 					
