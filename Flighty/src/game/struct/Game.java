@@ -480,6 +480,7 @@ public class Game {
 					// Action on 'a' and 'left' keys
 					if(gameContainer.getInput().isKeyDown(203)
 							|| gameContainer.getInput().isKeyDown(30)) {
+						
 						if(!this.manualPlanes.contains(this.currentPlane)) {
 							this.manualPlanes.add(this.currentPlane);
 						}
@@ -490,9 +491,10 @@ public class Game {
 					// Action on 'd' and 'right' keys
 					if(gameContainer.getInput().isKeyDown(205)
 							|| gameContainer.getInput().isKeyDown(32)) {
+						
 						if(!this.manualPlanes.contains(this.currentPlane)) {
 							this.manualPlanes.add(this.currentPlane);
-						}
+							}
 
 						this.currentPlane.incrementBearing();
 					}
@@ -500,12 +502,14 @@ public class Game {
 					// Action on 'w' and 'up' keys
 					if(gameContainer.getInput().isKeyPressed(200)
 							|| gameContainer.getInput().isKeyPressed(17)) {
+						
 						this.currentPlane.incrementTargetAltitude();
 					}
 
 					// Action on 's' and 'down' keys
 					if(gameContainer.getInput().isKeyPressed(208)
 							|| gameContainer.getInput().isKeyPressed(31)) {
+						
 						this.currentPlane.decrementTargetAltitude();
 					}
 
@@ -516,17 +520,17 @@ public class Game {
 							this.currentPlane.land();
 						}
 					}
+					
 
 				}
 				
 				// Action on 'T' Key
 				
 				else if(this.currentPlane.isNeedsToTakeOff()){
+					
 					if(gameContainer.getInput().isKeyDown(Input.KEY_T)) {
-						System.out.println(this.currentPlane.isNeedsToTakeOff());
-						if(this.currentPlane.isNeedsToTakeOff()){
-							this.currentPlane.takeOff();
-						}
+						this.currentPlane.takeOff();
+					}
 						
 					}
 				}
@@ -659,7 +663,7 @@ public class Game {
 
 			this.countToNextPlane--;
 		}
-	}
+	
 	
 	// ACCESSORS
 	

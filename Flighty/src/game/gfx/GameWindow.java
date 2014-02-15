@@ -153,7 +153,7 @@ public class GameWindow extends BasicGameState {
 		
 		
 	}
-	
+
 	public Plane selectFlight(int x, int y){
 		Plane nearestPlane;
 		double distanceBetweenMouseClickAndNearestFlight;
@@ -170,19 +170,11 @@ public class GameWindow extends BasicGameState {
 
 				}
 
-				if (distanceBetweenMouseClickAndNearestFlight <= 30){
+				if (distanceBetweenMouseClickAndNearestFlight <= 50){
 
 					if (nearestPlane.equals(this.currentGame.getCurrentPlane())){
 
-						if(this.currentGame.getManualPlanes().contains(nearestPlane)) {
-
-							if(!this.currentGame.getCurrentPlane().isNeedsToLand()){ // doesnt need to land
-								//this.currentGame.removeFromManual(nearestPlane);
-							}
-
-						}
-
-						this.currentGame.setCurrentPlane(null); //// NEEDS TO BE LOOKED AT
+						return null;
 
 					}
 
@@ -199,7 +191,6 @@ public class GameWindow extends BasicGameState {
 
 			} 
 
-			return null;
 
 		}
 
@@ -362,7 +353,6 @@ public class GameWindow extends BasicGameState {
 	 */
 	@Override
 	public void render(GameContainer gameContainer, StateBasedGame game, Graphics g) {
-		Waypoint tempWaypoint, tempNextVisibleWaypoint;
 		
 		
 		// Draw the game map
@@ -375,7 +365,7 @@ public class GameWindow extends BasicGameState {
 		if(!this.currentGame.isEnding()) {
 			// Display the game duration (time)
 
-			//g.draw(currentGame.getAirport().getApproachPolygon());
+		
 
 			g.drawString("Time : " + ((int) this.time/1000/60 < 10 ? "0" + (int) (this.time / 1000)/60 : (int) (this.time / 1000)/60) 
 					+ ":" + ((int) (this.time / 1000) %60 < 10 ? "0" + (int) (this.time / 1000)%60  : (int) (this.time / 1000)%60) 
@@ -510,6 +500,12 @@ public class GameWindow extends BasicGameState {
 					
 					else if(plane.isNeedsToLand() && plane.getAltitude()>2000) {
 						g.drawString("Lower Me!",
+								(float) (plane.getX() - 5),
+								(float) (plane.getY() - 30));
+					}
+					
+					else if(plane.isNeedsToLand() && plane.getAltitude()<=2000 && plane.getBearing() <= 225 && plane.getBearing() >= 135  && currentGame.getAirport().getLandingApproachArea().contains((float)plane.getX(),(float) plane.getY())){
+						g.drawString("'L' to Land",
 								(float) (plane.getX() - 5),
 								(float) (plane.getY() - 30));
 					}
@@ -702,14 +698,9 @@ public class GameWindow extends BasicGameState {
 					}
 					
 				}
-				this.currentGame.setCurrentPlane(null);
+				//this.currentGame.setCurrentPlane(null);
 				this.currentGame.setCurrentPlane(clickedPlane);
-				/*if(this.currentGame.getCurrentPlane()!=null){
-					if(this.currentGame.getCurrentPlane().isNeedsToLand()){
-						//this.currentGame.removeFromManual(this)
-						this.currentGame.setCurrentPlane(null);
-					}
-				}*/
+
 
 
 			}
