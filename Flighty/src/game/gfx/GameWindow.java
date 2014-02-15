@@ -85,9 +85,9 @@ public class GameWindow extends BasicGameState {
 	private Image planeNeedsLanding;
 	private Image planeNeedsLandingCur;
 	
-	//Introducing Approach Highlight Image, plus a boolean tracking whether it's been drawn
-	private Image approachHighlight;
-	private boolean approachHighlightDrawn;
+	//Introducing landing approach Image, plus a boolean tracking whether it's been drawn
+	private Image landingApproachArea;
+	private boolean landingApproachAreaDrawn;
 	
 	/** The plane alert range image */
 	private Image planeAlert;
@@ -252,7 +252,7 @@ public class GameWindow extends BasicGameState {
 		// - Introducing approach highlight image
 		InputStream approachHighlightStream = this.getClass()
 				.getResourceAsStream("/resources/other/airspaceIndicatorGreen.png");
-		this.approachHighlight = new Image(approachHighlightStream,
+		this.landingApproachArea = new Image(approachHighlightStream,
 				"Approach area Highlight Image", false);
 		
 		this.planeNormal = new Image(planeNormalStream,
@@ -363,9 +363,30 @@ public class GameWindow extends BasicGameState {
 		g.setColor(this.fontColor);
 
 		if(!this.currentGame.isEnding()) {
-			// Display the game duration (time)
+			
+			// Drawing Pause Screen if in pause menu
+			
+			if (currentGameContainer.isPaused()){
+				
+				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
+				.drawString(this.getWindowWidth()/2-30, this.getWindowHeight()/2-100, "PAUSE");
+				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
+				.drawString(this.getWindowWidth()/2-30-200, this.getWindowHeight()/2-65, "Steer a plane by selecting it and using the key arrows/ right click");
+				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
+				.drawString(this.getWindowWidth()/2-30-190, this.getWindowHeight()/2-25, "Land a plane by lowering it to 2000ft when it needs to land");
+				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
+				.drawString(this.getWindowWidth()/2-30-130, this.getWindowHeight()/2- 5, "and pressing L when in the airport zone");
+				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
+				.drawString(this.getWindowWidth()/2-30-190, this.getWindowHeight()/2+35, "Take off a plane by selecting an airport plane and pressing T");
+			
+				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
+				.drawString(this.getWindowWidth()/2-30-50, this.getWindowHeight()/2+70, "Press p to unpause");
+				
+			}
+			
+			
+			// Display the Game Information
 
-		
 
 			g.drawString("Time : " + ((int) this.time/1000/60 < 10 ? "0" + (int) (this.time / 1000)/60 : (int) (this.time / 1000)/60) 
 					+ ":" + ((int) (this.time / 1000) %60 < 10 ? "0" + (int) (this.time / 1000)%60  : (int) (this.time / 1000)%60) 
@@ -441,12 +462,12 @@ public class GameWindow extends BasicGameState {
 				// Ram-  Reviews list of planes in airspace; if they need landing...:
 				// Highlights approach, Renders all planes that need landing as green
 				// Not currently selected plane rendered flashing green on odd seconds 
-				approachHighlightDrawn = false;
+				landingApproachAreaDrawn = false;
 					if(plane.equals(this.currentGame.getCurrentPlane())) {
 					if(this.currentGame.getCurrentPlane().isNeedsToLand() == true 
-							&& approachHighlightDrawn == false){
-						approachHighlight.draw(400, 344);
-						approachHighlightDrawn = true; 
+							&& landingApproachAreaDrawn == false){
+						landingApproachArea.draw(400, 344);
+						landingApproachAreaDrawn = true; 
 						}
 					}			
 					
@@ -524,25 +545,7 @@ public class GameWindow extends BasicGameState {
 
 			}
 			
-			// Drawing Pause Screen
-			
-			if (currentGameContainer.isPaused()){
-				
-				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-				.drawString(this.getWindowWidth()/2-30, this.getWindowHeight()/2-100, "PAUSE");
-				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-				.drawString(this.getWindowWidth()/2-30-200, this.getWindowHeight()/2-65, "Steer a plane by selecting it and using the key arrows/ right click");
-				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-				.drawString(this.getWindowWidth()/2-30-190, this.getWindowHeight()/2-25, "Land a plane by lowering it to 2000ft when it needs to land");
-				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-				.drawString(this.getWindowWidth()/2-30-130, this.getWindowHeight()/2- 5, "and pressing L when in the airport zone");
-				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-				.drawString(this.getWindowWidth()/2-30-190, this.getWindowHeight()/2+35, "Take off a plane by selecting an airport plane and pressing T");
-			
-				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-				.drawString(this.getWindowWidth()/2-30-50, this.getWindowHeight()/2+70, "Press p to unpause");
-				
-			}
+
 			
 			
 			// Draws Waypoints

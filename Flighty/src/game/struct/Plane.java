@@ -99,10 +99,10 @@ public class Plane {
 		this.altitude = altitude;
 		this.bearing = bearing;
 		this.targetBearing= bearing;
-		this.x = 0;
-		this.y = 0;
 		this.flightPlan = new FlightPlan(currentGame, this);
 		if (this.flightPlan.getCurrentRoute().size() != 0){ this.target = this.flightPlan.getCurrentRoute().get(0);}
+		this.x = this.flightPlan.getEntryPoint().getX();
+		this.y = this.flightPlan.getEntryPoint().getY();
 		this.targetAltitude = altitude;
 		this.turningLeft=false;
 		this.turningRight=false;

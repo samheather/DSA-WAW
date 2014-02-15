@@ -129,11 +129,13 @@ public class Game {
 		this.countToNextPlane = 0;
 		this.collision = false;
 		this.ending = false;
-		this.airport = new Airport(-100,-100); // Placing Airport off screen
+		this.airport = new Airport(-100,-100); // Placing Airport off screen. Coordinates of Airport are irrelevant.
 		this.manualPlanes = new ArrayList<Plane>();
 		this.collidedPlanes = new ArrayList<Plane>();
 		this.currentPlane = null;
 		this.planeCount=0;
+		
+		// Adding Points To Game
 		
 		this.listOfEntryPoints.add(new EntryPoint(0,400));
 		this.listOfEntryPoints.add(new EntryPoint(1200,200));
@@ -183,56 +185,40 @@ public class Game {
 	*/
 	public void createPlane() {
 		Plane newPlane;
-		double angle;
-		String id;
-		double velocity = 0;
-		int altitude;
-		float x, y;
-		double bearing = 0;
-		int width, height;
-		boolean[] penaltyTest;
 		this.planeCount++;
+
+		newPlane = new Plane(this.planeCount, this.generateVelocity(),
+				this.generateAltitude(), 0, this);
 		
-		
-		// Randomise velocity
-		velocity = this.generateVelocity();
-		
-		// Randomise altitude
-		altitude =  this.generateAltitude();
-		
+		if (newPlane.getFlightPlan().getEntryPoint() == this.airport) {
+
+			this.configurePlaneForTakeOff(newPlane);
+
+		}
+
+		newPlane.calculateBearingToNextWaypoint();
+		newPlane.setBearing(newPlane.getTargetBearing());
+
+		// Add new plane to the game
+		this.currentPlanes.add(newPlane);
+	}
 	
-		newPlane = new Plane(this.planeCount, velocity, altitude, bearing, this);
-		if(newPlane.getFlightPlan().getEntryPoint()==this.airport) {
-			
-			newPlane.getFlightPlan().setEntryPoint((new EntryPoint(1180,580)));
-			newPlane.getFlightPlan().getCurrentRoute().add(0,this.airport.getBeginningOfRunway());
-			newPlane.getFlightPlan().getCurrentRoute().add(0,this.airport.getEndOfRunway());
-			
-			newPlane.setTarget(newPlane.getFlightPlan().getCurrentRoute().get(0));
-			newPlane.setVelocity(0);
-			newPlane.setAltitude(0);
-			newPlane.setTargetAltitude(0);
-			newPlane.setNeedsToTakeOff(true);
-			this.listOfEntryPoints.remove(this.airport);
-			
-		}
-
-			newPlane.setX(newPlane.getFlightPlan().getEntryPoint().getX());
-			newPlane.setY(newPlane.getFlightPlan().getEntryPoint().getY());
-
-		angle = Math.toDegrees(Math.atan2(newPlane.getY() - newPlane.getTarget().getY(),
-				newPlane.getX() - newPlane.getTarget().getX()));
-		if(angle<0) {
-			angle +=360;
-		}
-		newPlane.setBearing(angle);
-
+	public void configurePlaneForTakeOff(Plane newPlane){
 		
-		// Skip adding flight plan if testing toggle on
-
-
-			// Add new plane to the game
-		this.currentPlanes.add(newPlane);		
+		newPlane.getFlightPlan().setEntryPoint((new EntryPoint(1180,580)));
+		newPlane.getFlightPlan().getCurrentRoute().add(0,this.airport.getBeginningOfRunway());
+		newPlane.getFlightPlan().getCurrentRoute().add(0,this.airport.getEndOfRunway());
+		
+		newPlane.setX(1180);
+		newPlane.setY(580);
+		newPlane.setTarget(newPlane.getFlightPlan().getCurrentRoute().get(0));
+		newPlane.setVelocity(0);
+		newPlane.setAltitude(0);
+		newPlane.setTargetAltitude(0);
+		newPlane.setNeedsToTakeOff(true);
+		
+		// Airport is removed from list of entrypoints so another flight cant spawn on airport until current plane has left.
+		this.listOfEntryPoints.remove(this.airport);
 	}
 
 	/**
@@ -437,6 +423,69 @@ public class Game {
 		}
 	}
 	
+	public void handleKeyPresses(GameContainer gameContainer){
+		
+		if(!this.currentPlane.isNeedsToTakeOff()){
+			// Action on 'a' and 'left' keys
+			if(gameContainer.getInput().isKeyDown(203)
+					|| gameContainer.getInput().isKeyDown(30)) {
+
+				if(!this.manualPlanes.contains(this.currentPlane)) {
+					this.manualPlanes.add(this.currentPlane);
+				}
+
+				this.currentPlane.decrementBearing();
+			}
+
+			// Action on 'd' and 'right' keys
+			if(gameContainer.getInput().isKeyDown(205)
+					|| gameContainer.getInput().isKeyDown(32)) {
+
+				if(!this.manualPlanes.contains(this.currentPlane)) {
+					this.manualPlanes.add(this.currentPlane);
+				}
+
+				this.currentPlane.incrementBearing();
+			}
+
+			// Action on 'w' and 'up' keys
+			if(gameContainer.getInput().isKeyPressed(200)
+					|| gameContainer.getInput().isKeyPressed(17)) {
+
+				this.currentPlane.incrementTargetAltitude();
+			}
+
+			// Action on 's' and 'down' keys
+			if(gameContainer.getInput().isKeyPressed(208)
+					|| gameContainer.getInput().isKeyPressed(31)) {
+
+				this.currentPlane.decrementTargetAltitude();
+			}
+
+			//Action on 'l' Key
+
+			if(gameContainer.getInput().isKeyPressed(38)) {
+				if (this.currentPlane.isNeedsToLand()){
+					this.currentPlane.land();
+				}
+			}
+
+
+		}
+
+		// Action on 'T' Key
+
+		else if(this.currentPlane.isNeedsToTakeOff()){
+
+			if(gameContainer.getInput().isKeyDown(Input.KEY_T)) {
+				this.currentPlane.takeOff();
+			}
+
+		}
+	
+			
+	}
+	
 	/**
 	 * Updates the state
 	 * 
@@ -446,11 +495,10 @@ public class Game {
 	 */
 	public void update(GameContainer gameContainer,
 			StateBasedGame game) {
+		
+		
 		ArrayList<Plane> planesToRemove = new ArrayList<Plane>();
-		Waypoint tempNextVisibleTarget;
-		
 
-		
 		// Spawn more planes when no planes present
 		if(this.currentPlanes.size() == 0) {
 			this.countToNextPlane = 0;
@@ -476,69 +524,11 @@ public class Game {
 			
 			if(this.currentPlane != null  ) {
 				
-				if(!this.currentPlane.isNeedsToTakeOff()){
-					// Action on 'a' and 'left' keys
-					if(gameContainer.getInput().isKeyDown(203)
-							|| gameContainer.getInput().isKeyDown(30)) {
-						
-						if(!this.manualPlanes.contains(this.currentPlane)) {
-							this.manualPlanes.add(this.currentPlane);
-						}
-
-						this.currentPlane.decrementBearing();
-					}
-
-					// Action on 'd' and 'right' keys
-					if(gameContainer.getInput().isKeyDown(205)
-							|| gameContainer.getInput().isKeyDown(32)) {
-						
-						if(!this.manualPlanes.contains(this.currentPlane)) {
-							this.manualPlanes.add(this.currentPlane);
-							}
-
-						this.currentPlane.incrementBearing();
-					}
-
-					// Action on 'w' and 'up' keys
-					if(gameContainer.getInput().isKeyPressed(200)
-							|| gameContainer.getInput().isKeyPressed(17)) {
-						
-						this.currentPlane.incrementTargetAltitude();
-					}
-
-					// Action on 's' and 'down' keys
-					if(gameContainer.getInput().isKeyPressed(208)
-							|| gameContainer.getInput().isKeyPressed(31)) {
-						
-						this.currentPlane.decrementTargetAltitude();
-					}
-
-					//Action on 'l' Key
-
-					if(gameContainer.getInput().isKeyPressed(38)) {
-						if (this.currentPlane.isNeedsToLand()){
-							this.currentPlane.land();
-						}
-					}
-					
-
-				}
-				
-				// Action on 'T' Key
-				
-				else if(this.currentPlane.isNeedsToTakeOff()){
-					
-					if(gameContainer.getInput().isKeyDown(Input.KEY_T)) {
-						this.currentPlane.takeOff();
-					}
-						
-					}
-				}
+				this.handleKeyPresses(gameContainer);
 				
 			}
-			
-
-			
+				
+			}
 
 			
 			// Update planes

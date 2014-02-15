@@ -76,7 +76,8 @@ public class FlightPlan {
 				// Adding Waypoints to Plan
 
 				int pointsInPlan = rand.nextInt(2) + 3; 
-
+				
+				// This loop ensures that a unique waypoint is selected in each pick
 				for (int i = 0; i < pointsInPlan - 1; i++) {
 					int waypointIndex = rand.nextInt(tempListOfWaypoints.size());
 					tempRoute.add(tempListOfWaypoints.get(waypointIndex));
@@ -86,6 +87,9 @@ public class FlightPlan {
 				// Adding ExitPoint to Plan
 
 				int ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
+				
+				//This while loop ensures that the exitpoint is not on the same side of the screen
+				// as the entrypoint.
 
 				while (exitpointAdded == false){
 
@@ -99,6 +103,7 @@ public class FlightPlan {
 						ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
 					}
 					
+					// If the flights entrypoint is the airport then the runway points are added to the plan and the airport removed.
 					if(tempListOfExitPoints.get(ExitPointIndex).equals(currentGame.getAirport())){
 						tempRoute.add(currentGame.getAirport().getBeginningOfRunway());
 						tempRoute.add(currentGame.getAirport().getEndOfRunway());
