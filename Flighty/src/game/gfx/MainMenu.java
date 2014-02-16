@@ -248,13 +248,16 @@ public class MainMenu extends GenericWindow {
 				gameContainer.getHeight());
 		
 		// Draw main title
-		int xPos = (gameContainer.getWidth() / 2)
-				- (this.titleFont.getWidth("UNDER RENOVATION") / 2);
+		int mainTitleXPos = (gameContainer.getWidth() / 2)
+				- (this.titleFont.getWidth("World of") / 2);
 		
-		this.drawShadowedText(this.titleFont, xPos+125, 50,
-				"FLIGHTY", Color.orange);
-		this.drawShadowedText(this.titleFont, xPos+200, 125,
-				"ATC", Color.orange);
+		int subtitleXPos = (gameContainer.getWidth() / 2)
+				- (this.titleFont.getWidth("Flighty") / 2);
+		
+		this.drawShadowedText(this.titleFont, mainTitleXPos, 50,
+				"World of", Color.orange);
+		this.drawShadowedText(this.titleFont, subtitleXPos, 125,
+				"Flighty", Color.orange);
 		
 		// Draw other text
 		this.checkForSelection(gameContainer, game);

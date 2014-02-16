@@ -137,6 +137,8 @@ public class Game {
 		this.collidedPlanes = new ArrayList<Plane>();
 		this.currentPlane = null;
 		this.planeCount = 0;
+		this.penalty = true;
+		this.multiplier = 1;
 
 		// Adding Points To Game
 
@@ -160,8 +162,7 @@ public class Game {
 		this.listOfExitPoints.add(new ExitPoint(800, 0));
 		this.listOfExitPoints.add(new ExitPoint(0, 200));
 		this.listOfExitPoints.add(new ExitPoint(1200, 300));
-		this.penalty = true;
-		this.multiplier = 1;
+
 	}
 
 	// METHODS
