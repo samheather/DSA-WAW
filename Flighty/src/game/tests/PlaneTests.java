@@ -29,6 +29,8 @@ public class PlaneTests {
 	
 	@Test 
 	public void checkIfFlightAtWaypointTest1(){
+		plane1.setX(1000000);
+		plane1.setY(1000000);
 		assertFalse(plane1.checkIfFlightAtWaypoint(game.getAirport(), game));
 	}
 	
@@ -384,6 +386,60 @@ public class PlaneTests {
 		assertEquals(399.509, plane1.getY(), 0.001);
 		assertEquals(111.8, plane1.getTargetBearing(), 0.1);
 		assertEquals(100.9, plane1.getBearing(), 0.1);
+		
+	}
+	
+	 //Testing Take Off
+	
+	@Test 
+	public void takeOffTest1(){
+		plane1.takeOff();
+		assertTrue(plane1.getVelocity() != 0);
+		assertFalse(game.getManualPlanes().contains(plane1));
+		assertFalse(plane1.isNeedsToTakeOff());
+		assertTrue(plane1.isTakingOff());
+		assertTrue(game.getCurrentPlane() == null);
+	}
+	
+	// Testing Update Plane Altitude
+	
+	@Test 
+	public void updatePlaneAltitudeTest1(){
+		plane1.setLandingDescentRate(10);
+		plane1.setAltitude(-10);
+		plane1.updatePlaneAltitude();
+		assertEquals(0, plane1.getAltitude(), 0);
+		assertEquals(0, plane1.getLandingDescentRate(), 0);
+		assertEquals(0, plane1.getTargetAltitude(), 0);
+		
+	}
+	
+	@Test 
+	public void updatePlaneAltitudeTest2(){
+		plane1.setLandingDescentRate(10);
+		plane1.setAltitude(100);
+		plane1.updatePlaneAltitude();
+		assertEquals(90, plane1.getAltitude(), 0);
+		
+	}
+	
+	@Test 
+	public void updatePlaneAltitudeTest3(){
+		plane1.setLandingDescentRate(0);
+		plane1.setAltitude(100);
+		plane1.setTargetAltitude(150);
+		plane1.updatePlaneAltitude();
+		assertEquals(105, plane1.getAltitude(), 0);
+		
+	}
+	
+	@Test 
+	public void updatePlaneAltitudeTest4(){
+		plane1.setLandingDescentRate(0);
+		plane1.setAltitude(100);
+		plane1.setTargetAltitude(90);
+		plane1.updatePlaneAltitude();
+		assertEquals(95, plane1.getAltitude(), 0);
 		
 	}
 	
