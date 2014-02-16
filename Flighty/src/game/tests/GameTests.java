@@ -96,18 +96,27 @@ public class GameTests {
 		assertEquals(10, game.getCurrentPlanes().size(), 0);
 	}
 	
-//	@Test
-//	public void takingOffRestrictionTest(){
-//		game = new Game(100, 100);
-//		plane1 = new Plane(1, 500, 3000, 50, game);
-//		plane1.setNeedsToTakeOff(true);
-//		
-//		for (int i =0; i < 100; i++){
-//			Plane plane2 = new Plane(1, 500, 3000, 50, game);
-//			assertTrue(plane2.getFlightPlan().getEntryPoint())
-//			
-//		}
-//		
-//	}
+	@Test
+	public void takingOffRestrictionTest(){
+		// Checking that when a flight is waiting to take off another flight cannot be designated to take off.
+		
+		game = new Game(100, 100);
+		
+		game.createPlane();
+		
+		// Loop until the plane that is created is one that needs to take off
+		while(!game.getCurrentPlanes().get(0).getFlightPlan().getCurrentRoute().get(0).equals(game.getAirport().getEndOfRunway())){
+			game.getCurrentPlanes().remove(0);
+			game.createPlane();
+		}
+		
+		// check that when creating 1000 planes, a flight never needs to take off as a flight already needs to
+		for (int i =1; i < 1001; i++){
+			game.createPlane();
+			assertFalse (game.getCurrentPlanes().get(i).getFlightPlan().getCurrentRoute().get(0).equals(game.getAirport().getEndOfRunway()));
+			
+		}
+		
+	}
 
 }
