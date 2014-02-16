@@ -43,14 +43,16 @@ public class LevelSelect extends GenericWindow {
 	/**
 	 * @return			The background image
 	 */
-	public Image getBackgroundImage() {
+	public Image getBackgroundImage()
+	{
 		return this.backgroundImage;
 	}
 	
 	/**
 	 * @return				image used for level 1 preview
 	 */
-	public Image getLevel1Image() {
+	public Image getLevel1Image()
+	{
 		return this.level1Image;
 	}
 	
@@ -58,14 +60,16 @@ public class LevelSelect extends GenericWindow {
 	 * @return				image used for level 1 preview
 	 * 						(when hovered over)
 	 */
-	public Image getLevel1ImageHover() {
+	public Image getLevel1ImageHover()
+	{
 		return this.level1ImageHover;
 	}
 	
 	/**
 	 * @return				image used for level 2 preview
 	 */
-	public Image getLevel2Image() {
+	public Image getLevel2Image()
+	{
 		return this.level2Image;
 	}
 	
@@ -73,21 +77,24 @@ public class LevelSelect extends GenericWindow {
 	 * @return				image used for level 2 preview
 	 * 						(when hovered over)
 	 */
-	public Image getLevel2ImageHover() {
+	public Image getLevel2ImageHover()
+	{
 		return this.level2ImageHover;
 	}
 	
 	/**
 	 * @return				the arrow icon
 	 */
-	public Image getArrowIcon() {
+	public Image getArrowIcon()
+	{
 		return this.arrowIcon;
 	}
 	
 	/**
 	 * @return				the shaded arrow icon
 	 */
-	public Image getArrowIconShaded() {
+	public Image getArrowIconShaded()
+	{
 		return this.arrowIconShaded;
 	}
 	
@@ -96,14 +103,16 @@ public class LevelSelect extends GenericWindow {
 	/**
 	 * @param backgroundImage	the new background image
 	 */
-	public void setBackgroundImage(Image backgroundImage) {
+	public void setBackgroundImage(Image backgroundImage)
+	{
 		this.backgroundImage = backgroundImage;
 	}
 	
 	/**
 	 * @param level1Image		the new image to use for level 1 preview
 	 */
-	public void setLevel1Image(Image level1Image) {
+	public void setLevel1Image(Image level1Image)
+	{
 		this.level1Image = level1Image;
 	}
 	
@@ -112,14 +121,16 @@ public class LevelSelect extends GenericWindow {
 	 * @param level1ImageHover	the new image to use for level 1 preview
 	 * 							(when hovered over)
 	 */
-	public void setLevel1ImageHover(Image level1ImageHover) {
+	public void setLevel1ImageHover(Image level1ImageHover)
+	{
 		this.level1ImageHover = level1ImageHover;
 	}
 	
 	/**
 	 * @param level2Image	the new image to use for level 2 preview
 	 */
-	public void setLevel2Image(Image level2Image) {
+	public void setLevel2Image(Image level2Image)
+	{
 		this.level2Image = level2Image;
 	}
 	
@@ -127,21 +138,24 @@ public class LevelSelect extends GenericWindow {
 	 * @param level2ImageHover	the new image to use for level 2 preview
 	 * 							(when hovered over)
 	 */
-	public void setLevel2ImageHover(Image level2ImageHover) {
+	public void setLevel2ImageHover(Image level2ImageHover)
+	{
 		this.level2ImageHover = level2ImageHover;
 	}
 	
 	/**
 	 * @param arrowIcon		the arrow icon
 	 */
-	public void setArrowIcon(Image arrowIcon) {
+	public void setArrowIcon(Image arrowIcon)
+	{
 		this.arrowIcon = arrowIcon;
 	}
 	
 	/**
 	 * @param arrowIconShaded	the shaded arrow icon
 	 */
-	public void setArrowIconShaded(Image arrowIconShaded) {
+	public void setArrowIconShaded(Image arrowIconShaded)
+	{
 		this.arrowIconShaded = arrowIconShaded;
 	}
 	
@@ -160,27 +174,28 @@ public class LevelSelect extends GenericWindow {
 	 * @param game			the game running this state
 	 */
 	private void checkForSelection(GameContainer gameContainer,
-			StateBasedGame game) {
-		int x = gameContainer.getInput().getMouseX();
-		int y = gameContainer.getInput().getMouseY();
-		boolean clicked = gameContainer.getInput().isMousePressed(0);
+			StateBasedGame game)
+	{
+		int x 				= gameContainer.getInput().getMouseX();
+		int y 				= gameContainer.getInput().getMouseY();
+		boolean clicked 	= gameContainer.getInput().isMousePressed(0);
 
-		String level1Text = "Level 1";
-		String level2Text = "Level 2";
-		String difficulty1 = "Easy";
-		String difficulty2 = "Medium";
-		String mainMenuText = "Main Menu";
+		String level1Text 			= "Level 1";
+		String level2Text 			= "Level 2";
+		String difficulty1 			= "Easy";
+		String difficulty2 			= "Medium";
+		String mainMenuText			= "Main Menu";
 
-		int level2Width = this.font.getWidth(level2Text);
-		int mainMenuWidth = this.font.getWidth(mainMenuText);
+		int level2Width 			= this.font.getWidth(level2Text);
+		int mainMenuWidth		 	= this.font.getWidth(mainMenuText);
 
-		int textHeight = this.font.getHeight();
+		int textHeight 				= this.font.getHeight();
 
-		Color level1Color = Color.orange;
-		Color level2Color = Color.orange;
-		Color mainMenuColor = Color.orange;
-		Image level1ImageCurrent = this.level1Image;
-		Image level2ImageCurrent = this.level1Image;
+		Color level1Color 			= Color.orange;
+		Color level2Color 			= Color.orange;
+		Color mainMenuColor 		= Color.orange;
+		Image level1ImageCurrent	= this.level1Image;
+		Image level2ImageCurrent 	= this.level1Image;
 
 		// Level 1 Text
 		this.drawShadowedText(this.font, 150, 130, level1Text, level1Color);
@@ -193,14 +208,20 @@ public class LevelSelect extends GenericWindow {
 		if((x >= (105))
 				&& (y >= (200 - 25))
 				&& (x <= (90 + 200 + 25))
-				&& (y <= (150 + 200 + 25))) {
-			if(clicked) {
+				&& (y <= (150 + 200 + 25)))
+		{
+			if(clicked)
+			{
 				((WindowManager) game).setCurrentLevel(1);
 				game.enterState(WindowManager.GAME_STATE);
-			} else {
+			}
+			else
+			{
 				level1ImageCurrent = this.level1ImageHover;
 			}
-		} else {
+		}
+		else
+		{
 			level1ImageCurrent = this.level1Image;
 		}
 
@@ -219,14 +240,20 @@ public class LevelSelect extends GenericWindow {
 				&& (y >= (200))
 				&& (x <= ((gameContainer.getWidth() / 2)
 						- (200 / 2) + 200))
-				&& (y <= (200 + 200))) {
-			if(clicked) {
+				&& (y <= (200 + 200)))
+			{
+			if(clicked)
+			{
 				((WindowManager) game).setCurrentLevel(2);
 				game.enterState(WindowManager.GAME_STATE);
-			} else {
+			}
+			else
+			{
 				level2ImageCurrent = this.level1ImageHover;
 			}
-		} else {
+		}
+		else
+		{
 			level2ImageCurrent = this.level1Image;
 		}
 
@@ -238,16 +265,22 @@ public class LevelSelect extends GenericWindow {
 				&& (y >= (gameContainer.getHeight() - 50 - 25))
 				&& (x <= (50 - 25) + mainMenuWidth + 25)
 				&& (y <= (gameContainer.getHeight() - 50
-						+ textHeight + 25))) {
-			if(clicked) {
+						+ textHeight + 25)))
+		{
+			if(clicked)
+			{
 				game.enterState(WindowManager.MAIN_MENU_STATE);
-			} else {
+			}
+			else
+			{
 				mainMenuColor = Color.white;
 			}
-		} else {
+		}
+		else
+		{
 			mainMenuColor = Color.orange;
 		}
-
+		
 		this.drawShadowedText(this.font, 50, gameContainer.getHeight() - 50,
 				mainMenuText, mainMenuColor);
 	}
@@ -262,7 +295,8 @@ public class LevelSelect extends GenericWindow {
 	 */
 	@Override
 	public void init(GameContainer gameContainer,
-			StateBasedGame game) throws SlickException {
+			StateBasedGame game) throws SlickException
+	{
 		super.init(gameContainer, game);
 		
 		InputStream backgroundStream = this.getClass()
@@ -311,7 +345,8 @@ public class LevelSelect extends GenericWindow {
 	 */
 	@Override
 	public void enter(GameContainer gameContainer,
-			StateBasedGame game) throws SlickException {
+			StateBasedGame game) throws SlickException
+	{
 		((AppGameContainer) gameContainer).setDisplayMode(
 				WindowManager.WINDOW_WIDTH, 512, false);
 	}
@@ -325,7 +360,8 @@ public class LevelSelect extends GenericWindow {
 	 */
 	@Override
 	public void render(GameContainer gameContainer,
-			StateBasedGame game, Graphics graphics) throws SlickException {
+			StateBasedGame game, Graphics graphics) throws SlickException
+	{
 		super.render(gameContainer, game, graphics);
 		
 		// Draw background
@@ -356,7 +392,8 @@ public class LevelSelect extends GenericWindow {
 	 * @return				the state's unique ID
 	 */
 	@Override
-	public int getID() {
+	public int getID()
+	{
 		return WindowManager.LEVEL_SELECT_STATE;
 	}
 }

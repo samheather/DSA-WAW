@@ -33,21 +33,24 @@ public class MainMenu extends GenericWindow {
 	/**
 	 * @return			the background image
 	 */
-	public Image getBackgroundImage() {
+	public Image getBackgroundImage()
+	{
 		return this.backgroundImage;
 	}
 	
 	/**
 	 * @return			the plane icon
 	 */
-	public Image getPlaneIcon() {
+	public Image getPlaneIcon()
+	{
 		return this.planeIcon;
 	}
 	
 	/**
 	 * @return			the waypoint icon
 	 */
-	public Image getWaypointIcon() {
+	public Image getWaypointIcon()
+	{
 		return this.waypointIcon;
 	}
 	
@@ -56,21 +59,24 @@ public class MainMenu extends GenericWindow {
 	/**
 	 * @param backgroundImage	the new background image
 	 */
-	public void setBackgroundImage(Image backgroundImage) {
+	public void setBackgroundImage(Image backgroundImage)
+	{
 		this.backgroundImage = backgroundImage;
 	}
 	
 	/**
 	 * @param planeIcon		the new plane icon
 	 */
-	public void setPlaneIcon(Image planeIcon) {
+	public void setPlaneIcon(Image planeIcon)
+	{
 		this.planeIcon = planeIcon;
 	}
 	
 	/**
 	 * @param waypointIcon	the new waypoint icon
 	 */
-	public void setWaypointIcon(Image waypointIcon) {
+	public void setWaypointIcon(Image waypointIcon)
+	{
 		this.waypointIcon = waypointIcon;
 	}
 	
@@ -89,27 +95,28 @@ public class MainMenu extends GenericWindow {
 	 * @param game			the game running this state
 	 */
 	private void checkForSelection(GameContainer gameContainer,
-			StateBasedGame game) {
-		int x = gameContainer.getInput().getMouseX();
-		int y = gameContainer.getInput().getMouseY();
-		boolean clicked = gameContainer.getInput().isMousePressed(0);
+			StateBasedGame game)
+	{
+		int x 					= gameContainer.getInput().getMouseX();
+		int y 					= gameContainer.getInput().getMouseY();
+		boolean clicked 		= gameContainer.getInput().isMousePressed(0);
 		
-		String startGameText = "Start Game";
-		String creditsText = "Credits";
-		String controlsText = "Controls";
-		String exitText = "Exit";
+		String startGameText 	= "Start Game";
+		String creditsText 		= "Credits";
+		String controlsText 	= "Controls";
+		String exitText 		= "Exit";
 		
-		int startGameWidth = this.font.getWidth(startGameText);
-		int creditsWidth = this.font.getWidth(creditsText);
-		int controlsWidth = this.font.getWidth(controlsText);
-		int exitWidth = this.font.getWidth(exitText);
+		int startGameWidth 		= this.font.getWidth(startGameText);
+		int creditsWidth 		= this.font.getWidth(creditsText);
+		int controlsWidth 		= this.font.getWidth(controlsText);
+		int exitWidth 			= this.font.getWidth(exitText);
 		
-		int textHeight = this.font.getHeight();
+		int textHeight 			= this.font.getHeight();
 		
-		Color startGameColor = Color.orange;
-		Color creditsColor = Color.orange;
-		Color controlsColor = Color.orange;
-		Color exitColor = Color.orange;
+		Color startGameColor 	= Color.orange;
+		Color creditsColor 		= Color.orange;
+		Color controlsColor 	= Color.orange;
+		Color exitColor 		= Color.orange;
 		
 		// Start Game
 		if((x >= (gameContainer.getWidth() / 3) + 30 - 25)
@@ -117,15 +124,21 @@ public class MainMenu extends GenericWindow {
 				&& (x <= (gameContainer.getWidth() / 3) + 30
 				+ startGameWidth + 25)
 				&& (y <= (gameContainer.getHeight() / 3) + 50
-				+ textHeight + 25)) {
-			if(clicked) {
+				+ textHeight + 25))
+		{
+			if(clicked)
+			{
 				game.enterState(WindowManager.LEVEL_SELECT_STATE);
-			} else {
+			}
+			else
+			{
 				startGameColor = Color.white;
 				this.waypointIcon.draw((gameContainer.getWidth() / 3)
 						+ 250, (gameContainer.getHeight() / 3) + 52);
 			}
-		} else {
+		}
+		else
+		{
 			startGameColor = Color.orange;
 		}
 		
@@ -140,15 +153,21 @@ public class MainMenu extends GenericWindow {
 				&& (x <= (gameContainer.getWidth() / 3) + 30
 				+ creditsWidth + 25)
 				&& (y <= (gameContainer.getHeight() / 3) + 50
-				+ (this.font.getHeight() * 4) + textHeight + 25)) {
-			if(clicked) {
+				+ (this.font.getHeight() * 4) + textHeight + 25))
+		{
+			if(clicked)
+			{
 				game.enterState(WindowManager.CREDITS_STATE);
-			} else {
+			}
+			else
+			{
 				creditsColor = Color.white;
 				this.waypointIcon.draw((gameContainer.getWidth() / 3)
 						+ 175, (gameContainer.getHeight() /3 + 149));
 			}
-		} else {
+		}
+		else
+		{
 			creditsColor = Color.orange;
 		}
 		
@@ -163,15 +182,21 @@ public class MainMenu extends GenericWindow {
 						&& (x <= (gameContainer.getWidth() / 3) + 30
 						+ creditsWidth + 25)
 						&& (y <= (gameContainer.getHeight() / 3) + 160
-						+ (this.font.getHeight() * 4) + textHeight + 25)) {
-					if(clicked) {
+						+ (this.font.getHeight() * 4) + textHeight + 25))
+				{
+					if(clicked)
+					{
 						game.enterState(WindowManager.CONTROLS_STATE);
-					} else {
+					}
+					else
+					{
 						controlsColor = Color.white;
 						this.waypointIcon.draw((gameContainer.getWidth() / 3)
 								+ 210, (gameContainer.getHeight() /3 + 249));
 					}
-				} else {
+				}
+				else
+				{
 					controlsColor = Color.orange;
 				}
 				
@@ -185,13 +210,19 @@ public class MainMenu extends GenericWindow {
 		if((x >= (50 - 25))
 				&& (y >= (gameContainer.getHeight() - 50 - 25))
 				&& (x <= (50 - 25) + exitWidth + 25)
-				&& (y <= (gameContainer.getHeight() - 50 + textHeight + 25))) {
-			if(clicked) {
+				&& (y <= (gameContainer.getHeight() - 50 + textHeight + 25)))
+		{
+			if(clicked)
+			{
 				System.exit(0);
-			} else {
+			}
+			else
+			{
 				exitColor = Color.white;
 			}
-		} else {
+		}
+		else
+		{
 			exitColor = Color.orange;
 		}
 		
@@ -271,7 +302,8 @@ public class MainMenu extends GenericWindow {
 	 * @return				the state's unique ID
 	 */
 	@Override
-	public int getID() {
+	public int getID()
+	{
 		return WindowManager.MAIN_MENU_STATE;
 	}
 }

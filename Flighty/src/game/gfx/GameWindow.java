@@ -1,6 +1,5 @@
 package game.gfx;
 
-import org.lwjgl.input.Mouse;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -15,11 +14,9 @@ import org.newdawn.slick.state.StateBasedGame;
 import java.awt.Font;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Random;
 
 import game.struct.Game;
 import game.struct.Plane;
-import game.struct.Waypoint;
 
 /**
  * GameWindow class provides an interactive game
@@ -39,9 +36,7 @@ public class GameWindow extends BasicGameState {
 	private double endTime;
 
 	private Game currentGame;
-
-	private float timer = 0;
-
+	
 	/** The current map */
 	private Image map;
 
@@ -130,87 +125,80 @@ public class GameWindow extends BasicGameState {
 	 *            the altitude level to convert
 	 */
 
-	public void giveHeadingThroughMouse(Plane currentPlane, int x, int y) {
+	public void giveHeadingThroughMouse(Plane currentPlane, int x, int y)
+	{
 		this.currentGame.getCurrentPlane().setTurningLeft(false);
 		this.currentGame.getCurrentPlane().setTurningRight(false);
-		if (!this.currentGame.getManualPlanes().contains(currentPlane)) {
+		
+		if (!this.currentGame.getManualPlanes().contains(currentPlane))
+		{
 			this.currentGame.getManualPlanes().add(currentPlane);
 		}
+		
 		double newBearing = Math.toDegrees(Math.atan2(this.currentGame
 				.getCurrentPlane().getY() - y, this.currentGame
 				.getCurrentPlane().getX() - x));
-		if (newBearing < 0) {
+		if (newBearing < 0)
+		{
 			newBearing += 360;
 		}
 		this.currentGame.getCurrentPlane().setTargetBearing(newBearing);
-
 	}
-
-	public Plane selectFlight(int x, int y) {
+	/**
+	 * Method ot facilitate the selection of planes via cursors
+	 * 
+	 * @param x - x coordinate
+	 * @param y - y coordinate
+	 * @return  - returns selected plane if any
+	 */
+	public Plane selectFlight(int x, int y)
+	{
 		Plane nearestPlane;
-		double distanceBetweenMouseClickAndNearestFlight;
+		// Distance from where the user clicked to the nearest plane
+		double distanceToPlane;
 
-		if (this.currentGame.getCurrentPlanes().size() >= 1) {
-
-			distanceBetweenMouseClickAndNearestFlight = Math.sqrt(Math.pow(x
-					- this.currentGame.getCurrentPlanes().get(0).getX(), 2)
-					+ Math.pow(
-							y
-									- this.currentGame.getCurrentPlanes()
+		if (this.currentGame.getCurrentPlanes().size() >= 1)
+		{
+			distanceToPlane = Math.sqrt(Math.pow(x
+								- this.currentGame.getCurrentPlanes().get(0).getX(), 2)
+										+ Math.pow(y - this.currentGame.getCurrentPlanes()
 											.get(0).getY(), 2));
 			nearestPlane = this.currentGame.getCurrentPlanes().get(0);
 
-			for (int i = 0; i < this.currentGame.getCurrentPlanes().size(); i++) { // Loop
-																					// through
-																					// all
-																					// flights
-																					// and
-																					// find
-																					// the
-																					// nearest
-																					// one
+			// Loop through all the planes and find the nearest one
+			for (int i = 0; i < this.currentGame.getCurrentPlanes().size(); i++)
+			{ 															
 				if (Math.sqrt(Math.pow(x
 						- this.currentGame.getCurrentPlanes().get(i).getX(), 2)
-						+ Math.pow(
-								y
-										- this.currentGame.getCurrentPlanes()
-												.get(i).getY(), 2)) < distanceBetweenMouseClickAndNearestFlight) {
-					distanceBetweenMouseClickAndNearestFlight = Math.sqrt(Math
-							.pow(x
-									- this.currentGame.getCurrentPlanes()
+						+ Math.pow(y - this.currentGame.getCurrentPlanes()
+												.get(i).getY(), 2)) < distanceToPlane)
+				{
+					distanceToPlane = Math.sqrt(Math
+							.pow(x - this.currentGame.getCurrentPlanes()
 											.get(i).getX(), 2)
-							+ Math.pow(y
-									- this.currentGame.getCurrentPlanes()
+							+ Math.pow(y - this.currentGame.getCurrentPlanes()
 											.get(i).getY(), 2));
 					nearestPlane = this.currentGame.getCurrentPlanes().get(i);
-
 				}
 
-				if (distanceBetweenMouseClickAndNearestFlight <= 50) {
-
-					if (nearestPlane.equals(this.currentGame.getCurrentPlane())) {
-
+				if (distanceToPlane <= 50)
+				{
+					if (nearestPlane.equals(this.currentGame.getCurrentPlane()))
+					{
 						return null;
-
 					}
-
-					else {
-
+					else
+					{
 						if (!nearestPlane.isLanding()
-								&& !nearestPlane.isTakingOff()) {
+								&& !nearestPlane.isTakingOff())
+						{
 							return nearestPlane;
 						}
-
 					}
-
 				}
-
 			}
-
 		}
-
 		return null;
-
 	}
 
 	// Overrides
@@ -224,7 +212,8 @@ public class GameWindow extends BasicGameState {
 	 */
 	@Override
 	public void init(GameContainer gameContainer, StateBasedGame game)
-			throws SlickException {
+			throws SlickException
+	{
 		// Setup input
 		this.setInput(gameContainer.getInput());
 
@@ -261,8 +250,8 @@ public class GameWindow extends BasicGameState {
 		InputStream planeAlertMaxStream = this.getClass().getResourceAsStream(
 				"/resources/planes/PlaneAlertMax.png");
 		// - Introducing Landing Alert Image
-		InputStream planeNeedsLandingStream = this.getClass()
-				.getResourceAsStream("/resources/planes/PlaneNeedsLanding.png");
+		InputStream planeNeedsLandingStream = this.getClass().getResourceAsStream(
+				"/resources/planes/PlaneNeedsLanding.png");
 
 		// - Introducing approach highlight image
 		InputStream approachHighlightStream = this.getClass()
@@ -274,7 +263,7 @@ public class GameWindow extends BasicGameState {
 		this.planeNormal = new Image(planeNormalStream, "Plane Normal Image",
 				false).getScaledCopy(14, 18);
 		this.planeNormalCur = this.planeNormal;
-
+		
 		this.planeSelected = new Image(planeSelectedStream,
 				"Plane Selected Image", false).getScaledCopy(14, 18);
 		this.planeSelectedCur = this.planeSelected;
@@ -324,17 +313,21 @@ public class GameWindow extends BasicGameState {
 	 */
 	@Override
 	public void enter(GameContainer gameContainer, StateBasedGame game)
-			throws SlickException {
+			throws SlickException
+	{
 		this.currentGameContainer = gameContainer;
 
 		time = 0;
+		
+		//Screen size
 		this.windowWidth = 1200;
 		this.windowHeight = 600;
 
 		((AppGameContainer) gameContainer).setDisplayMode(this.windowWidth,
 				this.windowHeight, false);
 
-		if (((WindowManager) game).getCurrentLevel() == 1) {
+		if (((WindowManager) game).getCurrentLevel() == 1)
+		{
 			// Play level 1
 			this.currentGame = new Game(50, 100);
 			this.map = this.map1;
@@ -342,7 +335,9 @@ public class GameWindow extends BasicGameState {
 			this.currentGame.setSpeedDifficulty(0.5);
 			this.currentGame.setSpawnRate(12);
 			this.currentGame.setSpawnCount(1);
-		} else if (((WindowManager) game).getCurrentLevel() == 2) {
+		}
+		else if (((WindowManager) game).getCurrentLevel() == 2)
+		{
 			// Play level 2
 			this.currentGame = new Game(70, 100);
 			this.map = this.map1;
@@ -350,24 +345,28 @@ public class GameWindow extends BasicGameState {
 			this.currentGame.setSpeedDifficulty(0.5);
 			this.currentGame.setSpawnRate(4);
 			this.currentGame.setSpawnCount(1);
-		} else {
+		}
+		else
+		{
 			// ERROR
 		}
 
 	}
-
-	public void playCheckpointSound() {
-		if (this.currentGame.getCurrentPlane() != null) {
-			if (this.currentGame.getCurrentPlane().getFlightPlan()
-					.getCurrentRoute().size() != 0) {
-				if (this.currentGame.getCurrentPlane().checkIfFlightAtWaypoint(
-						this.currentGame.getCurrentPlane().getFlightPlan()
-								.getCurrentRoute().get(0), currentGame)) {
-					checkpointSound.play();
-				}
-			}
-
+	/**
+	 * Plays a sound at each checkpoint if the plane is selected
+	 */
+	public void playCheckpointSound()
+	{
+		if (this.currentGame.getCurrentPlane() != null
+				&& this.currentGame.getCurrentPlane().getFlightPlan()
+							.getCurrentRoute().size() != 0
+				  && this.currentGame.getCurrentPlane().checkIfFlightAtWaypoint(
+							this.currentGame.getCurrentPlane().getFlightPlan()
+							.getCurrentRoute().get(0), currentGame))
+		{
+			checkpointSound.play();
 		}
+
 	}
 
 	/**
@@ -382,7 +381,8 @@ public class GameWindow extends BasicGameState {
 	 */
 	@Override
 	public void render(GameContainer gameContainer, StateBasedGame game,
-			Graphics g) {
+			Graphics g)
+	{
 
 		// Draw the game map
 		this.map.draw(0, 0, this.windowWidth, this.windowHeight);
@@ -391,12 +391,12 @@ public class GameWindow extends BasicGameState {
 		g.setFont(this.font);
 		g.setColor(this.fontColor);
 
-		if (!this.currentGame.isEnding()) {
+		if (!this.currentGame.isEnding())
+		{
 
 			// Drawing Pause Screen if in pause menu
-
-			if (currentGameContainer.isPaused()) {
-
+			if (currentGameContainer.isPaused())
+			{
 				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
 						.drawString(this.getWindowWidth() / 2 - 30,
 								this.getWindowHeight() / 2 - 100, "PAUSE");
@@ -421,45 +421,60 @@ public class GameWindow extends BasicGameState {
 						.drawString(this.getWindowWidth() / 2 - 30 - 50,
 								this.getWindowHeight() / 2 + 70,
 								"Press p to unpause");
-
 			}
 
 			// Display the Game Information
-
-			g.drawString("Time : "
+			g.drawString(
+					"Time : "
 					+ ((int) this.time / 1000 / 60 < 10 ? "0"
 							+ (int) (this.time / 1000) / 60
 							: (int) (this.time / 1000) / 60)
 					+ ":"
 					+ ((int) (this.time / 1000) % 60 < 10 ? "0"
 							+ (int) (this.time / 1000) % 60
-							: (int) (this.time / 1000) % 60), 1050, 15);
-			g.drawString("Score : " + ((int) (this.currentGame.getScore()))
+							: (int) (this.time / 1000) % 60), 
+					1050, 15);
+			g.drawString(
+					"Score : "
+					+ ((int) (this.currentGame.getScore()))
 					+ " pts", 1050, 35);
 			g.drawString(
-					"Multiplier :" + ((int) (this.currentGame.getMultiplier())),
+					"Multiplier :"
+					+ ((int) (this.currentGame.getMultiplier())),
 					1050, 55);
-			g.drawString("Pause/Controls: P ", 1050, 75);
+			g.drawString("Pause/Controls: P ",
+					1050, 75);
 
-			for (Plane plane : this.currentGame.getCurrentPlanes()) {
-
-				// Displays +5 above the passed waypoint
-				if (plane.getFlightPlan().getCurrentRoute().size() > 1) {
+			for (Plane plane : this.currentGame.getCurrentPlanes())
+			{
+				// Sets to display +5/+10/etc above the passed waypoint
+				if (plane.getFlightPlan().getCurrentRoute().size() > 1)
+				{
 					if (plane.checkIfFlightAtWaypoint(plane.getFlightPlan()
-							.getCurrentRoute().get(0), this.currentGame)) {
+							.getCurrentRoute().get(0), this.currentGame))
+					{
+						// If plane is at the runway, more points apply
 						if (plane.getFlightPlan().getCurrentRoute().get(0) == currentGame
-								.getAirport().getBeginningOfRunway()) {
+								.getAirport().getBeginningOfRunway())
+						{
 							morePoints = true;
 						}
+						
+						// Saves the passed waypoint coordinates to know where to display the text
 						prevX = plane.getFlightPlan().getCurrentRoute().get(0)
 								.getX();
 						prevY = plane.getFlightPlan().getCurrentRoute().get(0)
 								.getY();
+						
+						// How long it should display the text for
 						synch = 100;
 						display = true;
 					}
-					if (display && synch > 0) {
-						if (morePoints) {
+					// Renders the bonus points
+					if (display && synch > 0)
+					{
+						if (morePoints)
+						{
 							g.drawString(
 									"+"
 											+ Integer.toString(this
@@ -467,8 +482,9 @@ public class GameWindow extends BasicGameState {
 													.getMultiplier() * 5),
 									(float) prevX - 8, (float) prevY - 30);
 							morePoints = synch <= 1 ? false : true;
-						} else {
-
+						}
+						else
+						{
 							g.drawString(
 									"+"
 											+ Integer.toString(this
@@ -476,14 +492,18 @@ public class GameWindow extends BasicGameState {
 													.getMultiplier() * 5),
 									(float) prevX - 8, (float) prevY - 30);
 						}
+						
 						synch--;
-					} else {
+					}
+					else
+					{
 						display = false;
 					}
 				}
 
 				// If plane is within penalty distance, apply alert images
-				if (plane.getAlertStatus()) {
+				if (plane.getAlertStatus())
+				{
 					this.planeAlert.getScaledCopy(
 							this.currentGame.getPenaltyDistance(),
 							this.currentGame.getPenaltyDistance())
@@ -498,9 +518,11 @@ public class GameWindow extends BasicGameState {
 				}
 
 				// Render each plane
-				if (plane.equals(this.currentGame.getCurrentPlane())) {
-
-					if (plane.getAltitude() >= 2000) {
+				if (plane.equals(this.currentGame.getCurrentPlane()))
+				{
+					// Active flights in the airspace are reaching at least 2000ft altitude
+					if (plane.getAltitude() >= 2000)
+					{
 						this.planeSelectedCur = this.planeSelected
 								.getScaledCopy(1 + ((((float) (plane.getSize())) - 1) / 5));
 					}
@@ -508,20 +530,29 @@ public class GameWindow extends BasicGameState {
 							.getBearing() - 90);
 					this.planeSelectedCur.drawCentered((float) plane.getX(),
 							(float) plane.getY());
-				} else {
-					if (plane.getAltitude() < 2000) {
+				}
+				else
+				{
+					// Planes under 2000ft are rendered smaller because they're landing/taking off
+					if (plane.getAltitude() < 2000)
+					{
 						this.planeNormalCur = this.planeNormal
 								.getScaledCopy((float) (1 + ((plane.getSize() - 2.5f + (float) plane
 										.getAltitude() / 1000)) / 5));
-					} else {
+					}
+					else
+					{
 						this.planeNormalCur = this.planeNormal
 								.getScaledCopy(1 + ((((float) (plane.getSize())) - 1) / 5));
 					}
 					this.planeNormalCur
 							.setRotation((float) plane.getBearing() - 90);
+					
 					this.planeNormalCur.drawCentered((float) plane.getX(),
 							(float) plane.getY());
 				}
+				
+				
 				// Ram- Reviews list of planes in airspace; if they need
 				// landing...:
 				// Highlights approach, Renders all planes that need landing as
@@ -529,20 +560,26 @@ public class GameWindow extends BasicGameState {
 				// Not currently selected plane rendered flashing green on odd
 				// seconds
 				landingApproachAreaDrawn = false;
-				if (plane.equals(this.currentGame.getCurrentPlane())) {
+				if (plane.equals(this.currentGame.getCurrentPlane()))
+				{
 					if (this.currentGame.getCurrentPlane().isNeedsToLand() == true
-							&& landingApproachAreaDrawn == false) {
+							&& landingApproachAreaDrawn == false)
+					{
 						landingApproachArea.draw(400, 344);
 						landingApproachAreaDrawn = true;
 					}
 				}
-
-				if (plane.equals(this.currentGame.getCurrentPlane())) {
-					if (plane.getAltitude() < 2000) {
+				//Selected planes should be drawn to proportion (i.e. when selecting an airport plane)
+				if (plane.equals(this.currentGame.getCurrentPlane()))
+				{
+					if (plane.getAltitude() < 2000)
+					{
 						this.planeSelectedCur = this.planeSelected
 								.getScaledCopy((float) (1 + ((plane.getSize() - 2.5f + (float) plane
 										.getAltitude() / 1000)) / 5));
-					} else {
+					}
+					else
+					{
 						this.planeSelectedCur = this.planeSelected
 								.getScaledCopy(1 + ((((float) (plane.getSize())) - 1) / 5));
 					}
@@ -550,9 +587,13 @@ public class GameWindow extends BasicGameState {
 							.getBearing() - 90);
 					this.planeSelectedCur.drawCentered((float) plane.getX(),
 							(float) plane.getY());
-				} else {
-					if (((int) (this.time / 1000)) % 2 == 0) {
-						if (plane.isNeedsToLand() == true) {
+				}
+				else
+				{
+					if (((int) (this.time / 1000)) % 2 == 0)
+						{
+						if (plane.isNeedsToLand() == true)
+						{
 							this.planeNeedsLandingCur = this.planeNeedsLanding
 									.getScaledCopy(1 + ((((float) (plane
 											.getSize())) - 1) / 5));
@@ -563,36 +604,34 @@ public class GameWindow extends BasicGameState {
 						}
 					}
 				}
-				// Render plane's altitude
-
-				if (plane.getVelocity() > 0) {
+				
+				// Render plane's altitude. It doesn't render when planes are landed waiting to take off
+				if (plane.getVelocity() > 0)
+				{
 					g.drawString(plane.getAltitude() + " ft",
 							(float) plane.getX(), (float) plane.getY() + 15);
 				}
 
 				// Render Landing Information above flight
-
 				if (plane.isNeedsToLand()
 						&& !plane.equals(currentGame.getCurrentPlane())
-						&& !currentGame.getAirport().isPlaneLanding()) {
-
+						&& !currentGame.getAirport().isPlaneLanding())
+				{
 					g.drawString("Land Me!", (float) (plane.getX() - 5),
 							(float) (plane.getY() - 30));
 				}
-
 				else if (plane.isNeedsToLand()
-						&& currentGame.getAirport().isPlaneLanding()) {
-
+						&& currentGame.getAirport().isPlaneLanding())
+				{
 					g.drawString("Wait to Land Me!",
 							(float) (plane.getX() - 5),
 							(float) (plane.getY() - 30));
 				}
-
-				else if (plane.isNeedsToLand() && plane.getAltitude() > 2000) {
+				else if (plane.isNeedsToLand() && plane.getAltitude() > 2000)
+				{
 					g.drawString("Lower Me!", (float) (plane.getX() - 5),
 							(float) (plane.getY() - 30));
 				}
-
 				else if (plane.isNeedsToLand()
 						&& plane.getAltitude() <= 2000
 						&& plane.getBearing() <= 225
@@ -601,79 +640,89 @@ public class GameWindow extends BasicGameState {
 								.getAirport()
 								.getLandingApproachArea()
 								.contains((float) plane.getX(),
-										(float) plane.getY())) {
+										(float) plane.getY()))
+				{
 					g.drawString("'L' to Land", (float) (plane.getX() - 5),
 							(float) (plane.getY() - 30));
 				}
 
-				else if (plane.isNeedsToLand() && plane.getAltitude() <= 2000) {
+				else if (plane.isNeedsToLand() && plane.getAltitude() <= 2000)
+				{
 					g.drawString("Perfect Height!", (float) (plane.getX() - 5),
 							(float) (plane.getY() - 30));
 				}
-
+//////////////////////////Can we delete this?/////////////////////////////////////////
 				boolean testing = false;
 
 			}
+			
 			// Draws ExitPoints
-
-			for (int i = 0; i < this.currentGame.getListOfExitPoints().size(); i++) {
-				if (this.currentGame.getCurrentPlane() != null) {
+			for (int i = 0; i < this.currentGame.getListOfExitPoints().size(); i++)
+			{
+				if (this.currentGame.getCurrentPlane() != null)
+				{
 					if (this.currentGame
 							.getCurrentPlane()
 							.getFlightPlan()
 							.getCurrentRoute()
 							.indexOf(
 									this.currentGame.getListOfExitPoints().get(
-											i)) == 0) {
+											i)) == 0)
+					{
 						this.waypointNext.drawCentered((int) this.currentGame
 								.getListOfExitPoints().get(i).getX(),
 								(int) this.currentGame.getListOfExitPoints()
 								.get(i).getY());
-					} else {
+					}
+					else
+					{
 						this.waypointLast.drawCentered((int) this.currentGame
 								.getListOfExitPoints().get(i).getX(),
 								(int) this.currentGame.getListOfExitPoints()
 								.get(i).getY());
 					}
-
 				}
-
-				else {
+				else
+				{
 					this.waypointLast.drawCentered((int) this.currentGame
 							.getListOfExitPoints().get(i).getX(),
 							(int) this.currentGame.getListOfExitPoints().get(i)
 							.getY());
 				}
 			}
+			
 			// Draws Waypoints
-
-			for (int i = 0; i < this.currentGame.getListOfWaypoints().size(); i++) {
-				if (this.currentGame.getCurrentPlane() != null) {
-
+			for (int i = 0; i < this.currentGame.getListOfWaypoints().size(); i++)
+			{
+				if (this.currentGame.getCurrentPlane() != null)
+				{
 					if (this.currentGame.getCurrentPlane().getFlightPlan()
-							.getCurrentRoute().size() > 0) {
+							.getCurrentRoute().size() > 0)
+					{
 						if (this.currentGame.getCurrentPlane().getFlightPlan()
 								.getCurrentRoute().get(0) == this.currentGame
-								.getListOfWaypoints().get(i)) {
+								.getListOfWaypoints().get(i))
+						{
+							// Highlights the next waypoint
 							this.waypointNext.drawCentered(
 									(int) this.currentGame.getListOfWaypoints()
 									.get(i).getX(),
 									(int) this.currentGame.getListOfWaypoints()
 									.get(i).getY());
 						}
-
-						else {
+						else
+						{
+							// Draws all other waypoints normally
 							this.waypointNormal.drawCentered(
 									(int) this.currentGame.getListOfWaypoints()
 									.get(i).getX(),
 									(int) this.currentGame.getListOfWaypoints()
 									.get(i).getY());
-
 						}
-
 					}
-
-					else {
+					else
+					{
+						// Draw exitpoint 
 						this.waypointNormal.drawCentered((int) this.currentGame
 								.getListOfWaypoints().get(i).getX(),
 								(int) this.currentGame.getListOfWaypoints()
@@ -681,7 +730,10 @@ public class GameWindow extends BasicGameState {
 
 					}
 
-				} else {
+				}
+				else
+				{
+					// Draw all waypoints normally when there's no selected plane
 					this.waypointNormal.drawCentered((int) this.currentGame
 							.getListOfWaypoints().get(i).getX(),
 							(int) this.currentGame.getListOfWaypoints().get(i)
@@ -689,9 +741,13 @@ public class GameWindow extends BasicGameState {
 				}
 			}
 
-			if (this.currentGame.getCurrentPlane() != null) {
+			
+			// Draw arrows on top of the waypoints to give clues about the flight plan
+			if (this.currentGame.getCurrentPlane() != null)
+			{
 				for (int j = 0; j < this.currentGame.getCurrentPlane()
-						.getFlightPlan().getCurrentRoute().size() - 1; j++) {
+						.getFlightPlan().getCurrentRoute().size() - 1; j++)
+				{
 					int headingToWaypoint;
 					double deltaY = this.currentGame.getCurrentPlane()
 							.getFlightPlan().getCurrentRoute().get(j + 1)
@@ -715,29 +771,30 @@ public class GameWindow extends BasicGameState {
 									.getFlightPlan().getCurrentRoute().get(j)
 									.getY());
 					if(j == this.currentGame.getCurrentPlane()
-						.getFlightPlan().getCurrentRoute().size() - 2) {
+						.getFlightPlan().getCurrentRoute().size() - 2)
+					{
 						int exitPointX =(int)this.currentGame.getCurrentPlane()
 								.getFlightPlan().getCurrentRoute().get(j+1).getX();
 						int exitPointY =(int)this.currentGame.getCurrentPlane()
 								.getFlightPlan().getCurrentRoute().get(j+1).getY();
-						if(exitPointX == 0) {
+						if(exitPointX == 0)
+						{
 							this.waypointArrow.drawCentered(exitPointX + 10, exitPointY);
 						}
-						else if(exitPointX == this.getWindowWidth()) {
+						else if(exitPointX == this.getWindowWidth())
+						{
 							this.waypointArrow.drawCentered(exitPointX-10, exitPointY);
 						}
-						else if(exitPointY == 0) {
+						else if(exitPointY == 0)
+						{
 							this.waypointArrow.drawCentered(exitPointX, exitPointY+10);
 						}
-						
 					}
-
 				}
 			}
-
-			
-
-		} else {
+		}
+		else
+		{
 			// Display the game duration (time)
 			g.drawString("Time : "
 					+ ((int) this.endTime / 1000 / 60 < 10 ? "0"
@@ -753,10 +810,13 @@ public class GameWindow extends BasicGameState {
 
 		// Drawing End Game Screen
 
-		if (this.currentGame.isCollision()) {
-			if (this.currentGame.isEnding()) {
+		if (this.currentGame.isCollision())
+		{
+			if (this.currentGame.isEnding())
+			{
 				// Draw the two colliding planes
-				for (Plane plane : this.currentGame.getCollidedPlanes()) {
+				for (Plane plane : this.currentGame.getCollidedPlanes())
+				{
 					this.planeNormal.setRotation((float) Math.toDegrees(plane
 							.getBearing()) - 90);
 					this.planeNormal.draw((float) plane.getX(),
@@ -776,10 +836,13 @@ public class GameWindow extends BasicGameState {
 								310,
 								"Return in: "
 										+ (int) (5 - ((this.time - this.endTime) / 1000)));
-				if (this.time > (this.endTime + (5 * 1000))) {
+				if (this.time > (this.endTime + (5 * 1000)))
+				{
 					game.closeRequested();
 				}
-			} else {
+			}
+			else
+			{
 				this.endTime = this.time;
 				this.currentGame.setEnding(true);
 			}
@@ -798,11 +861,13 @@ public class GameWindow extends BasicGameState {
 	 */
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame game,
-			int delta) {
+			int delta)
+	{
 
 		// Update the time
 		this.time += delta;
-		if (!currentGameContainer.isPaused()) {
+		if (!currentGameContainer.isPaused())
+		{
 			currentGame.update(gameContainer, game);
 		}
 	}
@@ -821,30 +886,38 @@ public class GameWindow extends BasicGameState {
 	 *            the number of times the mouse was clicked
 	 */
 	@Override
-	public void mouseClicked(int button, int x, int y, int clickCount) {
-		if (currentGameContainer.isPaused()) {
+	public void mouseClicked(int button, int x, int y, int clickCount)
+	{
+		if (currentGameContainer.isPaused())
+		{
 			return;
 		}
 
-		if (!this.currentGame.isEnding()) {
-			if (button == 0) {
+		if (!this.currentGame.isEnding())
+		{
+			if (button == 0)
+			{
 				Plane clickedPlane;
 				clickedPlane = this.selectFlight(x, y);
-				if (this.currentGame.getCurrentPlane() != null) {
-					if (!this.currentGame.getCurrentPlane().isNeedsToLand()) {
+				if (this.currentGame.getCurrentPlane() != null)
+				{
+					if (!this.currentGame.getCurrentPlane().isNeedsToLand())
+					{
 						this.currentGame.removeFromManual(this.currentGame
 								.getCurrentPlane());
 					}
-
 				}
+				
 				// this.currentGame.setCurrentPlane(null);
 				this.currentGame.setCurrentPlane(clickedPlane);
-
 			}
 
-			else if (button == 1) {
-				if (this.currentGame.getCurrentPlane() != null) {
-					if (!currentGame.getCurrentPlane().isNeedsToTakeOff()) {
+			else if (button == 1)
+			{
+				if (this.currentGame.getCurrentPlane() != null)
+				{
+					if (!currentGame.getCurrentPlane().isNeedsToTakeOff())
+					{
 						this.giveHeadingThroughMouse(
 								this.currentGame.getCurrentPlane(), x, y);
 
@@ -862,12 +935,17 @@ public class GameWindow extends BasicGameState {
 	 * @param c
 	 *            the key character pressed
 	 */
-	public void keyPressed(int key, char c) {
+	public void keyPressed(int key, char c)
+	{
 		// Handle game pausing
-		if (key == 57 || key == 25) {
-			if (this.currentGameContainer.isPaused()) {
+		if (key == 57 || key == 25)
+		{
+			if (this.currentGameContainer.isPaused())
+			{
 				this.currentGameContainer.resume();
-			} else {
+			}
+			else 
+			{
 				this.currentGameContainer.pause();
 			}
 		}
@@ -888,7 +966,8 @@ public class GameWindow extends BasicGameState {
 	 */
 	@Override
 	public void leave(GameContainer gameContainer, StateBasedGame game)
-			throws SlickException {
+			throws SlickException
+	{
 
 		this.currentGame.setCollision(true);
 		this.currentGame.setEnding(true);
@@ -903,7 +982,8 @@ public class GameWindow extends BasicGameState {
 	 * @return the state's unique ID
 	 */
 	@Override
-	public int getID() {
+	public int getID()
+	{
 		return WindowManager.GAME_STATE;
 	}
 
@@ -911,154 +991,176 @@ public class GameWindow extends BasicGameState {
 	/**
 	 * @return the current window width
 	 */
-	public int getWindowWidth() {
+	public int getWindowWidth()
+	{
 		return this.windowWidth;
 	}
 
 	/**
 	 * @return the current window height
 	 */
-	public int getWindowHeight() {
+	public int getWindowHeight()
+	{
 		return this.windowHeight;
 	}
 
 	/**
 	 * @return the time
 	 */
-	public double getTime() {
+	public double getTime()
+	{
 		return this.time;
 	}
 
 	/**
 	 * @return the time the game ended at
 	 */
-	public double getEndTime() {
+	public double getEndTime()
+	{
 		return this.endTime;
 	}
 
 	/**
 	 * @return the current game
 	 */
-	public Game getCurrentGame() {
+	public Game getCurrentGame()
+	{
 		return this.currentGame;
 	}
 
 	/**
 	 * @return the current map
 	 */
-	public Image getMap() {
+	public Image getMap()
+	{
 		return this.map;
 	}
 
 	/**
 	 * @return the map for level 1
 	 */
-	public Image getMap1() {
+	public Image getMap1()
+	{
 		return this.map1;
 	}
 
 	/**
 	 * @return the map for level 2
 	 */
-	public Image getMap2() {
+	public Image getMap2()
+	{
 		return this.map2;
 	}
 
 	/**
 	 * @return the normal waypoint image
 	 */
-	public Image getWaypointNormal() {
+	public Image getWaypointNormal()
+	{
 		return this.waypointNormal;
 	}
 
 	/**
 	 * @return the next waypoint image
 	 */
-	public Image getWaypointNext() {
+	public Image getWaypointNext()
+	{
 		return this.waypointNext;
 	}
 
 	/**
 	 * @return the exit waypoint image
 	 */
-	public Image getWaypointExit() {
+	public Image getWaypointExit()
+	{
 		return this.waypointExit;
 	}
 
 	/**
 	 * @return the last waypoint image
 	 */
-	public Image getWaypointLast() {
+	public Image getWaypointLast()
+	{
 		return this.waypointLast;
 	}
 
 	/**
 	 * @return the normal plane image
 	 */
-	public Image getPlaneNormal() {
+	public Image getPlaneNormal()
+	{
 		return this.planeNormal;
 	}
 
 	/**
 	 * @return the in-use plane image
 	 */
-	public Image getPlaneNormalCur() {
+	public Image getPlaneNormalCur()
+	{
 		return this.planeNormalCur;
 	}
 
 	/**
 	 * @return the selected plane image
 	 */
-	public Image getPlaneSelected() {
+	public Image getPlaneSelected()
+	{
 		return this.planeSelected;
 	}
 
 	/**
 	 * @return the in-use selected plane image
 	 */
-	public Image getPlaneSelectedCur() {
+	public Image getPlaneSelectedCur()
+	{
 		return this.planeSelectedCur;
 	}
 
 	/**
 	 * @return the plane alert range image
 	 */
-	public Image getPlaneAlert() {
+	public Image getPlaneAlert()
+	{
 		return this.planeAlert;
 	}
 
 	/**
 	 * @return the plane collision range image
 	 */
-	public Image getPlaneAlertMax() {
+	public Image getPlaneAlertMax()
+	{
 		return this.planeAlertMax;
 	}
 
 	/**
 	 * @return the base font
 	 */
-	public Font getFontPrimitive() {
+	public Font getFontPrimitive()
+	{
 		return this.fontPrimitive;
 	}
 
 	/**
 	 * @return the font
 	 */
-	public TrueTypeFont getFont() {
+	public TrueTypeFont getFont()
+	{
 		return this.font;
 	}
 
 	/**
 	 * @return the font colour
 	 */
-	public Color getFontColor() {
+	public Color getFontColor()
+	{
 		return this.fontColor;
 	}
 
 	/**
 	 * @return a reference to the current game container
 	 */
-	public GameContainer getCurrentGameContainer() {
+	public GameContainer getCurrentGameContainer()
+	{
 		return this.currentGameContainer;
 	}
 
@@ -1067,7 +1169,8 @@ public class GameWindow extends BasicGameState {
 	 * @param windowWidth
 	 *            the new window width
 	 */
-	public void setWindowWidth(int windowWidth) {
+	public void setWindowWidth(int windowWidth)
+	{
 		this.windowWidth = windowWidth;
 	}
 
@@ -1075,7 +1178,8 @@ public class GameWindow extends BasicGameState {
 	 * @param windowHeight
 	 *            the new window height
 	 */
-	public void setWindowHeight(int windowHeight) {
+	public void setWindowHeight(int windowHeight)
+	{
 		this.windowHeight = windowHeight;
 	}
 
@@ -1083,7 +1187,8 @@ public class GameWindow extends BasicGameState {
 	 * @param time
 	 *            the time to set
 	 */
-	public void setTime(double time) {
+	public void setTime(double time)
+	{
 		this.time = time;
 	}
 
@@ -1091,7 +1196,8 @@ public class GameWindow extends BasicGameState {
 	 * @param endTime
 	 *            the ending time to set
 	 */
-	public void setEndTime(double endTime) {
+	public void setEndTime(double endTime)
+	{
 		this.endTime = endTime;
 	}
 
@@ -1099,7 +1205,8 @@ public class GameWindow extends BasicGameState {
 	 * @param map
 	 *            the map to set
 	 */
-	public void setMap(Image map) {
+	public void setMap(Image map)
+	{
 		this.map = map;
 	}
 
@@ -1107,7 +1214,8 @@ public class GameWindow extends BasicGameState {
 	 * @param map1
 	 *            the map to set for level 1
 	 */
-	public void setMap1(Image map1) {
+	public void setMap1(Image map1)
+	{
 		this.map1 = map1;
 	}
 
@@ -1115,7 +1223,8 @@ public class GameWindow extends BasicGameState {
 	 * @param map2
 	 *            the map to set for level 2
 	 */
-	public void setMap2(Image map2) {
+	public void setMap2(Image map2)
+	{
 		this.map2 = map2;
 	}
 
@@ -1123,7 +1232,8 @@ public class GameWindow extends BasicGameState {
 	 * @param waypointNormal
 	 *            the normal waypoint image to set
 	 */
-	public void setWaypointNormal(Image waypointNormal) {
+	public void setWaypointNormal(Image waypointNormal)
+	{
 		this.waypointNormal = waypointNormal;
 	}
 
@@ -1131,7 +1241,8 @@ public class GameWindow extends BasicGameState {
 	 * @param waypointNext
 	 *            the next waypoint image to set
 	 */
-	public void setWaypointNext(Image waypointNext) {
+	public void setWaypointNext(Image waypointNext)
+	{
 		this.waypointNext = waypointNext;
 	}
 
@@ -1139,7 +1250,8 @@ public class GameWindow extends BasicGameState {
 	 * @param waypointExit
 	 *            the exit waypoint image to set
 	 */
-	public void setWaypointExit(Image waypointExit) {
+	public void setWaypointExit(Image waypointExit)
+	{
 		this.waypointExit = waypointExit;
 	}
 
@@ -1147,7 +1259,8 @@ public class GameWindow extends BasicGameState {
 	 * @param waypointLast
 	 *            the last waypoint image to set
 	 */
-	public void setWaypointLast(Image waypointLast) {
+	public void setWaypointLast(Image waypointLast)
+	{
 		this.waypointLast = waypointLast;
 	}
 
@@ -1155,7 +1268,8 @@ public class GameWindow extends BasicGameState {
 	 * @param planeNormal
 	 *            the normal plane image to set
 	 */
-	public void setPlaneNormal(Image planeNormal) {
+	public void setPlaneNormal(Image planeNormal)
+	{
 		this.planeNormal = planeNormal;
 	}
 
@@ -1163,7 +1277,8 @@ public class GameWindow extends BasicGameState {
 	 * @param planeNormalCur
 	 *            the in-use plane image to set
 	 */
-	public void setPlaneNormalCur(Image planeNormalCur) {
+	public void setPlaneNormalCur(Image planeNormalCur)
+	{
 		this.planeNormalCur = planeNormalCur;
 	}
 
@@ -1171,7 +1286,8 @@ public class GameWindow extends BasicGameState {
 	 * @param planeSelected
 	 *            the selected plane image to set
 	 */
-	public void setPlaneSelected(Image planeSelected) {
+	public void setPlaneSelected(Image planeSelected)
+	{
 		this.planeSelected = planeSelected;
 	}
 
@@ -1179,7 +1295,8 @@ public class GameWindow extends BasicGameState {
 	 * @param planeSelectedCur
 	 *            the in-use selected plane image to set
 	 */
-	public void setPlaneSelectedCur(Image planeSelectedCur) {
+	public void setPlaneSelectedCur(Image planeSelectedCur)
+	{
 		this.planeSelectedCur = planeSelectedCur;
 	}
 
@@ -1187,7 +1304,8 @@ public class GameWindow extends BasicGameState {
 	 * @param planeAlert
 	 *            the plane alert range image to set
 	 */
-	public void setPlaneAlert(Image planeAlert) {
+	public void setPlaneAlert(Image planeAlert)
+	{
 		this.planeAlert = planeAlert;
 	}
 
@@ -1195,7 +1313,8 @@ public class GameWindow extends BasicGameState {
 	 * @param planeAlertMax
 	 *            the plane collision range image to set
 	 */
-	public void setPlaneAlertMax(Image planeAlertMax) {
+	public void setPlaneAlertMax(Image planeAlertMax)
+	{
 		this.planeAlertMax = planeAlertMax;
 	}
 
@@ -1203,7 +1322,8 @@ public class GameWindow extends BasicGameState {
 	 * @param fontPrimitive
 	 *            the new font primitive
 	 */
-	public void setFontPrimitive(Font fontPrimitive) {
+	public void setFontPrimitive(Font fontPrimitive)
+	{
 		this.fontPrimitive = fontPrimitive;
 	}
 
@@ -1211,7 +1331,8 @@ public class GameWindow extends BasicGameState {
 	 * @param font
 	 *            the font derivative to set
 	 */
-	public void setFont(TrueTypeFont font) {
+	public void setFont(TrueTypeFont font)
+	{
 		this.font = font;
 	}
 
@@ -1219,7 +1340,8 @@ public class GameWindow extends BasicGameState {
 	 * @param fontColor
 	 *            the font color to set
 	 */
-	public void setFontColor(Color fontColor) {
+	public void setFontColor(Color fontColor)
+	{
 		this.fontColor = fontColor;
 	}
 
@@ -1227,7 +1349,8 @@ public class GameWindow extends BasicGameState {
 	 * @param currentGameContainer
 	 *            a reference to the new game container to set
 	 */
-	public void setCurrentGameContainer(GameContainer currentGameContainer) {
+	public void setCurrentGameContainer(GameContainer currentGameContainer)
+	{
 		this.currentGameContainer = currentGameContainer;
 	}
 }

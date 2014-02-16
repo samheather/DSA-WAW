@@ -38,21 +38,24 @@ public abstract class GenericWindow extends BasicGameState {
 	/**
 	 * @return				the base font
 	 */
-	public Font getFontPrimitive() {
+	public Font getFontPrimitive()
+	{
 		return this.fontPrimitive;
 	}
 	
 	/**
 	 * @return				the normal font
 	 */
-	public TrueTypeFont getFont() {
+	public TrueTypeFont getFont()
+	{
 		return this.font;
 	}
 	
 	/**
 	 * @return				the title font
 	 */
-	public TrueTypeFont getTitleFont() {
+	public TrueTypeFont getTitleFont()
+	{
 		return this.titleFont;
 	}
 	
@@ -61,21 +64,24 @@ public abstract class GenericWindow extends BasicGameState {
 	/**
 	 * @param fontPrimitive	the new base font
 	 */
-	public void setFontPrimitive(Font fontPrimitive) {
+	public void setFontPrimitive(Font fontPrimitive)
+	{
 		this.fontPrimitive = fontPrimitive;
 	}
 	
 	/**
 	 * @param font			the new normal font derivative
 	 */
-	public void setFont(TrueTypeFont font) {
+	public void setFont(TrueTypeFont font)
+	{
 		this.font = font;
 	}
 	
 	/**
 	 * @param titleFont		the new title font derivative
 	 */
-	public void setTitleFont(TrueTypeFont titleFont) {
+	public void setTitleFont(TrueTypeFont titleFont)
+	{
 		this.titleFont = titleFont;
 	}
 	
@@ -90,7 +96,8 @@ public abstract class GenericWindow extends BasicGameState {
 	 * @param text			the string to display
 	 * @param color			the colour to display the text in
 	 */
-	protected void drawShadowedText(TrueTypeFont font, int x, int y, String text, Color color) {
+	protected void drawShadowedText(TrueTypeFont font, int x, int y, String text, Color color)
+	{
 		font.drawString(x + 2, y + 2, text, Color.black);
 		font.drawString(x, y, text, color);
 	}
@@ -104,7 +111,8 @@ public abstract class GenericWindow extends BasicGameState {
 	 */
 	@Override
 	public void init(GameContainer gameContainer,
-			StateBasedGame game) throws SlickException {
+			StateBasedGame game) throws SlickException
+	{
 		// Setup input
 		this.setInput(gameContainer.getInput());
 		
@@ -118,7 +126,9 @@ public abstract class GenericWindow extends BasicGameState {
 			Font newFont = Font.createFont(Font.TRUETYPE_FONT, fontStream);
 		    GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(newFont);
 		    this.fontPrimitive = newFont;
-		} catch (Exception e) { 
+		}
+		catch (Exception e)
+		{ 
 		    e.printStackTrace();
 		    this.fontPrimitive = new Font(Font.SERIF, Font.PLAIN, 12);
 		}
@@ -171,13 +181,15 @@ public abstract class GenericWindow extends BasicGameState {
 		double skyProgress = ((WindowManager) game).getSkyProgress();
 		double planeProgress = ((WindowManager) game).getPlaneProgress();
 		
-		if(skyProgress >= gameContainer.getWidth()) {
+		if(skyProgress >= gameContainer.getWidth())
+		{
 			((WindowManager) game).setSkyProgress(0);
 		} else {
 			((WindowManager) game).setSkyProgress(skyProgress + 0.5);
 		}
 		
-		if(planeProgress >= (gameContainer.getWidth() + 50)) {
+		if(planeProgress >= (gameContainer.getWidth() + 50))
+		{
 			((WindowManager) game).setPlaneProgress(0);
 		} else {
 			((WindowManager) game).setPlaneProgress(planeProgress + 2);
@@ -188,7 +200,8 @@ public abstract class GenericWindow extends BasicGameState {
 	 * @return				the state's unique ID
 	 */
 	@Override
-	public int getID() {
+	public int getID()
+	{
 		return 0;
 	}
 }

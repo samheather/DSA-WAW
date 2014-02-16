@@ -14,8 +14,8 @@ import java.io.InputStream;
 /**
  * Credits class provides a credits screen
  */
-public class Credits extends GenericWindow {
-	
+public class Credits extends GenericWindow
+{	
 	/** The image to display behind window content */
 	private Image backgroundImage;
 	
@@ -29,21 +29,24 @@ public class Credits extends GenericWindow {
 	/**
 	 * @return				the background image
 	 */
-	public Image getBackgroundImage() {
+	public Image getBackgroundImage()
+	{
 		return this.backgroundImage;
 	}
 	
 	/**
 	 * @return				the arrow icon
 	 */
-	public Image getArrowIcon() {
+	public Image getArrowIcon()
+	{
 		return this.arrowIcon;
 	}
 	
 	/**
 	 * @return				the shaded arrow icon
 	 */
-	public Image getArrowIconShaded() {
+	public Image getArrowIconShaded()
+	{
 		return this.arrowIconShaded;
 	}
 	
@@ -52,21 +55,24 @@ public class Credits extends GenericWindow {
 	/**
 	 * @param backgroundImage		the new background image
 	 */
-	public void setBackgroundImage(Image backgroundImage) {
+	public void setBackgroundImage(Image backgroundImage)
+	{
 		this.backgroundImage = backgroundImage;
 	}
 	
 	/**
 	 * @param arrowIcon		the new arrow icon
 	 */
-	public void setArrowIcon(Image arrowIcon) {
+	public void setArrowIcon(Image arrowIcon)
+	{
 		this.arrowIcon = arrowIcon;
 	}
 	
 	/**
 	 * @param shadedArrowIcon	the new shaded arrow icon
 	 */
-	public void setArrowIconShaded(Image shadedArrowIcon) {
+	public void setArrowIconShaded(Image shadedArrowIcon)
+	{
 		this.arrowIconShaded = arrowIcon;
 	}
 	
@@ -85,33 +91,40 @@ public class Credits extends GenericWindow {
 	 * @param game			the game running this state
 	 */
 	private void checkForSelection(GameContainer gameContainer,
-			StateBasedGame game) {
-		int x = gameContainer.getInput().getMouseX();
-		int y = gameContainer.getInput().getMouseY();
-		boolean clicked = gameContainer.getInput().isMousePressed(0);
+			StateBasedGame game)
+	{
+		int x 				= gameContainer.getInput().getMouseX();
+		int y 				= gameContainer.getInput().getMouseY();
+		boolean clicked 	= gameContainer.getInput().isMousePressed(0);
 		
 		String mainMenuText = "Main Menu";
 		
-		int mainMenuWidth = this.font.getWidth(mainMenuText);
-		int textHeight = this.font.getHeight();
+		int mainMenuWidth 	= this.font.getWidth(mainMenuText);
+		int textHeight 		= this.font.getHeight();
 		
 		Color mainMenuColor = Color.orange;
 		
 		if((x >= (50 - 25))
 				&& (y >= (gameContainer.getHeight() - 50 - 25))
 				&& (x <= (50 - 25) + mainMenuWidth + 25)
-				&& (y <= (gameContainer.getHeight() - 50 + textHeight + 25))) {
-			if(clicked) {
+				&& (y <= (gameContainer.getHeight() - 50 + textHeight + 25)))
+		{
+			if(clicked)
+			{
 				game.enterState(WindowManager.MAIN_MENU_STATE);
-			} else {
+			}
+			else
+			{
 				mainMenuColor = Color.white;
 			}
-		} else {
+		}
+		else
+		{
 			mainMenuColor = Color.orange;
 		}
 		
 		this.drawShadowedText(this.font, 50, gameContainer.getHeight()
-				- 50, mainMenuText, mainMenuColor);
+					- 50, mainMenuText, mainMenuColor);
 	}
 	
 	
@@ -124,7 +137,8 @@ public class Credits extends GenericWindow {
 	 */
 	@Override
 	public void init(GameContainer gameContainer,
-			StateBasedGame game) throws SlickException {
+			StateBasedGame game) throws SlickException
+	{
 		super.init(gameContainer, game);
 		
 		// Load images
@@ -132,9 +146,11 @@ public class Credits extends GenericWindow {
 				.getResourceAsStream(
 						"/resources/backgrounds/CloudBackground.png");
 		InputStream arrowStream = this.getClass()
-				.getResourceAsStream("/resources/other/ArrowR.png");
+				.getResourceAsStream(
+						"/resources/other/ArrowR.png");
 		InputStream arrowShadedStream = this.getClass()
-				.getResourceAsStream("resources/other/ArrowB.png");
+				.getResourceAsStream(
+						"resources/other/ArrowB.png");
 		
 		this.backgroundImage = new Image(backgroundStream,
 				"Background Image", false);
@@ -209,7 +225,8 @@ public class Credits extends GenericWindow {
 	 * @return				the state's unique ID
 	 */
 	@Override
-	public int getID() {
+	public int getID()
+	{
 		return WindowManager.CREDITS_STATE;
 	}
 }

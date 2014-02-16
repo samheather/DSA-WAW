@@ -22,8 +22,8 @@ import org.newdawn.slick.state.StateBasedGame;
  * and controls how states exit.
  * </p>
  */
-public class WindowManager extends StateBasedGame {
-
+public class WindowManager extends StateBasedGame
+{
 	/** The window title */
 	public static final String GAME_TITLE = "Air Traffic Control";
 	
@@ -59,8 +59,10 @@ public class WindowManager extends StateBasedGame {
 	
 
 	// Entry point
-	public static void main(String[] args) {
-		try {
+	public static void main(String[] args)
+	{
+		try
+		{
 			// Set up app for game
 			AppGameContainer appgc = new AppGameContainer(new WindowManager());
 
@@ -78,7 +80,9 @@ public class WindowManager extends StateBasedGame {
 			
 			// Start app
 			appgc.start();
-		} catch (SlickException e) {
+		}
+		catch (SlickException e)
+		{
 			e.printStackTrace();
 		}
 	}
@@ -94,7 +98,8 @@ public class WindowManager extends StateBasedGame {
 	 * Loads states into the game.
 	 * </p>
 	 */
-	public WindowManager() {
+	public WindowManager()
+	{
 		super(GAME_TITLE);
 		
 		// Initialise background movement variable
@@ -108,7 +113,9 @@ public class WindowManager extends StateBasedGame {
 		    ByteBuffer[] icons = new ByteBuffer[1];
 		    icons[0] = loadIcon("/resources/other/Icon16.png", 16, 16);
 		    Display.setIcon(icons);
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 		    e.printStackTrace();
 		}
 
@@ -125,21 +132,24 @@ public class WindowManager extends StateBasedGame {
 	/**
 	 * @return				the level currently being played
 	 */
-	public int getCurrentLevel() {
+	public int getCurrentLevel()
+	{
 		return this.currentLevel;
 	}
 	
 	/**
 	 * @return				the progress of the background image
 	 */
-	public double getSkyProgress() {
+	public double getSkyProgress()
+	{
 		return this.skyProgress;
 	}
 	
 	/**
 	 * @return				the progress of the title plane
 	 */
-	public double getPlaneProgress() {
+	public double getPlaneProgress()
+	{
 		return this.planeProgress;
 	}
 	
@@ -148,21 +158,24 @@ public class WindowManager extends StateBasedGame {
 	/**
 	 * @param currentLevel	the level to enter
 	 */
-	public void setCurrentLevel(int currentLevel) {
+	public void setCurrentLevel(int currentLevel)
+	{
 		this.currentLevel = currentLevel;
 	}
 	
 	/**
 	 * @param skyProgress	the updated progress of the background image
 	 */
-	public void setSkyProgress(double skyProgress) {
+	public void setSkyProgress(double skyProgress)
+	{
 		this.skyProgress = skyProgress;
 	}
 	
 	/**
 	 * @param planeProgress	the updated progress of the title plane
 	 */
-	public void setPlaneProgress(double planeProgress) {
+	public void setPlaneProgress(double planeProgress)
+	{
 		this.planeProgress = planeProgress;
 	}
 	
@@ -181,17 +194,21 @@ public class WindowManager extends StateBasedGame {
 	 * @return				the byte buffer containing the icon
 	 */
 	private ByteBuffer loadIcon(String filename, int width, int height)
-			throws IOException {
+			throws IOException
+	{
 		InputStream imageStream = this.getClass()
 				.getResourceAsStream(filename);
 	    BufferedImage image = ImageIO.read(imageStream);
 
 	    // Convert image to byte array
 	    byte[] imageBytes = new byte[width * height * 4];
-	    for (int i = 0; i < height; i++) {
-	        for (int j = 0; j < width; j++) {
+	    for (int i = 0; i < height; i++)
+	    {
+	        for (int j = 0; j < width; j++)
+	        {
 	            int pixel = image.getRGB(j, i);
-	            for (int k = 0; k < 3; k++) {
+	            for (int k = 0; k < 3; k++)
+	            {
 	                imageBytes[(((i * 16) + j) * 4) + k]
 	                		= (byte) (((pixel >> (2 - k) * 8)) & 255);
 	            }
@@ -226,16 +243,26 @@ public class WindowManager extends StateBasedGame {
 	 * </p>
 	 */
 	@Override
-	public boolean closeRequested() {
-		if(this.getCurrentStateID() == MAIN_MENU_STATE) {
+	public boolean closeRequested()
+	{
+		if(this.getCurrentStateID() == MAIN_MENU_STATE)
+		{
 			return true;
-		} else if(this.getCurrentStateID() == LEVEL_SELECT_STATE) {
+		}
+		else if(this.getCurrentStateID() == LEVEL_SELECT_STATE)
+		{
 			return true;
-		} else if(this.getCurrentStateID() == GAME_STATE) {
+		}
+		else if(this.getCurrentStateID() == GAME_STATE)
+		{
 			this.enterState(MAIN_MENU_STATE);
-		} else if(this.getCurrentStateID() == CREDITS_STATE) {
+		}
+		else if(this.getCurrentStateID() == CREDITS_STATE)
+		{
 			return true;
-		} else if(this.getCurrentStateID() == CONTROLS_STATE) {
+		}
+		else if(this.getCurrentStateID() == CONTROLS_STATE)
+		{
 			return true;
 		} 
 		
