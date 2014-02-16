@@ -7,6 +7,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
@@ -119,6 +120,12 @@ public class GameWindow extends BasicGameState {
 	/** Coordinates of last waypoint passed **/
 	double prevX;
 	double prevY;
+	
+	
+	/** Sound used for indicating that current flight has gone through waypoint **/
+	
+	Sound checkpointSound;
+	
 	
 	
 
@@ -291,6 +298,10 @@ public class GameWindow extends BasicGameState {
 		this.fontPrimitive = new Font("Lucida Sans", Font.PLAIN, 12);
 		this.font = new TrueTypeFont(this.fontPrimitive, true);
 		
+		// Initialise Waypoint Sound
+		
+		checkpointSound = new Sound("resources/music/checkpointSound.ogg");
+		
 		
 	}
 	
@@ -342,6 +353,18 @@ public class GameWindow extends BasicGameState {
 		}
 		
 		
+	}
+	
+	public void playCheckpointSound(){
+		if(this.currentGame.getCurrentPlane() != null){
+			if(this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().size() != 0){
+				if (this.currentGame.getCurrentPlane().checkIfFlightAtWaypoint(this.currentGame.getCurrentPlane().getFlightPlan().getCurrentRoute().get(0), currentGame)) {
+					checkpointSound.play();
+				}
+			}
+			
+			
+		}
 	}
 
 	/**
@@ -621,6 +644,8 @@ public class GameWindow extends BasicGameState {
 					+ ":" + ((int) (this.endTime / 1000) %60 < 10 ? "0" + (int) (this.endTime / 1000)%60  : (int) (this.endTime / 1000)%60) 
 								, 1050, 15);
 		}
+		
+		this.playCheckpointSound();
 		
 
 		// Drawing End Game Screen
