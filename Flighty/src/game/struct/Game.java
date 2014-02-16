@@ -7,7 +7,6 @@ import java.util.ListIterator;
 import java.util.Random;
 
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -60,9 +59,6 @@ public class Game {
 	/** Whether the player should be penalised **/
 	boolean penalty;
 
-	/** The time the game has been running for */
-	private double time;
-
 	/** The time the game ended at */
 	private double endTime;
 
@@ -93,9 +89,6 @@ public class Game {
 	/** The plane currently being controlled by the player */
 	private Plane currentPlane;
 
-	/** The current map */
-	private Image map;
-
 	/** Holds number of planes currently in the airspace */
 	int planeCount;
 
@@ -118,50 +111,67 @@ public class Game {
 	 *            reference to the current game window
 	 */
 	public Game(int separationDistance, int penaltyDistance) {
-		this.windowWidth = 1200;
-		this.windowHeight = 600;
-		this.separationDistance = separationDistance;
-		this.penaltyDistance = penaltyDistance;
-		this.listOfExitPoints = new ArrayList<Point>();
-		this.listOfWaypoints = new ArrayList<Waypoint>();
-		this.listOfEntryPoints = new ArrayList<Point>();
-		this.score = 0;
-		this.penalty = true;
-		this.countToNextPlane = 0;
-		this.collision = false;
-		this.ending = false;
-		this.airport = new Airport(-100, -100); // Placing Airport off screen.
-												// Coordinates of Airport are
-												// irrelevant.
+		// Screen size
+		this.windowWidth 				= 1200;
+		this.windowHeight 				= 600;
+		
+		// This sets the game difficulty
+		this.separationDistance 		= separationDistance;
+		this.penaltyDistance 			= penaltyDistance;
+		
+		// Dynamic lists of points 
+		this.listOfExitPoints 			= new ArrayList<Point>();
+		this.listOfWaypoints 			= new ArrayList<Waypoint>();
+		this.listOfEntryPoints 			= new ArrayList<Point>();
+		
+		// Score is initialised to 0
+		this.score 						= 0;
+		
+		// Whether score penalties apply
+		this.penalty 					= true;
+		
+		// Multiplier 
+		this.multiplier = 1;
+		
+		// New plane added shortly after startup
+		this.countToNextPlane			= 0;
+		
+		// Game over conditions
+		this.collision 					= false;
+		this.ending 					= false;
+		
+		// Adding the airport into the gmae
+		this.airport 					= new Airport(); 
+		
+		// Dynamic lists for planes
 		this.manualPlanes = new ArrayList<Plane>();
 		this.collidedPlanes = new ArrayList<Plane>();
+		
+		// Airspace is empty at startup
 		this.currentPlane = null;
 		this.planeCount = 0;
 
 		// Adding Points To Game
-
-		this.listOfEntryPoints.add(new EntryPoint(0, 400));
+		this.listOfEntryPoints.add(new EntryPoint(   0, 400));
 		this.listOfEntryPoints.add(new EntryPoint(1200, 200));
-		this.listOfEntryPoints.add(new EntryPoint(600, 0));
+		this.listOfEntryPoints.add(new EntryPoint( 600,   0));
 		this.listOfEntryPoints.add(this.airport);
 
-		this.listOfWaypoints.add(new Waypoint(250, 150));
-		this.listOfWaypoints.add(new Waypoint(100, 100));
-		this.listOfWaypoints.add(new Waypoint(950, 140));
-		this.listOfWaypoints.add(new Waypoint(100, 350));
-		this.listOfWaypoints.add(new Waypoint(550, 200));
-		this.listOfWaypoints.add(new Waypoint(400, 310));
-		this.listOfWaypoints.add(new Waypoint(700, 310));
-		this.listOfWaypoints.add(new Waypoint(100, 550));
+		this.listOfWaypoints.add(new Waypoint( 250, 150));
+		this.listOfWaypoints.add(new Waypoint( 100, 100));
+		this.listOfWaypoints.add(new Waypoint( 950, 140));
+		this.listOfWaypoints.add(new Waypoint( 100, 350));
+		this.listOfWaypoints.add(new Waypoint( 550, 200));
+		this.listOfWaypoints.add(new Waypoint( 400, 310));
+		this.listOfWaypoints.add(new Waypoint( 700, 310));
+		this.listOfWaypoints.add(new Waypoint( 100, 550));
 		this.listOfWaypoints.add(new Waypoint(1000, 330));
-		this.listOfWaypoints.add(new Waypoint(760, 150));
+		this.listOfWaypoints.add(new Waypoint( 760, 150));
 
 		this.listOfExitPoints.add(this.airport);
-		this.listOfExitPoints.add(new ExitPoint(800, 0));
-		this.listOfExitPoints.add(new ExitPoint(0, 200));
+		this.listOfExitPoints.add(new ExitPoint( 800,   0));
+		this.listOfExitPoints.add(new ExitPoint(   0, 200));
 		this.listOfExitPoints.add(new ExitPoint(1200, 300));
-		this.penalty = true;
-		this.multiplier = 1;
 	}
 
 	// METHODS
@@ -188,17 +198,17 @@ public class Game {
 	 *            otherwise
 	 * @return plane's ID
 	 */
-	public void createPlane() {
+	public void createPlane()
+	{
 		Plane newPlane;
 		this.planeCount++;
 
 		newPlane = new Plane(this.planeCount, this.generateVelocity(),
-				this.generateAltitude(), 0, this);
+								this.generateAltitude(), 0, this);
 
-		if (newPlane.getFlightPlan().getEntryPoint() == this.airport) {
-
+		if (newPlane.getFlightPlan().getEntryPoint() == this.airport)
+		{
 			this.configurePlaneForTakeOff(newPlane);
-
 		}
 
 		newPlane.calculateBearingToNextWaypoint();
@@ -208,24 +218,26 @@ public class Game {
 		this.currentPlanes.add(newPlane);
 	}
 
-	public void configurePlaneForTakeOff(Plane newPlane) {
-
-		newPlane.getFlightPlan().setEntryPoint((new EntryPoint(1180, 580)));
+	public void configurePlaneForTakeOff(Plane newPlane)
+	{
+		newPlane.getFlightPlan().setEntryPoint(new EntryPoint(1180, 580));
+		
 		newPlane.getFlightPlan().getCurrentRoute()
 				.add(0, this.airport.getBeginningOfRunway());
 		newPlane.getFlightPlan().getCurrentRoute()
 				.add(0, this.airport.getEndOfRunway());
 
 		newPlane.setX(1180);
-		newPlane.setY(580);
+		newPlane.setY( 580);
+	
 		newPlane.setTarget(newPlane.getFlightPlan().getCurrentRoute().get(0));
 		newPlane.setVelocity(0);
 		newPlane.setAltitude(0);
 		newPlane.setTargetAltitude(0);
 		newPlane.setNeedsToTakeOff(true);
 
-		// Airport is removed from list of entrypoints so another flight cant
-		// spawn on airport until current plane has left.
+		/* Airport is removed from list of entrypoints so another flight can't
+		 spawn on airport until current plane has left.*/
 		this.listOfEntryPoints.remove(this.airport);
 	}
 
@@ -234,11 +246,13 @@ public class Game {
 	 * 
 	 * @return Velocity value
 	 */
-	public double generateVelocity() {
-		double velocity = 0;
-		Random rand = new Random();
-		int random = rand.nextInt(3);
-		switch (random) {
+	public double generateVelocity()
+	{
+		double velocity;
+		int random = new Random().nextInt(3);
+		
+		switch (random)
+		{
 		case 0:
 			velocity = 1;
 			break;
@@ -249,6 +263,7 @@ public class Game {
 			velocity = 1.2;
 			break;
 		default:
+			velocity = 1;
 			break;
 		}
 
@@ -261,9 +276,12 @@ public class Game {
 	 * 
 	 * @return Random altitude
 	 */
-	public int generateAltitude() {
+	public int generateAltitude()
+	{
 		int altitude;
+		
 		altitude = 2000 + (int) ((Math.random()) * 6) * 1000;
+		
 		return altitude;
 	}
 
@@ -276,10 +294,13 @@ public class Game {
 	 * @param toDelete
 	 *            the plane to remove
 	 */
-	public void removePlane(Plane toDelete) {
+	public void removePlane(Plane toDelete)
+	{
 		for (ListIterator<Plane> iter = this.currentPlanes
-				.listIterator(this.currentPlanes.size()); iter.hasPrevious();) {
-			if (toDelete.equals(iter.previous())) {
+				.listIterator(this.currentPlanes.size()); iter.hasPrevious();)
+		{
+			if (toDelete.equals(iter.previous()))
+			{
 				iter.remove();
 				return;
 			}
@@ -295,17 +316,21 @@ public class Game {
 	 * Returns null if plane not found
 	 * </p>
 	 * 
-	 * @param id
+	 * @param ID
 	 *            the ID of the plane to find
 	 * @return plane specified by id
 	 */
-	public Plane getPlaneFromID(int id) {
-		for (Plane plane : this.currentPlanes) {
-			if (plane.getID() == id) {
+	public Plane getPlaneFromID(int ID)
+	{
+		for (Plane plane : this.currentPlanes)
+		{
+			if (plane.getID() == ID)
+			{
 				return plane;
 			}
 		}
-		// If id not in array, return null
+		
+		// If ID not in array, return null
 		return null;
 	}
 
@@ -332,7 +357,8 @@ public class Game {
 	 * @return <code>true</code> if the plane is colliding, <code>false</code>
 	 *         otherwise
 	 */
-	public boolean collision(Plane planeI) {
+	public boolean collision(Plane planeI)
+	{
 		return this.collisionHelper(planeI)[0];
 	}
 
@@ -352,8 +378,9 @@ public class Game {
 	 * @return an array of size 2, with the 0th element set if the plane is
 	 *         colliding, and the 1th element set if the plane is alerting
 	 */
-	public boolean[] collisionHelper(Plane plane1) {
-
+	public boolean[] collisionHelper(Plane plane1)
+	{
+		// Squared distance between 2 planes
 		double distIJSqr;
 		boolean risk = false;
 
@@ -361,37 +388,51 @@ public class Game {
 		// Second -> result used for testing purposes {1:true, 0:false}
 		boolean[] result = new boolean[] { false, false };
 
-		for (Plane plane2 : this.currentPlanes) {
-
+		//Loops through all the planes
+		for (Plane plane2 : this.currentPlanes)
+		{
 			if ((plane1.equals(plane2))
 					|| (plane2.getAltitude() > (plane1.getAltitude() + 400))
-					|| (plane2.getAltitude() < (plane1.getAltitude() - 400))) {
+					|| (plane2.getAltitude() < (plane1.getAltitude() - 400)))
+			{
 				continue;
 			}
 
+			// Calculates the distance between 2 planes
 			distIJSqr = Math.pow(plane2.getX() - plane1.getX(), 2)
-					+ Math.pow(plane2.getY() - plane1.getY(), 2);
+						+ Math.pow(plane2.getY() - plane1.getY(), 2);
 
-			if (distIJSqr < Math.pow(this.separationDistance, 2)) {
-				// Two planes have collided
+			// Calculates if two planes have collided
+			if (distIJSqr < Math.pow(this.separationDistance, 2))
+			{
 				result[0] = true;
 				return result;
-			} else if (distIJSqr < Math.pow(this.penaltyDistance, 2)) {
-				// Two planes are in penalty distance
+			}
+			//Calculates if two planes are in penalty distance
+			else if (distIJSqr < Math.pow(this.penaltyDistance, 2))
+			{
 				plane2.setAlertStatus(true);
 				risk = true;
-				if (penalty) {
-					if (this.score >= 5 * this.multiplier) {
+				
+				if (penalty)
+				{
+					if (this.score >= 5 * this.multiplier)
+					{
 						this.score -= 5 * this.multiplier;
-						if (this.multiplier > 1) {
-							this.multiplier--;
-						}
-					} else {
-						this.score = 0;
-						if (this.multiplier > 1) {
+						if (this.multiplier > 1)
+						{
 							this.multiplier--;
 						}
 					}
+					else
+					{
+						this.score = 0;
+						if (this.multiplier > 1)
+						{
+							this.multiplier--;
+						}
+					}
+					
 					penalty = false;
 					plane2.setViolationOccurred();
 				}
@@ -400,13 +441,18 @@ public class Game {
 
 		plane1.setAlertStatus(risk);
 		result[1] = risk;
-		for (Plane p : this.currentPlanes) {
-			if (p.getAlertStatus()) {
+		for (Plane p : this.currentPlanes)
+		{
+			if (p.getAlertStatus())
+			{
+				//Removes the penalty temporary so the user doesn't get penalised for the same violation
 				penalty = false;
 				break;
 			}
+			
 			penalty = true;
 		}
+		
 		return result;
 	}
 
@@ -416,10 +462,13 @@ public class Game {
 	 * @param plane
 	 *            the plane to remove from manual control
 	 */
-	public void removeFromManual(Plane plane) {
-		while (this.manualPlanes.contains(plane)) {
+	public void removeFromManual(Plane plane)
+	{
+		while (this.manualPlanes.contains(plane))
+		{
 			this.manualPlanes.remove(plane);
-			if (plane.getFlightPlan().getCurrentRoute().size() != 0) {
+			if (plane.getFlightPlan().getCurrentRoute().size() != 0)
+			{
 				plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
 			}
 
@@ -432,20 +481,26 @@ public class Game {
 	 * @param plane
 	 *            The plane to be deleted from manual
 	 */
-	public void deleteFromManual(Plane plane) {
-		while (this.manualPlanes.contains(plane)) {
+	public void deleteFromManual(Plane plane)
+	{
+		while (this.manualPlanes.contains(plane))
+		{
 			this.manualPlanes.remove(plane);
 		}
 	}
 
-	public void handleKeyPresses(GameContainer gameContainer) {
-
-		if (!this.currentPlane.isNeedsToTakeOff()) {
+	public void handleKeyPresses(GameContainer gameContainer)
+	{
+		//Steering controls apply only to active planes
+		if (!this.currentPlane.isNeedsToTakeOff())
+		{
 			// Action on 'a' and 'left' keys
 			if (gameContainer.getInput().isKeyDown(203)
-					|| gameContainer.getInput().isKeyDown(30)) {
+					|| gameContainer.getInput().isKeyDown(30))
+			{
 
-				if (!this.manualPlanes.contains(this.currentPlane)) {
+				if (!this.manualPlanes.contains(this.currentPlane))
+				{
 					this.manualPlanes.add(this.currentPlane);
 				}
 
@@ -454,9 +509,11 @@ public class Game {
 
 			// Action on 'd' and 'right' keys
 			if (gameContainer.getInput().isKeyDown(205)
-					|| gameContainer.getInput().isKeyDown(32)) {
+					|| gameContainer.getInput().isKeyDown(32))
+			{
 
-				if (!this.manualPlanes.contains(this.currentPlane)) {
+				if (!this.manualPlanes.contains(this.currentPlane))
+				{
 					this.manualPlanes.add(this.currentPlane);
 				}
 
@@ -465,22 +522,23 @@ public class Game {
 
 			// Action on 'w' and 'up' keys
 			if (gameContainer.getInput().isKeyPressed(200)
-					|| gameContainer.getInput().isKeyPressed(17)) {
-
+					|| gameContainer.getInput().isKeyPressed(17))
+			{
 				this.currentPlane.incrementTargetAltitude();
 			}
 
 			// Action on 's' and 'down' keys
 			if (gameContainer.getInput().isKeyPressed(208)
-					|| gameContainer.getInput().isKeyPressed(31)) {
-
+					|| gameContainer.getInput().isKeyPressed(31))
+			{
 				this.currentPlane.decrementTargetAltitude();
 			}
 
 			// Action on 'l' Key
-
-			if (gameContainer.getInput().isKeyPressed(38)) {
-				if (this.currentPlane.isNeedsToLand()) {
+			if (gameContainer.getInput().isKeyPressed(38))
+			{
+				if (this.currentPlane.isNeedsToLand())
+				{
 					this.currentPlane.land();
 				}
 			}
@@ -488,15 +546,14 @@ public class Game {
 		}
 
 		// Action on 'T' Key
-
-		else if (this.currentPlane.isNeedsToTakeOff()) {
-
-			if (gameContainer.getInput().isKeyDown(Input.KEY_T)) {
+		else if (this.currentPlane.isNeedsToTakeOff())
+		{
+			if (gameContainer.getInput().isKeyDown(Input.KEY_T))
+			{
 				this.currentPlane.takeOff();
 			}
 
 		}
-
 	}
 
 	/**
@@ -509,154 +566,187 @@ public class Game {
 	 * @param delta
 	 *            the time change between calls
 	 */
-	public void update(GameContainer gameContainer, StateBasedGame game) {
-
+	public void update(GameContainer gameContainer, StateBasedGame game)
+	{
 		ArrayList<Plane> planesToRemove = new ArrayList<Plane>();
 
 		// Spawn more planes when no planes present
-		if (this.currentPlanes.size() == 0) {
+		if (this.currentPlanes.size() == 0)
+		{
 			this.countToNextPlane = 0;
 		}
 
 		if (!this.collision && !gameContainer.isPaused()
-				&& gameContainer.hasFocus()) {
+					&& gameContainer.hasFocus())
+		{
 			// Create planes
-			if (this.countToNextPlane == 0) {
-				for (int i = 0; i < this.spawnCount; i++) {
+			if (this.countToNextPlane == 0)
+			{
+				for (int i = 0; i < this.spawnCount; i++)
+				{
 					this.createPlane();
 				}
-
-				if (this.spawnRate == 0) {
+				
+				// If the spawn rate is set to 0, no planes are added
+				if (this.spawnRate == 0)
+				{
 					this.countToNextPlane = -1;
-				} else {
+				}
+				// If the spawn rate is more than 0, planes are added according to it
+				else
+				{
 					Random rand = new Random();
 					this.countToNextPlane = (rand.nextInt(360) + this.spawnRate * 60);
 				}
 			}
 
 			// Handle directional controls
-
-			if (this.currentPlane != null) {
-
+			if (this.currentPlane != null)
+			{
 				this.handleKeyPresses(gameContainer);
-
 			}
-
 		}
 
 		// Update planes
-		for (Plane plane : this.getCurrentPlanes()) {
-
-			// Check plane still in game area
-
+		for (Plane plane : this.getCurrentPlanes())
+		{
+			// Check if the plane is still in the game area
 			if (this.manualPlanes.contains(plane)
 					&& ((plane.getX() > this.windowWidth) || (plane.getX() < 0)
-							|| (plane.getY() > this.windowHeight) || (plane
-							.getY() < 0))) {
-				if (this.score >= 10) {
+							|| (plane.getY() > this.windowHeight) || (plane.getY() < 0)))
+			{
+				// Updates score if plane in game area
+				if (this.score >= 10 * this.multiplier)
+				{
 					this.score -= 10 * this.multiplier;
-				} else {
+				}
+				else
+				{
 					this.score = 0;
 				}
 
-				if (this.currentPlane != null) {
-					if (plane.equals(this.currentPlane)) {
+				// Deselects plane that left the airspace
+				if (this.currentPlane != null)
+				{
+					if (plane.equals(this.currentPlane))
+					{
 						this.currentPlane = null;
 					}
 				}
-
+				
+				// Removes planes that left the airspace
 				planesToRemove.add(plane);
 			}
 
 			// Updating the Planes altitude and adjusting it accordingly.
-
 			plane.updatePlaneAltitude();
 
 			// Check if colliding with another plane
-			if (this.collision(plane)) {
+			if (this.collision(plane))
+			{
 				this.currentPlane = null;
 				this.collidedPlanes.add(plane);
 				this.collision = true;
 			}
 
-			// If plane has no more waypoints, remove it
-			if (plane.getFlightPlan().getCurrentRoute().size() == 0) {
+			/* If plane has no more waypoints, remove it as it means it went through its exitpoint
+			 * and update the multiplier if the plane doesn't go through any violations
+			 */
+			if (plane.getFlightPlan().getCurrentRoute().size() == 0)
+			{
 				if (plane.getViolationOccurred() == false
-						&& this.multiplier < 20) {
+							&& this.multiplier < 20)
+				{
 					this.multiplier++;
-				} else if (plane.getViolationOccurred() == true
-						&& this.multiplier > 1) {
+				}
+				else if (plane.getViolationOccurred() == true
+								&& this.multiplier > 1)
+				{
 					this.multiplier--;
 				}
 
-				if (this.currentPlane != null) {
-					if (plane.equals(this.currentPlane)) {
-						this.currentPlane = null;
-					}
+				if (this.currentPlane != null 
+						&& plane.equals(this.currentPlane))
+				{
+					this.currentPlane = null;
 				}
 				planesToRemove.add(plane);
 
-			} else {
+			}
+			else
+			{
 				// Check if plane at waypoint
-
 				if (plane.checkIfFlightAtWaypoint(plane.getFlightPlan()
-						.getCurrentRoute().get(0), this)) {
-
+						.getCurrentRoute().get(0), this))
+				{
+					// Accommodates planes that are taking off 
 					if (plane.getFlightPlan().getCurrentRoute().get(0)
 							.equals(this.airport.getBeginningOfRunway())
-							&& plane.isTakingOff()) {
-
+								&& plane.isTakingOff())
+					{
 						plane.setTakingOff(false);
 						plane.setBearing(360);
 						plane.setTargetAltitude(3000);
+					
+						// Allows other planes to be created at airport
 						this.listOfEntryPoints.add(this.airport);
 					}
 
+					// Removes reached waypoint
 					plane.getFlightPlan().getCurrentRoute().remove(0);
 
-					if (plane.getFlightPlan().getCurrentRoute().size() != 0) {
-
+					// If plane has waypoints left in its flight plan
+					if (plane.getFlightPlan().getCurrentRoute().size() != 0)
+					{
+						// Checks if plane needs to land
 						if (plane.getFlightPlan().getCurrentRoute().get(0)
 								.equals(this.airport.getBeginningOfRunway())
-								&& plane.getFlightPlan().getCurrentRoute()
-										.size() == 2) {
-							if (!this.manualPlanes.contains(plane)) {
+									&& plane.getFlightPlan().getCurrentRoute()
+										.size() == 2)
+						{
+							// Planes that need to be landed are controlled manually
+							if (!this.manualPlanes.contains(plane))
+							{
 								this.manualPlanes.add(plane);
 							}
-
+							
+							// Signals that plane needs to land
 							plane.setNeedsToLand(true);
 						}
-
-						plane.setTarget(plane.getFlightPlan().getCurrentRoute()
-								.get(0));
+						
+						plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
 					}
-
-					else {
-						if (plane.isLanding()) {
+					else 
+					{
+						if (plane.isLanding())
+						{
 							this.getAirport().setPlaneLanding(false);
 						}
 					}
 
-					// Scoring 10 for exitpoints and airport, and 5 for normal
-					// waypoints
-					if (!plane.getFlightPlan().getCurrentRoute().isEmpty()) {
+					// Scoring more for exitpoints/airport
+					if (!plane.getFlightPlan().getCurrentRoute().isEmpty())
+					{
 						if (plane.getFlightPlan().getCurrentRoute().get(0) == this
-								.getAirport().getEndOfRunway()) {
+								.getAirport().getEndOfRunway())
+						{
 							this.score += 10 * this.multiplier;
-						} else {
+						}
+						else
+						{
 							this.score += 5 * this.multiplier;
 						}
 					}
-
 				}
 			}
 
+			// Updates the plane position
 			plane.movePlane();
-
 		}
 
 		// Remove planes
-		for (Plane plane : planesToRemove) {
+		for (Plane plane : planesToRemove)
+		{
 			this.deleteFromManual(plane);
 			this.getCurrentPlanes().remove(plane);
 		}
@@ -664,26 +754,29 @@ public class Game {
 		this.countToNextPlane--;
 	}
 
-	// ACCESSORS
+	// GETTERS
 
 	/**
 	 * @return multiplier
 	 */
-	public int getMultiplier() {
+	public int getMultiplier()
+	{
 		return this.multiplier;
 	}
 
 	/**
 	 * @return separation distance (the collision range)
 	 */
-	public int getSeparationDistance() {
+	public int getSeparationDistance()
+	{
 		return this.separationDistance;
 	}
 
 	/**
 	 * @return Score
 	 */
-	public double getScore() {
+	public double getScore()
+	{
 		return score;
 	}
 
@@ -691,14 +784,16 @@ public class Game {
 	 * @param score
 	 *            Score to set
 	 */
-	public void setScore(double score) {
+	public void setScore(double score)
+	{
 		this.score = score;
 	}
 
 	/**
 	 * @return Time when game ended
 	 */
-	public double getEndTime() {
+	public double getEndTime()
+	{
 		return endTime;
 	}
 
@@ -706,14 +801,16 @@ public class Game {
 	 * @param endTime
 	 *            Value which endTime is to be changed to
 	 */
-	public void setEndTime(double endTime) {
+	public void setEndTime(double endTime)
+	{
 		this.endTime = endTime;
 	}
 
 	/**
 	 * @return Loop count till next plane can be added
 	 */
-	public double getCountToNextPlane() {
+	public double getCountToNextPlane()
+	{
 		return countToNextPlane;
 	}
 
@@ -721,14 +818,16 @@ public class Game {
 	 * @param countToNextPlane
 	 *            Value which countToNextPlane is to be changed to
 	 */
-	public void setCountToNextPlane(double countToNextPlane) {
+	public void setCountToNextPlane(double countToNextPlane)
+	{
 		this.countToNextPlane = countToNextPlane;
 	}
 
 	/**
 	 * @return Boolean representing whether a collision has occurred
 	 */
-	public boolean isCollision() {
+	public boolean isCollision()
+	{
 		return collision;
 	}
 
@@ -736,14 +835,16 @@ public class Game {
 	 * @param collision
 	 *            Value which collision is to be changed to
 	 */
-	public void setCollision(boolean collision) {
+	public void setCollision(boolean collision)
+	{
 		this.collision = collision;
 	}
 
 	/**
 	 * @return ending
 	 */
-	public boolean isEnding() {
+	public boolean isEnding()
+	{
 		return ending;
 	}
 
@@ -751,14 +852,16 @@ public class Game {
 	 * @param ending
 	 *            Value which ending is to be changed to
 	 */
-	public void setEnding(boolean ending) {
+	public void setEnding(boolean ending)
+	{
 		this.ending = ending;
 	}
 
 	/**
 	 * @return speedDifficulty
 	 */
-	public double getSpeedDifficulty() {
+	public double getSpeedDifficulty()
+	{
 		return speedDifficulty;
 	}
 
@@ -766,14 +869,16 @@ public class Game {
 	 * @param speedDifficulty
 	 *            Value which speedDifficulty is to be changed to
 	 */
-	public void setSpeedDifficulty(double speedDifficulty) {
+	public void setSpeedDifficulty(double speedDifficulty)
+	{
 		this.speedDifficulty = speedDifficulty;
 	}
 
 	/**
 	 * @return spawnRate
 	 */
-	public int getSpawnRate() {
+	public int getSpawnRate()
+	{
 		return spawnRate;
 	}
 
@@ -781,14 +886,16 @@ public class Game {
 	 * @param spawnRate
 	 *            Value which spawnRate is to be changed to
 	 */
-	public void setSpawnRate(int spawnRate) {
+	public void setSpawnRate(int spawnRate)
+	{
 		this.spawnRate = spawnRate;
 	}
 
 	/**
 	 * @return spawnCount
 	 */
-	public int getSpawnCount() {
+	public int getSpawnCount()
+	{
 		return spawnCount;
 	}
 
@@ -796,14 +903,16 @@ public class Game {
 	 * @param spawnCount
 	 *            Value which spawnCount is to be changed to
 	 */
-	public void setSpawnCount(int spawnCount) {
+	public void setSpawnCount(int spawnCount)
+	{
 		this.spawnCount = spawnCount;
 	}
 
 	/**
 	 * @return manualPlanes
 	 */
-	public ArrayList<Plane> getManualPlanes() {
+	public ArrayList<Plane> getManualPlanes()
+	{
 		return manualPlanes;
 	}
 
@@ -811,14 +920,16 @@ public class Game {
 	 * @param manualPlanes
 	 *            Array list which manual planes is to be changed to
 	 */
-	public void setManualPlanes(ArrayList<Plane> manualPlanes) {
+	public void setManualPlanes(ArrayList<Plane> manualPlanes)
+	{
 		this.manualPlanes = manualPlanes;
 	}
 
 	/**
 	 * @return collidedPlanes
 	 */
-	public ArrayList<Plane> getCollidedPlanes() {
+	public ArrayList<Plane> getCollidedPlanes()
+	{
 		return collidedPlanes;
 	}
 
@@ -826,14 +937,16 @@ public class Game {
 	 * @param collidedPlanes
 	 *            Array list which collidedPlanes is to be changed to
 	 */
-	public void setCollidedPlanes(ArrayList<Plane> collidedPlanes) {
+	public void setCollidedPlanes(ArrayList<Plane> collidedPlanes)
+	{
 		this.collidedPlanes = collidedPlanes;
 	}
 
 	/**
 	 * @return currentPlane
 	 */
-	public Plane getCurrentPlane() {
+	public Plane getCurrentPlane()
+	{
 		return currentPlane;
 	}
 
@@ -841,38 +954,43 @@ public class Game {
 	 * @param currentPlane
 	 *            Plane which currentPlane is to be changed to
 	 */
-	public void setCurrentPlane(Plane currentPlane) {
+	public void setCurrentPlane(Plane currentPlane)
+	{
 		this.currentPlane = currentPlane;
 	}
 
 	/**
 	 * @return penalty distance (the alert range)
 	 */
-	public int getPenaltyDistance() {
+	public int getPenaltyDistance()
+	{
 		return this.penaltyDistance;
 	}
 
 	/**
 	 * @return list of planes attached to the game
 	 */
-	public ArrayList<Plane> getCurrentPlanes() {
+	public ArrayList<Plane> getCurrentPlanes()
+	{
 		return this.currentPlanes;
 	}
 
 	/**
 	 * @return a reference to the current game window
 	 */
-	public GameWindow getCurrentGameWindow() {
+	public GameWindow getCurrentGameWindow()
+	{
 		return this.currentGameWindow;
 	}
 
-	// MUTATORS
+	// SETTERS
 
 	/**
 	 * @param separationDistance
 	 *            distance at which planes should collide
 	 */
-	public void setSeparationDistance(int separationDistance) {
+	public void setSeparationDistance(int separationDistance)
+	{
 		this.separationDistance = separationDistance;
 	}
 
@@ -880,7 +998,8 @@ public class Game {
 	 * @param penaltyDistance
 	 *            distance at which planes should alert
 	 */
-	public void setPenaltyDistance(int penaltyDistance) {
+	public void setPenaltyDistance(int penaltyDistance)
+	{
 		this.penaltyDistance = penaltyDistance;
 	}
 
@@ -888,7 +1007,8 @@ public class Game {
 	 * @param currentPlanes
 	 *            the array of planes to set
 	 */
-	public void setCurrentPlanes(ArrayList<Plane> currentPlanes) {
+	public void setCurrentPlanes(ArrayList<Plane> currentPlanes)
+	{
 		this.currentPlanes = currentPlanes;
 	}
 
@@ -896,14 +1016,16 @@ public class Game {
 	 * @param currentGameWindow
 	 *            a new parent game window
 	 */
-	public void setCurrentGameWindow(GameWindow currentGameWindow) {
+	public void setCurrentGameWindow(GameWindow currentGameWindow)
+	{
 		this.currentGameWindow = currentGameWindow;
 	}
 
 	/**
 	 * @return Array list of exit points
 	 */
-	public ArrayList<Point> getListOfExitPoints() {
+	public ArrayList<Point> getListOfExitPoints()
+	{
 		return listOfExitPoints;
 	}
 
@@ -911,14 +1033,16 @@ public class Game {
 	 * @param listOfExitPoints
 	 *            Array list which listOfExitPoints is to be changed to
 	 */
-	public void setListOfExitPoints(ArrayList<Point> listOfExitPoints) {
+	public void setListOfExitPoints(ArrayList<Point> listOfExitPoints)
+	{
 		this.listOfExitPoints = listOfExitPoints;
 	}
 
 	/**
 	 * @return Array list of waypoints in the airspace
 	 */
-	public ArrayList<Waypoint> getListOfWaypoints() {
+	public ArrayList<Waypoint> getListOfWaypoints()
+	{
 		return listOfWaypoints;
 	}
 
@@ -926,14 +1050,16 @@ public class Game {
 	 * @param listOfWaypoints
 	 *            Array list which listOfWaypoints is to be changed to
 	 */
-	public void setListOfWaypoints(ArrayList<Waypoint> listOfWaypoints) {
+	public void setListOfWaypoints(ArrayList<Waypoint> listOfWaypoints)
+	{
 		this.listOfWaypoints = listOfWaypoints;
 	}
 
 	/**
 	 * @return Array list of entry points in the airspace
 	 */
-	public ArrayList<Point> getListOfEntryPoints() {
+	public ArrayList<Point> getListOfEntryPoints()
+	{
 		return listOfEntryPoints;
 	}
 
@@ -941,14 +1067,16 @@ public class Game {
 	 * @param listOfEntryPoints
 	 *            Array list which listOfEntryPoints is to be changed to
 	 */
-	public void setListOfEntryPoints(ArrayList<Point> listOfEntryPoints) {
+	public void setListOfEntryPoints(ArrayList<Point> listOfEntryPoints)
+	{
 		this.listOfEntryPoints = listOfEntryPoints;
 	}
 
 	/**
 	 * @return Airport within in the airspace
 	 */
-	public Airport getAirport() {
+	public Airport getAirport()
+	{
 		return airport;
 	}
 }

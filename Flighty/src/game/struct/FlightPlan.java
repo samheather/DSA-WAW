@@ -28,10 +28,10 @@ public class FlightPlan {
 	 * @param plane Plane for which flight plan is generated
 	 */
 	public FlightPlan(Game currentGame, Plane plane) {
-		this.plane = plane;
-		this.currentGame = currentGame;
-		this.entryPoint = generateEntryPoint(currentGame);
-		this.currentRoute = buildRoute(currentGame, this.entryPoint);	
+		this.plane 				= plane;
+		this.currentGame 		= currentGame;
+		this.entryPoint 		= generateEntryPoint(currentGame);
+		this.currentRoute 		= buildRoute(currentGame, this.entryPoint);	
 	}
 	
 	/**
@@ -45,7 +45,8 @@ public class FlightPlan {
 		
 		Random rand = new Random();
 
-		return currentGame.getListOfEntryPoints().get(rand.nextInt(currentGame.getListOfEntryPoints().size()));	
+		return currentGame.getListOfEntryPoints().get(rand.nextInt
+					(currentGame.getListOfEntryPoints().size()));	
 	}
 	
 	/**
@@ -54,68 +55,76 @@ public class FlightPlan {
 	 * @param entryPoint The entry point for a flight i.e. the first waypoint the plane must fly through
 	 * @return The route which the plane must fly
 	 */
-	public ArrayList<Point> buildRoute(Game currentGame, Point entryPoint) {
-		ArrayList<Point> tempRoute = new ArrayList<Point>();  // Create the array lists for route and points
+	public ArrayList<Point> buildRoute(Game currentGame, Point entryPoint)
+	{
+		// Create the array lists for route and points
+		ArrayList<Point> tempRoute = new ArrayList<Point>();  
 		ArrayList<Point> tempListOfWaypoints = new ArrayList<Point>();
 		ArrayList<Point> tempListOfExitPoints = new ArrayList<Point>();
+		
 		Boolean exitpointAdded = false;
 		
-		if (!currentGame.getListOfWaypoints().isEmpty()&& !currentGame.getListOfExitPoints().isEmpty()) { // if there is a list of waypoints and a list of exit points
-				Random rand = new Random();
-				
-				// Initialising Temporary Lists
-				
-				for (int i = 0; i < currentGame.getListOfWaypoints().size(); i++) { //loop through all waypoints and add them to tempwaypoints
-					tempListOfWaypoints.add(currentGame.getListOfWaypoints().get(i));
+		// Checks if there is a list of waypoints and a list of exit points
+		if (!currentGame.getListOfWaypoints().isEmpty() && !currentGame.getListOfExitPoints().isEmpty())
+		{
+			Random rand = new Random();
+			
+			// Initialising Temporary Lists
+			// Loops through all waypoints and add them to tempwaypoints
+			for (int i = 0; i < currentGame.getListOfWaypoints().size(); i++)
+			{ 
+				tempListOfWaypoints.add(currentGame.getListOfWaypoints().get(i));
+			}
+			
+			// Loops through all exit points and add them to temppoints
+			for (int i = 0; i < currentGame.getListOfExitPoints().size(); i++)
+			{
+				tempListOfExitPoints.add(currentGame.getListOfExitPoints().get(i));
+			}
+
+			// Adding Waypoints to Plan
+			int pointsInPlan = rand.nextInt(2) + 3; 
+			
+			// This loop ensures that a unique waypoint is selected in each pick
+			for (int i = 0; i < pointsInPlan - 1; i++)
+			{
+				int waypointIndex = rand.nextInt(tempListOfWaypoints.size());
+				tempRoute.add(tempListOfWaypoints.get(waypointIndex));
+				tempListOfWaypoints.remove(waypointIndex);
+			}
+
+			// Adding ExitPoint to Plan
+			int ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
+			
+			//Makes sure that the entrypoints and the exitpoints are not on the same side
+			while (exitpointAdded == false)
+			{
+				if (this.entryPoint.getY() == tempListOfExitPoints.get(ExitPointIndex).getY())
+				{
+					tempListOfExitPoints.remove(ExitPointIndex);
+					ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
+				}
+				else if (this.entryPoint.getX() == tempListOfExitPoints.get(ExitPointIndex).getX())
+				{
+					tempListOfExitPoints.remove(ExitPointIndex);
+					ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
 				}
 				
-				for (int i = 0; i < currentGame.getListOfExitPoints().size(); i++) {// loop through all exit points and add them to temppoints
-					tempListOfExitPoints.add(currentGame.getListOfExitPoints().get(i));
+				// If the entrypoint is the airport then the runway points are added to the plan and the airport removed.
+				if(tempListOfExitPoints.get(ExitPointIndex).equals(currentGame.getAirport()))
+				{
+					tempRoute.add(currentGame.getAirport().getBeginningOfRunway());
+					tempRoute.add(currentGame.getAirport().getEndOfRunway());
+					exitpointAdded = true;
 				}
-
-				// Adding Waypoints to Plan
-
-				int pointsInPlan = rand.nextInt(2) + 3; 
-				
-				// This loop ensures that a unique waypoint is selected in each pick
-				for (int i = 0; i < pointsInPlan - 1; i++) {
-					int waypointIndex = rand.nextInt(tempListOfWaypoints.size());
-					tempRoute.add(tempListOfWaypoints.get(waypointIndex));
-					tempListOfWaypoints.remove(waypointIndex);
+				else
+				{
+					tempRoute.add(tempListOfExitPoints.get(ExitPointIndex));
+					exitpointAdded = true;
 				}
-
-				// Adding ExitPoint to Plan
-
-				int ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
-				
-				//This while loop ensures that the exitpoint is not on the same side of the screen
-				// as the entrypoint.
-
-				while (exitpointAdded == false){
-
-					if (this.entryPoint.getY() == tempListOfExitPoints.get(ExitPointIndex).getY()){
-						tempListOfExitPoints.remove(ExitPointIndex);
-						ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
-					}
-
-					else if (this.entryPoint.getX() == tempListOfExitPoints.get(ExitPointIndex).getX()){
-						tempListOfExitPoints.remove(ExitPointIndex);
-						ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
-					}
-					
-					// If the flights entrypoint is the airport then the runway points are added to the plan and the airport removed.
-					if(tempListOfExitPoints.get(ExitPointIndex).equals(currentGame.getAirport())){
-						tempRoute.add(currentGame.getAirport().getBeginningOfRunway());
-						tempRoute.add(currentGame.getAirport().getEndOfRunway());
-						exitpointAdded = true;
-					}
-					else{
-						tempRoute.add(tempListOfExitPoints.get(ExitPointIndex));
-						exitpointAdded = true;
-
-					}
-				}
+			}
 		}
+		
 		return tempRoute;
 	}
 
@@ -123,7 +132,8 @@ public class FlightPlan {
 	 * 
 	 * @return Current route for selected plane
 	 */
-	public ArrayList<Point> getCurrentRoute() {
+	public ArrayList<Point> getCurrentRoute()
+{
 		return currentRoute;
 	}
 
@@ -131,7 +141,8 @@ public class FlightPlan {
 	 * Sets currentRoute
 	 * @param currentRoute New route
 	 */
-	public void setCurrentRoute(ArrayList<Point> currentRoute) {
+	public void setCurrentRoute(ArrayList<Point> currentRoute)
+{
 		this.currentRoute = currentRoute;
 	}
 
@@ -139,7 +150,8 @@ public class FlightPlan {
 	 * 
 	 * @return Selected plane
 	 */
-	public Plane getPlane() {
+	public Plane getPlane()
+{
 		return plane;
 	}
 
@@ -147,7 +159,8 @@ public class FlightPlan {
 	 * 
 	 * @param plane Plane to set
 	 */
-	public void setPlane(Plane plane) {
+	public void setPlane(Plane plane)
+{
 		this.plane = plane;
 	}
 
@@ -155,7 +168,8 @@ public class FlightPlan {
 	 * 
 	 * @return Entry point for selected flight
 	 */
-	public Point getEntryPoint() {
+	public Point getEntryPoint()
+{
 		return entryPoint;
 	}
 
@@ -163,7 +177,8 @@ public class FlightPlan {
 	 * 
 	 * @param entryPoint Entry point to set
 	 */
-	public void setEntryPoint(EntryPoint entryPoint) {
+	public void setEntryPoint(EntryPoint entryPoint)
+	{
 		this.entryPoint = entryPoint;
 	}
 }

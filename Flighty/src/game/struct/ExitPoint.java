@@ -7,12 +7,10 @@ package game.struct;
  * Used to store target co-ordinates.
  * </p>
  */
-public class ExitPoint extends Point {
-	
+public class ExitPoint extends Point
+{
     protected double x;
     protected double y;
-
-    
     
     /**
      * Default constructor for Waypoint
@@ -23,21 +21,8 @@ public class ExitPoint extends Point {
      * @param x				the point's horizontal position
      * @param y				the point's vertical position
      */
-    public ExitPoint(double x, double y) {
+    public ExitPoint(double x, double y)
+    {
     	super(x,y);
     }
-
-
-
-
-    
-
-
-    
-    
- 
-
-
-
-
 }
