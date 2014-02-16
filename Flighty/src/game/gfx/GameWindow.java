@@ -614,7 +614,37 @@ public class GameWindow extends BasicGameState {
 				boolean testing = false;
 
 			}
+			// Draws ExitPoints
 
+			for (int i = 0; i < this.currentGame.getListOfExitPoints().size(); i++) {
+				if (this.currentGame.getCurrentPlane() != null) {
+					if (this.currentGame
+							.getCurrentPlane()
+							.getFlightPlan()
+							.getCurrentRoute()
+							.indexOf(
+									this.currentGame.getListOfExitPoints().get(
+											i)) == 0) {
+						this.waypointNext.drawCentered((int) this.currentGame
+								.getListOfExitPoints().get(i).getX(),
+								(int) this.currentGame.getListOfExitPoints()
+								.get(i).getY());
+					} else {
+						this.waypointLast.drawCentered((int) this.currentGame
+								.getListOfExitPoints().get(i).getX(),
+								(int) this.currentGame.getListOfExitPoints()
+								.get(i).getY());
+					}
+
+				}
+
+				else {
+					this.waypointLast.drawCentered((int) this.currentGame
+							.getListOfExitPoints().get(i).getX(),
+							(int) this.currentGame.getListOfExitPoints().get(i)
+							.getY());
+				}
+			}
 			// Draws Waypoints
 
 			for (int i = 0; i < this.currentGame.getListOfWaypoints().size(); i++) {
@@ -627,17 +657,17 @@ public class GameWindow extends BasicGameState {
 								.getListOfWaypoints().get(i)) {
 							this.waypointNext.drawCentered(
 									(int) this.currentGame.getListOfWaypoints()
-											.get(i).getX(),
+									.get(i).getX(),
 									(int) this.currentGame.getListOfWaypoints()
-											.get(i).getY());
+									.get(i).getY());
 						}
 
 						else {
 							this.waypointNormal.drawCentered(
 									(int) this.currentGame.getListOfWaypoints()
-											.get(i).getX(),
+									.get(i).getX(),
 									(int) this.currentGame.getListOfWaypoints()
-											.get(i).getY());
+									.get(i).getY());
 
 						}
 
@@ -647,7 +677,7 @@ public class GameWindow extends BasicGameState {
 						this.waypointNormal.drawCentered((int) this.currentGame
 								.getListOfWaypoints().get(i).getX(),
 								(int) this.currentGame.getListOfWaypoints()
-										.get(i).getY());
+								.get(i).getY());
 
 					}
 
@@ -655,7 +685,7 @@ public class GameWindow extends BasicGameState {
 					this.waypointNormal.drawCentered((int) this.currentGame
 							.getListOfWaypoints().get(i).getX(),
 							(int) this.currentGame.getListOfWaypoints().get(i)
-									.getY());
+							.getY());
 				}
 			}
 
@@ -684,41 +714,28 @@ public class GameWindow extends BasicGameState {
 							(int) this.currentGame.getCurrentPlane()
 									.getFlightPlan().getCurrentRoute().get(j)
 									.getY());
-
-				}
-			}
-
-			// Draws ExitPoints
-
-			for (int i = 0; i < this.currentGame.getListOfExitPoints().size(); i++) {
-				if (this.currentGame.getCurrentPlane() != null) {
-					if (this.currentGame
-							.getCurrentPlane()
-							.getFlightPlan()
-							.getCurrentRoute()
-							.indexOf(
-									this.currentGame.getListOfExitPoints().get(
-											i)) == 0) {
-						this.waypointNext.drawCentered((int) this.currentGame
-								.getListOfExitPoints().get(i).getX(),
-								(int) this.currentGame.getListOfExitPoints()
-										.get(i).getY());
-					} else {
-						this.waypointLast.drawCentered((int) this.currentGame
-								.getListOfExitPoints().get(i).getX(),
-								(int) this.currentGame.getListOfExitPoints()
-										.get(i).getY());
+					if(j == this.currentGame.getCurrentPlane()
+						.getFlightPlan().getCurrentRoute().size() - 2) {
+						int exitPointX =(int)this.currentGame.getCurrentPlane()
+								.getFlightPlan().getCurrentRoute().get(j+1).getX();
+						int exitPointY =(int)this.currentGame.getCurrentPlane()
+								.getFlightPlan().getCurrentRoute().get(j+1).getY();
+						if(exitPointX == 0) {
+							this.waypointArrow.drawCentered(exitPointX + 10, exitPointY);
+						}
+						else if(exitPointX == this.getWindowWidth()) {
+							this.waypointArrow.drawCentered(exitPointX-10, exitPointY);
+						}
+						else if(exitPointY == 0) {
+							this.waypointArrow.drawCentered(exitPointX, exitPointY+10);
+						}
+						
 					}
 
 				}
-
-				else {
-					this.waypointLast.drawCentered((int) this.currentGame
-							.getListOfExitPoints().get(i).getX(),
-							(int) this.currentGame.getListOfExitPoints().get(i)
-									.getY());
-				}
 			}
+
+			
 
 		} else {
 			// Display the game duration (time)
