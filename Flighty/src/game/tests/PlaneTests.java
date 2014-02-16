@@ -1,6 +1,4 @@
-
 package game.tests;
-
 
 import org.junit.Test;
 import org.junit.Before;
@@ -12,173 +10,174 @@ import game.struct.Game;
 import game.struct.Plane;
 import game.struct.Waypoint;
 
-
 public class PlaneTests {
-	
+
 	Game game;
 	Plane plane1;
-	
+
 	@Before
 	public void beforeTests() {
 		game = new Game(50, 100);
 		plane1 = new Plane(1, 500, 3000, 50, game);
-		
+
 	}
-	
+
 	// Testing Check if flight at waypoint
-	
-	@Test 
-	public void checkIfFlightAtWaypointTest1(){
+
+	@Test
+	public void checkIfFlightAtWaypointTest1() {
 		plane1.setX(1000000);
 		plane1.setY(1000000);
 		assertFalse(plane1.checkIfFlightAtWaypoint(game.getAirport(), game));
 	}
-	
-	@Test 
-	public void checkIfFlightAtWaypointTest2(){
-		
-		plane1.setX(plane1.getFlightPlan().getCurrentRoute().get(0).getX() +15);
-		plane1.setY(plane1.getFlightPlan().getCurrentRoute().get(0).getY() +15);
-		assertTrue(plane1.checkIfFlightAtWaypoint(plane1.getFlightPlan().getCurrentRoute().get(0), game));
+
+	@Test
+	public void checkIfFlightAtWaypointTest2() {
+
+		plane1.setX(plane1.getFlightPlan().getCurrentRoute().get(0).getX() + 15);
+		plane1.setY(plane1.getFlightPlan().getCurrentRoute().get(0).getY() + 15);
+		assertTrue(plane1.checkIfFlightAtWaypoint(plane1.getFlightPlan()
+				.getCurrentRoute().get(0), game));
 	}
-	
-	@Test 
-	public void checkIfFlightAtWaypointTest3(){
-		
-		plane1.setX(plane1.getFlightPlan().getCurrentRoute().get(0).getX() +10);
-		plane1.setY(plane1.getFlightPlan().getCurrentRoute().get(0).getY() +10);
-		assertTrue(plane1.checkIfFlightAtWaypoint(plane1.getFlightPlan().getCurrentRoute().get(0), game));
+
+	@Test
+	public void checkIfFlightAtWaypointTest3() {
+
+		plane1.setX(plane1.getFlightPlan().getCurrentRoute().get(0).getX() + 10);
+		plane1.setY(plane1.getFlightPlan().getCurrentRoute().get(0).getY() + 10);
+		assertTrue(plane1.checkIfFlightAtWaypoint(plane1.getFlightPlan()
+				.getCurrentRoute().get(0), game));
 	}
-	
-	@Test 
-	public void checkIfFlightAtWaypointTest4(){
-		
-		plane1.setX(plane1.getFlightPlan().getCurrentRoute().get(0).getX() +20);
-		plane1.setY(plane1.getFlightPlan().getCurrentRoute().get(0).getY() +20);
-		assertFalse(plane1.checkIfFlightAtWaypoint(plane1.getFlightPlan().getCurrentRoute().get(0), game));
+
+	@Test
+	public void checkIfFlightAtWaypointTest4() {
+
+		plane1.setX(plane1.getFlightPlan().getCurrentRoute().get(0).getX() + 20);
+		plane1.setY(plane1.getFlightPlan().getCurrentRoute().get(0).getY() + 20);
+		assertFalse(plane1.checkIfFlightAtWaypoint(plane1.getFlightPlan()
+				.getCurrentRoute().get(0), game));
 	}
-	
-	@Test 
-	public void checkIfFlightAtWaypointTest5(){
-		
-		plane1.setX(plane1.getFlightPlan().getCurrentRoute().get(0).getX() +20);
-		plane1.setY(plane1.getFlightPlan().getCurrentRoute().get(0).getY() +20);
-		assertFalse(plane1.checkIfFlightAtWaypoint(game.getAirport().getBeginningOfRunway(), game));
+
+	@Test
+	public void checkIfFlightAtWaypointTest5() {
+
+		plane1.setX(plane1.getFlightPlan().getCurrentRoute().get(0).getX() + 20);
+		plane1.setY(plane1.getFlightPlan().getCurrentRoute().get(0).getY() + 20);
+		assertFalse(plane1.checkIfFlightAtWaypoint(game.getAirport()
+				.getBeginningOfRunway(), game));
 	}
-	
-	
+
 	// Testing increment bearing
-	
-	@Test 
-	public void incrementBearingTest1(){
+
+	@Test
+	public void incrementBearingTest1() {
 		plane1.setBearing(0);
 		plane1.setTargetBearing(0);
 		plane1.incrementBearing();
 		assertEquals(1, plane1.getBearing(), 0.1);
-		assertEquals (plane1.getBearing(), plane1.getTargetBearing(), 0.1);
+		assertEquals(plane1.getBearing(), plane1.getTargetBearing(), 0.1);
 		assertTrue(plane1.isTurningRight());
 		assertFalse(plane1.isTurningLeft());
-		
+
 	}
-	
-	@Test 
-	public void incrementBearingTest2(){
+
+	@Test
+	public void incrementBearingTest2() {
 		plane1.setBearing(359);
 		plane1.setTargetBearing(359);
 		plane1.incrementBearing();
 		assertEquals(0, plane1.getBearing(), 0.1);
-		assertEquals (plane1.getBearing(), plane1.getTargetBearing(), 0.1);
+		assertEquals(plane1.getBearing(), plane1.getTargetBearing(), 0.1);
 		assertTrue(plane1.isTurningRight());
 		assertFalse(plane1.isTurningLeft());
-		
+
 	}
-	
-	// Testing decrement bearing 
-	
-	@Test 
-	public void decrementBearingTest1(){
+
+	// Testing decrement bearing
+
+	@Test
+	public void decrementBearingTest1() {
 		plane1.setBearing(180);
 		plane1.setTargetBearing(180);
 		plane1.decrementBearing();
 		assertEquals(179, plane1.getBearing(), 0.1);
-		assertEquals (plane1.getBearing(), plane1.getTargetBearing(), 0.1);
+		assertEquals(plane1.getBearing(), plane1.getTargetBearing(), 0.1);
 		assertFalse(plane1.isTurningRight());
 		assertTrue(plane1.isTurningLeft());
-		
+
 	}
-	
-	@Test 
-	public void decrementBearingTest2(){
+
+	@Test
+	public void decrementBearingTest2() {
 		plane1.setBearing(0);
 		plane1.setTargetBearing(0);
 		plane1.decrementBearing();
 		assertEquals(359, plane1.getBearing(), 0.1);
-		assertEquals (plane1.getBearing(), plane1.getTargetBearing(), 0.1);
+		assertEquals(plane1.getBearing(), plane1.getTargetBearing(), 0.1);
 		assertFalse(plane1.isTurningRight());
 		assertTrue(plane1.isTurningLeft());
-		
+
 	}
-	
+
 	// Testing Increment Altitude
-	
-	@Test 
-	public void incrementAltitudeTest1(){
+
+	@Test
+	public void incrementAltitudeTest1() {
 		plane1.setAltitude(0);
 		plane1.incrementAltitude();
 		assertEquals(5, plane1.getAltitude(), 0.1);
 	}
-	
+
 	// Testing Decrement Altitude
-	
-	@Test 
-	public void decrementAltitudeTest1(){
+
+	@Test
+	public void decrementAltitudeTest1() {
 		plane1.setAltitude(100);
 		plane1.decrementAltitude();
 		assertEquals(95, plane1.getAltitude(), 0.1);
 	}
-		
+
 	// Testing Increment Target Altitude
-	
-	@Test 
-	public void incrementTargetAltitudeTest1(){
+
+	@Test
+	public void incrementTargetAltitudeTest1() {
 		plane1.setTargetAltitude(3000);
 		plane1.incrementTargetAltitude();
 		assertEquals(4000, plane1.getTargetAltitude(), 0.1);
-		
+
 	}
-	
-	
-	@Test 
-	public void incrementTargetAltitudeTest2(){
+
+	@Test
+	public void incrementTargetAltitudeTest2() {
 		plane1.setTargetAltitude(7000);
 		plane1.incrementTargetAltitude();
 		assertEquals(7000, plane1.getTargetAltitude(), 0.1);
-		
+
 	}
-	
+
 	// Testing Decrement Target Altitude
-	
-	@Test 
-	public void decrementTargetAltitudeTest1(){
+
+	@Test
+	public void decrementTargetAltitudeTest1() {
 		plane1.setTargetAltitude(3000);
 		plane1.decrementTargetAltitude();
 		assertEquals(2000, plane1.getTargetAltitude(), 0.1);
-		
+
 	}
-	
-	@Test 
-	public void decrementTargetAltitudeTest2(){
+
+	@Test
+	public void decrementTargetAltitudeTest2() {
 		plane1.setTargetAltitude(2000);
 		plane1.decrementTargetAltitude();
 		assertEquals(2000, plane1.getTargetAltitude(), 0.1);
-		
+
 	}
-	
+
 	// Testing Calculating the heading to next Waypoint
-	
+
 	@Test
-	public void calculateBearingToFirstWaypointTest1(){
-		//Testing it calculates the heading to the first waypoint.
+	public void calculateBearingToFirstWaypointTest1() {
+		// Testing it calculates the heading to the first waypoint.
 		plane1.setX(150);
 		plane1.setY(400);
 		plane1.setTarget(game.getListOfWaypoints().get(0));
@@ -186,14 +185,13 @@ public class PlaneTests {
 		assertEquals(111.8, plane1.getTargetBearing(), 0.01);
 		assertFalse(plane1.isTurningLeft());
 		assertFalse(plane1.isTurningRight());
-		
+
 	}
-	
-	
+
 	// Testing Update Current Bearing
-	
+
 	@Test
-	public void updateCurrentBearingTest1(){
+	public void updateCurrentBearingTest1() {
 		// Test that the current heading moves towards the target heading
 		plane1.setBearing(288);
 		plane1.setTargetBearing(0);
@@ -201,11 +199,11 @@ public class PlaneTests {
 		assertTrue(plane1.isTurningRight());
 		assertFalse(plane1.isTurningLeft());
 		assertEquals(288.9, plane1.getBearing(), 0.1);
-		
+
 	}
-	
+
 	@Test
-	public void updateCurrentBearingTest2(){
+	public void updateCurrentBearingTest2() {
 		// Test that the current heading moves towards the target heading
 		plane1.setBearing(288);
 		plane1.setTargetBearing(270);
@@ -213,11 +211,11 @@ public class PlaneTests {
 		assertTrue(plane1.isTurningLeft());
 		assertFalse(plane1.isTurningRight());
 		assertEquals(287.1, plane1.getBearing(), 0.1);
-		
+
 	}
-	
+
 	@Test
-	public void updateCurrentBearingTest3(){
+	public void updateCurrentBearingTest3() {
 		// Test that the current heading moves towards the target heading
 		plane1.setBearing(270);
 		plane1.setTargetBearing(90);
@@ -225,11 +223,11 @@ public class PlaneTests {
 		assertTrue(plane1.isTurningRight());
 		assertFalse(plane1.isTurningLeft());
 		assertEquals(270.9, plane1.getBearing(), 0.1);
-		
+
 	}
-	
+
 	@Test
-	public void updateCurrentBearingTest4(){
+	public void updateCurrentBearingTest4() {
 		// Test that the current heading moves towards the target heading
 		plane1.setBearing(288);
 		plane1.setTargetBearing(300);
@@ -237,11 +235,11 @@ public class PlaneTests {
 		assertTrue(plane1.isTurningRight());
 		assertFalse(plane1.isTurningLeft());
 		assertEquals(288.9, plane1.getBearing(), 0.1);
-		
+
 	}
-	
+
 	@Test
-	public void updateCurrentBearingTest5(){
+	public void updateCurrentBearingTest5() {
 		// Test that the current heading moves towards the target heading
 		plane1.setBearing(150);
 		plane1.setTargetBearing(200);
@@ -249,11 +247,11 @@ public class PlaneTests {
 		assertTrue(plane1.isTurningRight());
 		assertFalse(plane1.isTurningLeft());
 		assertEquals(150.9, plane1.getBearing(), 0.1);
-		
+
 	}
-	
+
 	@Test
-	public void updateCurrentBearingTest6(){
+	public void updateCurrentBearingTest6() {
 		// Test that the current heading moves towards the target heading
 		plane1.setBearing(20);
 		plane1.setTargetBearing(290);
@@ -261,11 +259,11 @@ public class PlaneTests {
 		assertTrue(plane1.isTurningLeft());
 		assertFalse(plane1.isTurningRight());
 		assertEquals(19.1, plane1.getBearing(), 0.1);
-		
+
 	}
-	
+
 	@Test
-	public void updateCurrentBearingTest7(){
+	public void updateCurrentBearingTest7() {
 		// Test that the current heading moves towards the target heading
 		plane1.setBearing(359.5);
 		plane1.setTargetBearing(10);
@@ -273,11 +271,11 @@ public class PlaneTests {
 		assertTrue(plane1.isTurningRight());
 		assertFalse(plane1.isTurningLeft());
 		assertEquals(0, plane1.getBearing(), 0.1);
-		
+
 	}
-	
+
 	@Test
-	public void updateCurrentBearingTest8(){
+	public void updateCurrentBearingTest8() {
 		// Test that the current heading moves towards the target heading
 		plane1.setBearing(0.5);
 		plane1.setTargetBearing(290);
@@ -285,26 +283,26 @@ public class PlaneTests {
 		assertTrue(plane1.isTurningLeft());
 		assertFalse(plane1.isTurningRight());
 		assertEquals(360, plane1.getBearing(), 0.1);
-		
+
 	}
-	
+
 	// Testing findLandingDescentRate
-	
+
 	@Test
-	public void findLandingDescentRateTest1(){
+	public void findLandingDescentRateTest1() {
 		plane1.setX(695);
 		plane1.setY(465);
 		plane1.setVelocity(1);
 		game.setSpeedDifficulty(0.5);
 		plane1.setAltitude(2000);
 		assertEquals(39.223, plane1.findLandingDescentRate(), 0.001);
-		
+
 	}
-	
+
 	// Testing Landing Plane
-	
+
 	@Test
-	public void landPlaneTest1(){
+	public void landPlaneTest1() {
 		plane1.setX(695);
 		plane1.setY(465);
 		plane1.setAltitude(2000);
@@ -313,16 +311,17 @@ public class PlaneTests {
 		assertTrue(game.getAirport().isPlaneLanding());
 		assertFalse(plane1.isNeedsToLand());
 		assertTrue(plane1.isLanding());
-		assertEquals(plane1.getTarget(), plane1.getFlightPlan().getCurrentRoute().get(0));
+		assertEquals(plane1.getTarget(), plane1.getFlightPlan()
+				.getCurrentRoute().get(0));
 		assertFalse(game.getManualPlanes().contains(plane1));
 		assertEquals(null, game.getCurrentPlane());
-		
+
 	}
-	
+
 	// Testing Update X and Y Coordinates
-	
+
 	@Test
-	public void updateXYCoordinatesTest1(){
+	public void updateXYCoordinatesTest1() {
 		plane1.setX(150);
 		plane1.setY(400);
 		plane1.setVelocity(1);
@@ -331,15 +330,13 @@ public class PlaneTests {
 		plane1.updateXYCoordinates();
 		assertEquals(150.086, plane1.getX(), 0.001);
 		assertEquals(399.507, plane1.getY(), 0.001);
-		
+
 	}
-	
+
 	// Testing Move Plane
-	
-	
-	
+
 	@Test
-	public void movePlaneTest1(){
+	public void movePlaneTest1() {
 		plane1.setX(150);
 		plane1.setY(400);
 		plane1.setVelocity(1);
@@ -351,11 +348,11 @@ public class PlaneTests {
 		plane1.movePlane();
 		assertEquals(150.086, plane1.getX(), 0.001);
 		assertEquals(399.507, plane1.getY(), 0.001);
-		
+
 	}
-	
+
 	@Test
-	public void movePlaneTest2(){
+	public void movePlaneTest2() {
 		plane1.setX(150);
 		plane1.setY(400);
 		plane1.setVelocity(1);
@@ -368,11 +365,11 @@ public class PlaneTests {
 		assertEquals(150.094, plane1.getX(), 0.001);
 		assertEquals(399.509, plane1.getY(), 0.001);
 		assertEquals(100.9, plane1.getBearing(), 0.1);
-		
+
 	}
-	
+
 	@Test
-	public void movePlaneTest3(){
+	public void movePlaneTest3() {
 		plane1.setX(150);
 		plane1.setY(400);
 		plane1.setVelocity(1);
@@ -386,13 +383,13 @@ public class PlaneTests {
 		assertEquals(399.509, plane1.getY(), 0.001);
 		assertEquals(111.8, plane1.getTargetBearing(), 0.1);
 		assertEquals(100.9, plane1.getBearing(), 0.1);
-		
+
 	}
-	
-	 //Testing Take Off
-	
-	@Test 
-	public void takeOffTest1(){
+
+	// Testing Take Off
+
+	@Test
+	public void takeOffTest1() {
 		plane1.takeOff();
 		assertTrue(plane1.getVelocity() != 0);
 		assertFalse(game.getManualPlanes().contains(plane1));
@@ -400,53 +397,47 @@ public class PlaneTests {
 		assertTrue(plane1.isTakingOff());
 		assertTrue(game.getCurrentPlane() == null);
 	}
-	
+
 	// Testing Update Plane Altitude
-	
-	@Test 
-	public void updatePlaneAltitudeTest1(){
+
+	@Test
+	public void updatePlaneAltitudeTest1() {
 		plane1.setLandingDescentRate(10);
 		plane1.setAltitude(-10);
 		plane1.updatePlaneAltitude();
 		assertEquals(0, plane1.getAltitude(), 0);
 		assertEquals(0, plane1.getLandingDescentRate(), 0);
 		assertEquals(0, plane1.getTargetAltitude(), 0);
-		
+
 	}
-	
-	@Test 
-	public void updatePlaneAltitudeTest2(){
+
+	@Test
+	public void updatePlaneAltitudeTest2() {
 		plane1.setLandingDescentRate(10);
 		plane1.setAltitude(100);
 		plane1.updatePlaneAltitude();
 		assertEquals(90, plane1.getAltitude(), 0);
-		
+
 	}
-	
-	@Test 
-	public void updatePlaneAltitudeTest3(){
+
+	@Test
+	public void updatePlaneAltitudeTest3() {
 		plane1.setLandingDescentRate(0);
 		plane1.setAltitude(100);
 		plane1.setTargetAltitude(150);
 		plane1.updatePlaneAltitude();
 		assertEquals(105, plane1.getAltitude(), 0);
-		
+
 	}
-	
-	@Test 
-	public void updatePlaneAltitudeTest4(){
+
+	@Test
+	public void updatePlaneAltitudeTest4() {
 		plane1.setLandingDescentRate(0);
 		plane1.setAltitude(100);
 		plane1.setTargetAltitude(90);
 		plane1.updatePlaneAltitude();
 		assertEquals(95, plane1.getAltitude(), 0);
-		
+
 	}
-	
 
-	
-	
-	
 }
-
-

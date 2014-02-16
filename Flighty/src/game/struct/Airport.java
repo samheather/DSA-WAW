@@ -2,34 +2,29 @@ package game.struct;
 
 import org.newdawn.slick.geom.*;
 
-
 public class Airport extends Point {
-	
 
 	private int landingAltitude;
 	private boolean planeLanding;
 	private Plane planeWaitingtoTakeoff;
 	private Waypoint beginningOfRunway, endOfRunway;
 	private Polygon landingApproachArea;
-	
-	
-	
-    public Airport(double x, double y) {
-    	super(x,y);
-    	this.planeLanding = false;
-    	this.planeWaitingtoTakeoff = null;
-    	this.landingAltitude = 20000;
-    	this.beginningOfRunway = new Waypoint(720,460);
-    	this.endOfRunway = new Waypoint(1180,465);
-    	landingApproachArea = new Polygon();
-    	landingApproachArea.addPoint(720, 465);
-    	landingApproachArea.addPoint(400, 344);
-    	landingApproachArea.addPoint(400, 576);
-    	
-    	
-    }
 
-    // ACCESSORS AND MODIFIERS
+	public Airport(double x, double y) {
+		super(x, y);
+		this.planeLanding = false;
+		this.planeWaitingtoTakeoff = null;
+		this.landingAltitude = 20000;
+		this.beginningOfRunway = new Waypoint(720, 460);
+		this.endOfRunway = new Waypoint(1180, 465);
+		landingApproachArea = new Polygon();
+		landingApproachArea.addPoint(720, 465);
+		landingApproachArea.addPoint(400, 344);
+		landingApproachArea.addPoint(400, 576);
+
+	}
+
+	// ACCESSORS AND MODIFIERS
 
 	public Waypoint getBeginningOfRunway() {
 		return beginningOfRunway;
@@ -51,31 +46,21 @@ public class Airport extends Point {
 		return landingAltitude;
 	}
 
-
-
 	public void setLandingAltitude(int landingAltitude) {
 		this.landingAltitude = landingAltitude;
 	}
-
-
 
 	public boolean isPlaneLanding() {
 		return planeLanding;
 	}
 
-
-
 	public void setPlaneLanding(boolean planeLandingOrTakingOff) {
 		this.planeLanding = planeLandingOrTakingOff;
 	}
 
-
-
 	public Plane getPlaneWaitingtoTakeoff() {
 		return planeWaitingtoTakeoff;
 	}
-
-
 
 	public void setPlaneWaitingtoTakeoff(Plane planeWaitingtoTakeoff) {
 		this.planeWaitingtoTakeoff = planeWaitingtoTakeoff;
@@ -89,15 +74,4 @@ public class Airport extends Point {
 		this.landingApproachArea = landingApproachArea;
 	}
 
-    
-    
-
-   
-
-    
-    
-    
 }
-	
-
-

@@ -10,6 +10,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({FlightPlanTests.class,
 						PlaneTests.class,
+						GameTests.class,
 						
 						})
 public class AllTests {
