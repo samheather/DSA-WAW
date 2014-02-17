@@ -634,6 +634,11 @@ public class GameWindow extends BasicGameState {
 					g.drawString("Perfect Height!", (float) (plane.getX() - 5),
 							(float) (plane.getY() - 30));
 				}
+				
+				else if (plane.isNeedsToTakeOff()){
+					g.drawString("'T' to Takeoff!", (float) (plane.getX() - 57),
+							(float) (plane.getY() - 25));
+				}
 			}
 			
 			// Draws ExitPoints
