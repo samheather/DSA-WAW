@@ -21,6 +21,9 @@ import game.struct.Plane;
  * GameWindow class provides an interactive game
  */
 public class GameWindow extends BasicGameState {
+	
+	/** Time between score penalities for not taking off*/
+	private static final int TAKE_OFF_PENALTY_TIME = 3000;
 
 	/** The width the game is displayed at */
 	public int windowWidth;
@@ -108,7 +111,7 @@ public class GameWindow extends BasicGameState {
 	double synch = 100;
 
 	/** Boolean to help with timing the penalties for not taking off penalty **/
-	double synchTakeOff = 2000;
+	double synchTakeOff = TAKE_OFF_PENALTY_TIME;
 	
 	/** Boolean to make sure the points aren't reduce multiple times**/
 	boolean reducePoints = true;	
@@ -496,17 +499,17 @@ public class GameWindow extends BasicGameState {
 					synchTakeOff--;
 					
 					// Points deduced from the user if the plane is still landed
-					if (synchTakeOff < 700)
+					if (synchTakeOff < TAKE_OFF_PENALTY_TIME / 5)
 					{
 						g.setColor(Color.red);
-						g.drawString("-10", 1150, 570);
+						g.drawString("-" + 10 * currentGame.getMultiplier() , 1150, 570);
 						g.setColor(Color.white);
 						
 						if (reducePoints)
 						{
-							if (currentGame.getScore() > 10)
+							if (currentGame.getScore() > 10 * currentGame.getMultiplier())
 							{
-								currentGame.setScore(currentGame.getScore() - 10);
+								currentGame.setScore(currentGame.getScore() - 10 * currentGame.getMultiplier());
 							}
 							else
 							{
@@ -523,7 +526,7 @@ public class GameWindow extends BasicGameState {
 						if (synchTakeOff < 0)
 						{
 							reducePoints = true;
-							synchTakeOff = 3000;
+							synchTakeOff = TAKE_OFF_PENALTY_TIME;
 						}
 					}
 				}

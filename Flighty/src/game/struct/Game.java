@@ -22,6 +22,9 @@ import org.newdawn.slick.state.StateBasedGame;
  * </p>
  */
 public class Game {
+	
+	/** How long can a play stay landed before penalty applies*/
+	private static final int TAKE_OFF_PENALTY_TIME = 1500;
 
 	/** Array list containing airspace exit points */
 	private ArrayList<Point> listOfExitPoints = new ArrayList<Point>();
@@ -139,7 +142,7 @@ public class Game {
 		
 		// Penalty for not taking off the planes in time
 		this.takeOffPenalty = false;
-		this.takeOffSynch = 1000;
+		this.takeOffSynch = TAKE_OFF_PENALTY_TIME;
 		
 		// Multiplier 
 		this.multiplier = 1;
@@ -787,7 +790,7 @@ public class Game {
 				if (this.takeOffSynch < 0)
 				{
 					this.takeOffPenalty = true;
-					this.takeOffSynch = 2000;
+					this.takeOffSynch = TAKE_OFF_PENALTY_TIME;
 				}
 				
 				this.takeOffSynch --;
