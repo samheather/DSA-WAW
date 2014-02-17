@@ -24,7 +24,10 @@ public class GameWindow extends BasicGameState {
 	
 	/** Time between score penalities for not taking off*/
 	private static final int TAKE_OFF_PENALTY_TIME = 3000;
-
+	
+	/** Time to display the waypoints bonus points */
+	private static final int WAYPOINTS_DISPLAY_TIME = 200;
+	
 	/** The width the game is displayed at */
 	public int windowWidth;
 
@@ -108,7 +111,7 @@ public class GameWindow extends BasicGameState {
 	boolean morePoints = false;
 
 	/** Boolean to help with displaying extra points above the waypoints**/
-	double synch = 100;
+	double synch = WAYPOINTS_DISPLAY_TIME;
 
 	/** Boolean to help with timing the penalties for not taking off penalty **/
 	double synchTakeOff = TAKE_OFF_PENALTY_TIME;
@@ -454,6 +457,7 @@ public class GameWindow extends BasicGameState {
 				if (plane.getFlightPlan().getCurrentRoute().size() > 1)
 				{
 					if (plane.checkIfFlightAtWaypoint(plane.getFlightPlan().getCurrentRoute().get(0), this.currentGame)){
+						
 						// If plane is at the runway, more points apply
 						if (plane.getFlightPlan().getCurrentRoute().get(0) == currentGame.getAirport().getEndOfRunway())
 						{
@@ -465,7 +469,7 @@ public class GameWindow extends BasicGameState {
 						prevY = plane.getFlightPlan().getCurrentRoute().get(0).getY();
 						
 						// How long it should display the text for
-						synch = 100;
+						synch = WAYPOINTS_DISPLAY_TIME;
 						
 						display = true;
 					}
