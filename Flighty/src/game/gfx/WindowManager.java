@@ -25,7 +25,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class WindowManager extends StateBasedGame
 {
 	/** The window title */
-	public static final String GAME_TITLE = "Air Traffic Control";
+	public static final String GAME_TITLE = "World of Flighty";
 	
 	/** Standard window width */
 	public static final int WINDOW_WIDTH = 1024;
