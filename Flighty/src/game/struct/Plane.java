@@ -373,6 +373,8 @@ public class Plane {
 		this.needsToTakeOff = false;
 		this.takingOff 		= true;
 		
+		currentGame.setTakeOffPenalty(false);
+		
 		currentGame.setCurrentPlane(null);
 	}
 	

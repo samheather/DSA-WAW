@@ -108,6 +108,9 @@ public class GameWindow extends BasicGameState {
 	/** How long the extrapoints should be displayed for **/
 	double synch = 100;
 
+	
+	double synchTakeOff = 2000;
+	
 	/** Coordinates of last waypoint passed **/
 	double prevX;
 	double prevY;
@@ -483,7 +486,26 @@ public class GameWindow extends BasicGameState {
 						display = false;
 					}
 				}
-
+				
+				//Render the text for penalising delayed taking offs
+				if (currentGame.isTakeOffPenalty())
+				{
+					g.drawString("Take me off", 1120, 540);
+					synchTakeOff--;
+					
+					if (synchTakeOff < 700)
+					{
+						g.drawString("-10", 1150, 560);
+						synchTakeOff--;
+						
+						if (synchTakeOff < 0)
+						{
+							synchTakeOff = 3000;
+						}
+						//currentGame.setScore(currentGame.getScore() - 10);
+					}
+				}
+				
 				// If plane is within penalty distance, apply alert images
 				if (plane.getAlertStatus())
 				{

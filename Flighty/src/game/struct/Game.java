@@ -57,8 +57,14 @@ public class Game {
 	private double score;
 
 	/** Whether the player should be penalised **/
-	boolean penalty;
+	private boolean penalty;
 
+	/** Penalty for delaying to take off the planes */
+	private boolean takeOffPenalty;
+
+	/** Synchronisation variable to measure the taking off delay*/
+	private int takeOffSynch;
+	
 	/** The time the game ended at */
 	private double endTime;
 
@@ -130,6 +136,10 @@ public class Game {
 		
 		// Whether score penalties apply
 		this.penalty 					= true;
+		
+		// Penalty for not taking off the planes in time
+		this.takeOffPenalty = false;
+		this.takeOffSynch = 1000;
 		
 		// Multiplier 
 		this.multiplier = 1;
@@ -243,7 +253,7 @@ public class Game {
 		newPlane.setAltitude(0);
 		newPlane.setTargetAltitude(0);
 		newPlane.setNeedsToTakeOff(true);
-
+		
 		/* Airport is removed from list of entrypoints so another flight can't
 		 spawn on airport until current plane has left.*/
 		this.listOfEntryPoints.remove(this.airport);
@@ -749,6 +759,19 @@ public class Game {
 				}
 			}
 
+
+			if (plane.isNeedsToTakeOff())
+			{
+				if (this.takeOffSynch < 0)
+				{
+					this.takeOffPenalty = true;
+					this.takeOffSynch = 100;
+				}
+				
+				this.takeOffSynch --;
+			}
+			
+			
 			// Updates the plane position
 			plane.movePlane();
 		}
@@ -765,12 +788,20 @@ public class Game {
 
 	// GETTERS
 
+	public void setTakeOffPenalty(boolean takeOffPenalty) {
+		this.takeOffPenalty = takeOffPenalty;
+	}
+
 	/**
 	 * @return multiplier
 	 */
 	public int getMultiplier()
 	{
 		return this.multiplier;
+	}
+
+	public boolean isTakeOffPenalty() {
+		return takeOffPenalty;
 	}
 
 	/**
