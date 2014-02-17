@@ -158,8 +158,9 @@ public class MainMenu extends GenericWindow {
 			else
 			{
 				creditsColor = Color.white;
+				
 				this.waypointIcon.draw((gameContainer.getWidth() / 3)
-						+ 175, (gameContainer.getHeight() /3 + 130));
+						+ 30 + creditsWidth, (gameContainer.getHeight() / 3) + 54 + (this.font.getHeight() * 4));
 			}
 		}
 		else
