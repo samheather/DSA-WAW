@@ -110,7 +110,8 @@ public class Game {
 	 * @param currentGameWindow
 	 *            reference to the current game window
 	 */
-	public Game(int separationDistance, int penaltyDistance) {
+	public Game(int separationDistance, int penaltyDistance)
+	{
 		// Screen size
 		this.windowWidth 				= 1200;
 		this.windowHeight 				= 600;
@@ -217,7 +218,14 @@ public class Game {
 		// Add new plane to the game
 		this.currentPlanes.add(newPlane);
 	}
-
+	/**
+	 * Configure plane to take off properly
+	 * 
+	 * It adds the runway waypoints to its flight plan,
+	 * inserts the flight in the airport spot
+	 * and signals that a plane needs to take off
+	 * @param newPlane - a new plane that needs to take off
+	 */
 	public void configurePlaneForTakeOff(Plane newPlane)
 	{
 		newPlane.getFlightPlan().setEntryPoint(new EntryPoint(1180, 580));
@@ -257,10 +265,10 @@ public class Game {
 			velocity = 1;
 			break;
 		case 1:
-			velocity = 0.8;
+			velocity = 1.2;
 			break;
 		case 2:
-			velocity = 1.2;
+			velocity = 1.4;
 			break;
 		default:
 			velocity = 1;
@@ -289,8 +297,7 @@ public class Game {
 	 * Removes a plane from the game
 	 * <p>
 	 * Iterates through currentPlanes list and removes the plane
-	 * </p>
-	 * 
+	 * </p> 
 	 * @param toDelete
 	 *            the plane to remove
 	 */
@@ -414,6 +421,7 @@ public class Game {
 				plane2.setAlertStatus(true);
 				risk = true;
 				
+				// Applying score penalties for violating the penalty distance
 				if (penalty)
 				{
 					if (this.score >= 5 * this.multiplier)
@@ -441,6 +449,7 @@ public class Game {
 
 		plane1.setAlertStatus(risk);
 		result[1] = risk;
+		
 		for (Plane p : this.currentPlanes)
 		{
 			if (p.getAlertStatus())
