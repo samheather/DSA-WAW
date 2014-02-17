@@ -21,7 +21,7 @@ public class GameTests {
 	@Before
 	public void beforeTests() {
 
-		game = new Game(100, 100);
+		game = new Game(50, 100);
 		plane1 = new Plane(1, 500, 3000, 50, game);
 
 	}
@@ -59,7 +59,13 @@ public class GameTests {
 
 	@Test
 	public void testGetPlaneFromID() {
-		// can't test?
+		game.createPlane();
+		game.createPlane();
+		game.createPlane();
+		game.getCurrentPlanes().get(0).setID(100);
+		Plane plane = game.getPlaneFromID(100);
+		assertEquals(100, plane.getID(), 0);
+		
 	}
 
 	@Test
@@ -90,7 +96,42 @@ public class GameTests {
 		game.getCurrentPlanes().get(1).setAltitude(1000);
 		assertTrue(game.collision(game.getCurrentPlanes().get(0)));
 		
+		
 	}
+	
+	@Test
+	public void collsionTest2() {
+		game.createPlane();
+		game.createPlane();
+		game.getCurrentPlanes().get(0).setX(100);
+		game.getCurrentPlanes().get(0).setY(100);
+		game.getCurrentPlanes().get(0).setAltitude(1000);
+		game.getCurrentPlanes().get(1).setX(100);
+		game.getCurrentPlanes().get(1).setY(100);
+		game.getCurrentPlanes().get(1).setAltitude(1600);
+		assertFalse(game.collision(game.getCurrentPlanes().get(0)));
+		assertFalse(game.getCurrentPlanes().get(0).getAlertStatus());
+		assertFalse(game.getCurrentPlanes().get(1).getAlertStatus());
+		
+	}
+	
+	@Test
+	public void collsionTest3() {
+		game.createPlane();
+		game.createPlane();
+		game.getCurrentPlanes().get(0).setX(100);
+		game.getCurrentPlanes().get(0).setY(100);
+		game.getCurrentPlanes().get(0).setAltitude(1000);
+		game.getCurrentPlanes().get(1).setX(50);
+		game.getCurrentPlanes().get(1).setY(50);
+		game.getCurrentPlanes().get(1).setAltitude(1300);
+		assertFalse(game.collision(game.getCurrentPlanes().get(0)));
+		assertTrue(game.getCurrentPlanes().get(0).getAlertStatus());
+		assertTrue(game.getCurrentPlanes().get(1).getAlertStatus());
+		
+	}
+	
+
 
 	@Test
 	public void tenWaypointsTest() {
