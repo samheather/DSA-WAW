@@ -450,21 +450,16 @@ public class GameWindow extends BasicGameState {
 				// Sets to display +5/+10/etc above the passed waypoint
 				if (plane.getFlightPlan().getCurrentRoute().size() > 1)
 				{
-					if (plane.checkIfFlightAtWaypoint(plane.getFlightPlan()
-							.getCurrentRoute().get(0), this.currentGame))
-					{
+					if (plane.checkIfFlightAtWaypoint(plane.getFlightPlan().getCurrentRoute().get(0), this.currentGame)){
 						// If plane is at the runway, more points apply
-						if (plane.getFlightPlan().getCurrentRoute().get(0) == currentGame
-								.getAirport().getBeginningOfRunway())
+						if (plane.getFlightPlan().getCurrentRoute().get(0) == currentGame.getAirport().getEndOfRunway())
 						{
 							morePoints = true;
 						}
 						
 						// Saves the passed waypoint coordinates to know where to display the text
-						prevX = plane.getFlightPlan().getCurrentRoute().get(0)
-								.getX();
-						prevY = plane.getFlightPlan().getCurrentRoute().get(0)
-								.getY();
+						prevX = plane.getFlightPlan().getCurrentRoute().get(0).getX();
+						prevY = plane.getFlightPlan().getCurrentRoute().get(0).getY();
 						
 						// How long it should display the text for
 						synch = 100;
@@ -473,24 +468,15 @@ public class GameWindow extends BasicGameState {
 					// Renders the bonus points
 					if (display && synch > 0)
 					{
-						if (morePoints)
-						{
-							g.drawString(
-									"+"
-											+ Integer.toString(this
-													.getCurrentGame()
-													.getMultiplier() * 5),
-									(float) prevX - 8, (float) prevY - 30);
+						if (morePoints){
+							g.drawString("+" + Integer.toString(this.getCurrentGame().getMultiplier() * 10), (float) prevX - 8, (float) prevY - 30);
 							morePoints = synch <= 1 ? false : true;
 						}
-						else
-						{
-							g.drawString(
-									"+"
-											+ Integer.toString(this
-													.getCurrentGame()
-													.getMultiplier() * 5),
-									(float) prevX - 8, (float) prevY - 30);
+						else if (plane.getFlightPlan().getCurrentRoute().get(0).equals(currentGame.getAirport().getBeginningOfRunway())){
+							synch = 0;
+						}
+						else {
+							g.drawString("+" + Integer.toString(this.getCurrentGame().getMultiplier() * 5), (float) prevX - 8, (float) prevY - 30);
 						}
 						
 						synch--;
