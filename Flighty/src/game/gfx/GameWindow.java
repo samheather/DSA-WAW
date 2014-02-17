@@ -124,7 +124,6 @@ public class GameWindow extends BasicGameState {
 	 * @param altitude
 	 *            the altitude level to convert
 	 */
-
 	public void giveHeadingThroughMouse(Plane currentPlane, int x, int y)
 	{
 		this.currentGame.getCurrentPlane().setTurningLeft(false);
@@ -154,6 +153,7 @@ public class GameWindow extends BasicGameState {
 	public Plane selectFlight(int x, int y)
 	{
 		Plane nearestPlane;
+		
 		// Distance from where the user clicked to the nearest plane
 		double distanceToPlane;
 
@@ -180,7 +180,8 @@ public class GameWindow extends BasicGameState {
 											.get(i).getY(), 2));
 					nearestPlane = this.currentGame.getCurrentPlanes().get(i);
 				}
-
+				
+				// Checks if the nearest plane is close enough to be considered for picking
 				if (distanceToPlane <= 50)
 				{
 					if (nearestPlane.equals(this.currentGame.getCurrentPlane()))
@@ -198,6 +199,7 @@ public class GameWindow extends BasicGameState {
 				}
 			}
 		}
+		
 		return null;
 	}
 
@@ -293,7 +295,6 @@ public class GameWindow extends BasicGameState {
 		this.font = new TrueTypeFont(this.fontPrimitive, true);
 
 		// Initialise Waypoint Sound
-
 		checkpointSound = new Sound("resources/music/checkpointSound.ogg");
 
 	}
@@ -346,10 +347,6 @@ public class GameWindow extends BasicGameState {
 			this.currentGame.setSpawnRate(4);
 			this.currentGame.setSpawnCount(1);
 		}
-		else
-		{
-			// ERROR
-		}
 
 	}
 	/**
@@ -393,7 +390,6 @@ public class GameWindow extends BasicGameState {
 
 		if (!this.currentGame.isEnding())
 		{
-
 			// Drawing Pause Screen if in pause menu
 			if (currentGameContainer.isPaused())
 			{
@@ -447,7 +443,7 @@ public class GameWindow extends BasicGameState {
 
 			for (Plane plane : this.currentGame.getCurrentPlanes())
 			{
-				// Sets to display +5/+10/etc above the passed waypoint
+				// Sets to display the number of points gained above the passed waypoint
 				if (plane.getFlightPlan().getCurrentRoute().size() > 1)
 				{
 					if (plane.checkIfFlightAtWaypoint(plane.getFlightPlan()
@@ -468,6 +464,7 @@ public class GameWindow extends BasicGameState {
 						
 						// How long it should display the text for
 						synch = 100;
+						
 						display = true;
 					}
 					// Renders the bonus points
@@ -651,9 +648,6 @@ public class GameWindow extends BasicGameState {
 					g.drawString("Perfect Height!", (float) (plane.getX() - 5),
 							(float) (plane.getY() - 30));
 				}
-//////////////////////////Can we delete this?/////////////////////////////////////////
-				boolean testing = false;
-
 			}
 			
 			// Draws ExitPoints
@@ -668,14 +662,15 @@ public class GameWindow extends BasicGameState {
 							.indexOf(
 									this.currentGame.getListOfExitPoints().get(
 											i)) == 0)
-					{
+					{	//Draw the exitpoint when the selected flight has it as its next point in the plan
 						this.waypointNext.drawCentered((int) this.currentGame
 								.getListOfExitPoints().get(i).getX(),
 								(int) this.currentGame.getListOfExitPoints()
 								.get(i).getY());
 					}
 					else
-					{
+					{  
+						//Draw the exitpoint properly for the selected flight
 						this.waypointLast.drawCentered((int) this.currentGame
 								.getListOfExitPoints().get(i).getX(),
 								(int) this.currentGame.getListOfExitPoints()
@@ -683,7 +678,8 @@ public class GameWindow extends BasicGameState {
 					}
 				}
 				else
-				{
+				{	
+					//Draw the exitpoints normally if no plane is selected
 					this.waypointLast.drawCentered((int) this.currentGame
 							.getListOfExitPoints().get(i).getX(),
 							(int) this.currentGame.getListOfExitPoints().get(i)
@@ -745,10 +741,13 @@ public class GameWindow extends BasicGameState {
 			// Draw arrows on top of the waypoints to give clues about the flight plan
 			if (this.currentGame.getCurrentPlane() != null)
 			{
+				// Go through all the waypoints of the selected flight
 				for (int j = 0; j < this.currentGame.getCurrentPlane()
 						.getFlightPlan().getCurrentRoute().size() - 1; j++)
 				{
 					int headingToWaypoint;
+					
+					// Differences between X and Y coordinates of waypoints
 					double deltaY = this.currentGame.getCurrentPlane()
 							.getFlightPlan().getCurrentRoute().get(j + 1)
 							.getY()
@@ -761,8 +760,12 @@ public class GameWindow extends BasicGameState {
 							- this.currentGame.getCurrentPlane()
 									.getFlightPlan().getCurrentRoute().get(j)
 									.getX();
+					
+					// Find the orientation of the arrow
 					headingToWaypoint = (int) Math.round(Math.toDegrees(Math
 							.atan2(deltaY, deltaX)));
+					
+					// Draw rotated arrow
 					this.waypointArrow.setRotation(headingToWaypoint - 90);
 					this.waypointArrow.drawCentered((int) this.currentGame
 							.getCurrentPlane().getFlightPlan()
@@ -770,6 +773,8 @@ public class GameWindow extends BasicGameState {
 							(int) this.currentGame.getCurrentPlane()
 									.getFlightPlan().getCurrentRoute().get(j)
 									.getY());
+					
+					// Draw the arrows for the exit points properly so they do not go off screen
 					if(j == this.currentGame.getCurrentPlane()
 						.getFlightPlan().getCurrentRoute().size() - 2)
 					{
@@ -809,7 +814,6 @@ public class GameWindow extends BasicGameState {
 		this.playCheckpointSound();
 
 		// Drawing End Game Screen
-
 		if (this.currentGame.isCollision())
 		{
 			if (this.currentGame.isEnding())
@@ -892,9 +896,11 @@ public class GameWindow extends BasicGameState {
 		{
 			return;
 		}
-
+		
+		// Get mouse input
 		if (!this.currentGame.isEnding())
 		{
+			// Select plane by left clicking
 			if (button == 0)
 			{
 				Plane clickedPlane;
@@ -908,14 +914,15 @@ public class GameWindow extends BasicGameState {
 					}
 				}
 				
-				// this.currentGame.setCurrentPlane(null);
 				this.currentGame.setCurrentPlane(clickedPlane);
 			}
-
+			
+			// Give bearing by right clicking
 			else if (button == 1)
 			{
 				if (this.currentGame.getCurrentPlane() != null)
 				{
+					// Do not allow change of heading to airport planes
 					if (!currentGame.getCurrentPlane().isNeedsToTakeOff())
 					{
 						this.giveHeadingThroughMouse(
@@ -937,7 +944,7 @@ public class GameWindow extends BasicGameState {
 	 */
 	public void keyPressed(int key, char c)
 	{
-		// Handle game pausing
+		// Handle game pausing on p and space
 		if (key == 57 || key == 25)
 		{
 			if (this.currentGameContainer.isPaused())

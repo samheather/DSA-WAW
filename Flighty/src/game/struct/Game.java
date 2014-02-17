@@ -268,7 +268,7 @@ public class Game {
 			velocity = 1.2;
 			break;
 		case 2:
-			velocity = 1.4;
+			velocity = 1.3;
 			break;
 		default:
 			velocity = 1;
