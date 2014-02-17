@@ -150,9 +150,10 @@ public class Plane {
 		this.turningLeft 	= false;
 		this.turningRight 	= true;
 		
-		this.bearing += 1;
-		this.targetBearing = this.bearing;
+		this.bearing 		+= 1;
+		this.targetBearing 	 = this.bearing;
 		
+		// Resets the bearing if it is bigger than 360 degrees
 		if (bearing >= 360)
 		{
 			this.bearing 		= 0;
@@ -170,7 +171,7 @@ public class Plane {
 		
 		this.bearing 		-= 1;
 		this.targetBearing 	 = this.bearing; 
-		
+		// Resets the bearing if it is smaller than 0
 		if (bearing < 0)
 		{
 			this.bearing 		= 359;
@@ -223,7 +224,8 @@ public class Plane {
 		}
 	}
 	
-	/** Calculates bearing from plane's current position to its next waypoint */
+	/** Calculates bearing from plane's current position to its next waypoint 
+	 * This is done so planes follow their flight plan automatically */
 	public void calculateBearingToNextWaypoint()
 	{
 		double angle;
@@ -243,7 +245,9 @@ public class Plane {
 	/** Updates current bearing */
 	public void updateCurrentBearing()
 	{
+		// Rate at which the plane changes its bearing
 		double rate = 0.9;
+		
 		if (Math.round(this.targetBearing) <= Math.round(this.bearing) - 3 
 				|| Math.round(this.targetBearing) >= Math.round(this.bearing) + 3)
 		{
@@ -283,8 +287,8 @@ public class Plane {
 				}
 
 			}
+			
 			// If plane is already turning right or user has told it to turn right
-
 			if (this.turningRight == true)
 			{
 				this.bearing += rate;
@@ -297,7 +301,6 @@ public class Plane {
 			}
 
 			// If plane is already turning left or user has told it to turn left
-
 			if (this.turningLeft == true)
 			{
 				this.bearing -= rate;
@@ -423,7 +426,8 @@ public class Plane {
 	 * @param plane				the plane to move
 	 */
 	public void movePlane()
-	{ 	// If Plane is taking off, don't change the bearing
+	{ 	
+		// If Plane is taking off, don't change the bearing
 		if(this.altitude < 2000 && this.targetAltitude > 0 && !this.landing)
 		{
 			this.updateXYCoordinates();
@@ -433,7 +437,8 @@ public class Plane {
 			if(this.target != null)
 			{
 				if(!this.currentGame.getManualPlanes().contains(this))
-				{	// Get the angle to the next waypoint
+				{	
+					// Get the angle to the next waypoint
 					this.calculateBearingToNextWaypoint();
 					this.updateCurrentBearing();
 				}
