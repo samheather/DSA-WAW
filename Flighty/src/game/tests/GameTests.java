@@ -45,7 +45,7 @@ public class GameTests {
 	public void testGenerateVelocity() {
 		for (int i = 0; i < 200; i++) {
 			double velocity = this.game.generateVelocity();
-			assertTrue(velocity == 1 || velocity == 0.8 || velocity == 1.2);
+			assertTrue(velocity == 1 || velocity == 1.1 || velocity == 1.2);
 		}
 	}
 
@@ -76,6 +76,20 @@ public class GameTests {
 		this.game.getManualPlanes().add(plane1);
 		this.game.deleteFromManual(plane1);
 		assertFalse(this.game.getManualPlanes().contains(plane1));
+	}
+	
+	@Test
+	public void collsionTest1() {
+		game.createPlane();
+		game.createPlane();
+		game.getCurrentPlanes().get(0).setX(100);
+		game.getCurrentPlanes().get(0).setY(100);
+		game.getCurrentPlanes().get(0).setAltitude(1000);
+		game.getCurrentPlanes().get(1).setX(100);
+		game.getCurrentPlanes().get(1).setY(100);
+		game.getCurrentPlanes().get(1).setAltitude(1000);
+		assertTrue(game.collision(game.getCurrentPlanes().get(0)));
+		
 	}
 
 	@Test

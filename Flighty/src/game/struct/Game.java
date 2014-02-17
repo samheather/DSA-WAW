@@ -689,15 +689,34 @@ public class Game {
 				{
 					this.currentPlane = null;
 				}
+				
 				planesToRemove.add(plane);
 
 			}
 			else
 			{
+				
 				// Check if plane at waypoint
 				if (plane.checkIfFlightAtWaypoint(plane.getFlightPlan()
 						.getCurrentRoute().get(0), this))
 				{
+					
+					// Scoring more for exitpoints/airport
+					if (!plane.getFlightPlan().getCurrentRoute().isEmpty())
+					{
+						if (plane.getFlightPlan().getCurrentRoute().get(0) == this.getAirport().getEndOfRunway())
+						{
+							this.score += 10 * this.multiplier;
+						}
+						else if (plane.getFlightPlan().getCurrentRoute().get(0) == this.getAirport().getBeginningOfRunway())
+						{
+							this.score += 0;
+						}
+						else {
+							this.score += 5 * this.multiplier;
+						}
+					} 
+					
 					// Accommodates planes that are taking off 
 					if (plane.getFlightPlan().getCurrentRoute().get(0)
 							.equals(this.airport.getBeginningOfRunway())
@@ -743,19 +762,22 @@ public class Game {
 						}
 					}
 
+					/*
 					// Scoring more for exitpoints/airport
 					if (!plane.getFlightPlan().getCurrentRoute().isEmpty())
 					{
-						if (plane.getFlightPlan().getCurrentRoute().get(0) == this
-								.getAirport().getEndOfRunway())
+						if (plane.getFlightPlan().getCurrentRoute().get(0) == this.getAirport().getEndOfRunway())
 						{
 							this.score += 10 * this.multiplier;
 						}
-						else
+						else if (plane.getFlightPlan().getCurrentRoute().get(0) == this.getAirport().getBeginningOfRunway())
 						{
+							this.score += 0;
+						}
+						else {
 							this.score += 5 * this.multiplier;
 						}
-					}
+					} */
 				}
 			}
 
