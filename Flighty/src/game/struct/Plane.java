@@ -373,6 +373,7 @@ public class Plane {
 		this.needsToTakeOff = false;
 		this.takingOff 		= true;
 		
+		// Penalising stops because the plane has been commanded to take off
 		currentGame.setTakeOffPenalty(false);
 		
 		currentGame.setCurrentPlane(null);

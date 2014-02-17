@@ -781,13 +781,13 @@ public class Game {
 				}
 			}
 
-
+			// Applies penalty for planes landed for too long
 			if (plane.isNeedsToTakeOff())
 			{
 				if (this.takeOffSynch < 0)
 				{
 					this.takeOffPenalty = true;
-					this.takeOffSynch = 100;
+					this.takeOffSynch = 2000;
 				}
 				
 				this.takeOffSynch --;

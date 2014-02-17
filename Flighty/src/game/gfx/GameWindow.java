@@ -14,7 +14,6 @@ import org.newdawn.slick.state.StateBasedGame;
 import java.awt.Font;
 import java.io.InputStream;
 import java.util.ArrayList;
-
 import game.struct.Game;
 import game.struct.Plane;
 
@@ -105,18 +104,20 @@ public class GameWindow extends BasicGameState {
 	/** Whether it should display more points for some points (e.g. airport) **/
 	boolean morePoints = false;
 
-	/** How long the extrapoints should be displayed for **/
+	/** Boolean to help with displaying extra points above the waypoints**/
 	double synch = 100;
 
-	
+	/** Boolean to help with timing the penalties for not taking off penalty **/
 	double synchTakeOff = 2000;
+	
+	/** Boolean to make sure the points aren't reduce multiple times**/
+	boolean reducePoints = true;	
 	
 	/** Coordinates of last waypoint passed **/
 	double prevX;
 	double prevY;
 
 	/** Sound used for indicating that current flight has gone through waypoint **/
-
 	Sound checkpointSound;
 
 	// Other methods (<- locator TODO)
@@ -487,22 +488,43 @@ public class GameWindow extends BasicGameState {
 					}
 				}
 				
-				//Render the text for penalising delayed taking offs
+				// Plane has been landed for too long, and the user is prompted to take it off 
 				if (currentGame.isTakeOffPenalty())
-				{
-					g.drawString("Take me off", 1120, 540);
+				{	
+					// Alert message to inform the user that the plane should be taken off
+					g.drawString("Take me off", 1122, 555);
 					synchTakeOff--;
 					
+					// Points deduced from the user if the plane is still landed
 					if (synchTakeOff < 700)
 					{
-						g.drawString("-10", 1150, 560);
+						g.setColor(Color.red);
+						g.drawString("-10", 1150, 570);
+						g.setColor(Color.white);
+						
+						if (reducePoints)
+						{
+							if (currentGame.getScore() > 10)
+							{
+								currentGame.setScore(currentGame.getScore() - 10);
+							}
+							else
+							{
+								currentGame.setScore(0);
+							
+							}
+							// Don't reduce more points for the same penalty
+							reducePoints = false;
+						}
+						
 						synchTakeOff--;
 						
+						// Counter for reducing points restarted 
 						if (synchTakeOff < 0)
 						{
+							reducePoints = true;
 							synchTakeOff = 3000;
 						}
-						//currentGame.setScore(currentGame.getScore() - 10);
 					}
 				}
 				
@@ -657,9 +679,8 @@ public class GameWindow extends BasicGameState {
 							(float) (plane.getY() - 30));
 				}
 				
-				else if (plane.isNeedsToTakeOff()){
-					g.drawString("'T' to Takeoff!", (float) (plane.getX() - 57),
-							(float) (plane.getY() - 25));
+				else if (plane.isNeedsToTakeOff() && (!currentGame.isTakeOffPenalty())){
+					g.drawString("'T' to Takeoff!", 1115, 555);
 				}
 			}
 			
