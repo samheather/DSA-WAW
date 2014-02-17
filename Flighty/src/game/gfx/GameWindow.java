@@ -5,6 +5,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
@@ -14,6 +15,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import java.awt.Font;
 import java.io.InputStream;
 import java.util.ArrayList;
+
 import game.struct.Game;
 import game.struct.Plane;
 
@@ -110,13 +112,13 @@ public class GameWindow extends BasicGameState {
 	/** Whether it should display more points for some points (e.g. airport) **/
 	boolean morePoints = false;
 
-	/** Boolean to help with displaying extra points above the waypoints**/
+	/** How long should the waypoints display **/
 	double synch = WAYPOINTS_DISPLAY_TIME;
 
-	/** Boolean to help with timing the penalties for not taking off penalty **/
+	/** How often should the user be penalised for not taking off **/
 	double synchTakeOff = TAKE_OFF_PENALTY_TIME;
 	
-	/** Boolean to make sure the points aren't reduce multiple times**/
+	/** Boolean to make sure the points aren't reduce multiple times **/
 	boolean reducePoints = true;	
 	
 	/** Coordinates of last waypoint passed **/
@@ -125,8 +127,10 @@ public class GameWindow extends BasicGameState {
 
 	/** Sound used for indicating that current flight has gone through waypoint **/
 	Sound checkpointSound;
+	
+	/** Background music **/
+	Music gameMusic;
 
-	// Other methods (<- locator TODO)
 
 	/**
 	 * Converts an altitude level to a height
@@ -306,6 +310,10 @@ public class GameWindow extends BasicGameState {
 
 		// Initialise Waypoint Sound
 		checkpointSound = new Sound("resources/music/checkpointSound.ogg");
+		
+		// Initialise music
+		gameMusic = new Music("resources/music/Galavanting_Through_Low_Rez_Forests.ogg");
+		gameMusic.loop();
 
 	}
 
@@ -390,7 +398,6 @@ public class GameWindow extends BasicGameState {
 	public void render(GameContainer gameContainer, StateBasedGame game,
 			Graphics g)
 	{
-
 		// Draw the game map
 		this.map.draw(0, 0, this.windowWidth, this.windowHeight);
 
@@ -424,9 +431,14 @@ public class GameWindow extends BasicGameState {
 								"Take off a plane by selecting an airport plane and pressing T");
 
 				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-						.drawString(this.getWindowWidth() / 2 - 30 - 50,
+						.drawString(this.getWindowWidth() / 2 - 30 - 80,
 								this.getWindowHeight() / 2 + 70,
-								"Press p to unpause");
+								"Press S to turn music on/off");
+				
+				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
+						.drawString(this.getWindowWidth() / 2 - 30 - 50,
+								this.getWindowHeight() / 2 + 100,
+								"Press P to unpause");
 			}
 
 			// Display the Game Information
@@ -450,7 +462,7 @@ public class GameWindow extends BasicGameState {
 					1050, 55);
 			g.drawString("Pause/Controls: P ",
 					1050, 75);
-
+		
 			for (Plane plane : this.currentGame.getCurrentPlanes())
 			{
 				// Sets to display the number of points gained above the passed waypoint
@@ -987,7 +999,7 @@ public class GameWindow extends BasicGameState {
 	{
 		// Handle game pausing on p and space
 		if (key == 57 || key == 25)
-		{
+		{	
 			if (this.currentGameContainer.isPaused())
 			{
 				this.currentGameContainer.resume();
@@ -996,6 +1008,18 @@ public class GameWindow extends BasicGameState {
 			{
 				this.currentGameContainer.pause();
 			}
+		}
+		
+		// Handle music options
+		if (((c == 's') || (c == 'S')) 
+				&& (gameMusic.playing()))
+		{
+			gameMusic.pause();
+		}
+		else if (((c == 's') || (c == 'S')) 
+				&& (!gameMusic.playing()))
+		{
+			gameMusic.play();
 		}
 	}
 
