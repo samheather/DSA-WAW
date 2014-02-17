@@ -265,10 +265,10 @@ public class Game {
 			velocity = 1;
 			break;
 		case 1:
-			velocity = 1.2;
+			velocity = 1.1;
 			break;
 		case 2:
-			velocity = 1.3;
+			velocity = 1.2;
 			break;
 		default:
 			velocity = 1;
