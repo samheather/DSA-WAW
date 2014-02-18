@@ -581,7 +581,7 @@ public class Game {
 					&& gameContainer.hasFocus())
 		{
 			// Create planes
-			if (this.countToNextPlane <= 0)
+			if (this.countToNextPlane <= 1)
 			{
 				for (int i = 0; i < this.spawnCount; i++)
 				{
