@@ -454,11 +454,11 @@ public class GameWindow extends BasicGameState {
 					1050, 15);
 			g.drawString(
 					"Score : "
-					+ ((int) (this.currentGame.getScore()))
+					+ ((int) (this.currentGame.getScore().getScore()))
 					+ " pts", 1050, 35);
 			g.drawString(
 					"Multiplier :"
-					+ ((int) (this.currentGame.getMultiplier())),
+					+ ((int) (this.currentGame.getScore().getMultiplier())),
 					1050, 55);
 			g.drawString("Pause/Controls: P ",
 					1050, 75);
@@ -489,14 +489,14 @@ public class GameWindow extends BasicGameState {
 					if (display && synch > 0)
 					{
 						if (morePoints){
-							g.drawString("+" + Integer.toString(this.getCurrentGame().getMultiplier() * 10), (float) prevX - 8, (float) prevY - 30);
+							g.drawString("+" + Integer.toString(this.getCurrentGame().getScore().getMultiplier() * 10), (float) prevX - 8, (float) prevY - 30);
 							morePoints = synch <= 1 ? false : true;
 						}
 						else if (plane.getFlightPlan().getCurrentRoute().get(0).equals(currentGame.getAirport().getBeginningOfRunway())){
 							synch = 0;
 						}
 						else {
-							g.drawString("+" + Integer.toString(this.getCurrentGame().getMultiplier() * 5), (float) prevX - 8, (float) prevY - 30);
+							g.drawString("+" + Integer.toString(this.getCurrentGame().getScore().getMultiplier() * 5), (float) prevX - 8, (float) prevY - 30);
 						}
 						
 						synch--;
@@ -518,20 +518,12 @@ public class GameWindow extends BasicGameState {
 					if (synchTakeOff < TAKE_OFF_PENALTY_TIME / 5)
 					{
 						g.setColor(Color.red);
-						g.drawString("-" + 10 * currentGame.getMultiplier() , 1150, 570);
+						g.drawString("-" + 10 * currentGame.getScore().getMultiplier() , 1150, 570);
 						g.setColor(Color.white);
 						
 						if (reducePoints)
 						{
-							if (currentGame.getScore() > 10 * currentGame.getMultiplier())
-							{
-								currentGame.setScore(currentGame.getScore() - 10 * currentGame.getMultiplier());
-							}
-							else
-							{
-								currentGame.setScore(0);
-							
-							}
+							currentGame.getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
 							// Don't reduce more points for the same penalty
 							reducePoints = false;
 						}
@@ -886,7 +878,7 @@ public class GameWindow extends BasicGameState {
 						.drawString(300f, 200f, "That didn't end well...");
 				new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
 						.drawString(470f, 260f, "Score: "
-								+ (int) this.currentGame.getScore());
+								+ (int) this.currentGame.getScore().getScore());
 				new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
 						.drawString(
 								450f,

@@ -38,9 +38,6 @@ public class Game {
 	/** Distance at which planes crash */
 	private int separationDistance;
 
-	/** Score multiplier */
-	private int multiplier;
-
 	/** Distance at which warning ring around appears */
 	private int penaltyDistance;
 
@@ -55,9 +52,6 @@ public class Game {
 
 	/** The height the game is displayed at */
 	public int windowHeight;
-
-	/** The player's score */
-	private double score;
 
 	/** Whether the player should be penalised **/
 	private boolean penalty;
@@ -103,6 +97,9 @@ public class Game {
 
 	/** Holds airport in airspace */
 	private Airport airport;
+	
+	/** Variable which holds score */
+	private Score score;
 
 	// Constructors
 
@@ -134,18 +131,12 @@ public class Game {
 		this.listOfWaypoints 			= new ArrayList<Waypoint>();
 		this.listOfEntryPoints 			= new ArrayList<Point>();
 		
-		// Score is initialised to 0
-		this.score 						= 0;
-		
 		// Whether score penalties apply
 		this.penalty 					= true;
 		
 		// Penalty for not taking off the planes in time
 		this.takeOffPenalty = false;
 		this.takeOffSynch = TAKE_OFF_PENALTY_TIME;
-		
-		// Multiplier 
-		this.multiplier = 1;
 		
 		// New plane added shortly after startup
 		this.countToNextPlane			= 0;
@@ -186,6 +177,9 @@ public class Game {
 		this.listOfExitPoints.add(new ExitPoint( 800,   0));
 		this.listOfExitPoints.add(new ExitPoint(   0, 200));
 		this.listOfExitPoints.add(new ExitPoint(1200, 300));
+		
+		// Initialise score
+		this.score = new Score();
 	}
 
 	// METHODS
@@ -437,22 +431,7 @@ public class Game {
 				// Applying score penalties for violating the penalty distance
 				if (penalty)
 				{
-					if (this.score >= 5 * this.multiplier)
-					{
-						this.score -= 5 * this.multiplier;
-						if (this.multiplier > 1)
-						{
-							this.multiplier--;
-						}
-					}
-					else
-					{
-						this.score = 0;
-						if (this.multiplier > 1)
-						{
-							this.multiplier--;
-						}
-					}
+					this.getScore().planeCollisionWarningMultAndScorePenalties();
 					
 					penalty = false;
 					plane2.setViolationOccurred();
@@ -638,14 +617,7 @@ public class Game {
 							|| (plane.getY() > this.windowHeight) || (plane.getY() < 0)))
 			{
 				// Updates score if plane in game area
-				if (this.score >= 10 * this.multiplier)
-				{
-					this.score -= 10 * this.multiplier;
-				}
-				else
-				{
-					this.score = 0;
-				}
+				this.getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
 
 				// Deselects plane that left the airspace
 				if (this.currentPlane != null)
@@ -676,16 +648,7 @@ public class Game {
 			 */
 			if (plane.getFlightPlan().getCurrentRoute().size() == 0)
 			{
-				if (plane.getViolationOccurred() == false
-							&& this.multiplier < 20)
-				{
-					this.multiplier++;
-				}
-				else if (plane.getViolationOccurred() == true
-								&& this.multiplier > 1)
-				{
-					this.multiplier--;
-				}
+				this.getScore().planePilotedPerfectlyMultiplierBonus(plane);
 
 				if (this.currentPlane != null 
 						&& plane.equals(this.currentPlane))
@@ -704,21 +667,9 @@ public class Game {
 						.getCurrentRoute().get(0), this))
 				{
 					
-					// Scoring more for exitpoints/airport
-					if (!plane.getFlightPlan().getCurrentRoute().isEmpty())
-					{
-						if (plane.getFlightPlan().getCurrentRoute().get(0) == this.getAirport().getEndOfRunway())
-						{
-							this.score += 10 * this.multiplier;
-						}
-						else if (plane.getFlightPlan().getCurrentRoute().get(0) == this.getAirport().getBeginningOfRunway())
-						{
-							this.score += 0;
-						}
-						else {
-							this.score += 5 * this.multiplier;
-						}
-					} 
+					// REFACTOR
+					this.getScore().addScore(plane, this);
+					
 					
 					// Accommodates planes that are taking off 
 					if (plane.getFlightPlan().getCurrentRoute().get(0)
@@ -765,22 +716,6 @@ public class Game {
 						}
 					}
 
-					/*
-					// Scoring more for exitpoints/airport
-					if (!plane.getFlightPlan().getCurrentRoute().isEmpty())
-					{
-						if (plane.getFlightPlan().getCurrentRoute().get(0) == this.getAirport().getEndOfRunway())
-						{
-							this.score += 10 * this.multiplier;
-						}
-						else if (plane.getFlightPlan().getCurrentRoute().get(0) == this.getAirport().getBeginningOfRunway())
-						{
-							this.score += 0;
-						}
-						else {
-							this.score += 5 * this.multiplier;
-						}
-					} */
 				}
 			}
 
@@ -812,17 +747,13 @@ public class Game {
 	}
 
 	// GETTERS
+	
+	public Score getScore(){
+		return this.score;
+	}
 
 	public void setTakeOffPenalty(boolean takeOffPenalty) {
 		this.takeOffPenalty = takeOffPenalty;
-	}
-
-	/**
-	 * @return multiplier
-	 */
-	public int getMultiplier()
-	{
-		return this.multiplier;
 	}
 
 	public boolean isTakeOffPenalty() {
@@ -835,23 +766,6 @@ public class Game {
 	public int getSeparationDistance()
 	{
 		return this.separationDistance;
-	}
-
-	/**
-	 * @return Score
-	 */
-	public double getScore()
-	{
-		return score;
-	}
-
-	/**
-	 * @param score
-	 *            Score to set
-	 */
-	public void setScore(double score)
-	{
-		this.score = score;
 	}
 
 	/**
