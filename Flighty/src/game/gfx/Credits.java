@@ -25,59 +25,7 @@ public class Credits extends GenericWindow
 	/** The shaded arrow icon */
 	private Image arrowIconShaded;
 	
-	// Accessors
-	/**
-	 * @return				the background image
-	 */
-	public Image getBackgroundImage()
-	{
-		return this.backgroundImage;
-	}
 	
-	/**
-	 * @return				the arrow icon
-	 */
-	public Image getArrowIcon()
-	{
-		return this.arrowIcon;
-	}
-	
-	/**
-	 * @return				the shaded arrow icon
-	 */
-	public Image getArrowIconShaded()
-	{
-		return this.arrowIconShaded;
-	}
-	
-	
-	// Mutators
-	/**
-	 * @param backgroundImage		the new background image
-	 */
-	public void setBackgroundImage(Image backgroundImage)
-	{
-		this.backgroundImage = backgroundImage;
-	}
-	
-	/**
-	 * @param arrowIcon		the new arrow icon
-	 */
-	public void setArrowIcon(Image arrowIcon)
-	{
-		this.arrowIcon = arrowIcon;
-	}
-	
-	/**
-	 * @param shadedArrowIcon	the new shaded arrow icon
-	 */
-	public void setArrowIconShaded(Image shadedArrowIcon)
-	{
-		this.arrowIconShaded = arrowIcon;
-	}
-	
-	
-	// Other methods
 	/**
 	 * Monitors the mouse position and state
 	 * <p>
@@ -228,5 +176,57 @@ public class Credits extends GenericWindow
 	public int getID()
 	{
 		return WindowManager.CREDITS_STATE;
+	}
+
+	
+	// Accessors
+	/**
+	 * @return				the background image
+	 */
+	public Image getBackgroundImage()
+	{
+		return this.backgroundImage;
+	}
+	
+	/**
+	 * @return				the arrow icon
+	 */
+	public Image getArrowIcon()
+	{
+		return this.arrowIcon;
+	}
+	
+	/**
+	 * @return				the shaded arrow icon
+	 */
+	public Image getArrowIconShaded()
+	{
+		return this.arrowIconShaded;
+	}
+	
+	
+	// Mutators
+	/**
+	 * @param backgroundImage		the new background image
+	 */
+	public void setBackgroundImage(Image backgroundImage)
+	{
+		this.backgroundImage = backgroundImage;
+	}
+	
+	/**
+	 * @param arrowIcon		the new arrow icon
+	 */
+	public void setArrowIcon(Image arrowIcon)
+	{
+		this.arrowIcon = arrowIcon;
+	}
+	
+	/**
+	 * @param shadedArrowIcon	the new shaded arrow icon
+	 */
+	public void setArrowIconShaded(Image shadedArrowIcon)
+	{
+		this.arrowIconShaded = arrowIcon;
 	}
 }

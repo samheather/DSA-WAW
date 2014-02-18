@@ -34,59 +34,6 @@ public abstract class GenericWindow extends BasicGameState {
 	protected TrueTypeFont titleFont;
 	
 	
-	// Accessors
-	/**
-	 * @return				the base font
-	 */
-	public Font getFontPrimitive()
-	{
-		return this.fontPrimitive;
-	}
-	
-	/**
-	 * @return				the normal font
-	 */
-	public TrueTypeFont getFont()
-	{
-		return this.font;
-	}
-	
-	/**
-	 * @return				the title font
-	 */
-	public TrueTypeFont getTitleFont()
-	{
-		return this.titleFont;
-	}
-	
-	
-	// Mutators
-	/**
-	 * @param fontPrimitive	the new base font
-	 */
-	public void setFontPrimitive(Font fontPrimitive)
-	{
-		this.fontPrimitive = fontPrimitive;
-	}
-	
-	/**
-	 * @param font			the new normal font derivative
-	 */
-	public void setFont(TrueTypeFont font)
-	{
-		this.font = font;
-	}
-	
-	/**
-	 * @param titleFont		the new title font derivative
-	 */
-	public void setTitleFont(TrueTypeFont titleFont)
-	{
-		this.titleFont = titleFont;
-	}
-	
-	
-	// Other methods
 	/**
 	 * Draws the text specified with a black shadow
 	 * 
@@ -203,6 +150,57 @@ public abstract class GenericWindow extends BasicGameState {
 	public int getID()
 	{
 		return 0;
+	}
+	
+	// Accessors
+	/**
+	 * @return				the base font
+	 */
+	public Font getFontPrimitive()
+	{
+		return this.fontPrimitive;
+	}
+	
+	/**
+	 * @return				the normal font
+	 */
+	public TrueTypeFont getFont()
+	{
+		return this.font;
+	}
+	
+	/**
+	 * @return				the title font
+	 */
+	public TrueTypeFont getTitleFont()
+	{
+		return this.titleFont;
+	}
+	
+	
+	// Mutators
+	/**
+	 * @param fontPrimitive	the new base font
+	 */
+	public void setFontPrimitive(Font fontPrimitive)
+	{
+		this.fontPrimitive = fontPrimitive;
+	}
+	
+	/**
+	 * @param font			the new normal font derivative
+	 */
+	public void setFont(TrueTypeFont font)
+	{
+		this.font = font;
+	}
+	
+	/**
+	 * @param titleFont		the new title font derivative
+	 */
+	public void setTitleFont(TrueTypeFont titleFont)
+	{
+		this.titleFont = titleFont;
 	}
 }
 

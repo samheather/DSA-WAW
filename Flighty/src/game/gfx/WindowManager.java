@@ -127,60 +127,6 @@ public class WindowManager extends StateBasedGame
 		this.addState(new Controls());
 	}
 	
-	
-	// Accessors
-	/**
-	 * @return				the level currently being played
-	 */
-	public int getCurrentLevel()
-	{
-		return this.currentLevel;
-	}
-	
-	/**
-	 * @return				the progress of the background image
-	 */
-	public double getSkyProgress()
-	{
-		return this.skyProgress;
-	}
-	
-	/**
-	 * @return				the progress of the title plane
-	 */
-	public double getPlaneProgress()
-	{
-		return this.planeProgress;
-	}
-	
-	
-	// Mutators
-	/**
-	 * @param currentLevel	the level to enter
-	 */
-	public void setCurrentLevel(int currentLevel)
-	{
-		this.currentLevel = currentLevel;
-	}
-	
-	/**
-	 * @param skyProgress	the updated progress of the background image
-	 */
-	public void setSkyProgress(double skyProgress)
-	{
-		this.skyProgress = skyProgress;
-	}
-	
-	/**
-	 * @param planeProgress	the updated progress of the title plane
-	 */
-	public void setPlaneProgress(double planeProgress)
-	{
-		this.planeProgress = planeProgress;
-	}
-	
-	
-	// Other methods
 	/**
 	 * Used to load application icons
 	 * <p>
@@ -267,5 +213,56 @@ public class WindowManager extends StateBasedGame
 		} 
 		
 		return false;
+	}
+	
+	// Accessors
+	/**
+	 * @return				the level currently being played
+	 */
+	public int getCurrentLevel()
+	{
+		return this.currentLevel;
+	}
+	
+	/**
+	 * @return				the progress of the background image
+	 */
+	public double getSkyProgress()
+	{
+		return this.skyProgress;
+	}
+	
+	/**
+	 * @return				the progress of the title plane
+	 */
+	public double getPlaneProgress()
+	{
+		return this.planeProgress;
+	}
+	
+	
+	// Mutators
+	/**
+	 * @param currentLevel	the level to enter
+	 */
+	public void setCurrentLevel(int currentLevel)
+	{
+		this.currentLevel = currentLevel;
+	}
+	
+	/**
+	 * @param skyProgress	the updated progress of the background image
+	 */
+	public void setSkyProgress(double skyProgress)
+	{
+		this.skyProgress = skyProgress;
+	}
+	
+	/**
+	 * @param planeProgress	the updated progress of the title plane
+	 */
+	public void setPlaneProgress(double planeProgress)
+	{
+		this.planeProgress = planeProgress;
 	}
 }

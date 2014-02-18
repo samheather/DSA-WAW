@@ -38,129 +38,6 @@ public class LevelSelect extends GenericWindow {
 	/** The shaded arrow icon */
 	private Image arrowIconShaded;
 	
-
-	// Accessors
-	/**
-	 * @return			The background image
-	 */
-	public Image getBackgroundImage()
-	{
-		return this.backgroundImage;
-	}
-	
-	/**
-	 * @return				image used for level 1 preview
-	 */
-	public Image getLevel1Image()
-	{
-		return this.level1Image;
-	}
-	
-	/**
-	 * @return				image used for level 1 preview
-	 * 						(when hovered over)
-	 */
-	public Image getLevel1ImageHover()
-	{
-		return this.level1ImageHover;
-	}
-	
-	/**
-	 * @return				image used for level 2 preview
-	 */
-	public Image getLevel2Image()
-	{
-		return this.level2Image;
-	}
-	
-	/**
-	 * @return				image used for level 2 preview
-	 * 						(when hovered over)
-	 */
-	public Image getLevel2ImageHover()
-	{
-		return this.level2ImageHover;
-	}
-	
-	/**
-	 * @return				the arrow icon
-	 */
-	public Image getArrowIcon()
-	{
-		return this.arrowIcon;
-	}
-	
-	/**
-	 * @return				the shaded arrow icon
-	 */
-	public Image getArrowIconShaded()
-	{
-		return this.arrowIconShaded;
-	}
-	
-	
-	// Mutators
-	/**
-	 * @param backgroundImage	the new background image
-	 */
-	public void setBackgroundImage(Image backgroundImage)
-	{
-		this.backgroundImage = backgroundImage;
-	}
-	
-	/**
-	 * @param level1Image		the new image to use for level 1 preview
-	 */
-	public void setLevel1Image(Image level1Image)
-	{
-		this.level1Image = level1Image;
-	}
-	
-	/**
-	/**
-	 * @param level1ImageHover	the new image to use for level 1 preview
-	 * 							(when hovered over)
-	 */
-	public void setLevel1ImageHover(Image level1ImageHover)
-	{
-		this.level1ImageHover = level1ImageHover;
-	}
-	
-	/**
-	 * @param level2Image	the new image to use for level 2 preview
-	 */
-	public void setLevel2Image(Image level2Image)
-	{
-		this.level2Image = level2Image;
-	}
-	
-	/**
-	 * @param level2ImageHover	the new image to use for level 2 preview
-	 * 							(when hovered over)
-	 */
-	public void setLevel2ImageHover(Image level2ImageHover)
-	{
-		this.level2ImageHover = level2ImageHover;
-	}
-	
-	/**
-	 * @param arrowIcon		the arrow icon
-	 */
-	public void setArrowIcon(Image arrowIcon)
-	{
-		this.arrowIcon = arrowIcon;
-	}
-	
-	/**
-	 * @param arrowIconShaded	the shaded arrow icon
-	 */
-	public void setArrowIconShaded(Image arrowIconShaded)
-	{
-		this.arrowIconShaded = arrowIconShaded;
-	}
-	
-	
-	// Other methods
 	/**
 	 * Monitors the mouse position and state
 	 * <p>
@@ -395,5 +272,125 @@ public class LevelSelect extends GenericWindow {
 	public int getID()
 	{
 		return WindowManager.LEVEL_SELECT_STATE;
+	}
+
+	// Accessors
+	/**
+	 * @return			The background image
+	 */
+	public Image getBackgroundImage()
+	{
+		return this.backgroundImage;
+	}
+	
+	/**
+	 * @return				image used for level 1 preview
+	 */
+	public Image getLevel1Image()
+	{
+		return this.level1Image;
+	}
+	
+	/**
+	 * @return				image used for level 1 preview
+	 * 						(when hovered over)
+	 */
+	public Image getLevel1ImageHover()
+	{
+		return this.level1ImageHover;
+	}
+	
+	/**
+	 * @return				image used for level 2 preview
+	 */
+	public Image getLevel2Image()
+	{
+		return this.level2Image;
+	}
+	
+	/**
+	 * @return				image used for level 2 preview
+	 * 						(when hovered over)
+	 */
+	public Image getLevel2ImageHover()
+	{
+		return this.level2ImageHover;
+	}
+	
+	/**
+	 * @return				the arrow icon
+	 */
+	public Image getArrowIcon()
+	{
+		return this.arrowIcon;
+	}
+	
+	/**
+	 * @return				the shaded arrow icon
+	 */
+	public Image getArrowIconShaded()
+	{
+		return this.arrowIconShaded;
+	}
+	
+	
+	// Mutators
+	/**
+	 * @param backgroundImage	the new background image
+	 */
+	public void setBackgroundImage(Image backgroundImage)
+	{
+		this.backgroundImage = backgroundImage;
+	}
+	
+	/**
+	 * @param level1Image		the new image to use for level 1 preview
+	 */
+	public void setLevel1Image(Image level1Image)
+	{
+		this.level1Image = level1Image;
+	}
+	
+	/**
+	/**
+	 * @param level1ImageHover	the new image to use for level 1 preview
+	 * 							(when hovered over)
+	 */
+	public void setLevel1ImageHover(Image level1ImageHover)
+	{
+		this.level1ImageHover = level1ImageHover;
+	}
+	
+	/**
+	 * @param level2Image	the new image to use for level 2 preview
+	 */
+	public void setLevel2Image(Image level2Image)
+	{
+		this.level2Image = level2Image;
+	}
+	
+	/**
+	 * @param level2ImageHover	the new image to use for level 2 preview
+	 * 							(when hovered over)
+	 */
+	public void setLevel2ImageHover(Image level2ImageHover)
+	{
+		this.level2ImageHover = level2ImageHover;
+	}
+	
+	/**
+	 * @param arrowIcon		the arrow icon
+	 */
+	public void setArrowIcon(Image arrowIcon)
+	{
+		this.arrowIcon = arrowIcon;
+	}
+	
+	/**
+	 * @param arrowIconShaded	the shaded arrow icon
+	 */
+	public void setArrowIconShaded(Image arrowIconShaded)
+	{
+		this.arrowIconShaded = arrowIconShaded;
 	}
 }
