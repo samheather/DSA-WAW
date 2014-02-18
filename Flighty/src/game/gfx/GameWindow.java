@@ -857,6 +857,44 @@ public class GameWindow extends BasicGameState {
 		}
 
 		this.playCheckpointSound();
+		
+		if (!this.currentGame.isEnding())
+		{
+			// Drawing Pause Screen if in pause menu.
+			if (currentGameContainer.isPaused())
+			{
+				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
+						.drawString(this.getWindowWidth() / 2 - 30,
+								this.getWindowHeight() / 2 - 100, "PAUSE");
+				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
+						.drawString(this.getWindowWidth() / 2 - 30 - 200,
+								this.getWindowHeight() / 2 - 65,
+								"Steer a plane by selecting it and using the key arrows/ right click");
+				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
+						.drawString(this.getWindowWidth() / 2 - 30 - 190,
+								this.getWindowHeight() / 2 - 25,
+								"Land a plane by lowering it to 2000ft when it needs to land");
+				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
+						.drawString(this.getWindowWidth() / 2 - 30 - 130,
+								this.getWindowHeight() / 2 - 5,
+								"and pressing L when in the airport zone");
+				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
+						.drawString(this.getWindowWidth() / 2 - 30 - 190,
+								this.getWindowHeight() / 2 + 35,
+								"Take off a plane by selecting an airport plane and pressing T");
+
+				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
+						.drawString(this.getWindowWidth() / 2 - 30 - 80,
+								this.getWindowHeight() / 2 + 70,
+								"Press S to turn music on/off");
+				
+				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
+						.drawString(this.getWindowWidth() / 2 - 30 - 50,
+								this.getWindowHeight() / 2 + 100,
+								"Press P to unpause");
+			}
+			
+		}
 
 		// Drawing End Game Screen
 		if (this.currentGame.isCollision())
@@ -1014,7 +1052,7 @@ public class GameWindow extends BasicGameState {
 		else if (((c == 's') || (c == 'S')) 
 				&& (!gameMusic.playing()))
 		{
-			gameMusic.play();
+			gameMusic.loop();
 		}
 	}
 
@@ -1035,7 +1073,7 @@ public class GameWindow extends BasicGameState {
 	public void leave(GameContainer gameContainer, StateBasedGame game)
 			throws SlickException
 	{
-
+		this.currentGameContainer.resume();
 		this.currentGame.setCollision(true);
 		this.currentGame.setEnding(true);
 
@@ -1043,6 +1081,7 @@ public class GameWindow extends BasicGameState {
 		this.currentGame.setCollidedPlanes(new ArrayList<Plane>());
 
 		this.currentGame.setCurrentPlane(null);
+		
 	}
 
 	/**
