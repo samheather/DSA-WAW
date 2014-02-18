@@ -860,7 +860,7 @@ public class GameWindow extends BasicGameState {
 		
 		if (!this.currentGame.isEnding())
 		{
-			// Drawing Pause Screen if in pause menu
+			// Drawing Pause Screen if in pause menu.
 			if (currentGameContainer.isPaused())
 			{
 				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
