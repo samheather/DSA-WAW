@@ -177,8 +177,38 @@ public class ScoreTests {
 		// Testing of values
 		assertTrue(game.getScore().getScore() == 0 && game.getScore().getMultiplier() == 1);
 		
+		/*
+		 * Testing - Current score = 15;
+		 * 		   - Current multiplier = 2;
+		 */
 		
+		// Set current score = 15;
+		game.getScore().setScore(15);
 		
+		// Set current multiplier = 2;
+		game.getScore().setMultiplier(2);
 		
-		}
+		// Run planeCollisionWarningMultAndScorePenalties
+		game.getScore().planeCollisionWarningMultAndScorePenalties();
+		
+		// Testing of values
+		assertTrue(game.getScore().getScore() == 5 && game.getScore().getMultiplier() == 1);
+		
+		/*
+		 * Testing - Current score = 0;
+		 * 		   - Current multiplier = 1;
+		 */
+		
+		// Set current score = 0;
+		game.getScore().setScore(0);
+				
+		// Set current multiplier = 1;
+		game.getScore().setMultiplier(1);
+				
+		// Run planeCollisionWarningMultAndScorePenalties
+		game.getScore().planeCollisionWarningMultAndScorePenalties();
+				
+		// Testing of values
+		assertTrue(game.getScore().getScore() == 0 && game.getScore().getMultiplier() == 1);
+	}
 }
