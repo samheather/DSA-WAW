@@ -11,6 +11,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({FlightPlanTests.class,
 						PlaneTests.class,
 						GameTests.class,
+						ScoreTests.class
 						
 						})
 public class AllTests {

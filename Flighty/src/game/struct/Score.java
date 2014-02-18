@@ -120,10 +120,26 @@ public class Score {
 	}
 	
 	/**
+	 * Used in testing
+	 * @param newScore What score is to be set as
+	 */
+	public void setScore(int newScore){
+		this.score = newScore;
+	}
+	
+	/**
 	 * 
 	 * @return Current multiplier value
 	 */
 	public int getMultiplier(){
 		return this.multiplier;
+	}
+	
+	/**
+	 * Used in testing
+	 * @param newMultiplier What the multiplier is to be set as
+	 */
+	public void setMultiplier(int newMultiplier){
+		this.multiplier = newMultiplier;
 	}
 }
