@@ -26,8 +26,8 @@ public class PlaneTests {
 
 	@Test
 	public void checkIfFlightAtWaypointTest1() {
-		plane1.setX(1000000);
-		plane1.setY(1000000);
+		plane1.setX(10000);
+		plane1.setY(10000);
 		assertFalse(plane1.checkIfFlightAtWaypoint(game.getAirport(), game));
 	}
 
@@ -61,8 +61,9 @@ public class PlaneTests {
 	@Test
 	public void checkIfFlightAtWaypointTest5() {
 
-		plane1.setX(plane1.getFlightPlan().getCurrentRoute().get(0).getX() + 20);
-		plane1.setY(plane1.getFlightPlan().getCurrentRoute().get(0).getY() + 20);
+		plane1.setX(plane1.getFlightPlan().getCurrentRoute().get(0).getX() + 10);
+		plane1.setY(plane1.getFlightPlan().getCurrentRoute().get(0).getY() + 10);
+		plane1.setLanding(false);
 		assertFalse(plane1.checkIfFlightAtWaypoint(game.getAirport()
 				.getBeginningOfRunway(), game));
 	}
@@ -176,7 +177,7 @@ public class PlaneTests {
 	// Testing Calculating the heading to next Waypoint
 
 	@Test
-	public void calculateBearingToFirstWaypointTest1() {
+	public void calculateBearingToNextWaypointTest1() {
 		// Testing it calculates the heading to the first waypoint.
 		plane1.setX(150);
 		plane1.setY(400);

@@ -12,10 +12,12 @@ public class Airport extends Point
 
     public Airport()
     {
+    	this.x = -100; // Placing the airport off screen
+    	this.y = -100;
     	this.planeLanding 				= false;
     	this.planeWaitingtoTakeoff	 	= null;
     	this.landingAltitude 			= 20000;
-    	this.beginningOfRunway 			= new Waypoint( 720,460);
+    	this.beginningOfRunway 			= new Waypoint(720,460);
     	this.endOfRunway 				= new Waypoint(1180,465);
     	landingApproachArea 			= new Polygon();
     	landingApproachArea.addPoint(720, 465);
