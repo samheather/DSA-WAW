@@ -25,14 +25,22 @@ public class GameTests {
 		plane1 = new Plane(1, 500, 3000, 50, game);
 
 	}
-
+	
+	/**
+	 * Test ID X.1
+	 */
+	
 	@Test
 	public void testCreatePlane() {
 		assertTrue(this.game.getCurrentPlanes().size() == 0);
 		this.game.createPlane();
 		assertTrue(this.game.getCurrentPlanes().size() == 1);
 	}
-
+	
+	/**
+	 * Test ID X.2
+	 */
+	
 	@Test
 	public void testGenerateAltitude() {
 		for (int i = 0; i < 200; i++) {
@@ -40,7 +48,11 @@ public class GameTests {
 			assertTrue(alt >= 1000 && alt <= 7000);
 		}
 	}
-
+	
+	/**
+	 * Test ID X.3
+	 */
+	
 	@Test
 	public void testGenerateVelocity() {
 		for (int i = 0; i < 200; i++) {
@@ -49,6 +61,10 @@ public class GameTests {
 		}
 	}
 
+	/**
+	 * Test ID X.4
+	 */
+	
 	@Test
 	public void testRemovePlane() {
 		this.game.createPlane();
@@ -57,6 +73,10 @@ public class GameTests {
 		assertTrue(this.game.getCurrentPlanes().size() == 0);
 	}
 
+	/**
+	 * Test ID X.5
+	 */
+	
 	@Test
 	public void testGetPlaneFromID() {
 		game.createPlane();
@@ -68,6 +88,10 @@ public class GameTests {
 		
 	}
 
+	/**
+	 * Test ID X.6
+	 */
+	
 	@Test
 	public void testRemoveFromManual() {
 		this.game.createPlane();
@@ -76,13 +100,21 @@ public class GameTests {
 		this.game.removeFromManual(this.game.getCurrentPlanes().get(0));
 		assertTrue(this.game.getManualPlanes().size() == 0);
 	}
-
+	
+	/**
+	 * Test ID X.7
+	 */
+	
 	@Test
 	public void testDeleteFromManual() {
 		this.game.getManualPlanes().add(plane1);
 		this.game.deleteFromManual(plane1);
 		assertFalse(this.game.getManualPlanes().contains(plane1));
 	}
+	
+	/**
+	 * Test ID X.8.1
+	 */
 	
 	@Test
 	public void collsionTest1() {
@@ -99,6 +131,10 @@ public class GameTests {
 		
 	}
 	
+	/**
+	 * Test ID X.8.2
+	 */
+	
 	@Test
 	public void collsionTest2() {
 		game.createPlane();
@@ -114,6 +150,10 @@ public class GameTests {
 		assertFalse(game.getCurrentPlanes().get(1).getAlertStatus());
 		
 	}
+	
+	/**
+	 * Test ID X.8.3
+	 */
 	
 	@Test
 	public void collsionTest3() {
@@ -132,13 +172,20 @@ public class GameTests {
 	}
 	
 
-
+	/**
+	 * Test ID X.9
+	 */
+	
 	@Test
 	public void tenWaypointsTest() {
 		game = new Game(100, 100);
 		assertEquals(10, game.getListOfWaypoints().size(), 0);
 
 	}
+	
+	/**
+	 * Test ID X.10
+	 */
 
 	@Test
 	public void tenPlanesTest() {
@@ -150,6 +197,10 @@ public class GameTests {
 
 		assertEquals(10, game.getCurrentPlanes().size(), 0);
 	}
+	
+	/**
+	 * Test ID X.11
+	 */
 	
 	@Test
 	public void takingOffRestrictionTest(){
