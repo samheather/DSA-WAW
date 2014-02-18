@@ -147,6 +147,12 @@ public class Credits extends GenericWindow
 		this.drawShadowedText(this.font, 75, 180 +(textHeight*1), 
 				"Iwan Gabovitch    CCBY3  License", Color.orange);
 		
+		this.drawShadowedText(this.font, 75, 180+(textHeight*3), 
+				"Galavanting throu Low Rez Forests by TeknoAxe", Color.orange);
+		this.drawShadowedText(this.font, 75, 180 +(textHeight*4), 
+				"is licensed under a Creative Commons", Color.orange);
+		this.drawShadowedText(this.font, 75, 180 +(textHeight*5), 
+				"Attribution 3 0 Unported License", Color.orange);
 		
 /*		this.drawShadowedText(this.font, 75, 180,
 	    		"Richard RichTea Kirby", Color.transparent);
