@@ -137,25 +137,58 @@ public class Credits extends GenericWindow
 		// Draw team name
 		int subXPos = (gameContainer.getWidth() / 2)
 				- (this.font.getWidth("Team GOA") / 2);
-		
-		this.drawShadowedText(this.font, subXPos, 100, "Team GOA", Color.orange);
+
+		this.drawShadowedText(this.font, subXPos, 120, "Team GOA", Color.orange);
+		this.drawShadowedText(this.font, subXPos, 100, "Team WAW", Color.orange);
 		
 		// Draw team member names
-		this.drawShadowedText(this.font, 75, 180,
-	    		"Richard RichTea Kirby", Color.orange);
-		this.drawShadowedText(this.font, 75, 180 + (textHeight * 3),
-	    		"Jaron Read Access Ali", Color.orange);
-		this.drawShadowedText(this.font, 75, 180 + (textHeight * 6),
-	    		"Richard Wandering Overlord Aickin", Color.orange);
-		this.drawShadowedText(this.font, 75, 180 + (textHeight * 9),
-	    		"Jonathan Slurrrrp Howell", Color.orange);
-		this.drawShadowedText(this.font, 75, 180 + (textHeight * 12),
-	    		"Emily Emily Hall Hall", Color.orange);
-		this.drawShadowedText(this.font, 75, 180 + (textHeight * 15),
-	    		"Sam Much Hopkins", Color.orange);
-		this.drawShadowedText(this.font, 75, 180 + (textHeight * 18),
-	    		"Mark Washing Woosey", Color.orange);
+		this.drawShadowedText(this.font, 75, 180, 
+				"Nice Game Find     Copyright 2013", Color.orange);
+		this.drawShadowedText(this.font, 75, 180 +(textHeight*1), 
+				"Iwan Gabovitch    CCBY3  License", Color.orange);
 		
+		this.drawShadowedText(this.font, 75, 180+(textHeight*3), 
+				"Galavanting throu Low Rez Forests by TeknoAxe", Color.orange);
+		this.drawShadowedText(this.font, 75, 180 +(textHeight*4), 
+				"is licensed under a Creative Commons", Color.orange);
+		this.drawShadowedText(this.font, 75, 180 +(textHeight*5), 
+				"Attribution 3 0 Unported License", Color.orange);
+		
+/*		this.drawShadowedText(this.font, 75, 180,
+	    		"Richard RichTea Kirby", Color.transparent);
+		this.drawShadowedText(this.font, 75, 180,
+	    		"Liviu Pirvan", Color.orange);
+		
+		this.drawShadowedText(this.font, 75, 180 + (textHeight * 3),
+	    		"Jaron Read Access Ali", Color.transparent);
+		this.drawShadowedText(this.font, 75, 180 + (textHeight * 3),
+	    		"Oliver Ramirez", Color.orange);
+		
+		this.drawShadowedText(this.font, 75, 180 + (textHeight * 6),
+	    		"Richard Wandering Overlord Aickin", Color.transparent);
+		this.drawShadowedText(this.font, 75, 180 + (textHeight * 6),
+	    		"Lewis Shaw", Color.orange);
+		
+		this.drawShadowedText(this.font, 75, 180 + (textHeight * 9),
+	    		"Jonathan Slurrrrp Howell", Color.transparent);
+		this.drawShadowedText(this.font, 75, 180 + (textHeight * 9),
+	    		"Rory Simpson", Color.orange);
+		
+		this.drawShadowedText(this.font, 75, 180 + (textHeight * 12),
+	    		"Emily Emily Hall Hall", Color.transparent);
+		this.drawShadowedText(this.font, 75, 180 + (textHeight * 12),
+	    		"Adam Taylor", Color.orange);
+		
+		this.drawShadowedText(this.font, 75, 180 + (textHeight * 15),
+	    		"Sam Much Hopkins", Color.transparent);
+		this.drawShadowedText(this.font, 75, 180 + (textHeight * 15),
+	    		"Adam Wright", Color.orange);
+		
+		this.drawShadowedText(this.font, 75, 180 + (textHeight * 18),
+	    		"Mark Washing Woosey", Color.transparent);
+		this.drawShadowedText(this.font, 75, 180 + (textHeight * 18),
+				"Team WAW", Color.orange);
+*/		
 	    // Draw back text
 	    this.checkForSelection(gameContainer, game);
 	    
