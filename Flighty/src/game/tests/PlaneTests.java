@@ -25,7 +25,7 @@ public class PlaneTests {
 
 	}
 
-	// Testing Check if flight at waypoint
+	// Testing Check if flight at waypoint.
 
 	
 	/**
