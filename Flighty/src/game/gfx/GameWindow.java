@@ -989,6 +989,9 @@ public class GameWindow extends BasicGameState {
 	 */
 	public void keyPressed(int key, char c)
 	{
+		if(currentGame.isEnding()){
+			return;
+		}
 		// Handle game pausing on p and space
 		if (key == 57 || key == 25)
 		{	
