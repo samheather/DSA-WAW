@@ -208,6 +208,7 @@ public class Game {
 	 */
 	public void createPlane()
 	{
+		System.out.println("Plane Happened");
 		Plane newPlane;
 		this.planeCount++;
 
