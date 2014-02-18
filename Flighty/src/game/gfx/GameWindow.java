@@ -232,7 +232,7 @@ public class GameWindow extends BasicGameState {
 	{
 		// Setup input
 		this.setInput(gameContainer.getInput());
-
+		gameContainer.setAlwaysRender(true);
 		// Load waypoint images
 		InputStream waypointNormalStream = this.getClass().getResourceAsStream(
 				"/resources/waypoints/WaypointRed.png");
