@@ -1052,7 +1052,7 @@ public class GameWindow extends BasicGameState {
 		else if (((c == 's') || (c == 'S')) 
 				&& (!gameMusic.playing()))
 		{
-			gameMusic.play();
+			gameMusic.loop();
 		}
 	}
 
@@ -1073,7 +1073,7 @@ public class GameWindow extends BasicGameState {
 	public void leave(GameContainer gameContainer, StateBasedGame game)
 			throws SlickException
 	{
-
+		this.currentGameContainer.resume();
 		this.currentGame.setCollision(true);
 		this.currentGame.setEnding(true);
 
@@ -1081,6 +1081,7 @@ public class GameWindow extends BasicGameState {
 		this.currentGame.setCollidedPlanes(new ArrayList<Plane>());
 
 		this.currentGame.setCurrentPlane(null);
+		
 	}
 
 	/**
