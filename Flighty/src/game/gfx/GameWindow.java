@@ -783,6 +783,15 @@ public class GameWindow extends BasicGameState {
 									.get(i).getY());
 						}
 					}
+					else
+					{
+						// Draws all other waypoints normally
+						this.waypointNormal.drawCentered(
+								(int) this.currentGame.getListOfWaypoints()
+								.get(i).getX(),
+								(int) this.currentGame.getListOfWaypoints()
+								.get(i).getY());
+					}
 				}
 				else
 				{
