@@ -624,10 +624,8 @@ public class GameWindow extends BasicGameState {
 						this.planeSelectedCur = this.planeSelected
 								.getScaledCopy(1 + ((((float) (plane.getSize())) - 1) / 5));
 					}
-					
-					/*
-//////// TODO WHAT'S THIS FOR? I COMMENTED AND IT DOES NOTHING I THINK IT'S A DUPLICATE PLEASE DON'T FORGET THIS HERE ///////
-					this.planeSelectedCur.setRotation((float) plane
+					// TODO
+					/*this.planeSelectedCur.setRotation((float) plane
 							.getBearing() - 90);
 					this.planeSelectedCur.drawCentered((float) plane.getX(),
 							(float) plane.getY());*/
@@ -785,16 +783,6 @@ public class GameWindow extends BasicGameState {
 									.get(i).getY());
 						}
 					}
-					else
-					{
-						//What's this for? TODO
-						this.waypointNormal.drawCentered((int) this.currentGame
-								.getListOfWaypoints().get(i).getX(),
-								(int) this.currentGame.getListOfWaypoints()
-								.get(i).getY());
-
-					}
-
 				}
 				else
 				{
