@@ -30,6 +30,9 @@ public class GameWindow extends BasicGameState {
 	/** Time to display the waypoints bonus points */
 	private static final int WAYPOINTS_DISPLAY_TIME = 200;
 	
+	/** How fast should the planes in need of landing blink **/
+	private static final int BLINK_FREQUENCY = 1000;
+	
 	/** The width the game is displayed at */
 	public int windowWidth;
 
@@ -133,35 +136,42 @@ public class GameWindow extends BasicGameState {
 
 
 	/**
-	 * Converts an altitude level to a height
+	 * Give heading via cursor
 	 * 
-	 * @param altitude
-	 *            the altitude level to convert
+	 * @param currentPlane 	- the plane that will execute the commands
+	 * @param x				- the x coordinate of the cursor
+	 * @param y				- the y coordinate of the cursor
 	 */
 	public void giveHeadingThroughMouse(Plane currentPlane, int x, int y)
 	{
 		this.currentGame.getCurrentPlane().setTurningLeft(false);
 		this.currentGame.getCurrentPlane().setTurningRight(false);
 		
+		// Select the plane
 		if (!this.currentGame.getManualPlanes().contains(currentPlane))
 		{
 			this.currentGame.getManualPlanes().add(currentPlane);
 		}
 		
+		// Calculate new bearing
 		double newBearing = Math.toDegrees(Math.atan2(this.currentGame
 				.getCurrentPlane().getY() - y, this.currentGame
 				.getCurrentPlane().getX() - x));
+		
+		// Reset bearing if less than 360
 		if (newBearing < 0)
 		{
 			newBearing += 360;
 		}
+		
+		// Execute the command
 		this.currentGame.getCurrentPlane().setTargetBearing(newBearing);
 	}
 	/**
-	 * Method ot facilitate the selection of planes via cursors
+	 * Method to facilitate the selection of planes via cursors
 	 * 
-	 * @param x - x coordinate
-	 * @param y - y coordinate
+	 * @param x - x coordinate of the cursor
+	 * @param y - y coordinate of the cursor
 	 * @return  - returns selected plane if any
 	 */
 	public Plane selectFlight(int x, int y)
@@ -171,6 +181,7 @@ public class GameWindow extends BasicGameState {
 		// Distance from where the user clicked to the nearest plane
 		double distanceToPlane;
 
+		// If there is at least one plane in the airspace
 		if (this.currentGame.getCurrentPlanes().size() >= 1)
 		{
 			distanceToPlane = Math.sqrt(Math.pow(x
@@ -204,6 +215,7 @@ public class GameWindow extends BasicGameState {
 					}
 					else
 					{
+						// The selected plane must not be landing or taking off
 						if (!nearestPlane.isLanding()
 								&& !nearestPlane.isTakingOff())
 						{
@@ -401,6 +413,7 @@ public class GameWindow extends BasicGameState {
 		// Draw the game map
 		this.map.draw(0, 0, this.windowWidth, this.windowHeight);
 
+		// Setup the font
 		g.setAntiAlias(true);
 		g.setFont(this.font);
 		g.setColor(this.fontColor);
@@ -413,10 +426,12 @@ public class GameWindow extends BasicGameState {
 				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
 						.drawString(this.getWindowWidth() / 2 - 30,
 								this.getWindowHeight() / 2 - 100, "PAUSE");
+				
 				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
 						.drawString(this.getWindowWidth() / 2 - 30 - 200,
 								this.getWindowHeight() / 2 - 65,
 								"Steer a plane by selecting it and using the key arrows/ right click");
+				
 				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
 						.drawString(this.getWindowWidth() / 2 - 30 - 190,
 								this.getWindowHeight() / 2 - 25,
@@ -425,6 +440,7 @@ public class GameWindow extends BasicGameState {
 						.drawString(this.getWindowWidth() / 2 - 30 - 130,
 								this.getWindowHeight() / 2 - 5,
 								"and pressing L when in the airport zone");
+				
 				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
 						.drawString(this.getWindowWidth() / 2 - 30 - 190,
 								this.getWindowHeight() / 2 + 35,
@@ -463,6 +479,7 @@ public class GameWindow extends BasicGameState {
 			g.drawString("Pause/Controls: P ",
 					1050, 75);
 		
+			// Loop through all the planes
 			for (Plane plane : this.currentGame.getCurrentPlanes())
 			{
 				// Sets to display the number of points gained above the passed waypoint
@@ -488,19 +505,23 @@ public class GameWindow extends BasicGameState {
 					// Renders the bonus points
 					if (display && synch > 0)
 					{
+						// If it's a special waypoint, render how many points were won
 						if (morePoints){
 							g.drawString("+" + Integer.toString(this.getCurrentGame().getScore().getMultiplier() * 10), (float) prevX - 8, (float) prevY - 30);
 							morePoints = synch <= 1 ? false : true;
 						}
+						// Beginning of runway provides no extra points
 						else if (plane.getFlightPlan().getCurrentRoute().get(0).equals(currentGame.getAirport().getBeginningOfRunway())){
 							synch = 0;
 						}
+						// If it's not a special waypoint, render how many points were won 
 						else {
 							g.drawString("+" + Integer.toString(this.getCurrentGame().getScore().getMultiplier() * 5), (float) prevX - 8, (float) prevY - 30);
 						}
 						
 						synch--;
 					}
+					// Don't display extra points if there were not won any
 					else
 					{
 						display = false;
@@ -521,13 +542,16 @@ public class GameWindow extends BasicGameState {
 						g.drawString("-" + 10 * currentGame.getScore().getMultiplier() , 1150, 570);
 						g.setColor(Color.white);
 						
+						// Making sure  the subtraction of points was done only once
 						if (reducePoints)
 						{
 							currentGame.getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
+							
 							// Don't reduce more points for the same penalty
 							reducePoints = false;
 						}
 						
+						// Decrement the timer
 						synchTakeOff--;
 						
 						// Counter for reducing points restarted 
@@ -542,12 +566,14 @@ public class GameWindow extends BasicGameState {
 				// If plane is within penalty distance, apply alert images
 				if (plane.getAlertStatus())
 				{
+					// Separation violation area
 					this.planeAlert.getScaledCopy(
 							this.currentGame.getPenaltyDistance(),
 							this.currentGame.getPenaltyDistance())
 							.drawCentered((float) plane.getX(),
 									(float) plane.getY());
 
+					// Collision area 
 					this.planeAlertMax.getScaledCopy(
 							this.currentGame.getSeparationDistance(),
 							this.currentGame.getSeparationDistance())
@@ -555,15 +581,17 @@ public class GameWindow extends BasicGameState {
 									(float) plane.getY());
 				}
 
-				// Render each plane
+				// Selected plane
 				if (plane.equals(this.currentGame.getCurrentPlane()))
 				{
-					// Active flights in the airspace are reaching at least 2000ft altitude
+					/* Active flights in the airspace are reaching at least 2000ft altitude
+						otherwise it means they're landing, taking off, or landed*/
 					if (plane.getAltitude() >= 2000)
 					{
 						this.planeSelectedCur = this.planeSelected
 								.getScaledCopy(1 + ((((float) (plane.getSize())) - 1) / 5));
 					}
+					// Draw the plane white when selected
 					this.planeSelectedCur.setRotation((float) plane
 							.getBearing() - 90);
 					this.planeSelectedCur.drawCentered((float) plane.getX(),
@@ -574,6 +602,7 @@ public class GameWindow extends BasicGameState {
 					// Planes under 2000ft are rendered smaller because they're landing/taking off
 					if (plane.getAltitude() < 2000)
 					{
+						// Render unselected planes that are taking-off/landing with a variable size
 						this.planeNormalCur = this.planeNormal
 								.getScaledCopy((float) (1 + ((plane.getSize() - 2.5f + (float) plane
 										.getAltitude() / 1000)) / 5));
@@ -583,6 +612,8 @@ public class GameWindow extends BasicGameState {
 						this.planeNormalCur = this.planeNormal
 								.getScaledCopy(1 + ((((float) (plane.getSize())) - 1) / 5));
 					}
+					
+					// Render unselected planes
 					this.planeNormalCur
 							.setRotation((float) plane.getBearing() - 90);
 					
@@ -591,12 +622,10 @@ public class GameWindow extends BasicGameState {
 				}
 				
 				
-				// Ram- Reviews list of planes in airspace; if they need
-				// landing...:
-				// Highlights approach, Renders all planes that need landing as
-				// green
-				// Not currently selected plane rendered flashing green on odd
-				// seconds
+				/* Ram- Reviews list of planes in airspace; if they need landing...:
+				 Highlights approach, Renders all planes that need landing as green
+				 Not currently selected plane rendered flashing green on odd
+				 seconds */
 				landingApproachAreaDrawn = false;
 				if (plane.equals(this.currentGame.getCurrentPlane()))
 				{
@@ -612,6 +641,7 @@ public class GameWindow extends BasicGameState {
 				{
 					if (plane.getAltitude() < 2000)
 					{
+						// Selected planes that are landing / taking off are smaller
 						this.planeSelectedCur = this.planeSelected
 								.getScaledCopy((float) (1 + ((plane.getSize() - 2.5f + (float) plane
 										.getAltitude() / 1000)) / 5));
@@ -621,14 +651,19 @@ public class GameWindow extends BasicGameState {
 						this.planeSelectedCur = this.planeSelected
 								.getScaledCopy(1 + ((((float) (plane.getSize())) - 1) / 5));
 					}
+					
+					/*
+//////// WHAT'S THIS FOR? I COMMENTED AND IT DOES NOTHING I THINK IT'S A DUPLICATE PLEASE DON'T FORGET THIS HERE ///////
 					this.planeSelectedCur.setRotation((float) plane
 							.getBearing() - 90);
 					this.planeSelectedCur.drawCentered((float) plane.getX(),
-							(float) plane.getY());
+							(float) plane.getY());*/
 				}
+				// If plane needs to land, make the plane blink
 				else
 				{
-					if (((int) (this.time / 1000)) % 2 == 0)
+					// Every number of frames, blink
+					if (((int) (this.time / BLINK_FREQUENCY)) % 2 == 0)
 						{
 						if (plane.isNeedsToLand() == true)
 						{
@@ -650,7 +685,9 @@ public class GameWindow extends BasicGameState {
 							(float) plane.getX(), (float) plane.getY() + 15);
 				}
 
-				// Render Landing Information above flight
+				/* Render Landing Information above flight */
+				
+				// If plane needs to land and is not selected
 				if (plane.isNeedsToLand()
 						&& !plane.equals(currentGame.getCurrentPlane())
 						&& !currentGame.getAirport().isPlaneLanding())
@@ -658,6 +695,7 @@ public class GameWindow extends BasicGameState {
 					g.drawString("Land Me!", (float) (plane.getX() - 5),
 							(float) (plane.getY() - 30));
 				}
+				// If plane needs to land, but there is another plane landing at the same time
 				else if (plane.isNeedsToLand()
 						&& currentGame.getAirport().isPlaneLanding())
 				{
@@ -665,6 +703,7 @@ public class GameWindow extends BasicGameState {
 							(float) (plane.getX() - 5),
 							(float) (plane.getY() - 30));
 				}
+				// If 
 				else if (plane.isNeedsToLand() && plane.getAltitude() > 2000)
 				{
 					g.drawString("Lower Me!", (float) (plane.getX() - 5),

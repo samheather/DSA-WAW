@@ -52,6 +52,7 @@ public class Credits extends GenericWindow
 		
 		Color mainMenuColor = Color.orange;
 		
+		// If text is hovered
 		if((x >= (50 - 25))
 				&& (y >= (gameContainer.getHeight() - 50 - 25))
 				&& (x <= (50 - 25) + mainMenuWidth + 25)
@@ -63,6 +64,7 @@ public class Credits extends GenericWindow
 			}
 			else
 			{
+				// Change colour on hover
 				mainMenuColor = Color.white;
 			}
 		}
@@ -71,6 +73,7 @@ public class Credits extends GenericWindow
 			mainMenuColor = Color.orange;
 		}
 		
+		// Draw the actual text
 		this.drawShadowedText(this.font, 50, gameContainer.getHeight()
 					- 50, mainMenuText, mainMenuColor);
 	}
@@ -192,7 +195,7 @@ public class Credits extends GenericWindow
 	    // Draw back text
 	    this.checkForSelection(gameContainer, game);
 	    
-	 // Draw shaded arrow icon
+	    // Draw shaded arrow icon
 		this.arrowIconShaded.draw(247, gameContainer.getHeight()
 				- 48 - (textHeight / 4), 45, 35);
 	    

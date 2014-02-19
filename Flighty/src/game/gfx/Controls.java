@@ -52,6 +52,7 @@ public class Controls extends GenericWindow
 		
 		Color mainMenuColor = Color.orange;
 		
+		// If cursor above the text
 		if((x >= (50 - 25))
 				&& (y >= (gameContainer.getHeight() - 50 - 25))
 				&& (x <= (50 - 25) + mainMenuWidth + 25)
@@ -63,6 +64,7 @@ public class Controls extends GenericWindow
 			}
 			else
 			{
+				// If text is hovered
 				mainMenuColor = Color.white;
 			}
 		}
@@ -71,6 +73,7 @@ public class Controls extends GenericWindow
 			mainMenuColor = Color.orange;
 		}
 		
+		// Draw the actual text 
 		this.drawShadowedText(this.font, 50, gameContainer.getHeight()
 								- 50, mainMenuText, mainMenuColor);
 	}
