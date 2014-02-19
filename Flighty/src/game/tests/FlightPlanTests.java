@@ -23,26 +23,39 @@ public class FlightPlanTests {
 		plan = new FlightPlan(game, plane);
 	}
 	
+	/**
+	 * Test ID F.1.1
+	 */
+	
 	@Test
 	public void generateEntryPointTest1(){
 		assertTrue(game.getListOfEntryPoints().contains(plan.generateEntryPoint(game)));
 	}
+	
+	/**
+	 * Test ID F.1.2
+	 */
 	
 	@Test
 	public void generateEntryPointTest2(){
 		// Testing that the function generates a entrypoint that is contained within the entrypoint list
     	Point result = plane.getFlightPlan().generateEntryPoint(game);
     	assertTrue(result == game.getListOfEntryPoints().get(0) || result == game.getListOfEntryPoints().get(1) || result == game.getListOfEntryPoints().get(2) | result == game.getListOfEntryPoints().get(3));
-		
 	}
 	
+	/**
+	 * Test ID F.2.1
+	 */
 	
 	@Test
 	public void buildRouteTest1(){
 		assertTrue(game.getListOfEntryPoints().retainAll(plan.buildRoute(game, plan.getEntryPoint()))
 				   && game.getListOfExitPoints().retainAll(plan.buildRoute(game, plan.getEntryPoint())));
-	
 	}
+	
+	/**
+	 * Test ID F.2.2
+	 */
 	
 	@Test 
 	public void buildRouteTest2(){
@@ -62,9 +75,11 @@ public class FlightPlanTests {
 			}
 			assertFalse(samePoint);
 		}
-		
-		
 	}
+	
+	/**
+	 * Test ID F.2.3
+	 */
 	
 	@Test
 	public void buildRouteTest3(){
@@ -82,9 +97,12 @@ public class FlightPlanTests {
     	
     	
     	ArrayList<Point> route = plan.buildRoute(gameWithoutExitpoints, plane2.getFlightPlan().getEntryPoint());
-    	assertTrue(route.size() == 0);
-		
+    	assertTrue(route.size() == 0);	
 	}
+	
+	/**
+	 * Test ID F.2.4
+	 */
 	
 	@Test
 	public void buildRouteTest4(){
@@ -103,8 +121,11 @@ public class FlightPlanTests {
     	
     	ArrayList<Point> route = plan.buildRoute(gameWithoutWaypoints, plane2.getFlightPlan().getEntryPoint());
     	assertTrue(route.size() == 0);
-		
 	}
+	
+	/**
+	 * Test ID F.2.5
+	 */
 	
 	@Test
 	public void buildRouteTest5(){
@@ -115,8 +136,4 @@ public class FlightPlanTests {
 			assertTrue(route.size() >= 3 && route.size() <= 5);
 		}
 	}
-	
-	
-	
-	
 }
