@@ -854,14 +854,17 @@ public class GameWindow extends BasicGameState {
 						
 						if(exitPointX == 0)
 						{
+							this.waypointArrow.setRotation(90);
 							this.waypointArrow.drawCentered(exitPointX + 10, exitPointY);
 						}
 						else if(exitPointX == this.getWindowWidth())
 						{
+							this.waypointArrow.setRotation(270);
 							this.waypointArrow.drawCentered(exitPointX-10, exitPointY);
 						}
 						else if(exitPointY == 0)
 						{
+							this.waypointArrow.setRotation(180);
 							this.waypointArrow.drawCentered(exitPointX, exitPointY+10);
 						}
 					}
