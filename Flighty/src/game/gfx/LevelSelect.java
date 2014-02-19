@@ -53,31 +53,40 @@ public class LevelSelect extends GenericWindow {
 	private void checkForSelection(GameContainer gameContainer,
 			StateBasedGame game)
 	{
+		// Mouse coordinates
 		int x 				= gameContainer.getInput().getMouseX();
 		int y 				= gameContainer.getInput().getMouseY();
+		
+		// Mouse action
 		boolean clicked 	= gameContainer.getInput().isMousePressed(0);
 
+		// Text
 		String level1Text 			= "Level 1";
 		String level2Text 			= "Level 2";
 		String difficulty1 			= "Easy";
 		String difficulty2 			= "Medium";
 		String mainMenuText			= "Main Menu";
 
+		// Get the text width
 		int level2Width 			= this.font.getWidth(level2Text);
 		int mainMenuWidth		 	= this.font.getWidth(mainMenuText);
 
+		// Get the text height
 		int textHeight 				= this.font.getHeight();
 
+		// Set the colours for the text
 		Color level1Color 			= Color.orange;
 		Color level2Color 			= Color.orange;
-		Color mainMenuColor 		= Color.orange;
+		
+		// Set the images for the levels
 		Image level1ImageCurrent	= this.level1Image;
+		Color mainMenuColor 		= Color.orange;
 		Image level2ImageCurrent 	= this.level1Image;
 
 		// Level 1 Text
 		this.drawShadowedText(this.font, 150, 130, level1Text, level1Color);
 		
-		//Level 1 difficulty text
+		// Level 1 difficulty text
 		this.drawShadowedText(this.font, 160, 400, difficulty1, level1Color);
 
 
@@ -87,6 +96,7 @@ public class LevelSelect extends GenericWindow {
 				&& (x <= (90 + 200 + 25))
 				&& (y <= (150 + 200 + 25)))
 		{
+			// Change state to game state if the level is picked
 			if(clicked)
 			{
 				((WindowManager) game).setCurrentLevel(1);
@@ -94,11 +104,13 @@ public class LevelSelect extends GenericWindow {
 			}
 			else
 			{
+				// Apply hover image if cursor is hovering
 				level1ImageCurrent = this.level1ImageHover;
 			}
 		}
 		else
 		{
+			// Draw the level1 image
 			level1ImageCurrent = this.level1Image;
 		}
 
@@ -119,6 +131,7 @@ public class LevelSelect extends GenericWindow {
 						- (200 / 2) + 200))
 				&& (y <= (200 + 200)))
 			{
+			// Change state to game state if the level is picked
 			if(clicked)
 			{
 				((WindowManager) game).setCurrentLevel(2);
@@ -126,11 +139,13 @@ public class LevelSelect extends GenericWindow {
 			}
 			else
 			{
+				// Apply hover image if cursor is hovering
 				level2ImageCurrent = this.level1ImageHover;
 			}
 		}
 		else
-		{
+		{	
+			// Draw the level2 image
 			level2ImageCurrent = this.level1Image;
 		}
 
@@ -146,18 +161,22 @@ public class LevelSelect extends GenericWindow {
 		{
 			if(clicked)
 			{
+				// Change state to main menu if button clicked
 				game.enterState(WindowManager.MAIN_MENU_STATE);
 			}
 			else
 			{
+				// Change appearance on hover
 				mainMenuColor = Color.white;
 			}
 		}
 		else
 		{
+			// Colour when not hovered
 			mainMenuColor = Color.orange;
 		}
 		
+		// Draw the text
 		this.drawShadowedText(this.font, 50, gameContainer.getHeight() - 50,
 				mainMenuText, mainMenuColor);
 	}

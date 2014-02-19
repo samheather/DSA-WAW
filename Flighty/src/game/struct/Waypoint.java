@@ -17,7 +17,7 @@ public class Waypoint extends Point
     /**
      * Default constructor for Waypoint
      * <p>
-     * Sets position, and sets visibility to false
+     * Sets position.
      * </p>
      * 
      * @param x				the point's horizontal position

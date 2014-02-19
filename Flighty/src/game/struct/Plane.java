@@ -132,7 +132,8 @@ public class Plane {
 		{
 			return false;
 		}
-
+		
+		// If the plane is in the range, the flight is at waypoint
 		if (((Math.abs(Math.round(this.x) - Math.round(waypoint.getX()))) <= 15)
 				&& (Math.abs(Math.round(this.y) - Math.round(waypoint.getY()))) <= 15)
 		{	
@@ -147,6 +148,7 @@ public class Plane {
 	 */
 	public void incrementBearing()
 	{
+		// Increment turning by going right
 		this.turningLeft 	= false;
 		this.turningRight 	= true;
 		
@@ -166,11 +168,13 @@ public class Plane {
 	 */
 	public void decrementBearing()
 	{
-		this.turningRight 	 = false;
+		// Decrement bearing by going left
 		this.turningLeft 	 = true;
+		this.turningRight 	 = false;
 		
 		this.bearing 		-= 1;
 		this.targetBearing 	 = this.bearing; 
+		
 		// Resets the bearing if it is smaller than 0
 		if (bearing < 0)
 		{
@@ -253,7 +257,7 @@ public class Plane {
 		{
 			/*
 			 * If plane has been given a heading so no turning direction specified,
-			 * below works out whether it should turn left or right to that heading
+			 * below works out which one is quicker between turning left and turning right
 			 */
 			if(this.turningRight == false && this.turningLeft == false)
 			{
@@ -288,7 +292,7 @@ public class Plane {
 
 			}
 			
-			// If plane is already turning right or user has told it to turn right
+			// Change bearing if plane is already turning right or user has told it to turn right
 			if (this.turningRight == true)
 			{
 				this.bearing += rate;
@@ -300,7 +304,7 @@ public class Plane {
 				}
 			}
 
-			// If plane is already turning left or user has told it to turn left
+			// Change bearing if plane is already turning left or user has told it to turn left
 			if (this.turningLeft == true)
 			{
 				this.bearing -= rate;
@@ -313,6 +317,7 @@ public class Plane {
 		}
 		else
 		{
+			// Do not change bearing if no commands have been given
 			this.turningLeft  	= false;
 			this.turningRight	= false;
 		}

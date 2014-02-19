@@ -24,8 +24,14 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Game {
 	
 	/** How long can a play stay landed before penalty applies*/
-	private static final int TAKE_OFF_PENALTY_TIME = 1500;
+	private static final int TAKE_OFF_PENALTY_TIME	= 1500;
 
+	/** The window width */
+	private static final int WINDOW_WIDTH			= 1200;
+	
+	/** The window height */
+	private static final int WINDOW_HEIGHT			=  600;
+	
 	/** Array list containing airspace exit points */
 	private ArrayList<Point> listOfExitPoints = new ArrayList<Point>();
 
@@ -119,8 +125,8 @@ public class Game {
 	public Game(int separationDistance, int penaltyDistance)
 	{
 		// Screen size
-		this.windowWidth 				= 1200;
-		this.windowHeight 				= 600;
+		this.windowWidth 				= WINDOW_WIDTH;
+		this.windowHeight 				= WINDOW_HEIGHT;
 		
 		// This sets the game difficulty
 		this.separationDistance 		= separationDistance;
@@ -208,7 +214,6 @@ public class Game {
 	 */
 	public void createPlane()
 	{
-		System.out.println("Plane Happened");
 		Plane newPlane;
 		this.planeCount++;
 
@@ -349,6 +354,7 @@ public class Game {
 		return null;
 	}
 
+	// TODO v Is this misplaced ?
 	/**
 	 * Tests whether a plane is either colliding or alerting
 	 * <p>
@@ -466,9 +472,13 @@ public class Game {
 	 */
 	public void removeFromManual(Plane plane)
 	{
+		// Loop while there is at last a plane in the manual control
 		while (this.manualPlanes.contains(plane))
 		{
+			// and remove it
 			this.manualPlanes.remove(plane);
+			
+			// Make the unselected plane go to the next waypoint
 			if (plane.getFlightPlan().getCurrentRoute().size() != 0)
 			{
 				plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
@@ -749,10 +759,18 @@ public class Game {
 
 	// GETTERS
 	
+	/**
+	 * 
+	 * @return Score object
+	 */
 	public Score getScore(){
 		return this.score;
 	}
 
+	/**
+	 * 
+	 * @param takeOffPenalty sets whether the user should be penalised for not taking off
+	 */
 	public void setTakeOffPenalty(boolean takeOffPenalty) {
 		this.takeOffPenalty = takeOffPenalty;
 	}

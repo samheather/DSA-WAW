@@ -39,22 +39,29 @@ public class MainMenu extends GenericWindow {
 	private void checkForSelection(GameContainer gameContainer,
 				StateBasedGame game)
 		{
+			// Mouse coordinates
 			int x 					= gameContainer.getInput().getMouseX();
 			int y 					= gameContainer.getInput().getMouseY();
+			
+			// Mouse action
 			boolean clicked 		= gameContainer.getInput().isMousePressed(0);
 			
+			// Text
 			String startGameText 	= "Start Game";
 			String creditsText 		= "Credits";
 			String controlsText 	= "Controls";
 			String exitText 		= "Exit";
 			
+			// Get the width of the buttons
 			int startGameWidth 		= this.font.getWidth(startGameText);
 			int creditsWidth 		= this.font.getWidth(creditsText);
 			int controlsWidth 		= this.font.getWidth(controlsText);
 			int exitWidth 			= this.font.getWidth(exitText);
 			
+			// Get the height of the text
 			int textHeight 			= this.font.getHeight();
 			
+			// Set the colour for text
 			Color startGameColor 	= Color.orange;
 			Color creditsColor 		= Color.orange;
 			Color controlsColor 	= Color.orange;

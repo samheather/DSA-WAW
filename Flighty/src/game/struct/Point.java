@@ -52,6 +52,11 @@ public class Point
   		this.pointRef = pointRef;
   	}
     
+    /**
+     * Checks if points are equal
+     * @param point the point that you are comparing it with
+     * @return whether they have the same position
+     */
     public boolean equals(Point point){
     	if(point instanceof Point)
     	{
