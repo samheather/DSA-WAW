@@ -41,7 +41,7 @@ public class ScoreTests {
 	}
 	
 	@Test
-	public void planeLeftAirspaceOrWaitingToTakeoffMinusTests(){
+	public void planeLeftAirspaceOrWaitingToTakeoffMinusTest1(){
 		
 		// Set (x, y) of plane to location outside of airspace
 		plane.setX(1201);
@@ -58,7 +58,15 @@ public class ScoreTests {
 		
 		// Testing of values
 		assertTrue(game.getScore().getScore() == 0);
+	}
+	
+	@Test 
+	public void planeLeftAirspaceOrWaitingToTakeoffMinusTest2(){
 		
+		// Set (x, y) of plane to location outside of airspace
+		plane.setX(1201);
+		plane.setY(601);
+				
 		/*
 		 * Testing - Plane left airspace
 		 * 		   - Current score = 10;
@@ -73,6 +81,14 @@ public class ScoreTests {
 		
 		// Testing of values
 		assertTrue(game.getScore().getScore() == 0);
+	}
+	
+	@Test
+	public void planeLeftAirspaceOrWaitingToTakeoffMinusTest3(){
+		
+		// Set (x, y) of plane to location outside of airspace
+		plane.setX(1201);
+		plane.setY(601);
 		
 		/*
 		 * Testing - Plane left airspace
@@ -91,14 +107,10 @@ public class ScoreTests {
 		
 		// Testing of values
 		assertTrue(game.getScore().getScore() == 10);
-		
-		/*
-		 * Testing - Waiting to takeoff
-		 */
 	}
 	
 	@Test
-	public void planePilotedPerfectlyMultiplierBonusTests(){
+	public void planePilotedPerfectlyMultiplierBonusTest1(){
 		
 		/*
 		 * Testing - plane.getViolationOccurred() = false;
@@ -110,6 +122,10 @@ public class ScoreTests {
 		
 		// Testing of values
 		assertTrue(game.getScore().getMultiplier() == 2);
+	}
+	
+	@Test
+	public void planePilotedPerfectlyMultiplierBonusTest2(){
 		
 		/*
 		 * Testing - plane.getViolationOccurred() = false;
@@ -124,6 +140,10 @@ public class ScoreTests {
 		
 		// Testing of values
 		assertTrue(game.getScore().getMultiplier() == 20);
+	}
+	
+	@Test
+	public void planePilotedPerfectlyMultiplierBonusTest3(){
 		
 		/*
 		 * Testing - plane.getViolationOccurred() = true;
@@ -144,7 +164,7 @@ public class ScoreTests {
 	}
 	
 	@Test
-	public void planeCollisionWarningMultAndScorePenaltiesTests(){
+	public void planeCollisionWarningMultAndScorePenaltiesTest1(){
 	
 		/*
 		 * Testing - Current score = 5;
@@ -159,6 +179,10 @@ public class ScoreTests {
 		
 		// Testing of values
 		assertTrue(game.getScore().getScore() == 0 && game.getScore().getMultiplier() == 1);
+	}
+	
+	@Test
+	public void planeCollisionWarningMultAndScorePenaltiesTest2(){
 		
 		/*
 		 * Testing - Current score = 5;
@@ -176,6 +200,10 @@ public class ScoreTests {
 		
 		// Testing of values
 		assertTrue(game.getScore().getScore() == 0 && game.getScore().getMultiplier() == 1);
+	}
+	
+	@Test
+	public void planeCollisionWarningMultAndScorePenaltiesTest3(){
 		
 		/*
 		 * Testing - Current score = 15;
@@ -193,6 +221,10 @@ public class ScoreTests {
 		
 		// Testing of values
 		assertTrue(game.getScore().getScore() == 5 && game.getScore().getMultiplier() == 1);
+	}
+	
+	@Test
+	public void planeCollisionWarningMultAndScorePenaltiesTest4(){
 		
 		/*
 		 * Testing - Current score = 0;
