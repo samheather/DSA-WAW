@@ -102,6 +102,12 @@ public class GameWindow extends BasicGameState {
 
 	/** The generic TrueType font */
 	private TrueTypeFont font;
+	
+	private TrueTypeFont pauseFont;
+	
+	private TrueTypeFont gameOverFont1;
+	
+	private TrueTypeFont gameOverFont2;
 
 	/** The colour to display the font in */
 	private Color fontColor;
@@ -319,6 +325,9 @@ public class GameWindow extends BasicGameState {
 		// Set the font (used for altitudes etc.)
 		this.fontPrimitive = new Font("Lucida Sans", Font.PLAIN, 12);
 		this.font = new TrueTypeFont(this.fontPrimitive, true);
+		this.pauseFont=new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true);
+		this.gameOverFont1=new TrueTypeFont(this.fontPrimitive.deriveFont(50f), true);
+		this.gameOverFont2=new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true);
 
 		// Initialise Waypoint Sound
 		checkpointSound = new Sound("resources/music/checkpointSound.ogg");
@@ -420,42 +429,6 @@ public class GameWindow extends BasicGameState {
 
 		if (!this.currentGame.isEnding())
 		{
-			// Drawing Pause Screen if in pause menu
-			if (currentGameContainer.isPaused())
-			{
-				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-						.drawString(this.getWindowWidth() / 2 - 30,
-								this.getWindowHeight() / 2 - 100, "PAUSE");
-				
-				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-						.drawString(this.getWindowWidth() / 2 - 30 - 200,
-								this.getWindowHeight() / 2 - 65,
-								"Steer a plane by selecting it and using the key arrows/ right click");
-				
-				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-						.drawString(this.getWindowWidth() / 2 - 30 - 190,
-								this.getWindowHeight() / 2 - 25,
-								"Land a plane by lowering it to 2000ft when it needs to land");
-				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-						.drawString(this.getWindowWidth() / 2 - 30 - 130,
-								this.getWindowHeight() / 2 - 5,
-								"and pressing L when in the airport zone");
-				
-				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-						.drawString(this.getWindowWidth() / 2 - 30 - 190,
-								this.getWindowHeight() / 2 + 35,
-								"Take off a plane by selecting an airport plane and pressing T");
-
-				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-						.drawString(this.getWindowWidth() / 2 - 30 - 80,
-								this.getWindowHeight() / 2 + 70,
-								"Press S to turn music on/off");
-				
-				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-						.drawString(this.getWindowWidth() / 2 - 30 - 50,
-								this.getWindowHeight() / 2 + 100,
-								"Press P to unpause");
-			}
 
 			// Display the Game Information
 			g.drawString(
@@ -917,35 +890,29 @@ public class GameWindow extends BasicGameState {
 			// Drawing Pause Screen if in pause menu.
 			if (currentGameContainer.isPaused())
 			{
-				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-						.drawString(this.getWindowWidth() / 2 - 30,
-								this.getWindowHeight() / 2 - 100, "PAUSE");
-				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-						.drawString(this.getWindowWidth() / 2 - 30 - 200,
-								this.getWindowHeight() / 2 - 65,
-								"Steer a plane by selecting it and using the key arrows/ right click");
-				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-						.drawString(this.getWindowWidth() / 2 - 30 - 190,
-								this.getWindowHeight() / 2 - 25,
-								"Land a plane by lowering it to 2000ft when it needs to land");
-				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-						.drawString(this.getWindowWidth() / 2 - 30 - 130,
-								this.getWindowHeight() / 2 - 5,
-								"and pressing L when in the airport zone");
-				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-						.drawString(this.getWindowWidth() / 2 - 30 - 190,
-								this.getWindowHeight() / 2 + 35,
-								"Take off a plane by selecting an airport plane and pressing T");
+				g.setFont(this.pauseFont);
+				g.drawString("PAUSE",this.getWindowWidth() / 2 - 30,
+								this.getWindowHeight() / 2 - 100);
 
-				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-						.drawString(this.getWindowWidth() / 2 - 30 - 80,
-								this.getWindowHeight() / 2 + 70,
-								"Press S to turn music on/off");
+				g.drawString("Steer a plane by selecting it and using the key arrows/ right click",this.getWindowWidth() / 2 - 30 - 200,
+								this.getWindowHeight() / 2 - 65);
+
+				g.drawString("Land a plane by lowering it to 2000ft when it needs to land",this.getWindowWidth() / 2 - 30 - 190,
+								this.getWindowHeight() / 2 - 25);
+
+				g.drawString("and pressing L when in the airport zone",this.getWindowWidth() / 2 - 30 - 130,
+								this.getWindowHeight() / 2 - 5);
+
+				g.drawString("Take off a plane by selecting an airport plane and pressing T",this.getWindowWidth() / 2 - 30 - 190,
+								this.getWindowHeight() / 2 + 35);
+
+
+				g.drawString("Press S to turn music on/off",this.getWindowWidth() / 2 - 30 - 80,
+								this.getWindowHeight() / 2 + 70);
 				
-				new TrueTypeFont(this.fontPrimitive.deriveFont(15f), true)
-						.drawString(this.getWindowWidth() / 2 - 30 - 50,
-								this.getWindowHeight() / 2 + 100,
-								"Press P to unpause");
+
+				g.drawString("Press P to unpause",this.getWindowWidth() / 2 - 30 - 50,
+								this.getWindowHeight() / 2 + 100);
 			}
 			
 		}
