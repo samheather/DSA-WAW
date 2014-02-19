@@ -85,7 +85,7 @@ public class MainMenu extends GenericWindow {
 					// Change hover text and add waypoint next to text
 					startGameColor = Color.white;
 					this.waypointIcon.draw((gameContainer.getWidth() / 3)
-							+ startGameWidth + 30, (gameContainer.getHeight() / 3) + 53);
+							+ startGameWidth + 30, (gameContainer.getHeight() / 3) - 47 + (this.font.getHeight() * 4));
 				}
 			}
 			else
@@ -94,8 +94,8 @@ public class MainMenu extends GenericWindow {
 			}
 			
 			// Draw the Start Game text with a shadow
-			this.drawShadowedText(this.font, (gameContainer.getWidth() / 3)
-					+ 30, (gameContainer.getHeight() / 3) + 50,
+			this.drawShadowedText(this.font, (gameContainer.getWidth() / 3) + 30, 
+					(gameContainer.getHeight() / 3) - 50 + (this.font.getHeight() * 4),
 					startGameText, startGameColor);
 			
 			
