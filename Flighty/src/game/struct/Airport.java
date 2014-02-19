@@ -5,12 +5,18 @@ import org.newdawn.slick.geom.*;
 public class Airport extends Point
 {	
 	
-	private int		 	landingAltitude;
 	private boolean 	planeLanding;
 	private Plane 		planeWaitingtoTakeoff;
 	private Waypoint 	beginningOfRunway, endOfRunway;
 	private Polygon 	landingApproachArea;
 
+	/**
+	 * <p>
+	 * Constructor
+	 * </p>
+	 * Initialises Airport class during runtime
+	 *
+	 */
     public Airport()
     {
     	// Placing the airport off screen as the airport graphics are part of the graphics already
@@ -20,10 +26,6 @@ public class Airport extends Point
     	// Airport status
     	this.planeLanding 				= false;
     	this.planeWaitingtoTakeoff	 	= null;
-    	
-    	
-    	// TODO what's this for?
-    	this.landingAltitude 			= 20000;
     	
     	// Creating the runway waypoints
     	this.beginningOfRunway 			= new Waypoint(720,460);
@@ -40,7 +42,7 @@ public class Airport extends Point
 
     /**
      * 
-     * @return the beginning of the runway
+     * @return The waypoint representing the beginning of the runway
      */
 	public Waypoint getBeginningOfRunway() 
 	{
@@ -49,7 +51,7 @@ public class Airport extends Point
 
 	/**
 	 * 
-	 * @param beginningOfRunway sets the beginning of the runway
+	 * @param beginningOfRunway  Waypoint that is to represent the beginning of the runway
 	 */
 	public void setBeginningOfRunway(Waypoint beginningOfRunway) 
 	{
@@ -58,7 +60,7 @@ public class Airport extends Point
 
 	/**
 	 * 
-	 * @return the end of the runway
+	 * @return  The waypoint representing the end of the runway
 	 */
 	public Waypoint getEndOfRunway() 
 	{
@@ -67,7 +69,7 @@ public class Airport extends Point
 
 	/**
 	 * 
-	 * @param endOfRunway set the end of the runway
+	 * @param endOfRunway Waypoint that is to represent the end of the runway
 	 */
 	public void setEndOfRunway(Waypoint endOfRunway) 
 	{
@@ -76,24 +78,9 @@ public class Airport extends Point
 
 	/**
 	 * 
-	 * @return the landing altitude
-	 */
-	public int getLandingAltitude() 
-	{
-		return landingAltitude;
-	}
-
-	/**
-	 * 
-	 * @param landingAltitude set the landing altitude
-	 */
-	public void setLandingAltitude(int landingAltitude) 
-	{
-		this.landingAltitude = landingAltitude;
-	}
-	/**
-	 * 
-	 * @return checks whether a plane is landing or not
+	 * @return Boolean representing whether a plane is landing
+	 * <p> True - A plane is landing </p>
+	 * <p> False - A plane is not landing </p>
 	 */
 	public boolean isPlaneLanding() 
 	{
@@ -102,7 +89,7 @@ public class Airport extends Point
 
 	/**
 	 * 
-	 * @param planeLandingOrTakingOff set whether a plane is landing
+	 * @param planeLandingOrTakingOff Boolean value that sets planeLanding variable
 	 */
 	public void setPlaneLanding(boolean planeLandingOrTakingOff) 
 	{
@@ -111,7 +98,7 @@ public class Airport extends Point
 
 	/**
 	 * 
-	 * @return whether a plane is waiting to take off
+	 * @return A plane if there is one currently waiting to takeoff
 	 */
 	public Plane getPlaneWaitingtoTakeoff() 
 	{
@@ -120,7 +107,7 @@ public class Airport extends Point
 
 	/**
 	 * 
-	 * @param planeWaitingtoTakeoff sets whether a plane is waiting to take off
+	 * @param planeWaitingtoTakeoff If there is a plane waiting to takeoff, the planeWaitingToTakeoff variable is set to this
 	 */
 	public void setPlaneWaitingtoTakeoff(Plane planeWaitingtoTakeoff) 
 	{
@@ -129,7 +116,7 @@ public class Airport extends Point
 
 	/**
 	 * 
-	 * @return the landing area
+	 * @return A polygon representing the landing approach area i.e. the area which a plane must be in before landing
 	 */
 	public Polygon getLandingApproachArea() 
 	{
