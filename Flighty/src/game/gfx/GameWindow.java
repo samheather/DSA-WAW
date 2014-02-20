@@ -595,7 +595,7 @@ public class GameWindow extends BasicGameState {
 				}
 				
 				
-				/* Ram- Reviews list of planes in airspace; if they need landing...:
+				/* Reviews list of planes in airspace; if they need landing...:
 				 Highlights approach, Renders all planes that need landing as green
 				 Not currently selected plane rendered flashing green on odd
 				 seconds */
@@ -624,11 +624,6 @@ public class GameWindow extends BasicGameState {
 						this.planeSelectedCur = this.planeSelected
 								.getScaledCopy(1 + ((((float) (plane.getSize())) - 1) / 5));
 					}
-					// TODO
-					/*this.planeSelectedCur.setRotation((float) plane
-							.getBearing() - 90);
-					this.planeSelectedCur.drawCentered((float) plane.getX(),
-							(float) plane.getY());*/
 				}
 				// If plane needs to land, make the plane blink
 				else
@@ -783,6 +778,15 @@ public class GameWindow extends BasicGameState {
 									.get(i).getY());
 						}
 					}
+					else
+					{
+						// Draws all other waypoints normally
+						this.waypointNormal.drawCentered(
+								(int) this.currentGame.getListOfWaypoints()
+								.get(i).getX(),
+								(int) this.currentGame.getListOfWaypoints()
+								.get(i).getY());
+					}
 				}
 				else
 				{
@@ -840,16 +844,21 @@ public class GameWindow extends BasicGameState {
 						int exitPointY =(int)this.currentGame.getCurrentPlane()
 								.getFlightPlan().getCurrentRoute().get(j+1).getY();
 						
+						//Set Rotation for the left hand side exit point arrow
 						if(exitPointX == 0)
 						{
 							this.waypointArrow.setRotation(90);
 							this.waypointArrow.drawCentered(exitPointX + 10, exitPointY);
 						}
+						
+						//Set Rotation for the right hand side exit point arrow
 						else if(exitPointX == this.getWindowWidth())
 						{
 							this.waypointArrow.setRotation(270);
 							this.waypointArrow.drawCentered(exitPointX-10, exitPointY);
 						}
+						
+						//Set Rotation for top exit point arrow
 						else if(exitPointY == 0)
 						{
 							this.waypointArrow.setRotation(180);

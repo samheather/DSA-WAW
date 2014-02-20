@@ -84,7 +84,7 @@ public class FlightPlanTests {
 	@Test
 	public void buildRouteTest3(){
 		
-		// Testing that it doesn't build a route if no game has no exitpoints
+		// Testing that it doesn't build a route if game has no exitpoints
 		
 		Game gameWithoutExitpoints = new Game(50, 100);
 		
