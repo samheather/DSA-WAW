@@ -624,11 +624,6 @@ public class GameWindow extends BasicGameState {
 						this.planeSelectedCur = this.planeSelected
 								.getScaledCopy(1 + ((((float) (plane.getSize())) - 1) / 5));
 					}
-					// TODO
-					/*this.planeSelectedCur.setRotation((float) plane
-							.getBearing() - 90);
-					this.planeSelectedCur.drawCentered((float) plane.getX(),
-							(float) plane.getY());*/
 				}
 				// If plane needs to land, make the plane blink
 				else
