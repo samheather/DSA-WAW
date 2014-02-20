@@ -948,7 +948,7 @@ public class GameWindow extends BasicGameState {
 				// Countdown till game exists to main menu
 				new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
 						.drawString(
-								450f,
+								452f,
 								310,
 								"Return in: "
 										+ (int) (5 - ((this.time - this.endTime) / 1000)));
