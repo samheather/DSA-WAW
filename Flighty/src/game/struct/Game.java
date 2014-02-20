@@ -678,7 +678,7 @@ public class Game {
 						.getCurrentRoute().get(0), this))
 				{
 					
-					// REFACTOR
+					
 					this.getScore().addScore(plane, this);
 					
 					

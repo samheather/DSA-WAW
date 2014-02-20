@@ -31,7 +31,8 @@ public class Airport extends Point
     	this.beginningOfRunway 			= new Waypoint(720,460);
     	this.endOfRunway 				= new Waypoint(1180,465);
     	
-    	// Creating the landing area
+    	// Creating the landing area. This is the triangle that appears when a flight needs to land. It
+    	// is used to check whether the flights have the right approach.
     	landingApproachArea 			= new Polygon();
     	landingApproachArea.addPoint(720, 465);
     	landingApproachArea.addPoint(400, 344);
