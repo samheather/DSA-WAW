@@ -595,7 +595,7 @@ public class GameWindow extends BasicGameState {
 				}
 				
 				
-				/* Ram- Reviews list of planes in airspace; if they need landing...:
+				/* Reviews list of planes in airspace; if they need landing...:
 				 Highlights approach, Renders all planes that need landing as green
 				 Not currently selected plane rendered flashing green on odd
 				 seconds */
@@ -844,16 +844,21 @@ public class GameWindow extends BasicGameState {
 						int exitPointY =(int)this.currentGame.getCurrentPlane()
 								.getFlightPlan().getCurrentRoute().get(j+1).getY();
 						
+						//Set Rotation for the left hand side exit point arrow
 						if(exitPointX == 0)
 						{
 							this.waypointArrow.setRotation(90);
 							this.waypointArrow.drawCentered(exitPointX + 10, exitPointY);
 						}
+						
+						//Set Rotation for the right hand side exit point arrow
 						else if(exitPointX == this.getWindowWidth())
 						{
 							this.waypointArrow.setRotation(270);
 							this.waypointArrow.drawCentered(exitPointX-10, exitPointY);
 						}
+						
+						//Set Rotation for top exit point arrow
 						else if(exitPointY == 0)
 						{
 							this.waypointArrow.setRotation(180);
