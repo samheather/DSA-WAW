@@ -33,7 +33,8 @@ class MyChat(basic.LineReceiver):
 		if (self.__opponent == None):
 			self.factory.notInGame.remove(self)
 		else:
-			self.factory.clients.remove(self.__opponent)
+			self.__opponent.__opponent = None
+			self.factory.notInGame.append(self.__opponent)
 
 	def lineReceived(self, data):
 		print "SLOG Sender data received"
