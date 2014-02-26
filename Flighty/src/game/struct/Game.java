@@ -560,7 +560,7 @@ public class Game {
 		// Action on 'T' Key
 		else if (this.currentPlane.isNeedsToTakeOff())
 		{
-			if (gameContainer.getInput().isKeyDown(Input.KEY_T))
+			if (gameContainer.getInput().isKeyPressed(Input.KEY_T))
 			{
 				this.currentPlane.takeOff();
 			}

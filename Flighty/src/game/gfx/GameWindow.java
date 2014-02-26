@@ -1,5 +1,6 @@
 package game.gfx;
 
+import org.lwjgl.openal.AL;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -955,7 +956,7 @@ public class GameWindow extends BasicGameState {
 				
 				// If return time elapsed, close game to let the user play again
 				if (this.time > (this.endTime + (5 * 1000)))
-				{
+				{	
 					game.closeRequested();
 				}
 			}

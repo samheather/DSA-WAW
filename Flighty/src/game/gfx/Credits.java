@@ -141,20 +141,21 @@ public class Credits extends GenericWindow
 		int subXPos = (gameContainer.getWidth() / 2)
 				- (this.font.getWidth("Team GOA") / 2);
 
-		this.drawShadowedText(this.font, subXPos, 120, "Team GOA", Color.orange);
-		this.drawShadowedText(this.font, subXPos, 100, "Team WAW", Color.orange);
+		this.drawShadowedText(this.font, subXPos, 160, "Team GOA", Color.orange);
+		this.drawShadowedText(this.font, subXPos, 140, "Team WAW", Color.orange);
+		this.drawShadowedText(this.font, subXPos, 120, "Team DSA", Color.orange);
 		
 		// Draw team member names
-		this.drawShadowedText(this.font, 75, 180, 
+		this.drawShadowedText(this.font, 75, 220, 
 				"Nice Game Find     Copyright 2013", Color.orange);
-		this.drawShadowedText(this.font, 75, 180 +(textHeight*1), 
+		this.drawShadowedText(this.font, 75, 220 +(textHeight*1), 
 				"Iwan Gabovitch    CCBY3  License", Color.orange);
 		
-		this.drawShadowedText(this.font, 75, 180+(textHeight*3), 
-				"Galavanting throu Low Rez Forests by TeknoAxe", Color.orange);
-		this.drawShadowedText(this.font, 75, 180 +(textHeight*4), 
+		this.drawShadowedText(this.font, 75, 220+(textHeight*3), 
+				"Galavanting through Low Rez Forests by TeknoAxe", Color.orange);
+		this.drawShadowedText(this.font, 75, 220 +(textHeight*4), 
 				"is licensed under a Creative Commons", Color.orange);
-		this.drawShadowedText(this.font, 75, 180 +(textHeight*5), 
+		this.drawShadowedText(this.font, 75, 220 +(textHeight*5), 
 				"Attribution 3 0 Unported License", Color.orange);
 		
 /*		this.drawShadowedText(this.font, 75, 180,
