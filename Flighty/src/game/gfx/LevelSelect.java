@@ -32,11 +32,22 @@ public class LevelSelect extends GenericWindow {
 	/** The active image (map preview) for level 2 */
 	private Image level2ImageHover;
 	
+	/** The image (map preview) for level 3 */
+	private Image level3Image;
+	
+	/** The active image (map preview) for level 3 */
+	private Image level3ImageHover;
+	
 	/** The arrow icon */
 	private Image arrowIcon;
 	
 	/** The shaded arrow icon */
 	private Image arrowIconShaded;
+	
+	private int[] image1Pos;
+	private int[] image2Pos;
+	private int[] image3Pos;
+	
 	
 	/**
 	 * Monitors the mouse position and state
@@ -63,12 +74,19 @@ public class LevelSelect extends GenericWindow {
 		// Text
 		String level1Text 			= "Level 1";
 		String level2Text 			= "Level 2";
+		String level3Text 			= "Level 3";
 		String difficulty1 			= "Easy";
 		String difficulty2 			= "Medium";
+		String difficulty3 			= "Hard";
 		String mainMenuText			= "Main Menu";
 
 		// Get the text width
+		int level1Width 			= this.font.getWidth(level1Text);
 		int level2Width 			= this.font.getWidth(level2Text);
+		int level3Width 			= this.font.getWidth(level3Text);
+		int difficulty1Width 		= this.font.getWidth(difficulty1);
+		int difficulty2Width 		= this.font.getWidth(difficulty2);
+		int difficulty3Width 		= this.font.getWidth(difficulty3);
 		int mainMenuWidth		 	= this.font.getWidth(mainMenuText);
 
 		// Get the text height
@@ -77,24 +95,42 @@ public class LevelSelect extends GenericWindow {
 		// Set the colours for the text
 		Color level1Color 			= Color.orange;
 		Color level2Color 			= Color.orange;
+		Color level3Color 			= Color.orange;
+		Color mainMenuColor 		= Color.orange;
+		
+		//size of images on screen
+		
+		int[] levelImageSize = {200,200};
+		
+		// position of images on the screen in pixels
+		int[] level1ImagePos = {110,175};
+		int[] level2ImagePos = {(gameContainer.getWidth() - levelImageSize[0])/2,175};
+		int[] level3ImagePos = {(gameContainer.getWidth() - levelImageSize[0] - 110),175};
+		
+		image1Pos = level1ImagePos;
+		image2Pos = level2ImagePos;
+		image3Pos = level3ImagePos;
 		
 		// Set the images for the levels
 		Image level1ImageCurrent	= this.level1Image;
-		Color mainMenuColor 		= Color.orange;
-		Image level2ImageCurrent 	= this.level1Image;
+		Image level2ImageCurrent 	= this.level2Image;
+		Image level3ImageCurrent 	= this.level1Image;
 
+		// tolerance for clicking on image in pixels
+		int tolerance = 3;
+		
 		// Level 1 Text
-		this.drawShadowedText(this.font, 150, 130, level1Text, level1Color);
+		this.drawShadowedText(this.font, level1ImagePos[0] + (levelImageSize[0]/2) - (level1Width/2), level1ImagePos[1] - 50, level1Text, level1Color);
 		
 		// Level 1 difficulty text
-		this.drawShadowedText(this.font, 160, 400, difficulty1, level1Color);
+		this.drawShadowedText(this.font, level1ImagePos[0] + (levelImageSize[0]/2) - (difficulty1Width/2), level1ImagePos[1] + 230, difficulty1, level1Color);
 
 
 		// Level 1 Image
-		if((x >= (105))
-				&& (y >= (200 - 25))
-				&& (x <= (90 + 200 + 25))
-				&& (y <= (150 + 200 + 25)))
+		if ((x >= (level1ImagePos[0] - tolerance))
+				&& (x <= (level1ImagePos[0] + levelImageSize[0] + tolerance))
+				&& (y >= (level1ImagePos[1] - tolerance))
+				&& (y <= (level1ImagePos[1] + levelImageSize[1] + tolerance)))
 		{
 			// Change state to game state if the level is picked
 			if(clicked)
@@ -114,22 +150,21 @@ public class LevelSelect extends GenericWindow {
 			level1ImageCurrent = this.level1Image;
 		}
 
-		level1ImageCurrent.draw(110, 175, 200, 200);
+		level1ImageCurrent.draw(level1ImagePos[0], level1ImagePos[1], 200, 200);
+		
+		
 		
 		// Level 2 Text
-		this.drawShadowedText(this.font, (gameContainer.getWidth() / 2)
-				- (level2Width / 2), 130, level2Text, level2Color);
+		this.drawShadowedText(this.font, level2ImagePos[0] + (levelImageSize[0]/2) - (level2Width/2), level2ImagePos[1] - 50, level2Text, level2Color);
 		
 		//Level 2 difficulty text
-		this.drawShadowedText(this.font, 440, 400, difficulty2, level1Color);
+		this.drawShadowedText(this.font, level2ImagePos[0] + (levelImageSize[0]/2) - (difficulty2Width/2), level2ImagePos[1] + 230, difficulty2, level2Color);
 
 		// Level 2 Image
-		if((x >= ((gameContainer.getWidth() / 2)
-				- (200 / 2)))
-				&& (y >= (200))
-				&& (x <= ((gameContainer.getWidth() / 2)
-						- (200 / 2) + 200))
-				&& (y <= (200 + 200)))
+		if((x >= (level2ImagePos[0] - tolerance))
+				&& (x <= (level2ImagePos[0] + levelImageSize[0] + tolerance))
+				&& (y >= (level2ImagePos[1] - tolerance))
+				&& (y <= (level2ImagePos[1] + levelImageSize[1] + tolerance)))
 			{
 			// Change state to game state if the level is picked
 			if(clicked)
@@ -140,22 +175,59 @@ public class LevelSelect extends GenericWindow {
 			else
 			{
 				// Apply hover image if cursor is hovering
-				level2ImageCurrent = this.level1ImageHover;
+				level2ImageCurrent = this.level2ImageHover;
 			}
 		}
 		else
 		{	
 			// Draw the level2 image
-			level2ImageCurrent = this.level1Image;
+			level2ImageCurrent = this.level2Image;
 		}
 
-		level2ImageCurrent.draw((gameContainer.getWidth() / 2)
-				- (200 / 2), 175, 200, 200);
+		level2ImageCurrent.draw(level2ImagePos[0], level2ImagePos[1], 200, 200);
+		
+		// Level 3 Text
+				this.drawShadowedText(this.font, level3ImagePos[0] + (levelImageSize[0]/2) - (level3Width/2), level3ImagePos[1] - 50, level3Text, level3Color);
+				
+				//Level 3 difficulty text
+				this.drawShadowedText(this.font, level3ImagePos[0] + (levelImageSize[0]/2) - (difficulty3Width/2), level3ImagePos[1] + 230, difficulty3, level3Color);
+
+				// Level 3 Image
+				if((x >= (level3ImagePos[0] - tolerance))
+						&& (x <= (level3ImagePos[0] + levelImageSize[0] + tolerance))
+						&& (y >= (level3ImagePos[1] - tolerance))
+						&& (y <= (level3ImagePos[1] + levelImageSize[1] + tolerance)))
+					{
+					// Change state to game state if the level is picked
+					if(clicked)
+					{
+						((WindowManager) game).setCurrentLevel(3);
+						game.enterState(WindowManager.GAME_STATE);
+					}
+					else
+					{
+						// Apply hover image if cursor is hovering
+						/*TODO
+						 * Change this to another image
+						 */
+						level3ImageCurrent = this.level2ImageHover;
+					}
+				}
+				else
+				{	
+					// Draw the level3 image
+					/*TODO
+					 * Change this to another image
+					 */
+					level3ImageCurrent = this.level2Image;
+				}
+
+				level3ImageCurrent.draw(level3ImagePos[0], level3ImagePos[1], 200, 200);
 
 		// Main Menu
 		if((x >= (50 - 25))
-				&& (y >= (gameContainer.getHeight() - 50 - 25))
 				&& (x <= (50 - 25) + mainMenuWidth + 25)
+				&& (y >= (gameContainer.getHeight() - 50 - 25))
 				&& (y <= (gameContainer.getHeight() - 50
 						+ textHeight + 25)))
 		{
@@ -274,8 +346,11 @@ public class LevelSelect extends GenericWindow {
 		this.arrowIcon.draw(245,455);
 		
 		graphics.setColor(Color.black);
-		graphics.fillRect(110-4, 175-4, this.getLevel1Image().getWidth()+8, this.getLevel1Image().getHeight()+8);
-		graphics.fillRect(412-4, 175-4, this.getLevel1Image().getWidth()+8, this.getLevel1Image().getHeight()+8);
+		if (image1Pos != null && image2Pos != null && image3Pos != null){
+			graphics.fillRect(image1Pos[0]-4, image1Pos[1]-4, this.getLevel1Image().getWidth()+8, this.getLevel1Image().getHeight()+8);
+			graphics.fillRect(image2Pos[0]-4, image2Pos[1]-4, this.getLevel2Image().getWidth()+8, this.getLevel2Image().getHeight()+8);
+			graphics.fillRect(image3Pos[0]-4, image3Pos[1]-4, this.getLevel3Image().getWidth()+8, this.getLevel3Image().getHeight()+8);
+		}
 		//graphics.setColor(Color.white);
 		//graphics.fillRect(110-2, 175-2, this.getLevel1Image().getWidth()+4, this.getLevel1Image().getHeight()+4);
 		graphics.setColor(Color.black);
@@ -334,6 +409,27 @@ public class LevelSelect extends GenericWindow {
 	public Image getLevel2ImageHover()
 	{
 		return this.level2ImageHover;
+	}
+	
+	
+	/**
+	 * @return				image used for level 3 preview
+	 */
+	public Image getLevel3Image()
+	{
+		/*TODO
+		 * Change to level3 image once we have one
+		 */
+		return this.level2Image;
+	}
+	
+	/**
+	 * @return				image used for level 3 preview
+	 * 						(when hovered over)
+	 */
+	public Image getLevel3ImageHover()
+	{
+		return this.level3ImageHover;
 	}
 	
 	/**

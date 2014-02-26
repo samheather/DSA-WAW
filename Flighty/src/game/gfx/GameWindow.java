@@ -189,7 +189,7 @@ public class GameWindow extends BasicGameState {
 		double distanceToPlane;
 
 		// If there is at least one plane in the airspace
-		if (this.currentGame.getCurrentPlanes().size() >= 1)
+		if (this.currentGame.getCurrentPlanes().size() > 0)
 		{
 			distanceToPlane = Math.sqrt(Math.pow(x
 								- this.currentGame.getCurrentPlanes().get(0).getX(), 2)
@@ -214,7 +214,7 @@ public class GameWindow extends BasicGameState {
 				}
 				
 				// Checks if the nearest plane is close enough to be considered for picking
-				if (distanceToPlane <= 50)
+				if (distanceToPlane <= 55)
 				{
 					if (nearestPlane.equals(this.currentGame.getCurrentPlane()))
 					{
