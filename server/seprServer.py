@@ -31,16 +31,20 @@ class MyChat(basic.LineReceiver):
 	def connectionLost(self, reason):
 		print "SLOG Lost a client!"
 		self.factory.clients.remove(self)
-		self.factory.clients.remove(self.__opponent)
+		if (self.__opponent != None):
+			self.factory.clients.remove(self.__opponent)
 
 	def lineReceived(self, data):
+		print "SLOG Sender data received"
 		if self.__opponent == None:
 			self.message("E0") # not in game
+			print "SLOG E0"
 			return
 		self.__opponent.message(data)
 
 	def message(self, message):
-		self.transport.write(message + '\n')
+		print "SLOG receiver got message"
+		self.transport.write(message)
 
 from twisted.internet import protocol
 from twisted.application import service, internet
