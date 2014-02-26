@@ -7,23 +7,22 @@ telnet clients to port 1025
 import sys
 from twisted.protocols import basic
 from twisted.python import log
+from twisted.internet import reactor
 log.startLogging(sys.stdout)
 log.msg("SLOG after start logging!")
 
 class MyChat(basic.LineReceiver):
-
-	__notInGame = []
 	__opponent = None
 
 	def connectionMade(self):
 		print "SLOG"
 		self.factory.clients.append(self)
 		print "SLOG 1"
-		self.__notInGame.append(self)
+		self.factory.notInGame.append(self)
 		print "SLOG 2"
-		while (len(self.__notInGame) >= 2):
-			x = self.__notInGame.pop(0)
-			y = self.__notInGame.pop(0)
+		while (len(self.factory.notInGame) >= 2):
+			x = self.factory.notInGame.pop(0)
+			y = self.factory.notInGame.pop(0)
 			x.__opponent = y
 			y.__opponent = x
 		print "SLOG FINISH YAY"
@@ -31,20 +30,19 @@ class MyChat(basic.LineReceiver):
 	def connectionLost(self, reason):
 		print "SLOG Lost a client!"
 		self.factory.clients.remove(self)
-		if (self.__opponent != None):
+		if (self.__opponent == None):
+			self.factory.notInGame.remove(self)
+		else:
 			self.factory.clients.remove(self.__opponent)
 
 	def lineReceived(self, data):
 		print "SLOG Sender data received"
 		if self.__opponent == None:
-			self.message("E0") # not in game
+			self.transport.write("E0") # not in game
 			print "SLOG E0"
 			return
-		self.__opponent.message(data)
+		self.__opponent.transport.write(data)
 
-	def message(self, message):
-		print "SLOG receiver got message"
-		self.transport.write(message)
 
 from twisted.internet import protocol
 from twisted.application import service, internet
@@ -52,6 +50,9 @@ from twisted.application import service, internet
 factory = protocol.ServerFactory()
 factory.protocol = MyChat
 factory.clients = []
+factory.notInGame = []
 
 application = service.Application("chatserver")
-internet.TCPServer(1025, factory).setServiceParent(application)
+#internet.TCPServer(1025, factory).setServiceParent(application)
+reactor.listenTCP(1025, factory)
+reactor.run()
