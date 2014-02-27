@@ -358,9 +358,6 @@ public class LevelSelect extends GenericWindow {
 			graphics.fillRect(image2Pos[0]-4, image2Pos[1]-4, this.getLevel2Image().getWidth()+8, this.getLevel2Image().getHeight()+8);
 			graphics.fillRect(image3Pos[0]-4, image3Pos[1]-4, this.getLevel3Image().getWidth()+8, this.getLevel3Image().getHeight()+8);
 		}
-		//graphics.setColor(Color.white);
-		//graphics.fillRect(110-2, 175-2, this.getLevel1Image().getWidth()+4, this.getLevel1Image().getHeight()+4);
-		graphics.setColor(Color.black);
 		
 		// Draw other text and images
 		this.drawButtons(gameContainer, game);

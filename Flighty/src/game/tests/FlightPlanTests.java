@@ -7,6 +7,7 @@ import org.junit.Before;
 
 import static org.junit.Assert.*;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import game.struct.*;
@@ -18,8 +19,12 @@ public class FlightPlanTests {
 	
 	@Before
 	public void beforeTests() {
-		game = new Game(50, 100);
-		plane = new Plane(1, 500, 3000, 50, game);
+		try {
+			game = new Game(50, 100);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		plane = new Plane(1, 500, 3000, 50, game,1);
 		plan = new FlightPlan(game, plane);
 	}
 	
@@ -86,14 +91,19 @@ public class FlightPlanTests {
 		
 		// Testing that it doesn't build a route if game has no exitpoints
 		
-		Game gameWithoutExitpoints = new Game(50, 100);
+		Game gameWithoutExitpoints;
+		try {
+			gameWithoutExitpoints = new Game(50, 100);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
 		
 		//Removing All ExitPoints
 		
 		gameWithoutExitpoints.getListOfExitPoints().removeAll(gameWithoutExitpoints.getListOfExitPoints());
 
 
-    	Plane plane2 = new Plane(1, 500, 3000, 50, gameWithoutExitpoints);
+    	Plane plane2 = new Plane(1, 500, 3000, 50, gameWithoutExitpoints, 2);
     	
     	
     	ArrayList<Point> route = plan.buildRoute(gameWithoutExitpoints, plane2.getFlightPlan().getEntryPoint());
@@ -109,14 +119,19 @@ public class FlightPlanTests {
 		
 		// Testing that it doesn't build a route if no game has no Waypoints
 		
-		Game gameWithoutWaypoints = new Game(50, 100);
+		Game gameWithoutWaypoints;
+		try {
+			gameWithoutWaypoints = new Game(50, 100);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
 		
 		//Removing All Waypoints
 		
 		gameWithoutWaypoints.getListOfWaypoints().removeAll(gameWithoutWaypoints.getListOfWaypoints());
 
 
-    	Plane plane2 = new Plane(1, 500, 3000, 50, gameWithoutWaypoints);
+    	Plane plane2 = new Plane(1, 500, 3000, 50, gameWithoutWaypoints, 3);
     	
     	
     	ArrayList<Point> route = plan.buildRoute(gameWithoutWaypoints, plane2.getFlightPlan().getEntryPoint());
