@@ -15,6 +15,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import java.awt.Font;
 import java.io.InputStream;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import game.struct.Game;
@@ -370,7 +371,12 @@ public class GameWindow extends BasicGameState {
 		if (((WindowManager) game).getCurrentLevel() == 1)
 		{
 			// Play level 1
-			this.currentGame = new Game(50, 100);
+			try {
+				this.currentGame = new Game(50, 100);
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			this.map = this.map1;
 			this.fontColor = Color.white;
 			this.currentGame.setSpeedDifficulty(0.5);
@@ -380,7 +386,12 @@ public class GameWindow extends BasicGameState {
 		else if (((WindowManager) game).getCurrentLevel() == 2)
 		{
 			// Play level 2
-			this.currentGame = new Game(70, 100);
+			try {
+				this.currentGame = new Game(70, 100);
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			this.map = this.map1;
 			this.fontColor = Color.white;
 			this.currentGame.setSpeedDifficulty(0.5);
@@ -603,7 +614,7 @@ public class GameWindow extends BasicGameState {
 				landingApproachAreaDrawn = false;
 				if (plane.equals(this.currentGame.getCurrentPlane()))
 				{
-					if (this.currentGame.getCurrentPlane().isNeedsToLand() == true
+					if (this.currentGame.getCurrentPlane().getNeedsToLand() == true
 							&& landingApproachAreaDrawn == false)
 					{
 						landingApproachArea.draw(400, 344);
@@ -632,7 +643,7 @@ public class GameWindow extends BasicGameState {
 					// Every number of frames, blink
 					if (((int) (this.time / BLINK_FREQUENCY)) % 2 == 0)
 						{
-						if (plane.isNeedsToLand() == true)
+						if (plane.getNeedsToLand() == true)
 						{
 							this.planeNeedsLandingCur = this.planeNeedsLanding
 									.getScaledCopy(1 + ((((float) (plane
@@ -655,7 +666,7 @@ public class GameWindow extends BasicGameState {
 				/* Render Landing Information above flight */
 				
 				// If plane needs to land and is not selected
-				if (plane.isNeedsToLand()
+				if (plane.getNeedsToLand()
 						&& !plane.equals(currentGame.getCurrentPlane())
 						&& !currentGame.getAirport().isPlaneLanding())
 				{
@@ -664,7 +675,7 @@ public class GameWindow extends BasicGameState {
 				}
 				
 				// If plane needs to land, but there is another plane landing at the same time
-				else if (plane.isNeedsToLand()
+				else if (plane.getNeedsToLand()
 						&& currentGame.getAirport().isPlaneLanding())
 				{
 					g.drawString("Wait to Land Me!",
@@ -673,14 +684,14 @@ public class GameWindow extends BasicGameState {
 				}
 				
 				// If plane is selected, but it's not at the landing height 
-				else if (plane.isNeedsToLand() && plane.getAltitude() > 2000)
+				else if (plane.getNeedsToLand() && plane.getAltitude() > 2000)
 				{
 					g.drawString("Lower Me!", (float) (plane.getX() - 5),
 							(float) (plane.getY() - 30));
 				}
 				
 				// If plane is selected, at the right altitude, and within the landing zone 
-				else if (plane.isNeedsToLand()
+				else if (plane.getNeedsToLand()
 						&& plane.getAltitude() <= 2000
 						&& plane.getBearing() <= 225
 						&& plane.getBearing() >= 135
@@ -695,14 +706,14 @@ public class GameWindow extends BasicGameState {
 				}
 
 				// If plane is selected, at right height, but not within the landing zone
-				else if (plane.isNeedsToLand() && plane.getAltitude() <= 2000)
+				else if (plane.getNeedsToLand() && plane.getAltitude() <= 2000)
 				{
 					g.drawString("Perfect Height!", (float) (plane.getX() - 5),
 							(float) (plane.getY() - 30));
 				}
 				
 				// If plane needs to take off, and it didn't violate the allowance threshold of sitting landed
-				else if (plane.isNeedsToTakeOff() && (!currentGame.isTakeOffPenalty())){
+				else if (plane.getNeedsToTakeOff() && (!currentGame.isTakeOffPenalty())){
 					g.drawString("'T' to Takeoff!", 1115, 555);
 				}
 			}
@@ -1032,7 +1043,7 @@ public class GameWindow extends BasicGameState {
 				// If there is no plane where the user click, deselect the current plane
 				if (this.currentGame.getCurrentPlane() != null)
 				{
-					if (!this.currentGame.getCurrentPlane().isNeedsToLand())
+					if (!this.currentGame.getCurrentPlane().getNeedsToLand())
 					{
 						/* When a plane gets deselected, it is removed from manual control, 
 						 * and it retakes the automatic control 
@@ -1052,7 +1063,7 @@ public class GameWindow extends BasicGameState {
 				if (this.currentGame.getCurrentPlane() != null)
 				{
 					// Do not allow change of heading to airport planes
-					if (!currentGame.getCurrentPlane().isNeedsToTakeOff())
+					if (!currentGame.getCurrentPlane().getNeedsToTakeOff())
 					{
 						this.giveHeadingThroughMouse(
 								this.currentGame.getCurrentPlane(), x, y);
