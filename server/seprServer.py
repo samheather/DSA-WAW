@@ -38,17 +38,19 @@ class MyChat(basic.LineReceiver):
 
 	def dataReceived(self, data):
 		print "SLOG Sender Data Received: ", repr(data)
-		for c in self.factory.clients:
-			c.transport.write(data)
-
-	def lineReceived(self, data):
-		print "SLOG Sender data received"
 		if self.__opponent == None:
 			self.transport.write("E0") # not in game
 			print "SLOG E0"
 			return
 		self.__opponent.transport.write(data)
 
+# 	def lineReceived(self, data):
+# 		print "SLOG Sender data received"
+# 		if self.__opponent == None:
+# 			self.transport.write("E0") # not in game
+# 			print "SLOG E0"
+# 			return
+# 		self.__opponent.transport.write(data)
 
 from twisted.internet import protocol
 from twisted.application import service, internet

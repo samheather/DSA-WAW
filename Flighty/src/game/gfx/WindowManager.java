@@ -71,6 +71,10 @@ public class WindowManager extends StateBasedGame {
 	public static void main(String[] args) throws UnknownHostException,
 			IOException {
 		
+		//////////////////////////////////////////////////////////////
+		//////////// DO NOT DELETE THIS - SAM'S TEST CODE ////////////
+		//////////////////////////////////////////////////////////////
+		
 		Socket s = new Socket("localhost", 1025);
 		byte[] received = new byte[1024];
 		InputStream is = s.getInputStream();
@@ -80,7 +84,10 @@ public class WindowManager extends StateBasedGame {
 		}
 		String toPrint = new String(received);
 		System.out.println(toPrint);
-		os.write("Hello from java!\n".getBytes());
+		os.write("Hello from java!\n".getBytes()); // Don't forget the /n
+		is.close();
+		os.close();
+		s.close();
 
 		try {
 			// Set up app for game
