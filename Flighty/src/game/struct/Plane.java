@@ -128,14 +128,14 @@ public class Plane {
 	{	
 		// Ensuring that the plane cannot go through its landing waypoint when it isnt landing
 		if (waypoint.equals(game.getAirport().getBeginningOfRunway()) 
-				&& this.landing != true && this.takingOff != true)
+				&& isLanding() != true && isTakingOff() != true)
 		{
 			return false;
 		}
 		
 		// If the plane is in the range, the flight is at waypoint
-		if (((Math.abs(Math.round(this.x) - Math.round(waypoint.getX()))) <= 15)
-				&& (Math.abs(Math.round(this.y) - Math.round(waypoint.getY()))) <= 15)
+		if (((Math.abs(Math.round(getX()) - Math.round(waypoint.getX()))) <= 15)
+				&& (Math.abs(Math.round(getY()) - Math.round(waypoint.getY()))) <= 15)
 		{	
 			return true;
 		}
@@ -149,17 +149,17 @@ public class Plane {
 	public void incrementBearing()
 	{
 		// Increment turning by going right
-		this.turningLeft 	= false;
-		this.turningRight 	= true;
+		setTurningLeft(false);
+		setTurningRight(true);
 		
-		this.bearing 		+= 1;
-		this.targetBearing 	 = this.bearing;
+		setBearing(getBearing() + 1);
+		setTargetBearing(getBearing());
 		
 		// Resets the bearing if it is bigger than 360 degrees
 		if (bearing >= 360)
 		{
-			this.bearing 		= 0;
-			this.targetBearing 	= 0;
+			setBearing(0);
+			setTargetBearing(0);
 		}
 	}
 
@@ -169,17 +169,17 @@ public class Plane {
 	public void decrementBearing()
 	{
 		// Decrement bearing by going left
-		this.turningLeft 	 = true;
-		this.turningRight 	 = false;
+		setTurningLeft(true);
+		setTurningRight(false);
 		
-		this.bearing 		-= 1;
-		this.targetBearing 	 = this.bearing; 
+		setBearing(getBearing() - 1);
+		setTargetBearing(getBearing()); 
 		
 		// Resets the bearing if it is smaller than 0
 		if (bearing < 0)
 		{
-			this.bearing 		= 359;
-			this.targetBearing 	= 359;
+			setBearing(359);
+			setTargetBearing(359);
 		}
 	}
 	
@@ -191,7 +191,7 @@ public class Plane {
 	 */
 	public void incrementAltitude()
 	{
-		this.altitude += 5;
+		setAltitude(getAltitude() + 5);
 	}
 
 	/**
@@ -202,29 +202,29 @@ public class Plane {
 	 */
 	public void decrementAltitude()
 	{
-		this.altitude -= 5;
+		setAltitude(getAltitude() - 5);
 	}
 
 	/**
 	 * Increments the Plane's target altitude to the next flight level
 	 * <p>
-	 * Note: highest flight level allowed for planes is 4
+	 * Note: highest flight level allowed for planes is 6000
 	 * </p>
 	 */
 	public void incrementTargetAltitude()
 	{
-		if(this.targetAltitude <= 6000)
+		if(getTargetAltitude() <= 6000)
 		{
-			this.targetAltitude += 1000;
+			setTargetAltitude(getTargetAltitude() + 1000);
 		}
 	}
 	
 	/** Decrements the altitude by 1000 units, so long as the current altitude is greater than or equal to 3000 */
 	public void decrementTargetAltitude()
 	{
-		if(this.targetAltitude >= 3000)
+		if(getTargetAltitude() >= 3000)
 		{
-			this.targetAltitude -= 1000;
+			setTargetAltitude(getTargetAltitude() - 1000);
 		}
 	}
 	
@@ -233,17 +233,17 @@ public class Plane {
 	public void calculateBearingToNextWaypoint()
 	{
 		double angle;
-		angle = Math.toDegrees(Math.atan2(this.y - this.target.getY(),
-								this.x - this.target.getX()));
+		angle = Math.toDegrees(Math.atan2(getY() - target.getY(),
+								getX() - target.getX()));
 		
 		if(angle < 0)
 		{
 			angle += 360;
 		}
 		
-		this.turningRight 	= false;
-		this.turningLeft 	= false;
-		this.targetBearing 	= angle;
+		setTurningRight(false);
+		setTurningLeft(false);
+		setTargetBearing(angle);
 	}
 
 	/** Updates current bearing */
@@ -252,74 +252,74 @@ public class Plane {
 		// Rate at which the plane changes its bearing
 		double rate = 0.9;
 		
-		if (Math.round(this.targetBearing) <= Math.round(this.bearing) - 3 
-				|| Math.round(this.targetBearing) >= Math.round(this.bearing) + 3)
+		if (Math.round(getTargetBearing()) <= Math.round(getBearing()) - 3 
+				|| Math.round(getTargetBearing()) >= Math.round(getBearing()) + 3)
 		{
 			/*
 			 * If plane has been given a heading so no turning direction specified,
 			 * below works out which one is quicker between turning left and turning right
 			 */
-			if(this.turningRight == false && this.turningLeft == false)
+			if(isTurningRight() == false && isTurningLeft() == false)
 			{
-				if (Math.abs(this.targetBearing - this.bearing) == 180)
+				if (Math.abs(getTargetBearing() - getBearing()) == 180)
 				{
-					this.turningRight = true;
+					setTurningRight(true);
 				} 
-				else if (this.bearing + 180 <= 359)
+				else if (getBearing() + 180 <= 359)
 				{
-					if (this.targetBearing < this.bearing + 180 
-							&& this.targetBearing > this.bearing)
+					if (getTargetBearing() < getBearing() + 180 
+							&& getTargetBearing() > getBearing())
 					{
-						this.turningRight = true;
+						setTurningRight(true);
 					}
 					else
 					{
-						this.turningLeft = true;
+						setTurningLeft(true);
 					}
 				}
 				else
 				{
-					if (this.targetBearing > this.bearing - 180 
-							&& this.targetBearing < this.bearing)
+					if (getTargetBearing() > getBearing() - 180 
+							&& getTargetBearing() < getBearing())
 					{
-						this.turningLeft = true;
+						setTurningLeft(true);
 					}
 					else
 					{
-						this.turningRight = true;
+						setTurningRight(true);
 					}
 				}
 
 			}
 			
 			// Change bearing if plane is already turning right or user has told it to turn right
-			if (this.turningRight == true)
+			if (isTurningRight() == true)
 			{
-				this.bearing += rate;
+				setBearing(getBearing() + rate);
 				
-				if (Math.round(this.bearing) >= 360 
-						&& this.targetBearing != 360)
+				if (Math.round(getBearing()) >= 360 
+						&& getTargetBearing() != 360)
 				{
-					this.bearing = 0;
+					setBearing(0);
 				}
 			}
 
 			// Change bearing if plane is already turning left or user has told it to turn left
-			if (this.turningLeft == true)
+			if (isTurningLeft() == true)
 			{
-				this.bearing -= rate;
+				setBearing(getBearing() - rate);
 				
-				if (Math.round(this.bearing) <= 0 && this.targetBearing != 0)
+				if (Math.round(getBearing()) <= 0 && getTargetBearing() != 0)
 				{
-					this.bearing = 360;
+					setBearing(360);
 				}
 			}
 		}
 		else
 		{
 			// Do not change bearing if no commands have been given
-			this.turningLeft  	= false;
-			this.turningRight	= false;
+			setTurningLeft(false);
+			setTurningRight(false);
 		}
 	}
 
@@ -332,11 +332,14 @@ public class Plane {
 		double rate;
 		
 		//Find distance to runway waypoint
-		double distanceFromRunway 	=  Math.sqrt(Math.pow(this.x-this.currentGame.getAirport().getBeginningOfRunway().getX(), 2)
-													+ Math.pow(this.y-this.currentGame.getAirport().getBeginningOfRunway().getY(), 2));
-		double descentPerPixel 		= this.altitude/distanceFromRunway;
+		double distanceFromRunway 	=  Math.sqrt(Math.pow(getX() - 
+				currentGame.getAirport().getBeginningOfRunway().getX(), 2)
+													+ Math.pow(getY() - 
+				currentGame.getAirport().getBeginningOfRunway().getY(), 2));
 		
-		rate = descentPerPixel* (this.velocity) * this.currentGame.getSpeedDifficulty();
+		double descentPerPixel 		= getAltitude() / distanceFromRunway;
+		
+		rate = descentPerPixel * getVelocity() * currentGame.getSpeedDifficulty();
 
 		return rate;
 	}
@@ -347,21 +350,21 @@ public class Plane {
 	 */
 	public void land()
 	{	
-		if (!this.currentGame.getAirport().isPlaneLanding()
-				&& this.currentGame.getAirport().getLandingApproachArea()
-											.contains((float)this.x, (float)this.y) 
-					&& this.bearing >= 135 && this.bearing <= 225 && this.altitude <= 2000)
+		if (!currentGame.getAirport().isPlaneLanding()
+				&& currentGame.getAirport().getLandingApproachArea()
+											.contains((float)getX(), (float)getY()) 
+					&& getBearing() >= 135 && getBearing() <= 225 && getAltitude() <= 2000)
 		{
-			this.currentGame.getAirport().setPlaneLanding(true);
+			currentGame.getAirport().setPlaneLanding(true);
 			
-			this.needsToLand 	= false;
-			this.landing 		= true;
-			this.target 		= this.flightPlan.getCurrentRoute().get(0);
+			setNeedsToLand(false);
+			setLanding(true);
+			setTarget(flightPlan.getCurrentRoute().get(0));
 			
-			this.calculateBearingToNextWaypoint();
-			this.landingDescentRate = this.findLandingDescentRate();
-			this.currentGame.getManualPlanes().remove(this);
-			this.currentGame.setCurrentPlane(null);					
+			calculateBearingToNextWaypoint();
+			setLandingDescentRate(findLandingDescentRate());
+			currentGame.getManualPlanes().remove(this);
+			currentGame.setCurrentPlane(null);					
 		}
 	}
 	
@@ -372,11 +375,11 @@ public class Plane {
 	 */
 	public void takeOff()
 	{
-		this.velocity = currentGame.generateVelocity();
+		setVelocity(currentGame.generateVelocity());
 		currentGame.getManualPlanes().remove(this);
 	
-		this.needsToTakeOff = false;
-		this.takingOff 		= true;
+		setNeedsToTakeOff(false);
+		setTakingOff(true);
 		
 		// Penalising stops because the plane has been commanded to take off
 		currentGame.setTakeOffPenalty(false);
@@ -392,29 +395,29 @@ public class Plane {
 	 */
 	public void updatePlaneAltitude()
 	{
-		if(this.landingDescentRate != 0)
+		if(getLandingDescentRate() != 0)
 		{
-			if(this.altitude < 0)
+			if(getAltitude() < 0)
 			{
-				this.altitude 			= 0;
-				this.landingDescentRate = 0;
-				this.targetAltitude		= 0;
+				setAltitude(0);
+				setLandingDescentRate(0);
+				setTargetAltitude(0);
 			}
 			else
 			{
-				this.altitude  = this.altitude - (int)Math.round(this.landingDescentRate);
+				setAltitude(getAltitude() - (int)Math.round(getLandingDescentRate()));
 			}
 
 		}
 		else
 		{
-			if(this.altitude > this.targetAltitude)
+			if(getAltitude() > getTargetAltitude())
 			{
-				this.decrementAltitude();
+				decrementAltitude();
 			} 
-			else if(this.altitude < this.targetAltitude)
+			else if(getAltitude() < getTargetAltitude())
 			{
-				this.incrementAltitude();
+				incrementAltitude();
 			}
 		}
 	}
@@ -436,27 +439,27 @@ public class Plane {
 	public void movePlane()
 	{ 	
 		// If Plane is taking off, don't change the bearing
-		if(this.altitude < 2000 && this.targetAltitude > 0 && !this.landing)
+		if(getAltitude() < 2000 && getTargetAltitude() > 0 && !isLanding())
 		{
-			this.updateXYCoordinates();
+			updateXYCoordinates();
 		}
 		else
 		{
-			if(this.target != null)
+			if(getTarget() != null)
 			{
-				if(!this.currentGame.getManualPlanes().contains(this))
+				if(!currentGame.getManualPlanes().contains(this))
 				{	
 					// Get the angle to the next waypoint
-					this.calculateBearingToNextWaypoint();
-					this.updateCurrentBearing();
+					calculateBearingToNextWaypoint();
+					updateCurrentBearing();
 				}
 				else 
 				{
-					this.updateCurrentBearing();
+					updateCurrentBearing();
 				}
 
 				// Move the plane
-				this.updateXYCoordinates();
+				updateXYCoordinates();
 			}
 		}
 	}
@@ -464,15 +467,15 @@ public class Plane {
 	/** Updates x and y coordinates */
 	public void updateXYCoordinates()
 	{
-		this.setX((float) (this.x
-				- (Math.cos(Math.toRadians(this.bearing))
-						* (this.currentGame.getSpeedDifficulty()
-								* this.velocity))));
+		setX((float) (getX()
+				- (Math.cos(Math.toRadians(getBearing()))
+						* (currentGame.getSpeedDifficulty()
+								* getVelocity()))));
 		
-		this.setY((float) (this.y
-				- (Math.sin(Math.toRadians(this.bearing))
-						* (this.currentGame.getSpeedDifficulty()
-								* this.velocity))));
+		setY((float) (getY()
+				- (Math.sin(Math.toRadians(getBearing()))
+						* (currentGame.getSpeedDifficulty()
+								* getVelocity()))));
 	}
 
 	// Getters
@@ -667,7 +670,7 @@ public class Plane {
 	/** 
 	 * @return Boolean expressing whether plane needs to land
 	 */
-	public boolean isNeedsToLand()
+	public boolean getNeedsToLand()
 	{
 		return needsToLand;
 	}
@@ -752,7 +755,7 @@ public class Plane {
 	}
 
 
-	public boolean isNeedsToTakeOff()
+	public boolean getNeedsToTakeOff()
 	{
 		return needsToTakeOff;
 	}

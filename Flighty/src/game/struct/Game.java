@@ -504,7 +504,7 @@ public class Game {
 	public void handleKeyPresses(GameContainer gameContainer)
 	{
 		//Steering controls apply only to active planes
-		if (!this.currentPlane.isNeedsToTakeOff())
+		if (!this.currentPlane.getNeedsToTakeOff())
 		{
 			// Action on 'a' and 'left' keys
 			if (gameContainer.getInput().isKeyDown(203)
@@ -549,7 +549,7 @@ public class Game {
 			// Action on 'l' Key
 			if (gameContainer.getInput().isKeyPressed(38))
 			{
-				if (this.currentPlane.isNeedsToLand())
+				if (this.currentPlane.getNeedsToLand())
 				{
 					this.currentPlane.land();
 				}
@@ -558,7 +558,7 @@ public class Game {
 		}
 
 		// Action on 'T' Key
-		else if (this.currentPlane.isNeedsToTakeOff())
+		else if (this.currentPlane.getNeedsToTakeOff())
 		{
 			if (gameContainer.getInput().isKeyPressed(Input.KEY_T))
 			{
@@ -731,7 +731,7 @@ public class Game {
 			}
 
 			// Applies penalty for planes landed for too long
-			if (plane.isNeedsToTakeOff())
+			if (plane.getNeedsToTakeOff())
 			{
 				if (this.takeOffSynch < 0)
 				{
