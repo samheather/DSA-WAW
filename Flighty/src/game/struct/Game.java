@@ -102,7 +102,7 @@ public class Game {
 	private Plane currentPlane;
 
 	/** Holds number of planes currently in the airspace */
-	int planeCount;
+	private int planeCount;
 
 	/** Holds airport in airspace */
 	private Airport airport;
@@ -223,7 +223,7 @@ public class Game {
 	 */
 	public void createPlane() {
 		Plane newPlane;
-		this.planeCount++;
+		setPlaneCount(getPlaneCount() + 1);
 
 		newPlane = new Plane(this.planeCount, this.generateVelocity(),
 				this.generateAltitude(), 0, this, rand.nextLong());
@@ -995,5 +995,13 @@ public class Game {
 	 */
 	public Airport getAirport() {
 		return airport;
+	}
+	
+	public int getPlaneCount() {
+		return planeCount;
+	}
+	
+	public void setPlaneCount(int planeCount) {
+		this.planeCount = planeCount;
 	}
 }
