@@ -70,6 +70,17 @@ public class WindowManager extends StateBasedGame {
 	// Entry point
 	public static void main(String[] args) throws UnknownHostException,
 			IOException {
+		
+		Socket s = new Socket("localhost", 1025);
+		byte[] received = new byte[1024];
+		InputStream is = s.getInputStream();
+		OutputStream os = s.getOutputStream();
+		if (is.read(received) > 1023) {
+			System.out.println("Byte array may have overflowed - max size=1024 - increase this!");
+		}
+		String toPrint = new String(received);
+		System.out.println(toPrint);
+		os.write("Hello from java!\n".getBytes());
 
 		try {
 			// Set up app for game
@@ -103,8 +114,10 @@ public class WindowManager extends StateBasedGame {
 	 * <p>
 	 * Loads states into the game.
 	 * </p>
+	 * @throws IOException 
+	 * @throws UnknownHostException 
 	 */
-	public WindowManager() {
+	public WindowManager() throws UnknownHostException, IOException {
 		super(GAME_TITLE);
 
 		// Initialise background movement variable

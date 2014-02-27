@@ -22,8 +22,9 @@ public class SaveFile {
 		try {
 			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
 					statsFileName));
-			level2Unlocked = ((boolean)ois.readObject());
-			level3Unlocked = ((boolean)ois.readObject());
+			// TODO Fix this
+//			level2Unlocked = ((boolean)ois.readObject());
+//			level3Unlocked = ((boolean)ois.readObject());
 			ois.close();
 			System.out.println("Read");
 			System.out.println(level2Unlocked);
