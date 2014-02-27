@@ -110,7 +110,7 @@ public class Game {
 	/** Variable which holds score */
 	private Score score;
 	SecureRandom secureRandom;
-	private Random rand;
+	private Random rand = new Random();
 
 	// Constructors
 
@@ -130,9 +130,9 @@ public class Game {
 	 */
 	public Game(int separationDistance, int penaltyDistance)
 			throws NoSuchAlgorithmException {
-		secureRandom = SecureRandom.getInstance("SHA1PRNG");
+		/*secureRandom = SecureRandom.getInstance("SHA1PRNG");
 		rand = new Random(ByteBuffer.allocate(8)
-				.put(secureRandom.generateSeed(8)).getLong());
+				.put(secureRandom.generateSeed(8)).getLong());*/
 		// Screen size
 		this.windowWidth = WINDOW_WIDTH;
 		this.windowHeight = WINDOW_HEIGHT;

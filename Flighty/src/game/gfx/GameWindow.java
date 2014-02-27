@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import game.struct.Game;
 import game.struct.Plane;
+import game.struct.SaveFile;
 
 /**
  * GameWindow class provides an interactive game
@@ -113,6 +114,9 @@ public class GameWindow extends BasicGameState {
 
 	/** The colour to display the font in */
 	private Color fontColor;
+	
+	/**Boolean to stop multiple saves on crashing**/
+	private boolean hasSaved = false;
 
 	/** Reference to the game container */
 	GameContainer currentGameContainer;
@@ -141,6 +145,8 @@ public class GameWindow extends BasicGameState {
 	
 	/** Background music **/
 	Music gameMusic;
+	
+	private SaveFile saveFile = new SaveFile();
 
 
 	/**
@@ -374,7 +380,6 @@ public class GameWindow extends BasicGameState {
 			try {
 				this.currentGame = new Game(50, 100);
 			} catch (NoSuchAlgorithmException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			this.map = this.map1;
@@ -389,13 +394,25 @@ public class GameWindow extends BasicGameState {
 			try {
 				this.currentGame = new Game(70, 100);
 			} catch (NoSuchAlgorithmException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			this.map = this.map1;
 			this.fontColor = Color.white;
 			this.currentGame.setSpeedDifficulty(0.5);
 			this.currentGame.setSpawnRate(4);
+			this.currentGame.setSpawnCount(1);
+		} else if (((WindowManager) game).getCurrentLevel() == 3)
+		{
+			// Play level 3
+			try {
+				this.currentGame = new Game(70, 100);
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			}
+			this.map = this.map1;
+			this.fontColor = Color.white;
+			this.currentGame.setSpeedDifficulty(0.5);
+			this.currentGame.setSpawnRate(2);
 			this.currentGame.setSpawnCount(1);
 		}
 
@@ -964,6 +981,25 @@ public class GameWindow extends BasicGameState {
 								310,
 								"Return in: "
 										+ (int) (5 - ((this.time - this.endTime) / 1000)));
+					if (saveFile.getLevel2UnlockScore() <= this.currentGame.getScore().getScore()
+							&& ((WindowManager)game).getCurrentLevel() == 1) {
+						new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
+						.drawString(420f, 350f, "Level 2 Unlocked!");
+						if (!hasSaved){
+							saveFile.setLevel2Unlock(true);
+							saveFile.saveStats();
+							this.hasSaved = true;
+						}
+					} else if (saveFile.getLevel3UnlockScore() <= this.currentGame.getScore().getScore()
+							&& ((WindowManager)game).getCurrentLevel() == 2) {
+						new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
+						.drawString(420f, 350f, "Level 3 Unlocked!");
+						if (!hasSaved){
+							saveFile.setLevel3Unlock(true);
+							saveFile.saveStats();
+							this.hasSaved = true;
+						}
+					}
 				
 				// If return time elapsed, close game to let the user play again
 				if (this.time > (this.endTime + (5 * 1000)))
