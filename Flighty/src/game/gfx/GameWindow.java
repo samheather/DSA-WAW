@@ -147,6 +147,9 @@ public class GameWindow extends BasicGameState {
 	Music gameMusic;
 	
 	private SaveFile saveFile = new SaveFile();
+	
+	private boolean unlock2 = false;
+	private boolean unlock3 = false;
 
 
 	/**
@@ -373,7 +376,10 @@ public class GameWindow extends BasicGameState {
 
 		((AppGameContainer) gameContainer).setDisplayMode(this.windowWidth,
 				this.windowHeight, false);
-
+		
+		this.unlock2 = saveFile.getLevel2Unlock();
+		this.unlock3 = saveFile.getLevel3Unlock();
+		
 		if (((WindowManager) game).getCurrentLevel() == 1)
 		{
 			// Play level 1
@@ -982,7 +988,8 @@ public class GameWindow extends BasicGameState {
 								"Return in: "
 										+ (int) (5 - ((this.time - this.endTime) / 1000)));
 					if (saveFile.getLevel2UnlockScore() <= this.currentGame.getScore().getScore()
-							&& ((WindowManager)game).getCurrentLevel() == 1) {
+							&& ((WindowManager)game).getCurrentLevel() == 1 
+							&& unlock2 == false) {
 						new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
 						.drawString(420f, 350f, "Level 2 Unlocked!");
 						if (!hasSaved){
@@ -991,7 +998,8 @@ public class GameWindow extends BasicGameState {
 							this.hasSaved = true;
 						}
 					} else if (saveFile.getLevel3UnlockScore() <= this.currentGame.getScore().getScore()
-							&& ((WindowManager)game).getCurrentLevel() == 2) {
+							&& ((WindowManager)game).getCurrentLevel() == 2
+							&& unlock3 == false) {
 						new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
 						.drawString(420f, 350f, "Level 3 Unlocked!");
 						if (!hasSaved){
