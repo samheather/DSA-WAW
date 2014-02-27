@@ -99,7 +99,7 @@ public class Game {
 	private Plane currentPlane;
 
 	/** Holds number of planes currently in the airspace */
-	int planeCount;
+	private int planeCount;
 
 	/** Holds airport in airspace */
 	private Airport airport;
@@ -215,7 +215,7 @@ public class Game {
 	public void createPlane()
 	{
 		Plane newPlane;
-		this.planeCount++;
+		setPlaneCount(getPlaneCount() + 1);
 
 		newPlane = new Plane(this.planeCount, this.generateVelocity(),
 								this.generateAltitude(), 0, this);
@@ -943,8 +943,7 @@ public class Game {
 	/**
 	 * @return currentPlane
 	 */
-	public Plane getCurrentPlane()
-	{
+	public Plane getCurrentPlane() {
 		return currentPlane;
 	}
 
@@ -952,32 +951,28 @@ public class Game {
 	 * @param currentPlane
 	 *            Plane which currentPlane is to be changed to
 	 */
-	public void setCurrentPlane(Plane currentPlane)
-	{
+	public void setCurrentPlane(Plane currentPlane) {
 		this.currentPlane = currentPlane;
 	}
 
 	/**
 	 * @return penalty distance (the alert range)
 	 */
-	public int getPenaltyDistance()
-	{
+	public int getPenaltyDistance() {
 		return this.penaltyDistance;
 	}
 
 	/**
 	 * @return list of planes attached to the game
 	 */
-	public ArrayList<Plane> getCurrentPlanes()
-	{
+	public ArrayList<Plane> getCurrentPlanes() {
 		return this.currentPlanes;
 	}
 
 	/**
 	 * @return a reference to the current game window
 	 */
-	public GameWindow getCurrentGameWindow()
-	{
+	public GameWindow getCurrentGameWindow() {
 		return this.currentGameWindow;
 	}
 
@@ -987,8 +982,7 @@ public class Game {
 	 * @param separationDistance
 	 *            distance at which planes should collide
 	 */
-	public void setSeparationDistance(int separationDistance)
-	{
+	public void setSeparationDistance(int separationDistance) {
 		this.separationDistance = separationDistance;
 	}
 
@@ -996,8 +990,7 @@ public class Game {
 	 * @param penaltyDistance
 	 *            distance at which planes should alert
 	 */
-	public void setPenaltyDistance(int penaltyDistance)
-	{
+	public void setPenaltyDistance(int penaltyDistance) {
 		this.penaltyDistance = penaltyDistance;
 	}
 
@@ -1005,8 +998,7 @@ public class Game {
 	 * @param currentPlanes
 	 *            the array of planes to set
 	 */
-	public void setCurrentPlanes(ArrayList<Plane> currentPlanes)
-	{
+	public void setCurrentPlanes(ArrayList<Plane> currentPlanes) {
 		this.currentPlanes = currentPlanes;
 	}
 
@@ -1014,16 +1006,14 @@ public class Game {
 	 * @param currentGameWindow
 	 *            a new parent game window
 	 */
-	public void setCurrentGameWindow(GameWindow currentGameWindow)
-	{
+	public void setCurrentGameWindow(GameWindow currentGameWindow) {
 		this.currentGameWindow = currentGameWindow;
 	}
 
 	/**
 	 * @return Array list of exit points
 	 */
-	public ArrayList<Point> getListOfExitPoints()
-	{
+	public ArrayList<Point> getListOfExitPoints() {
 		return listOfExitPoints;
 	}
 
@@ -1031,16 +1021,14 @@ public class Game {
 	 * @param listOfExitPoints
 	 *            Array list which listOfExitPoints is to be changed to
 	 */
-	public void setListOfExitPoints(ArrayList<Point> listOfExitPoints)
-	{
+	public void setListOfExitPoints(ArrayList<Point> listOfExitPoints) {
 		this.listOfExitPoints = listOfExitPoints;
 	}
 
 	/**
 	 * @return Array list of waypoints in the airspace
 	 */
-	public ArrayList<Waypoint> getListOfWaypoints()
-	{
+	public ArrayList<Waypoint> getListOfWaypoints() {
 		return listOfWaypoints;
 	}
 
@@ -1048,16 +1036,14 @@ public class Game {
 	 * @param listOfWaypoints
 	 *            Array list which listOfWaypoints is to be changed to
 	 */
-	public void setListOfWaypoints(ArrayList<Waypoint> listOfWaypoints)
-	{
+	public void setListOfWaypoints(ArrayList<Waypoint> listOfWaypoints) {
 		this.listOfWaypoints = listOfWaypoints;
 	}
 
 	/**
 	 * @return Array list of entry points in the airspace
 	 */
-	public ArrayList<Point> getListOfEntryPoints()
-	{
+	public ArrayList<Point> getListOfEntryPoints() {
 		return listOfEntryPoints;
 	}
 
@@ -1065,16 +1051,22 @@ public class Game {
 	 * @param listOfEntryPoints
 	 *            Array list which listOfEntryPoints is to be changed to
 	 */
-	public void setListOfEntryPoints(ArrayList<Point> listOfEntryPoints)
-	{
+	public void setListOfEntryPoints(ArrayList<Point> listOfEntryPoints) {
 		this.listOfEntryPoints = listOfEntryPoints;
 	}
 
 	/**
 	 * @return Airport within in the airspace
 	 */
-	public Airport getAirport()
-	{
+	public Airport getAirport() {
 		return airport;
+	}
+	
+	public int getPlaneCount() {
+		return planeCount;
+	}
+	
+	public void setPlaneCount(int planeCount) {
+		this.planeCount = planeCount;
 	}
 }
