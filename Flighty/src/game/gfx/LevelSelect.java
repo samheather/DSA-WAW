@@ -61,7 +61,7 @@ public class LevelSelect extends GenericWindow {
 	 * @param gameContainer	the game container holding this state
 	 * @param game			the game running this state
 	 */
-	private void checkForSelection(GameContainer gameContainer,
+	private void drawButtons(GameContainer gameContainer,
 			StateBasedGame game)
 	{
 		// Mouse coordinates
@@ -72,6 +72,7 @@ public class LevelSelect extends GenericWindow {
 		boolean clicked 	= gameContainer.getInput().isMousePressed(0);
 
 		// Text
+		String titleText 			= "Select a Level";
 		String level1Text 			= "Level 1";
 		String level2Text 			= "Level 2";
 		String level3Text 			= "Level 3";
@@ -81,6 +82,7 @@ public class LevelSelect extends GenericWindow {
 		String mainMenuText			= "Main Menu";
 
 		// Get the text width
+		int titleTextWidth			= this.font.getWidth(titleText);
 		int level1Width 			= this.font.getWidth(level1Text);
 		int level2Width 			= this.font.getWidth(level2Text);
 		int level3Width 			= this.font.getWidth(level3Text);
@@ -90,9 +92,10 @@ public class LevelSelect extends GenericWindow {
 		int mainMenuWidth		 	= this.font.getWidth(mainMenuText);
 
 		// Get the text height
-		int textHeight 				= this.font.getHeight();
+		int fontHeight 				= this.font.getHeight();
 
 		// Set the colours for the text
+		Color titleColor			= Color.orange;
 		Color level1Color 			= Color.orange;
 		Color level2Color 			= Color.orange;
 		Color level3Color 			= Color.orange;
@@ -103,10 +106,13 @@ public class LevelSelect extends GenericWindow {
 		int[] levelImageSize = {200,200};
 		
 		// position of images on the screen in pixels
+		int[] titlePos = {(gameContainer.getWidth()/2) - titleTextWidth, 50};
 		int[] level1ImagePos = {110,175};
 		int[] level2ImagePos = {(gameContainer.getWidth() - levelImageSize[0])/2,175};
 		int[] level3ImagePos = {(gameContainer.getWidth() - levelImageSize[0] - 110),175};
+		int[] mainMenuTextPos = {50, gameContainer.getHeight() - 50};
 		
+		// duplicating the values for the black squares to outline the images
 		image1Pos = level1ImagePos;
 		image2Pos = level2ImagePos;
 		image3Pos = level3ImagePos;
@@ -118,6 +124,10 @@ public class LevelSelect extends GenericWindow {
 
 		// tolerance for clicking on image in pixels
 		int tolerance = 3;
+		
+		// Draw main title
+		this.drawShadowedText(this.titleFont, titlePos[0], titlePos[1], titleText,
+						titleColor);
 		
 		// Level 1 Text
 		this.drawShadowedText(this.font, level1ImagePos[0] + (levelImageSize[0]/2) - (level1Width/2), level1ImagePos[1] - 50, level1Text, level1Color);
@@ -225,11 +235,10 @@ public class LevelSelect extends GenericWindow {
 				level3ImageCurrent.draw(level3ImagePos[0], level3ImagePos[1], 200, 200);
 
 		// Main Menu
-		if((x >= (50 - 25))
-				&& (x <= (50 - 25) + mainMenuWidth + 25)
-				&& (y >= (gameContainer.getHeight() - 50 - 25))
-				&& (y <= (gameContainer.getHeight() - 50
-						+ textHeight + 25)))
+		if ((x >= (mainMenuTextPos[0] - tolerance))
+				&& (x <= (mainMenuTextPos[0] + mainMenuWidth + tolerance))
+				&& (y >= (mainMenuTextPos[1] - tolerance))
+				&& (y <= (mainMenuTextPos[1] + fontHeight + tolerance)))
 		{
 			if(clicked)
 			{
@@ -249,9 +258,15 @@ public class LevelSelect extends GenericWindow {
 		}
 		
 		// Draw the text
-		this.drawShadowedText(this.font, 50, gameContainer.getHeight() - 50,
+		this.drawShadowedText(this.font, mainMenuTextPos[0], mainMenuTextPos[1],
 				mainMenuText, mainMenuColor);
+		
+		//Draw the arrow icons next to main menu text
+		this.arrowIconShaded.draw(mainMenuTextPos[0] + mainMenuWidth + 20, mainMenuTextPos[1]);
+		this.arrowIcon.draw(mainMenuTextPos[0] + mainMenuWidth + 18,mainMenuTextPos[1] - 2);
 	}
+	
+	
 	
 	
 	// Overrides
@@ -337,14 +352,6 @@ public class LevelSelect extends GenericWindow {
 				.getSkyProgress()), 0, gameContainer.getWidth() * 2,
 				gameContainer.getHeight());
 		
-		// Draw main title
-		this.drawShadowedText(this.titleFont, 240, 50, "Select a Level",
-				Color.orange);
-		
-		//Draw the arrow icons
-		this.arrowIconShaded.draw(247, 457);
-		this.arrowIcon.draw(245,455);
-		
 		graphics.setColor(Color.black);
 		if (image1Pos != null && image2Pos != null && image3Pos != null){
 			graphics.fillRect(image1Pos[0]-4, image1Pos[1]-4, this.getLevel1Image().getWidth()+8, this.getLevel1Image().getHeight()+8);
@@ -356,7 +363,7 @@ public class LevelSelect extends GenericWindow {
 		graphics.setColor(Color.black);
 		
 		// Draw other text and images
-		this.checkForSelection(gameContainer, game);
+		this.drawButtons(gameContainer, game);
 	}
 	
 	/**

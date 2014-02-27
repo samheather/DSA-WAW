@@ -420,7 +420,7 @@ public class PlaneTests {
 		plane1.setBearing(170);
 		plane1.land();
 		assertTrue(game.getAirport().isPlaneLanding());
-		assertFalse(plane1.isNeedsToLand());
+		assertFalse(plane1.getNeedsToLand());
 		assertTrue(plane1.isLanding());
 		assertEquals(plane1.getTarget(), plane1.getFlightPlan()
 				.getCurrentRoute().get(0));
@@ -524,7 +524,7 @@ public class PlaneTests {
 		plane1.takeOff();
 		assertTrue(plane1.getVelocity() != 0);
 		assertFalse(game.getManualPlanes().contains(plane1));
-		assertFalse(plane1.isNeedsToTakeOff());
+		assertFalse(plane1.getNeedsToTakeOff());
 		assertTrue(plane1.isTakingOff());
 		assertTrue(game.getCurrentPlane() == null);
 	}
