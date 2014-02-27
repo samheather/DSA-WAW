@@ -1,13 +1,31 @@
 package game.struct;
 
+import java.util.Random;
+
 
 /**
  * Plane class
  */
 public class Plane {
+	
+	private boolean needsSyncing = true;
+	
+	public void markForSyncing() {
+		this.needsSyncing = true;
+	}
+	
+	public void resetSyncState() {
+		this.needsSyncing = false;
+	}
+	
+	public boolean needsSyncing() {
+		return this.needsSyncing;
+	}
 
 	/** Unique identifier */
 	private int id;
+	
+	private long uniqueNetworkObjectID;
 
 	/** Size to display plane */
 	private int size;
@@ -88,10 +106,11 @@ public class Plane {
 	 * @param y			the y position to create the plane at
 	 */
 	public Plane(int id, double velocity, int altitude, 
-			double bearing, Game currentGame)
+			double bearing, Game currentGame, long uniqueNetworkObjectId)
 	{
 		this.currentGame 				= currentGame;
 		this.id 						= id;
+		this.uniqueNetworkObjectID		= uniqueNetworkObjectId;
 		this.size 						= 2;
 		this.velocity 					= velocity;
 		this.altitude					= altitude;

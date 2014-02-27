@@ -1,8 +1,15 @@
 package game.gfx;
 
 // Test Commit Two :)
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
@@ -14,80 +21,74 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-
 /**
  * WindowManager class controls the game GUI
  * <p>
- * WindowManager loads the game states, the game container,
- * and controls how states exit.
+ * WindowManager loads the game states, the game container, and controls how
+ * states exit.
  * </p>
  */
-public class WindowManager extends StateBasedGame
-{
+public class WindowManager extends StateBasedGame {
 	/** The window title */
 	public static final String GAME_TITLE = "World of Flighty";
-	
+
 	/** Standard window width */
 	public static final int WINDOW_WIDTH = 1024;
-	
+
 	/** Standard window height */
 	public static final int WINDOW_HEIGHT = 700;
-	
+
 	/** Reference to the main menu state */
 	public static final int MAIN_MENU_STATE = 1;
-	
+
 	/** Reference to the level select state */
 	public static final int LEVEL_SELECT_STATE = 2;
-	
+
 	/** Reference to the game state */
 	public static final int GAME_STATE = 3;
-	
+
 	/** Reference to the credits state */
 	public static final int CREDITS_STATE = 4;
-	
+
 	/** Reference to the credits state */
 	public static final int CONTROLS_STATE = 5;
-	
+
 	/** The level currently being played */
 	private int currentLevel;
-	
+
 	/** The position of the sky background */
 	private double skyProgress;
-	
+
 	/** The position of the title plane */
 	private double planeProgress;
-	
 
 	// Entry point
-	public static void main(String[] args)
-	{
-		try
-		{
+	public static void main(String[] args) throws UnknownHostException,
+			IOException {
+
+		try {
 			// Set up app for game
 			AppGameContainer appgc = new AppGameContainer(new WindowManager());
 
 			// Suppress output
 			appgc.setVerbose(false);
-			
+
 			// Set frame rate to 60
 			appgc.setTargetFrameRate(60);
-			
+
 			// Don't show the FPS rate on screen
 			appgc.setShowFPS(false);
 
 			// Sets the size of the window
 			appgc.setDisplayMode(WINDOW_WIDTH, WINDOW_HEIGHT, false);
-			
+
 			// Start app
 			appgc.start();
-		}
-		catch (SlickException e)
-		{
+		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	// Constructor
 	/**
 	 * Constructor for WindowManager
@@ -98,25 +99,22 @@ public class WindowManager extends StateBasedGame
 	 * Loads states into the game.
 	 * </p>
 	 */
-	public WindowManager()
-	{
+	public WindowManager() {
 		super(GAME_TITLE);
-		
+
 		// Initialise background movement variable
 		this.skyProgress = 0;
-		
+
 		// Initialise title plane movement variable
 		this.planeProgress = 0;
-		
+
 		// Set application icon
 		try {
-		    ByteBuffer[] icons = new ByteBuffer[1];
-		    icons[0] = loadIcon("/resources/other/Icon16.png", 16, 16);
-		    Display.setIcon(icons);
-		}
-		catch (IOException e)
-		{
-		    e.printStackTrace();
+			ByteBuffer[] icons = new ByteBuffer[1];
+			icons[0] = loadIcon("/resources/other/Icon16.png", 16, 16);
+			Display.setIcon(icons);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		// Add in the screens
@@ -126,7 +124,7 @@ public class WindowManager extends StateBasedGame
 		this.addState(new Credits());
 		this.addState(new Controls());
 	}
-	
+
 	/**
 	 * Used to load application icons
 	 * <p>
@@ -134,40 +132,35 @@ public class WindowManager extends StateBasedGame
 	 * taskbar-icon-with-lwjgl
 	 * </p>
 	 * 
-	 * @param filename		the icon's filename
-	 * @param width			the width of the icon
-	 * @param height		the height of the icon
-	 * @return				the byte buffer containing the icon
+	 * @param filename
+	 *            the icon's filename
+	 * @param width
+	 *            the width of the icon
+	 * @param height
+	 *            the height of the icon
+	 * @return the byte buffer containing the icon
 	 */
 	private ByteBuffer loadIcon(String filename, int width, int height)
-			throws IOException
-	{
-		InputStream imageStream = this.getClass()
-				.getResourceAsStream(filename);
-	    BufferedImage image = ImageIO.read(imageStream);
+			throws IOException {
+		InputStream imageStream = this.getClass().getResourceAsStream(filename);
+		BufferedImage image = ImageIO.read(imageStream);
 
-	    // Convert image to byte array
-	    byte[] imageBytes = new byte[width * height * 4];
-	    for (int i = 0; i < height; i++)
-	    {
-	        for (int j = 0; j < width; j++)
-	        {
-	            int pixel = image.getRGB(j, i);
-	            for (int k = 0; k < 3; k++)
-	            {
-	                imageBytes[(((i * 16) + j) * 4) + k]
-	                		= (byte) (((pixel >> (2 - k) * 8)) & 255);
-	            }
-	        
-	            imageBytes[(((i * 16) + j) * 4) + 3]
-	            		= (byte) (((pixel >> (3) * 8)) & 255);
-	        }
-	    }
-	    
-	    return ByteBuffer.wrap(imageBytes);
+		// Convert image to byte array
+		byte[] imageBytes = new byte[width * height * 4];
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				int pixel = image.getRGB(j, i);
+				for (int k = 0; k < 3; k++) {
+					imageBytes[(((i * 16) + j) * 4) + k] = (byte) (((pixel >> (2 - k) * 8)) & 255);
+				}
+
+				imageBytes[(((i * 16) + j) * 4) + 3] = (byte) (((pixel >> (3) * 8)) & 255);
+			}
+		}
+
+		return ByteBuffer.wrap(imageBytes);
 	}
 
-	
 	// Overrides
 	/**
 	 * Run initialisation across <b>all</b> states
@@ -176,9 +169,10 @@ public class WindowManager extends StateBasedGame
 	 * </p>
 	 */
 	@Override
-	public void initStatesList(GameContainer gameContainer) throws SlickException {
+	public void initStatesList(GameContainer gameContainer)
+			throws SlickException {
 	}
-	
+
 	/**
 	 * Closes the current window
 	 * <p>
@@ -189,80 +183,66 @@ public class WindowManager extends StateBasedGame
 	 * </p>
 	 */
 	@Override
-	public boolean closeRequested()
-	{
-		if(this.getCurrentStateID() == MAIN_MENU_STATE)
-		{
+	public boolean closeRequested() {
+		if (this.getCurrentStateID() == MAIN_MENU_STATE) {
 			return true;
-		}
-		else if(this.getCurrentStateID() == LEVEL_SELECT_STATE)
-		{
+		} else if (this.getCurrentStateID() == LEVEL_SELECT_STATE) {
 			return true;
-		}
-		else if(this.getCurrentStateID() == GAME_STATE)
-		{
+		} else if (this.getCurrentStateID() == GAME_STATE) {
 			this.enterState(MAIN_MENU_STATE);
-		}
-		else if(this.getCurrentStateID() == CREDITS_STATE)
-		{
+		} else if (this.getCurrentStateID() == CREDITS_STATE) {
+			return true;
+		} else if (this.getCurrentStateID() == CONTROLS_STATE) {
 			return true;
 		}
-		else if(this.getCurrentStateID() == CONTROLS_STATE)
-		{
-			return true;
-		} 
-		
+
 		return false;
 	}
-	
+
 	// Accessors
 	/**
-	 * @return				the level currently being played
+	 * @return the level currently being played
 	 */
-	public int getCurrentLevel()
-	{
+	public int getCurrentLevel() {
 		return this.currentLevel;
 	}
-	
+
 	/**
-	 * @return				the progress of the background image
+	 * @return the progress of the background image
 	 */
-	public double getSkyProgress()
-	{
+	public double getSkyProgress() {
 		return this.skyProgress;
 	}
-	
+
 	/**
-	 * @return				the progress of the title plane
+	 * @return the progress of the title plane
 	 */
-	public double getPlaneProgress()
-	{
+	public double getPlaneProgress() {
 		return this.planeProgress;
 	}
-	
-	
+
 	// Mutators
 	/**
-	 * @param currentLevel	the level to enter
+	 * @param currentLevel
+	 *            the level to enter
 	 */
-	public void setCurrentLevel(int currentLevel)
-	{
+	public void setCurrentLevel(int currentLevel) {
 		this.currentLevel = currentLevel;
 	}
-	
+
 	/**
-	 * @param skyProgress	the updated progress of the background image
+	 * @param skyProgress
+	 *            the updated progress of the background image
 	 */
-	public void setSkyProgress(double skyProgress)
-	{
+	public void setSkyProgress(double skyProgress) {
 		this.skyProgress = skyProgress;
 	}
-	
+
 	/**
-	 * @param planeProgress	the updated progress of the title plane
+	 * @param planeProgress
+	 *            the updated progress of the title plane
 	 */
-	public void setPlaneProgress(double planeProgress)
-	{
+	public void setPlaneProgress(double planeProgress) {
 		this.planeProgress = planeProgress;
 	}
 }

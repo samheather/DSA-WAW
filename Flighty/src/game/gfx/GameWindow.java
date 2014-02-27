@@ -15,6 +15,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import java.awt.Font;
 import java.io.InputStream;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import game.struct.Game;
@@ -370,7 +371,12 @@ public class GameWindow extends BasicGameState {
 		if (((WindowManager) game).getCurrentLevel() == 1)
 		{
 			// Play level 1
-			this.currentGame = new Game(50, 100);
+			try {
+				this.currentGame = new Game(50, 100);
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			this.map = this.map1;
 			this.fontColor = Color.white;
 			this.currentGame.setSpeedDifficulty(0.5);
@@ -380,7 +386,12 @@ public class GameWindow extends BasicGameState {
 		else if (((WindowManager) game).getCurrentLevel() == 2)
 		{
 			// Play level 2
-			this.currentGame = new Game(70, 100);
+			try {
+				this.currentGame = new Game(70, 100);
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			this.map = this.map1;
 			this.fontColor = Color.white;
 			this.currentGame.setSpeedDifficulty(0.5);
