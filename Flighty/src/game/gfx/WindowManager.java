@@ -48,6 +48,9 @@ public class WindowManager extends StateBasedGame
 	/** Reference to the credits state */
 	public static final int CONTROLS_STATE = 5;
 	
+	/** Reference to the credits state */
+	public static final int MULTIPLAYER_STATE = 6;
+	
 	/** The level currently being played */
 	private int currentLevel;
 	
@@ -119,12 +122,13 @@ public class WindowManager extends StateBasedGame
 		    e.printStackTrace();
 		}
 
-		// Add in the screens
+		// Add in the screens in order of the numbers being set up
 		this.addState(new MainMenu());
 		this.addState(new LevelSelect());
 		this.addState(new GameWindow());
 		this.addState(new Credits());
 		this.addState(new Controls());
+		this.addState(new Multiplayer());
 	}
 	
 	/**

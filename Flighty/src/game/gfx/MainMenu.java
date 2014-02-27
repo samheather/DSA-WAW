@@ -48,7 +48,7 @@ public class MainMenu extends GenericWindow {
 
 		// Text
 		String gameTitleText = "Plane Chaos";
-		String startGameText = "Start Game";
+		String startGameText = "Single Player";
 		String multiplayerText = "Multiplayer";
 		String creditsText = "Credits";
 		String controlsText = "Controls";
@@ -127,7 +127,7 @@ public class MainMenu extends GenericWindow {
 						) {
 			if (clicked) {
 				// Change game state
-				//CHANGE STATE TO MULTIPLAYER MENU
+				game.enterState(WindowManager.MULTIPLAYER_STATE);
 			} else {
 				// Change hover text and add waypoint next to text
 				multiplayerColor = Color.white;
