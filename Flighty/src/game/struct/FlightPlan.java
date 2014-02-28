@@ -7,9 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class FlightPlan {
-	public ByteBuffer serialize() {
-		ByteBuffer b = ByteBuffer.allocate();
-	}
+
 	/** Array list which contains waypoints of flight plan*/
 	private ArrayList<Point> currentRoute = new ArrayList<Point>();
 	

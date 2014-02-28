@@ -3,6 +3,7 @@ package game.struct;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.util.concurrent.*;
 
@@ -19,18 +20,26 @@ public class SyncReceiver implements Runnable {
 
 	@Override
 	public void run() {
-		byte[] buffer = new byte[102];
+		byte[] buffer = null;
+		byte[] expectedSizeBuffer = new byte[4];
+		int expectedSize = 0;
 		for(;;) {
 			try {
-				for(int i = 0; i < 102; )
-					i += is.read(buffer, i, 102 - i);
+				for(int i = 0; i < 4; ) {
+					i += is.read(buffer, i, 4 - i);
+				}
+				expectedSize = Array.getInt(expectedSizeBuffer, 0);
+				buffer = new byte[expectedSize];
+				for(int i = 0; i < expectedSize; ){
+					i += is.read(buffer, i, expectedSize - i);
+				}
 			} catch (IOException e) {
 				System.out.println("Fatal error occured");
 				System.exit(5);
 			}
 			
 			Plane p = new Plane();
-			ByteBuffer b = ByteBuffer.allocate(100).put(buffer, 0, 100);
+			ByteBuffer b = ByteBuffer.allocate(expectedSize).put(buffer, 0, expectedSize);
 			b.rewind();
 			p.deserialize(b);
 			System.out.println(p);

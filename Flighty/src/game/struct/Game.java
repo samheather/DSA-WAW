@@ -742,8 +742,13 @@ public class Game {
 			
 			if (plane.needsSyncing()) {
 				ByteBuffer toTransmit = plane.serialize();
+				int i = toTransmit.limit();
 				toTransmit.rewind();
-				os.write(toTransmit.array());
+				ByteBuffer b = ByteBuffer.allocate(4);
+				b.putInt(i);
+				b.rewind();
+				os.write(b.array());
+				os.write(toTransmit.array(), 0, i);
 				os.write("\r\n".getBytes());
 				
 			}
