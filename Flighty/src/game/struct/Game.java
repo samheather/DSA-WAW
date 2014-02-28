@@ -504,6 +504,7 @@ public class Game {
 				}
 
 				this.currentPlane.decrementBearing();
+				currentPlane.markForSyncing();
 			}
 
 			// Action on 'd' and 'right' keys
@@ -515,24 +516,28 @@ public class Game {
 				}
 
 				this.currentPlane.incrementBearing();
+				currentPlane.markForSyncing();
 			}
 
 			// Action on 'w' and 'up' keys
 			if (gameContainer.getInput().isKeyPressed(200)
 					|| gameContainer.getInput().isKeyPressed(17)) {
 				this.currentPlane.incrementTargetAltitude();
+				currentPlane.markForSyncing();
 			}
 
 			// Action on 's' and 'down' keys
 			if (gameContainer.getInput().isKeyPressed(208)
 					|| gameContainer.getInput().isKeyPressed(31)) {
 				this.currentPlane.decrementTargetAltitude();
+				currentPlane.markForSyncing();
 			}
 
 			// Action on 'l' Key
 			if (gameContainer.getInput().isKeyPressed(38)) {
 				if (this.currentPlane.getNeedsToLand()) {
 					this.currentPlane.land();
+					currentPlane.markForSyncing();
 				}
 			}
 
@@ -542,6 +547,7 @@ public class Game {
 		else if (this.currentPlane.getNeedsToTakeOff()) {
 			if (gameContainer.getInput().isKeyPressed(Input.KEY_T)) {
 				this.currentPlane.takeOff();
+				currentPlane.markForSyncing();
 			}
 
 		}
