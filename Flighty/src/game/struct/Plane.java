@@ -1,5 +1,6 @@
 package game.struct;
 
+import java.nio.ByteBuffer;
 import java.util.Random;
 
 
@@ -7,6 +8,56 @@ import java.util.Random;
  * Plane class
  */
 public class Plane {
+	
+	
+	ByteBuffer serialize() {
+		ByteBuffer b = ByteBuffer.allocate(100);
+		b.putInt(id);
+		b.putLong(uniqueNetworkObjectID);
+		b.putInt(size);
+		b.putDouble(velocity);
+		b.putInt(altitude);
+		b.putDouble(bearing);
+		b.putDouble(targetBearing);
+		b.putChar((char) (turningRight ? 1 : 0));
+		b.putChar((char) (turningLeft ? 1 : 0));
+		b.putDouble(x);
+		b.putDouble(y);
+		b.putChar((char) (alertStatus ? 1 : 0));
+		b.put(target.serialize());
+		b.putDouble(targetAltitude);
+		b.putChar((char) (landing ? 1 : 0));
+		b.putChar((char) (needsToLand ? 1 : 0));
+		b.putChar((char) (takingOff ? 1 : 0));
+		b.putChar((char) (needsToTakeOff ? 1 : 0));
+		b.putChar((char) (violationOccurred ? 1 : 0));
+		b.putDouble(landingDescentRate);
+		b.rewind();
+		return b;
+	}
+	
+	public void deserialize(ByteBuffer b) {
+		id = b.getInt();
+		uniqueNetworkObjectID = b.getLong();
+		size = b.getInt();
+		velocity = b.getDouble();
+		altitude = b.getInt();
+		bearing = b.getDouble();
+		targetBearing = b.getDouble();
+		turningRight = b.getChar() == 1;
+		turningLeft = b.getChar() == 1;
+		x = b.getDouble();
+		y = b.getDouble();
+		alertStatus = b.getChar() == 1;
+		target.deserialize(b);
+		targetAltitude = b.getDouble();
+		landing = b.getChar() == 1;
+		needsToLand = b.getChar() == 1;
+		takingOff = b.getChar() == 1;
+		needsToTakeOff = b.getChar() == 1;
+		violationOccurred = b.getChar() == 1;
+		landingDescentRate = b.getDouble();
+	}
 	
 	private boolean needsSyncing = true;
 	
