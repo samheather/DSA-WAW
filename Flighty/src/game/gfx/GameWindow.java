@@ -1094,6 +1094,7 @@ public class GameWindow extends BasicGameState {
 						 */
 						this.currentGame.removeFromManual(this.currentGame
 								.getCurrentPlane());
+						this.currentGame.getCurrentPlane().markForSyncing();
 					}
 				}
 				
@@ -1111,6 +1112,7 @@ public class GameWindow extends BasicGameState {
 					{
 						this.giveHeadingThroughMouse(
 								this.currentGame.getCurrentPlane(), x, y);
+						this.currentGame.getCurrentPlane().markForSyncing();
 
 					}
 				}
