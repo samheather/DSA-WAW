@@ -4,6 +4,8 @@ import game.gfx.GameWindow;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -30,7 +32,16 @@ import org.newdawn.slick.state.StateBasedGame;
  * </ul>
  * </p>
  */
-public class Game {
+public class Game implements java.io.Serializable {
+	
+	private void writeObject(java.io.ObjectOutputStream out)
+			  throws IOException{
+		
+	}
+	  private void readObject(java.io.ObjectInputStream in)
+			  throws IOException {
+
+	 }
 
 	/** How long can a play stay landed before penalty applies */
 	private static final int TAKE_OFF_PENALTY_TIME = 1500;
@@ -139,6 +150,8 @@ public class Game {
 	private InputStream is;
 	private OutputStream os;
 	private ConcurrentLinkedQueue<Plane> queue = new ConcurrentLinkedQueue<Plane>();
+	ObjectOutputStream oos;
+	ObjectInputStream ois;
 	
 	public Game(int newSeparationDistance, int newPenaltyDistance)
 			throws NoSuchAlgorithmException, UnknownHostException, IOException {
@@ -152,10 +165,20 @@ public class Game {
 		
 		// Initialise TCP Connection
 		s = new Socket("teaching0.york.ac.uk", 1025);
+		
+		
 		is = s.getInputStream();
-		os = s.getOutputStream();
 		Thread t = new Thread(new SyncReceiver(queue, is));
 		t.start();
+		
+		System.out.println("SLOG lol");
+
+		os = s.getOutputStream();
+		oos = new ObjectOutputStream(os);
+		
+		
+
+		System.out.println("SLOG rofl");
 
 		// This sets the game difficulty
 		separationDistance = newSeparationDistance;
@@ -616,15 +639,22 @@ public class Game {
 				handleKeyPresses(gameContainer);
 			}
 		}
-		
-		while(queue.peek() != null) {
-			Plane p = queue.poll();
+		Plane p = null;
+		while((p = queue.poll()) != null) {
+			System.out.println("Got a plane");
+			p.currentGame = this;
+			p.resetSyncState();
 			ListIterator<Plane> i = getCurrentPlanes().listIterator();
 			while(i.hasNext()) {
 				Plane p2 = i.next();
+				if(p == null)
+					System.out.println("p is null");
+				if(p2 == null)
+					System.out.println("p2 is null");
 				if(p2.getUniqueNetworkObjectID() == p.getUniqueNetworkObjectID()) {
 					i.set(p);
 					p = null;
+					break;
 				}
 			}
 			if(p != null)
@@ -741,6 +771,7 @@ public class Game {
 			plane.movePlane();
 			
 			if (plane.needsSyncing()) {
+				/*
 				ByteBuffer toTransmit = plane.serialize();
 				int i = toTransmit.limit();
 				toTransmit.rewind();
@@ -750,6 +781,11 @@ public class Game {
 				os.write(b.array());
 				os.write(toTransmit.array(), 0, i);
 				os.write("\r\n".getBytes());
+				*/
+				System.out.println("I should not be blocking");
+				oos.writeObject(plane);
+				System.out.println("I should not be blocking here either");
+				plane.resetSyncState();
 				
 			}
 		}

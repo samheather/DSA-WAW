@@ -7,7 +7,7 @@ import java.util.Random;
 /**
  * Plane class
  */
-public class Plane {
+public class Plane implements java.io.Serializable {
 	
 	
 	public ByteBuffer serialize() {
@@ -136,7 +136,7 @@ public class Plane {
 	private double landingDescentRate;
 	
 	/** Required by Slick2D */
-	private Game currentGame;
+	public Game currentGame;
 
 	// Constructor
 	
@@ -233,6 +233,7 @@ public class Plane {
 			setBearing(0);
 			setTargetBearing(0);
 		}
+		markForSyncing();
 	}
 
 	/**
@@ -253,6 +254,7 @@ public class Plane {
 			setBearing(359);
 			setTargetBearing(359);
 		}
+		markForSyncing();
 	}
 	
 	/**
@@ -264,6 +266,7 @@ public class Plane {
 	public void incrementAltitude()
 	{
 		setAltitude(getAltitude() + 5);
+		markForSyncing();
 	}
 
 	/**
@@ -275,6 +278,7 @@ public class Plane {
 	public void decrementAltitude()
 	{
 		setAltitude(getAltitude() - 5);
+		markForSyncing();
 	}
 
 	/**
@@ -289,6 +293,7 @@ public class Plane {
 		{
 			setTargetAltitude(getTargetAltitude() + 1000);
 		}
+		markForSyncing();
 	}
 	
 	/** Decrements the altitude by 1000 units, so long as the current altitude is greater than or equal to 3000 */
@@ -298,6 +303,7 @@ public class Plane {
 		{
 			setTargetAltitude(getTargetAltitude() - 1000);
 		}
+		markForSyncing();
 	}
 	
 	/** Calculates bearing from plane's current position to its next waypoint 
@@ -393,6 +399,7 @@ public class Plane {
 			setTurningLeft(false);
 			setTurningRight(false);
 		}
+		markForSyncing();
 	}
 
     /** Calculates the rate at which a plane has to descend, given its current altitude, such
@@ -438,6 +445,7 @@ public class Plane {
 			currentGame.getManualPlanes().remove(this);
 			currentGame.setCurrentPlane(null);					
 		}
+		markForSyncing();
 	}
 	
 	/**
@@ -457,6 +465,8 @@ public class Plane {
 		currentGame.setTakeOffPenalty(false);
 		
 		currentGame.setCurrentPlane(null);
+		markForSyncing();
+		
 	}
 	
 	/**
@@ -492,6 +502,7 @@ public class Plane {
 				incrementAltitude();
 			}
 		}
+		markForSyncing();
 	}
 
 
@@ -534,6 +545,7 @@ public class Plane {
 				updateXYCoordinates();
 			}
 		}
+		markForSyncing();
 	}
 	
 	/** Updates x and y coordinates */
@@ -675,6 +687,7 @@ public class Plane {
 	 */
 	public void setVelocity(double velocity)
 	{
+		markForSyncing();
 		this.velocity = velocity;
 	}
 

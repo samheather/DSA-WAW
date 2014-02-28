@@ -3,6 +3,7 @@ package game.struct;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.util.concurrent.*;
@@ -12,14 +13,36 @@ public class SyncReceiver implements Runnable {
 	
 	private ConcurrentLinkedQueue<Plane> queue;
 	private InputStream is;
-	public SyncReceiver(ConcurrentLinkedQueue<Plane> queue, InputStream is) {
+	public SyncReceiver(ConcurrentLinkedQueue<Plane> queue, InputStream is) throws IOException {
 		this.queue = queue;
 		this.is = is;
+		
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void run() {
+
+		
+			try {
+				ObjectInputStream ois = new ObjectInputStream(is);
+				for(;;) {
+					Plane p = (Plane)ois.readObject();
+					System.out.println("After plane read");
+					if(p != null)
+						queue.offer(p);
+				}
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();System.exit(5);
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.exit(5);
+			}
+
+		/*
 		byte[] buffer = null;
 		byte[] expectedSizeBuffer = new byte[4];
 		int expectedSize = 0;
@@ -48,6 +71,7 @@ public class SyncReceiver implements Runnable {
 			System.out.println(p.getUniqueNetworkObjectID());
 			queue.offer(p);
 		}
+		*/
 	}
 
 }

@@ -3,7 +3,7 @@ package game.struct;
 import java.nio.ByteBuffer;
 
 
-public class Point
+public class Point implements java.io.Serializable
 {
 	
 	public ByteBuffer serialize() {
