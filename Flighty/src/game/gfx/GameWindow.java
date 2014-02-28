@@ -14,7 +14,9 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import java.awt.Font;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
@@ -385,7 +387,7 @@ public class GameWindow extends BasicGameState {
 			// Play level 1
 			try {
 				this.currentGame = new Game(50, 100);
-			} catch (NoSuchAlgorithmException e) {
+			} catch (NoSuchAlgorithmException | IOException e) {
 				e.printStackTrace();
 			}
 			this.map = this.map1;
@@ -399,7 +401,7 @@ public class GameWindow extends BasicGameState {
 			// Play level 2
 			try {
 				this.currentGame = new Game(70, 100);
-			} catch (NoSuchAlgorithmException e) {
+			} catch (NoSuchAlgorithmException | IOException e) {
 				e.printStackTrace();
 			}
 			this.map = this.map1;
@@ -412,7 +414,7 @@ public class GameWindow extends BasicGameState {
 			// Play level 3
 			try {
 				this.currentGame = new Game(70, 100);
-			} catch (NoSuchAlgorithmException e) {
+			} catch (NoSuchAlgorithmException | IOException e) {
 				e.printStackTrace();
 			}
 			this.map = this.map1;
@@ -1047,7 +1049,12 @@ public class GameWindow extends BasicGameState {
 		this.time += delta;
 		if (!currentGameContainer.isPaused())
 		{
-			currentGame.update(gameContainer, game);
+			try {
+				currentGame.update(gameContainer, game);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

@@ -10,7 +10,7 @@ import java.util.Random;
 public class Plane {
 	
 	
-	ByteBuffer serialize() {
+	public ByteBuffer serialize() {
 		ByteBuffer b = ByteBuffer.allocate(100);
 		b.putInt(id);
 		b.putLong(uniqueNetworkObjectID);
@@ -19,18 +19,18 @@ public class Plane {
 		b.putInt(altitude);
 		b.putDouble(bearing);
 		b.putDouble(targetBearing);
-		b.putChar((char) (turningRight ? 1 : 0));
-		b.putChar((char) (turningLeft ? 1 : 0));
+		b.put((byte) (turningRight ? 1 : 0));
+		b.put((byte) (turningLeft ? 1 : 0));
 		b.putDouble(x);
 		b.putDouble(y);
-		b.putChar((char) (alertStatus ? 1 : 0));
+		b.put((byte) (alertStatus ? 1 : 0));
 		b.put(target.serialize());
 		b.putDouble(targetAltitude);
-		b.putChar((char) (landing ? 1 : 0));
-		b.putChar((char) (needsToLand ? 1 : 0));
-		b.putChar((char) (takingOff ? 1 : 0));
-		b.putChar((char) (needsToTakeOff ? 1 : 0));
-		b.putChar((char) (violationOccurred ? 1 : 0));
+		b.put((byte) (landing ? 1 : 0));
+		b.put((byte) (needsToLand ? 1 : 0));
+		b.put((byte) (takingOff ? 1 : 0));
+		b.put((byte) (needsToTakeOff ? 1 : 0));
+		b.put((byte) (violationOccurred ? 1 : 0));
 		b.putDouble(landingDescentRate);
 		b.rewind();
 		return b;
@@ -44,18 +44,18 @@ public class Plane {
 		altitude = b.getInt();
 		bearing = b.getDouble();
 		targetBearing = b.getDouble();
-		turningRight = b.getChar() == 1;
-		turningLeft = b.getChar() == 1;
+		turningRight = b.get() == 1;
+		turningLeft = b.get() == 1;
 		x = b.getDouble();
 		y = b.getDouble();
-		alertStatus = b.getChar() == 1;
+		alertStatus = b.get() == 1;
 		target.deserialize(b);
 		targetAltitude = b.getDouble();
-		landing = b.getChar() == 1;
-		needsToLand = b.getChar() == 1;
-		takingOff = b.getChar() == 1;
-		needsToTakeOff = b.getChar() == 1;
-		violationOccurred = b.getChar() == 1;
+		landing = b.get() == 1;
+		needsToLand = b.get() == 1;
+		takingOff = b.get() == 1;
+		needsToTakeOff = b.get() == 1;
+		violationOccurred = b.get() == 1;
 		landingDescentRate = b.getDouble();
 	}
 	
@@ -109,7 +109,7 @@ public class Plane {
 	private boolean alertStatus;
 
 	/** Current destination */
-	private Point target;
+	private Point target = new Point();
 
 	/** Current target altitude */
 	private double targetAltitude;
@@ -156,6 +156,8 @@ public class Plane {
 	 * @param x			the x position to create the plane at
 	 * @param y			the y position to create the plane at
 	 */
+	public Plane() {
+	}
 	public Plane(int id, double velocity, int altitude, 
 			double bearing, Game currentGame, long uniqueNetworkObjectId)
 	{
@@ -563,6 +565,10 @@ public class Plane {
 	public int getID()
 	{
 		return this.id;
+	}
+	
+	public long getUniqueNetworkObjectID() {
+		return uniqueNetworkObjectID;
 	}
 
 	/**

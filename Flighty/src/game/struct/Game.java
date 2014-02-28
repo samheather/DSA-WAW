@@ -2,12 +2,18 @@ package game.struct;
 
 import game.gfx.GameWindow;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.Random;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -128,8 +134,14 @@ public class Game {
 	 *            reference to the current game window
 	 * @throws NoSuchAlgorithmException
 	 */
+	
+	private Socket s;
+	private InputStream is;
+	private OutputStream os;
+	private ConcurrentLinkedQueue<Plane> queue = new ConcurrentLinkedQueue<Plane>();
+	
 	public Game(int newSeparationDistance, int newPenaltyDistance)
-			throws NoSuchAlgorithmException {
+			throws NoSuchAlgorithmException, UnknownHostException, IOException {
 		secureRandom = SecureRandom.getInstance("SHA1PRNG");
 		ByteBuffer b = ByteBuffer.allocate(8).put(secureRandom.generateSeed(8));
 		b.rewind();
@@ -137,6 +149,13 @@ public class Game {
 		// Screen size
 		windowWidth = WINDOW_WIDTH;
 		windowHeight = WINDOW_HEIGHT;
+		
+		// Initialise TCP Connection
+		s = new Socket("teaching0.york.ac.uk", 1025);
+		is = s.getInputStream();
+		os = s.getOutputStream();
+		Thread t = new Thread(new SyncReceiver(queue, is));
+		t.start();
 
 		// This sets the game difficulty
 		separationDistance = newSeparationDistance;
@@ -562,8 +581,9 @@ public class Game {
 	 *            the game running this state
 	 * @param delta
 	 *            the time change between calls
+	 * @throws IOException 
 	 */
-	public void update(GameContainer gameContainer, StateBasedGame game) {
+	public void update(GameContainer gameContainer, StateBasedGame game) throws IOException {
 		ArrayList<Plane> planesToRemove = new ArrayList<Plane>();
 
 		// Spawn more planes when no planes present
@@ -596,7 +616,20 @@ public class Game {
 				handleKeyPresses(gameContainer);
 			}
 		}
-
+		
+		while(queue.peek() != null) {
+			Plane p = queue.poll();
+			ListIterator<Plane> i = getCurrentPlanes().listIterator();
+			while(i.hasNext()) {
+				Plane p2 = i.next();
+				if(p2.getUniqueNetworkObjectID() == p.getUniqueNetworkObjectID()) {
+					i.set(p);
+					p = null;
+				}
+			}
+			if(p != null)
+				getCurrentPlanes().add(p);
+		}
 		// Update planes
 		for (Plane plane : getCurrentPlanes()) {
 			// Check if the plane is still in the game area
@@ -706,6 +739,14 @@ public class Game {
 
 			// Updates the plane position
 			plane.movePlane();
+			
+			if (plane.needsSyncing()) {
+				ByteBuffer toTransmit = plane.serialize();
+				toTransmit.rewind();
+				os.write(toTransmit.array());
+				os.write("\r\n".getBytes());
+				
+			}
 		}
 
 		// Remove planes

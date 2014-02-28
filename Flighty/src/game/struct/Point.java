@@ -17,9 +17,9 @@ public class Point
 		x = b.getDouble();
 		y = b.getDouble();
 	}
-    protected double x;
-    protected double y;
-    protected String pointRef;   
+    protected double x = 0.0;
+    protected double y = 0.0;
+    protected String pointRef = "";   
 	
 	// CONSTRUCTORS
     

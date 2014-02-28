@@ -76,7 +76,7 @@ public class WindowManager extends StateBasedGame {
 		//////////////////////////////////////////////////////////////
 		
 //		Socket s = new Socket("teaching0.york.ac.uk", 1025);
-//		byte[] received = new byte[1024];
+//		byte[] received = new byte[100];
 //		InputStream is = s.getInputStream();
 //		OutputStream os = s.getOutputStream();
 //		if (is.read(received) > 1023) {
