@@ -21,6 +21,10 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.KryoSerializable;
+import com.esotericsoftware.kryo.io.Output;
+
 /**
  * Game class controls basic game mechanics
  * <p>
@@ -32,7 +36,7 @@ import org.newdawn.slick.state.StateBasedGame;
  * </ul>
  * </p>
  */
-public class Game implements java.io.Serializable {
+public class Game implements java.io.Serializable,  KryoSerializable {
 	
 	private void writeObject(java.io.ObjectOutputStream out)
 			  throws IOException{
@@ -1092,5 +1096,15 @@ public class Game implements java.io.Serializable {
 	
 	public void setPlaneCount(int newPlaneCount) {
 		planeCount = newPlaneCount;
+	}
+	@Override
+	public void read(Kryo arg0, com.esotericsoftware.kryo.io.Input arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void write(Kryo arg0, Output arg1) {
+		// TODO Auto-generated method stub
+		
 	}
 }
