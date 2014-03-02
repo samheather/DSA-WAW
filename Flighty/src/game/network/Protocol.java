@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.LinkedTransferQueue;
 
-public class Protocol implements Closeable{
+public class Protocol implements Closeable {
 
 	public Protocol(String hostname, short port) {
 		try {
@@ -48,10 +48,10 @@ public class Protocol implements Closeable{
 							+ e.getMessage()));
 			return;
 		}
-		
+
 		sender = new Thread(this.new Sender());
 		receiver = new Thread(this.new Receiver());
-		
+
 		sender.start();
 		receiver.start();
 	}
@@ -64,7 +64,7 @@ public class Protocol implements Closeable{
 	private Thread sender;
 	private Thread receiver;
 	private boolean closed = false;
-	
+
 	@Override
 	protected void finalize() {
 		if (closed)
@@ -73,7 +73,7 @@ public class Protocol implements Closeable{
 		receiver.interrupt();
 		closed = true;
 	}
-	
+
 	@Override
 	public void close() {
 		finalize();
@@ -95,7 +95,7 @@ public class Protocol implements Closeable{
 				}
 			} catch (InterruptedException e) {
 				received.offer(new Message.Error.Warning(
-						"Receiver thread interrupted:\n" + e.getMessage()));				
+						"Receiver thread interrupted:\n" + e.getMessage()));
 			} catch (Exception e) {
 				toSend.offer(new Message.Error.Fatal("Local Error"));
 				received.offer(new Message.Error.Fatal(
@@ -119,7 +119,7 @@ public class Protocol implements Closeable{
 			}
 		}
 	}
-	
+
 	private class Sender implements Runnable {
 
 		@Override
@@ -136,7 +136,7 @@ public class Protocol implements Closeable{
 				}
 			} catch (InterruptedException e) {
 				received.offer(new Message.Error.Warning(
-						"Sender thread interrupted:\n" + e.getMessage()));				
+						"Sender thread interrupted:\n" + e.getMessage()));
 			} catch (Exception e) {
 				received.offer(new Message.Error.Fatal(
 						"Internal error in Sender thread:\n" + e.getMessage()));

@@ -36,16 +36,15 @@ import com.esotericsoftware.kryo.io.Output;
  * </ul>
  * </p>
  */
-public class Game implements java.io.Serializable,  KryoSerializable {
-	
-	private void writeObject(java.io.ObjectOutputStream out)
-			  throws IOException{
-		
-	}
-	  private void readObject(java.io.ObjectInputStream in)
-			  throws IOException {
+public class Game implements java.io.Serializable, KryoSerializable {
 
-	 }
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException {
+
+	}
+
+	private void readObject(java.io.ObjectInputStream in) throws IOException {
+
+	}
 
 	/** How long can a play stay landed before penalty applies */
 	private static final int TAKE_OFF_PENALTY_TIME = 1500;
@@ -149,14 +148,14 @@ public class Game implements java.io.Serializable,  KryoSerializable {
 	 *            reference to the current game window
 	 * @throws NoSuchAlgorithmException
 	 */
-	
+
 	private Socket s;
 	private InputStream is;
 	private OutputStream os;
 	private ConcurrentLinkedQueue<Plane> queue = new ConcurrentLinkedQueue<Plane>();
 	ObjectOutputStream oos;
 	ObjectInputStream ois;
-	
+
 	public Game(int newSeparationDistance, int newPenaltyDistance)
 			throws NoSuchAlgorithmException, UnknownHostException, IOException {
 		secureRandom = SecureRandom.getInstance("SHA1PRNG");
@@ -166,21 +165,18 @@ public class Game implements java.io.Serializable,  KryoSerializable {
 		// Screen size
 		windowWidth = WINDOW_WIDTH;
 		windowHeight = WINDOW_HEIGHT;
-		
+
 		// Initialise TCP Connection
 		s = new Socket("teaching0.york.ac.uk", 1025);
-		
-		
+
 		is = s.getInputStream();
 		Thread t = new Thread(new SyncReceiver(queue, is));
 		t.start();
-		
+
 		System.out.println("SLOG lol");
 
 		os = s.getOutputStream();
 		oos = new ObjectOutputStream(os);
-		
-		
 
 		System.out.println("SLOG rofl");
 
@@ -480,8 +476,7 @@ public class Game implements java.io.Serializable,  KryoSerializable {
 
 				// Applying score penalties for violating the penalty distance
 				if (penalty) {
-					getScore()
-							.planeCollisionWarningMultAndScorePenalties();
+					getScore().planeCollisionWarningMultAndScorePenalties();
 
 					penalty = false;
 					plane2.setViolationOccurred();
@@ -539,7 +534,7 @@ public class Game implements java.io.Serializable,  KryoSerializable {
 	}
 
 	public void handleKeyPresses(GameContainer gameContainer) {
-		//Steering controls apply only to active planes
+		// Steering controls apply only to active planes
 		if (!currentPlane.getNeedsToTakeOff()) {
 			// Action on 'a' and 'left' keys
 			if (gameContainer.getInput().isKeyDown(203)
@@ -608,9 +603,10 @@ public class Game implements java.io.Serializable,  KryoSerializable {
 	 *            the game running this state
 	 * @param delta
 	 *            the time change between calls
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	public void update(GameContainer gameContainer, StateBasedGame game) throws IOException {
+	public void update(GameContainer gameContainer, StateBasedGame game)
+			throws IOException {
 		ArrayList<Plane> planesToRemove = new ArrayList<Plane>();
 
 		// Spawn more planes when no planes present
@@ -618,8 +614,7 @@ public class Game implements java.io.Serializable,  KryoSerializable {
 			countToNextPlane = 0;
 		}
 
-		if (!collision && !gameContainer.isPaused()
-				&& gameContainer.hasFocus()) {
+		if (!collision && !gameContainer.isPaused() && gameContainer.hasFocus()) {
 			// Create planes
 			if (countToNextPlane <= 1) {
 				for (int i = 0; i < spawnCount; i++) {
@@ -644,24 +639,25 @@ public class Game implements java.io.Serializable,  KryoSerializable {
 			}
 		}
 		Plane p = null;
-		while((p = queue.poll()) != null) {
+		while ((p = queue.poll()) != null) {
 			System.out.println("Got a plane");
 			p.currentGame = this;
 			p.resetSyncState();
 			ListIterator<Plane> i = getCurrentPlanes().listIterator();
-			while(i.hasNext()) {
+			while (i.hasNext()) {
 				Plane p2 = i.next();
-				if(p == null)
+				if (p == null)
 					System.out.println("p is null");
-				if(p2 == null)
+				if (p2 == null)
 					System.out.println("p2 is null");
-				if(p2.getUniqueNetworkObjectID() == p.getUniqueNetworkObjectID()) {
+				if (p2.getUniqueNetworkObjectID() == p
+						.getUniqueNetworkObjectID()) {
 					i.set(p);
 					p = null;
 					break;
 				}
 			}
-			if(p != null)
+			if (p != null)
 				getCurrentPlanes().add(p);
 		}
 		// Update planes
@@ -669,8 +665,7 @@ public class Game implements java.io.Serializable,  KryoSerializable {
 			// Check if the plane is still in the game area
 			if (manualPlanes.contains(plane)
 					&& ((plane.getX() > windowWidth) || (plane.getX() < 0)
-							|| (plane.getY() > windowHeight) || (plane
-							.getY() < 0))) {
+							|| (plane.getY() > windowHeight) || (plane.getY() < 0))) {
 				// Updates score if plane in game area
 				getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
 
@@ -703,8 +698,7 @@ public class Game implements java.io.Serializable,  KryoSerializable {
 			if (plane.getFlightPlan().getCurrentRoute().size() == 0) {
 				getScore().planePilotedPerfectlyMultiplierBonus(plane);
 
-				if (currentPlane != null
-						&& plane.equals(currentPlane)) {
+				if (currentPlane != null && plane.equals(currentPlane)) {
 					currentPlane = null;
 				}
 
@@ -773,24 +767,20 @@ public class Game implements java.io.Serializable,  KryoSerializable {
 
 			// Updates the plane position
 			plane.movePlane();
-			
+
 			if (plane.needsSyncing()) {
 				/*
-				ByteBuffer toTransmit = plane.serialize();
-				int i = toTransmit.limit();
-				toTransmit.rewind();
-				ByteBuffer b = ByteBuffer.allocate(4);
-				b.putInt(i);
-				b.rewind();
-				os.write(b.array());
-				os.write(toTransmit.array(), 0, i);
-				os.write("\r\n".getBytes());
-				*/
+				 * ByteBuffer toTransmit = plane.serialize(); int i =
+				 * toTransmit.limit(); toTransmit.rewind(); ByteBuffer b =
+				 * ByteBuffer.allocate(4); b.putInt(i); b.rewind();
+				 * os.write(b.array()); os.write(toTransmit.array(), 0, i);
+				 * os.write("\r\n".getBytes());
+				 */
 				System.out.println("I should not be blocking");
 				oos.writeObject(plane);
 				System.out.println("I should not be blocking here either");
 				plane.resetSyncState();
-				
+
 			}
 		}
 
@@ -1089,22 +1079,24 @@ public class Game implements java.io.Serializable,  KryoSerializable {
 	public Airport getAirport() {
 		return airport;
 	}
-	
+
 	public int getPlaneCount() {
 		return planeCount;
 	}
-	
+
 	public void setPlaneCount(int newPlaneCount) {
 		planeCount = newPlaneCount;
 	}
+
 	@Override
 	public void read(Kryo arg0, com.esotericsoftware.kryo.io.Input arg1) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public void write(Kryo arg0, Output arg1) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
