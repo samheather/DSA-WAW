@@ -308,22 +308,17 @@ public abstract class Message {
 				this.object = object;
 			}
 
-			public static Object read(InputStream in) {
-				try {
-					byte[] buffer = new byte[0];
-					try (DataInputStream dataIn = new DataInputStream(in)) {
-						int length = dataIn.readInt();
-						buffer = new byte[length];
-						for (int i = 0; i < length;)
-							i += dataIn.read(buffer, i, length - i);
-					}
-					try (Input input = new Input(buffer)) {
-						Kryo kryo = new Kryo();
-						return new Object(kryo.readClassAndObject(input));
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-					return null;
+			public static Object read(InputStream in) throws IOException {
+				byte[] buffer = new byte[0];
+				try (DataInputStream dataIn = new DataInputStream(in)) {
+					int length = dataIn.readInt();
+					buffer = new byte[length];
+					for (int i = 0; i < length;)
+						i += dataIn.read(buffer, i, length - i);
+				}
+				try (Input input = new Input(buffer)) {
+					Kryo kryo = new Kryo();
+					return new Object(kryo.readClassAndObject(input));
 				}
 			}
 
