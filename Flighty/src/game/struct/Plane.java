@@ -60,15 +60,16 @@ public class Plane implements java.io.Serializable {
 	private boolean needsSyncing = true;
 
 	public void markForSyncing() {
-		this.needsSyncing = true;
+		//this.needsSyncing = true;
 	}
 
 	public void resetSyncState() {
-		this.needsSyncing = false;
+		//this.needsSyncing = false;
 	}
 
 	public boolean needsSyncing() {
-		return this.needsSyncing;
+		//return this.needsSyncing;
+		return false;
 	}
 
 	/** Unique identifier */

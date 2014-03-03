@@ -3,7 +3,10 @@ package game.tests;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
-import java.util.ArrayList;
+
+import java.io.IOException;
+import java.net.UnknownHostException;
+import java.security.NoSuchAlgorithmException;
 import game.struct.*;
 
 public class ScoreTests {
@@ -12,9 +15,9 @@ public class ScoreTests {
 	Plane plane;
 
 	@Before
-	public void beforeTests() {
+	public void beforeTests() throws NoSuchAlgorithmException, UnknownHostException, IOException {
 		game = new Game(50, 100);
-		plane = new Plane(1, 500, 3000, 50, game);
+		plane = new Plane(1, 500, 3000, 50, game, 0);
 	}
 
 	/**

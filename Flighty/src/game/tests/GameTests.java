@@ -4,8 +4,9 @@ import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import static java.lang.Math.random;
+import java.io.IOException;
+import java.net.UnknownHostException;
+import java.security.NoSuchAlgorithmException;
 
 import game.struct.Game;
 import game.struct.Plane;
@@ -19,10 +20,10 @@ public class GameTests {
 	// public
 
 	@Before
-	public void beforeTests() {
+	public void beforeTests() throws NoSuchAlgorithmException, UnknownHostException, IOException {
 
 		game = new Game(50, 100);
-		plane1 = new Plane(1, 500, 3000, 50, game);
+		plane1 = new Plane(1, 500, 3000, 50, game, 0);
 
 	}
 
@@ -172,10 +173,13 @@ public class GameTests {
 
 	/**
 	 * Test ID X.9
+	 * @throws IOException 
+	 * @throws UnknownHostException 
+	 * @throws NoSuchAlgorithmException 
 	 */
 
 	@Test
-	public void tenWaypointsTest() {
+	public void tenWaypointsTest() throws NoSuchAlgorithmException, UnknownHostException, IOException {
 		game = new Game(100, 100);
 		assertEquals(10, game.getListOfWaypoints().size(), 0);
 
@@ -183,10 +187,13 @@ public class GameTests {
 
 	/**
 	 * Test ID X.10
+	 * @throws IOException 
+	 * @throws UnknownHostException 
+	 * @throws NoSuchAlgorithmException 
 	 */
 
 	@Test
-	public void tenPlanesTest() {
+	public void tenPlanesTest() throws NoSuchAlgorithmException, UnknownHostException, IOException {
 		game = new Game(100, 100);
 		for (int i = 0; i < 10; i++) {
 			game.createPlane();
@@ -198,10 +205,13 @@ public class GameTests {
 
 	/**
 	 * Test ID X.11
+	 * @throws IOException 
+	 * @throws UnknownHostException 
+	 * @throws NoSuchAlgorithmException 
 	 */
 
 	@Test
-	public void takingOffRestrictionTest() {
+	public void takingOffRestrictionTest() throws NoSuchAlgorithmException, UnknownHostException, IOException {
 		// Checking that when a flight is waiting to take off another flight
 		// cannot be designated to take off.
 

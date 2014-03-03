@@ -3,15 +3,14 @@ package game.tests;
 import org.junit.Test;
 import org.junit.Before;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
-
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.net.UnknownHostException;
+import java.security.NoSuchAlgorithmException;
 
 import game.struct.Game;
 import game.struct.Plane;
-import game.struct.Waypoint;
 
 public class PlaneTests {
 
@@ -19,9 +18,9 @@ public class PlaneTests {
 	Plane plane1;
 
 	@Before
-	public void beforeTests() {
+	public void beforeTests() throws NoSuchAlgorithmException, UnknownHostException, IOException {
 		game = new Game(50, 100);
-		plane1 = new Plane(1, 500, 3000, 50, game);
+		plane1 = new Plane(1, 500, 3000, 50, game, 0);
 
 	}
 

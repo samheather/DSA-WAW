@@ -5,6 +5,8 @@ import org.junit.Before;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
@@ -17,7 +19,7 @@ public class FlightPlanTests {
 	FlightPlan plan;
 
 	@Before
-	public void beforeTests() {
+	public void beforeTests() throws UnknownHostException, IOException {
 		try {
 			game = new Game(50, 100);
 		} catch (NoSuchAlgorithmException e) {
@@ -90,14 +92,16 @@ public class FlightPlanTests {
 
 	/**
 	 * Test ID F.2.3
+	 * @throws IOException 
+	 * @throws UnknownHostException 
 	 */
 
 	@Test
-	public void buildRouteTest3() {
+	public void buildRouteTest3() throws UnknownHostException, IOException {
 
 		// Testing that it doesn't build a route if game has no exitpoints
 
-		Game gameWithoutExitpoints;
+		Game gameWithoutExitpoints = null;
 		try {
 			gameWithoutExitpoints = new Game(50, 100);
 		} catch (NoSuchAlgorithmException e) {
@@ -118,14 +122,16 @@ public class FlightPlanTests {
 
 	/**
 	 * Test ID F.2.4
+	 * @throws IOException 
+	 * @throws UnknownHostException 
 	 */
 
 	@Test
-	public void buildRouteTest4() {
+	public void buildRouteTest4() throws UnknownHostException, IOException {
 
 		// Testing that it doesn't build a route if no game has no Waypoints
 
-		Game gameWithoutWaypoints;
+		Game gameWithoutWaypoints = null;
 		try {
 			gameWithoutWaypoints = new Game(50, 100);
 		} catch (NoSuchAlgorithmException e) {

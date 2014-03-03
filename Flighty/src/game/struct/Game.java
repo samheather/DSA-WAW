@@ -165,6 +165,7 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		// Screen size
 		windowWidth = WINDOW_WIDTH;
 		windowHeight = WINDOW_HEIGHT;
+		/*
 
 		// Initialise TCP Connection
 		s = new Socket("teaching0.york.ac.uk", 1025);
@@ -179,6 +180,7 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		oos = new ObjectOutputStream(os);
 
 		System.out.println("SLOG rofl");
+		*/
 
 		// This sets the game difficulty
 		separationDistance = newSeparationDistance;
@@ -534,6 +536,8 @@ public class Game implements java.io.Serializable, KryoSerializable {
 	}
 
 	public void handleKeyPresses(GameContainer gameContainer) {
+		if(currentPlane == null)
+			return;
 		// Steering controls apply only to active planes
 		if (!currentPlane.getNeedsToTakeOff()) {
 			// Action on 'a' and 'left' keys
@@ -545,7 +549,7 @@ public class Game implements java.io.Serializable, KryoSerializable {
 				}
 
 				currentPlane.decrementBearing();
-				currentPlane.markForSyncing();
+				//currentPlane.markForSyncing();
 			}
 
 			// Action on 'd' and 'right' keys
@@ -557,28 +561,28 @@ public class Game implements java.io.Serializable, KryoSerializable {
 				}
 
 				currentPlane.incrementBearing();
-				currentPlane.markForSyncing();
+				//currentPlane.markForSyncing();
 			}
 
 			// Action on 'w' and 'up' keys
 			if (gameContainer.getInput().isKeyPressed(200)
 					|| gameContainer.getInput().isKeyPressed(17)) {
 				currentPlane.incrementTargetAltitude();
-				currentPlane.markForSyncing();
+				//currentPlane.markForSyncing();
 			}
 
 			// Action on 's' and 'down' keys
 			if (gameContainer.getInput().isKeyPressed(208)
 					|| gameContainer.getInput().isKeyPressed(31)) {
 				currentPlane.decrementTargetAltitude();
-				currentPlane.markForSyncing();
+				//currentPlane.markForSyncing();
 			}
 
 			// Action on 'l' Key
 			if (gameContainer.getInput().isKeyPressed(38)) {
 				if (currentPlane.getNeedsToLand()) {
 					currentPlane.land();
-					currentPlane.markForSyncing();
+					//currentPlane.markForSyncing();
 				}
 			}
 
@@ -588,7 +592,7 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		else if (currentPlane.getNeedsToTakeOff()) {
 			if (gameContainer.getInput().isKeyPressed(Input.KEY_T)) {
 				currentPlane.takeOff();
-				currentPlane.markForSyncing();
+				//currentPlane.markForSyncing();
 			}
 
 		}
@@ -767,21 +771,22 @@ public class Game implements java.io.Serializable, KryoSerializable {
 
 			// Updates the plane position
 			plane.movePlane();
-
+/*
 			if (plane.needsSyncing()) {
-				/*
-				 * ByteBuffer toTransmit = plane.serialize(); int i =
-				 * toTransmit.limit(); toTransmit.rewind(); ByteBuffer b =
-				 * ByteBuffer.allocate(4); b.putInt(i); b.rewind();
-				 * os.write(b.array()); os.write(toTransmit.array(), 0, i);
-				 * os.write("\r\n".getBytes());
-				 */
+				
+				 ByteBuffer toTransmit = plane.serialize(); int i =
+				 toTransmit.limit(); toTransmit.rewind(); ByteBuffer b =
+				 ByteBuffer.allocate(4); b.putInt(i); b.rewind();
+				 os.write(b.array()); os.write(toTransmit.array(), 0, i);
+				 os.write("\r\n".getBytes());
+				 
 				System.out.println("I should not be blocking");
 				oos.writeObject(plane);
 				System.out.println("I should not be blocking here either");
 				plane.resetSyncState();
 
 			}
+		*/
 		}
 
 		// Remove planes
