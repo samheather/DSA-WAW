@@ -108,7 +108,7 @@ public abstract class Message {
 			super.write(out);
 			out.write(errorMessageType().value());
 			DataOutputStream dos = new DataOutputStream(out);
-			dos.writeInt(reason.length());
+			dos.writeInt(reason.length() * 2);
 			dos.writeChars(reason);
 		}
 
@@ -117,7 +117,7 @@ public abstract class Message {
 			byte type = dis.readByte();
 			int length = dis.readInt();
 			String reason = "";
-			for (int i = 0; i < length; ++i)
+			for (int i = 0; i < length / 2; ++i)
 				reason = reason + dis.readChar();
 			switch (type) {
 			case 0:
@@ -256,7 +256,7 @@ public abstract class Message {
 				super.write(out);
 				out.write(errorGameMessageType().value());
 				DataOutputStream dos = new DataOutputStream(out);
-				dos.writeInt(reason.length());
+				dos.writeInt(reason.length() * 2);
 				dos.writeChars(reason);
 			}
 
@@ -265,7 +265,7 @@ public abstract class Message {
 				byte type = dis.readByte();
 				int length = dis.readInt();
 				String reason = "";
-				for (int i = 0; i < length; ++i)
+				for (int i = 0; i < length / 2; ++i)
 					reason = reason + dis.readChar();
 				switch (type) {
 				case 0:
