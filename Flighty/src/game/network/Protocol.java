@@ -65,6 +65,14 @@ public class Protocol implements Closeable {
 	private Thread receiver;
 	private boolean closed = false;
 
+	public Message getMessage() {
+		return received.poll();
+	}
+
+	public void putMessage(Message m) {
+		toSend.offer(m);
+	}
+
 	@Override
 	protected void finalize() {
 		if (closed)
