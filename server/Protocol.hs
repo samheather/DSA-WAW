@@ -12,78 +12,83 @@ module Protocol where
 	import Control.Monad
 	import Control.Applicative
 
+	data State = Game | MM | Idle
 
-	newtype Object = ToObject ByteString
-	data Error = Fatal Text | Warning Text
-	data Game = Begin | End | Quit | Object Object | Matchmaking | GameError Error
-	data Message = Nop | Hello | AckHello | Game Game | NetworkError Error
+	data Message = ServerClient ServerClient | ClientServer ClientServer | ClientClient ClientClient
 
+	data ServerClient = AckBeginMM | AckCancelMM | FoundGame | OpponentQuit | AckRequestQuit | StateError State | NetworkError
 
-	getFixedLengthString = do
-		len <- getWord32be
-		dat <- pack <$> (sequence $ do
-			[1..len]
-			return getWord8)
-		return $ dat
+	data ClientServer = BeginMM | CancelMM | RequestQuit
 
-	putFixedLengthString dat = do
-		putWord32be $ fromIntegral $ length dat
-		put $ unpack dat
+	data ClientClient = Object ByteString
 
 
-	instance Binary Object where
-		put (ToObject dat) = putFixedLengthString dat
-		get = ToObject <$> getFixedLengthString
 
-	instance Binary Error where
-		put (Fatal dat) = do
-			putWord8 0
-			putFixedLengthString $ encodeUtf16BE dat
-		put (Warning dat) = do
-			putWord8 1
-			putFixedLengthString $ encodeUtf16BE dat
+	instance Binary State where
+		put Game = putWord8 0
+		put MM = putWord8 1
+		put Idle = putWord8 2
 		get = do
-			errorType <- getWord8
-			case errorType of
-				0 -> Fatal . decodeUtf16BE <$> getFixedLengthString
-				1 -> Warning . decodeUtf16BE <$> getFixedLengthString
-
-	instance Binary Game where
-		put Begin = putWord8 0
-		put End = putWord8 1
-		put Quit = putWord8 2
-		put (Object o) = do
-			putWord8 3
-			put o
-		put Matchmaking = putWord8 4
-		put (GameError e) = do
-			putWord8 5
-			put e
-		get = do
-			gameType <- getWord8
-			case gameType of
-				0 -> return Begin
-				1 -> return End
-				2 -> return Quit
-				3 -> Object <$> get
-				4 -> return Matchmaking
-				5 -> GameError <$> get
+			state <- getWord8
+			case state of
+				0 -> return Game
+				1 -> return MM
+				2 -> return Idle
 
 	instance Binary Message where
-		put Nop = putWord8 0
-		put Hello = putWord8 1
-		put AckHello = putWord8 2
-		put (Game g) = do
-			putWord8 3
-			put g
-		put (NetworkError e) = do
-			putWord8 4
-			put e
+		put (ServerClient m) = do
+			putWord8 0
+			put m
+		put (ClientServer m) = do
+			putWord8 1
+			put m
+		put (ClientClient m) = do
+			putWord8 2
+			put m
 		get = do
-			messageType <- getWord8
-			case messageType of
-				0 -> return Nop
-				1 -> return Hello
-				2 -> return AckHello
-				3 -> Game <$> get
-				4 -> NetworkError <$> get
+			msgType <- getWord8
+			case msgType of
+				0 -> ServerClient <$> get
+				1 -> ClientServer <$> get
+				2 -> ClientClient <$> get
+
+	instance Binary ServerClient where
+		put AckBeginMM = putWord8 0
+		put AckCancelMM = putWord8 1
+		put FoundGame = putWord8 2
+		put OpponentQuit = putWord8 3
+		put AckRequestQuit = putWord8 4
+		put (StateError state) = do
+			putWord8 5
+			put state
+		put NetworkError = putWord8 6
+		get = do
+			msgType <- getWord8
+			case msgType of
+				0 -> return AckBeginMM
+				1 -> return AckCancelMM
+				2 -> return FoundGame
+				3 -> return OpponentQuit
+				4 -> return AckRequestQuit
+				5 -> StateError <$> get
+				6 -> return NetworkError
+
+	instance Binary ClientServer where
+		put BeginMM = putWord8 0
+		put CancelMM = putWord8 1
+		put RequestQuit = putWord8 2
+		get = do
+			msgType <- getWord8
+			case msgType of
+				0 -> return BeginMM
+				1 -> return CancelMM
+				2 -> return RequestQuit
+
+	instance Binary ClientClient where
+		put (Object dat) = do
+			putWord32be $ fromIntegral $ length dat
+			put dat
+		get = do
+			len <- getWord32be
+			dat <- getByteString $ fromIntegral len
+			return $ Object dat
