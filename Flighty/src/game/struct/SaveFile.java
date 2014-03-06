@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 
 public class SaveFile {
 
-	private int level2UnlockScore = 2;
+	private int level2UnlockScore = 200;
 
 	private int level3UnlockScore = 300;
 
