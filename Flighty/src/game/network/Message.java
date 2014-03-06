@@ -48,10 +48,27 @@ public abstract class Message {
 	}
 
 	public static class ClientServer extends Message implements Sendable {
+		public static class BeginMM {
+			
+		}
+		
+		public static class CancelMM {
+			
+		}
+		
+		public static class RequestQuit{
+			
+		}
 	}
 
 	public static class ClientClient extends Message implements Receivable,
 			Sendable {
+		public static class CCObject{
+			public void CCObject(Object inputObject) {
+				
+			}
+		}
+		
 	}
 
 }
