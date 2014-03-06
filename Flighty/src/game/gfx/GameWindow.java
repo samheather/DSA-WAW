@@ -10,8 +10,11 @@ import org.newdawn.slick.Music;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.gui.AbstractComponent;
+import org.newdawn.slick.gui.TextField;
 
 import java.awt.Font;
 import java.io.IOException;
@@ -23,11 +26,13 @@ import java.util.ArrayList;
 import game.struct.Game;
 import game.struct.Plane;
 import game.struct.SaveFile;
+import game.gfx.LeaderBoard;
 
 /**
  * GameWindow class provides an interactive game
  */
 public class GameWindow extends BasicGameState {
+	
 
 	/** Time between score penalities for not taking off */
 	private static final int TAKE_OFF_PENALTY_TIME = 3000;
@@ -104,6 +109,8 @@ public class GameWindow extends BasicGameState {
 
 	/** The Java font used to generate the fonts used */
 	private Font fontPrimitive;
+	
+	private Graphics currentGraphics;
 
 	/** The generic TrueType font */
 	private TrueTypeFont font;
@@ -152,7 +159,15 @@ public class GameWindow extends BasicGameState {
 
 	private boolean unlock2 = false;
 	private boolean unlock3 = false;
+	
+	
+	private boolean gameOver = true;
 
+	/** The arrow icon */
+	private Image arrowIcon;
+
+	/** The shaded arrow icon */
+	private Image arrowIconShaded;
 	/**
 	 * Give heading via cursor
 	 * 
@@ -448,10 +463,11 @@ public class GameWindow extends BasicGameState {
 	 *            the game running this state
 	 * @param g
 	 *            the graphics container to display content in
+	 * @throws SlickException 
 	 */
 	@Override
 	public void render(GameContainer gameContainer, StateBasedGame game,
-			Graphics g) {
+			Graphics g) throws SlickException {
 		// Draw the game map
 		this.map.draw(0, 0, this.windowWidth, this.windowHeight);
 
@@ -951,7 +967,6 @@ public class GameWindow extends BasicGameState {
 		}
 
 		/* Setting up the game over screen */
-
 		// If the planes collided
 		if (this.currentGame.isCollision()) {
 			// If the game is ending
@@ -964,7 +979,6 @@ public class GameWindow extends BasicGameState {
 					this.planeNormal.draw((float) plane.getX(),
 							(float) plane.getY());
 				}
-
 				// Erase the extrapoints above the waypoints
 				display = false;
 
@@ -972,16 +986,71 @@ public class GameWindow extends BasicGameState {
 				new TrueTypeFont(this.fontPrimitive.deriveFont(50f), true)
 						.drawString(300f, 200f, "That didn't end well...");
 				new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
-						.drawString(470f, 260f, "Score: "
+						.drawString(400f, 260f, "Score: "
 								+ (int) this.currentGame.getScore().getScore());
+				
+				// Draw exit arrow icon
+				InputStream arrowStream = this.getClass().getResourceAsStream(
+						"/resources/other/ArrowR.png");
+				InputStream arrowShadedStream = this.getClass().getResourceAsStream(
+						"resources/other/ArrowB.png");
+				this.arrowIcon = new Image(arrowStream, "Arrow Image", false);
+				this.arrowIconShaded = new Image(arrowShadedStream,
+						"Arrow Shaded Image", false);
+				
+				int textHeight = this.font.getHeight();
+				
+				this.checkForSelection(gameContainer, game);
+				
+				this.arrowIconShaded.draw(247, gameContainer.getHeight() - 48
+						- (textHeight / 4), 45, 35);
 
+				
+				this.arrowIcon.draw(245, gameContainer.getHeight() - 50
+						- (textHeight / 4), 45, 35);
+				// Manages leaderboardentries
+				//WindowManager.leaderBoard.leaderboardEntries[4].getScore()
+				
+				if (-1 < this.currentGame.getScore().getScore()){
+					gameOver = false;
+					
+					//createds a text box to enter your name:
+					new TrueTypeFont(this.fontPrimitive.deriveFont(25f),true)
+						.drawString(300f, 300f, "Enter your name to be added to the leaderboard");
+					//test
+					
+					if(gameOver == true){
+					WindowManager.leaderBoard.addLeaderboardEntry("lopas", 6000);
+					gameOver = false;
+					}
+				
+					/// Problems with creating a text box!
+					/*
+					TrueTypeFont font1 = new TrueTypeFont(new java.awt.Font(java.awt.Font.SERIF,java.awt.Font.BOLD , 26), false);
+				    TextField textBox = new TextField(currentGameContainer, font1 ,400, 300, 300, 50);
+					textBox.setBorderColor(Color.orange);
+					textBox.setBackgroundColor(Color.white);
+					textBox.setTextColor(Color.black);
+					textBox.setConsumeEvents(true);
+					textBox.render(currentGameContainer, currentGraphics);
+					
+					
+					String textBoxText = textBox.getText();
+					WindowManager.leaderBoard.addLeaderboardEntry(textBoxText, (int) this.currentGame.getScore().getScore());
+					
+					
+					
+				
+				*/
+				}
 				// Countdown till game exists to main menu
-				new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
+				/*new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
 						.drawString(
 								453f,
 								310,
 								"Return in: "
-										+ (int) (5 - ((this.time - this.endTime) / 1000)));
+										+ (int) (10 - ((this.time - this.endTime) / 1000)));
+				*/						
 				if (saveFile.getLevel2UnlockScore() <= this.currentGame
 						.getScore().getScore()
 						&& ((WindowManager) game).getCurrentLevel() == 1
@@ -1007,9 +1076,9 @@ public class GameWindow extends BasicGameState {
 				}
 
 				// If return time elapsed, close game to let the user play again
-				if (this.time > (this.endTime + (5 * 1000))) {
-					game.closeRequested();
-				}
+				//if (this.time > (this.endTime + (5 * 1000))) {
+					//game.closeRequested();
+				//}
 			}
 
 			// if the planes collided but the ending has not yet been set
@@ -1020,7 +1089,9 @@ public class GameWindow extends BasicGameState {
 				// End the game
 				this.currentGame.setEnding(true);
 			}
+			
 		}
+		
 	}
 
 	/**
@@ -1048,7 +1119,38 @@ public class GameWindow extends BasicGameState {
 			}
 		}
 	}
+	
+	
+	private void checkForSelection(GameContainer gameContainer,
+			StateBasedGame game) {
+		int x = gameContainer.getInput().getMouseX();
+		int y = gameContainer.getInput().getMouseY();
+		boolean clicked = gameContainer.getInput().isMousePressed(0);
 
+		String mainMenuText = "Main Menu";
+
+		int mainMenuWidth = this.font.getWidth(mainMenuText);
+		int textHeight = this.font.getHeight();
+
+		Color mainMenuColor = Color.orange;
+
+		// If text is hovered
+		if ((x >= (50 - 25)) && (y >= (gameContainer.getHeight() - 50 - 25))
+				&& (x <= (50 - 25) + mainMenuWidth + 25)
+				&& (y <= (gameContainer.getHeight() - 50 + textHeight + 25))) {
+			if (clicked) {
+				game.enterState(WindowManager.MAIN_MENU_STATE);
+			} else {
+				// Change colour on hover
+				mainMenuColor = Color.white;
+			}
+		} else {
+			mainMenuColor = Color.orange;
+		}
+		// Draw the actual text
+		font.drawString(50 + 2,  gameContainer.getHeight() - 50 + 2, mainMenuText, Color.black);
+		font.drawString(50,  gameContainer.getHeight() - 50, mainMenuText, mainMenuColor);
+	}
 	/**
 	 * Handles mouse click events
 	 * 

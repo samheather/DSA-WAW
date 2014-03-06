@@ -56,6 +56,10 @@ public class WindowManager extends StateBasedGame {
 
 	/** Reference to the credits state */
 	public static final int MULTIPLAYER_STATE = 6;
+	
+	/** Reference to the leaderBoard state */
+	
+	public static final int LEADERBOARD_STATE = 7;
 
 	/** The level currently being played */
 	private int currentLevel;
@@ -65,6 +69,10 @@ public class WindowManager extends StateBasedGame {
 
 	/** The position of the title plane */
 	private double planeProgress;
+	
+	/** LeaderBoard */
+	
+	public static LeaderBoard leaderBoard = new LeaderBoard();
 
 	// Entry point
 	public static void main(String[] args) throws UnknownHostException,
@@ -147,6 +155,7 @@ public class WindowManager extends StateBasedGame {
 		this.addState(new LevelSelect());
 		this.addState(new GameWindow());
 		this.addState(new Credits());
+	    this.addState(new LeaderBoard());
 		this.addState(new Controls());
 		this.addState(new Multiplayer());
 	}
@@ -220,6 +229,8 @@ public class WindowManager extends StateBasedGame {
 			return true;
 		} else if (this.getCurrentStateID() == CONTROLS_STATE) {
 			return true;
+		} else if (this.getCurrentStateID() == LEADERBOARD_STATE){
+			this.enterState(MAIN_MENU_STATE);
 		}
 
 		return false;
