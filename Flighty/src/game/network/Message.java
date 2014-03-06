@@ -40,7 +40,7 @@ public abstract class Message {
 			public StateError(Protocol.State state) {
 				this.state = state;
 			}
-			Protocol.State state;
+			private final Protocol.State state;
 		}
 		public static class NetworkError implements Error {
 			
@@ -64,8 +64,9 @@ public abstract class Message {
 	public static class ClientClient extends Message implements Receivable,
 			Sendable {
 		public static class CCObject{
-			public void CCObject(Object inputObject) {
-				
+			private final Object object;
+			public CCObject(Object inputObject) {
+				this.object = inputObject;
 			}
 		}
 		
