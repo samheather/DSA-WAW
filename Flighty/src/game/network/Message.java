@@ -17,59 +17,77 @@ public abstract class Message {
 
 	public static interface Sendable {
 	}
-	
+
 	public static interface Error {
+		void log();
 	}
 
 	public static class ServerClient extends Message implements Receivable {
-		public static class AckBeginMM{
+		public static class AckBeginMM extends ServerClient {
 		}
-		public static class AckCancelMM{
-			
+
+		public static class AckCancelMM extends ServerClient {
+
 		}
-		public static class FoundGame{
-			
+
+		public static class FoundGame extends ServerClient {
+
 		}
-		public static class OpponentQuit{
-			
+
+		public static class OpponentQuit extends ServerClient {
+
 		}
-		public static class AckRequestQuit{
-			
+
+		public static class AckRequestQuit extends ServerClient {
+
 		}
-		public static class StateError implements Error {
+
+		public static class StateError extends ServerClient implements Error {
 			public StateError(Protocol.State state) {
 				this.state = state;
 			}
+
 			private final Protocol.State state;
+
+			@Override
+			public void log() {
+				System.out.println("Received State Error: " + state.toString());
+			}
 		}
-		public static class NetworkError implements Error {
-			
+
+		public static class NetworkError extends ServerClient implements Error {
+			@Override
+			public void log() {
+				System.out.println("Received Network Error");
+			}
+
 		}
 	}
 
 	public static class ClientServer extends Message implements Sendable {
-		public static class BeginMM {
-			
+		public static class BeginMM extends ClientServer {
+
 		}
-		
-		public static class CancelMM {
-			
+
+		public static class CancelMM extends ClientServer {
+
 		}
-		
-		public static class RequestQuit{
-			
+
+		public static class RequestQuit extends ClientServer {
+
 		}
 	}
 
 	public static class ClientClient extends Message implements Receivable,
 			Sendable {
-		public static class CCObject{
+		public static class CCObject extends ClientClient {
 			private final Object object;
+
 			public CCObject(Object inputObject) {
 				this.object = inputObject;
 			}
 		}
-		
+
 	}
 
 }
