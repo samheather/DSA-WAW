@@ -68,7 +68,7 @@ public class Score {
 	 *  as 10 * multiplier would result in a negative score.  
 	 */
 	public void planeLeftAirspaceOrWaitingToTakeOffMinusScore(){
-		this.score = (this.score >= 10 * this.multiplier) ? (this.score - 10 * this.multiplier) : 0;
+		this.score = Math.max((this.score - 10 * this.multiplier) , 0);
 	}
 	
 	/**
