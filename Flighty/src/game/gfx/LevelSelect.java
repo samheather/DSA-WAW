@@ -197,10 +197,12 @@ public class LevelSelect extends GenericWindow {
 			// Draw the level2 image
 			level2ImageCurrent = this.level2Image;
 		}
-		
-		level2ImageCurrent.draw(level2ImagePos[0], level2ImagePos[1], levelImageSize[0], levelImageSize[1]);
+
+		level2ImageCurrent.draw(level2ImagePos[0], level2ImagePos[1],
+				levelImageSize[0], levelImageSize[1]);
 		if (!unlock2) {
-			padlock.draw(level2ImagePos[0] + 20, level2ImagePos[1] + 20, levelImageSize[0] - 40, levelImageSize[0] - 40);
+			padlock.draw(level2ImagePos[0] + 20, level2ImagePos[1] + 20,
+					levelImageSize[0] - 40, levelImageSize[0] - 40);
 		}
 
 		// Level 3 Text
@@ -236,10 +238,12 @@ public class LevelSelect extends GenericWindow {
 			 */
 			level3ImageCurrent = this.level2Image;
 		}
-		
-		level3ImageCurrent.draw(level3ImagePos[0], level3ImagePos[1], levelImageSize[0], levelImageSize[1]);
+
+		level3ImageCurrent.draw(level3ImagePos[0], level3ImagePos[1],
+				levelImageSize[0], levelImageSize[1]);
 		if (!unlock3) {
-			padlock.draw(level3ImagePos[0] + 20, level3ImagePos[1] + 20, levelImageSize[0] - 40, levelImageSize[0] - 40);
+			padlock.draw(level3ImagePos[0] + 20, level3ImagePos[1] + 20,
+					levelImageSize[0] - 40, levelImageSize[0] - 40);
 		}
 
 		// Main Menu
@@ -322,11 +326,11 @@ public class LevelSelect extends GenericWindow {
 		this.arrowIconShaded = new Image(arrowShadedStream,
 				"Arrow Shaded Image", false);
 
-		/*SaveFile sf = new SaveFile();
-		this.unlock2 = sf.getLevel2Unlock();
-		this.unlock3 = sf.getLevel3Unlock();
-		System.out.println("Unlock2");
-		System.out.println(this.unlock2);*/
+		/*
+		 * SaveFile sf = new SaveFile(); this.unlock2 = sf.getLevel2Unlock();
+		 * this.unlock3 = sf.getLevel3Unlock(); System.out.println("Unlock2");
+		 * System.out.println(this.unlock2);
+		 */
 	}
 
 	/**

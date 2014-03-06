@@ -37,8 +37,7 @@ public class MainMenu extends GenericWindow {
 	 * @param game
 	 *            the game running this state
 	 */
-	private void drawButtons(GameContainer gameContainer,
-			StateBasedGame game) {
+	private void drawButtons(GameContainer gameContainer, StateBasedGame game) {
 		// Mouse coordinates
 		int x = gameContainer.getInput().getMouseX();
 		int y = gameContainer.getInput().getMouseY();
@@ -74,11 +73,15 @@ public class MainMenu extends GenericWindow {
 		Color exitColor = Color.orange;
 
 		// Button positions from top left as absolute values
-		int[] gameTitlePos = { (gameContainer.getWidth())/2 - gameTitleWidth, 100 };
-		int[] startGamePos = { (gameContainer.getWidth() - startGameWidth)/2, 250 };
-		int[] multiplayerPos = { (gameContainer.getWidth() - multiplayerWidth)/2, 350 };
-		int[] creditsPos = { (gameContainer.getWidth() - creditsWidth)/2, 450 };
-		int[] controlsPos = { (gameContainer.getWidth() - controlsWidth)/2, 550 };
+		int[] gameTitlePos = { (gameContainer.getWidth()) / 2 - gameTitleWidth,
+				100 };
+		int[] startGamePos = { (gameContainer.getWidth() - startGameWidth) / 2,
+				250 };
+		int[] multiplayerPos = {
+				(gameContainer.getWidth() - multiplayerWidth) / 2, 350 };
+		int[] creditsPos = { (gameContainer.getWidth() - creditsWidth) / 2, 450 };
+		int[] controlsPos = { (gameContainer.getWidth() - controlsWidth) / 2,
+				550 };
 		int[] exitPos = { 50, gameContainer.getHeight() - 50 };
 
 		// Hovering box tolerance in pixels
@@ -88,19 +91,14 @@ public class MainMenu extends GenericWindow {
 		int waypointDistFromText = 10;
 
 		// Draw main title
-				this.drawShadowedText(this.titleFont,
-						gameTitlePos[0], 
-						gameTitlePos[1],
-						gameTitleText,
-						gameTitleColor);
-		
-				
+		this.drawShadowedText(this.titleFont, gameTitlePos[0], gameTitlePos[1],
+				gameTitleText, gameTitleColor);
+
 		// Start Game button
 		if ((x >= (startGamePos[0] - tolerance))
-				&& (x <= ( startGamePos[0] + startGameWidth + tolerance))
-				&& (y >= ( startGamePos[1] - tolerance))
-				&& (y <= (startGamePos[1] + fontHeight + tolerance))
-						){
+				&& (x <= (startGamePos[0] + startGameWidth + tolerance))
+				&& (y >= (startGamePos[1] - tolerance))
+				&& (y <= (startGamePos[1] + fontHeight + tolerance))) {
 			if (clicked) {
 				// Change game state
 				game.enterState(WindowManager.LEVEL_SELECT_STATE);
@@ -116,18 +114,13 @@ public class MainMenu extends GenericWindow {
 		}
 
 		// Draw the Start Game text with a shadow
-		this.drawShadowedText(this.font,
-				startGamePos[0], 
-				startGamePos[1],
-				startGameText,
-				startGameColor);
+		this.drawShadowedText(this.font, startGamePos[0], startGamePos[1],
+				startGameText, startGameColor);
 
-		
 		if ((x >= (multiplayerPos[0] - tolerance))
-				&& (x <= ( multiplayerPos[0] + multiplayerWidth + tolerance))
-				&& (y >= ( multiplayerPos[1] - tolerance))
-				&& (y <= ( multiplayerPos[1] + fontHeight + tolerance))
-						) {
+				&& (x <= (multiplayerPos[0] + multiplayerWidth + tolerance))
+				&& (y >= (multiplayerPos[1] - tolerance))
+				&& (y <= (multiplayerPos[1] + fontHeight + tolerance))) {
 			if (clicked) {
 				// Change game state
 				game.enterState(WindowManager.MULTIPLAYER_STATE);
@@ -143,19 +136,14 @@ public class MainMenu extends GenericWindow {
 		}
 
 		// Draw the Controls text with a shadow
-		this.drawShadowedText(this.font,
-				multiplayerPos[0], 
-				multiplayerPos[1],
-				multiplayerText,
-				multiplayerColor);
-		
-		
+		this.drawShadowedText(this.font, multiplayerPos[0], multiplayerPos[1],
+				multiplayerText, multiplayerColor);
+
 		// Credits button \\
 		if ((x >= (creditsPos[0] - tolerance))
-				&& (x <= ( creditsPos[0] + creditsWidth + tolerance))
-				&& (y >= ( creditsPos[1] - tolerance))
-				&& (y <= ( creditsPos[1] + fontHeight + tolerance))
-						) {
+				&& (x <= (creditsPos[0] + creditsWidth + tolerance))
+				&& (y >= (creditsPos[1] - tolerance))
+				&& (y <= (creditsPos[1] + fontHeight + tolerance))) {
 			if (clicked) {
 				// Change game state
 				game.enterState(WindowManager.CREDITS_STATE);
@@ -170,20 +158,15 @@ public class MainMenu extends GenericWindow {
 		} else { // Default colour
 			creditsColor = Color.orange;
 		}
-		
-		this.drawShadowedText(this.font,
-				creditsPos[0], 
-				creditsPos[1],
-				creditsText,
-				creditsColor);
 
-		
+		this.drawShadowedText(this.font, creditsPos[0], creditsPos[1],
+				creditsText, creditsColor);
+
 		// Controls button \\
 		if ((x >= (controlsPos[0] - tolerance))
-				&& (x <= ( controlsPos[0] + controlsWidth + tolerance))
-				&& (y >= ( controlsPos[1] - tolerance))
-				&& (y <= ( controlsPos[1] + fontHeight + tolerance))
-						) {
+				&& (x <= (controlsPos[0] + controlsWidth + tolerance))
+				&& (y >= (controlsPos[1] - tolerance))
+				&& (y <= (controlsPos[1] + fontHeight + tolerance))) {
 			if (clicked) {
 				// Change game state
 				game.enterState(WindowManager.CONTROLS_STATE);
@@ -199,19 +182,14 @@ public class MainMenu extends GenericWindow {
 		}
 
 		// Draw the Controls text with a shadow
-		this.drawShadowedText(this.font,
-				controlsPos[0], 
-				controlsPos[1],
-				controlsText,
-				controlsColor);
-		
+		this.drawShadowedText(this.font, controlsPos[0], controlsPos[1],
+				controlsText, controlsColor);
 
 		// Exit
 		if ((x >= (exitPos[0] - tolerance))
-				&& (x <= ( exitPos[0] + exitWidth + tolerance))
-				&& (y >= ( exitPos[1] - tolerance))
-				&& (y <= ( exitPos[1] + fontHeight + tolerance))
-						) {
+				&& (x <= (exitPos[0] + exitWidth + tolerance))
+				&& (y >= (exitPos[1] - tolerance))
+				&& (y <= (exitPos[1] + fontHeight + tolerance))) {
 			if (clicked) {
 				AL.destroy();
 				System.exit(0);
@@ -224,10 +202,7 @@ public class MainMenu extends GenericWindow {
 		}
 
 		// Draw the Exit text with a shadow
-		this.drawShadowedText(this.font,
-				exitPos[0], 
-				exitPos[1],
-				exitText,
+		this.drawShadowedText(this.font, exitPos[0], exitPos[1], exitText,
 				exitColor);
 	}
 

@@ -19,5 +19,10 @@
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="lib/jars/jogg-0.0.7.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jars/jorbis-0.0.17-1.jar"/>
+	<classpathentry kind="lib" path="lib/jars/asm-4.0.jar"/>
+	<classpathentry kind="lib" path="lib/jars/kryo-2.23.0.jar"/>
+	<classpathentry kind="lib" path="lib/jars/minlog-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/jars/objenesis-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/jars/reflectasm-1.07.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
