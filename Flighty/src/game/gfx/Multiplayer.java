@@ -118,7 +118,7 @@ public class Multiplayer extends GenericWindow {
 						/*TODO
 						 * Change this to multiplayer state
 						 */
-						game.enterState(WindowManager.GAME_STATE);
+						game.enterState(WindowManager.MULTIPLAYER_GAME_STATE);
 					} else {
 						// Apply hover image if cursor is hovering
 						offlineImageCurrent = this.offlineImageHover;
