@@ -44,8 +44,8 @@ public class Credits extends GenericWindow {
 
 		String mainMenuText = "Main Menu";
 
-		int mainMenuWidth = this.font.getWidth(mainMenuText);
-		int textHeight = this.font.getHeight();
+		int mainMenuWidth = font.getWidth(mainMenuText);
+		int textHeight = font.getHeight();
 
 		Color mainMenuColor = Color.orange;
 
@@ -64,7 +64,7 @@ public class Credits extends GenericWindow {
 		}
 
 		// Draw the actual text
-		this.drawShadowedText(this.font, 50, gameContainer.getHeight() - 50,
+		drawShadowedText(font, 50, gameContainer.getHeight() - 50,
 				mainMenuText, mainMenuColor);
 	}
 
@@ -83,17 +83,17 @@ public class Credits extends GenericWindow {
 		super.init(gameContainer, game);
 
 		// Load images
-		InputStream backgroundStream = this.getClass().getResourceAsStream(
+		InputStream backgroundStream = getClass().getResourceAsStream(
 				"/resources/backgrounds/CloudBackground.png");
-		InputStream arrowStream = this.getClass().getResourceAsStream(
+		InputStream arrowStream = getClass().getResourceAsStream(
 				"/resources/other/ArrowR.png");
-		InputStream arrowShadedStream = this.getClass().getResourceAsStream(
+		InputStream arrowShadedStream = getClass().getResourceAsStream(
 				"resources/other/ArrowB.png");
 
-		this.backgroundImage = new Image(backgroundStream, "Background Image",
+		backgroundImage = new Image(backgroundStream, "Background Image",
 				false);
-		this.arrowIcon = new Image(arrowStream, "Arrow Image", false);
-		this.arrowIconShaded = new Image(arrowShadedStream,
+		arrowIcon = new Image(arrowStream, "Arrow Image", false);
+		arrowIconShaded = new Image(arrowShadedStream,
 				"Arrow Shaded Image", false);
 	}
 
@@ -112,39 +112,39 @@ public class Credits extends GenericWindow {
 			Graphics graphics) throws SlickException {
 		super.render(gameContainer, game, graphics);
 
-		int textHeight = this.font.getHeight();
+		int textHeight = font.getHeight();
 
 		// Draw the Background Image
-		this.backgroundImage.draw(
+		backgroundImage.draw(
 				(float) (0 - ((WindowManager) game).getSkyProgress()), 0,
 				gameContainer.getWidth() * 2, gameContainer.getHeight());
 
 		// Draw main title
 		int mainXPos = (gameContainer.getWidth() / 2)
-				- (this.titleFont.getWidth("Credits") / 2);
+				- (titleFont.getWidth("Credits") / 2);
 
-		this.drawShadowedText(this.titleFont, mainXPos, 20, "Credits",
+		drawShadowedText(titleFont, mainXPos, 20, "Credits",
 				Color.orange);
 
 		// Draw team name
 		int subXPos = (gameContainer.getWidth() / 2)
-				- (this.font.getWidth("Team GOA") / 2);
+				- (font.getWidth("Team GOA") / 2);
 
-		this.drawShadowedText(this.font, subXPos, 160, "Team GOA", Color.orange);
-		this.drawShadowedText(this.font, subXPos, 140, "Team WAW", Color.orange);
-		this.drawShadowedText(this.font, subXPos, 120, "Team DSA", Color.orange);
+		drawShadowedText(font, subXPos, 160, "Team GOA", Color.orange);
+		drawShadowedText(font, subXPos, 140, "Team WAW", Color.orange);
+		drawShadowedText(font, subXPos, 120, "Team DSA", Color.orange);
 
 		// Draw team member names
-		this.drawShadowedText(this.font, 75, 220,
+		drawShadowedText(font, 75, 220,
 				"Nice Game Find     Copyright 2013", Color.orange);
-		this.drawShadowedText(this.font, 75, 220 + (textHeight * 1),
+		drawShadowedText(font, 75, 220 + (textHeight * 1),
 				"Iwan Gabovitch    CCBY3  License", Color.orange);
 
-		this.drawShadowedText(this.font, 75, 220 + (textHeight * 3),
+		drawShadowedText(font, 75, 220 + (textHeight * 3),
 				"Galavanting through Low Rez Forests by TeknoAxe", Color.orange);
-		this.drawShadowedText(this.font, 75, 220 + (textHeight * 4),
+		drawShadowedText(font, 75, 220 + (textHeight * 4),
 				"is licensed under a Creative Commons", Color.orange);
-		this.drawShadowedText(this.font, 75, 220 + (textHeight * 5),
+		drawShadowedText(font, 75, 220 + (textHeight * 5),
 				"Attribution 3 0 Unported License", Color.orange);
 
 		/*
@@ -183,14 +183,14 @@ public class Credits extends GenericWindow {
 		 * "Team WAW", Color.orange);
 		 */
 		// Draw back text
-		this.checkForSelection(gameContainer, game);
+		checkForSelection(gameContainer, game);
 
 		// Draw shaded arrow icon
-		this.arrowIconShaded.draw(247, gameContainer.getHeight() - 48
+		arrowIconShaded.draw(247, gameContainer.getHeight() - 48
 				- (textHeight / 4), 45, 35);
 
 		// Draw arrow icon
-		this.arrowIcon.draw(245, gameContainer.getHeight() - 50
+		arrowIcon.draw(245, gameContainer.getHeight() - 50
 				- (textHeight / 4), 45, 35);
 
 	}
