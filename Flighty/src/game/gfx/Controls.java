@@ -44,8 +44,8 @@ public class Controls extends GenericWindow {
 
 		String mainMenuText = "Main Menu";
 
-		int mainMenuWidth = this.font.getWidth(mainMenuText);
-		int textHeight = this.font.getHeight();
+		int mainMenuWidth = font.getWidth(mainMenuText);
+		int textHeight = font.getHeight();
 
 		Color mainMenuColor = Color.orange;
 
@@ -64,7 +64,7 @@ public class Controls extends GenericWindow {
 		}
 
 		// Draw the actual text
-		this.drawShadowedText(this.font, 50, gameContainer.getHeight() - 50,
+		drawShadowedText(font, 50, gameContainer.getHeight() - 50,
 				mainMenuText, mainMenuColor);
 	}
 
@@ -83,17 +83,17 @@ public class Controls extends GenericWindow {
 		super.init(gameContainer, game);
 
 		// Load images
-		InputStream backgroundStream = this.getClass().getResourceAsStream(
+		InputStream backgroundStream = getClass().getResourceAsStream(
 				"/resources/backgrounds/CloudBackground.png");
-		InputStream arrowStream = this.getClass().getResourceAsStream(
+		InputStream arrowStream = getClass().getResourceAsStream(
 				"/resources/other/ArrowR.png");
-		InputStream arrowShadedStream = this.getClass().getResourceAsStream(
+		InputStream arrowShadedStream = getClass().getResourceAsStream(
 				"resources/other/ArrowB.png");
 
-		this.backgroundImage = new Image(backgroundStream, "Background Image",
+		backgroundImage = new Image(backgroundStream, "Background Image",
 				false);
-		this.arrowIcon = new Image(arrowStream, "Arrow Image", false);
-		this.arrowIconShaded = new Image(arrowShadedStream,
+		arrowIcon = new Image(arrowStream, "Arrow Image", false);
+		arrowIconShaded = new Image(arrowShadedStream,
 				"Arrow Shaded Image", false);
 	}
 
@@ -112,41 +112,41 @@ public class Controls extends GenericWindow {
 			Graphics graphics) throws SlickException {
 		super.render(gameContainer, game, graphics);
 
-		int textHeight = this.font.getHeight();
+		int textHeight = font.getHeight();
 
 		// Draw the Background Image
-		this.backgroundImage.draw(
+		backgroundImage.draw(
 				(float) (0 - ((WindowManager) game).getSkyProgress()), 0,
 				gameContainer.getWidth() * 2, gameContainer.getHeight());
 
 		// Draw main title
 		int mainXPos = (gameContainer.getWidth() / 2)
-				- (this.titleFont.getWidth("Controls") / 2);
+				- (titleFont.getWidth("Controls") / 2);
 
-		this.drawShadowedText(this.titleFont, mainXPos, 20, "Controls",
+		drawShadowedText(titleFont, mainXPos, 20, "Controls",
 				Color.orange);
 
 		// Draw controls
-		this.drawShadowedText(this.font, 75, 180, "Change heading",
+		drawShadowedText(font, 75, 180, "Change heading",
 				Color.orange);
-		this.drawShadowedText(this.font, 145, 180 + (textHeight * 2),
+		drawShadowedText(font, 145, 180 + (textHeight * 2),
 				" use arrow keys or right click", Color.orange);
-		this.drawShadowedText(this.font, 75, 340, "Landing", Color.orange);
-		this.drawShadowedText(this.font, 145, 340 + (textHeight * 2),
+		drawShadowedText(font, 75, 340, "Landing", Color.orange);
+		drawShadowedText(font, 145, 340 + (textHeight * 2),
 				" 2000 ft within triangle and press L", Color.orange);
-		this.drawShadowedText(this.font, 75, 500, "Take off", Color.orange);
-		this.drawShadowedText(this.font, 145, 500 + (textHeight * 2),
+		drawShadowedText(font, 75, 500, "Take off", Color.orange);
+		drawShadowedText(font, 145, 500 + (textHeight * 2),
 				" select airport plane and press T", Color.orange);
 
 		// Draw back text
-		this.checkForSelection(gameContainer, game);
+		checkForSelection(gameContainer, game);
 
 		// Draw shaded arrow icon
-		this.arrowIconShaded.draw(247, gameContainer.getHeight() - 48
+		arrowIconShaded.draw(247, gameContainer.getHeight() - 48
 				- (textHeight / 4), 45, 35);
 
 		// Draw arrow icon
-		this.arrowIcon.draw(245, gameContainer.getHeight() - 50
+		arrowIcon.draw(245, gameContainer.getHeight() - 50
 				- (textHeight / 4), 45, 35);
 
 	}
