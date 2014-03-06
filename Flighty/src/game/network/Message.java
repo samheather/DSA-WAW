@@ -17,9 +17,33 @@ public abstract class Message {
 
 	public static interface Sendable {
 	}
+	
+	public static interface Error {
+	}
 
 	public static class ServerClient extends Message implements Receivable {
 		public static class AckBeginMM{
+		}
+		public static class AckCancelMM{
+			
+		}
+		public static class FoundGame{
+			
+		}
+		public static class OpponentQuit{
+			
+		}
+		public static class AckRequestQuit{
+			
+		}
+		public static class StateError implements Error {
+			public StateError(Protocol.State state) {
+				this.state = state;
+			}
+			Protocol.State state;
+		}
+		public static class NetworkError implements Error {
+			
 		}
 	}
 
