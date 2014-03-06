@@ -226,17 +226,11 @@ public class LevelSelect extends GenericWindow {
 				game.enterState(WindowManager.GAME_STATE);
 			} else {
 				// Apply hover image if cursor is hovering
-				/*
-				 * TODO Change this to another image
-				 */
-				level3ImageCurrent = this.level2ImageHover;
+				level3ImageCurrent = this.level3ImageHover;
 			}
 		} else {
 			// Draw the level3 image
-			/*
-			 * TODO Change this to another image
-			 */
-			level3ImageCurrent = this.level2Image;
+			level3ImageCurrent = this.level3Image;
 		}
 
 		level3ImageCurrent.draw(level3ImagePos[0], level3ImagePos[1],
@@ -300,6 +294,11 @@ public class LevelSelect extends GenericWindow {
 				"/resources/maps/Map2Small.png");
 		InputStream level2HoverStream = this.getClass().getResourceAsStream(
 				"/resources/maps/Map2SmallHover.png");
+		
+		InputStream level3Stream = this.getClass().getResourceAsStream(
+				"/resources/maps/Map3Small.png");
+		InputStream level3HoverStream = this.getClass().getResourceAsStream(
+				"/resources/maps/Map3SmallHover.png");
 
 		InputStream padlockStream = this.getClass().getResourceAsStream(
 				"/resources/other/padlock.png");
@@ -319,6 +318,10 @@ public class LevelSelect extends GenericWindow {
 		this.level2Image = new Image(level2Stream, "Level 2 Small", false);
 		this.level2ImageHover = new Image(level2HoverStream,
 				"Level 2 Small Hover", false).getScaledCopy(5, 3);
+		
+		this.level3Image = new Image(level3Stream, "Level 3 Small", false);
+		this.level3ImageHover = new Image(level3HoverStream,
+				"Level 3 Small Hover", false).getScaledCopy(5, 3);
 
 		this.padlockImage = new Image(padlockStream, "Padlock", false);
 
@@ -436,10 +439,7 @@ public class LevelSelect extends GenericWindow {
 	 * @return image used for level 3 preview
 	 */
 	public Image getLevel3Image() {
-		/*
-		 * TODO Change to level3 image once we have one
-		 */
-		return this.level2Image;
+		return this.level3Image;
 	}
 
 	/**
