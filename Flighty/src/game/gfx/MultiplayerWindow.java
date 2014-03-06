@@ -40,7 +40,7 @@ public class MultiplayerWindow extends BasicGameState {
 	private static final int BLINK_FREQUENCY = 1000;
 	
 	/** Side bar width */
-	private static final int sideBarWidth = 150;
+	private static final int sidebarWidth = 150;
 
 	/** The width the game is displayed at */
 	public int windowWidth;
@@ -84,6 +84,9 @@ public class MultiplayerWindow extends BasicGameState {
 
 	/** The edited plane image for the selected plane */
 	private Image planeSelectedCur;
+	
+	/**Background image for side bar*/
+	private Image sidebarBackground;
 
 	// Introducing Plane Needs Landing Image
 	private Image planeNeedsLanding;
@@ -264,6 +267,8 @@ public class MultiplayerWindow extends BasicGameState {
 				"/resources/waypoints/WaypointBlue.png");
 		InputStream waypointArrowStream = this.getClass().getResourceAsStream(
 				"/resources/other/ArrowW.png");
+		InputStream sidebarBackgroundStream = this.getClass().getResourceAsStream(
+				"/resources/other/Sidebar.png");		
 
 		this.waypointNormal = new Image(waypointNormalStream,
 				"Waypoint Normal Image", false);
@@ -275,7 +280,9 @@ public class MultiplayerWindow extends BasicGameState {
 				"Waypoint Exit Image", false);
 		this.waypointArrow = new Image(waypointArrowStream,
 				"Waypoint Arrow Image", false);
-
+		this.sidebarBackground = new Image(sidebarBackgroundStream,
+				"Sidebar Background Image", false);
+		
 		// Load plane images
 		InputStream planeNormalStream = this.getClass().getResourceAsStream(
 				"/resources/planes/Plane.png");
@@ -410,18 +417,26 @@ public class MultiplayerWindow extends BasicGameState {
 	}
 	
 	public void handleSidebar(GameContainer gameContainer, Graphics graphics) {
+		
+		this.sidebarBackground.draw(0,0,this.sidebarWidth, gameContainer.getHeight());
+		
 		String cloudText = "Clouds"; 
+		String autopilotText = "Disable Autopilot";
 		
 		int cloudTextWidth = this.sidebarFont.getWidth(cloudText);
+		int autopilotTextWidth = this.sidebarFont.getWidth(autopilotText);
+		
 		int[] cloudTextPos = {12, 50};
+		int[] autopilotTextPos = {12, 150};
+		
+		Color cloudTextColor = Color.orange;
+		Color autopilotTextColor = Color.orange;
 		
 		// Get the height of the text
 		int fontHeight = this.sidebarFont.getHeight();
 		
 		// Hovering box tolerance in pixels
 		int tolerance = 10;
-		
-		Color cloudTextColor = Color.orange;
 		
 		// Mouse coordinates
 		int x = gameContainer.getInput().getMouseX();
@@ -448,8 +463,30 @@ public class MultiplayerWindow extends BasicGameState {
 		graphics.setFont(this.sidebarFont);
 		graphics.setColor(cloudTextColor);
 		
-		// Draw the Start Game text with a shadow
+		// Draw the cloud text
 		graphics.drawString(cloudText, cloudTextPos[0], cloudTextPos[1]);
+		
+		//autopilot button
+		if ((x >= (autopilotTextPos[0] - tolerance))
+				&& (x <= (autopilotTextPos[0] + autopilotTextWidth + tolerance))
+				&& (y >= (autopilotTextPos[1] - tolerance))
+				&& (y <= (autopilotTextPos[1] + fontHeight + tolerance))) {
+			if (clicked) {
+				sendClouds();
+			
+			} else {
+				// Change hover text and add waypoint next to text
+				autopilotTextColor = Color.white;
+			}
+		} else { // Default colour
+			autopilotTextColor = Color.orange;
+		}
+		
+		graphics.setFont(this.sidebarFont);
+		graphics.setColor(autopilotTextColor);
+		
+		// Draw the cloud text
+		graphics.drawString(autopilotText, autopilotTextPos[0], autopilotTextPos[1]);
 
 	}
 
@@ -471,7 +508,7 @@ public class MultiplayerWindow extends BasicGameState {
 			Graphics g) {
 		// Draw the game map
 		//FIXME
-		this.map.draw(sideBarWidth, 0, this.windowWidth - sideBarWidth, this.windowHeight);
+		this.map.draw(sidebarWidth, 0, this.windowWidth - sidebarWidth, this.windowHeight);
 
 		handleSidebar(gameContainer, g);
 		
