@@ -51,12 +51,12 @@ public class Score {
 		if (!plane.getFlightPlan().getCurrentRoute().isEmpty()) {
 			if (plane.getFlightPlan().getCurrentRoute().get(0) == currentGame
 					.getAirport().getEndOfRunway()) {
-				this.score += 10 * this.multiplier;
+				score += 10 * multiplier;
 			} else if (plane.getFlightPlan().getCurrentRoute().get(0) == currentGame
 					.getAirport().getBeginningOfRunway()) {
-				this.score += 0;
+				score += 0;
 			} else {
-				this.score += 5 * this.multiplier;
+				score += 5 * multiplier;
 			}
 		}
 	}
@@ -75,9 +75,8 @@ public class Score {
 	 * 10 * multiplier is deducted from score. Otherwise the score is set to
 	 * zero, as 10 * multiplier would result in a negative score.
 	 */
-	public void planeLeftAirspaceOrWaitingToTakeOffMinusScore() {
-		this.score = (this.score >= 10 * this.multiplier) ? (this.score - 10 * this.multiplier)
-				: 0;
+	public void planeLeftAirspaceOrWaitingToTakeOffMinusScore(){
+		score = Math.max((score - 10 * multiplier) , 0);
 	}
 
 	/**
@@ -97,8 +96,8 @@ public class Score {
 	 *            Plane which is currently being checked
 	 */
 	public void planePilotedPerfectlyMultiplierBonus(Plane plane) {
-		this.multiplier = (plane.getViolationOccurred() == false && this.multiplier < 20) ? (this.multiplier + 1)
-				: this.multiplier;
+		multiplier = (plane.getViolationOccurred() == false && multiplier < 20) ? (multiplier + 1)
+				: multiplier;
 	}
 
 	/**
@@ -114,15 +113,15 @@ public class Score {
 	 */
 	public void planeCollisionWarningMultAndScorePenalties() {
 
-		if (this.score >= 5 * this.multiplier) {
-			this.score -= 5 * this.multiplier;
-			if (this.multiplier > 1) {
-				this.multiplier--;
+		if (score >= 5 * multiplier) {
+			score -= 5 * multiplier;
+			if (multiplier > 1) {
+				multiplier--;
 			}
 		} else {
-			this.score = 0;
-			if (this.multiplier > 1) {
-				this.multiplier--;
+			score = 0;
+			if (multiplier > 1) {
+				multiplier--;
 			}
 		}
 	}

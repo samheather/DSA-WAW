@@ -1,6 +1,5 @@
 package game.gfx;
 
-import game.struct.SaveFile;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -31,7 +30,7 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class WindowManager extends StateBasedGame {
 	/** The window title */
-	public static final String GAME_TITLE = "World of Flighty";
+	public static final String GAME_TITLE = "Plane Chaos";
 
 	/** Standard window width */
 	public static final int WINDOW_WIDTH = 1024;
@@ -54,12 +53,17 @@ public class WindowManager extends StateBasedGame {
 	/** Reference to the credits state */
 	public static final int CONTROLS_STATE = 5;
 
-	/** Reference to the credits state */
+	/** Reference to the multiplayer selection state */
 	public static final int MULTIPLAYER_STATE = 6;
 	
+
 	/** Reference to the leaderBoard state */
 	
 	public static final int LEADERBOARD_STATE = 7;
+
+	/** Reference to the multiplayer game state */
+	public static final int MULTIPLAYER_GAME_STATE = 8;
+
 
 	/** The level currently being played */
 	private int currentLevel;
@@ -158,6 +162,7 @@ public class WindowManager extends StateBasedGame {
 	    this.addState(new LeaderBoard());
 		this.addState(new Controls());
 		this.addState(new Multiplayer());
+		this.addState(new MultiplayerWindow());
 	}
 
 	/**
@@ -230,6 +235,10 @@ public class WindowManager extends StateBasedGame {
 		} else if (this.getCurrentStateID() == CONTROLS_STATE) {
 			return true;
 		} else if (this.getCurrentStateID() == LEADERBOARD_STATE){
+
+		} else if (this.getCurrentStateID() == MULTIPLAYER_STATE) {
+			return true;
+		} else if (this.getCurrentStateID() == MULTIPLAYER_GAME_STATE) {
 			this.enterState(MAIN_MENU_STATE);
 		}
 

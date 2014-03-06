@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 
 public class SaveFile {
 
-	private int level2UnlockScore = 2;
+	private int level2UnlockScore = 200;
 
 	private int level3UnlockScore = 300;
 
@@ -22,8 +22,8 @@ public class SaveFile {
 		try {
 			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
 					statsFileName));
-			 level2Unlocked = ((boolean)ois.readObject());
-			 level3Unlocked = ((boolean)ois.readObject());
+			level2Unlocked = ((boolean)ois.readObject());
+			level3Unlocked = ((boolean)ois.readObject());
 			ois.close();
 			System.out.println("Read");
 			System.out.println(level2Unlocked);

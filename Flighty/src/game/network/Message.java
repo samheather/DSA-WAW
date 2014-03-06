@@ -11,320 +11,217 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 
 public abstract class Message {
-
-	public static enum Type {
-		NOP((byte) 0), HELLO((byte) 1), ACKHELLO((byte) 2), GAME((byte) 3), ERROR(
-				(byte) 4);
-
-		private Type(byte value) {
-			this.value = value;
-		}
-
-		private byte value = 0;
-
-		public byte value() {
-			return value;
-		}
-	}
-
-	private final Type type;
-
-	public Type messageType() {
-		return type;
-	}
-
-	public void write(OutputStream out) throws IOException {
-		out.write(messageType().value());
-	}
-
-	public static Message read(InputStream in) throws IOException {
-		DataInputStream dis = new DataInputStream(in);
-		byte type = dis.readByte();
+	public static Message receive(InputStream in) throws IOException,
+			Receivable.ReceiveException {
+		byte type = (byte) in.read();
 		switch (type) {
 		case 0:
-			return new Nop();
+			return ServerClient.receive(in);
 		case 1:
-			return new Hello();
+			throw new Receivable.ReceiveException(new byte[] { type },
+					"Received unreceivable message type: ClientServer");
 		case 2:
-			return new AckHello();
-		case 3:
-			return Game.read(in);
-		case 4:
-			return Error.read(in);
+			return ClientClient.receive(in);
 		default:
-			return null;
+			throw new Receivable.ReceiveException(new byte[] { type },
+					"Unknown Message type");
 		}
 	}
 
-	private Message(Type type) {
-		this.type = type;
-	}
+	public static interface Receivable {
+		public static class ReceiveException extends Exception implements Error {
+			private static final long serialVersionUID = 4571778938645843455L;
+			final byte[] object;
+			final String message;
 
-	public static class Nop extends Message {
-		public Nop() {
-			super(Type.NOP);
-		}
-	}
-
-	public static class Hello extends Message {
-		public Hello() {
-			super(Type.HELLO);
-		}
-	}
-
-	public static class AckHello extends Message {
-		public AckHello() {
-			super(Type.ACKHELLO);
-		}
-	}
-
-	public abstract static class Error extends Message {
-		public static enum Type {
-			FATAL((byte) 0), WARNING((byte) 1);
-
-			private Type(byte value) {
-				this.value = value;
-			}
-
-			private byte value = 0;
-
-			public byte value() {
-				return value;
-			}
-		}
-
-		private final Type type;
-		private final String reason;
-
-		public Type errorMessageType() {
-			return type;
-		}
-
-		public String reason() {
-			return reason;
-		}
-
-		public void write(OutputStream out) throws IOException {
-			super.write(out);
-			out.write(errorMessageType().value());
-			DataOutputStream dos = new DataOutputStream(out);
-			dos.writeInt(reason.length());
-			dos.writeChars(reason);
-		}
-
-		public static Error read(InputStream in) throws IOException {
-			DataInputStream dis = new DataInputStream(in);
-			byte type = dis.readByte();
-			int length = dis.readInt();
-			String reason = "";
-			for (int i = 0; i < length; ++i)
-				reason = reason + dis.readChar();
-			switch (type) {
-			case 0:
-				return new Fatal(reason);
-			case 1:
-				return new Warning(reason);
-			default:
-				return null;
-			}
-		}
-
-		private Error(Type type, String reason) {
-			super(Message.Type.ERROR);
-			this.type = type;
-			this.reason = reason;
-		}
-
-		public static class Fatal extends Error {
-			public Fatal(String message) {
-				super(Type.FATAL, message);
-			}
-		}
-
-		public static class Warning extends Error {
-			public Warning(String message) {
-				super(Type.WARNING, message);
-			}
-		}
-	}
-
-	public static abstract class Game extends Message {
-
-		public static enum Type {
-			BEGIN((byte) 0), END((byte) 1), QUIT((byte) 2), OBJECT((byte) 3), MATCHMAKING(
-					(byte) 4), ERROR((byte) 5);
-
-			private Type(byte value) {
-				this.value = value;
-			}
-
-			private byte value = 0;
-
-			public byte value() {
-				return value;
-			}
-		}
-
-		private final Type type;
-
-		public Type gameMessageType() {
-			return type;
-		}
-
-		public void write(OutputStream out) throws IOException {
-			super.write(out);
-			out.write(gameMessageType().value());
-		}
-
-		public static Game read(InputStream in) throws IOException {
-			DataInputStream dis = new DataInputStream(in);
-			byte type = dis.readByte();
-			switch (type) {
-			case 0:
-				return new Begin();
-			case 1:
-				return new End();
-			case 2:
-				return new Quit();
-			case 3:
-				return Object.read(in);
-			case 4:
-				return new Matchmaking();
-			case 5:
-				return Error.read(in);
-			default:
-				return null;
-			}
-		}
-
-		private Game(Type type) {
-			super(Message.Type.GAME);
-			this.type = type;
-		}
-
-		public static class Begin extends Game {
-			public Begin() {
-				super(Type.BEGIN);
-			}
-		}
-
-		public static class End extends Game {
-			public End() {
-				super(Type.END);
-			}
-		}
-
-		public static class Quit extends Game {
-			public Quit() {
-				super(Type.QUIT);
-			}
-		}
-
-		public static class Matchmaking extends Game {
-			public Matchmaking() {
-				super(Type.MATCHMAKING);
-			}
-		}
-
-		public abstract static class Error extends Game {
-			public static enum Type {
-				FATAL((byte) 0), WARNING((byte) 1);
-
-				private Type(byte value) {
-					this.value = value;
-				}
-
-				private byte value = 0;
-
-				public byte value() {
-					return value;
-				}
-			}
-
-			private final Type type;
-			private final String reason;
-
-			public Type errorGameMessageType() {
-				return type;
-			}
-
-			public String reason() {
-				return reason;
-			}
-
-			public void write(OutputStream out) throws IOException {
-				super.write(out);
-				out.write(errorGameMessageType().value());
-				DataOutputStream dos = new DataOutputStream(out);
-				dos.writeInt(reason.length());
-				dos.writeChars(reason);
-			}
-
-			public static Error read(InputStream in) throws IOException {
-				DataInputStream dis = new DataInputStream(in);
-				byte type = dis.readByte();
-				int length = dis.readInt();
-				String reason = "";
-				for (int i = 0; i < length; ++i)
-					reason = reason + dis.readChar();
-				switch (type) {
-				case 0:
-					return new Fatal(reason);
-				case 1:
-					return new Warning(reason);
-				default:
-					return null;
-				}
-			}
-
-			private Error(Type type, String reason) {
-				super(Game.Type.ERROR);
-				this.type = type;
-				this.reason = reason;
-			}
-
-			public static class Fatal extends Error {
-				public Fatal(String message) {
-					super(Type.FATAL, message);
-				}
-			}
-
-			public static class Warning extends Error {
-				public Warning(String message) {
-					super(Type.WARNING, message);
-				}
-			}
-		}
-
-		public static class Object extends Game {
-			private java.lang.Object object;
-
-			public java.lang.Object object() {
-				return object;
-			}
-
-			public Object(java.lang.Object object) {
-				super(Type.OBJECT);
+			public ReceiveException(byte[] object, String message) {
 				this.object = object;
-			}
-
-			public static Object read(InputStream in) throws IOException {
-				byte[] buffer = new byte[0];
-				try (DataInputStream dataIn = new DataInputStream(in)) {
-					int length = dataIn.readInt();
-					buffer = new byte[length];
-					for (int i = 0; i < length;)
-						i += dataIn.read(buffer, i, length - i);
-				}
-				try (Input input = new Input(buffer)) {
-					Kryo kryo = new Kryo();
-					return new Object(kryo.readClassAndObject(input));
-				}
+				this.message = message;
 			}
 
 			@Override
-			public void write(OutputStream out) throws IOException {
-				super.write(out);
+			public void log() {
+				System.out.println("Encountered serialization error on object "
+						+ object.toString() + " because " + message);
+			}
+		}
+	}
+
+	public static interface Sendable {
+		public void send(OutputStream out) throws IOException, SendException;
+
+		public static class SendException extends Exception implements Error {
+
+			final Sendable object;
+			final String message;
+
+			public SendException(Sendable object, String message) {
+				this.object = object;
+				this.message = message;
+			}
+
+			private static final long serialVersionUID = 4553964614941096768L;
+
+			@Override
+			public void log() {
+				System.out.println("Encountered serialization error on object "
+						+ object.toString() + " because " + message);
+			}
+		}
+	}
+
+	public static interface Error {
+		void log();
+	}
+
+	public static abstract class ServerClient extends Message implements
+			Receivable {
+		public static ServerClient receive(InputStream in) throws IOException,
+				Receivable.ReceiveException {
+			byte type = (byte) in.read();
+			switch (type) {
+			case 0:
+				return new AckBeginMM();
+			case 1:
+				return new AckCancelMM();
+			case 2:
+				return new FoundGame();
+			case 3:
+				return new OpponentQuit();
+			case 4:
+				return new AckRequestQuit();
+			case 5:
+				return StateError.receive(in);
+			case 6:
+				return new NetworkError();
+			default:
+				throw new Receivable.ReceiveException(new byte[] { type },
+						"Unknown Message.ServerClient type");
+			}
+		}
+
+		public static class AckBeginMM extends ServerClient {
+		}
+
+		public static class AckCancelMM extends ServerClient {
+
+		}
+
+		public static class FoundGame extends ServerClient {
+
+		}
+
+		public static class OpponentQuit extends ServerClient {
+
+		}
+
+		public static class AckRequestQuit extends ServerClient {
+
+		}
+
+		public static class StateError extends ServerClient implements Error {
+			public StateError(Protocol.State state) {
+				this.state = state;
+			}
+
+			public static StateError receive(InputStream in)
+					throws IOException, Receivable.ReceiveException {
+				byte state = (byte) in.read();
+				switch (state) {
+				case 0:
+					return new StateError(Protocol.State.Game);
+				case 1:
+					return new StateError(Protocol.State.MM);
+				case 2:
+					return new StateError(Protocol.State.Idle);
+				default:
+					throw new Receivable.ReceiveException(new byte[] { state },
+							"Unknown state");
+				}
+			}
+
+			private final Protocol.State state;
+
+			@Override
+			public void log() {
+				System.out.println("Received State Error: " + state.toString());
+			}
+		}
+
+		public static class NetworkError extends ServerClient implements Error {
+			@Override
+			public void log() {
+				System.out.println("Received Network Error");
+			}
+
+		}
+	}
+
+	public static abstract class ClientServer extends Message implements
+			Sendable {
+		@Override
+		public void send(OutputStream out) throws IOException,
+				Sendable.SendException {
+			out.write(1);
+		}
+
+		public static class BeginMM extends ClientServer {
+			@Override
+			public void send(OutputStream out) throws IOException,
+					Sendable.SendException {
+				super.send(out);
+				out.write(0);
+			}
+		}
+
+		public static class CancelMM extends ClientServer {
+			@Override
+			public void send(OutputStream out) throws IOException,
+					Sendable.SendException {
+				super.send(out);
+				out.write(1);
+			}
+		}
+
+		public static class RequestQuit extends ClientServer {
+			@Override
+			public void send(OutputStream out) throws IOException,
+					Sendable.SendException {
+				super.send(out);
+				out.write(2);
+			}
+		}
+	}
+
+	public static abstract class ClientClient extends Message implements
+			Receivable, Sendable {
+		public static ClientClient receive(InputStream in) throws IOException,
+		Receivable.ReceiveException {
+			try (DataInputStream dataIn = new DataInputStream(in)) {
+				int len = dataIn.readInt();
+				try (Input input = new Input(dataIn)) {
+					Kryo kryo = new Kryo();
+					return new CCObject(kryo.readClassAndObject(input));
+				}
+			}
+		}
+		@Override
+		public void send(OutputStream out) throws IOException,
+				Sendable.SendException {
+			out.write(2);
+		}
+
+		public static class CCObject extends ClientClient {
+			private final Object object;
+
+			public CCObject(Object inputObject) {
+				this.object = inputObject;
+			}
+
+			@Override
+			public void send(OutputStream out) throws IOException,
+					SendException {
+				super.send(out);
 				try (DataOutputStream dataOut = new DataOutputStream(out)) {
 					byte[] objectBytes = new byte[0];
 					try (Output output = new Output()) {
@@ -335,9 +232,10 @@ public abstract class Message {
 					}
 					dataOut.writeInt(objectBytes.length);
 					dataOut.write(objectBytes);
-					dataOut.flush();
 				}
 			}
 		}
+
 	}
+
 }

@@ -92,6 +92,9 @@ public class MainMenu extends GenericWindow {
 
 		// Hovering box tolerance in pixels
 		int tolerance = 10;
+		
+		//Distance that waypoint is away from text
+		int waypointDistFromText = 10;
 
 		// Draw main title
 		this.drawShadowedText(this.titleFont, gameTitlePos[0], gameTitlePos[1],
@@ -108,8 +111,9 @@ public class MainMenu extends GenericWindow {
 			} else {
 				// Change hover text and add waypoint next to text
 				startGameColor = Color.white;
-				this.waypointIcon.draw(startGamePos[0] + startGameWidth,
-						startGamePos[1]);
+				this.waypointIcon
+						.draw(startGamePos[0] + startGameWidth + waypointDistFromText,
+								startGamePos[1]);
 			}
 		} else { // Default colour
 			startGameColor = Color.orange;
@@ -129,7 +133,8 @@ public class MainMenu extends GenericWindow {
 			} else {
 				// Change hover text and add waypoint next to text
 				multiplayerColor = Color.white;
-				this.waypointIcon.draw(multiplayerPos[0] + multiplayerWidth,
+				this.waypointIcon
+				.draw(multiplayerPos[0] + multiplayerWidth + waypointDistFromText,
 						multiplayerPos[1]);
 			}
 		} else { // Default colour
@@ -175,7 +180,8 @@ public class MainMenu extends GenericWindow {
 				creditsColor = Color.white;
 
 				// Change hover text and add waypoint next to text
-				this.waypointIcon.draw(creditsPos[0] + creditsWidth,
+				this.waypointIcon
+				.draw(creditsPos[0] + creditsWidth + waypointDistFromText,
 						creditsPos[1]);
 			}
 		} else { // Default colour
@@ -196,7 +202,8 @@ public class MainMenu extends GenericWindow {
 			} else {
 				// Change hover text and add waypoint next to text
 				controlsColor = Color.white;
-				this.waypointIcon.draw(controlsPos[0] + controlsWidth,
+				this.waypointIcon
+				.draw(controlsPos[0] + controlsWidth + waypointDistFromText,
 						controlsPos[1]);
 			}
 		} else { // Default colour

@@ -9,6 +9,12 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.LinkedTransferQueue;
 
 public class Protocol implements Closeable {
+	
+	public static enum State {
+		Game,
+		MM,
+		Idle
+	}
 
 	public Protocol(String hostname, short port) {
 		try {
@@ -16,7 +22,7 @@ public class Protocol implements Closeable {
 				socket = new Socket(hostname, port);
 			} catch (Exception e) {
 				e.printStackTrace();
-				received.offer(new Message.Error.Fatal(
+				received.offer(new Message.LocalError(
 						"Could not connect to game server:\n" + e.getMessage()));
 				return;
 			}
@@ -25,7 +31,7 @@ public class Protocol implements Closeable {
 			} catch (Exception e) {
 				socket.close();
 				e.printStackTrace();
-				received.offer(new Message.Error.Fatal(
+				received.offer(new Message.LocalError(
 						"Internal error when opening output stream to server:\n"
 								+ e.getMessage()));
 				return;
@@ -36,14 +42,14 @@ public class Protocol implements Closeable {
 				os.close();
 				socket.close();
 				e.printStackTrace();
-				received.offer(new Message.Error.Fatal(
+				received.offer(new Message.LocalError(
 						"Internal error when opening input stream from server:\n"
 								+ e.getMessage()));
 				return;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			received.offer(new Message.Error.Fatal(
+			received.offer(new Message.LocalError(
 					"Internal error when releasing resources:\n"
 							+ e.getMessage()));
 			return;
@@ -56,14 +62,22 @@ public class Protocol implements Closeable {
 		receiver.start();
 	}
 
-	private ConcurrentLinkedQueue<Message> received;
-	private LinkedTransferQueue<Message> toSend;
+	private ConcurrentLinkedQueue<Message.Receivable> received;
+	private LinkedTransferQueue<Message.Sendable> toSend;
 	private Socket socket;
 	private OutputStream os;
 	private InputStream is;
 	private Thread sender;
 	private Thread receiver;
 	private boolean closed = false;
+
+	public Message.Receivable getMessage() {
+		return received.poll();
+	}
+
+	public void putMessage(Message.Sendable m) {
+		toSend.offer(m);
+	}
 
 	@Override
 	protected void finalize() {
@@ -83,10 +97,10 @@ public class Protocol implements Closeable {
 
 		@Override
 		public void run() {
-			Message msg = null;
+			Message.Receivable msg = null;
 			try {
 				for (;;) {
-					msg = Message.read(is);
+					msg = Message.receive(is);
 					if (msg == null)
 						throw new Exception(
 								"Message receipt error: Message.read() returned null.");
@@ -94,11 +108,10 @@ public class Protocol implements Closeable {
 						received.offer(msg);
 				}
 			} catch (InterruptedException e) {
-				received.offer(new Message.Error.Warning(
+				received.offer(new Message.LocalError(
 						"Receiver thread interrupted:\n" + e.getMessage()));
 			} catch (Exception e) {
-				toSend.offer(new Message.Error.Fatal("Local Error"));
-				received.offer(new Message.Error.Fatal(
+				received.offer(new Message.LocalError(
 						"Internal error in Receiver thread:\n" + e.getMessage()));
 			} finally {
 				boolean interrupted = sender.isInterrupted();
@@ -111,7 +124,7 @@ public class Protocol implements Closeable {
 						os.close();
 						socket.close();
 					} catch (Exception e) {
-						received.offer(new Message.Error.Fatal(
+						received.offer(new Message.LocalError(
 								"Internal error when releasing resources:\n"
 										+ e.getMessage()));
 					}
@@ -124,7 +137,7 @@ public class Protocol implements Closeable {
 
 		@Override
 		public void run() {
-			Message msg = null;
+			Message.Sendable msg = null;
 			try {
 				for (;;) {
 					msg = toSend.take();
@@ -132,13 +145,13 @@ public class Protocol implements Closeable {
 						throw new Exception(
 								"Queueing Error in toSend: take() returned null.");
 					else
-						msg.write(os);
+						msg.send(os);
 				}
 			} catch (InterruptedException e) {
-				received.offer(new Message.Error.Warning(
+				received.offer(new Message.LocalError(
 						"Sender thread interrupted:\n" + e.getMessage()));
 			} catch (Exception e) {
-				received.offer(new Message.Error.Fatal(
+				received.offer(new Message.LocalError(
 						"Internal error in Sender thread:\n" + e.getMessage()));
 			} finally {
 				boolean interrupted = receiver.isInterrupted();
@@ -153,7 +166,7 @@ public class Protocol implements Closeable {
 					socket.close();
 					closed = true;
 				} catch (Exception e) {
-					received.offer(new Message.Error.Fatal(
+					received.offer(new Message.LocalError(
 							"Internal error when releasing resources:\n"
 									+ e.getMessage()));
 				}
