@@ -44,8 +44,8 @@ public class Credits extends GenericWindow {
 
 		String mainMenuText = "Main Menu";
 
-		int mainMenuWidth = this.font.getWidth(mainMenuText);
-		int textHeight = this.font.getHeight();
+		int mainMenuWidth = font.getWidth(mainMenuText);
+		int textHeight = font.getHeight();
 
 		Color mainMenuColor = Color.orange;
 
@@ -64,7 +64,7 @@ public class Credits extends GenericWindow {
 		}
 
 		// Draw the actual text
-		this.drawShadowedText(this.font, 50, gameContainer.getHeight() - 50,
+		drawShadowedText(font, 50, gameContainer.getHeight() - 50,
 				mainMenuText, mainMenuColor);
 	}
 
@@ -83,17 +83,17 @@ public class Credits extends GenericWindow {
 		super.init(gameContainer, game);
 
 		// Load images
-		InputStream backgroundStream = this.getClass().getResourceAsStream(
+		InputStream backgroundStream = getClass().getResourceAsStream(
 				"/resources/backgrounds/CloudBackground.png");
-		InputStream arrowStream = this.getClass().getResourceAsStream(
+		InputStream arrowStream = getClass().getResourceAsStream(
 				"/resources/other/ArrowR.png");
-		InputStream arrowShadedStream = this.getClass().getResourceAsStream(
+		InputStream arrowShadedStream = getClass().getResourceAsStream(
 				"resources/other/ArrowB.png");
 
-		this.backgroundImage = new Image(backgroundStream, "Background Image",
+		backgroundImage = new Image(backgroundStream, "Background Image",
 				false);
-		this.arrowIcon = new Image(arrowStream, "Arrow Image", false);
-		this.arrowIconShaded = new Image(arrowShadedStream,
+		arrowIcon = new Image(arrowStream, "Arrow Image", false);
+		arrowIconShaded = new Image(arrowShadedStream,
 				"Arrow Shaded Image", false);
 	}
 
