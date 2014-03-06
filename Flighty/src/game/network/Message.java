@@ -11,7 +11,22 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 
 public abstract class Message {
-	public static Message receive(InputStream in) throws IOException,
+
+	public static class LocalError extends Message implements Error, Receivable {
+		private final String message;
+
+		public LocalError(String message) {
+			this.message = message;
+		}
+
+		@Override
+		public void log() {
+			System.out.println("Encountered local error because " + message);
+		}
+
+	}
+
+	public static Receivable receive(InputStream in) throws IOException,
 			Receivable.ReceiveException {
 		byte type = (byte) in.read();
 		switch (type) {
@@ -196,7 +211,7 @@ public abstract class Message {
 	public static abstract class ClientClient extends Message implements
 			Receivable, Sendable {
 		public static ClientClient receive(InputStream in) throws IOException,
-		Receivable.ReceiveException {
+				Receivable.ReceiveException {
 			try (DataInputStream dataIn = new DataInputStream(in)) {
 				int len = dataIn.readInt();
 				try (Input input = new Input(dataIn)) {
@@ -205,6 +220,7 @@ public abstract class Message {
 				}
 			}
 		}
+
 		@Override
 		public void send(OutputStream out) throws IOException,
 				Sendable.SendException {
