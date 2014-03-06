@@ -472,8 +472,7 @@ public class MultiplayerWindow extends BasicGameState {
 				&& (y >= (autopilotTextPos[1] - tolerance))
 				&& (y <= (autopilotTextPos[1] + fontHeight + tolerance))) {
 			if (clicked) {
-				sendClouds();
-			
+				disableManualControl();
 			} else {
 				// Change hover text and add waypoint next to text
 				autopilotTextColor = Color.white;
@@ -488,6 +487,10 @@ public class MultiplayerWindow extends BasicGameState {
 		// Draw the cloud text
 		graphics.drawString(autopilotText, autopilotTextPos[0], autopilotTextPos[1]);
 
+	}
+
+	private void disableManualControl() {
+		
 	}
 
 	private void sendClouds() {
