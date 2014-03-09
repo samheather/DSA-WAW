@@ -1,10 +1,14 @@
 package game.struct;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
 public class SaveFile {
 
@@ -20,6 +24,19 @@ public class SaveFile {
 
 	public void readStats() {
 		try {
+			//Magical reading from our PHP page, now decode the JSON and you're away.
+			URL url = new URL("http://atcga.me/Leaderboard.php");
+			URLConnection con = url.openConnection();
+			InputStream is = con.getInputStream();
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			byte[] buf = new byte[8192];
+			int len = 0;
+			while ((len = is.read(buf)) != -1) {
+			    baos.write(buf, 0, len);
+			}
+			String body = new String(baos.toByteArray(), "UTF-8");
+			System.out.println(body);
+			
 			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
 					statsFileName));
 			level2Unlocked = ((boolean)ois.readObject());
