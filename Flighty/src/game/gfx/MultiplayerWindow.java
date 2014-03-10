@@ -1,6 +1,5 @@
 package game.gfx;
 
-import org.lwjgl.openal.AL;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -17,13 +16,11 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import game.struct.Game;
 import game.struct.Plane;
-import game.struct.SaveFile;
 
 /**
  * GameWindow class provides an interactive game
@@ -41,12 +38,17 @@ public class MultiplayerWindow extends BasicGameState {
 	
 	/** Side bar width */
 	private static final int sidebarWidth = 150;
+	
+	/** Centre line width */
+	private static final float divideLineWidth = 2.0f;
 
 	/** The width the game is displayed at */
 	public int windowWidth;
 
 	/** The height the game is displayed at */
 	public int windowHeight;
+	
+	private int credits = 0;
 
 	/** The time the game has been running for */
 	private double time;
@@ -422,110 +424,6 @@ public class MultiplayerWindow extends BasicGameState {
 				&& (mouseY <= (pos[1] + height + tolerance)));
 	}
 	
-	public void handleSidebar(GameContainer gameContainer, Graphics graphics) {
-		
-		this.sidebarBackground.draw(0,0,MultiplayerWindow.sidebarWidth, gameContainer.getHeight());
-		
-		// Get the height of the text
-		int fontHeight = this.sidebarFont.getHeight();
-		
-		String cloudText1 = "(1) Send"; 
-		String cloudText2 = "Clouds"; 
-		String autopilotText1 = "(2) Disable";
-		String autopilotText2 = "Autopilot";
-		String debrisText1 = "(3) Send";
-		String debrisText2 = "Debris";
-		
-		int cloudTextWidth1 = this.sidebarFont.getWidth(cloudText1);
-		int cloudTextWidth2 = this.sidebarFont.getWidth(cloudText2);
-		int autopilotTextWidth1 = this.sidebarFont.getWidth(autopilotText1);
-		int autopilotTextWidth2 = this.sidebarFont.getWidth(autopilotText2);
-		int debrisTextWidth1 = this.sidebarFont.getWidth(debrisText1);
-		int debrisTextWidth2 = this.sidebarFont.getWidth(debrisText2);
-		
-		int[] cloudTextPos1 = {(MultiplayerWindow.sidebarWidth - cloudTextWidth1)/2, 50};
-		int[] cloudTextPos2 = {(MultiplayerWindow.sidebarWidth - cloudTextWidth2)/2, cloudTextPos1[1] + fontHeight + 5};
-		int[] autopilotTextPos1 = {(MultiplayerWindow.sidebarWidth - autopilotTextWidth1)/2, 150};
-		int[] autopilotTextPos2 = {(MultiplayerWindow.sidebarWidth - autopilotTextWidth2)/2, autopilotTextPos1[1] + fontHeight + 5};
-		int[] debrisTextPos1 = {(MultiplayerWindow.sidebarWidth - debrisTextWidth1)/2, 250};
-		int[] debrisTextPos2 = {(MultiplayerWindow.sidebarWidth - debrisTextWidth1)/2, debrisTextPos1[1] + fontHeight + 5};
-		
-		Color cloudTextColor = Color.orange;
-		Color autopilotTextColor = Color.orange;
-		Color debrisTextColor = Color.orange;
-		
-		// Hovering box tolerance in pixels
-		int tolerance = 10;
-		
-		// Mouse coordinates
-		int x = gameContainer.getInput().getMouseX();
-		int y = gameContainer.getInput().getMouseY();
-		
-		// Mouse action
-		boolean clicked = gameContainer.getInput().isMousePressed(0);
-		
-		if (isInHitBox(x, y, cloudTextPos1, cloudTextWidth1, fontHeight, tolerance)
-				|| isInHitBox(x, y, cloudTextPos2, cloudTextWidth2, fontHeight, tolerance)) {
-			if (clicked) {
-				sendClouds();
-			
-			} else {
-				// Change hover text and add waypoint next to text
-				cloudTextColor = Color.white;
-			}
-		} else { // Default colour
-			cloudTextColor = Color.orange;
-		}
-		
-		graphics.setFont(this.sidebarFont);
-		graphics.setColor(cloudTextColor);
-		
-		// Draw the cloud text
-		graphics.drawString(cloudText1, cloudTextPos1[0], cloudTextPos1[1]);
-		graphics.drawString(cloudText2, cloudTextPos2[0], cloudTextPos2[1]);
-		
-		//autopilot button
-		if (isInHitBox(x, y, autopilotTextPos1, autopilotTextWidth1, fontHeight, tolerance)
-				|| isInHitBox(x, y, autopilotTextPos2, autopilotTextWidth2, fontHeight, tolerance)) {
-			if (clicked) {
-				disableManualControl();
-			} else {
-				// Change hover text and add waypoint next to text
-				autopilotTextColor = Color.white;
-			}
-		} else { // Default colour
-			autopilotTextColor = Color.orange;
-		}
-		
-		graphics.setFont(this.sidebarFont);
-		graphics.setColor(autopilotTextColor);
-		
-		// Draw the autopilot text
-		graphics.drawString(autopilotText1, autopilotTextPos1[0], autopilotTextPos1[1]);
-		graphics.drawString(autopilotText2, autopilotTextPos2[0], autopilotTextPos2[1]);
-
-		//Debris button
-		if (isInHitBox(x, y, debrisTextPos1, debrisTextWidth1, fontHeight, tolerance)
-				|| isInHitBox(x, y, debrisTextPos2, debrisTextWidth2, fontHeight, tolerance)) {
-			if (clicked) {
-				sendDebris();
-			
-			} else {
-				// Change hover text and add waypoint next to text
-				debrisTextColor = Color.white;
-			}
-		} else { // Default colour
-			debrisTextColor = Color.orange;
-		}
-		
-		graphics.setFont(this.sidebarFont);
-		graphics.setColor(debrisTextColor);
-		
-		// Draw the cloud text
-		graphics.drawString(debrisText1, debrisTextPos1[0], debrisTextPos1[1]);
-		graphics.drawString(debrisText2, debrisTextPos2[0], debrisTextPos2[1]);
-	}
-
 	private void disableManualControl() {
 		/*TODO
 		 * Add functionality
@@ -543,6 +441,130 @@ public class MultiplayerWindow extends BasicGameState {
 		 * Add functionality
 		 */
 	}
+	
+	public void handleSidebar(GameContainer gameContainer, Graphics graphics) {
+		
+		this.sidebarBackground.draw(0,0,MultiplayerWindow.sidebarWidth, gameContainer.getHeight());
+		
+		// Get the height of the text
+		int fontHeight = this.sidebarFont.getHeight();
+		
+		int cloudCost = 20;
+		int autopilotCost = 40;
+		int debrisCost = 60;
+		
+		String points = "Credits: " + credits;
+		String cloudText1 = "(1) Send"; 
+		String cloudText2 = "Clouds"; 
+		String cloudText3 = cloudCost + " Cr";
+		String autopilotText1 = "(2) Disable";
+		String autopilotText2 = "Autopilot";
+		String autopilotText3 = autopilotCost + " Cr";
+		String debrisText1 = "(3) Send";
+		String debrisText2 = "Debris";
+		String debrisText3 = debrisCost + " Cr";
+		
+		int cloudTextWidth1 = this.sidebarFont.getWidth(cloudText1);
+		int cloudTextWidth2 = this.sidebarFont.getWidth(cloudText2);
+		int cloudTextWidth3 = this.sidebarFont.getWidth(cloudText3);
+		int autopilotTextWidth1 = this.sidebarFont.getWidth(autopilotText1);
+		int autopilotTextWidth2 = this.sidebarFont.getWidth(autopilotText2);
+		int autopilotTextWidth3 = this.sidebarFont.getWidth(autopilotText3);
+		int debrisTextWidth1 = this.sidebarFont.getWidth(debrisText1);
+		int debrisTextWidth2 = this.sidebarFont.getWidth(debrisText2);
+		int debrisTextWidth3 = this.sidebarFont.getWidth(debrisText3);
+		
+		int[] cloudTextPos1 = {(MultiplayerWindow.sidebarWidth - cloudTextWidth1)/2, 50};
+		int[] cloudTextPos2 = {(MultiplayerWindow.sidebarWidth - cloudTextWidth2)/2, cloudTextPos1[1] + fontHeight + 5};
+		int[] cloudTextPos3 = {(MultiplayerWindow.sidebarWidth - cloudTextWidth3)/2, cloudTextPos2[1] + fontHeight + 5};
+		int[] autopilotTextPos1 = {(MultiplayerWindow.sidebarWidth - autopilotTextWidth1)/2, 150};
+		int[] autopilotTextPos2 = {(MultiplayerWindow.sidebarWidth - autopilotTextWidth2)/2, autopilotTextPos1[1] + fontHeight + 5};
+		int[] autopilotTextPos3 = {(MultiplayerWindow.sidebarWidth - autopilotTextWidth3)/2, autopilotTextPos2[1] + fontHeight + 5};
+		int[] debrisTextPos1 = {(MultiplayerWindow.sidebarWidth - debrisTextWidth1)/2, 250};
+		int[] debrisTextPos2 = {(MultiplayerWindow.sidebarWidth - debrisTextWidth2)/2, debrisTextPos1[1] + fontHeight + 5};
+		int[] debrisTextPos3 = {(MultiplayerWindow.sidebarWidth - debrisTextWidth3)/2, debrisTextPos2[1] + fontHeight + 5};
+		
+		Color cloudTextColor = Color.orange;
+		Color autopilotTextColor = Color.orange;
+		Color debrisTextColor = Color.orange;
+		
+		// Hovering box tolerance in pixels
+		int tolerance = 10;
+		
+		// Mouse coordinates
+		int x = gameContainer.getInput().getMouseX();
+		int y = gameContainer.getInput().getMouseY();
+		
+		// Mouse action
+		boolean clicked = gameContainer.getInput().isMousePressed(0);
+		
+		if (isInHitBox(x, y, cloudTextPos1, cloudTextWidth1, fontHeight, tolerance)
+				|| isInHitBox(x, y, cloudTextPos2, cloudTextWidth2, fontHeight, tolerance)
+				|| isInHitBox(x, y, cloudTextPos3, cloudTextWidth3, fontHeight, tolerance)) {
+			if (clicked) {
+				sendClouds();
+			
+			} else {
+				// Change hover text and add waypoint next to text
+				cloudTextColor = Color.white;
+			}
+		} else { // Default colour
+			cloudTextColor = Color.orange;
+		}
+		
+		graphics.setFont(this.sidebarFont);
+		graphics.setColor(cloudTextColor);
+		
+		// Draw the cloud text
+		graphics.drawString(cloudText1, cloudTextPos1[0], cloudTextPos1[1]);
+		graphics.drawString(cloudText2, cloudTextPos2[0], cloudTextPos2[1]);
+		graphics.drawString(cloudText3, cloudTextPos3[0], cloudTextPos3[1]);
+		
+		//autopilot button
+		if (isInHitBox(x, y, autopilotTextPos1, autopilotTextWidth1, fontHeight, tolerance)
+				|| isInHitBox(x, y, autopilotTextPos2, autopilotTextWidth2, fontHeight, tolerance)
+				|| isInHitBox(x, y, autopilotTextPos3, autopilotTextWidth3, fontHeight, tolerance)) {
+			if (clicked) {
+				disableManualControl();
+			} else {
+				// Change hover text and add waypoint next to text
+				autopilotTextColor = Color.white;
+			}
+		} else { // Default colour
+			autopilotTextColor = Color.orange;
+		}
+		
+		graphics.setFont(this.sidebarFont);
+		graphics.setColor(autopilotTextColor);
+		
+		// Draw the autopilot text
+		graphics.drawString(autopilotText1, autopilotTextPos1[0], autopilotTextPos1[1]);
+		graphics.drawString(autopilotText2, autopilotTextPos2[0], autopilotTextPos2[1]);
+		graphics.drawString(autopilotText3, autopilotTextPos3[0], autopilotTextPos3[1]);
+
+		//Debris button
+		if (isInHitBox(x, y, debrisTextPos1, debrisTextWidth1, fontHeight, tolerance)
+				|| isInHitBox(x, y, debrisTextPos2, debrisTextWidth2, fontHeight, tolerance)
+				|| isInHitBox(x, y, debrisTextPos3, debrisTextWidth3, fontHeight, tolerance)) {
+			if (clicked) {
+				sendDebris();
+			
+			} else {
+				// Change hover text and add waypoint next to text
+				debrisTextColor = Color.white;
+			}
+		} else { // Default colour
+			debrisTextColor = Color.orange;
+		}
+		
+		graphics.setFont(this.sidebarFont);
+		graphics.setColor(debrisTextColor);
+		
+		// Draw the cloud text
+		graphics.drawString(debrisText1, debrisTextPos1[0], debrisTextPos1[1]);
+		graphics.drawString(debrisText2, debrisTextPos2[0], debrisTextPos2[1]);
+		graphics.drawString(debrisText3, debrisTextPos3[0], debrisTextPos3[1]);
+	}
 
 	/**
 	 * Renders the state
@@ -556,23 +578,32 @@ public class MultiplayerWindow extends BasicGameState {
 	 */
 	@Override
 	public void render(GameContainer gameContainer, StateBasedGame game,
-			Graphics g) {
+			Graphics graphics) {
 		// Draw the game map
 		this.map.draw(sidebarWidth, 0, this.windowWidth - sidebarWidth, this.windowHeight);
 
-		handleSidebar(gameContainer, g);
+		handleSidebar(gameContainer, graphics);
+		
+		// Covering right hand side as it is opponents
+		graphics.setColor(new Color(4,175,236,100));
+		graphics.fillRect((this.windowWidth + sidebarWidth)/2, 0, (this.windowWidth - sidebarWidth)/2, this.windowHeight);
+		
+		//Dividing line
+		graphics.setColor(Color.gray);
+		graphics.setLineWidth(this.divideLineWidth);
+		graphics.drawLine((this.windowWidth + sidebarWidth)/2, 0, (this.windowWidth + sidebarWidth)/2, this.windowHeight);
 		
 		// Setup the font
-		g.setAntiAlias(true);
-		g.setFont(this.font);
-		g.setColor(this.fontColor);
+		graphics.setAntiAlias(true);
+		graphics.setFont(this.font);
+		graphics.setColor(this.fontColor);
 		
 		
 		
 		if (!this.currentGame.isEnding()) {
 			// Display the Game Information
 			
-			g.drawString("Time : "
+			graphics.drawString("Time : "
 					+ ((int) this.time / 1000 / 60 < 10 ? "0"
 							+ (int) (this.time / 1000) / 60
 							: (int) (this.time / 1000) / 60)
@@ -580,11 +611,11 @@ public class MultiplayerWindow extends BasicGameState {
 					+ ((int) (this.time / 1000) % 60 < 10 ? "0"
 							+ (int) (this.time / 1000) % 60
 							: (int) (this.time / 1000) % 60), 1050, 15);
-			g.drawString(
+			graphics.drawString(
 					"Score : "
 							+ ((int) (this.currentGame.getScore().getScore()))
 							+ " pts", 1050, 35);
-			g.drawString(
+			graphics.drawString(
 					"Multiplier :"
 							+ ((int) (this.currentGame.getScore()
 									.getMultiplier())), 1050, 55);
@@ -620,7 +651,7 @@ public class MultiplayerWindow extends BasicGameState {
 						// If it's a special waypoint, render how many points
 						// were won
 						if (morePoints) {
-							g.drawString(
+							graphics.drawString(
 									"+"
 											+ Integer
 													.toString(this
@@ -642,7 +673,7 @@ public class MultiplayerWindow extends BasicGameState {
 						// If it's not a special waypoint, render how many
 						// points were won
 						else {
-							g.drawString(
+							graphics.drawString(
 									"+"
 											+ Integer
 													.toString(this
@@ -665,16 +696,16 @@ public class MultiplayerWindow extends BasicGameState {
 				if (currentGame.isTakeOffPenalty()) {
 					// Alert message to inform the user that the plane should be
 					// taken off
-					g.drawString("Take me off", 1122, 555);
+					graphics.drawString("Take me off", 1122, 555);
 					synchTakeOff--;
 
 					// Points deduced from the user if the plane is still landed
 					if (synchTakeOff < TAKE_OFF_PENALTY_TIME / 5) {
-						g.setColor(Color.red);
-						g.drawString("-" + 10
+						graphics.setColor(Color.red);
+						graphics.drawString("-" + 10
 								* currentGame.getScore().getMultiplier(), 1150,
 								570);
-						g.setColor(Color.white);
+						graphics.setColor(Color.white);
 
 						// Making sure the subtraction of points was done only
 						// once
@@ -800,7 +831,7 @@ public class MultiplayerWindow extends BasicGameState {
 				// Render plane's altitude. It doesn't render when planes are
 				// landed waiting to take off
 				if (plane.getVelocity() > 0) {
-					g.drawString(plane.getAltitude() + " ft",
+					graphics.drawString(plane.getAltitude() + " ft",
 							(float) plane.getX(), (float) plane.getY() + 15);
 				}
 
@@ -810,7 +841,7 @@ public class MultiplayerWindow extends BasicGameState {
 				if (plane.getNeedsToLand()
 						&& !plane.equals(currentGame.getCurrentPlane())
 						&& !currentGame.getAirport().isPlaneLanding()) {
-					g.drawString("Land Me!", (float) (plane.getX() - 5),
+					graphics.drawString("Land Me!", (float) (plane.getX() - 5),
 							(float) (plane.getY() - 30));
 				}
 
@@ -818,14 +849,14 @@ public class MultiplayerWindow extends BasicGameState {
 				// the same time
 				else if (plane.getNeedsToLand()
 						&& currentGame.getAirport().isPlaneLanding()) {
-					g.drawString("Wait to Land Me!",
+					graphics.drawString("Wait to Land Me!",
 							(float) (plane.getX() - 5),
 							(float) (plane.getY() - 30));
 				}
 
 				// If plane is selected, but it's not at the landing height
 				else if (plane.getNeedsToLand() && plane.getAltitude() > 2000) {
-					g.drawString("Lower Me!", (float) (plane.getX() - 5),
+					graphics.drawString("Lower Me!", (float) (plane.getX() - 5),
 							(float) (plane.getY() - 30));
 				}
 
@@ -840,14 +871,14 @@ public class MultiplayerWindow extends BasicGameState {
 								.getLandingApproachArea()
 								.contains((float) plane.getX(),
 										(float) plane.getY())) {
-					g.drawString("'L' to Land", (float) (plane.getX() - 5),
+					graphics.drawString("'L' to Land", (float) (plane.getX() - 5),
 							(float) (plane.getY() - 30));
 				}
 
 				// If plane is selected, at right height, but not within the
 				// landing zone
 				else if (plane.getNeedsToLand() && plane.getAltitude() <= 2000) {
-					g.drawString("Perfect Height!", (float) (plane.getX() - 5),
+					graphics.drawString("Perfect Height!", (float) (plane.getX() - 5),
 							(float) (plane.getY() - 30));
 				}
 
@@ -855,7 +886,7 @@ public class MultiplayerWindow extends BasicGameState {
 				// allowance threshold of sitting landed
 				else if (plane.getNeedsToTakeOff()
 						&& (!currentGame.isTakeOffPenalty())) {
-					g.drawString("'T' to Takeoff!", 1115, 555);
+					graphics.drawString("'T' to Takeoff!", 1115, 555);
 				}
 			}
 
@@ -1007,7 +1038,7 @@ public class MultiplayerWindow extends BasicGameState {
 			}
 		} else {
 			// Display the game duration (time)
-			g.drawString("Time : "
+			graphics.drawString("Time : "
 					+ ((int) this.endTime / 1000 / 60 < 10 ? "0"
 							+ (int) (this.endTime / 1000) / 60
 							: (int) (this.endTime / 1000) / 60)
