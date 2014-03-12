@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
+import game.struct.Airport;
 import game.struct.Game;
 import game.struct.Plane;
 
@@ -492,6 +493,8 @@ public class MultiplayerWindow extends BasicGameState {
 		int tolerance = 10;
 		
 		// Mouse coordinates
+		
+		
 		int x = gameContainer.getInput().getMouseX();
 		int y = gameContainer.getInput().getMouseY();
 		
@@ -794,7 +797,7 @@ public class MultiplayerWindow extends BasicGameState {
 				if (plane.equals(this.currentGame.getCurrentPlane())) {
 					if (this.currentGame.getCurrentPlane().getNeedsToLand() == true
 							&& landingApproachAreaDrawn == false) {
-						landingApproachArea.draw(400, 344);
+						landingApproachArea.draw(Airport.getBeginningOfRunwayX() + Airport.getTriangleSize()[0], Airport.getRunwayY() - (Airport.getTriangleSize()[1]/2), -Airport.getTriangleSize()[0], Airport.getTriangleSize()[1]);
 						landingApproachAreaDrawn = true;
 					}
 				}
@@ -863,9 +866,9 @@ public class MultiplayerWindow extends BasicGameState {
 				// If plane is selected, at the right altitude, and within the
 				// landing zone
 				else if (plane.getNeedsToLand()
-						&& plane.getAltitude() <= 2000
-						&& plane.getBearing() <= 225
-						&& plane.getBearing() >= 135
+						&& plane.getAltitude() == 2000
+						&& ((plane.getBearing() >= plane.getTakeoffValueHigh() && plane.getBearing() <= 359)
+						|| (plane.getBearing() <= plane.getTakeoffValueLow() && plane.getBearing() >= 0)) 
 						&& currentGame
 								.getAirport()
 								.getLandingApproachArea()

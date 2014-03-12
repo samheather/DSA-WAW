@@ -8,6 +8,12 @@ public class Airport extends Point {
 	private Plane planeWaitingtoTakeoff;
 	private Waypoint beginningOfRunway, endOfRunway;
 	private Polygon landingApproachArea;
+	private static int beginningOfRunwayX = 415;
+	private static int runwayY = 515;
+	private static int endOfRunwayX = 150;
+	private static int triangleSizeX = 200;
+	private static int triangleSizeY = 100;
+	
 
 	/**
 	 * <p>
@@ -27,16 +33,16 @@ public class Airport extends Point {
 		this.planeWaitingtoTakeoff = null;
 
 		// Creating the runway waypoints
-		this.beginningOfRunway = new Waypoint(720, 460);
-		this.endOfRunway = new Waypoint(1180, 465);
+		this.beginningOfRunway = new Waypoint(beginningOfRunwayX, runwayY);
+		this.endOfRunway = new Waypoint(endOfRunwayX, runwayY);
 
 		// Creating the landing area. This is the triangle that appears when a
 		// flight needs to land. It
 		// is used to check whether the flights have the right approach.
 		landingApproachArea = new Polygon();
-		landingApproachArea.addPoint(720, 465);
-		landingApproachArea.addPoint(400, 344);
-		landingApproachArea.addPoint(400, 576);
+		landingApproachArea.addPoint(beginningOfRunwayX, runwayY);
+		landingApproachArea.addPoint(beginningOfRunwayX + triangleSizeX, runwayY + (triangleSizeY/2));
+		landingApproachArea.addPoint(beginningOfRunwayX + triangleSizeX, runwayY - (triangleSizeY/2));
 	}
 
 	// ACCESSORS AND MODIFIERS
@@ -133,4 +139,22 @@ public class Airport extends Point {
 	public void setLandingApproachArea(Polygon landingApproachArea) {
 		this.landingApproachArea = landingApproachArea;
 	}
+	
+	public static int getEndOfRunwayX() {
+		return endOfRunwayX;
+	}
+	
+	public static int getBeginningOfRunwayX() {
+		return beginningOfRunwayX;
+	}
+	
+	public static int getRunwayY() {
+		return runwayY;
+	}
+	
+	public static int[] getTriangleSize() {
+		int[] temp = {triangleSizeX, triangleSizeY};
+		return temp;
+	}
+	
 }

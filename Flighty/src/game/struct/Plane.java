@@ -8,6 +8,9 @@ import java.util.Random;
  */
 public class Plane implements java.io.Serializable {
 
+	private int takeoffAngleHigh = 345;
+	private int takeoffAngleLow = 15;
+	
 	public ByteBuffer serialize() {
 		ByteBuffer b = ByteBuffer.allocate(100);
 		b.putInt(id);
@@ -424,7 +427,9 @@ public class Plane implements java.io.Serializable {
 		if (!currentGame.getAirport().isPlaneLanding()
 				&& currentGame.getAirport().getLandingApproachArea()
 						.contains((float) getX(), (float) getY())
-				&& getBearing() >= 135 && getBearing() <= 225
+						//FIXME
+				&& ((getBearing() >= takeoffAngleHigh && getBearing() <= 359)
+						|| (getBearing() <= takeoffAngleLow && getBearing() >= 0))
 				&& getAltitude() <= 2000) {
 			currentGame.getAirport().setPlaneLanding(true);
 
@@ -795,5 +800,12 @@ public class Plane implements java.io.Serializable {
 	public void setLandingDescentRate(double landingDescentRate) {
 		this.landingDescentRate = landingDescentRate;
 	}
+	
+	public int getTakeoffValueHigh() {
+		return this.takeoffAngleHigh;
+	}
 
+	public int getTakeoffValueLow() {
+		return this.takeoffAngleLow;
+	}
 }
