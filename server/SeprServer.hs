@@ -1,125 +1,111 @@
 
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, FlexibleContexts #-}
 
 module Main where
 
 	import Control.Concurrent.Async
-	import Network.Socket.ByteString.Lazy
-	import Network.Socket hiding (send, sendTo, recv, recvFrom)
-	import Prelude hiding (getContents, catch, length)
-	import Data.ByteString.Lazy (length)
+	import Network.Simple.TCP
 	import Control.Monad
 	import Control.Concurrent.STM.TQueue
 	import Control.Exception
-	import Control.Monad.STM
-	import Data.Function
-	import Control.Applicative
-	import Control.Monad.Fix
+	import qualified Control.Monad.STM as STM
+	import Protocol
+	import Data.Serialize.Get
+	import Data.Serialize.Put
+	import Data.Serialize hiding (put, get)
+	import qualified Data.Serialize as Serial
+	import Control.Monad.State.Lazy
+	import Control.Monad.Catch
+	import Prelude hiding (log)
+
+	log :: MonadIO m => String -> m ()
+	log = liftIO . putStrLn
+	atomically :: MonadIO m => STM.STM a -> m a
+	atomically = liftIO . STM.atomically
 
 
-	forever' f = forever $ fix f
+	sender conn toSend = fix $ \continue -> do
+		msg <- atomically $ readTQueue toSend
+		case msg of
+			Left err -> do
+				log "sender: received error, closing socket"
+				closeSock conn
+			Right msg -> do
+				send conn $ runPut $ Serial.put msg
+				continue
+
+	receiver conn received = flip evalStateT (Partial $ runGetPartial Serial.get) $ fix $ \continue -> do
+		currentState <- get
+		case currentState of
+			Fail err _ -> do
+				atomically $ writeTQueue received $ Left err
+				log "receiver: parse error, closing socket"
+				closeSock conn
+			Partial parse -> do
+				dat <- recv conn 1500
+				case dat of
+					Nothing -> do
+						atomically $ writeTQueue received $ Left "Socket closed during receive"
+						log "receiver: socket closed, exiting"
+					Just dat' -> do
+						put $ parse dat'
+						continue
+			Done result remainder -> do
+				put $ runGetPartial Serial.get remainder
+				atomically $ writeTQueue received $ Right result
+				continue
+
+	data Client = Client (TQueue (Either String Message)) (TQueue (Either String Message)) Socket
+
+	msend (Client _ toSend _) msg = atomically $ writeTQueue toSend $ Right $ ServerClient msg
+	mrecv (Client received _ _) = atomically $ readTQueue received
+	mclose (Client _ toSend conn) = do
+		atomically $ writeTQueue toSend $ Left "mclose called"
+		log "mclose called, closing socket"
+		closeSock conn
+	merror client = do
+		msend client $ NetworkError
+		mclose client
+
+	idle client = fix $ \continue -> do
+		msg <- mrecv client
+		case msg of
+			Left err -> do
+				log $ "idler: error from receiver: " ++ err ++ ", merroring"
+				merror client
+			Right (ClientServer BeginMM) -> do
+				log $ "idler: sending client to matchmaking"
+				-- TODO
+			Right (ClientServer _) -> do
+				log $ "idler: state error"
+				msend client $ StateError Idle
+				continue
+			Right _ -> do
+				log $ "idler: received strange message, merroring"
+				merror client
 
 
-	bounce x = async $ forever $ do
-
-		dat <- recv x 1500
-		when (length dat < 1) $ throwIO $ ErrorCall "Socket failure"
-		sendAll x "Error: Not in game!\r\n"
 
 
-	ready x = do
-
-		connected <- isConnected x
-		readable <- isReadable x
-		writeable <- isWritable x
-		return $ connected && readable && writeable
 
 
-	whenM pred action = do
-
-		b <- pred
-		when b action
 
 
-	unlessM pred = whenM $ not <$> pred
 
-
-	ifM pred whenTrue whenFalse = do
-
-		b <- pred
-		if b
-
-			then whenTrue
-			else whenFalse
-
-
-	mfix2 action1 action2 = mfix $ \x -> do
-
-		let result1 = fst x
-		let result2 = snd x
-		result1' <- action1 result2
-		result2' <- action2 result1
-		return (result1', result2')
-
+	mfix2 action1 action2 = mfix f where
+		f ~(result1, result2) = do
+			result1' <- action1 result2
+			result2' <- action2 result1
+			return (result1', result2')
 
 
 	main :: IO ()
 	main = do
 
-		notInGame <- newTQueueIO
-		sock <- socket AF_INET Stream 0
-		setSocketOption sock ReuseAddr 1
-		bindSocket sock (SockAddrInet 1025 iNADDR_ANY)
-		listen sock 32
-		async $ forever' $ \continue -> do
+		matchmaking <- newTQueueIO
+		listen HostAny "1025" $ \(conn, sockaddr) -> do
+			received <- liftIO newTQueueIO
+			toSend <- liftIO newTQueueIO
+			async $ idle (Client received toSend conn)
+			return ()
 
-			(x, bouncerx) <- atomically $ readTQueue notInGame
-			whenM (not <$> ready x) $ do
-
-				sClose x
-				cancel bouncerx
-				void continue
-
-			fix $ \continue -> do
-
-				(y, bouncery) <- atomically $ readTQueue notInGame
-				cancel bouncery
-				whenM (not <$> ready y) $ do
-
-					sClose y
-					void continue
-
-				cancel bouncerx
-				let pipe x y other = async $ forever $ do
-
-					let cleanup x y other = do
-
-						cancel other
-						sClose x
-						bouncer <- bounce y
-						atomically $ writeTQueue notInGame (y, bouncer)
-						throwIO $ ErrorCall "Socket failure"
-
-					dat <- do
-
-							dat <- recv x 1500
-							when (length dat < 1) $ throwIO $ ErrorCall "Socket failure"
-							return dat
-
-						`catches` [
-						Handler (\ThreadKilled -> throwIO $ ErrorCall "Thread failure"),
-						Handler (\(SomeException _) -> cleanup x y other)]
-
-					sendAll y dat
-
-						`catches` [
-						Handler (\ThreadKilled -> throwIO $ ErrorCall "Thread failure"),
-						Handler (\(SomeException _) -> cleanup y x other)]
-
-				void $ mfix2 (pipe x y) (pipe y x)
-
-		forever $ do
-
-			(conn, sockaddr)  <- accept sock
-			bouncer <- bounce conn
-			atomically $ writeTQueue notInGame (conn, bouncer)
