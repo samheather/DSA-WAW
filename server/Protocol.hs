@@ -1,16 +1,14 @@
 
 module Protocol where
 
-	import Data.ByteString
-	import Data.Binary
-	import Data.Binary.Get
-	import Data.Binary.Put
-	import Data.Int
-	import Data.Text.Encoding
-	import Data.Text hiding (length, pack, unpack)
-	import Prelude hiding (length)
+
+	import Data.Serialize
+	import Data.Serialize.Get
+	import Data.Serialize.Put
 	import Control.Monad
 	import Control.Applicative
+	import Data.ByteString.Lazy hiding (empty)
+	import Prelude hiding (length, empty)
 
 	data State = Game | MM | Idle
 
@@ -24,7 +22,8 @@ module Protocol where
 
 
 
-	instance Binary State where
+
+	instance Serialize State where
 		put Game = putWord8 0
 		put MM = putWord8 1
 		put Idle = putWord8 2
@@ -34,8 +33,9 @@ module Protocol where
 				0 -> return Game
 				1 -> return MM
 				2 -> return Idle
+				o -> label ("Did not recognise the State indicated by byte " ++ show o) empty
 
-	instance Binary Message where
+	instance Serialize Message where
 		put (ServerClient m) = do
 			putWord8 0
 			put m
@@ -51,8 +51,9 @@ module Protocol where
 				0 -> ServerClient <$> get
 				1 -> ClientServer <$> get
 				2 -> ClientClient <$> get
+				o -> label ("Did not recognise the Message type indicated by byte " ++ show o) empty
 
-	instance Binary ServerClient where
+	instance Serialize ServerClient where
 		put AckBeginMM = putWord8 0
 		put AckCancelMM = putWord8 1
 		put FoundGame = putWord8 2
@@ -72,8 +73,9 @@ module Protocol where
 				4 -> return AckRequestQuit
 				5 -> StateError <$> get
 				6 -> return NetworkError
+				o -> label ("Did not recognise the ServerClient Message type indicated by byte " ++ show o) empty
 
-	instance Binary ClientServer where
+	instance Serialize ClientServer where
 		put BeginMM = putWord8 0
 		put CancelMM = putWord8 1
 		put RequestQuit = putWord8 2
@@ -83,12 +85,13 @@ module Protocol where
 				0 -> return BeginMM
 				1 -> return CancelMM
 				2 -> return RequestQuit
+				o -> label ("Did not recognise the ClientServer Message type indicated by byte " ++ show o) empty
 
-	instance Binary ClientClient where
+	instance Serialize ClientClient where
 		put (Object dat) = do
 			putWord32be $ fromIntegral $ length dat
 			put dat
 		get = do
 			len <- getWord32be
-			dat <- getByteString $ fromIntegral len
+			dat <- getLazyByteString $ fromIntegral len
 			return $ Object dat
