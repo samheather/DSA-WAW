@@ -427,7 +427,6 @@ public class Plane implements java.io.Serializable {
 		if (!currentGame.getAirport().isPlaneLanding()
 				&& currentGame.getAirport().getLandingApproachArea()
 						.contains((float) getX(), (float) getY())
-						//FIXME
 				&& ((getBearing() >= takeoffAngleHigh && getBearing() <= 359)
 						|| (getBearing() <= takeoffAngleLow && getBearing() >= 0))
 				&& getAltitude() <= 2000) {

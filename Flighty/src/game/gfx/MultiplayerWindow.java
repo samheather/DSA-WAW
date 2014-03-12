@@ -392,7 +392,7 @@ public class MultiplayerWindow extends BasicGameState {
 
 		// Play level 1
 		try {
-			this.currentGame = new Game(50, 100);
+			this.currentGame = new Game(50, 100, this.sidebarWidth);
 		} catch (NoSuchAlgorithmException | IOException e) {
 			e.printStackTrace();
 		}
@@ -1384,6 +1384,10 @@ public class MultiplayerWindow extends BasicGameState {
 	 */
 	public GameContainer getCurrentGameContainer() {
 		return this.currentGameContainer;
+	}
+	
+	public static int getSidebarWidth() {
+		return sidebarWidth;
 	}
 
 	// Mutators
