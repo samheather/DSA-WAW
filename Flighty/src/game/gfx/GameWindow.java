@@ -683,7 +683,7 @@ public class GameWindow extends BasicGameState {
 				if (plane.equals(this.currentGame.getCurrentPlane())) {
 					if (this.currentGame.getCurrentPlane().getNeedsToLand() == true
 							&& landingApproachAreaDrawn == false) {
-						landingApproachArea.draw(Airport.getBeginningOfRunwayX() - Airport.getTriangleSize()[0], Airport.getRunwayY() - (Airport.getTriangleSize()[1]/2), Airport.getTriangleSize()[0], Airport.getTriangleSize()[1]);
+						landingApproachArea.draw(Airport.getBeginningOfRunwayX() + Airport.getTriangleSize()[0], Airport.getRunwayY() - (Airport.getTriangleSize()[1]/2), -Airport.getTriangleSize()[0], Airport.getTriangleSize()[1]);
 						landingApproachAreaDrawn = true;
 					}
 				}

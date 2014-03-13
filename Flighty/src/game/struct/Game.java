@@ -220,7 +220,7 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		if (multiplayer) {
 			airport = new Airport(415, 515, 150, 200, 100);
 		} else {
-			airport = new Airport(720, 460, 1180, 320, 230);
+			airport = new Airport(720, 460, 1180, -320, 230);
 		}
 		
 
