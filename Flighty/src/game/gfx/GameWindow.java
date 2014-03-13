@@ -1,5 +1,6 @@
 package game.gfx;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.openal.AL;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
@@ -17,6 +18,7 @@ import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.TextField;
 
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.UnknownHostException;
@@ -32,8 +34,6 @@ import game.gfx.LeaderBoard;
  * GameWindow class provides an interactive game
  */
 public class GameWindow extends BasicGameState {
-	
-
 	/** Time between score penalities for not taking off */
 	private static final int TAKE_OFF_PENALTY_TIME = 3000;
 
@@ -110,19 +110,20 @@ public class GameWindow extends BasicGameState {
 	/** The Java font used to generate the fonts used */
 	private Font fontPrimitive;
 	
-	private Graphics currentGraphics;
+	//private Graphics currentGraphics;
 
 	/** The generic TrueType font */
 	private TrueTypeFont font;
 
 	private TrueTypeFont pauseFont;
 
-	private TrueTypeFont gameOverFont1;
-
-	private TrueTypeFont gameOverFont2;
-
+	private TrueTypeFont endFont;
+	
+	private TextField textBox;
+	
 	/** The colour to display the font in */
 	private Color fontColor;
+	
 
 	/** Boolean to stop multiple saves on crashing **/
 	private boolean hasSaved = false;
@@ -160,8 +161,7 @@ public class GameWindow extends BasicGameState {
 	private boolean unlock2 = false;
 	private boolean unlock3 = false;
 	
-	
-	private boolean gameOver = true;
+	private boolean isTextBoxIni = false;
 
 	/** The arrow icon */
 	private Image arrowIcon;
@@ -350,14 +350,24 @@ public class GameWindow extends BasicGameState {
 		this.map2 = new Image(map2Stream, "Map 2 Image", false);
 
 		// Set the font (used for altitudes etc.)
+		
+		try {
+			InputStream fontStream = getClass().getResourceAsStream(
+					"/resources/fonts/8BitWonder.ttf");
+			Font newFont = Font.createFont(Font.TRUETYPE_FONT, fontStream);
+			GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(
+					newFont);
+			this.fontPrimitive = newFont;
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.fontPrimitive = new Font(Font.SERIF, Font.PLAIN, 12);
+		}
+		this.endFont = new TrueTypeFont(this.fontPrimitive.deriveFont(
+				Font.CENTER_BASELINE, 20.0f), false);
 		this.fontPrimitive = new Font("Lucida Sans", Font.PLAIN, 12);
 		this.font = new TrueTypeFont(this.fontPrimitive, true);
 		this.pauseFont = new TrueTypeFont(this.fontPrimitive.deriveFont(15f),
 				true);
-		this.gameOverFont1 = new TrueTypeFont(
-				this.fontPrimitive.deriveFont(50f), true);
-		this.gameOverFont2 = new TrueTypeFont(
-				this.fontPrimitive.deriveFont(25f), true);
 
 		// Initialise Waypoint Sound
 		checkpointSound = new Sound("resources/music/checkpointSound.ogg");
@@ -366,6 +376,7 @@ public class GameWindow extends BasicGameState {
 		gameMusic = new Music(
 				"resources/music/Galavanting_Through_Low_Rez_Forests.ogg");
 		gameMusic.loop();
+		
 
 	}
 
@@ -1008,41 +1019,7 @@ public class GameWindow extends BasicGameState {
 				
 				this.arrowIcon.draw(245, gameContainer.getHeight() - 50
 						- (textHeight / 4), 45, 35);
-				// Manages leaderboardentries
-				//WindowManager.leaderBoard.leaderboardEntries[4].getScore()
 				
-				if (-1 < this.currentGame.getScore().getScore()){
-					gameOver = false;
-					
-					//createds a text box to enter your name:
-					new TrueTypeFont(this.fontPrimitive.deriveFont(25f),true)
-						.drawString(300f, 300f, "Enter your name to be added to the leaderboard");
-					//test
-					
-					if(gameOver == true){
-					WindowManager.leaderBoard.addLeaderboardEntry("lopas", 6000);
-					gameOver = false;
-					}
-				
-					/// Problems with creating a text box!
-					/*
-					TrueTypeFont font1 = new TrueTypeFont(new java.awt.Font(java.awt.Font.SERIF,java.awt.Font.BOLD , 26), false);
-				    TextField textBox = new TextField(currentGameContainer, font1 ,400, 300, 300, 50);
-					textBox.setBorderColor(Color.orange);
-					textBox.setBackgroundColor(Color.white);
-					textBox.setTextColor(Color.black);
-					textBox.setConsumeEvents(true);
-					textBox.render(currentGameContainer, currentGraphics);
-					
-					
-					String textBoxText = textBox.getText();
-					WindowManager.leaderBoard.addLeaderboardEntry(textBoxText, (int) this.currentGame.getScore().getScore());
-					
-					
-					
-				
-				*/
-				}
 				// Countdown till game exists to main menu
 				/*new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
 						.drawString(
@@ -1074,11 +1051,38 @@ public class GameWindow extends BasicGameState {
 						this.hasSaved = true;
 					}
 				}
-
-				// If return time elapsed, close game to let the user play again
-				//if (this.time > (this.endTime + (5 * 1000))) {
-					//game.closeRequested();
-				//}
+				
+				// Manages leaderboard entries if score is high enough
+				
+				if (WindowManager.leaderBoard.leaderboardEntries[4].getScore() < this.currentGame.getScore().getScore()){
+	
+					// initializes text box
+					if (isTextBoxIni == false){
+						textBox =  new TextField(currentGameContainer, endFont ,300, 350,430, 50);
+						textBox.setBorderColor(Color.black);
+						textBox.setBackgroundColor(Color.white);
+						textBox.setTextColor(Color.orange);
+						textBox.setConsumeEvents(true);
+						textBox.setAcceptingInput(true);
+						textBox.setMaxLength(30);
+						isTextBoxIni = true;
+						
+					}
+					
+					//creates a text box to enter your name:
+					
+					new TrueTypeFont(this.fontPrimitive.deriveFont(25f),true)
+					.drawString(300f, 300f, "Enter your name to the leaderboard");
+					
+					textBox.render(currentGameContainer, g);
+					
+					if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
+						WindowManager.leaderBoard.addLeaderboardEntry(textBox.getText(), currentGame.getScore().getScore());
+						textBox.setText("");
+						game.enterState(WindowManager.MAIN_MENU_STATE);
+						
+					}
+				}
 			}
 
 			// if the planes collided but the ending has not yet been set
@@ -1129,8 +1133,8 @@ public class GameWindow extends BasicGameState {
 
 		String mainMenuText = "Main Menu";
 
-		int mainMenuWidth = this.font.getWidth(mainMenuText);
-		int textHeight = this.font.getHeight();
+		int mainMenuWidth = this.endFont.getWidth(mainMenuText);
+		int textHeight = this.endFont.getHeight();
 
 		Color mainMenuColor = Color.orange;
 
@@ -1139,6 +1143,10 @@ public class GameWindow extends BasicGameState {
 				&& (x <= (50 - 25) + mainMenuWidth + 25)
 				&& (y <= (gameContainer.getHeight() - 50 + textHeight + 25))) {
 			if (clicked) {
+				if(isTextBoxIni){
+					WindowManager.leaderBoard.addLeaderboardEntry(textBox.getText(), currentGame.getScore().getScore());
+					textBox.setText("");
+				}
 				game.enterState(WindowManager.MAIN_MENU_STATE);
 			} else {
 				// Change colour on hover
@@ -1148,8 +1156,8 @@ public class GameWindow extends BasicGameState {
 			mainMenuColor = Color.orange;
 		}
 		// Draw the actual text
-		font.drawString(50 + 2,  gameContainer.getHeight() - 50 + 2, mainMenuText, Color.black);
-		font.drawString(50,  gameContainer.getHeight() - 50, mainMenuText, mainMenuColor);
+		endFont.drawString(50 + 2,  gameContainer.getHeight() - 50 + 2, mainMenuText, Color.black);
+		endFont.drawString(50,  gameContainer.getHeight() - 50, mainMenuText, mainMenuColor);
 	}
 	/**
 	 * Handles mouse click events
