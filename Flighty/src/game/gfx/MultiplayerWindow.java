@@ -113,6 +113,8 @@ public class MultiplayerWindow extends BasicGameState {
 	private TrueTypeFont font;
 	
 	private TrueTypeFont sidebarFont;
+	
+	private TrueTypeFont sidebarFontLarge;
 
 	private TrueTypeFont gameOverFont1;
 
@@ -345,6 +347,9 @@ public class MultiplayerWindow extends BasicGameState {
 		this.sidebarFont = new TrueTypeFont(this.fontPrimitive.deriveFont(
 				Font.CENTER_BASELINE, 16.0f), false);
 		
+		this.sidebarFontLarge = new TrueTypeFont(this.fontPrimitive.deriveFont(
+				Font.CENTER_BASELINE, 20.0f), false);
+		
 		// Set the font (used for altitudes etc.)
 		this.fontPrimitive = new Font("Lucida Sans", Font.PLAIN, 12);
 		this.font = new TrueTypeFont(this.fontPrimitive, true);
@@ -392,7 +397,7 @@ public class MultiplayerWindow extends BasicGameState {
 
 		// Play level 1
 		try {
-			this.currentGame = new Game(50, 100, this.sidebarWidth);
+			this.currentGame = new Game(50, 100, MultiplayerWindow.sidebarWidth);
 		} catch (NoSuchAlgorithmException | IOException e) {
 			e.printStackTrace();
 		}
@@ -450,6 +455,10 @@ public class MultiplayerWindow extends BasicGameState {
 		graphics.drawString(text, pos[0], pos[1]);
 	}
 	
+	private void updateCredits(int delta){
+		credits = Math.max(0, credits + delta * this.getCurrentGame().getScore().getMultiplier());
+	}
+	
 	public void handleSidebar(GameContainer gameContainer, Graphics graphics) {
 		
 		this.sidebarBackground.draw(0,0,MultiplayerWindow.sidebarWidth, gameContainer.getHeight());
@@ -461,7 +470,8 @@ public class MultiplayerWindow extends BasicGameState {
 		int autopilotCost = 40;
 		int debrisCost = 60;
 		
-		String points = "Credits: " + credits;
+		String sidebarTitleText = "Shop";
+		String pointsText = credits + " Cr";
 		String cloudText1 = "(1) Send"; 
 		String cloudText2 = "Clouds"; 
 		String cloudText3 = cloudCost + " Cr";
@@ -472,6 +482,8 @@ public class MultiplayerWindow extends BasicGameState {
 		String debrisText2 = "Debris";
 		String debrisText3 = debrisCost + " Cr";
 		
+		int sidebarTitleTextWidth = this.sidebarFontLarge.getWidth(sidebarTitleText);
+		int pointsTextWidth = this.sidebarFont.getWidth(pointsText);
 		int cloudTextWidth1 = this.sidebarFont.getWidth(cloudText1);
 		int cloudTextWidth2 = this.sidebarFont.getWidth(cloudText2);
 		int cloudTextWidth3 = this.sidebarFont.getWidth(cloudText3);
@@ -482,16 +494,20 @@ public class MultiplayerWindow extends BasicGameState {
 		int debrisTextWidth2 = this.sidebarFont.getWidth(debrisText2);
 		int debrisTextWidth3 = this.sidebarFont.getWidth(debrisText3);
 		
-		int[] cloudTextPos1 = {(MultiplayerWindow.sidebarWidth - cloudTextWidth1)/2, 50};
+		int[] sidebarTitleTextPos = {(MultiplayerWindow.sidebarWidth - sidebarTitleTextWidth)/2, 50};
+		int[] pointsTextPos = {(MultiplayerWindow.sidebarWidth - pointsTextWidth)/2, sidebarTitleTextPos[1] + fontHeight + 15};
+		int[] cloudTextPos1 = {(MultiplayerWindow.sidebarWidth - cloudTextWidth1)/2, 150};
 		int[] cloudTextPos2 = {(MultiplayerWindow.sidebarWidth - cloudTextWidth2)/2, cloudTextPos1[1] + fontHeight + 5};
 		int[] cloudTextPos3 = {(MultiplayerWindow.sidebarWidth - cloudTextWidth3)/2, cloudTextPos2[1] + fontHeight + 5};
-		int[] autopilotTextPos1 = {(MultiplayerWindow.sidebarWidth - autopilotTextWidth1)/2, 150};
+		int[] autopilotTextPos1 = {(MultiplayerWindow.sidebarWidth - autopilotTextWidth1)/2, 250};
 		int[] autopilotTextPos2 = {(MultiplayerWindow.sidebarWidth - autopilotTextWidth2)/2, autopilotTextPos1[1] + fontHeight + 5};
 		int[] autopilotTextPos3 = {(MultiplayerWindow.sidebarWidth - autopilotTextWidth3)/2, autopilotTextPos2[1] + fontHeight + 5};
-		int[] debrisTextPos1 = {(MultiplayerWindow.sidebarWidth - debrisTextWidth1)/2, 250};
+		int[] debrisTextPos1 = {(MultiplayerWindow.sidebarWidth - debrisTextWidth1)/2, 350};
 		int[] debrisTextPos2 = {(MultiplayerWindow.sidebarWidth - debrisTextWidth2)/2, debrisTextPos1[1] + fontHeight + 5};
 		int[] debrisTextPos3 = {(MultiplayerWindow.sidebarWidth - debrisTextWidth3)/2, debrisTextPos2[1] + fontHeight + 5};
 		
+		Color sidebarTitleTextColor = Color.orange;
+		Color pointsTextColor = Color.orange;
 		Color cloudTextColor = Color.orange;
 		Color autopilotTextColor = Color.orange;
 		Color debrisTextColor = Color.orange;
@@ -508,12 +524,21 @@ public class MultiplayerWindow extends BasicGameState {
 		// Mouse action
 		boolean clicked = gameContainer.getInput().isMousePressed(0);
 		
+		graphics.setFont(this.sidebarFontLarge);
+		drawShadowedText(sidebarTitleText, sidebarTitleTextColor, sidebarTitleTextPos, graphics);
+		
+		graphics.setFont(this.sidebarFont);
+		// Draw the points text
+		pointsText = credits + " Cr";
+		pointsTextWidth = this.sidebarFont.getWidth(pointsText);
+		pointsTextPos[0] = (MultiplayerWindow.sidebarWidth - pointsTextWidth)/2;
+		drawShadowedText(pointsText, pointsTextColor, pointsTextPos, graphics);
+		
 		if (isInHitBox(x, y, cloudTextPos1, cloudTextWidth1, fontHeight, tolerance)
 				|| isInHitBox(x, y, cloudTextPos2, cloudTextWidth2, fontHeight, tolerance)
 				|| isInHitBox(x, y, cloudTextPos3, cloudTextWidth3, fontHeight, tolerance)) {
 			if (clicked) {
 				sendClouds();
-			
 			} else {
 				// Change hover text and add waypoint next to text
 				cloudTextColor = Color.white;
@@ -567,7 +592,7 @@ public class MultiplayerWindow extends BasicGameState {
 		
 		graphics.setFont(this.sidebarFont);
 		
-		// Draw the cloud text
+		// Draw the debris text
 		drawShadowedText(debrisText1, debrisTextColor, debrisTextPos1, graphics);
 		drawShadowedText(debrisText2, debrisTextColor, debrisTextPos2, graphics);
 		drawShadowedText(debrisText3, debrisTextColor, debrisTextPos3, graphics);
@@ -597,7 +622,7 @@ public class MultiplayerWindow extends BasicGameState {
 		
 		//Dividing line
 		graphics.setColor(Color.gray);
-		graphics.setLineWidth(this.divideLineWidth);
+		graphics.setLineWidth(MultiplayerWindow.divideLineWidth);
 		graphics.drawLine((this.windowWidth + sidebarWidth)/2, 0, (this.windowWidth + sidebarWidth)/2, this.windowHeight);
 		
 		// Setup the font
@@ -720,7 +745,6 @@ public class MultiplayerWindow extends BasicGameState {
 							currentGame
 									.getScore()
 									.planeLeftAirspaceOrWaitingToTakeOffMinusScore();
-
 							// Don't reduce more points for the same penalty
 							reducePoints = false;
 						}

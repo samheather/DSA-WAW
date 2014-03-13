@@ -57,6 +57,8 @@ public class Game implements java.io.Serializable, KryoSerializable {
 	/** The window height */
 	private static final int WINDOW_HEIGHT = 600;
 	
+	private static boolean multiplayer = false;
+	
 	/** Distance from left edge for sidebar so planes don't fly in it */
 	private static int distFromLeftEdge = 0;  
 
@@ -173,6 +175,9 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		
 		
 		distFromLeftEdge = distFromLeft;
+		if (distFromLeftEdge != 0) {
+			multiplayer = true;
+		}
 		/*
 
 		// Initialise TCP Connection
@@ -1102,13 +1107,11 @@ public class Game implements java.io.Serializable, KryoSerializable {
 
 	@Override
 	public void read(Kryo arg0, com.esotericsoftware.kryo.io.Input arg1) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void write(Kryo arg0, Output arg1) {
-		// TODO Auto-generated method stub
 
 	}
 }

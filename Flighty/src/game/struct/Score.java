@@ -47,7 +47,6 @@ public class Score {
 	 *            Used to gain access to airport attributes
 	 */
 	public void addScore(Plane plane, Game currentGame) {
-
 		if (!plane.getFlightPlan().getCurrentRoute().isEmpty()) {
 			if (plane.getFlightPlan().getCurrentRoute().get(0) == currentGame
 					.getAirport().getEndOfRunway()) {
