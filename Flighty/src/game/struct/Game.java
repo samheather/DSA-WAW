@@ -217,7 +217,11 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		ending = false;
 
 		// Adding the airport into the game
-		airport = new Airport();
+		if (multiplayer) {
+			airport = new Airport(415, 515, 150, 200, 100);
+		} else {
+			airport = new Airport(720, 460, 1180, -320, 230);
+		}
 
 		// Dynamic lists for planes
 		manualPlanes = new ArrayList<Plane>();
@@ -592,7 +596,7 @@ public class Game implements java.io.Serializable, KryoSerializable {
 			// Action on 'l' Key
 			if (gameContainer.getInput().isKeyPressed(38)) {
 				if (currentPlane.getNeedsToLand()) {
-					currentPlane.land();
+					currentPlane.land(multiplayer);
 					//currentPlane.markForSyncing();
 				}
 			}
@@ -725,6 +729,7 @@ public class Game implements java.io.Serializable, KryoSerializable {
 						.getCurrentRoute().get(0), this)) {
 
 					getScore().addScore(plane, this);
+					
 
 					// Accommodates planes that are taking off
 					if (plane.getFlightPlan().getCurrentRoute().get(0)

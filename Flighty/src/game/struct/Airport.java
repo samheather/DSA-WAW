@@ -8,11 +8,11 @@ public class Airport extends Point {
 	private Plane planeWaitingtoTakeoff;
 	private Waypoint beginningOfRunway, endOfRunway;
 	private Polygon landingApproachArea;
-	private static int beginningOfRunwayX = 415;
-	private static int runwayY = 515;
-	private static int endOfRunwayX = 150;
-	private static int triangleSizeX = 200;
-	private static int triangleSizeY = 100;
+	private static int beginningOfRunwayX;
+	private static int runwayY;
+	private static int endOfRunwayX;
+	private static int triangleSizeX;
+	private static int triangleSizeY;
 	
 
 	/**
@@ -22,9 +22,15 @@ public class Airport extends Point {
 	 * Initialises Airport class during runtime
 	 * 
 	 */
-	public Airport() {
+	public Airport(int beginningOfRunwayXVal, int runwayYVal, int endOfRunwayXVal, int triangleSizeXVal, int triangleSizeYVal) {
 		// Placing the airport off screen as the airport graphics are part of
 		// the graphics already
+		this.beginningOfRunwayX = beginningOfRunwayXVal;
+		this.runwayY = runwayYVal;
+		this.endOfRunwayX = endOfRunwayXVal;
+		this.triangleSizeX = triangleSizeXVal;
+		this.triangleSizeY = triangleSizeYVal;
+		
 		this.x = -100;
 		this.y = -100;
 
@@ -39,6 +45,7 @@ public class Airport extends Point {
 		// Creating the landing area. This is the triangle that appears when a
 		// flight needs to land. It
 		// is used to check whether the flights have the right approach.
+		
 		landingApproachArea = new Polygon();
 		landingApproachArea.addPoint(beginningOfRunwayX, runwayY);
 		landingApproachArea.addPoint(beginningOfRunwayX + triangleSizeX, runwayY + (triangleSizeY/2));
