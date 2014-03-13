@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
+import game.struct.Airport;
 import game.struct.Game;
 import game.struct.Plane;
 
@@ -391,7 +392,7 @@ public class MultiplayerWindow extends BasicGameState {
 
 		// Play level 1
 		try {
-			this.currentGame = new Game(50, 100);
+			this.currentGame = new Game(50, 100, this.sidebarWidth);
 		} catch (NoSuchAlgorithmException | IOException e) {
 			e.printStackTrace();
 		}
@@ -440,6 +441,13 @@ public class MultiplayerWindow extends BasicGameState {
 		/*TODO
 		 * Add functionality
 		 */
+	}
+	
+	private void drawShadowedText(String text, Color color, int[] pos, Graphics graphics){
+		graphics.setColor(Color.black);
+		graphics.drawString(text, pos[0] + 2, pos[1] + 1);
+		graphics.setColor(color);
+		graphics.drawString(text, pos[0], pos[1]);
 	}
 	
 	public void handleSidebar(GameContainer gameContainer, Graphics graphics) {
@@ -492,6 +500,8 @@ public class MultiplayerWindow extends BasicGameState {
 		int tolerance = 10;
 		
 		// Mouse coordinates
+		
+		
 		int x = gameContainer.getInput().getMouseX();
 		int y = gameContainer.getInput().getMouseY();
 		
@@ -513,12 +523,11 @@ public class MultiplayerWindow extends BasicGameState {
 		}
 		
 		graphics.setFont(this.sidebarFont);
-		graphics.setColor(cloudTextColor);
 		
 		// Draw the cloud text
-		graphics.drawString(cloudText1, cloudTextPos1[0], cloudTextPos1[1]);
-		graphics.drawString(cloudText2, cloudTextPos2[0], cloudTextPos2[1]);
-		graphics.drawString(cloudText3, cloudTextPos3[0], cloudTextPos3[1]);
+		drawShadowedText(cloudText1, cloudTextColor, cloudTextPos1, graphics);
+		drawShadowedText(cloudText2, cloudTextColor, cloudTextPos2, graphics);
+		drawShadowedText(cloudText3, cloudTextColor, cloudTextPos3, graphics);
 		
 		//autopilot button
 		if (isInHitBox(x, y, autopilotTextPos1, autopilotTextWidth1, fontHeight, tolerance)
@@ -535,12 +544,11 @@ public class MultiplayerWindow extends BasicGameState {
 		}
 		
 		graphics.setFont(this.sidebarFont);
-		graphics.setColor(autopilotTextColor);
 		
 		// Draw the autopilot text
-		graphics.drawString(autopilotText1, autopilotTextPos1[0], autopilotTextPos1[1]);
-		graphics.drawString(autopilotText2, autopilotTextPos2[0], autopilotTextPos2[1]);
-		graphics.drawString(autopilotText3, autopilotTextPos3[0], autopilotTextPos3[1]);
+		drawShadowedText(autopilotText1, autopilotTextColor, autopilotTextPos1, graphics);
+		drawShadowedText(autopilotText2, autopilotTextColor, autopilotTextPos2, graphics);
+		drawShadowedText(autopilotText3, autopilotTextColor, autopilotTextPos3, graphics);
 
 		//Debris button
 		if (isInHitBox(x, y, debrisTextPos1, debrisTextWidth1, fontHeight, tolerance)
@@ -558,12 +566,11 @@ public class MultiplayerWindow extends BasicGameState {
 		}
 		
 		graphics.setFont(this.sidebarFont);
-		graphics.setColor(debrisTextColor);
 		
 		// Draw the cloud text
-		graphics.drawString(debrisText1, debrisTextPos1[0], debrisTextPos1[1]);
-		graphics.drawString(debrisText2, debrisTextPos2[0], debrisTextPos2[1]);
-		graphics.drawString(debrisText3, debrisTextPos3[0], debrisTextPos3[1]);
+		drawShadowedText(debrisText1, debrisTextColor, debrisTextPos1, graphics);
+		drawShadowedText(debrisText2, debrisTextColor, debrisTextPos2, graphics);
+		drawShadowedText(debrisText3, debrisTextColor, debrisTextPos3, graphics);
 	}
 
 	/**
@@ -582,7 +589,7 @@ public class MultiplayerWindow extends BasicGameState {
 		// Draw the game map
 		this.map.draw(sidebarWidth, 0, this.windowWidth - sidebarWidth, this.windowHeight);
 
-		handleSidebar(gameContainer, graphics);
+		
 		
 		// Covering right hand side as it is opponents
 		graphics.setColor(new Color(4,175,236,100));
@@ -794,7 +801,7 @@ public class MultiplayerWindow extends BasicGameState {
 				if (plane.equals(this.currentGame.getCurrentPlane())) {
 					if (this.currentGame.getCurrentPlane().getNeedsToLand() == true
 							&& landingApproachAreaDrawn == false) {
-						landingApproachArea.draw(400, 344);
+						landingApproachArea.draw(Airport.getBeginningOfRunwayX() + Airport.getTriangleSize()[0], Airport.getRunwayY() - (Airport.getTriangleSize()[1]/2), -Airport.getTriangleSize()[0], Airport.getTriangleSize()[1]);
 						landingApproachAreaDrawn = true;
 					}
 				}
@@ -863,9 +870,9 @@ public class MultiplayerWindow extends BasicGameState {
 				// If plane is selected, at the right altitude, and within the
 				// landing zone
 				else if (plane.getNeedsToLand()
-						&& plane.getAltitude() <= 2000
-						&& plane.getBearing() <= 225
-						&& plane.getBearing() >= 135
+						&& plane.getAltitude() == 2000
+						&& ((plane.getBearing() >= plane.getTakeoffValueHigh() && plane.getBearing() <= 359)
+						|| (plane.getBearing() <= plane.getTakeoffValueLow() && plane.getBearing() >= 0)) 
 						&& currentGame
 								.getAirport()
 								.getLandingApproachArea()
@@ -1099,6 +1106,8 @@ public class MultiplayerWindow extends BasicGameState {
 				this.currentGame.setEnding(true);
 			}
 		}
+		
+		handleSidebar(gameContainer, graphics);
 	}
 
 	/**
@@ -1381,6 +1390,10 @@ public class MultiplayerWindow extends BasicGameState {
 	 */
 	public GameContainer getCurrentGameContainer() {
 		return this.currentGameContainer;
+	}
+	
+	public static int getSidebarWidth() {
+		return sidebarWidth;
 	}
 
 	// Mutators
