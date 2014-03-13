@@ -8,7 +8,7 @@ module Protocol where
 	import Control.Monad
 	import Control.Applicative
 	import Data.ByteString.Lazy hiding (empty)
-	import Prelude hiding (length, empty)
+	import Prelude hiding (length)
 
 	data State = Game | MM | Idle
 
