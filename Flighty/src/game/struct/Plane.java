@@ -8,8 +8,10 @@ import java.util.Random;
  */
 public class Plane implements java.io.Serializable {
 
-	private int takeoffAngleHigh = 345;
-	private int takeoffAngleLow = 15;
+	private int takeoffAngleHighMulti = 345;
+	private int takeoffAngleLowMulti = 15;
+	private int takeoffAngleHighSingle = 225;
+	private int takeoffAngleLowSingle = 135;
 	
 	public ByteBuffer serialize() {
 		ByteBuffer b = ByteBuffer.allocate(100);
@@ -423,12 +425,14 @@ public class Plane implements java.io.Serializable {
 	 * plane's current bearing is such that the plane is facing the runway. If
 	 * all these conditions are met, the plane begins to land.
 	 */
-	public void land() {
+	public void land(boolean multiplayer) {
 		if (!currentGame.getAirport().isPlaneLanding()
 				&& currentGame.getAirport().getLandingApproachArea()
 						.contains((float) getX(), (float) getY())
-				&& ((getBearing() >= takeoffAngleHigh && getBearing() <= 359)
-						|| (getBearing() <= takeoffAngleLow && getBearing() >= 0))
+				&& ((multiplayer && ((getBearing() >= takeoffAngleHighMulti && getBearing() <= 359)
+						|| (getBearing() <= takeoffAngleLowMulti && getBearing() >= 0)))
+						||(!multiplayer && ((getBearing() <= takeoffAngleHighSingle)
+								|| (getBearing() >= takeoffAngleLowSingle))))
 				&& getAltitude() <= 2000) {
 			currentGame.getAirport().setPlaneLanding(true);
 
@@ -800,11 +804,19 @@ public class Plane implements java.io.Serializable {
 		this.landingDescentRate = landingDescentRate;
 	}
 	
-	public int getTakeoffValueHigh() {
-		return this.takeoffAngleHigh;
+	public int getTakeoffValueHighMulti() {
+		return this.takeoffAngleHighMulti;
 	}
 
-	public int getTakeoffValueLow() {
-		return this.takeoffAngleLow;
+	public int getTakeoffValueLowMulti() {
+		return this.takeoffAngleLowMulti;
+	}
+	
+	public int getTakeoffValueHighSingle() {
+		return this.takeoffAngleHighSingle;
+	}
+
+	public int getTakeoffValueLowSingle() {
+		return this.takeoffAngleLowSingle;
 	}
 }

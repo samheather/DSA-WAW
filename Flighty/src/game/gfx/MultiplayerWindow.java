@@ -893,8 +893,8 @@ public class MultiplayerWindow extends BasicGameState {
 				// landing zone
 				else if (plane.getNeedsToLand()
 						&& plane.getAltitude() == 2000
-						&& ((plane.getBearing() >= plane.getTakeoffValueHigh() && plane.getBearing() <= 359)
-						|| (plane.getBearing() <= plane.getTakeoffValueLow() && plane.getBearing() >= 0)) 
+						&& ((plane.getBearing() >= plane.getTakeoffValueHighMulti() && plane.getBearing() <= 359)
+						|| (plane.getBearing() <= plane.getTakeoffValueLowMulti() && plane.getBearing() >= 0)) 
 						&& currentGame
 								.getAirport()
 								.getLandingApproachArea()

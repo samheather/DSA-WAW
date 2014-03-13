@@ -25,6 +25,7 @@ import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
+import game.struct.Airport;
 import game.struct.Game;
 import game.struct.Plane;
 import game.struct.SaveFile;
@@ -682,7 +683,7 @@ public class GameWindow extends BasicGameState {
 				if (plane.equals(this.currentGame.getCurrentPlane())) {
 					if (this.currentGame.getCurrentPlane().getNeedsToLand() == true
 							&& landingApproachAreaDrawn == false) {
-						landingApproachArea.draw(400, 344);
+						landingApproachArea.draw(Airport.getBeginningOfRunwayX() - Airport.getTriangleSize()[0], Airport.getRunwayY() - (Airport.getTriangleSize()[1]/2), Airport.getTriangleSize()[0], Airport.getTriangleSize()[1]);
 						landingApproachAreaDrawn = true;
 					}
 				}
