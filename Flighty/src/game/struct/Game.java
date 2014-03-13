@@ -233,25 +233,34 @@ public class Game implements java.io.Serializable, KryoSerializable {
 
 		// Adding Points To Game
 		listOfEntryPoints.add(new EntryPoint(distFromLeftEdge, 400));
+		listOfEntryPoints.add(airport);
+		
+		//Single player extra things
+		if (!multiplayer){ 
 		listOfEntryPoints.add(new EntryPoint(1200, 200));
 		listOfEntryPoints.add(new EntryPoint(750, 0));
-		listOfEntryPoints.add(airport);
+	
+		listOfWaypoints.add(new Waypoint(1100, 140));
+		listOfWaypoints.add(new Waypoint(1150, 330));
+		listOfWaypoints.add(new Waypoint(910, 150));
+		listOfWaypoints.add(new Waypoint(850, 310));
+		listOfWaypoints.add(new Waypoint(700, 200));
+		
+		listOfExitPoints.add(new ExitPoint(1200, 300));
+		listOfExitPoints.add(new ExitPoint(950, 0));
+		} else {
+			listOfWaypoints.add(new Waypoint(540, 115));
+			listOfWaypoints.add(new Waypoint(430, 400)); 
+		}
 
 		listOfWaypoints.add(new Waypoint(400, 150));
 		listOfWaypoints.add(new Waypoint(250, 100));
-		listOfWaypoints.add(new Waypoint(1100, 140));
 		listOfWaypoints.add(new Waypoint(250, 350));
-		listOfWaypoints.add(new Waypoint(700, 200));
 		listOfWaypoints.add(new Waypoint(550, 310));
-		listOfWaypoints.add(new Waypoint(850, 310));
 		listOfWaypoints.add(new Waypoint(550, 550));
-		listOfWaypoints.add(new Waypoint(1150, 330));
-		listOfWaypoints.add(new Waypoint(910, 150));
 
 		listOfExitPoints.add(airport);
-		listOfExitPoints.add(new ExitPoint(950, 0));
 		listOfExitPoints.add(new ExitPoint(distFromLeftEdge, 200));
-		listOfExitPoints.add(new ExitPoint(1200, 300));
 
 		// Initialise score
 		score = new Score();

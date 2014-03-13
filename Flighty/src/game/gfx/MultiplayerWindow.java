@@ -521,6 +521,9 @@ public class MultiplayerWindow extends BasicGameState {
 		int x = gameContainer.getInput().getMouseX();
 		int y = gameContainer.getInput().getMouseY();
 		
+		System.out.println("X: " + x);
+		System.out.println("Y: " + y);
+		
 		// Mouse action
 		boolean clicked = gameContainer.getInput().isMousePressed(0);
 		
