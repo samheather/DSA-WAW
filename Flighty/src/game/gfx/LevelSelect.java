@@ -1,5 +1,7 @@
+/**
+ * LevelSelect class provides a level selection menu
+ */
 package game.gfx;
-
 import game.struct.SaveFile;
 
 import java.io.File;

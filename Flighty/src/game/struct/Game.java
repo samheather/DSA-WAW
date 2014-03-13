@@ -1,8 +1,6 @@
 package game.struct;
 
 import game.gfx.GameWindow;
-import game.gfx.MultiplayerWindow;
-import game.gfx.WindowManager;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -1115,3 +1113,4 @@ public class Game implements java.io.Serializable, KryoSerializable {
 
 	}
 }
+

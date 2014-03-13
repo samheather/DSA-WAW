@@ -50,16 +50,18 @@ public class MainMenu extends GenericWindow {
 		String startGameText = "Single Player";
 		String multiplayerText = "Multiplayer";
 		String creditsText = "Credits";
+		String leaderBoardText = "LeaderBoard";
 		String controlsText = "Controls";
 		String exitText = "Exit";
 
 		// Get the width of the buttons
-		int gameTitleWidth = font.getWidth(gameTitleText);
-		int startGameWidth = font.getWidth(startGameText);
-		int multiplayerWidth = font.getWidth(multiplayerText);
-		int creditsWidth = font.getWidth(creditsText);
-		int controlsWidth = font.getWidth(controlsText);
-		int exitWidth = font.getWidth(exitText);
+		int gameTitleWidth = this.font.getWidth(gameTitleText);
+		int startGameWidth = this.font.getWidth(startGameText);
+		int multiplayerWidth = this.font.getWidth(multiplayerText);
+		int creditsWidth = this.font.getWidth(creditsText);
+		int leaderBoardWidth = this.font.getWidth(leaderBoardText);
+		int controlsWidth = this.font.getWidth(controlsText);
+		int exitWidth = this.font.getWidth(exitText);
 
 		// Get the height of the text
 		int fontHeight = font.getHeight();
@@ -69,19 +71,23 @@ public class MainMenu extends GenericWindow {
 		Color startGameColor = Color.orange;
 		Color multiplayerColor = Color.orange;
 		Color creditsColor = Color.orange;
+		Color leaderBoardColor = Color.orange;
 		Color controlsColor = Color.orange;
 		Color exitColor = Color.orange;
 
 		// Button positions from top left as absolute values
 		int[] gameTitlePos = { (gameContainer.getWidth()) / 2 - gameTitleWidth,
-				100 };
+				75 };
 		int[] startGamePos = { (gameContainer.getWidth() - startGameWidth) / 2,
-				250 };
+				200 };
 		int[] multiplayerPos = {
-				(gameContainer.getWidth() - multiplayerWidth) / 2, 350 };
-		int[] creditsPos = { (gameContainer.getWidth() - creditsWidth) / 2, 450 };
+				(gameContainer.getWidth() - multiplayerWidth) / 2, 300 };
+		int[] leaderBoardPos = {
+				(gameContainer.getWidth() - leaderBoardWidth) / 2, 400 };
+	
+		int[] creditsPos = { (gameContainer.getWidth() - creditsWidth) / 2, 500 };
 		int[] controlsPos = { (gameContainer.getWidth() - controlsWidth) / 2,
-				550 };
+				600 };
 		int[] exitPos = { 50, gameContainer.getHeight() - 50 };
 
 		// Hovering box tolerance in pixels
@@ -138,6 +144,29 @@ public class MainMenu extends GenericWindow {
 		// Draw the Controls text with a shadow
 		this.drawShadowedText(font, multiplayerPos[0], multiplayerPos[1],
 				multiplayerText, multiplayerColor);
+		
+		//Leaderboard button
+		
+				if ((x >= (leaderBoardPos[0] - tolerance))
+						&& (x <= (leaderBoardPos[0] + leaderBoardWidth + tolerance))
+						&& (y >= (leaderBoardPos[1] - tolerance))
+						&& (y <= (leaderBoardPos[1] + fontHeight + tolerance))) {
+					if (clicked) {
+						// Change game state
+						game.enterState(WindowManager.LEADERBOARD_STATE);
+					} else {
+						leaderBoardColor = Color.white;
+
+						// Change hover text and add waypoint next to text
+						this.waypointIcon.draw(leaderBoardPos[0] + leaderBoardWidth,
+								leaderBoardPos[1]);
+					}
+				} else { // Default colour
+					leaderBoardColor = Color.orange;
+				}
+
+				this.drawShadowedText(this.font, leaderBoardPos[0], leaderBoardPos[1],
+						leaderBoardText, leaderBoardColor);
 
 		// Credits button \\
 		if ((x >= (creditsPos[0] - tolerance))
