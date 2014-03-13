@@ -64,7 +64,7 @@ public class MainMenu extends GenericWindow {
 		int exitWidth = this.font.getWidth(exitText);
 
 		// Get the height of the text
-		int fontHeight = this.font.getHeight();
+		int fontHeight = font.getHeight();
 
 		// Set the colour for text once clicked
 		Color gameTitleColor = Color.orange;
@@ -97,7 +97,7 @@ public class MainMenu extends GenericWindow {
 		int waypointDistFromText = 10;
 
 		// Draw main title
-		this.drawShadowedText(this.titleFont, gameTitlePos[0], gameTitlePos[1],
+		this.drawShadowedText(titleFont, gameTitlePos[0], gameTitlePos[1],
 				gameTitleText, gameTitleColor);
 
 		// Start Game button
@@ -111,7 +111,7 @@ public class MainMenu extends GenericWindow {
 			} else {
 				// Change hover text and add waypoint next to text
 				startGameColor = Color.white;
-				this.waypointIcon
+				waypointIcon
 						.draw(startGamePos[0] + startGameWidth + waypointDistFromText,
 								startGamePos[1]);
 			}
@@ -120,7 +120,7 @@ public class MainMenu extends GenericWindow {
 		}
 
 		// Draw the Start Game text with a shadow
-		this.drawShadowedText(this.font, startGamePos[0], startGamePos[1],
+		this.drawShadowedText(font, startGamePos[0], startGamePos[1],
 				startGameText, startGameColor);
 
 		if ((x >= (multiplayerPos[0] - tolerance))
@@ -133,7 +133,7 @@ public class MainMenu extends GenericWindow {
 			} else {
 				// Change hover text and add waypoint next to text
 				multiplayerColor = Color.white;
-				this.waypointIcon
+				waypointIcon
 				.draw(multiplayerPos[0] + multiplayerWidth + waypointDistFromText,
 						multiplayerPos[1]);
 			}
@@ -142,7 +142,7 @@ public class MainMenu extends GenericWindow {
 		}
 
 		// Draw the Controls text with a shadow
-		this.drawShadowedText(this.font, multiplayerPos[0], multiplayerPos[1],
+		this.drawShadowedText(font, multiplayerPos[0], multiplayerPos[1],
 				multiplayerText, multiplayerColor);
 		
 		//Leaderboard button
@@ -180,7 +180,7 @@ public class MainMenu extends GenericWindow {
 				creditsColor = Color.white;
 
 				// Change hover text and add waypoint next to text
-				this.waypointIcon
+				waypointIcon
 				.draw(creditsPos[0] + creditsWidth + waypointDistFromText,
 						creditsPos[1]);
 			}
@@ -188,7 +188,7 @@ public class MainMenu extends GenericWindow {
 			creditsColor = Color.orange;
 		}
 
-		this.drawShadowedText(this.font, creditsPos[0], creditsPos[1],
+		drawShadowedText(font, creditsPos[0], creditsPos[1],
 				creditsText, creditsColor);
 
 		// Controls button \\
@@ -202,7 +202,7 @@ public class MainMenu extends GenericWindow {
 			} else {
 				// Change hover text and add waypoint next to text
 				controlsColor = Color.white;
-				this.waypointIcon
+				waypointIcon
 				.draw(controlsPos[0] + controlsWidth + waypointDistFromText,
 						controlsPos[1]);
 			}
@@ -211,7 +211,7 @@ public class MainMenu extends GenericWindow {
 		}
 
 		// Draw the Controls text with a shadow
-		this.drawShadowedText(this.font, controlsPos[0], controlsPos[1],
+		drawShadowedText(font, controlsPos[0], controlsPos[1],
 				controlsText, controlsColor);
 
 		// Exit
@@ -231,7 +231,7 @@ public class MainMenu extends GenericWindow {
 		}
 
 		// Draw the Exit text with a shadow
-		this.drawShadowedText(this.font, exitPos[0], exitPos[1], exitText,
+		drawShadowedText(font, exitPos[0], exitPos[1], exitText,
 				exitColor);
 	}
 
@@ -278,17 +278,17 @@ public class MainMenu extends GenericWindow {
 		super.render(gameContainer, game, graphics);
 
 		// Draw background
-		this.backgroundImage.draw(
+		backgroundImage.draw(
 				(float) (0 - ((WindowManager) game).getSkyProgress()), 0,
 				gameContainer.getWidth() * 2, gameContainer.getHeight());
 
 		// Draw buttons
-		this.drawButtons(gameContainer, game);
+		drawButtons(gameContainer, game);
 
 		// Draw plane icon
-		this.planeIcon.draw(
+		planeIcon.draw(
 				(float) (((WindowManager) game).getPlaneProgress() - 50),
-				50 + this.font.getHeight() + 105, 50, 50);
+				50 + font.getHeight() + 105, 50, 50);
 	}
 
 	// Accessors

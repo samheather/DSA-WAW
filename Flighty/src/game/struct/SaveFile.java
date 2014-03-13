@@ -1,10 +1,15 @@
 package game.struct;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
 public class SaveFile {
 
@@ -18,6 +23,28 @@ public class SaveFile {
 
 	private String statsFileName = "stats.txt";
 
+	public String getLeaderboardScores() {
+		try {
+		//Magical reading from our PHP page, now decode the JSON and you're away.
+		URL url = new URL("http://atcga.me/Leaderboard.php");
+		URLConnection con = url.openConnection();
+		InputStream is = con.getInputStream();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		byte[] buf = new byte[1024];
+		int len = 0;
+		while ((len = is.read(buf)) != -1) {
+		    baos.write(buf, 0, len);
+		}
+		String body = new String(baos.toByteArray(), "UTF-8");
+		System.out.println(body);
+		
+		return body;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public void readStats() {
 		try {
 			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
@@ -25,8 +52,6 @@ public class SaveFile {
 			level2Unlocked = ((boolean)ois.readObject());
 			level3Unlocked = ((boolean)ois.readObject());
 			ois.close();
-			System.out.println("Read");
-			System.out.println(level2Unlocked);
 		} catch (Exception ex) {
 			System.out.println("Saving stats raised exception.");
 		}

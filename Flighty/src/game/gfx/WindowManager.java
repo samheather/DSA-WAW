@@ -226,16 +226,17 @@ public class WindowManager extends StateBasedGame {
 	public boolean closeRequested() {
 		if (this.getCurrentStateID() == MAIN_MENU_STATE) {
 			return true;
-		} else if (this.getCurrentStateID() == LEVEL_SELECT_STATE) {
+		} else if (getCurrentStateID() == LEVEL_SELECT_STATE) {
 			return true;
-		} else if (this.getCurrentStateID() == GAME_STATE) {
-			this.enterState(MAIN_MENU_STATE);
-		} else if (this.getCurrentStateID() == CREDITS_STATE) {
+		} else if (getCurrentStateID() == GAME_STATE) {
+			enterState(MAIN_MENU_STATE);
+		} else if (getCurrentStateID() == CREDITS_STATE) {
 			return true;
+
 		} else if (this.getCurrentStateID() == CONTROLS_STATE) {
 			return true;
 		} else if (this.getCurrentStateID() == LEADERBOARD_STATE){
-
+			return true;
 		} else if (this.getCurrentStateID() == MULTIPLAYER_STATE) {
 			return true;
 		} else if (this.getCurrentStateID() == MULTIPLAYER_GAME_STATE) {

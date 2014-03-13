@@ -38,11 +38,11 @@ import com.esotericsoftware.kryo.io.Output;
  */
 public class Game implements java.io.Serializable, KryoSerializable {
 
-	private void writeObject(java.io.ObjectOutputStream out) throws IOException {
+	private void writeObject(ObjectOutputStream out) throws IOException {
 
 	}
 
-	private void readObject(java.io.ObjectInputStream in) throws IOException {
+	private void readObject(ObjectInputStream in) throws IOException {
 
 	}
 
@@ -54,6 +54,9 @@ public class Game implements java.io.Serializable, KryoSerializable {
 
 	/** The window height */
 	private static final int WINDOW_HEIGHT = 600;
+	
+	/** Distance from left edge for sidebar so planes don't fly in it */
+	private static int distFromLeftEdge = 0;  
 
 	/** Array list containing airspace exit points */
 	private ArrayList<Point> listOfExitPoints = new ArrayList<Point>();
@@ -156,7 +159,7 @@ public class Game implements java.io.Serializable, KryoSerializable {
 	ObjectOutputStream oos;
 	ObjectInputStream ois;
 
-	public Game(int newSeparationDistance, int newPenaltyDistance)
+	public Game(int newSeparationDistance, int newPenaltyDistance, int distFromLeft)
 			throws NoSuchAlgorithmException, UnknownHostException, IOException {
 		secureRandom = SecureRandom.getInstance("SHA1PRNG");
 		ByteBuffer b = ByteBuffer.allocate(8).put(secureRandom.generateSeed(8));
@@ -165,6 +168,9 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		// Screen size
 		windowWidth = WINDOW_WIDTH;
 		windowHeight = WINDOW_HEIGHT;
+		
+		
+		distFromLeftEdge = distFromLeft;
 		/*
 
 		// Initialise TCP Connection
@@ -217,7 +223,7 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		planeCount = 0;
 
 		// Adding Points To Game
-		listOfEntryPoints.add(new EntryPoint(150, 400));
+		listOfEntryPoints.add(new EntryPoint(distFromLeftEdge, 400));
 		listOfEntryPoints.add(new EntryPoint(1200, 200));
 		listOfEntryPoints.add(new EntryPoint(750, 0));
 		listOfEntryPoints.add(airport);
@@ -229,13 +235,13 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		listOfWaypoints.add(new Waypoint(700, 200));
 		listOfWaypoints.add(new Waypoint(550, 310));
 		listOfWaypoints.add(new Waypoint(850, 310));
-		listOfWaypoints.add(new Waypoint(250, 550));
+		listOfWaypoints.add(new Waypoint(550, 550));
 		listOfWaypoints.add(new Waypoint(1150, 330));
 		listOfWaypoints.add(new Waypoint(910, 150));
 
 		listOfExitPoints.add(airport);
 		listOfExitPoints.add(new ExitPoint(950, 0));
-		listOfExitPoints.add(new ExitPoint(150, 200));
+		listOfExitPoints.add(new ExitPoint(distFromLeftEdge, 200));
 		listOfExitPoints.add(new ExitPoint(1200, 300));
 
 		// Initialise score
@@ -612,7 +618,6 @@ public class Game implements java.io.Serializable, KryoSerializable {
 	public void update(GameContainer gameContainer, StateBasedGame game)
 			throws IOException {
 		ArrayList<Plane> planesToRemove = new ArrayList<Plane>();
-
 		// Spawn more planes when no planes present
 		if (currentPlanes.size() == 0) {
 			countToNextPlane = 0;
@@ -661,15 +666,16 @@ public class Game implements java.io.Serializable, KryoSerializable {
 					break;
 				}
 			}
-			if (p != null)
+			if (p != null){
 				getCurrentPlanes().add(p);
+			}
 		}
 		// Update planes
 		for (Plane plane : getCurrentPlanes()) {
 			// Check if the plane is still in the game area
-			if (manualPlanes.contains(plane)
-					&& ((plane.getX() > windowWidth) || (plane.getX() < 0)
-							|| (plane.getY() > windowHeight) || (plane.getY() < 0))) {
+				
+			if ((plane.getX() > windowWidth) || (plane.getX() < distFromLeftEdge)
+							|| (plane.getY() > windowHeight) || (plane.getY() < 0)) {
 				// Updates score if plane in game area
 				getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
 
@@ -683,7 +689,6 @@ public class Game implements java.io.Serializable, KryoSerializable {
 				// Removes planes that left the airspace
 				planesToRemove.add(plane);
 			}
-
 			// Updating the Planes altitude and adjusting it accordingly.
 			plane.updatePlaneAltitude();
 
@@ -1105,3 +1110,4 @@ public class Game implements java.io.Serializable, KryoSerializable {
 
 	}
 }
+
