@@ -216,7 +216,7 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		collision = false;
 		ending = false;
 
-		// Adding the airport into the gmae
+		// Adding the airport into the game
 		airport = new Airport();
 
 		// Dynamic lists for planes

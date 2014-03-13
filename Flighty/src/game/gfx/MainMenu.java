@@ -23,6 +23,14 @@ public class MainMenu extends GenericWindow {
 	/** The waypoint icon */
 	private Image waypointIcon;
 
+	
+	private boolean isInHitBox(int mouseX, int mouseY, int[] pos, int width, int height, int tolerance) {
+		return ((mouseX >= (pos[0] - tolerance))
+				&& (mouseX <= (pos[0] + width + tolerance))
+				&& (mouseY >= (pos[1] - tolerance))
+				&& (mouseY <= (pos[1] + height + tolerance)));
+	}
+	
 	/**
 	 * Monitors the mouse position and state
 	 * <p>
@@ -101,10 +109,7 @@ public class MainMenu extends GenericWindow {
 				gameTitleText, gameTitleColor);
 
 		// Start Game button
-		if ((x >= (startGamePos[0] - tolerance))
-				&& (x <= (startGamePos[0] + startGameWidth + tolerance))
-				&& (y >= (startGamePos[1] - tolerance))
-				&& (y <= (startGamePos[1] + fontHeight + tolerance))) {
+		if (isInHitBox(x, y, startGamePos, startGameWidth, fontHeight, tolerance)) {
 			if (clicked) {
 				// Change game state
 				game.enterState(WindowManager.LEVEL_SELECT_STATE);
@@ -123,10 +128,7 @@ public class MainMenu extends GenericWindow {
 		this.drawShadowedText(font, startGamePos[0], startGamePos[1],
 				startGameText, startGameColor);
 
-		if ((x >= (multiplayerPos[0] - tolerance))
-				&& (x <= (multiplayerPos[0] + multiplayerWidth + tolerance))
-				&& (y >= (multiplayerPos[1] - tolerance))
-				&& (y <= (multiplayerPos[1] + fontHeight + tolerance))) {
+		if (isInHitBox(x, y, multiplayerPos, multiplayerWidth, fontHeight, tolerance)) {
 			if (clicked) {
 				// Change game state
 				game.enterState(WindowManager.MULTIPLAYER_STATE);
@@ -147,10 +149,7 @@ public class MainMenu extends GenericWindow {
 		
 		//Leaderboard button
 		
-				if ((x >= (leaderBoardPos[0] - tolerance))
-						&& (x <= (leaderBoardPos[0] + leaderBoardWidth + tolerance))
-						&& (y >= (leaderBoardPos[1] - tolerance))
-						&& (y <= (leaderBoardPos[1] + fontHeight + tolerance))) {
+				if (isInHitBox(x, y, leaderBoardPos, leaderBoardWidth, fontHeight, tolerance)) {
 					if (clicked) {
 						// Change game state
 						game.enterState(WindowManager.LEADERBOARD_STATE);
@@ -169,10 +168,7 @@ public class MainMenu extends GenericWindow {
 						leaderBoardText, leaderBoardColor);
 
 		// Credits button \\
-		if ((x >= (creditsPos[0] - tolerance))
-				&& (x <= (creditsPos[0] + creditsWidth + tolerance))
-				&& (y >= (creditsPos[1] - tolerance))
-				&& (y <= (creditsPos[1] + fontHeight + tolerance))) {
+		if (isInHitBox(x, y, creditsPos, creditsWidth, fontHeight, tolerance)) {
 			if (clicked) {
 				// Change game state
 				game.enterState(WindowManager.CREDITS_STATE);
@@ -192,10 +188,7 @@ public class MainMenu extends GenericWindow {
 				creditsText, creditsColor);
 
 		// Controls button \\
-		if ((x >= (controlsPos[0] - tolerance))
-				&& (x <= (controlsPos[0] + controlsWidth + tolerance))
-				&& (y >= (controlsPos[1] - tolerance))
-				&& (y <= (controlsPos[1] + fontHeight + tolerance))) {
+		if (isInHitBox(x, y, controlsPos, controlsWidth, fontHeight, tolerance)) {
 			if (clicked) {
 				// Change game state
 				game.enterState(WindowManager.CONTROLS_STATE);
@@ -215,10 +208,7 @@ public class MainMenu extends GenericWindow {
 				controlsText, controlsColor);
 
 		// Exit
-		if ((x >= (exitPos[0] - tolerance))
-				&& (x <= (exitPos[0] + exitWidth + tolerance))
-				&& (y >= (exitPos[1] - tolerance))
-				&& (y <= (exitPos[1] + fontHeight + tolerance))) {
+		if (isInHitBox(x, y, exitPos, exitWidth, fontHeight, tolerance)) {
 			if (clicked) {
 				AL.destroy();
 				System.exit(0);

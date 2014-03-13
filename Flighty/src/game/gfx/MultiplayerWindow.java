@@ -58,7 +58,7 @@ public class MultiplayerWindow extends BasicGameState {
 	private double endTime;
 
 	private Game currentGame;
-
+	
 	/** The map */
 	private Image map;
 

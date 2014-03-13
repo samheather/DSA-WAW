@@ -45,6 +45,28 @@ public class SaveFile {
 		return null;
 	}
 	
+	public String addLeaderboardScore(String name, int score) {
+		try {
+		//Magical reading from our PHP page, now decode the JSON and you're away.
+		URL url = new URL("http://atcga.me/Leaderboard.php?name=" + name + "&score=" + score);
+		URLConnection con = url.openConnection();
+		InputStream is = con.getInputStream();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		byte[] buf = new byte[1024];
+		int len = 0;
+		while ((len = is.read(buf)) != -1) {
+		    baos.write(buf, 0, len);
+		}
+		String body = new String(baos.toByteArray(), "UTF-8");
+		System.out.println(body);
+		
+		return body;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public void readStats() {
 		try {
 			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
