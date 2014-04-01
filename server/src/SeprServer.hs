@@ -35,7 +35,7 @@ module Main where
 
 	data HandlerMessage = Received Message | Shutdown Bool | EndMM | NetworkerError String
 
-	data NetworkerMessage = Send Message | RequestShutdown | ReceiverError String
+
 
 
 
@@ -58,49 +58,7 @@ module Main where
 				let err msg = atomically $ writeTQueue handlerQ $ Left $ LocalError msg
 
 
-				networker <- async $ do
-
-					receiver <- async $ flip evalStateT (Partial $ runGetPartial Serial.get) $ do
-
-						let err msg = atomically $ writeTQueue networkerQ $ ReceiverError msg
-
-						result <- try $ until $ \exit -> do
-
-							let errex msg = err msg >> exit ()
-
-							currentState <- get
-							case currentState of
-								Fail errmsg _ -> errex $ "parse error: " ++ errmsg
-								Partial parse -> do
-									dat <- TCP.recv conn 1400
-									case dat of
-										Nothing -> errex "Socket closed"
-										Just dat' -> do
-											put $ parse dat'
-								Done result remainder -> do
-									atomically $ writeTQueue handlerQ $ Right result
-									put $ runGetPartial Serial.get remainder
-
-						case result of
-							Left ex -> err $ "receiver: exception: " ++ show ex
-							otherwise -> return ()
-
-					result <- try $ until $ \exit -> do
-						msg <- atomically $ readTQueue senderQ
-						case msg of
-							Left _ -> do
-								cancel receiver
-								try $ wait receiver
-								atomically $ writeTQueue handlerQ $ Left $ Shutdown True
-								exit ()
-							Right msg -> do
-								TCP.send conn $ runPut $ Serial.put msg
-							_ -> do
-								err: "sender: received strange message"
-								exit ()
-					case result of
-						Left ex -> err $ "receiver: exception: " ++ show ex
-						otherwise -> return ()
+				
 
 
 							

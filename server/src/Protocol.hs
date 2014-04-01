@@ -1,4 +1,5 @@
 
+{-# LANGUAGE DeriveDataTypeable, FlexibleContexts, ScopedTypeVariables #-}
 
 module Protocol where
 
@@ -9,7 +10,16 @@ module Protocol where
 	import Control.Monad
 	import Control.Applicative
 	import Data.ByteString.Lazy hiding (empty)
-	import Prelude hiding (length)
+	import Prelude hiding (length, until)
+	import Network.Simple.TCP
+	import Control.Exception.Lifted
+	import Control.Concurrent.Async.Lifted
+	import qualified Control.Monad.State.Lazy as StateM
+	import Control.Monad.State.Lazy hiding (get, put, State)
+	import Control.Monad.Cont
+	import Control.Concurrent.STM.Lifted
+	import Data.Typeable
+	import Control.Monad.Trans.Control
 
 
 	data State = Game | MM | Idle
@@ -97,4 +107,96 @@ module Protocol where
 			return $ Object dat
 
 
-	createSocket :: S
+
+	until action = flip runContT return $ callCC $ \exit -> forever $ action exit
+
+	data LocalMessage = Send Message | RequestClose | LocalError String
+	data NetworkMessage = Closed | Error String | Received Message
+
+	data SocketException = SocketClosed | SocketError String deriving (Show, Typeable)
+	instance Exception SocketException
+
+	data SeprSocket = SeprSocket {read :: IO Message, write :: Message -> IO (), close :: IO ()}
+
+
+	createSocket :: Socket -> IO SeprSocket
+	createSocket sock = do
+		networkMessageQ <- newTQueueIO
+		localMessageQ <- newTQueueIO
+		networkMessageHandler <- async $ flip evalStateT (Partial $ runGetPartial get) $ do
+
+			let err msg = atomically $ writeTQueue localMessageQ $ LocalError msg
+
+			result <- try $ until $ \exit -> do
+
+				currentState <- StateM.get
+				case currentState of
+					Fail errmsg _ -> exit $ Just $ "parse error: " ++ errmsg
+					Partial parse -> do
+						dat <- recv sock 1400
+						case dat of
+							Nothing -> exit $ Just $ "socket closed"
+							Just dat' -> StateM.put $ parse dat'
+					Done result remainder -> do
+						atomically $ writeTQueue networkMessageQ $ Received result
+						StateM.put $ runGetPartial get remainder
+
+			case result of
+				Left (ex :: SomeException) -> err $ "receiver: exception: " ++ show ex
+				Right (Just msg) -> err $ "receiver: error: " ++ msg
+				Right Nothing -> return ()
+
+		localMessageHandler <- async $ do
+
+			let stopTasks = void $ do
+					cancel networkMessageHandler
+					wait networkMessageHandler
+
+			let err msg = void $ do
+				stopTasks
+				atomically $ writeTQueue networkMessageQ $ Error msg
+
+			result <- try $ until $ \exit -> do
+				msg <- atomically $ readTQueue localMessageQ
+				case msg of
+					LocalError msg -> exit $ Just msg
+					RequestClose -> exit Nothing
+					Send msg -> do
+						send sock $ runPut $ put msg
+			case result of
+				Left (ex :: SomeException) -> err $ "receiver: exception: " ++ show ex
+				Right (Just msg) -> err $ "receiver: error: " ++ msg
+				Right Nothing -> do
+					stopTasks
+					atomically $ writeTQueue networkMessageQ Closed
+
+
+		let
+			read = do
+				msg <- atomically $ readTQueue networkMessageQ
+				case msg of
+					Closed -> do
+						atomically $ writeTQueue networkMessageQ Closed
+						throwIO SocketClosed
+					Error msg -> do
+						atomically $ writeTQueue networkMessageQ $ Error msg
+						throwIO $ SocketError msg
+					Received msg -> return msg
+			write msg = do
+				receivedMsg <- atomically $ tryPeekTQueue networkMessageQ
+				case receivedMsg of
+					Just Closed -> throwIO SocketClosed
+					Just (Error msg) -> throwIO $ SocketError msg
+					otherwise -> atomically $ writeTQueue localMessageQ $ Send msg
+			close = do
+				atomically $ writeTQueue localMessageQ $ RequestClose
+
+		return $ SeprSocket read write close
+
+
+
+
+
+
+
+
