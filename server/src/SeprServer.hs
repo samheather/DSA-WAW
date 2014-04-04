@@ -41,11 +41,11 @@ module Main where
 
 		putStrLn "listening"
 
-		async $ forever $ atomically $ do
-			client1 <- readTQueue mmqueue
-			client2 <- readTQueue mmqueue
-			beginGame client1 client2
-			beginGame client2 client1
+		async $ forever $ do
+			client1 <- atomically $ readTQueue mmqueue
+			client2 <- atomically $ readTQueue mmqueue
+			atomically $ beginGame client1 client2
+			atomically $ beginGame client2 client1
 
 
 		serve "*" "1025" $ \(sock, address) -> do
@@ -102,9 +102,8 @@ module Main where
 									Right msg -> case msg of
 										ToUs CancelMM -> do
 											log $ "mm: sending client back to idle"
-											atomically $ do
-												send AckCancelMM
-												tellOtherClient Quit
+											atomically $ send AckCancelMM
+											atomically $ tellOtherClient Quit
 											call idle
 										otherwise -> do
 											log $ "mm: state error"
@@ -123,9 +122,8 @@ module Main where
 
 						error <- callCC $ \err -> do
 
-							msg <- atomically $ do
-								tellOtherClient Ready
-								getMessage otherClient
+							atomically $ tellOtherClient Ready
+							msg <- atomically $ getMessage otherClient
 
 							callCC $ \continue -> case msg of
 								Ready -> continue ()
@@ -143,9 +141,8 @@ module Main where
 									Right fromOtherClient -> case fromOtherClient of
 										Quit -> do
 											log $ "game: other client quit"
-											atomically $ do
-												tellOtherClient Quit
-												send OpponentQuit
+											atomically $ tellOtherClient Quit
+											atomically $ send OpponentQuit
 											call $ idle
 										Ready -> return ()
 										Pass msg -> atomically $ pass msg
@@ -153,9 +150,8 @@ module Main where
 										Left ex -> err $ show ex
 										Right msg -> case msg of
 											ToUs RequestQuit -> do
-												atomically $ do
-													tellOtherClient Quit
-													send AckRequestQuit
+												atomically $ tellOtherClient Quit
+												atomically $ send AckRequestQuit
 												call $ idle
 											ToThem msg -> do
 												atomically $ tellOtherClient $ Pass msg
