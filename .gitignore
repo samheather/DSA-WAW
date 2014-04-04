@@ -1,5 +1,3 @@
 *.txt
-*.cabal-sandbox
-*cabal.sandbox.config
 *.hi
 *.o
