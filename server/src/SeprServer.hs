@@ -1,40 +1,35 @@
 
-{-# LANGUAGE OverloadedStrings, FlexibleContexts, NoMonomorphismRestriction #-}
+{-# LANGUAGE OverloadedStrings, FlexibleContexts, ScopedTypeVariables #-}
 
 module Main where
 
-	import qualified Control.Concurrent.Async as Async
-	import Control.Concurrent.Async (Async)
-	import Network.Simple.TCP hiding (send, recv)
-	import qualified Network.Simple.TCP as TCP
-	import Control.Monad
-	import Control.Concurrent.STM.TQueue
-	import Control.Concurrent.STM.TVar
-	import Control.Exception (AsyncException( ThreadKilled ))
-	import qualified Control.Monad.STM as STM
-	import Protocol
-	import Data.Serialize.Get
-	import Data.Serialize.Put
-	import Data.Serialize hiding (put, get)
-	import qualified Data.Serialize as Serial
-	import Control.Monad.State.Lazy
-	import Control.Monad.Cont
 	import Control.Monad.Catch
+	import Control.Concurrent.Async.Lifted
+	import Control.Concurrent.STM.Lifted
+	import Control.Monad.Trans.Control
+	import Control.Monad
+	import Control.Applicative
+	import Protocol
+	import Control.Monad.Cont
+	import Control.Monad.State.Lazy
+	import Data.Monoid
+	import Data.Time
 	import Prelude hiding (log, until)
+	import Network.Simple.TCP (serve)
 
 
+	(<||>) :: (Alternative f) => f a -> f b -> f (Either a b)
 
+	a <||> b = (Left <$> a) <|> (Right <$> b)
 
-	log = liftIO . putStrLn
-	atomically = liftIO . STM.atomically
-	async = liftIO . Async.async
-	wait = liftIO . Async.wait
+	log :: (MonadState String m, MonadIO m, Show UTCTime) => String -> m ()
+	log msg = do
+		t <- liftIO getCurrentTime
+		start <- get
+		put $ start ++ show t ++ ": " ++ msg ++ "\n"
 
-	until action = flip runContT return $ callCC $ \exit -> forever $ action exit
-
-
-	data HandlerMessage = Received Message | Shutdown Bool | EndMM | NetworkerError String
-
+	data MMClient = MMClient {beginGame :: MMClient -> STM (),  getMessage :: STM ClientMessage}
+	data ClientMessage = Ready | Quit | Pass ClientClient
 
 
 
@@ -46,132 +41,139 @@ module Main where
 
 		putStrLn "listening"
 
-		listen "*" "1025" $ \(listener, sockaddr) -> forever $ do
-
-			acceptFork listener $ \(conn, sockaddr) -> do
-
-				putStrLn "accepted client"
-
-				handlerQ <- newTQueueIO :: IO (TQueue (Either LocalMessage Message))
-				networkerQ <- newTQueueIO :: IO (TQueue (Either RequestShutdown Message))
-
-				let err msg = atomically $ writeTQueue handlerQ $ Left $ LocalError msg
+		async $ forever $ atomically $ do
+			client1 <- readTQueue mmqueue
+			client2 <- readTQueue mmqueue
+			beginGame client1 client2
+			beginGame client2 client1
 
 
-				
+		serve "*" "1025" $ \(sock, address) -> do
+
+			SeprSocket recv send pass close <- createSeprSocket sock
+
+			result <- try $ flip runStateT "begin log:\n" $ flip runContT return $ do
+				log $ "accepted client with address " ++ show address
 
 
-							
+
 
 				let
-					send msg = atomically $ writeTQueue senderQ $ Right $ ServerClient msg
-					pass msg = atomically $ writeTQueue senderQ $ Right $ ClientClient msg
+					idle :: (() -> ContT () (StateT String IO) b) -> ContT () (StateT String IO) b
+					matchmaking :: Bool -> (() -> ContT () (StateT String IO) b) -> ContT () (StateT String IO) b
+					game :: MMClient -> (ClientMessage -> STM ()) -> (() -> ContT () (StateT String IO) b) -> ContT () (StateT String IO) b
 
-					recv = atomically $ readTQueue handlerQ
-
-					close = do
-						atomically $ writeTQueue toSend $ Left "mclose called"
-						log "mclose called, closing socket"
-						closeSock conn
-
-					error msg = do
-						log msg
-						send NetworkError
-						close
-
-
-
-					idle exit = forever $ do
-						msg <- recv
-						case msg of
-							Left err -> do
-								error $ "idler: error from receiver: " ++ err ++ ", exiting"
-								exit Nothing
-							Right (ClientServer BeginMM) -> do
-								log $ "idler: sending client to matchmaking"
-								send AckBeginMM
-								matchmaking exit False
-							Right (ClientServer _) -> do
-								log $ "idler: state error"
-								send $ StateError Idle
-							Right _ -> do
-								error $ "idler: received strange message, merroring"
-								exit Nothing
-
-
-
-
-					toMatchmaking exit priority = do
-						stop <- newTVarIO False
-						let makeMeStop = do
-							atomically $ writeTVar stop True
-							liftIO $ wait self
-						atomically $ (if priority then unGetTQueue else writeTQueue) mmqueue (conn, makeMeStop, toMatchmaking)
-						forever $ do
-							shouldStop <- liftIO $ readTVarIO stop
-							when shouldStop $ do
-								exit True
-								return ()
-							msg <- recv
+					idle = tailCC $ \exit call -> do
+						error <- callCC $ \err -> forever $ do
+							msg <- atomically $ recv
 							case msg of
-								Left err -> do
-									error $ "matchmaker: error from receiver: " ++ err ++ ", merroring"
-									exit False
-								Right (ClientServer CancelMM) -> do
-									log $ "matchmaker: client has quit matchmaking"
-									send AckCancelMM
-									idle
-									exit False
-								Right (ClientServer _) -> do
-									log $ "matchmaker: state error"
-									send $ StateError MM
-								Right _ -> do
-									error $ "matchmaker: received strange message, merroring"
-									exit False
+								Right msg -> case msg of
+									ToUs BeginMM -> do
+										log $ "idle: sending client to matchmaking"
+										atomically $ send AckBeginMM
+										call $ matchmaking False
+									otherwise -> do
+										log $ "idle: state error"
+										atomically $ send $ StateError Idle
+								Left ex -> err $ show ex
 
-					toGame otherClientToIdle passOtherClient sendOtherClient assumeDirectControl = async $ do
-						until $ \exit -> do
+						do
+							log $ "idle: fatal error: " ++ error
+							exit ()
 
-							msg <- recv
 
+					matchmaking priority = tailCC $ \exit call -> do
+						messages <- newTQueueIO
+						otherClientVar <- newEmptyTMVarIO
+
+						let tellOtherClient msg = writeTQueue messages msg
+
+						let
+							beginGame otherClient = putTMVar otherClientVar otherClient
+							getMessage = readTQueue messages
+
+						atomically $ (if priority then unGetTQueue else writeTQueue) mmqueue $ MMClient beginGame getMessage
+
+						error <- callCC $ \err -> forever $ do
+							msg <- atomically $ recv <||> takeTMVar otherClientVar
 							case msg of
-								Left err -> do
-									assumeDirectControl
-									sendOtherClient OpponentQuit
-									otherClientToIdle
-									error $ "idler: error from receiver: " ++ err ++ ", merroring"
-									exit ()
-								Right (ClientServer RequestQuit) -> do
-									log $ "received quit request, quitting game"
-									log $ "ASSUMING DIRECT CONTROL (lol)"
-									assumeDirectControl
-									sendOtherClient OpponentQuit
-									otherClientToIdle
-									send AckRequestQuit
-									lift $ toIdle
-									exit ()
-								Right (ClientServer _) -> do
-									log $ "idler: state error"
-									send $ StateError Game
-								Right (ClientClient m) -> do
-									passOtherClient m
-								Right _ -> do
-									assumeDirectControl
-									sendOtherClient OpponentQuit
-									otherClientToIdle
-									error $ "idler: received strange message, merroring"
-									exit ()
-						log "idle process ended"
+								Left fromOurClient -> case fromOurClient of
+									Left ex -> err $ show ex
+									Right msg -> case msg of
+										ToUs CancelMM -> do
+											log $ "mm: sending client back to idle"
+											atomically $ do
+												send AckCancelMM
+												tellOtherClient Quit
+											call idle
+										otherwise -> do
+											log $ "mm: state error"
+											atomically $ send $ StateError MM
+								Right gotOtherClient -> do
+									call $ game gotOtherClient tellOtherClient
+
+
+						do
+							log $ "mm: fatal error: " ++ error
+							log $ "mm: quitting mm"
+							atomically $ tellOtherClient Quit
+							exit ()
+
+					game otherClient tellOtherClient = tailCC $ \exit call -> do
+
+						error <- callCC $ \err -> do
+
+							msg <- atomically $ do
+								tellOtherClient Ready
+								getMessage otherClient
+
+							callCC $ \continue -> case msg of
+								Ready -> continue ()
+								otherwise -> do
+									log $ "game: quitting game"
+									atomically $ tellOtherClient Quit
+									log $ "game: rejoining mm"
+									call $ matchmaking True
+
+							atomically $ send FoundGame
+
+							forever $ do
+								msg <- atomically $ recv <||> getMessage otherClient 
+								case msg of
+									Right fromOtherClient -> case fromOtherClient of
+										Quit -> do
+											log $ "game: other client quit"
+											atomically $ do
+												tellOtherClient Quit
+												send OpponentQuit
+											call $ idle
+										Ready -> return ()
+										Pass msg -> atomically $ pass msg
+									Left fromOurClient -> case fromOurClient of
+										Left ex -> err $ show ex
+										Right msg -> case msg of
+											ToUs RequestQuit -> do
+												atomically $ do
+													tellOtherClient Quit
+													send AckRequestQuit
+												call $ idle
+											ToThem msg -> do
+												atomically $ tellOtherClient $ Pass msg
+											otherwise -> do
+												log $ "game: state error"
+												atomically $ send $ StateError Game
+
+						do
+							log $ "game: fatal error: " ++ error
+							log $ "game: quitting game"
+							atomically $ tellOtherClient Quit
+							exit ()
 
 
 
-				toIdle
-				putStrLn "started idle process for client"
-				wait sender
-				wait receiver
-				return ()
+				callCC idle
 
-		
-		putStrLn "done listening"
-
+			case result of
+				Left (ex :: SomeException) -> print $ "client exited with exception: " ++ show ex
+				Right ((), log) -> print $ "client exited with the following log: \n" ++ log
 
