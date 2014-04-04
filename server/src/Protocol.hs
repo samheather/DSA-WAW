@@ -24,19 +24,15 @@ module Protocol where
 	import Control.Monad.STM (throwSTM)
 
 
-	data State = Game | MM | Idle
+	data State = Game | MM | Idle deriving (Read, Show)
 
-	data Message = ServerClient ServerClient | ClientServer ClientServer | ClientClient ClientClient
+	data Message = ServerClient ServerClient | ClientServer ClientServer | ClientClient ClientClient deriving (Read, Show)
 
-	data RecvMessage = ToUs ClientServer | ToThem ClientClient
+	data ServerClient = AckBeginMM | AckCancelMM | FoundGame | OpponentQuit | AckRequestQuit | StateError State | NetworkError deriving (Read, Show)
 
-	data SentMessage = FromUs ServerClient | FromThem ClientClient
+	data ClientServer = BeginMM | CancelMM | RequestQuit deriving (Read, Show)
 
-	data ServerClient = AckBeginMM | AckCancelMM | FoundGame | OpponentQuit | AckRequestQuit | StateError State | NetworkError
-
-	data ClientServer = BeginMM | CancelMM | RequestQuit
-
-	data ClientClient = Object ByteString
+	data ClientClient = Object ByteString deriving (Read, Show)
 
 
 	instance Serialize State where
@@ -68,34 +64,6 @@ module Protocol where
 				1 -> ClientServer <$> get
 				2 -> ClientClient <$> get
 				o -> label ("Did not recognise the Message type indicated by byte " ++ show o) empty
-
-	instance Serialize SentMessage where
-		put (FromUs m) = do
-			putWord8 0
-			put m
-		put (FromThem m) = do
-			putWord8 2
-			put m
-		get = do
-			msgType <- getWord8
-			case msgType of
-				0 -> FromUs <$> get
-				2 -> FromThem <$> get
-				o -> label ("Did not recognise the SentMessage type indicated by byte " ++ show o) empty
-
-	instance Serialize RecvMessage where
-		put (ToUs m) = do
-			putWord8 1
-			put m
-		put (ToThem m) = do
-			putWord8 2
-			put m
-		get = do
-			msgType <- getWord8
-			case msgType of
-				1 -> ToUs <$> get
-				2 -> ToThem <$> get
-				o -> label ("Did not recognise the ReceivedMessage type indicated by byte " ++ show o) empty
 
 	instance Serialize ServerClient where
 		put AckBeginMM = putWord8 0
@@ -152,13 +120,13 @@ module Protocol where
 			Left val -> exit val
 			Right cont -> cont exit
 
-	data LocalMessage = Send SentMessage | RequestClose | LocalError String
-	data NetworkMessage = Closed | Error String | Received RecvMessage
+	data LocalMessage = Send Message | RequestClose | LocalError String
+	data NetworkMessage = Closed | Error String | Received Message
 
 	data SocketException = SocketClosed | SocketError String deriving (Show, Typeable)
 	instance Exception SocketException
 
-	data SeprSocket = SeprSocket {recv :: STM (Either SocketException RecvMessage), send :: ServerClient -> STM (), pass :: ClientClient -> STM (), close :: STM ()}
+	data SeprSocket = SeprSocket {recv :: STM (Either SocketException Message), send :: Message -> STM (), close :: STM ()}
 
 
 	createSeprSocket :: (MonadBaseControl IO m, MonadIO m, MonadCatch m) => Socket -> m SeprSocket
@@ -237,7 +205,7 @@ module Protocol where
 			close = do
 				writeTQueue localMessageQ $ RequestClose
 
-		return $ SeprSocket recv (sendAny . FromUs) (sendAny . FromThem) close
+		return $ SeprSocket recv sendAny close
 
 
 

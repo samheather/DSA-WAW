@@ -9,7 +9,7 @@ module Main where
 	import Control.Monad.Trans.Control
 	import Control.Monad
 	import Control.Applicative
-	import Protocol
+	import Protocol.Server
 	import Control.Monad.Cont
 	import Control.Monad.State.Lazy
 	import Data.Monoid
@@ -50,7 +50,7 @@ module Main where
 
 		serve "*" "1025" $ \(sock, address) -> do
 
-			SeprSocket recv send pass close <- createSeprSocket sock
+			SeprServerSocket recv send pass close <- createServerSocket <$> createSeprSocket sock
 
 			result <- try $ flip runStateT "begin log:\n" $ flip runContT return $ do
 				log $ "accepted client with address " ++ show address
