@@ -47,9 +47,9 @@ module Main where
 						putStrLn $ "receive error: " ++ show err
 						killThread id
 					Right msg -> do
-						lock
+						--lock
 						putStrLn $ "received: " ++ show msg
-						unlock
+						--unlock
 
 
 			forever $ do
