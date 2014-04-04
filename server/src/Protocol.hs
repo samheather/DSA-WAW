@@ -102,7 +102,7 @@ module Protocol where
 	instance Serialize ClientClient where
 		put (Object dat) = do
 			putWord32be $ fromIntegral $ length dat
-			put dat
+			putLazyByteString dat
 		get = do
 			len <- getWord32be
 			dat <- getLazyByteString $ fromIntegral len
