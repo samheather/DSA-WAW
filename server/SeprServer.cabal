@@ -1,5 +1,5 @@
 name: SeprServer
-version: 0.2.0.5
+version: 0.2.0.6
 cabal-version: >=1.10
 build-type: Simple
 license: AllRightsReserved
@@ -9,7 +9,7 @@ author: tapuu
 data-dir: ""
  
 executable SeprServer
-    build-depends: base >=4.7 && <4.8, cereal >=0.4 && <0.5,
+    build-depends: base >=4.6 && <4.8, cereal >=0.4 && <0.5,
                    bytestring >=0.10 && <0.11, network-simple >=0.3 && <0.4,
                    exceptions >=0.3 && <0.4, lifted-async >=0.1 && <0.2,
                    mtl >=2.1 && <2.2, stm-lifted >=0.1 && <0.2,
@@ -23,7 +23,7 @@ executable SeprServer
     other-modules: Protocol Protocol.Server
  
 executable SeprClient
-    build-depends: base >=4.7 && <4.8, cereal >=0.4 && <0.5,
+    build-depends: base >=4.6 && <4.8, cereal >=0.4 && <0.5,
                    bytestring >=0.10 && <0.11, network-simple >=0.3 && <0.4,
                    exceptions >=0.3 && <0.4, lifted-async >=0.1 && <0.2,
                    mtl >=2.1 && <2.2, stm-lifted >=0.1 && <0.2,
