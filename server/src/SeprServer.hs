@@ -170,6 +170,6 @@ module Main where
 				callCC idle
 
 			case result of
-				Left (ex :: SomeException) -> print $ "client exited with exception: " ++ show ex
-				Right ((), log) -> print $ "client exited with the following log: \n" ++ log
+				Left (ex :: SomeException) -> putStr $ "client exited with exception: " ++ show ex
+				Right ((), log) -> putStr $ "client exited with the following log: \n" ++ log
 
