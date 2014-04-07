@@ -7,6 +7,10 @@ package game.struct;
  * </p>
  */
 public class EntryPoint extends Point {
+	
+	public EntryPoint() {
+		
+	}
 	protected double x;
 	protected double y;
 	protected boolean visible;

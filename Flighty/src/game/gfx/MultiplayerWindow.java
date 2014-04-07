@@ -19,8 +19,11 @@ import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
+import game.network.Message;
+import game.network.Protocol;
 import game.struct.Airport;
 import game.struct.Game;
+import game.struct.MultiplayerGame;
 import game.struct.Plane;
 
 /**
@@ -397,9 +400,30 @@ public class MultiplayerWindow extends BasicGameState {
 
 		// Play level 1
 		try {
-			this.currentGame = new Game(50, 100, sidebarWidth);
-		} catch (NoSuchAlgorithmException | IOException e) {
+			Protocol p = new Protocol("127.0.0.1", 1025);
+			p.putMessage(new Message.ClientServer.BeginMM());
+			Message.Receivable r = null;
+			for (;;) {
+				r = p.getMessage();
+				if (r == null)
+					continue;
+				if (r instanceof Message.ServerClient.AckBeginMM)
+					break;
+			}
+			System.out.println("in mm");
+			r = null;
+			for (;;) {
+				r = p.getMessage();
+				if (r == null)
+					continue;
+				if (r instanceof Message.ServerClient.FoundGame)
+					break;
+			}
+			System.out.println("got game");
+			this.currentGame = new MultiplayerGame(p, 50, 100, sidebarWidth);
+		} catch (Exception e) {
 			e.printStackTrace();
+			System.exit(1);
 		}
 		fontColor = Color.white;
 		currentGame.setSpeedDifficulty(0.5);
@@ -521,8 +545,8 @@ public class MultiplayerWindow extends BasicGameState {
 		int x = gameContainer.getInput().getMouseX();
 		int y = gameContainer.getInput().getMouseY();
 		
-		System.out.println("X: " + x);
-		System.out.println("Y: " + y);
+		//System.out.println("X: " + x);
+		//System.out.println("Y: " + y);
 		
 		// Mouse action
 		boolean clicked = gameContainer.getInput().isMousePressed(0);

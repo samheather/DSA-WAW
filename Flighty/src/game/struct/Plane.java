@@ -65,16 +65,15 @@ public class Plane implements java.io.Serializable {
 	private boolean needsSyncing = true;
 
 	public void markForSyncing() {
-		//this.needsSyncing = true;
+		this.needsSyncing = true;
 	}
 
 	public void resetSyncState() {
-		//this.needsSyncing = false;
+		this.needsSyncing = false;
 	}
 
 	public boolean needsSyncing() {
-		//return this.needsSyncing;
-		return false;
+		return this.needsSyncing;
 	}
 
 	/** Unique identifier */
@@ -248,7 +247,7 @@ public class Plane implements java.io.Serializable {
 			setBearing(0);
 			setTargetBearing(0);
 		}
-		markForSyncing();
+		//markForSyncing();
 	}
 
 	/**
@@ -267,7 +266,7 @@ public class Plane implements java.io.Serializable {
 			setBearing(359);
 			setTargetBearing(359);
 		}
-		markForSyncing();
+		//markForSyncing();
 	}
 
 	/**
@@ -278,7 +277,7 @@ public class Plane implements java.io.Serializable {
 	 */
 	public void incrementAltitude() {
 		setAltitude(getAltitude() + 5);
-		markForSyncing();
+		//markForSyncing();
 	}
 
 	/**
@@ -289,7 +288,7 @@ public class Plane implements java.io.Serializable {
 	 */
 	public void decrementAltitude() {
 		setAltitude(getAltitude() - 5);
-		markForSyncing();
+		//markForSyncing();
 	}
 
 	/**
@@ -313,7 +312,7 @@ public class Plane implements java.io.Serializable {
 		if (getTargetAltitude() >= 3000) {
 			setTargetAltitude(getTargetAltitude() - 1000);
 		}
-		markForSyncing();
+		//markForSyncing();
 	}
 
 	/**
@@ -392,7 +391,7 @@ public class Plane implements java.io.Serializable {
 			setTurningLeft(false);
 			setTurningRight(false);
 		}
-		markForSyncing();
+		//markForSyncing();
 	}
 
 	/**
@@ -464,7 +463,7 @@ public class Plane implements java.io.Serializable {
 		currentGame.setTakeOffPenalty(false);
 
 		currentGame.setCurrentPlane(null);
-		markForSyncing();
+		//markForSyncing();
 
 	}
 
@@ -492,7 +491,7 @@ public class Plane implements java.io.Serializable {
 				incrementAltitude();
 			}
 		}
-		markForSyncing();
+		//markForSyncing();
 	}
 
 	/**
@@ -527,7 +526,7 @@ public class Plane implements java.io.Serializable {
 				updateXYCoordinates();
 			}
 		}
-		markForSyncing();
+		//markForSyncing();
 	}
 
 	/** Updates x and y coordinates */
@@ -652,7 +651,7 @@ public class Plane implements java.io.Serializable {
 	 *            the new speed
 	 */
 	public void setVelocity(double velocity) {
-		markForSyncing();
+		//markForSyncing();
 		this.velocity = velocity;
 	}
 

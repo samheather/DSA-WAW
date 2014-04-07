@@ -37,6 +37,10 @@ import com.esotericsoftware.kryo.io.Output;
  * </p>
  */
 public class Game implements java.io.Serializable, KryoSerializable {
+	
+	public Game() {
+		
+	}
 
 	private void writeObject(ObjectOutputStream out) throws IOException {
 

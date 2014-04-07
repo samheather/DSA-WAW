@@ -7,6 +7,10 @@ package game.struct;
  * </p>
  */
 public class Waypoint extends Point {
+	
+	public Waypoint() {
+		
+	}
 	protected double x;
 	protected double y;
 	protected boolean visible;

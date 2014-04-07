@@ -16,10 +16,10 @@ public class Protocol implements Closeable {
 		Idle
 	}
 
-	public Protocol(String hostname, short port) {
+	public Protocol(String hostname, int i) {
 		try {
 			try {
-				socket = new Socket(hostname, port);
+				socket = new Socket(hostname, i);
 			} catch (Exception e) {
 				e.printStackTrace();
 				received.offer(new Message.LocalError(
@@ -62,8 +62,8 @@ public class Protocol implements Closeable {
 		receiver.start();
 	}
 
-	private ConcurrentLinkedQueue<Message.Receivable> received;
-	private LinkedTransferQueue<Message.Sendable> toSend;
+	private ConcurrentLinkedQueue<Message.Receivable> received = new ConcurrentLinkedQueue<Message.Receivable> ();
+	private LinkedTransferQueue<Message.Sendable> toSend = new LinkedTransferQueue<Message.Sendable> ();
 	private Socket socket;
 	private OutputStream os;
 	private InputStream is;
@@ -113,6 +113,7 @@ public class Protocol implements Closeable {
 			} catch (Exception e) {
 				received.offer(new Message.LocalError(
 						"Internal error in Receiver thread:\n" + e.getMessage()));
+				e.printStackTrace();
 			} finally {
 				boolean interrupted = sender.isInterrupted();
 				if (!interrupted && sender.isAlive()) {
@@ -153,6 +154,7 @@ public class Protocol implements Closeable {
 			} catch (Exception e) {
 				received.offer(new Message.LocalError(
 						"Internal error in Sender thread:\n" + e.getMessage()));
+				e.printStackTrace();
 			} finally {
 				boolean interrupted = receiver.isInterrupted();
 				if (!interrupted && receiver.isAlive()) {
