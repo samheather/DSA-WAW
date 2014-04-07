@@ -82,24 +82,6 @@ public class WindowManager extends StateBasedGame {
 	public static void main(String[] args) throws UnknownHostException,
 			IOException {
 
-		// ////////////////////////////////////////////////////////////
-		// ////////// DO NOT DELETE THIS - SAM'S TEST CODE ////////////
-		// ////////////////////////////////////////////////////////////
-
-		// Socket s = new Socket("teaching0.york.ac.uk", 1025);
-		// byte[] received = new byte[100];
-		// InputStream is = s.getInputStream();
-		// OutputStream os = s.getOutputStream();
-		// if (is.read(received) > 1023) {
-		// System.out.println("Byte array may have overflowed - max size=1024 - increase this!");
-		// }
-		// String toPrint = new String(received);
-		// System.out.println(toPrint);
-		// os.write("Hello from java!\n".getBytes()); // Don't forget the /n
-		// is.close();
-		// os.close();
-		// s.close();
-
 		try {
 			// Set up app for game
 			AppGameContainer appgc = new AppGameContainer(new WindowManager());
