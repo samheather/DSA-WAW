@@ -129,9 +129,8 @@ module Main where
 							callCC $ \continue -> case msg of
 								Ready -> continue ()
 								otherwise -> do
-									log $ "game: quitting game"
+									log $ "game: bad game, rejoining mm"
 									atomically $ tellOtherClient Quit
-									log $ "game: rejoining mm"
 									call $ matchmaking True
 
 							log $ "game: game ok, sending foundgame to client"

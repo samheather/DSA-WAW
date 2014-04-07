@@ -218,7 +218,10 @@ public abstract class Message {
 				Receivable.ReceiveException {
 			DataInputStream dataIn = new DataInputStream(in); {
 				int len = dataIn.readInt();
-				Input input = new Input(dataIn); {
+				byte[] objData = new byte[len];
+				for(int i = 0; i<len;)
+					i += dataIn.read(objData, i, len - i);
+				Input input = new Input(objData); {
 					Kryo kryo = new Kryo();
 					return new CCObject(kryo.readObject(input, Plane.class));
 				}
