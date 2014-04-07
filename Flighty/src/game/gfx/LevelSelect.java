@@ -4,7 +4,6 @@
 package game.gfx;
 import game.struct.SaveFile;
 
-import java.io.File;
 import java.io.InputStream;
 
 import org.newdawn.slick.AppGameContainer;

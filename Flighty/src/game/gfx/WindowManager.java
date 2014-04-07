@@ -1,21 +1,13 @@
 package game.gfx;
 
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
-import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
-
 import org.lwjgl.opengl.Display;
-
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
