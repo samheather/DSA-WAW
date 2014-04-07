@@ -1,6 +1,5 @@
 package game.struct;
 
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Random;
 

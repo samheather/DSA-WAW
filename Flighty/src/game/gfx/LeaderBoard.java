@@ -8,7 +8,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import game.struct.LeaderBoardEntry;
-import game.gfx.GameWindow;
 import game.gfx.WindowManager;
 
 import java.io.File;
