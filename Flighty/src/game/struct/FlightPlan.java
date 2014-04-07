@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class FlightPlan implements java.io.Serializable {
+	
+	public FlightPlan() {
+		
+	}
 
 	/** Array list which contains waypoints of flight plan */
 	private ArrayList<Point> currentRoute = new ArrayList<Point>();

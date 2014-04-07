@@ -109,6 +109,7 @@ module Main where
 											log $ "mm: state error"
 											atomically $ send $ StateError MM
 								Right gotOtherClient -> do
+									log $ "mm: got game"
 									call $ game gotOtherClient tellOtherClient
 
 
@@ -133,6 +134,7 @@ module Main where
 									log $ "game: rejoining mm"
 									call $ matchmaking True
 
+							log $ "game: game ok, sending foundgame to client"
 							atomically $ send FoundGame
 
 							forever $ do
@@ -170,6 +172,6 @@ module Main where
 				callCC idle
 
 			case result of
-				Left (ex :: SomeException) -> print $ "client exited with exception: " ++ show ex
-				Right ((), log) -> print $ "client exited with the following log: \n" ++ log
+				Left (ex :: SomeException) -> putStrLn $ "client exited with exception: " ++ show ex
+				Right ((), log) -> putStrLn $ "client exited with the following log: \n" ++ log
 

@@ -7,6 +7,10 @@ package game.struct;
  * </p>
  */
 public class ExitPoint extends Point {
+	
+	public ExitPoint () {
+		
+	}
 	protected double x;
 	protected double y;
 
