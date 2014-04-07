@@ -3,8 +3,6 @@ package game.struct;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
-import java.lang.reflect.Array;
-import java.nio.ByteBuffer;
 import java.util.concurrent.*;
 
 public class SyncReceiver implements Runnable {

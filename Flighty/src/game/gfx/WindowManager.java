@@ -1,21 +1,13 @@
 package game.gfx;
 
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
-import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
-
 import org.lwjgl.opengl.Display;
-
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -81,24 +73,6 @@ public class WindowManager extends StateBasedGame {
 	// Entry point
 	public static void main(String[] args) throws UnknownHostException,
 			IOException {
-
-		// ////////////////////////////////////////////////////////////
-		// ////////// DO NOT DELETE THIS - SAM'S TEST CODE ////////////
-		// ////////////////////////////////////////////////////////////
-
-		// Socket s = new Socket("teaching0.york.ac.uk", 1025);
-		// byte[] received = new byte[100];
-		// InputStream is = s.getInputStream();
-		// OutputStream os = s.getOutputStream();
-		// if (is.read(received) > 1023) {
-		// System.out.println("Byte array may have overflowed - max size=1024 - increase this!");
-		// }
-		// String toPrint = new String(received);
-		// System.out.println(toPrint);
-		// os.write("Hello from java!\n".getBytes()); // Don't forget the /n
-		// is.close();
-		// os.close();
-		// s.close();
 
 		try {
 			// Set up app for game
