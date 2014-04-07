@@ -141,8 +141,16 @@ public class Game implements java.io.Serializable, KryoSerializable {
 	SecureRandom secureRandom;
 	private Random rand;
 
-	// Constructors
+	// TODO(Jamaal) - I think these can be removed from our experimental multiplayer stuff?
+	private Socket s;
+	private InputStream is;
+	private OutputStream os;
+	private ConcurrentLinkedQueue<Plane> queue = new ConcurrentLinkedQueue<Plane>();
+	ObjectOutputStream oos;
+	ObjectInputStream ois;
 
+	// Constructors
+	
 	/**
 	 * Constructor for Game
 	 * <p>
@@ -157,14 +165,6 @@ public class Game implements java.io.Serializable, KryoSerializable {
 	 *            reference to the current game window
 	 * @throws NoSuchAlgorithmException
 	 */
-
-	private Socket s;
-	private InputStream is;
-	private OutputStream os;
-	private ConcurrentLinkedQueue<Plane> queue = new ConcurrentLinkedQueue<Plane>();
-	ObjectOutputStream oos;
-	ObjectInputStream ois;
-
 	public Game(int newSeparationDistance, int newPenaltyDistance, int distFromLeft)
 			throws NoSuchAlgorithmException, UnknownHostException, IOException {
 		secureRandom = SecureRandom.getInstance("SHA1PRNG");
