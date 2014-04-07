@@ -400,7 +400,7 @@ public class MultiplayerWindow extends BasicGameState {
 
 		// Play level 1
 		try {
-			Protocol p = new Protocol("127.0.0.1", 1025);
+			Protocol p = new Protocol("54.186.123.145", 1025);
 			p.putMessage(new Message.ClientServer.BeginMM());
 			Message.Receivable r = null;
 			for (;;) {
