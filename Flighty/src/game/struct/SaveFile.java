@@ -10,6 +10,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.*;
+import game.gfx.WindowManager;
 
 public class SaveFile {
 
@@ -23,9 +26,10 @@ public class SaveFile {
 
 	private String statsFileName = "stats.txt";
 
+	
+	// Gets leaderboard reading from our PHP page in JSON format.
 	public String getLeaderboardScores() {
 		try {
-		//Magical reading from our PHP page, now decode the JSON and you're away.
 		URL url = new URL("http://atcga.me/Leaderboard.php");
 		URLConnection con = url.openConnection();
 		InputStream is = con.getInputStream();
@@ -36,8 +40,6 @@ public class SaveFile {
 		    baos.write(buf, 0, len);
 		}
 		String body = new String(baos.toByteArray(), "UTF-8");
-		System.out.println(body);
-		
 		return body;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -45,9 +47,32 @@ public class SaveFile {
 		return null;
 	}
 	
+	// Decodes JSON and updates leaderboard
+	public void decodeLeaderboardScores(String s){
+		String[] scores = s.split("}");
+		JSONParser parser=new JSONParser();
+		String name;
+		long score;
+		for(int i = 0; i< scores.length; i++){
+			scores[i] = scores[i] + "}";
+			try{
+				Object obj = parser.parse(scores[i]);
+				JSONObject jsonObject = (JSONObject) obj;
+				name = (String) jsonObject.get("name");
+				score = (long) jsonObject.get("score");
+				WindowManager.leaderBoard.addLeaderboardEntry(name, score);
+			
+			}
+			catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+           
+	}
+	
+	// Adds  score to our online leaderboard
 	public String addLeaderboardScore(String name, int score) {
 		try {
-		//Magical reading from our PHP page, now decode the JSON and you're away.
 		URL url = new URL("http://atcga.me/Leaderboard.php?name=" + name + "&score=" + score);
 		URLConnection con = url.openConnection();
 		InputStream is = con.getInputStream();
@@ -58,7 +83,6 @@ public class SaveFile {
 		    baos.write(buf, 0, len);
 		}
 		String body = new String(baos.toByteArray(), "UTF-8");
-		System.out.println(body);
 		
 		return body;
 		} catch (IOException e) {
@@ -66,6 +90,8 @@ public class SaveFile {
 		}
 		return null;
 	}
+	
+	
 	
 	public void readStats() {
 		try {

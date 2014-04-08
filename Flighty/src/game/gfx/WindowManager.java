@@ -96,7 +96,6 @@ public class WindowManager extends StateBasedGame {
 			e.printStackTrace();
 		}
 	}
-
 	// Constructor
 	/**
 	 * Constructor for WindowManager
