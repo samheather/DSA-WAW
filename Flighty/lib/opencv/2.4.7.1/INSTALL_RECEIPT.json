@@ -1,1 +1,0 @@
-{"compiler":"clang","poured_from_bottle":false,"time":1390604441,"used_options":[],"tapped_from":"homebrew/science","unused_options":["--with-libtiff","--with-tbb","--without-opencl","--with-openni","--with-qt","--with-ffmpeg","--c++11","--32-bit","--with-eigen","--with-jasper"],"HEAD":"c88a1856b184838212167ac1cb9f03f15502db6a","stdlib":"libstdcxx","built_as_bottle":false}
