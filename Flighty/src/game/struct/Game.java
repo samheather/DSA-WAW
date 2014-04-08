@@ -1,6 +1,7 @@
 package game.struct;
 
 import game.gfx.GameWindow;
+import game.vision.LocateFace;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -268,6 +269,12 @@ public class Game implements java.io.Serializable, KryoSerializable {
 
 		// Initialise score
 		score = new Score();
+		
+		// This is test code below for OpenCV with FaceLocator.
+		System.out.println("End of Construtor\n\n\n");
+		LocateFace faceLocator = new LocateFace();
+		faceLocator.getLocation();
+		System.out.println(faceLocator.getDistance());
 	}
 
 	// METHODS
