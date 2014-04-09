@@ -141,6 +141,11 @@ public class Game implements java.io.Serializable, KryoSerializable {
 	private Score score;
 	SecureRandom secureRandom;
 	private Random rand;
+	
+	/**Face Locator */
+	private LocateFace faceLocator;
+	private float faceTrackingTranslationalScaleFactor = 0.1f;
+	private float faceTrackingZoomScaleFactor = 0.01f;
 
 	// TODO(Jamaal) - I think these can be removed from our experimental multiplayer stuff?
 	private Socket s;
@@ -270,11 +275,7 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		// Initialise score
 		score = new Score();
 		
-		// This is test code below for OpenCV with FaceLocator.
-		System.out.println("End of Construtor\n\n\n");
-		LocateFace faceLocator = new LocateFace();
-		faceLocator.getLocation();
-		System.out.println(faceLocator.getDistance());
+		if (!multiplayer) { faceLocator = new LocateFace(); }
 	}
 
 	// METHODS
@@ -699,6 +700,11 @@ public class Game implements java.io.Serializable, KryoSerializable {
 				getCurrentPlanes().add(p);
 			}
 		}
+		
+		// Rescan for faces to get updated face locations
+		boolean faceScanSuccessful = false;
+		if (!multiplayer) { faceScanSuccessful = faceLocator.updateFacePosition(); }
+		
 		// Update planes
 		for (Plane plane : getCurrentPlanes()) {
 			// Check if the plane is still in the game area
@@ -806,6 +812,12 @@ public class Game implements java.io.Serializable, KryoSerializable {
 
 			// Updates the plane position
 			plane.movePlane();
+			if (faceScanSuccessful && !multiplayer) {
+				plane.updateFaceDetectionPosition(
+						faceLocator.getImmediateHorizontalAngle(true)*faceTrackingTranslationalScaleFactor,
+						faceLocator.getImmediateVerticalAngle(true)*faceTrackingTranslationalScaleFactor,
+						(int)(faceLocator.getImmediateDistance(true)*faceTrackingZoomScaleFactor));
+			}
 /*
 			if (plane.needsSyncing()) {
 				
