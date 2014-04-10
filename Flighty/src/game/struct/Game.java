@@ -585,7 +585,7 @@ public class Game implements java.io.Serializable, KryoSerializable {
 				}
 
 				currentPlane.decrementBearing();
-				//currentPlane.markForSyncing();
+				currentPlane.markForSyncing();
 			}
 
 			// Action on 'd' and 'right' keys
@@ -597,28 +597,28 @@ public class Game implements java.io.Serializable, KryoSerializable {
 				}
 
 				currentPlane.incrementBearing();
-				//currentPlane.markForSyncing();
+				currentPlane.markForSyncing();
 			}
 
 			// Action on 'w' and 'up' keys
 			if (gameContainer.getInput().isKeyPressed(200)
 					|| gameContainer.getInput().isKeyPressed(17)) {
 				currentPlane.incrementTargetAltitude();
-				//currentPlane.markForSyncing();
+				currentPlane.markForSyncing();
 			}
 
 			// Action on 's' and 'down' keys
 			if (gameContainer.getInput().isKeyPressed(208)
 					|| gameContainer.getInput().isKeyPressed(31)) {
 				currentPlane.decrementTargetAltitude();
-				//currentPlane.markForSyncing();
+				currentPlane.markForSyncing();
 			}
 
 			// Action on 'l' Key
 			if (gameContainer.getInput().isKeyPressed(38)) {
 				if (currentPlane.getNeedsToLand()) {
 					currentPlane.land(multiplayer);
-					//currentPlane.markForSyncing();
+					currentPlane.markForSyncing();
 				}
 			}
 
@@ -628,7 +628,7 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		else if (currentPlane.getNeedsToTakeOff()) {
 			if (gameContainer.getInput().isKeyPressed(Input.KEY_T)) {
 				currentPlane.takeOff();
-				//currentPlane.markForSyncing();
+				currentPlane.markForSyncing();
 			}
 
 		}

@@ -157,7 +157,7 @@ public class GameWindow extends BasicGameState {
 	/** Background music **/
 	Music gameMusic;
 
-	private SaveFile saveFile = new SaveFile();
+	public static SaveFile saveFile = new SaveFile();
 
 	private boolean unlock2 = false;
 	private boolean unlock3 = false;
@@ -936,7 +936,6 @@ public class GameWindow extends BasicGameState {
 							+ (int) (this.endTime / 1000) % 60
 							: (int) (this.endTime / 1000) % 60), 1050, 15);
 		}
-
 		// Play the sound for going though a waypoint
 		this.playCheckpointSound();
 
@@ -1145,7 +1144,7 @@ public class GameWindow extends BasicGameState {
 				&& (y <= (gameContainer.getHeight() - 50 + textHeight + 25))) {
 			if (clicked) {
 				if(isTextBoxIni){
-					WindowManager.leaderBoard.addLeaderboardEntry(textBox.getText(), currentGame.getScore().getScore());
+					saveFile.addLeaderboardScore(textBox.getText(), currentGame.getScore().getScore());
 					textBox.setText("");
 				}
 				game.enterState(WindowManager.MAIN_MENU_STATE);
