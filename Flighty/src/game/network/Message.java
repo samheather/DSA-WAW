@@ -1,6 +1,9 @@
 
 package game.network;
 
+import game.struct.Plane;
+
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -213,11 +216,14 @@ public abstract class Message {
 			Receivable, Sendable {
 		public static ClientClient receive(InputStream in) throws IOException,
 				Receivable.ReceiveException {
-			try (DataInputStream dataIn = new DataInputStream(in)) {
+			DataInputStream dataIn = new DataInputStream(in); {
 				int len = dataIn.readInt();
-				try (Input input = new Input(dataIn)) {
+				byte[] objData = new byte[len];
+				for(int i = 0; i<len;)
+					i += dataIn.read(objData, i, len - i);
+				Input input = new Input(objData); {
 					Kryo kryo = new Kryo();
-					return new CCObject(kryo.readClassAndObject(input));
+					return new CCObject(kryo.readObject(input, Plane.class));
 				}
 			}
 		}
@@ -234,21 +240,26 @@ public abstract class Message {
 			public CCObject(Object inputObject) {
 				this.object = inputObject;
 			}
+			
+			public Object getObject() {
+				return this.object;
+			}
 
 			@Override
 			public void send(OutputStream out) throws IOException,
 					SendException {
 				super.send(out);
-				try (DataOutputStream dataOut = new DataOutputStream(out)) {
-					byte[] objectBytes = new byte[0];
-					try (Output output = new Output()) {
-						Kryo kryo = new Kryo();
-						kryo.writeObject(output, object);
-						output.flush();
-						objectBytes = output.getBuffer();
+				DataOutputStream dataOut = new DataOutputStream(out); {
+					try (ByteArrayOutputStream bytes = new ByteArrayOutputStream()) {
+						try (Output output = new Output(bytes)) {
+							Kryo kryo = new Kryo();
+							kryo.writeObject(output, object);
+							output.flush();
+						}
+						byte[] b = bytes.toByteArray();
+						dataOut.writeInt(b.length);
+						dataOut.write(b);
 					}
-					dataOut.writeInt(objectBytes.length);
-					dataOut.write(objectBytes);
 				}
 			}
 		}

@@ -6,17 +6,10 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
-
 import game.struct.LeaderBoardEntry;
-import game.gfx.GameWindow;
 import game.gfx.WindowManager;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import game.gfx.GameWindow;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Arrays;
 
 
@@ -30,6 +23,7 @@ public class LeaderBoard extends GenericWindow {
 
 	/** The shaded arrow icon */
 	private Image arrowIconShaded;
+	
 	/**
 	 * Array containing the LeaderboardEntries
 	 */
@@ -40,7 +34,7 @@ public class LeaderBoard extends GenericWindow {
 	/**
 	 * Path to the file in which leaderboardScores are stored.
 	 */
-	String leaderboardFile = "leaderboardscores.txt";
+	
 	
 	public LeaderBoard() {
 		// System.out.println("Leaderboard init\n");
@@ -49,25 +43,12 @@ public class LeaderBoard extends GenericWindow {
 			leaderboardEntries[i] = new LeaderBoardEntry();
 		}
 
-		// Initialise values if first run.
-		File leaderboardFileCheckForFile = new File(leaderboardFile);
-		// If game run before and scores exist:
-		if (!leaderboardFileCheckForFile.exists()) {
 			
-			for (int i = 0; i < leaderboardEntries.length; i++) {
-				leaderboardEntries[i].setName(originalNames[i]);
-				leaderboardEntries[i].setScore((double) 50 * i + 10);
-			}
-
-			sortLeaderboard(leaderboardEntries);
-			saveLeaderboard();
-		} else {
-			// System.out.println("Loaded before - loading previous leaderboard.");
-			readLeaderboard(); // DO NOT change the leaderboard before this call
-			sortLeaderboard(leaderboardEntries);
-			saveLeaderboard();
+		for (int i = 0; i < leaderboardEntries.length; i++) {
+			leaderboardEntries[i].setName(originalNames[i]);
+			leaderboardEntries[i].setScore((double) 50 * i + 10);
 		}
-		// printLeaderboard(leaderboardEntries);
+			sortLeaderboard(leaderboardEntries);
 	}
 
 	
@@ -87,7 +68,6 @@ public class LeaderBoard extends GenericWindow {
 		sortLeaderboard(tempLeaderboardEntries);
 		System.arraycopy(tempLeaderboardEntries, 0, leaderboardEntries, 0,
 				leaderboardEntries.length);
-		saveLeaderboard();
 	}
 
 	/**
@@ -99,43 +79,7 @@ public class LeaderBoard extends GenericWindow {
 		Arrays.sort(leaderboardToSort);
 	}
 
-	/**
-	 * Save the leaderoard data to file using OutputStream (streams an Object).
-	 */
-	private void saveLeaderboard() {
-		try {
-			// create a new file with an ObjectOutputStream
-			FileOutputStream out = new FileOutputStream(leaderboardFile);
-			ObjectOutputStream oout = new ObjectOutputStream(out);
-
-			// write something in the file
-			for (int i = 0; i < leaderboardEntries.length; i++) {
-				oout.writeObject(leaderboardEntries[i].getName());
-				oout.writeObject(leaderboardEntries[i].getScore());
-			}
-			oout.close();
-		} catch (Exception ex) {
-			System.out.println("Saving leaderboard raised exception.");
-		}
-	}
-
-	/**
-	 * Reads the leaderboard data from file using InputStream.
-	 */
-	private void readLeaderboard() {
-		try {
-			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
-					leaderboardFile));
-			for (int i = 0; i < leaderboardEntries.length; i++) {
-				leaderboardEntries[i].setName((String) ois.readObject());
-				leaderboardEntries[i].setScore((Double) ois.readObject());
-			}
-
-			ois.close();
-		} catch (Exception ex) {
-			System.out.println("Saving leaderboard raised exception.");
-		}
-	}
+	
 	/**
 	 * Monitors the mouse position and state
 	 * <p>
@@ -209,6 +153,8 @@ public class LeaderBoard extends GenericWindow {
 		this.arrowIcon = new Image(arrowStream, "Arrow Image", false);
 		this.arrowIconShaded = new Image(arrowShadedStream,
 				"Arrow Shaded Image", false);
+		// Gets and updates scores form online leaderboard
+		GameWindow.saveFile.decodeLeaderboardScores(GameWindow.saveFile.getLeaderboardScores());
 	}
 
 	/**
