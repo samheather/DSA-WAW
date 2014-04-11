@@ -6,10 +6,16 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
 import game.struct.LeaderBoardEntry;
 import game.gfx.WindowManager;
 import game.gfx.GameWindow;
+
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 
 
@@ -24,13 +30,15 @@ public class LeaderBoard extends GenericWindow {
 	/** The shaded arrow icon */
 	private Image arrowIconShaded;
 	
+	/** variable showing Internet's connection */
+	public static boolean connected = false;
+	
+	private boolean init = true;
 	/**
 	 * Array containing the LeaderboardEntries
 	 */
 	public LeaderBoardEntry[] leaderboardEntries = new LeaderBoardEntry[5];
 	
-	public String[] originalNames = { "Larry", "Sergey", "Tim", "Richard",
-			"Fiona" };
 	/**
 	 * Path to the file in which leaderboardScores are stored.
 	 */
@@ -45,8 +53,8 @@ public class LeaderBoard extends GenericWindow {
 
 			
 		for (int i = 0; i < leaderboardEntries.length; i++) {
-			leaderboardEntries[i].setName(originalNames[i]);
-			leaderboardEntries[i].setScore((double) 50 * i + 10);
+			leaderboardEntries[i].setName("PLAYER");
+			leaderboardEntries[i].setScore(i);
 		}
 			sortLeaderboard(leaderboardEntries);
 	}
@@ -68,6 +76,7 @@ public class LeaderBoard extends GenericWindow {
 		sortLeaderboard(tempLeaderboardEntries);
 		System.arraycopy(tempLeaderboardEntries, 0, leaderboardEntries, 0,
 				leaderboardEntries.length);
+		
 	}
 
 	/**
@@ -112,6 +121,8 @@ public class LeaderBoard extends GenericWindow {
 				&& (x <= (50 - 25) + mainMenuWidth + 25)
 				&& (y <= (gameContainer.getHeight() - 50 + textHeight + 25))) {
 			if (clicked) {
+				init = true;
+				WindowManager.leaderBoard.clearLeaderboard();
 				game.enterState(WindowManager.MAIN_MENU_STATE);
 			} else {
 				// Change colour on hover
@@ -153,10 +164,9 @@ public class LeaderBoard extends GenericWindow {
 		this.arrowIcon = new Image(arrowStream, "Arrow Image", false);
 		this.arrowIconShaded = new Image(arrowShadedStream,
 				"Arrow Shaded Image", false);
-		// Gets and updates scores form online leaderboard
-		GameWindow.saveFile.decodeLeaderboardScores(GameWindow.saveFile.getLeaderboardScores());
+		
+	
 	}
-
 	/**
 	 * Renders the state
 	 * 
@@ -188,12 +198,25 @@ public class LeaderBoard extends GenericWindow {
 
 		// Draw leaderboard entries
 		
-		
-		for (int i = 0; i < WindowManager.leaderBoard.leaderboardEntries.length ; i++) {
-			this.drawShadowedText(this.font, 375, 220 + (textHeight * i * 3),
-					WindowManager.leaderBoard.leaderboardEntries[i].getName() + "     " +
-							WindowManager.leaderBoard.leaderboardEntries[i].getScore(), Color.orange);
+		if (init){
+			// checks if there is an internet connection
+			this.isConnected();
+			//Gets and updates scores form online leaderboard
+			if (connected){
+				GameWindow.saveFile.decodeLeaderboardScores(GameWindow.saveFile.getLeaderboardScores());
+			}
+			init = false;
 		}
+		if(connected){
+			for (int i = 0; i < WindowManager.leaderBoard.leaderboardEntries.length ; i++) {
+				this.drawShadowedText(this.font, 375, 220 + (textHeight * i * 3),
+						WindowManager.leaderBoard.leaderboardEntries[i].getName() + "     " + 
+						(int) WindowManager.leaderBoard.leaderboardEntries[i].getScore(), Color.orange);
+			}
+		}
+			else {this.drawShadowedText(this.titleFont, 125, 350, "No internet connection", Color.orange);
+			
+			}
 		
 		
 		// Draw back text
@@ -208,7 +231,33 @@ public class LeaderBoard extends GenericWindow {
 				- (textHeight / 4), 45, 35);
 
 	}
-
+	
+// Checks if Internet's connection is available
+	public  void isConnected (){
+		try{
+			URL url = new URL("http://www.google.com");
+			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+			conn.setConnectTimeout(400);
+			conn.getContent();
+			} catch (UnknownHostException e){
+				e.printStackTrace();
+				connected = false;
+				return;
+			} catch (IOException e){
+				e.printStackTrace();
+				connected = false;
+				return;
+			}
+		connected = true;
+		
+		}
+	
+// Clears leaderboard so that same scores wouldn't overwrite the ones already in leaderboard.
+	public void clearLeaderboard(){
+		for (int i = 0; i < 4 ; i++){
+			WindowManager.leaderBoard.leaderboardEntries[i].setScore(0);
+		}
+	}
 	/**
 	 * @return the state's unique ID
 	 */
