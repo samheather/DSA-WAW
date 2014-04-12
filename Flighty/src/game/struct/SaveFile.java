@@ -58,9 +58,11 @@ public class SaveFile {
 			try{
 				Object obj = parser.parse(scores[i]);
 				JSONObject jsonObject = (JSONObject) obj;
-				name = (String) jsonObject.get("name");
-				score = (long) jsonObject.get("score");
-				WindowManager.leaderBoard.addLeaderboardEntry(name, score);
+				score = (long) jsonObject.get("score"); 
+				if (WindowManager.leaderBoard.leaderboardEntries[4].getScore() <= score){
+					name = (String) jsonObject.get("name");
+					WindowManager.leaderBoard.addLeaderboardEntry(name, score);
+				}
 			
 			}
 			catch (ParseException e) {

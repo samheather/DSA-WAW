@@ -1055,6 +1055,7 @@ public class GameWindow extends BasicGameState {
 				// Manages leaderboard entries if score is high enough
 				
 				if (WindowManager.leaderBoard.leaderboardEntries[4].getScore() < this.currentGame.getScore().getScore()){
+					
 	
 					// initializes text box
 					if (isTextBoxIni == false){
@@ -1066,23 +1067,30 @@ public class GameWindow extends BasicGameState {
 						textBox.setAcceptingInput(true);
 						textBox.setMaxLength(30);
 						isTextBoxIni = true;
+
+						WindowManager.leaderBoard.isConnected();
 						
 					}
+					
+					
 					
 					//creates a text box to enter your name:
+					if(WindowManager.leaderBoard.connected){
+						
+						new TrueTypeFont(this.fontPrimitive.deriveFont(25f),true)
+						.drawString(300f, 300f, "Enter your name to the leaderboard");
 					
-					new TrueTypeFont(this.fontPrimitive.deriveFont(25f),true)
-					.drawString(300f, 300f, "Enter your name to the leaderboard");
+						textBox.render(currentGameContainer, g);
 					
-					textBox.render(currentGameContainer, g);
-					
-					if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
-						WindowManager.leaderBoard.addLeaderboardEntry(textBox.getText(), currentGame.getScore().getScore());
-						textBox.setText("");
-						game.enterState(WindowManager.MAIN_MENU_STATE);
+						if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
+							saveFile.addLeaderboardScore(textBox.getText(), currentGame.getScore().getScore());
+							textBox.setText("");
+							game.enterState(WindowManager.MAIN_MENU_STATE);
 						
 					}
-				}
+				}else{ new TrueTypeFont(this.fontPrimitive.deriveFont(25f),true)
+				.drawString(300f, 300f, "No internet connection");}
+			}
 			}
 
 			// if the planes collided but the ending has not yet been set

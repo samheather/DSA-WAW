@@ -185,6 +185,8 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		distFromLeftEdge = distFromLeft;
 		if (distFromLeftEdge != 0) {
 			multiplayer = true;
+		} else {
+			multiplayer = false;
 		}
 		/*
 

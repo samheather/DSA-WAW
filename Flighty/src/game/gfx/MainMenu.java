@@ -278,13 +278,13 @@ public class MainMenu extends GenericWindow {
 				(float) (0 - ((WindowManager) game).getSkyProgress()), 0,
 				gameContainer.getWidth() * 2, gameContainer.getHeight());
 
-		// Draw buttons
-		drawButtons(gameContainer, game);
-
 		// Draw plane icon
 		planeIcon.draw(
 				(float) (((WindowManager) game).getPlaneProgress() - 50),
 				50 + font.getHeight() + 105, 50, 50);
+		
+		// Draw buttons
+		drawButtons(gameContainer, game);
 	}
 
 	// Accessors

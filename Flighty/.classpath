@@ -1,59 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <classpath>
-
 	<classpathentry kind="src" path="src">
-
 		<attributes>
-
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Flighty/lib/natives/macosx"/>
-
 		</attributes>
-
 	</classpathentry>
-
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-
 	<classpathentry exported="true" kind="lib" path="lib/jars/lwjgl.jar">
-
 		<attributes>
-
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Flighty/lib/natives"/>
-
 		</attributes>
-
 	</classpathentry>
-
 	<classpathentry exported="true" kind="lib" path="lib/jars/slick.jar">
-
 		<attributes>
-
 			<attribute name="javadoc_location" value="jar:platform:/resource/Flighty/lib/docs/slick-docs.jar!/slick"/>
-
 		</attributes>
-
 	</classpathentry>
-
 	<classpathentry exported="true" kind="lib" path="lib/jars/jogg-0.0.7.jar"/>
-
 	<classpathentry exported="true" kind="lib" path="lib/jars/jorbis-0.0.17-1.jar"/>
-
 	<classpathentry kind="lib" path="lib/jars/asm-4.0.jar"/>
-
 	<classpathentry kind="lib" path="lib/jars/kryo-2.23.0.jar"/>
-
 	<classpathentry kind="lib" path="lib/jars/minlog-1.2.jar"/>
-
 	<classpathentry kind="lib" path="lib/jars/objenesis-1.2.jar"/>
-
 	<classpathentry kind="lib" path="lib/jars/reflectasm-1.07.jar"/>
-
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	
-		<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/OpenCV248CMake"/>
-
-	<classpathentry kind="lib" path="D:/studies/ECLIPSE/json-simple-1.1.1.jar"/>
-
+	<classpathentry kind="lib" path="lib/jars/json-simple-1.1.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/OpenCV248CMake"/>
 	<classpathentry kind="output" path="bin"/>
-
 </classpath>
