@@ -29,6 +29,7 @@ import game.struct.Airport;
 import game.struct.Game;
 import game.struct.Plane;
 import game.struct.SaveFile;
+import game.struct.SingleplayerGame;
 import game.gfx.LeaderBoard;
 
 /**
@@ -414,7 +415,7 @@ public class GameWindow extends BasicGameState {
 		if (((WindowManager) game).getCurrentLevel() == 1) {
 			// Play level 1
 			try {
-				this.currentGame = new Game(50, 100, 0);
+				this.currentGame = new SingleplayerGame(50, 100, 0);
 			} catch (NoSuchAlgorithmException | IOException e) {
 				e.printStackTrace();
 			}
@@ -426,7 +427,7 @@ public class GameWindow extends BasicGameState {
 		} else if (((WindowManager) game).getCurrentLevel() == 2) {
 			// Play level 2
 			try {
-				this.currentGame = new Game(70, 100, 0);
+				this.currentGame = new SingleplayerGame(70, 100, 0);
 			} catch (NoSuchAlgorithmException | IOException e) {
 				e.printStackTrace();
 			}
@@ -438,7 +439,7 @@ public class GameWindow extends BasicGameState {
 		} else if (((WindowManager) game).getCurrentLevel() == 3) {
 			// Play level 3
 			try {
-				this.currentGame = new Game(70, 100, 0);
+				this.currentGame = new SingleplayerGame(70, 100, 0);
 			} catch (NoSuchAlgorithmException | IOException e) {
 				e.printStackTrace();
 			}
@@ -491,14 +492,16 @@ public class GameWindow extends BasicGameState {
 		if (!this.currentGame.isEnding()) {
 
 			// Display the Game Information
-			g.drawString("Time : "
-					+ ((int) this.time / 1000 / 60 < 10 ? "0"
-							+ (int) (this.time / 1000) / 60
-							: (int) (this.time / 1000) / 60)
-					+ ":"
-					+ ((int) (this.time / 1000) % 60 < 10 ? "0"
-							+ (int) (this.time / 1000) % 60
-							: (int) (this.time / 1000) % 60), 1050, 15);
+			if(!currentGame.isMultiplayer()) {
+				g.drawString("Time : "
+						+ ((int) this.time / 1000 / 60 < 10 ? "0"
+								+ (int) (this.time / 1000) / 60
+								: (int) (this.time / 1000) / 60)
+						+ ":"
+						+ ((int) (this.time / 1000) % 60 < 10 ? "0"
+								+ (int) (this.time / 1000) % 60
+								: (int) (this.time / 1000) % 60), 1050, 15);
+			}
 			g.drawString(
 					"Score : "
 							+ ((int) (this.currentGame.getScore().getScore()))
