@@ -257,6 +257,7 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		} else {
 			listOfWaypoints.add(new Waypoint(540, 115));
 			listOfWaypoints.add(new Waypoint(430, 400)); 
+			listOfExitPoints.add(new ExitPoint((windowWidth / 2) + distFromLeftEdge, (windowHeight / 2)));
 		}
 
 		listOfWaypoints.add(new Waypoint(400, 150));
@@ -612,7 +613,9 @@ public class Game implements java.io.Serializable, KryoSerializable {
 			if (gameContainer.getInput().isKeyPressed(38)) {
 				if (currentPlane.getNeedsToLand()) {
 					currentPlane.land(multiplayer);
-					currentPlane.markForSyncing();
+					if (multiplayer){
+						currentPlane.markForSyncing();
+					}
 				}
 			}
 
@@ -622,7 +625,9 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		else if (currentPlane.getNeedsToTakeOff()) {
 			if (gameContainer.getInput().isKeyPressed(Input.KEY_T)) {
 				currentPlane.takeOff();
-				currentPlane.markForSyncing();
+				if (multiplayer){
+					currentPlane.markForSyncing();
+				}
 			}
 
 		}
