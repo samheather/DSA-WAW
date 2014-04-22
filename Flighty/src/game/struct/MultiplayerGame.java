@@ -73,6 +73,7 @@ public class MultiplayerGame extends Game {
 						Plane p2 = i.next();
 						if (p2.getUniqueNetworkObjectID() == p
 								.getUniqueNetworkObjectID()) {
+							p.ownedByCurrentPlayer = false;
 							i.set(p);
 							System.out.println("received existing plane");
 							p = null;

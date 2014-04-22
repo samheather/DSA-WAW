@@ -489,7 +489,8 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		for (Plane plane2 : currentPlanes) {
 			if ((plane1.equals(plane2))
 					|| (plane2.getAltitude() > (plane1.getAltitude() + 400))
-					|| (plane2.getAltitude() < (plane1.getAltitude() - 400))) {
+					|| (plane2.getAltitude() < (plane1.getAltitude() - 400)) 
+					|| (plane2.ownedByCurrentPlayer == false)) {
 				continue;
 			}
 
@@ -704,12 +705,35 @@ public class Game implements java.io.Serializable, KryoSerializable {
 			// Check if the plane is still in the game area
 
 			if (multiplayer) {
-				if ((plane.getX() > (windowWidth + distFromLeftEdge) / 2)
-						|| (plane.getX() < distFromLeftEdge)
+				if ((plane.getX() < distFromLeftEdge)
 						|| (plane.getY() > windowHeight) || (plane.getY() < 0)) {
-					
+					// Updates score if plane in game area
+					getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
+
+					// Deselects plane that left the airspace
+					if (currentPlane != null) {
+						if (plane.equals(currentPlane)) {
+							currentPlane = null;
+						}
+					}
+
+					// Removes planes that left the airspace
+					planesToRemove.add(plane);
 				}
+			} else if (plane.getX() > (windowWidth + distFromLeftEdge) / 2) {
+				// Updates score if plane in game area
+				getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
+				currentPlane.setOwnedByCurrentPlayer(false);
 				
+				// Deselects plane that left the airspace
+				if (currentPlane != null) {
+					if (plane.equals(currentPlane)) {
+						currentPlane = null;
+					}
+				}
+
+				// Removes planes that left the airspace
+				planesToRemove.add(plane);
 			} else {
 				if ((plane.getX() > windowWidth)
 						|| (plane.getX() < distFromLeftEdge)
