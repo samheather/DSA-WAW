@@ -24,11 +24,12 @@ public class MultiplayerGame extends Game {
 			int distFromLeft) throws NoSuchAlgorithmException,
 			UnknownHostException, IOException {
 		super(newSeparationDistance, newPenaltyDistance, distFromLeft);
+		protocol.putMessage(new Message.ClientServer.BeginMM());
 		// TODO Auto-generated constructor stub
 	}
 	int state = 0;
 	
-	Protocol protocol = new Protocol("212.64.153.70", 1025);
+	Protocol protocol = new Protocol("multi.atcga.me", 1025);
 	
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame game)
