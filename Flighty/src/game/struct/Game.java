@@ -21,9 +21,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.KryoSerializable;
-import com.esotericsoftware.kryo.io.Output;
+
 
 /**
  * Game class controls basic game mechanics
@@ -36,19 +34,14 @@ import com.esotericsoftware.kryo.io.Output;
  * </ul>
  * </p>
  */
-public class Game implements java.io.Serializable, KryoSerializable {
+public class Game {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2650923732946942279L;
 
-	public Game() {
 
-	}
-
-	private void writeObject(ObjectOutputStream out) throws IOException {
-
-	}
-
-	private void readObject(ObjectInputStream in) throws IOException {
-
-	}
 
 	/** How long can a play stay landed before penalty applies */
 	private static final int TAKE_OFF_PENALTY_TIME = 1500;
@@ -58,11 +51,11 @@ public class Game implements java.io.Serializable, KryoSerializable {
 
 	/** The window height */
 	private static final int WINDOW_HEIGHT = 600;
-
+	
 	private static boolean multiplayer = false;
-
+	
 	/** Distance from left edge for sidebar so planes don't fly in it */
-	private static int distFromLeftEdge = 0;
+	private static int distFromLeftEdge = 0;  
 
 	/** Array list containing airspace exit points */
 	private ArrayList<Point> listOfExitPoints = new ArrayList<Point>();
@@ -165,9 +158,8 @@ public class Game implements java.io.Serializable, KryoSerializable {
 	ObjectOutputStream oos;
 	ObjectInputStream ois;
 
-	public Game(int newSeparationDistance, int newPenaltyDistance,
-			int distFromLeft) throws NoSuchAlgorithmException,
-			UnknownHostException, IOException {
+	public Game(int newSeparationDistance, int newPenaltyDistance, int distFromLeft)
+			throws NoSuchAlgorithmException, UnknownHostException, IOException {
 		secureRandom = SecureRandom.getInstance("SHA1PRNG");
 		ByteBuffer b = ByteBuffer.allocate(8).put(secureRandom.generateSeed(8));
 		b.rewind();
@@ -175,7 +167,8 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		// Screen size
 		windowWidth = WINDOW_WIDTH;
 		windowHeight = WINDOW_HEIGHT;
-
+		
+		
 		distFromLeftEdge = distFromLeft;
 		if (distFromLeftEdge != 0) {
 			multiplayer = true;
@@ -839,22 +832,22 @@ public class Game implements java.io.Serializable, KryoSerializable {
 
 			// Updates the plane position
 			plane.movePlane();
-			/*
-			 * if (plane.needsSyncing()) {
-			 * 
-			 * ByteBuffer toTransmit = plane.serialize(); int i =
-			 * toTransmit.limit(); toTransmit.rewind(); ByteBuffer b =
-			 * ByteBuffer.allocate(4); b.putInt(i); b.rewind();
-			 * os.write(b.array()); os.write(toTransmit.array(), 0, i);
-			 * os.write("\r\n".getBytes());
-			 * 
-			 * System.out.println("I should not be blocking");
-			 * oos.writeObject(plane);
-			 * System.out.println("I should not be blocking here either");
-			 * plane.resetSyncState();
-			 * 
-			 * }
-			 */
+/*
+			if (plane.needsSyncing()) {
+				
+				 ByteBuffer toTransmit = plane.serialize(); int i =
+				 toTransmit.limit(); toTransmit.rewind(); ByteBuffer b =
+				 ByteBuffer.allocate(4); b.putInt(i); b.rewind();
+				 os.write(b.array()); os.write(toTransmit.array(), 0, i);
+				 os.write("\r\n".getBytes());
+				 
+				System.out.println("I should not be blocking");
+				oos.writeObject(plane);
+				System.out.println("I should not be blocking here either");
+				plane.resetSyncState();
+
+			}
+		*/
 		}
 
 		// Remove planes
@@ -1161,13 +1154,5 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		planeCount = newPlaneCount;
 	}
 
-	@Override
-	public void read(Kryo arg0, com.esotericsoftware.kryo.io.Input arg1) {
-
-	}
-
-	@Override
-	public void write(Kryo arg0, Output arg1) {
-
-	}
 }
+
