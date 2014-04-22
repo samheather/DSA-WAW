@@ -5,61 +5,14 @@ import java.nio.ByteBuffer;
 /**
  * Plane class
  */
-public class Plane implements java.io.Serializable {
+public class Plane {
 
 	private int takeoffAngleHighMulti = 345;
 	private int takeoffAngleLowMulti = 15;
 	private int takeoffAngleHighSingle = 225;
 	private int takeoffAngleLowSingle = 135;
 	
-	public ByteBuffer serialize() {
-		ByteBuffer b = ByteBuffer.allocate(100);
-		b.putInt(id);
-		b.putLong(uniqueNetworkObjectID);
-		b.putInt(size);
-		b.putDouble(velocity);
-		b.putInt(altitude);
-		b.putDouble(bearing);
-		b.putDouble(targetBearing);
-		b.put((byte) (turningRight ? 1 : 0));
-		b.put((byte) (turningLeft ? 1 : 0));
-		b.putDouble(x);
-		b.putDouble(y);
-		b.put((byte) (alertStatus ? 1 : 0));
-		b.put(target.serialize());
-		b.putDouble(targetAltitude);
-		b.put((byte) (landing ? 1 : 0));
-		b.put((byte) (needsToLand ? 1 : 0));
-		b.put((byte) (takingOff ? 1 : 0));
-		b.put((byte) (needsToTakeOff ? 1 : 0));
-		b.put((byte) (violationOccurred ? 1 : 0));
-		b.putDouble(landingDescentRate);
-		b.rewind();
-		return b;
-	}
 
-	public void deserialize(ByteBuffer b) {
-		id = b.getInt();
-		uniqueNetworkObjectID = b.getLong();
-		size = b.getInt();
-		velocity = b.getDouble();
-		altitude = b.getInt();
-		bearing = b.getDouble();
-		targetBearing = b.getDouble();
-		turningRight = b.get() == 1;
-		turningLeft = b.get() == 1;
-		x = b.getDouble();
-		y = b.getDouble();
-		alertStatus = b.get() == 1;
-		target.deserialize(b);
-		targetAltitude = b.getDouble();
-		landing = b.get() == 1;
-		needsToLand = b.get() == 1;
-		takingOff = b.get() == 1;
-		needsToTakeOff = b.get() == 1;
-		violationOccurred = b.get() == 1;
-		landingDescentRate = b.getDouble();
-	}
 
 	private boolean needsSyncing = true;
 
@@ -138,7 +91,7 @@ public class Plane implements java.io.Serializable {
 	private double landingDescentRate;
 
 	/** Required by Slick2D */
-	public Game currentGame;
+	public transient Game currentGame;
 	
 	public boolean ownedByCurrentPlayer = false;
 
