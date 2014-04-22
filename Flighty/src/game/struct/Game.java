@@ -21,8 +21,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
-
-
 /**
  * Game class controls basic game mechanics
  * <p>
@@ -35,13 +33,11 @@ import org.newdawn.slick.state.StateBasedGame;
  * </p>
  */
 public class Game {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2650923732946942279L;
-
-
 
 	/** How long can a play stay landed before penalty applies */
 	private static final int TAKE_OFF_PENALTY_TIME = 1500;
@@ -51,11 +47,11 @@ public class Game {
 
 	/** The window height */
 	private static final int WINDOW_HEIGHT = 600;
-	
+
 	private static boolean multiplayer = false;
-	
+
 	/** Distance from left edge for sidebar so planes don't fly in it */
-	private static int distFromLeftEdge = 0;  
+	private static int distFromLeftEdge = 0;
 
 	/** Array list containing airspace exit points */
 	private ArrayList<Point> listOfExitPoints = new ArrayList<Point>();
@@ -158,8 +154,9 @@ public class Game {
 	ObjectOutputStream oos;
 	ObjectInputStream ois;
 
-	public Game(int newSeparationDistance, int newPenaltyDistance, int distFromLeft)
-			throws NoSuchAlgorithmException, UnknownHostException, IOException {
+	public Game(int newSeparationDistance, int newPenaltyDistance,
+			int distFromLeft) throws NoSuchAlgorithmException,
+			UnknownHostException, IOException {
 		secureRandom = SecureRandom.getInstance("SHA1PRNG");
 		ByteBuffer b = ByteBuffer.allocate(8).put(secureRandom.generateSeed(8));
 		b.rewind();
@@ -167,8 +164,7 @@ public class Game {
 		// Screen size
 		windowWidth = WINDOW_WIDTH;
 		windowHeight = WINDOW_HEIGHT;
-		
-		
+
 		distFromLeftEdge = distFromLeft;
 		if (distFromLeftEdge != 0) {
 			multiplayer = true;
@@ -482,7 +478,7 @@ public class Game {
 		for (Plane plane2 : currentPlanes) {
 			if ((plane1.equals(plane2))
 					|| (plane2.getAltitude() > (plane1.getAltitude() + 400))
-					|| (plane2.getAltitude() < (plane1.getAltitude() - 400)) 
+					|| (plane2.getAltitude() < (plane1.getAltitude() - 400))
 					|| (plane2.ownedByCurrentPlayer == false)) {
 				continue;
 			}
@@ -712,21 +708,24 @@ public class Game {
 
 					// Removes planes that left the airspace
 					planesToRemove.add(plane);
-				}
-			} else if (plane.getX() > (windowWidth + distFromLeftEdge) / 2) {
-				// Updates score if plane in game area
-				getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
-				currentPlane.setOwnedByCurrentPlayer(false);
-				
-				// Deselects plane that left the airspace
-				if (currentPlane != null) {
-					if (plane.equals(currentPlane)) {
-						currentPlane = null;
+
+					if (plane.getX() > (windowWidth + distFromLeftEdge) / 2) {
+						// Updates score if plane in game area
+						getScore()
+								.planeLeftAirspaceOrWaitingToTakeOffMinusScore();
+						currentPlane.setOwnedByCurrentPlayer(false);
+
+						// Deselects plane that left the airspace
+						if (currentPlane != null) {
+							if (plane.equals(currentPlane)) {
+								currentPlane = null;
+							}
+						}
+
+						// Removes planes that left the airspace
+						planesToRemove.add(plane);
 					}
 				}
-
-				// Removes planes that left the airspace
-				planesToRemove.add(plane);
 			} else {
 				if ((plane.getX() > windowWidth)
 						|| (plane.getX() < distFromLeftEdge)
@@ -832,22 +831,22 @@ public class Game {
 
 			// Updates the plane position
 			plane.movePlane();
-/*
-			if (plane.needsSyncing()) {
-				
-				 ByteBuffer toTransmit = plane.serialize(); int i =
-				 toTransmit.limit(); toTransmit.rewind(); ByteBuffer b =
-				 ByteBuffer.allocate(4); b.putInt(i); b.rewind();
-				 os.write(b.array()); os.write(toTransmit.array(), 0, i);
-				 os.write("\r\n".getBytes());
-				 
-				System.out.println("I should not be blocking");
-				oos.writeObject(plane);
-				System.out.println("I should not be blocking here either");
-				plane.resetSyncState();
-
-			}
-		*/
+			/*
+			 * if (plane.needsSyncing()) {
+			 * 
+			 * ByteBuffer toTransmit = plane.serialize(); int i =
+			 * toTransmit.limit(); toTransmit.rewind(); ByteBuffer b =
+			 * ByteBuffer.allocate(4); b.putInt(i); b.rewind();
+			 * os.write(b.array()); os.write(toTransmit.array(), 0, i);
+			 * os.write("\r\n".getBytes());
+			 * 
+			 * System.out.println("I should not be blocking");
+			 * oos.writeObject(plane);
+			 * System.out.println("I should not be blocking here either");
+			 * plane.resetSyncState();
+			 * 
+			 * }
+			 */
 		}
 
 		// Remove planes
@@ -1155,4 +1154,3 @@ public class Game {
 	}
 
 }
-
