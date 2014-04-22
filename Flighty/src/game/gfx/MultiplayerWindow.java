@@ -1220,7 +1220,8 @@ public class MultiplayerWindow extends BasicGameState {
 			// Select plane by left clicking
 			if (button == 0) {
 				Plane clickedPlane = selectFlight(x, y);
-				if (clickedPlane.ownedByCurrentPlayer) {
+				System.out.println(clickedPlane);
+				if (clickedPlane != null && clickedPlane.ownedByCurrentPlayer) {
 					// If there is no plane where the user click, deselect the
 					// current plane
 					if (currentGame.getCurrentPlane() != null) {

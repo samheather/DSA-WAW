@@ -73,7 +73,7 @@ public class MultiplayerGame extends Game {
 						Plane p2 = i.next();
 						if (p2.getUniqueNetworkObjectID() == p
 								.getUniqueNetworkObjectID()) {
-							p.ownedByCurrentPlayer = false;
+							
 							i.set(p);
 							System.out.println("received existing plane");
 							p = null;
@@ -81,14 +81,17 @@ public class MultiplayerGame extends Game {
 						}
 					}
 					if (p != null){
+						p.ownedByCurrentPlayer = false;
 						getCurrentPlanes().add(p);
 						System.out.println("received new plane");
+						
 					}
 				}
 			}
 			super.update(gameContainer, game);
 			for (Plane plane : getCurrentPlanes()) {
 				if (plane.needsSyncing()) {
+					plane.ownedByCurrentPlayer = true;
 					protocol.putMessage(new Message.ClientClient.CCObject(plane));
 					plane.resetSyncState();
 					//System.out.println("sent plane");
