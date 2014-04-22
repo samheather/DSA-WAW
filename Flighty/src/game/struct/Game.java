@@ -21,9 +21,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.KryoSerializable;
-import com.esotericsoftware.kryo.io.Output;
+
 
 /**
  * Game class controls basic game mechanics
@@ -36,19 +34,18 @@ import com.esotericsoftware.kryo.io.Output;
  * </ul>
  * </p>
  */
-public class Game implements java.io.Serializable, KryoSerializable {
+public class Game {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2650923732946942279L;
+
 	public Game() {
 		
 	}
 
-	private void writeObject(ObjectOutputStream out) throws IOException {
 
-	}
-
-	private void readObject(ObjectInputStream in) throws IOException {
-
-	}
 
 	/** How long can a play stay landed before penalty applies */
 	private static final int TAKE_OFF_PENALTY_TIME = 1500;
@@ -1128,14 +1125,6 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		planeCount = newPlaneCount;
 	}
 
-	@Override
-	public void read(Kryo arg0, com.esotericsoftware.kryo.io.Input arg1) {
 
-	}
-
-	@Override
-	public void write(Kryo arg0, Output arg1) {
-
-	}
 }
 

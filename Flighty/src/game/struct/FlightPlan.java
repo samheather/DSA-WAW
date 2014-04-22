@@ -3,7 +3,7 @@ package game.struct;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class FlightPlan implements java.io.Serializable {
+public class FlightPlan {
 	
 	public FlightPlan() {
 		
@@ -19,7 +19,7 @@ public class FlightPlan implements java.io.Serializable {
 	private Point entryPoint;
 
 	/** Required by Slick2D */
-	private Game currentGame;
+	private transient Game currentGame;
 
 	// CONSTRUCTOR
 
