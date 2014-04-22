@@ -705,23 +705,25 @@ public class Game {
 					// Removes planes that left the airspace
 					planesToRemove.add(plane);
 
-					if (plane.getX() > (windowWidth + distFromLeftEdge) / 2) {
+				} else if (plane.getX() > (windowWidth + distFromLeftEdge) / 2) {
 						// Updates score if plane in game area
 						getScore()
 								.planeLeftAirspaceOrWaitingToTakeOffMinusScore();
-						currentPlane.setOwnedByCurrentPlayer(false);
+						
 
 						// Deselects plane that left the airspace
 						if (currentPlane != null) {
+							currentPlane.setOwnedByCurrentPlayer(false);
 							if (plane.equals(currentPlane)) {
 								currentPlane = null;
+								
 							}
 						}
 
 						// Removes planes that left the airspace
 						planesToRemove.add(plane);
 					}
-				}
+				
 			} else {
 				if ((plane.getX() > windowWidth)
 						|| (plane.getX() < distFromLeftEdge)
