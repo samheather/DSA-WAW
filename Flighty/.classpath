@@ -24,7 +24,6 @@
 	<classpathentry kind="lib" path="lib/jars/minlog-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/jars/objenesis-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/jars/reflectasm-1.07.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/jars/json-simple-1.1.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/OpenCV248CMake"/>
 	<classpathentry kind="output" path="bin"/>
