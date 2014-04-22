@@ -26,12 +26,19 @@ public class Multiplayer extends GenericWindow {
 	
 	/** Offline image */
 	private Image offlineImage;
+	
+	/** Online image */
+	private Image onlineImage;
 
-	/** The active image (map preview) for level 3 */
+	/** The active image (map preview) for offline play */
 	private Image offlineImageHover;
+	
+	/** The active image (map preview) for online play */
+	private Image onlineImageHover;
 	
 	/** Absolute position holders for images **/
 	private int[] offlinePos;
+	private int[] onlinePos;
 
 	/**
 	 * Monitors the mouse position and state
@@ -60,12 +67,16 @@ public class Multiplayer extends GenericWindow {
 		String mainMenuText = "Main Menu";
 		String offlineText = "Offline";
 		String practiceText = "Practice multiplayer";
+		String onlineText = "Online";
+		String playText = "Play multiplayer";
 
 		// Get the text width
 		int titleTextWidth = this.font.getWidth(titleText);
 		int mainMenuWidth = this.font.getWidth(mainMenuText);
 		int offlineWidth = this.font.getWidth(offlineText);
 		int practiceWidth = this.font.getWidth(practiceText);
+		int onlineWidth = this.font.getWidth(onlineText);
+		int playWidth = this.font.getWidth(playText);
 
 		// Get the text height
 		int fontHeight = this.font.getHeight();
@@ -75,6 +86,8 @@ public class Multiplayer extends GenericWindow {
 		Color mainMenuColor = Color.orange;
 		Color offlineColor = Color.orange;
 		Color practiceColor = Color.orange;
+		Color onlineColor = Color.orange;
+		Color playColor = Color.orange;
 		
 		// size of images on screen
 		int[] imageSize = { 200, 200 };
@@ -82,13 +95,16 @@ public class Multiplayer extends GenericWindow {
 		// position of images on the screen in pixels
 		int[] titlePos = { (gameContainer.getWidth() / 2) - titleTextWidth, 50 };
 		int[] mainMenuTextPos = { 50, gameContainer.getHeight() - 50 };
-		int[] offlineImagePos = { 110, 175 };
+		int[] offlineImagePos = { 130, 175 };
+		int[] onlineImagePos = { gameContainer.getWidth() - imageSize[0] - 130, 175 };
 		
 		// duplicating the values for the black squares to outline the images
 		offlinePos = offlineImagePos;
+		onlinePos = onlineImagePos;
 		
 		// Set the images for the modes
 		Image offlineImageCurrent = this.offlineImage;
+		Image onlineImageCurrent = this.onlineImage;
 
 		// tolerance for clicking on image in pixels
 		int tolerance = 3;
@@ -124,11 +140,49 @@ public class Multiplayer extends GenericWindow {
 						offlineImageCurrent = this.offlineImageHover;
 					}
 				} else {
-					// Draw the level1 image
+					// Draw the offline image
 					offlineImageCurrent = this.offlineImage;
 				}
 
 				offlineImageCurrent.draw(offlineImagePos[0], offlineImagePos[1], 200, 200);
+				
+				
+				
+				// Online Text
+				this.drawShadowedText(this.font, onlineImagePos[0]
+						+ (imageSize[0] / 2) - (playWidth / 2),
+						onlineImagePos[1] - 50, playText, playColor);
+
+				// Online difficulty text
+				this.drawShadowedText(this.font, onlineImagePos[0]
+						+ (imageSize[0] / 2) - (onlineWidth / 2),
+						onlineImagePos[1] + 230, onlineText, onlineColor);
+
+				// Online Image
+				if ((x >= (onlineImagePos[0] - tolerance))
+						&& (x <= (onlineImagePos[0] + imageSize[0] + tolerance))
+						&& (y >= (onlineImagePos[1] - tolerance))
+						&& (y <= (onlineImagePos[1] + imageSize[1] + tolerance))) {
+					// Change state to game state if the level is picked
+					if (clicked) {
+						((WindowManager) game).setCurrentLevel(1);
+						/*TODO
+						 * Change this to multiplayer state
+						 */
+						game.enterState(WindowManager.MULTIPLAYER_GAME_STATE);
+					} else {
+						// Apply hover image if cursor is hovering
+						onlineImageCurrent = this.onlineImageHover;
+					}
+				} else {
+					// Draw the level1 image
+					onlineImageCurrent = this.onlineImage;
+				}
+
+				onlineImageCurrent.draw(onlineImagePos[0], onlineImagePos[1], 200, 200);
+				
+				
+				
 				
 		// Main Menu
 		if ((x >= (mainMenuTextPos[0] - tolerance))
@@ -185,6 +239,12 @@ public class Multiplayer extends GenericWindow {
 		
 		InputStream offlineHoverStream = this.getClass().getResourceAsStream(
 				"/resources/maps/Map1SmallHover.png");
+		//TODO Change this to a new image?
+		InputStream onlineStream = this.getClass().getResourceAsStream(
+				"/resources/maps/Map1Small.png");
+		//TODO Change this image too
+		InputStream onlineHoverStream = this.getClass().getResourceAsStream(
+				"/resources/maps/Map1SmallHover.png");
 
 		this.backgroundImage = new Image(backgroundStream, "Background Image",
 				false);
@@ -196,6 +256,10 @@ public class Multiplayer extends GenericWindow {
 		this.offlineImage = new Image(offlineStream, "Offline", false);
 		this.offlineImageHover = new Image(offlineHoverStream,
 				"Offline Hover", false).getScaledCopy(5, 3);
+		
+		this.onlineImage = new Image(onlineStream, "Online", false);
+		this.onlineImageHover = new Image(onlineHoverStream,
+				"Online Hover", false).getScaledCopy(5, 3);
 	}
 
 	/**
@@ -240,6 +304,11 @@ public class Multiplayer extends GenericWindow {
 					.getOfflineImage().getWidth() + 8, this.getOfflineImage()
 					.getHeight() + 8);
 		}
+		if (this.onlinePos != null){
+			graphics.fillRect(onlinePos[0] - 4, onlinePos[1] - 4, this
+					.getOnlineImage().getWidth() + 8, this.getOnlineImage()
+					.getHeight() + 8);
+		}
 		// Draw other text and images
 		this.drawButtons(gameContainer, game);
 	}
@@ -275,10 +344,17 @@ public class Multiplayer extends GenericWindow {
 	}
 	
 	/**
-	 * @return the shaded arrow icon
+	 * @return the image for offline play
 	 */
 	public Image getOfflineImage() {
 		return this.offlineImage;
+	}
+	
+	/**
+	 * @return the image for offline play
+	 */
+	public Image getOnlineImage() {
+		return this.onlineImage;
 	}
 	
 	// Mutators

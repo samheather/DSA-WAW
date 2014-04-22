@@ -612,7 +612,9 @@ public class Game implements java.io.Serializable, KryoSerializable {
 			if (gameContainer.getInput().isKeyPressed(38)) {
 				if (currentPlane.getNeedsToLand()) {
 					currentPlane.land(multiplayer);
-					currentPlane.markForSyncing();
+					if (multiplayer){
+						currentPlane.markForSyncing();
+					}
 				}
 			}
 
@@ -622,7 +624,9 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		else if (currentPlane.getNeedsToTakeOff()) {
 			if (gameContainer.getInput().isKeyPressed(Input.KEY_T)) {
 				currentPlane.takeOff();
-				currentPlane.markForSyncing();
+				if (multiplayer){
+					currentPlane.markForSyncing();
+				}
 			}
 
 		}
