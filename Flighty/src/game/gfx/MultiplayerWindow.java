@@ -1190,10 +1190,10 @@ public class MultiplayerWindow extends BasicGameState {
 
 		// Only get mouse input if the game is not ending
 		if (!currentGame.isEnding()) {
+			
 			// Select plane by left clicking
 			if (button == 0) {
-				Plane clickedPlane;
-				clickedPlane = selectFlight(x, y);
+				Plane clickedPlane = selectFlight(x, y);
 
 				// If there is no plane where the user click, deselect the
 				// current plane

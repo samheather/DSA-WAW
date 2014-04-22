@@ -16,8 +16,8 @@ public class MultiplayerGame extends Game {
 	
 
 	
-	public MultiplayerGame() {
-		super();
+	public MultiplayerGame() throws NoSuchAlgorithmException, UnknownHostException, IOException {
+		super(70, 100, 200);
 	}
 
 	public MultiplayerGame(int newSeparationDistance, int newPenaltyDistance,
