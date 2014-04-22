@@ -257,6 +257,7 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		} else {
 			listOfWaypoints.add(new Waypoint(540, 115));
 			listOfWaypoints.add(new Waypoint(430, 400)); 
+			listOfExitPoints.add(new ExitPoint((windowWidth / 2) + distFromLeftEdge, (windowHeight / 2)));
 		}
 
 		listOfWaypoints.add(new Waypoint(400, 150));
