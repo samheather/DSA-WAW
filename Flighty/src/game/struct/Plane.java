@@ -153,8 +153,6 @@ public class Plane implements java.io.Serializable {
 	 * 
 	 * @param id
 	 *            a unique identifier
-	 * @param crew
-	 *            the number of crew on board
 	 * @param size
 	 *            the size to display the plane at
 	 * @param velocity
