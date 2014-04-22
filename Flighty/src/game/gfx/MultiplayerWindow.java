@@ -1,5 +1,6 @@
 package game.gfx;
 
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -16,6 +17,8 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.UnknownHostException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import game.network.Message;
@@ -397,32 +400,18 @@ public class MultiplayerWindow extends BasicGameState {
 		((AppGameContainer) gameContainer).setDisplayMode(windowWidth,
 				windowHeight, false);
 
-		// Play level 1
+
 		try {
-			Protocol p = new Protocol("212.64.153.70", 1025);
-			p.putMessage(new Message.ClientServer.BeginMM());
-			Message.Receivable r = null;
-			for (;;) {
-				r = p.getMessage();
-				if (r == null)
-					continue;
-				if (r instanceof Message.ServerClient.AckBeginMM)
-					break;
-			}
-			System.out.println("in mm");
-			r = null;
-			for (;;) {
-				r = p.getMessage();
-				if (r == null)
-					continue;
-				if (r instanceof Message.ServerClient.FoundGame)
-					break;
-			}
-			System.out.println("got game");
-			this.currentGame = new MultiplayerGame(p, 50, 100, sidebarWidth);
-		} catch (Exception e) {
+			this.currentGame = new MultiplayerGame(50, 100, sidebarWidth);
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.exit(1);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		fontColor = Color.white;
 		currentGame.setSpeedDifficulty(0.5);
