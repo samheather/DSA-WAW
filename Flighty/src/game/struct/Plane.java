@@ -139,6 +139,8 @@ public class Plane implements java.io.Serializable {
 
 	/** Required by Slick2D */
 	public Game currentGame;
+	
+	public boolean ownedByCurrentPlayer = false;
 
 	// Constructor
 
