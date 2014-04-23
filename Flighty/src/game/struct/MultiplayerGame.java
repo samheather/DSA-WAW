@@ -13,17 +13,12 @@ import game.gfx.WindowManager;
 import game.network.*;
 
 public class MultiplayerGame extends Game {
-	
-
-	
-
 
 	public MultiplayerGame(int newSeparationDistance, int newPenaltyDistance,
 			int distFromLeft) throws NoSuchAlgorithmException,
 			UnknownHostException, IOException {
 		super(newSeparationDistance, newPenaltyDistance, distFromLeft, true);
 		protocol.putMessage(new Message.ClientServer.BeginMM());
-		// TODO Auto-generated constructor stub
 	}
 	int state = 0;
 	
@@ -72,7 +67,7 @@ public class MultiplayerGame extends Game {
 						if (p2.getUniqueNetworkObjectID() == p
 								.getUniqueNetworkObjectID()) {
 							p.ownedByCurrentPlayer = false;
-							i.set(p);
+							// TODO Auto-generated constructor stub		i.set(p);
 							System.out.println("received existing plane");
 							p = null;
 							break;
