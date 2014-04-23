@@ -689,11 +689,11 @@ public class MultiplayerWindow extends BasicGameState {
 			}
 			graphics.drawString(
 					"Score : " + ((int) (currentGame.getScore().getScore()))
-							+ " pts", 1050, 35);
+							+ " pts", 1050, 15);
 			graphics.drawString(
 					"Multiplier :"
 							+ ((int) (currentGame.getScore().getMultiplier())),
-					1050, 55);
+					1050, 35);
 
 			// Loop through all the planes
 			for (Plane plane : currentGame.getCurrentPlanes()) {
@@ -1111,15 +1111,7 @@ public class MultiplayerWindow extends BasicGameState {
 				}
 			}
 		} else {
-			// Display the game duration (time)
-			graphics.drawString("Time : "
-					+ ((int) endTime / 1000 / 60 < 10 ? "0"
-							+ (int) (endTime / 1000) / 60
-							: (int) (endTime / 1000) / 60)
-					+ ":"
-					+ ((int) (this.endTime / 1000) % 60 < 10 ? "0"
-							+ (int) (endTime / 1000) % 60
-							: (int) (endTime / 1000) % 60), 1050, 15);
+			// Do nothing - don't display the time for multiplayer games.
 		}
 
 		// Play the sound for going though a waypoint
