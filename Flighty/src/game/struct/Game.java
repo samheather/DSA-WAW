@@ -147,12 +147,7 @@ public class Game {
 	 * @throws NoSuchAlgorithmException
 	 */
 
-	private Socket s;
-	private InputStream is;
-	private OutputStream os;
-	private ConcurrentLinkedQueue<Plane> queue = new ConcurrentLinkedQueue<Plane>();
-	ObjectOutputStream oos;
-	ObjectInputStream ois;
+
 
 	public Game(int newSeparationDistance, int newPenaltyDistance,
 			int distFromLeft, boolean multiplayer_) throws NoSuchAlgorithmException,
@@ -669,29 +664,7 @@ public class Game {
 				handleKeyPresses(gameContainer);
 			}
 		}
-		Plane p = null;
-		while ((p = queue.poll()) != null) {
-			System.out.println("Got a plane");
-			p.currentGame = this;
-			p.resetSyncState();
-			ListIterator<Plane> i = getCurrentPlanes().listIterator();
-			while (i.hasNext()) {
-				Plane p2 = i.next();
-				if (p == null)
-					System.out.println("p is null");
-				if (p2 == null)
-					System.out.println("p2 is null");
-				if (p2.getUniqueNetworkObjectID() == p
-						.getUniqueNetworkObjectID()) {
-					i.set(p);
-					p = null;
-					break;
-				}
-			}
-			if (p != null) {
-				getCurrentPlanes().add(p);
-			}
-		}
+		
 		// Update planes
 		for (Plane plane : getCurrentPlanes()) {
 			// Check if the plane is still in the game area
