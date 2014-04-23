@@ -312,7 +312,12 @@ public class Game {
 	 *            - a new plane that needs to take off
 	 */
 	public void configurePlaneForTakeOff(Plane newPlane) {
-		newPlane.getFlightPlan().setEntryPoint(new EntryPoint(1180, 580));
+		if (multiplayer) {
+			newPlane.getFlightPlan().setEntryPoint(new EntryPoint(distFromLeftEdge, 580));
+		} else { newPlane.getFlightPlan().setEntryPoint(new EntryPoint(1180, 580));
+		}
+			
+		
 
 		newPlane.getFlightPlan().getCurrentRoute()
 				.add(0, airport.getBeginningOfRunway());
