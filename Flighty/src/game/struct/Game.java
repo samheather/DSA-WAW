@@ -602,7 +602,7 @@ public class Game {
 				currentPlane.markForSyncing();
 			}
 
-			// Action on 'l' Key
+			// Action on 'L' Key
 			if (gameContainer.getInput().isKeyPressed(38)) {
 				if (currentPlane.getNeedsToLand()) {
 					currentPlane.land(multiplayer);
@@ -615,9 +615,9 @@ public class Game {
 		else if (currentPlane.getNeedsToTakeOff()) {
 			if (gameContainer.getInput().isKeyPressed(Input.KEY_T)) {
 				currentPlane.takeOff();
-//				if (multiplayer) {
-//					currentPlane.markForSyncing();
-//				}
+				if (multiplayer) {
+					currentPlane.markForSyncing();
+				}
 			}
 
 		}

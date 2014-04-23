@@ -416,8 +416,8 @@ public class Plane {
 		// Penalising stops because the plane has been commanded to take off
 		currentGame.setTakeOffPenalty(false);
 
-		currentGame.setCurrentPlane(null);
-		//markForSyncing();
+//		currentGame.setCurrentPlane(null);
+		markForSyncing();
 
 	}
 
