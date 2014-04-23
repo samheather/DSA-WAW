@@ -601,9 +601,6 @@ public class Game {
 			if (gameContainer.getInput().isKeyPressed(38)) {
 				if (currentPlane.getNeedsToLand()) {
 					currentPlane.land(multiplayer);
-					if (multiplayer) {
-						currentPlane.markForSyncing();
-					}
 				}
 			}
 
