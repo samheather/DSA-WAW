@@ -25,6 +25,11 @@ public class MultiplayerGame extends Game {
 	Protocol protocol = new Protocol("multi.atcga.me", 1025);
 	
 	@Override
+	public void removePlane(Plane toDelete) {
+		toDelete.delete();
+	}
+	
+	@Override
 	public void update(GameContainer gameContainer, StateBasedGame game)
 			throws IOException {
 		if (state == 0) {
@@ -61,20 +66,24 @@ public class MultiplayerGame extends Game {
 					Plane p = (Plane)((Message.ClientClient.CCObject) r).getObject();
 					p.currentGame = this;
 					p.resetSyncState();
+					p.ownedByCurrentPlayer = !p.ownedByCurrentPlayer;
 					ListIterator<Plane> i = getCurrentPlanes().listIterator();
 					while (i.hasNext()) {
 						Plane p2 = i.next();
 						if (p2.getUniqueNetworkObjectID() == p
 								.getUniqueNetworkObjectID()) {
-							p.ownedByCurrentPlayer = false;
-							// TODO Auto-generated constructor stub		i.set(p);
+							//p.ownedByCurrentPlayer = false;
+							if (p.deleted())
+								i.remove();
+							else
+								i.set(p);
 							System.out.println("received existing plane");
 							p = null;
 							break;
 						}
 					}
-					if (p != null){
-						p.ownedByCurrentPlayer = false;
+					if (p != null && !p.deleted()){
+						//p.ownedByCurrentPlayer = false;
 						getCurrentPlanes().add(p);
 						System.out.println("received new plane");
 						
@@ -82,13 +91,17 @@ public class MultiplayerGame extends Game {
 				}
 			}
 			super.update(gameContainer, game);
-			for (Plane plane : getCurrentPlanes()) {
+			ListIterator<Plane> i = getCurrentPlanes().listIterator();
+			while (i.hasNext()) {
+				Plane plane = i.next();
 				if (plane.needsSyncing()) {
-					plane.ownedByCurrentPlayer = true;
+					//plane.ownedByCurrentPlayer = true;
 					protocol.putMessage(new Message.ClientClient.CCObject(plane));
 					plane.resetSyncState();
 					//System.out.println("sent plane");
 				}
+				if (plane.deleted())
+					i.remove();
 			}
 		}
 	}

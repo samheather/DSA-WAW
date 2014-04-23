@@ -14,5 +14,10 @@ public class SingleplayerGame extends Game {
 		System.out.println("singlep game constructed");
 		// TODO Auto-generated constructor stub
 	}
+	
+	@Override
+	public void removePlane(Plane toDelete) {
+		reallyRemovePlane(toDelete);
+	}
 
 }

@@ -27,6 +27,17 @@ public class Plane {
 	public boolean needsSyncing() {
 		return this.needsSyncing;
 	}
+	
+	private boolean deleted = false;
+	
+	public boolean deleted() {
+		return deleted;
+	}
+	
+	public void delete() {
+		deleted = true;
+		markForSyncing();
+	}
 
 	/** Unique identifier */
 	private int id;

@@ -27,7 +27,7 @@ import org.newdawn.slick.state.StateBasedGame;
  * </ul>
  * </p>
  */
-public class Game {
+public abstract class Game {
 
 	/** How long can a play stay landed before penalty applies */
 	private static final int TAKE_OFF_PENALTY_TIME = 1500;
@@ -375,7 +375,7 @@ public class Game {
 	 * @param toDelete
 	 *            the plane to remove
 	 */
-	public void removePlane(Plane toDelete) {
+	protected void reallyRemovePlane(Plane toDelete) {
 		for (ListIterator<Plane> iter = currentPlanes
 				.listIterator(currentPlanes.size()); iter.hasPrevious();) {
 			if (toDelete.equals(iter.previous())) {
@@ -1125,5 +1125,7 @@ public class Game {
 	public boolean isMultiplayer() {
 		return this.multiplayer;
 	}
+
+	public abstract void removePlane(Plane toDelete);
 
 }
