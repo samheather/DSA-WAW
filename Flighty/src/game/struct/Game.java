@@ -710,6 +710,9 @@ public class Game {
 					planesToRemove.add(plane);
 
 				} else if (plane.getX() > (windowWidth + distFromLeftEdge) / 2) {
+					System.out.println(plane);
+					System.out.println(plane.getX());
+					System.out.println((windowWidth + distFromLeftEdge) / 2);
 						// Updates score if plane in game area
 						getScore()
 								.planeLeftAirspaceOrWaitingToTakeOffMinusScore();
@@ -723,9 +726,7 @@ public class Game {
 								
 							}
 						}
-
-						// Removes planes that left the airspace
-						planesToRemove.add(plane);
+						planesToRemove.add(plane); //TODO remove line maybe
 					}
 				
 			} else {

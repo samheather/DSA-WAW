@@ -400,13 +400,10 @@ public class MultiplayerWindow extends BasicGameState {
 		try {
 			this.currentGame = new MultiplayerGame(50, 100, sidebarWidth);
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		fontColor = Color.white;
@@ -698,6 +695,7 @@ public class MultiplayerWindow extends BasicGameState {
 			for (Plane plane : currentGame.getCurrentPlanes()) {
 				// Sets to display the number of points gained above the passed
 				// waypoint
+				
 				if (plane.getFlightPlan().getCurrentRoute().size() > 1) {
 					if (plane.checkIfFlightAtWaypoint(plane.getFlightPlan()
 							.getCurrentRoute().get(0), currentGame)) {
@@ -845,11 +843,17 @@ public class MultiplayerWindow extends BasicGameState {
 					}
 
 					// Render unselected planes
-					this.planeNormalCur
-							.setRotation((float) plane.getBearing() - 90);
-
-					this.planeNormalCur.drawCentered((float) plane.getX(),
-							(float) plane.getY());
+					if (!plane.ownedByCurrentPlayer){
+						this.planeNormalCur
+						.setRotation((float) plane.getBearing() + 90);
+						this.planeNormalCur.drawCentered((float) (game.getContainer().getWidth() - (plane.getX() - sidebarWidth)),
+								(float) (game.getContainer().getHeight() - plane.getY()));
+					} else {
+						this.planeNormalCur
+						.setRotation((float) plane.getBearing() - 90);
+						this.planeNormalCur.drawCentered((float) plane.getX(),
+								(float) plane.getY());
+					}
 				}
 
 				/*
