@@ -21,7 +21,7 @@ public class FlightPlanTests {
 	@Before
 	public void beforeTests() throws UnknownHostException, IOException {
 		try {
-			game = new Game(50, 100, 0);
+			game = new Game(50, 100, 0, false);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
@@ -103,7 +103,7 @@ public class FlightPlanTests {
 
 		Game gameWithoutExitpoints = null;
 		try {
-			gameWithoutExitpoints = new Game(50, 100, 0);
+			gameWithoutExitpoints = new Game(50, 100, 0, false);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
@@ -133,7 +133,7 @@ public class FlightPlanTests {
 
 		Game gameWithoutWaypoints = null;
 		try {
-			gameWithoutWaypoints = new Game(50, 100, 0);
+			gameWithoutWaypoints = new Game(50, 100, 0, false);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
