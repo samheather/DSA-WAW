@@ -292,7 +292,9 @@ public class Game {
 
 		newPlane = new Plane(planeCount, generateVelocity(),
 				generateAltitude(), 0, this, rand.nextLong());
-
+		if (!multiplayer) {
+			newPlane.ownedByCurrentPlayer = true;
+		}
 		if (newPlane.getFlightPlan().getEntryPoint() == airport) {
 			configurePlaneForTakeOff(newPlane);
 		}
