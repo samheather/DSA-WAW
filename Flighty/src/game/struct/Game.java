@@ -48,7 +48,7 @@ public class Game {
 	/** The window height */
 	private static final int WINDOW_HEIGHT = 600;
 
-	private static boolean multiplayer = false;
+	protected final boolean multiplayer;
 
 	/** Distance from left edge for sidebar so planes don't fly in it */
 	private static int distFromLeftEdge = 0;
@@ -154,9 +154,10 @@ public class Game {
 	ObjectOutputStream oos;
 	ObjectInputStream ois;
 
-	public Game(int newSeparationDistance, int newPenaltyDistance,
-			int distFromLeft) throws NoSuchAlgorithmException,
+	protected Game(int newSeparationDistance, int newPenaltyDistance,
+			int distFromLeft, boolean multiplayer_) throws NoSuchAlgorithmException,
 			UnknownHostException, IOException {
+		this.multiplayer = multiplayer_;
 		secureRandom = SecureRandom.getInstance("SHA1PRNG");
 		ByteBuffer b = ByteBuffer.allocate(8).put(secureRandom.generateSeed(8));
 		b.rewind();
@@ -166,11 +167,6 @@ public class Game {
 		windowHeight = WINDOW_HEIGHT;
 
 		distFromLeftEdge = distFromLeft;
-		if (distFromLeftEdge != 0) {
-			multiplayer = true;
-		} else {
-			multiplayer = false;
-		}
 		/*
 		 * 
 		 * // Initialise TCP Connection s = new Socket("teaching0.york.ac.uk",
@@ -1160,6 +1156,10 @@ public class Game {
 
 	public void setPlaneCount(int newPlaneCount) {
 		planeCount = newPlaneCount;
+	}
+	
+	public boolean isMultiplayer() {
+		return this.multiplayer;
 	}
 
 }

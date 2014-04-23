@@ -16,14 +16,12 @@ public class MultiplayerGame extends Game {
 	
 
 	
-	public MultiplayerGame() throws NoSuchAlgorithmException, UnknownHostException, IOException {
-		super(70, 100, 200);
-	}
+
 
 	public MultiplayerGame(int newSeparationDistance, int newPenaltyDistance,
 			int distFromLeft) throws NoSuchAlgorithmException,
 			UnknownHostException, IOException {
-		super(newSeparationDistance, newPenaltyDistance, distFromLeft);
+		super(newSeparationDistance, newPenaltyDistance, distFromLeft, true);
 		protocol.putMessage(new Message.ClientServer.BeginMM());
 		// TODO Auto-generated constructor stub
 	}
