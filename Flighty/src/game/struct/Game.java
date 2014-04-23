@@ -59,7 +59,7 @@ public abstract class Game {
 	private int penaltyDistance;
 
 	/** List of planes currently in the game */
-	private ArrayList<Plane> currentPlanes = new ArrayList<Plane>();
+	protected ArrayList<Plane> currentPlanes = new ArrayList<Plane>();
 
 	/** Reference to the game window */
 	private GameWindow currentGameWindow;
@@ -366,24 +366,7 @@ public abstract class Game {
 		return altitude;
 	}
 
-	/**
-	 * Removes a plane from the game
-	 * <p>
-	 * Iterates through currentPlanes list and removes the plane
-	 * </p>
-	 * 
-	 * @param toDelete
-	 *            the plane to remove
-	 */
-	protected void reallyRemovePlane(Plane toDelete) {
-		for (ListIterator<Plane> iter = currentPlanes
-				.listIterator(currentPlanes.size()); iter.hasPrevious();) {
-			if (toDelete.equals(iter.previous())) {
-				iter.remove();
-				return;
-			}
-		}
-	}
+
 
 	/**
 	 * Returns the plane with the given ID
@@ -1125,7 +1108,17 @@ public abstract class Game {
 	public boolean isMultiplayer() {
 		return this.multiplayer;
 	}
-
+	
+	
+	/**
+	 * Removes a plane from the game
+	 * <p>
+	 * Iterates through currentPlanes list and removes the plane
+	 * </p>
+	 * 
+	 * @param toDelete
+	 *            the plane to remove
+	 */
 	public abstract void removePlane(Plane toDelete);
 
 }

@@ -3,6 +3,7 @@ package game.struct;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ListIterator;
 
 public class SingleplayerGame extends Game {
 
@@ -17,7 +18,13 @@ public class SingleplayerGame extends Game {
 	
 	@Override
 	public void removePlane(Plane toDelete) {
-		reallyRemovePlane(toDelete);
+		for (ListIterator<Plane> iter = currentPlanes
+				.listIterator(currentPlanes.size()); iter.hasPrevious();) {
+			if (toDelete.equals(iter.previous())) {
+				iter.remove();
+				return;
+			}
+		}
 	}
 
 }
