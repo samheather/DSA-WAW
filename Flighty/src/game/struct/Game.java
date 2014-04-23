@@ -3,11 +3,6 @@ package game.struct;
 import game.gfx.GameWindow;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
@@ -15,7 +10,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.Random;
-import java.util.concurrent.ConcurrentLinkedQueue;
+
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -33,11 +28,6 @@ import org.newdawn.slick.state.StateBasedGame;
  * </p>
  */
 public class Game {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2650923732946942279L;
 
 	/** How long can a play stay landed before penalty applies */
 	private static final int TAKE_OFF_PENALTY_TIME = 1500;
