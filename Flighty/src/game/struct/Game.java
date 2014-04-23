@@ -154,7 +154,7 @@ public class Game {
 	ObjectOutputStream oos;
 	ObjectInputStream ois;
 
-	protected Game(int newSeparationDistance, int newPenaltyDistance,
+	public Game(int newSeparationDistance, int newPenaltyDistance,
 			int distFromLeft, boolean multiplayer_) throws NoSuchAlgorithmException,
 			UnknownHostException, IOException {
 		this.multiplayer = multiplayer_;
@@ -207,7 +207,7 @@ public class Game {
 
 		// Adding the airport into the game
 		if (multiplayer) {
-			airport = new Airport(415, 515, 150, 200, 100);
+			airport = new Airport(415, 515, 170, 200, 100);
 		} else {
 			airport = new Airport(720, 460, 1180, -320, 230);
 		}
@@ -313,8 +313,8 @@ public class Game {
 	 */
 	public void configurePlaneForTakeOff(Plane newPlane) {
 		if (multiplayer) {
-			newPlane.getFlightPlan().setEntryPoint(new EntryPoint(distFromLeftEdge, 580));
-		} else { newPlane.getFlightPlan().setEntryPoint(new EntryPoint(1180, 580));
+			newPlane.getFlightPlan().setEntryPoint(new EntryPoint(airport.getEndOfRunwayX(), airport.getRunwayY() + 30));
+		} else { newPlane.getFlightPlan().setEntryPoint(new EntryPoint(airport.getEndOfRunwayX(), airport.getRunwayY() + 30));
 		}
 			
 		
@@ -324,8 +324,8 @@ public class Game {
 		newPlane.getFlightPlan().getCurrentRoute()
 				.add(0, airport.getEndOfRunway());
 
-		newPlane.setX(1180);
-		newPlane.setY(580);
+		newPlane.setX(airport.getEndOfRunwayX());
+		newPlane.setY(airport.getRunwayY() + 30);
 
 		newPlane.setTarget(newPlane.getFlightPlan().getCurrentRoute().get(0));
 		newPlane.setVelocity(0);
