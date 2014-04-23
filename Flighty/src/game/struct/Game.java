@@ -615,9 +615,9 @@ public class Game {
 		else if (currentPlane.getNeedsToTakeOff()) {
 			if (gameContainer.getInput().isKeyPressed(Input.KEY_T)) {
 				currentPlane.takeOff();
-				if (multiplayer) {
-					currentPlane.markForSyncing();
-				}
+//				if (multiplayer) {
+//					currentPlane.markForSyncing();
+//				}
 			}
 
 		}
