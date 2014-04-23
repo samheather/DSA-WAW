@@ -770,4 +770,12 @@ public class Plane {
 	public int getTakeoffValueLowSingle() {
 		return this.takeoffAngleLowSingle;
 	}
+	
+	public boolean getOwnedByCurrentPlayer() {
+		return this.ownedByCurrentPlayer;
+	}
+	
+	public void setOwnedByCurrentPlayer(boolean Owns) {
+		this.ownedByCurrentPlayer = Owns;
+	}
 }
