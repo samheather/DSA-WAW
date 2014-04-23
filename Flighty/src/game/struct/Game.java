@@ -154,7 +154,7 @@ public class Game {
 	ObjectOutputStream oos;
 	ObjectInputStream ois;
 
-	protected Game(int newSeparationDistance, int newPenaltyDistance,
+	public Game(int newSeparationDistance, int newPenaltyDistance,
 			int distFromLeft, boolean multiplayer_) throws NoSuchAlgorithmException,
 			UnknownHostException, IOException {
 		this.multiplayer = multiplayer_;

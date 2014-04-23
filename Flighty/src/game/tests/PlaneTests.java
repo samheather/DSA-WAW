@@ -19,7 +19,7 @@ public class PlaneTests {
 
 	@Before
 	public void beforeTests() throws NoSuchAlgorithmException, UnknownHostException, IOException {
-		game = new Game(50, 100, 0);
+		game = new Game(50, 100, 0, false);
 		plane1 = new Plane(1, 500, 3000, 50, game, 0);
 
 	}
