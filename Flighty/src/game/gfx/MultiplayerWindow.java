@@ -801,16 +801,30 @@ public class MultiplayerWindow extends BasicGameState {
 
 				// If plane is within penalty distance, apply alert images
 				if (plane.getAlertStatus()) {
-					// Separation violation area
-					planeAlert.getScaledCopy(currentGame.getPenaltyDistance(),
-							currentGame.getPenaltyDistance()).drawCentered(
-							(float) plane.getX(), (float) plane.getY());
-
-					// Collision area
-					planeAlertMax.getScaledCopy(
-							currentGame.getSeparationDistance(),
-							currentGame.getSeparationDistance()).drawCentered(
-							(float) plane.getX(), (float) plane.getY());
+					if (plane.ownedByCurrentPlayer){
+						// Separation violation area
+						planeAlert.getScaledCopy(currentGame.getPenaltyDistance(),
+								currentGame.getPenaltyDistance()).drawCentered(
+								(float) plane.getX(), (float) plane.getY());
+	
+						// Collision area
+						planeAlertMax.getScaledCopy(
+								currentGame.getSeparationDistance(),
+								currentGame.getSeparationDistance()).drawCentered(
+								(float) plane.getX(), (float) plane.getY());
+					} else { 
+						//Mirrored
+						// Separation violation area
+						planeAlert.getScaledCopy(currentGame.getPenaltyDistance(),
+								currentGame.getPenaltyDistance()).drawCentered(
+								(float) (game.getContainer().getWidth() - (plane.getX() - sidebarWidth)), (float) (game.getContainer().getHeight() - plane.getY()));
+	
+						// Collision area
+						planeAlertMax.getScaledCopy(
+								currentGame.getSeparationDistance(),
+								currentGame.getSeparationDistance()).drawCentered(
+								(float) (game.getContainer().getWidth() - (plane.getX() - sidebarWidth)), (float) (game.getContainer().getHeight() - plane.getY()));
+					}
 				}
 
 				// Selected plane
@@ -844,16 +858,16 @@ public class MultiplayerWindow extends BasicGameState {
 					}
 
 					// Render unselected planes
-					if (!plane.ownedByCurrentPlayer){
-						this.planeNormalCur
-						.setRotation((float) plane.getBearing() + 90);
-						this.planeNormalCur.drawCentered((float) (game.getContainer().getWidth() - (plane.getX() - sidebarWidth)),
-								(float) (game.getContainer().getHeight() - plane.getY()));
-					} else {
+					if (plane.ownedByCurrentPlayer){
 						this.planeNormalCur
 						.setRotation((float) plane.getBearing() - 90);
 						this.planeNormalCur.drawCentered((float) plane.getX(),
 								(float) plane.getY());
+					} else {
+						this.planeNormalCur
+						.setRotation((float) plane.getBearing() + 90);
+						this.planeNormalCur.drawCentered((float) (game.getContainer().getWidth() - (plane.getX() - sidebarWidth)),
+								(float) (game.getContainer().getHeight() - plane.getY()));
 					}
 				}
 
@@ -899,10 +913,17 @@ public class MultiplayerWindow extends BasicGameState {
 							planeNeedsLandingCur = planeNeedsLanding
 									.getScaledCopy(1 + ((((float) (plane
 											.getSize())) - 1) / 5));
-							planeNeedsLandingCur.setRotation((float) plane
-									.getBearing() - 90);
-							planeNeedsLandingCur.drawCentered(
-									(float) plane.getX(), (float) plane.getY());
+							if (plane.ownedByCurrentPlayer){
+								planeNeedsLandingCur.setRotation((float) plane
+										.getBearing() - 90);
+								planeNeedsLandingCur.drawCentered(
+										(float) plane.getX(), (float) plane.getY());
+							} else { //mirrored
+								planeNeedsLandingCur.setRotation((float) plane
+										.getBearing() + 90);
+								planeNeedsLandingCur.drawCentered(
+										(float) (game.getContainer().getWidth() - (plane.getX() - sidebarWidth)), (float) (game.getContainer().getHeight() - plane.getY()));
+							}
 						}
 					}
 				}
@@ -971,7 +992,7 @@ public class MultiplayerWindow extends BasicGameState {
 				// allowance threshold of sitting landed
 				else if (plane.getNeedsToTakeOff()
 						&& (!currentGame.isTakeOffPenalty())) {
-					graphics.drawString("'T' to Takeoff!", 1115, 555);
+					graphics.drawString("'T' to Takeoff!", (float) (plane.getX() - 5), (float) (plane.getY() - 30));
 				}
 			}
 

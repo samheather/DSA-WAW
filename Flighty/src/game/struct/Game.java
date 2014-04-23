@@ -479,6 +479,9 @@ public class Game {
 
 		// Loops through all the planes
 		for (Plane plane2 : currentPlanes) {
+			if (!plane1.ownedByCurrentPlayer){
+				break;
+			}
 			if ((plane1.equals(plane2))
 					|| (plane2.getAltitude() > (plane1.getAltitude() + 400))
 					|| (plane2.getAltitude() < (plane1.getAltitude() - 400))
@@ -726,7 +729,7 @@ public class Game {
 								
 							}
 						}
-						planesToRemove.add(plane); //TODO remove line maybe
+						planesToRemove.add(plane);
 					}
 				
 			} else {
