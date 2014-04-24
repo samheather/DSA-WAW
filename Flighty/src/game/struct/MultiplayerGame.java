@@ -27,7 +27,7 @@ public class MultiplayerGame extends Game {
 	
 	@Override
 	public void removePlane(Plane toDelete) {
-		toDelete.delete();
+		toDelete.markForDeletion();
 	}
 	
 	@Override
@@ -136,6 +136,45 @@ public class MultiplayerGame extends Game {
 	@Override
 	protected void configurePlane(Plane p) {
 		//p.ownedByCurrentPlayer = false;
+	}
+
+	@Override
+	protected void planeUpdate(Plane plane) {
+		// TODO Auto-generated method stub
+		if ((plane.getX() < distFromLeftEdge)
+				|| (plane.getY() > windowHeight) || (plane.getY() < 0)) {
+			// Updates score if plane in game area
+			getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
+
+			// Deselects plane that left the airspace
+			if (currentPlane != null) {
+				if (plane.equals(currentPlane)) {
+					currentPlane = null;
+				}
+			}
+
+			// Removes planes that left the airspace
+			removePlane(plane);
+
+		} else if (plane.getX() > (windowWidth + distFromLeftEdge) / 2) {
+			System.out.println(plane);
+			System.out.println(plane.getX());
+			System.out.println((windowWidth + distFromLeftEdge) / 2);
+				// Updates score if plane in game area
+				getScore()
+						.planeLeftAirspaceOrWaitingToTakeOffMinusScore();
+				
+
+				// Deselects plane that left the airspace
+				if (currentPlane != null) {
+					currentPlane.setOwnedByCurrentPlayer(false);
+					if (plane.equals(currentPlane)) {
+						currentPlane = null;
+						
+					}
+				}
+				removePlane(plane);
+			}
 	}
 
 }

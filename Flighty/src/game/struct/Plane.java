@@ -34,7 +34,7 @@ public class Plane {
 		return deleted;
 	}
 	
-	public void delete() {
+	public void markForDeletion() {
 		deleted = true;
 		markForSyncing();
 	}

@@ -65,4 +65,25 @@ public class SingleplayerGame extends Game {
 		p.ownedByCurrentPlayer = true;
 	}
 
+	@Override
+	protected void planeUpdate(Plane plane) {
+		if ((plane.getX() > windowWidth)
+				|| (plane.getX() < distFromLeftEdge)
+				|| (plane.getY() > windowHeight) || (plane.getY() < 0)) {
+			// Updates score if plane in game area
+			getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
+
+			// Deselects plane that left the airspace
+			if (currentPlane != null) {
+				if (plane.equals(currentPlane)) {
+					currentPlane = null;
+				}
+			}
+
+			// Removes planes that left the airspace
+			removePlane(plane);
+		}
+		
+	}
+
 }
