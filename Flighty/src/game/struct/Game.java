@@ -8,6 +8,8 @@ import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
@@ -57,9 +59,6 @@ public abstract class Game {
 
 	/** Distance at which warning ring around appears */
 	private int penaltyDistance;
-
-	/** List of planes currently in the game */
-	protected ArrayList<Plane> currentPlanes = new ArrayList<Plane>();
 
 	/** Reference to the game window */
 	private GameWindow currentGameWindow;
@@ -230,6 +229,16 @@ public abstract class Game {
 		// Initialise score
 		score = new Score();
 	}
+	
+	
+	
+	protected abstract class ConcretePlane extends Plane {
+		protected ConcretePlane() {
+			super(planeCount, generateVelocity(),
+					generateAltitude(), 0, Game.this, rand.nextLong());
+		}
+		
+	}
 
 	// METHODS
 
@@ -259,8 +268,7 @@ public abstract class Game {
 		Plane newPlane;
 		setPlaneCount(getPlaneCount() + 1);
 
-		newPlane = new Plane(planeCount, generateVelocity(),
-				generateAltitude(), 0, this, rand.nextLong());
+		newPlane = constructPlane();
 		configurePlane(newPlane);
 		if (newPlane.getFlightPlan().getEntryPoint() == airport) {
 			configurePlaneForTakeOff(newPlane);
@@ -268,10 +276,9 @@ public abstract class Game {
 
 		newPlane.calculateBearingToNextWaypoint();
 		newPlane.setBearing(newPlane.getTargetBearing());
-
-		// Add new plane to the game
-		currentPlanes.add(newPlane);
 	}
+	
+	protected abstract Plane constructPlane();
 
 	/**
 	 * Configure plane to take off properly
@@ -363,7 +370,7 @@ public abstract class Game {
 	 * @return plane specified by id
 	 */
 	public Plane getPlaneFromID(int ID) {
-		for (Plane plane : currentPlanes) {
+		for (Plane plane : getCurrentPlanes()) {
 			if (plane.getID() == ID) {
 				return plane;
 			}
@@ -427,7 +434,7 @@ public abstract class Game {
 		boolean[] result = new boolean[] { false, false };
 
 		// Loops through all the planes
-		for (Plane plane2 : currentPlanes) {
+		for (Plane plane2 : getCurrentPlanes()) {
 			if (!plane1.ownedByCurrentPlayer){
 				break;
 			}
@@ -465,7 +472,7 @@ public abstract class Game {
 		plane1.setAlertStatus(risk);
 		result[1] = risk;
 
-		for (Plane p : currentPlanes) {
+		for (Plane p : getCurrentPlanes()) {
 			if (p.getAlertStatus()) {
 				// Removes the penalty temporary so the user doesn't get
 				// penalised for the same violation
@@ -588,7 +595,7 @@ public abstract class Game {
 			throws IOException {
 
 		// Spawn more planes when no planes present
-		if (currentPlanes.size() == 0) {
+		if (getCurrentPlanes().size() == 0) {
 			countToNextPlane = 0;
 		}
 
@@ -923,9 +930,7 @@ public abstract class Game {
 	/**
 	 * @return list of planes attached to the game
 	 */
-	public ArrayList<Plane> getCurrentPlanes() {
-		return currentPlanes;
-	}
+	public abstract List<? extends Plane> getCurrentPlanes();
 
 	/**
 	 * @return a reference to the current game window
@@ -950,14 +955,6 @@ public abstract class Game {
 	 */
 	public void setPenaltyDistance(int newPenaltyDistance) {
 		penaltyDistance = newPenaltyDistance;
-	}
-
-	/**
-	 * @param currentPlanes
-	 *            the array of planes to set
-	 */
-	public void setCurrentPlanes(ArrayList<Plane> setCurrentPlanes) {
-		currentPlanes = setCurrentPlanes;
 	}
 
 	/**

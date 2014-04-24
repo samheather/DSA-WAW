@@ -4,10 +4,31 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.ListIterator;
 
 public class SingleplayerGame extends Game {
 
+	private class SingleplayerPlane extends Game.ConcretePlane {
+		
+	}
+	
+	private ArrayList<SingleplayerPlane> singleplayerPlanes = new ArrayList<SingleplayerPlane>();
+	
+	@Override
+	public List<? extends Plane> getCurrentPlanes() {
+		return singleplayerPlanes;
+	}
+
+	@Override
+	protected Plane constructPlane() {
+		SingleplayerPlane p = new SingleplayerPlane();
+		singleplayerPlanes.add(p);
+		return p;
+	}
+	
+	
 	public SingleplayerGame(int newSeparationDistance, int newPenaltyDistance,
 			int distFromLeft)
 			throws NoSuchAlgorithmException, UnknownHostException, IOException {
@@ -19,8 +40,8 @@ public class SingleplayerGame extends Game {
 	
 	@Override
 	public void removePlane(Plane toDelete) {
-		for (ListIterator<Plane> iter = currentPlanes
-				.listIterator(currentPlanes.size()); iter.hasPrevious();) {
+		for (ListIterator<SingleplayerPlane> iter = singleplayerPlanes
+				.listIterator(singleplayerPlanes.size()); iter.hasPrevious();) {
 			if (toDelete.equals(iter.previous())) {
 				iter.remove();
 				return;

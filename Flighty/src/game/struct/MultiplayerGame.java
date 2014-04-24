@@ -5,6 +5,8 @@ import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.ListIterator;
 
 import org.lwjgl.opengl.Display;
@@ -15,6 +17,11 @@ import game.gfx.WindowManager;
 import game.network.*;
 
 public class MultiplayerGame extends Game {
+	
+	
+	private class MultiplayerPlane extends Game.ConcretePlane {
+		
+	}
 
 	public MultiplayerGame(int newSeparationDistance, int newPenaltyDistance,
 			int distFromLeft) throws NoSuchAlgorithmException,
@@ -24,7 +31,10 @@ public class MultiplayerGame extends Game {
 	}
 	int state = 0;
 	
-	Protocol protocol = new Protocol("multi.atcga.me", 1025, Arrays.asList((Class)Plane.class));
+	private ArrayList<MultiplayerPlane> multiplayerPlanes = new ArrayList<MultiplayerPlane>();
+	
+	
+	Protocol protocol = new Protocol("multi.atcga.me", 1025, Arrays.asList((Class)MultiplayerPlane.class));
 	
 	@Override
 	public void removePlane(Plane toDelete) {
@@ -65,11 +75,11 @@ public class MultiplayerGame extends Game {
 					System.out.println("error!");
 					((Message.Error) r).log();
 				} else if (r instanceof Message.ClientClient.CCObject) {
-					Plane p = (Plane)((Message.ClientClient.CCObject) r).getObject();
+					MultiplayerPlane p = (MultiplayerPlane)((Message.ClientClient.CCObject) r).getObject();
 					p.currentGame = this;
 					p.resetSyncState();
 					p.ownedByCurrentPlayer = !p.ownedByCurrentPlayer;
-					ListIterator<Plane> i = getCurrentPlanes().listIterator();
+					ListIterator<MultiplayerPlane> i = multiplayerPlanes.listIterator();
 					while (i.hasNext()) {
 						Plane p2 = i.next();
 						if (p2.getUniqueNetworkObjectID() == p
@@ -86,14 +96,14 @@ public class MultiplayerGame extends Game {
 					}
 					if (p != null && !p.deleted()){
 						//p.ownedByCurrentPlayer = false;
-						getCurrentPlanes().add(p);
+						multiplayerPlanes.add(p);
 						System.out.println("received new plane");
 						
 					}
 				}
 			}
 			super.update(gameContainer, game);
-			ListIterator<Plane> i = getCurrentPlanes().listIterator();
+			ListIterator<MultiplayerPlane> i = multiplayerPlanes.listIterator();
 			while (i.hasNext()) {
 				Plane plane = i.next();
 				if (plane.needsSyncing()) {
@@ -141,7 +151,6 @@ public class MultiplayerGame extends Game {
 
 	@Override
 	protected void planeUpdate(Plane plane) {
-		// TODO Auto-generated method stub
 		if ((plane.getX() < distFromLeftEdge)
 				|| (plane.getY() > windowHeight) || (plane.getY() < 0)) {
 			// Updates score if plane in game area
@@ -176,6 +185,18 @@ public class MultiplayerGame extends Game {
 				}
 				removePlane(plane);
 			}
+	}
+
+	@Override
+	public List<? extends Plane> getCurrentPlanes() {
+		return multiplayerPlanes;
+	}
+
+	@Override
+	protected Plane constructPlane() {
+		MultiplayerPlane p = new MultiplayerPlane();
+		multiplayerPlanes.add(p);
+		return p;
 	}
 
 }

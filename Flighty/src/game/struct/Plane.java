@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 /**
  * Plane class
  */
-public class Plane {
+public abstract class Plane {
 
 	private int takeoffAngleHighMulti = 345;
 	private int takeoffAngleLowMulti = 15;
@@ -130,10 +130,8 @@ public class Plane {
 	 * @param y
 	 *            the y position to create the plane at
 	 */
-	public Plane() {
-	}
 
-	public Plane(int id, double velocity, int altitude, double bearing,
+	protected Plane(int id, double velocity, int altitude, double bearing,
 			Game currentGame, long uniqueNetworkObjectId) {
 		this.currentGame = currentGame;
 		this.id = id;
