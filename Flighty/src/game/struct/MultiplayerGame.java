@@ -3,6 +3,7 @@ package game.struct;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.ListIterator;
 
 import org.lwjgl.opengl.Display;
@@ -104,6 +105,37 @@ public class MultiplayerGame extends Game {
 					i.remove();
 			}
 		}
+	}
+
+	@Override
+	protected Airport createAirport() {
+		return new Airport(415, 515, 170, 200, 100);
+	}
+
+	@Override
+	protected ArrayList<Point> createExitPoints() {
+		ArrayList<Point> exitPoints = new ArrayList<Point>();
+		exitPoints.add(new ExitPoint(
+				(windowWidth + distFromLeftEdge) / 2, (windowHeight / 2)));
+		return exitPoints;
+	}
+
+	@Override
+	protected ArrayList<Waypoint> createWayPoints() {
+		ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
+		waypoints .add(new Waypoint(540, 115));
+		waypoints.add(new Waypoint(430, 400));
+		return waypoints;
+	}
+
+	@Override
+	protected ArrayList<Point> createEntryPoints() {
+		return new ArrayList<Point>();
+	}
+
+	@Override
+	protected void configurePlane(Plane p) {
+		//p.ownedByCurrentPlayer = false;
 	}
 
 }

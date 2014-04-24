@@ -3,6 +3,7 @@ package game.struct;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.ListIterator;
 
 public class SingleplayerGame extends Game {
@@ -25,6 +26,43 @@ public class SingleplayerGame extends Game {
 				return;
 			}
 		}
+	}
+
+	@Override
+	protected Airport createAirport() {
+		return new Airport(720, 460, 1180, -320, 230);
+	}
+
+	@Override
+	protected ArrayList<Point> createExitPoints() {
+		ArrayList<Point> exitPoints = new ArrayList<Point>();
+		exitPoints.add(new ExitPoint(1200, 300));
+		exitPoints.add(new ExitPoint(950, 0));
+		return exitPoints;
+	}
+
+	@Override
+	protected ArrayList<Waypoint> createWayPoints() {
+		ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
+		waypoints.add(new Waypoint(1100, 140));
+		waypoints.add(new Waypoint(1150, 330));
+		waypoints.add(new Waypoint(910, 150));
+		waypoints.add(new Waypoint(850, 310));
+		waypoints.add(new Waypoint(700, 200));
+		return waypoints;
+	}
+
+	@Override
+	protected ArrayList<Point> createEntryPoints() {
+		ArrayList<Point> entryPoints = new ArrayList<Point>();
+		entryPoints.add(new EntryPoint(1200, 200));
+		entryPoints.add(new EntryPoint(750, 0));
+		return entryPoints;
+	}
+
+	@Override
+	protected void configurePlane(Plane p) {
+		p.ownedByCurrentPlayer = true;
 	}
 
 }

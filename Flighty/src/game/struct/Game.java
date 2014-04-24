@@ -39,9 +39,9 @@ public abstract class Game {
 	private static final int WINDOW_HEIGHT = 600;
 
 	protected final boolean multiplayer;
-
+	
 	/** Distance from left edge for sidebar so planes don't fly in it */
-	private static int distFromLeftEdge = 0;
+	protected static int distFromLeftEdge = 0;
 
 	/** Array list containing airspace exit points */
 	private ArrayList<Point> listOfExitPoints = new ArrayList<Point>();
@@ -119,6 +119,12 @@ public abstract class Game {
 	private Score score;
 	SecureRandom secureRandom;
 	private Random rand;
+	
+	protected abstract Airport createAirport();
+	protected abstract ArrayList<Point> createExitPoints();
+	protected abstract ArrayList<Waypoint> createWayPoints();
+	protected abstract ArrayList<Point> createEntryPoints();
+	protected abstract void configurePlane(Plane p);
 
 	// Constructors
 
@@ -191,11 +197,7 @@ public abstract class Game {
 		ending = false;
 
 		// Adding the airport into the game
-		if (multiplayer) {
-			airport = new Airport(415, 515, 170, 200, 100);
-		} else {
-			airport = new Airport(720, 460, 1180, -320, 230);
-		}
+		airport = createAirport();
 
 		// Dynamic lists for planes
 		manualPlanes = new ArrayList<Plane>();
@@ -210,25 +212,10 @@ public abstract class Game {
 		listOfEntryPoints.add(airport);
 
 		// Single player extra things
-		if (!multiplayer) {
-			listOfEntryPoints.add(new EntryPoint(1200, 200));
-			listOfEntryPoints.add(new EntryPoint(750, 0));
-
-			listOfWaypoints.add(new Waypoint(1100, 140));
-			listOfWaypoints.add(new Waypoint(1150, 330));
-			listOfWaypoints.add(new Waypoint(910, 150));
-			listOfWaypoints.add(new Waypoint(850, 310));
-			listOfWaypoints.add(new Waypoint(700, 200));
-
-			listOfExitPoints.add(new ExitPoint(1200, 300));
-			listOfExitPoints.add(new ExitPoint(950, 0));
-
-		} else {
-			listOfWaypoints.add(new Waypoint(540, 115));
-			listOfWaypoints.add(new Waypoint(430, 400));
-			listOfExitPoints.add(new ExitPoint(
-					(windowWidth + distFromLeftEdge) / 2, (windowHeight / 2)));
-		}
+		
+		listOfEntryPoints.addAll(createEntryPoints());
+		listOfWaypoints.addAll(createWayPoints());
+		listOfExitPoints.addAll(createExitPoints());
 
 		listOfWaypoints.add(new Waypoint(400, 150));
 		listOfWaypoints.add(new Waypoint(250, 100));
@@ -273,9 +260,7 @@ public abstract class Game {
 
 		newPlane = new Plane(planeCount, generateVelocity(),
 				generateAltitude(), 0, this, rand.nextLong());
-		if (!multiplayer) {
-			newPlane.ownedByCurrentPlayer = true;
-		}
+		configurePlane(newPlane);
 		if (newPlane.getFlightPlan().getEntryPoint() == airport) {
 			configurePlaneForTakeOff(newPlane);
 		}
@@ -297,12 +282,7 @@ public abstract class Game {
 	 *            - a new plane that needs to take off
 	 */
 	public void configurePlaneForTakeOff(Plane newPlane) {
-		if (multiplayer) {
-			newPlane.getFlightPlan().setEntryPoint(new EntryPoint(airport.getEndOfRunwayX(), airport.getRunwayY() + 30));
-		} else { newPlane.getFlightPlan().setEntryPoint(new EntryPoint(airport.getEndOfRunwayX(), airport.getRunwayY() + 30));
-		}
-			
-		
+		newPlane.getFlightPlan().setEntryPoint(new EntryPoint(airport.getEndOfRunwayX(), airport.getRunwayY() + 30));
 
 		newPlane.getFlightPlan().getCurrentRoute()
 				.add(0, airport.getBeginningOfRunway());
