@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ListIterator;
 
 import org.lwjgl.opengl.Display;
@@ -23,7 +24,7 @@ public class MultiplayerGame extends Game {
 	}
 	int state = 0;
 	
-	Protocol protocol = new Protocol("multi.atcga.me", 1025);
+	Protocol protocol = new Protocol("multi.atcga.me", 1025, Arrays.asList((Class)Plane.class));
 	
 	@Override
 	public void removePlane(Plane toDelete) {
