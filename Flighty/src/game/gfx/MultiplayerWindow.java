@@ -675,10 +675,11 @@ public class MultiplayerWindow extends BasicGameState {
 
 		if (!currentGame.isEnding()) {
 			// Display the Game Information
-			if(!currentGame.isMultiplayer()) {
+			if (!currentGame.isMultiplayer()) {
 				graphics.drawString("Time : "
-						+ ((int) time / 1000 / 60 < 10 ? "0" + (int) (time / 1000)
-								/ 60 : (int) (time / 1000) / 60)
+						+ ((int) time / 1000 / 60 < 10 ? "0"
+								+ (int) (time / 1000) / 60
+								: (int) (time / 1000) / 60)
 						+ ":"
 						+ ((int) (this.time / 1000) % 60 < 10 ? "0"
 								+ (int) (time / 1000) % 60
@@ -696,7 +697,7 @@ public class MultiplayerWindow extends BasicGameState {
 			for (Plane plane : currentGame.getCurrentPlanes()) {
 				// Sets to display the number of points gained above the passed
 				// waypoint
-				
+
 				if (plane.getFlightPlan().getCurrentRoute().size() > 1) {
 					if (plane.checkIfFlightAtWaypoint(plane.getFlightPlan()
 							.getCurrentRoute().get(0), currentGame)) {
@@ -724,14 +725,19 @@ public class MultiplayerWindow extends BasicGameState {
 						// If it's a special waypoint, render how many points
 						// were won
 						if (morePoints) {
-							graphics.drawString(
-									"+"
-											+ Integer
-													.toString(getCurrentGame()
-															.getScore()
-															.getMultiplier() * 10),
-									(float) prevX - 8, (float) prevY - 30);
-							morePoints = synch <= 1 ? false : true;
+							if (plane.ownedByCurrentPlayer) {
+								graphics.drawString(
+										"+"
+												+ Integer
+														.toString(getCurrentGame()
+																.getScore()
+																.getMultiplier() * 10),
+										(float) (game.getContainer().getWidth() - (prevX
+												+ sidebarWidth - 8)),
+										(float) (game.getContainer()
+												.getHeight() - prevY - 30));
+								morePoints = synch <= 1 ? false : true;
+							}
 						}
 						// Beginning of runway provides no extra points
 						else if (plane
@@ -801,29 +807,42 @@ public class MultiplayerWindow extends BasicGameState {
 
 				// If plane is within penalty distance, apply alert images
 				if (plane.getAlertStatus()) {
-					if (plane.ownedByCurrentPlayer){
+					if (plane.ownedByCurrentPlayer) {
 						// Separation violation area
-						planeAlert.getScaledCopy(currentGame.getPenaltyDistance(),
+						planeAlert.getScaledCopy(
+								currentGame.getPenaltyDistance(),
 								currentGame.getPenaltyDistance()).drawCentered(
 								(float) plane.getX(), (float) plane.getY());
-	
+
 						// Collision area
 						planeAlertMax.getScaledCopy(
 								currentGame.getSeparationDistance(),
-								currentGame.getSeparationDistance()).drawCentered(
-								(float) plane.getX(), (float) plane.getY());
-					} else { 
-						//Mirrored
+								currentGame.getSeparationDistance())
+								.drawCentered((float) plane.getX(),
+										(float) plane.getY());
+					} else {
+						// Mirrored
 						// Separation violation area
-						planeAlert.getScaledCopy(currentGame.getPenaltyDistance(),
-								currentGame.getPenaltyDistance()).drawCentered(
-								(float) (game.getContainer().getWidth() - (plane.getX() - sidebarWidth)), (float) (game.getContainer().getHeight() - plane.getY()));
-	
+						planeAlert
+								.getScaledCopy(
+										currentGame.getPenaltyDistance(),
+										currentGame.getPenaltyDistance())
+								.drawCentered(
+										(float) (game.getContainer().getWidth() - (plane
+												.getX() - sidebarWidth)),
+										(float) (game.getContainer()
+												.getHeight() - plane.getY()));
+
 						// Collision area
-						planeAlertMax.getScaledCopy(
-								currentGame.getSeparationDistance(),
-								currentGame.getSeparationDistance()).drawCentered(
-								(float) (game.getContainer().getWidth() - (plane.getX() - sidebarWidth)), (float) (game.getContainer().getHeight() - plane.getY()));
+						planeAlertMax
+								.getScaledCopy(
+										currentGame.getSeparationDistance(),
+										currentGame.getSeparationDistance())
+								.drawCentered(
+										(float) (game.getContainer().getWidth() - (plane
+												.getX() - sidebarWidth)),
+										(float) (game.getContainer()
+												.getHeight() - plane.getY()));
 					}
 				}
 
@@ -858,16 +877,20 @@ public class MultiplayerWindow extends BasicGameState {
 					}
 
 					// Render unselected planes
-					if (plane.ownedByCurrentPlayer){
-						this.planeNormalCur
-						.setRotation((float) plane.getBearing() - 90);
+					if (plane.ownedByCurrentPlayer) {
+						this.planeNormalCur.setRotation((float) plane
+								.getBearing() - 90);
 						this.planeNormalCur.drawCentered((float) plane.getX(),
 								(float) plane.getY());
 					} else {
+						this.planeNormalCur.setRotation((float) plane
+								.getBearing() + 90);
 						this.planeNormalCur
-						.setRotation((float) plane.getBearing() + 90);
-						this.planeNormalCur.drawCentered((float) (game.getContainer().getWidth() - (plane.getX() - sidebarWidth)),
-								(float) (game.getContainer().getHeight() - plane.getY()));
+								.drawCentered(
+										(float) (game.getContainer().getWidth() - (plane
+												.getX() - sidebarWidth)),
+										(float) (game.getContainer()
+												.getHeight() - plane.getY()));
 					}
 				}
 
@@ -913,16 +936,23 @@ public class MultiplayerWindow extends BasicGameState {
 							planeNeedsLandingCur = planeNeedsLanding
 									.getScaledCopy(1 + ((((float) (plane
 											.getSize())) - 1) / 5));
-							if (plane.ownedByCurrentPlayer){
+							if (plane.ownedByCurrentPlayer) {
 								planeNeedsLandingCur.setRotation((float) plane
 										.getBearing() - 90);
 								planeNeedsLandingCur.drawCentered(
-										(float) plane.getX(), (float) plane.getY());
-							} else { //mirrored
+										(float) plane.getX(),
+										(float) plane.getY());
+							} else { // mirrored
 								planeNeedsLandingCur.setRotation((float) plane
 										.getBearing() + 90);
-								planeNeedsLandingCur.drawCentered(
-										(float) (game.getContainer().getWidth() - (plane.getX() - sidebarWidth)), (float) (game.getContainer().getHeight() - plane.getY()));
+								planeNeedsLandingCur
+										.drawCentered(
+												(float) (game.getContainer()
+														.getWidth() - (plane
+														.getX() - sidebarWidth)),
+												(float) (game.getContainer()
+														.getHeight() - plane
+														.getY()));
 							}
 						}
 					}
@@ -930,9 +960,18 @@ public class MultiplayerWindow extends BasicGameState {
 
 				// Render plane's altitude. It doesn't render when planes are
 				// landed waiting to take off
-				if (plane.getVelocity() > 0) {
-					graphics.drawString(plane.getAltitude() + " ft",
-							(float) plane.getX(), (float) plane.getY() + 15);
+				if (!plane.getNeedsToTakeOff()) {
+					if (plane.ownedByCurrentPlayer) {
+						graphics.drawString(plane.getAltitude() + " ft",
+								(float) plane.getX(), (float) plane.getY() + 15);
+					} else {
+						graphics.drawString(
+								plane.getAltitude() + " ft",
+								(float) (game.getContainer().getWidth() - (plane
+										.getX() - sidebarWidth)),
+								(float) (game.getContainer().getHeight()
+										- plane.getY() + 15));
+					}
 				}
 
 				/* Render Landing Information above flight */
@@ -941,8 +980,17 @@ public class MultiplayerWindow extends BasicGameState {
 				if (plane.getNeedsToLand()
 						&& !plane.equals(currentGame.getCurrentPlane())
 						&& !currentGame.getAirport().isPlaneLanding()) {
-					graphics.drawString("Land Me!", (float) (plane.getX() - 5),
-							(float) (plane.getY() - 30));
+					if (plane.ownedByCurrentPlayer) {
+						graphics.drawString("Land Me!",
+								(float) (plane.getX() - 5),
+								(float) (plane.getY() - 30));
+					} else {
+						graphics.drawString("Land Me!", (float) (game
+								.getContainer().getWidth()
+								- (plane.getX() - sidebarWidth) + 5),
+								(float) (game.getContainer().getHeight()
+										- plane.getY() - 30));
+					}
 				}
 
 				// If plane needs to land, but there is another plane landing at
@@ -992,7 +1040,17 @@ public class MultiplayerWindow extends BasicGameState {
 				// allowance threshold of sitting landed
 				else if (plane.getNeedsToTakeOff()
 						&& (!currentGame.isTakeOffPenalty())) {
-					graphics.drawString("'T' to Takeoff!", (float) (plane.getX() - 5), (float) (plane.getY() - 30));
+					if (plane.ownedByCurrentPlayer) {
+						graphics.drawString("'T' to Takeoff!",
+								(float) (plane.getX() - 5),
+								(float) (plane.getY() - 30));
+					} else {
+						graphics.drawString("'T' to Takeoff!", (float) (game
+								.getContainer().getWidth()
+								- (plane.getX() - sidebarWidth) - 65),
+								(float) (game.getContainer().getHeight()
+										- plane.getY() - 30));
+					}
 				}
 			}
 
