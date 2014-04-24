@@ -930,13 +930,13 @@ public class MultiplayerWindow extends BasicGameState {
 
 				// Render plane's altitude. It doesn't render when planes are
 				// landed waiting to take off
-				if (plane.getVelocity() > 0) {
+				if (!plane.getNeedsToTakeOff()) {
 					graphics.drawString(plane.getAltitude() + " ft",
 							(float) plane.getX(), (float) plane.getY() + 15);
 				}
 
 				/* Render Landing Information above flight */
-
+				
 				// If plane needs to land and is not selected
 				if (plane.getNeedsToLand()
 						&& !plane.equals(currentGame.getCurrentPlane())
@@ -992,7 +992,11 @@ public class MultiplayerWindow extends BasicGameState {
 				// allowance threshold of sitting landed
 				else if (plane.getNeedsToTakeOff()
 						&& (!currentGame.isTakeOffPenalty())) {
-					graphics.drawString("'T' to Takeoff!", (float) (plane.getX() - 5), (float) (plane.getY() - 30));
+					if (plane.ownedByCurrentPlayer){
+						graphics.drawString("'T' to Takeoff!", (float) (plane.getX() - 5), (float) (plane.getY() - 30));
+					}else {
+						graphics.drawString("'T' to Takeoff!", (float) (game.getContainer().getWidth() + sidebarWidth/2 - (plane.getX() - 5)), (float) (game.getContainer().getHeight() - (plane.getY() - 30)));
+					}
 				}
 			}
 
