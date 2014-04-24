@@ -672,16 +672,6 @@ public class MultiplayerWindow extends BasicGameState {
 
 		if (!currentGame.isEnding()) {
 			// Display the Game Information
-			if (!currentGame.isMultiplayer()) {
-				graphics.drawString("Time : "
-						+ ((int) time / 1000 / 60 < 10 ? "0"
-								+ (int) (time / 1000) / 60
-								: (int) (time / 1000) / 60)
-						+ ":"
-						+ ((int) (this.time / 1000) % 60 < 10 ? "0"
-								+ (int) (time / 1000) % 60
-								: (int) (time / 1000) % 60), 1050, 15);
-			}
 			graphics.drawString(
 					"Score : " + ((int) (currentGame.getScore().getScore()))
 							+ " pts", 1050, 15);

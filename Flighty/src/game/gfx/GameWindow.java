@@ -487,7 +487,7 @@ public class GameWindow extends BasicGameState {
 		if (!this.currentGame.isEnding()) {
 
 			// Display the Game Information
-			if(!currentGame.isMultiplayer()) {
+			
 				g.drawString("Time : "
 						+ ((int) this.time / 1000 / 60 < 10 ? "0"
 								+ (int) (this.time / 1000) / 60
@@ -496,7 +496,7 @@ public class GameWindow extends BasicGameState {
 						+ ((int) (this.time / 1000) % 60 < 10 ? "0"
 								+ (int) (this.time / 1000) % 60
 								: (int) (this.time / 1000) % 60), 1050, 15);
-			}
+
 			g.drawString(
 					"Score : "
 							+ ((int) (this.currentGame.getScore().getScore()))

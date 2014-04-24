@@ -19,13 +19,23 @@ public class MultiplayerGame extends Game {
 	
 	
 	private class MultiplayerPlane extends Game.Plane {
+
+		@Override
+		public boolean allowedToLand() {
+			return (!currentGame.getAirport().isPlaneLanding()
+					&& currentGame.getAirport().getLandingApproachArea()
+					.contains((float) getX(), (float) getY())
+			&& ((true && ((getBearing() >= takeoffAngleHighMulti && getBearing() <= 359)
+					|| (getBearing() <= takeoffAngleLowMulti && getBearing() >= 0))))
+			&& getAltitude() <= 2000);
+		}
 		
 	}
 
 	public MultiplayerGame(int newSeparationDistance, int newPenaltyDistance,
 			int distFromLeft) throws NoSuchAlgorithmException,
 			UnknownHostException, IOException {
-		super(newSeparationDistance, newPenaltyDistance, distFromLeft, true);
+		super(newSeparationDistance, newPenaltyDistance, distFromLeft);
 		protocol.putMessage(new Message.ClientServer.BeginMM());
 	}
 	int state = 0;

@@ -37,8 +37,6 @@ public abstract class Game {
 
 	/** The window height */
 	private static final int WINDOW_HEIGHT = 600;
-
-	protected final boolean multiplayer;
 	
 	/** Distance from left edge for sidebar so planes don't fly in it */
 	protected static int distFromLeftEdge = 0;
@@ -144,9 +142,8 @@ public abstract class Game {
 
 
 	protected Game(int newSeparationDistance, int newPenaltyDistance,
-			int distFromLeft, boolean multiplayer_) throws NoSuchAlgorithmException,
+			int distFromLeft) throws NoSuchAlgorithmException,
 			UnknownHostException, IOException {
-		this.multiplayer = multiplayer_;
 		secureRandom = SecureRandom.getInstance("SHA1PRNG");
 		ByteBuffer b = ByteBuffer.allocate(8).put(secureRandom.generateSeed(8));
 		b.rewind();
@@ -562,7 +559,7 @@ public abstract class Game {
 			// Action on 'L' Key
 			if (gameContainer.getInput().isKeyPressed(38)) {
 				if (currentPlane.getNeedsToLand()) {
-					currentPlane.land(multiplayer);
+					currentPlane.land();
 				}
 			}
 
@@ -1021,10 +1018,6 @@ public abstract class Game {
 
 	public void setPlaneCount(int newPlaneCount) {
 		planeCount = newPlaneCount;
-	}
-	
-	public boolean isMultiplayer() {
-		return this.multiplayer;
 	}
 	
 	

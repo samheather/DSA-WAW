@@ -5,10 +5,10 @@ package game.struct;
  */
 public abstract class AbstractPlane {
 
-	private int takeoffAngleHighMulti = 345;
-	private int takeoffAngleLowMulti = 15;
-	private int takeoffAngleHighSingle = 225;
-	private int takeoffAngleLowSingle = 135;
+	protected int takeoffAngleHighMulti = 345;
+	protected int takeoffAngleLowMulti = 15;
+	protected int takeoffAngleHighSingle = 225;
+	protected int takeoffAngleLowSingle = 135;
 	
 
 
@@ -376,6 +376,9 @@ public abstract class AbstractPlane {
 
 		return rate;
 	}
+	
+	
+	public abstract boolean allowedToLand();
 
 	/**
 	 * First checks that another plane is not landing, then checks whether plane
@@ -383,15 +386,8 @@ public abstract class AbstractPlane {
 	 * plane's current bearing is such that the plane is facing the runway. If
 	 * all these conditions are met, the plane begins to land.
 	 */
-	public void land(boolean multiplayer) {
-		if (!currentGame.getAirport().isPlaneLanding()
-				&& currentGame.getAirport().getLandingApproachArea()
-						.contains((float) getX(), (float) getY())
-				&& ((multiplayer && ((getBearing() >= takeoffAngleHighMulti && getBearing() <= 359)
-						|| (getBearing() <= takeoffAngleLowMulti && getBearing() >= 0)))
-						||(!multiplayer && ((getBearing() <= takeoffAngleHighSingle)
-								|| (getBearing() >= takeoffAngleLowSingle))))
-				&& getAltitude() <= 2000) {
+	public void land() {
+		if (allowedToLand()) {
 			currentGame.getAirport().setPlaneLanding(true);
 
 			setNeedsToLand(false);

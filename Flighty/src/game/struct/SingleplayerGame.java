@@ -10,6 +10,16 @@ import java.util.ListIterator;
 public class SingleplayerGame extends Game {
 
 	private class SingleplayerPlane extends Game.Plane {
+
+		@Override
+		public boolean allowedToLand() {
+			return (!currentGame.getAirport().isPlaneLanding()
+					&& currentGame.getAirport().getLandingApproachArea()
+					.contains((float) getX(), (float) getY())
+			&& ((!false && ((getBearing() <= takeoffAngleHighSingle)
+							|| (getBearing() >= takeoffAngleLowSingle))))
+			&& getAltitude() <= 2000);
+		}
 		
 	}
 	
@@ -31,8 +41,7 @@ public class SingleplayerGame extends Game {
 	public SingleplayerGame(int newSeparationDistance, int newPenaltyDistance,
 			int distFromLeft)
 			throws NoSuchAlgorithmException, UnknownHostException, IOException {
-		super(newSeparationDistance, newPenaltyDistance, distFromLeft,
-				false);
+		super(newSeparationDistance, newPenaltyDistance, distFromLeft);
 		System.out.println("singlep game constructed");
 		// TODO Auto-generated constructor stub
 	}
