@@ -102,7 +102,7 @@ public class MultiplayerGame extends Game {
 			super.update(gameContainer, game);
 			ListIterator<MultiplayerPlane> i = multiplayerPlanes.listIterator();
 			while (i.hasNext()) {
-				AbstractPlane plane = i.next();
+				MultiplayerPlane plane = i.next();
 				if (plane.needsSyncing()) {
 					//plane.ownedByCurrentPlayer = true;
 					protocol.putMessage(new Message.ClientClient.CCObject(plane));
