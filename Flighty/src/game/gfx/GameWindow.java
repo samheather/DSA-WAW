@@ -1,7 +1,6 @@
 package game.gfx;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.openal.AL;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -11,26 +10,24 @@ import org.newdawn.slick.Music;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.TextField;
+
 
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import javax.swing.JTextField; 
 
 import game.struct.Airport;
 import game.struct.Game;
 import game.struct.Plane;
 import game.struct.SaveFile;
 import game.struct.SingleplayerGame;
-import game.gfx.LeaderBoard;
 
 /**
  * GameWindow class provides an interactive game
@@ -170,6 +167,7 @@ public class GameWindow extends BasicGameState {
 
 	/** The shaded arrow icon */
 	private Image arrowIconShaded;
+	
 	/**
 	 * Give heading via cursor
 	 * 
@@ -982,7 +980,8 @@ public class GameWindow extends BasicGameState {
 
 		/* Setting up the game over screen */
 		// If the planes collided
-		if (this.currentGame.isCollision()) {
+		if(true){
+		//if (this.currentGame.isCollision()) {
 			// If the game is ending
 			if (this.currentGame.isEnding()) {
 				// Draw the two collided planes rotated a bit so it looks like a
@@ -1057,7 +1056,8 @@ public class GameWindow extends BasicGameState {
 				
 				// Manages leaderboard entries if score is high enough
 				
-				if (WindowManager.leaderBoard.leaderboardEntries[4].getScore() < this.currentGame.getScore().getScore()){
+				//if (WindowManager.leaderBoard.leaderboardEntries[4].getScore() < this.currentGame.getScore().getScore()){
+				if(true){
 					
 	
 					// initializes text box
@@ -1066,12 +1066,12 @@ public class GameWindow extends BasicGameState {
 						textBox.setBorderColor(Color.black);
 						textBox.setBackgroundColor(Color.white);
 						textBox.setTextColor(Color.orange);
-						textBox.setConsumeEvents(true);
+						//textBox.setConsumeEvents(true);
 						textBox.setAcceptingInput(true);
 						textBox.setMaxLength(30);
 						isTextBoxIni = true;
-
 						WindowManager.leaderBoard.isConnected();
+					
 						
 					}
 					
@@ -1082,8 +1082,8 @@ public class GameWindow extends BasicGameState {
 						
 						new TrueTypeFont(this.fontPrimitive.deriveFont(25f),true)
 						.drawString(300f, 300f, "Enter your name to the leaderboard");
-					
-						textBox.render(currentGameContainer, g);
+						
+							textBox.render(currentGameContainer, g);
 					
 						if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
 							saveFile.addLeaderboardScore(textBox.getText(), currentGame.getScore().getScore());
@@ -1092,7 +1092,7 @@ public class GameWindow extends BasicGameState {
 						
 					}
 				}else{ new TrueTypeFont(this.fontPrimitive.deriveFont(25f),true)
-				.drawString(300f, 300f, "No internet connection");}
+				.drawString(305f, 300f, "No internet connection");}
 			}
 			}
 
