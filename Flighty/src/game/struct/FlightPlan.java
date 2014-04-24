@@ -13,7 +13,7 @@ public class FlightPlan {
 	private ArrayList<Point> currentRoute = new ArrayList<Point>();
 
 	/** Plane for which flight plan is generated */
-	private Plane plane;
+	private AbstractPlane plane;
 
 	/** Entry point i.e. first waypoint of flight plan */
 	private Point entryPoint;
@@ -31,7 +31,7 @@ public class FlightPlan {
 	 * @param plane
 	 *            Plane for which flight plan is generated
 	 */
-	public FlightPlan(Game currentGame, Plane plane) {
+	public FlightPlan(Game currentGame, AbstractPlane plane) {
 		this.plane = plane;
 		this.currentGame = currentGame;
 		this.entryPoint = generateEntryPoint(currentGame);
@@ -161,7 +161,7 @@ public class FlightPlan {
 	 * 
 	 * @return Selected plane
 	 */
-	public Plane getPlane() {
+	public AbstractPlane getPlane() {
 		return plane;
 	}
 
@@ -170,7 +170,7 @@ public class FlightPlan {
 	 * @param plane
 	 *            Plane to set
 	 */
-	public void setPlane(Plane plane) {
+	public void setPlane(AbstractPlane plane) {
 		this.plane = plane;
 	}
 

@@ -100,13 +100,13 @@ public abstract class Game {
 	private int spawnCount;
 
 	/** A list of planes under manual control */
-	private ArrayList<Plane> manualPlanes;
+	private ArrayList<AbstractPlane> manualPlanes;
 
 	/** A list of planes which are colliding */
-	private ArrayList<Plane> collidedPlanes;
+	private ArrayList<AbstractPlane> collidedPlanes;
 
 	/** The plane currently being controlled by the player */
-	protected Plane currentPlane;
+	protected AbstractPlane currentPlane;
 
 	/** Holds number of planes currently in the airspace */
 	private int planeCount;
@@ -123,8 +123,8 @@ public abstract class Game {
 	protected abstract ArrayList<Point> createExitPoints();
 	protected abstract ArrayList<Waypoint> createWayPoints();
 	protected abstract ArrayList<Point> createEntryPoints();
-	protected abstract void configurePlane(Plane p);
-	protected abstract void planeUpdate(Plane p);
+	protected abstract void configurePlane(AbstractPlane p);
+	protected abstract void planeUpdate(AbstractPlane p);
 
 	// Constructors
 
@@ -200,8 +200,8 @@ public abstract class Game {
 		airport = createAirport();
 
 		// Dynamic lists for planes
-		manualPlanes = new ArrayList<Plane>();
-		collidedPlanes = new ArrayList<Plane>();
+		manualPlanes = new ArrayList<AbstractPlane>();
+		collidedPlanes = new ArrayList<AbstractPlane>();
 
 		// Airspace is empty at startup
 		currentPlane = null;
@@ -232,8 +232,8 @@ public abstract class Game {
 	
 	
 	
-	protected abstract class ConcretePlane extends Plane {
-		protected ConcretePlane() {
+	protected abstract class Plane extends AbstractPlane {
+		protected Plane() {
 			super(planeCount, generateVelocity(),
 					generateAltitude(), 0, Game.this, rand.nextLong());
 		}
@@ -265,7 +265,7 @@ public abstract class Game {
 	 * @return plane's ID
 	 */
 	public void createPlane() {
-		Plane newPlane;
+		AbstractPlane newPlane;
 		setPlaneCount(getPlaneCount() + 1);
 
 		newPlane = constructPlane();
@@ -278,7 +278,7 @@ public abstract class Game {
 		newPlane.setBearing(newPlane.getTargetBearing());
 	}
 	
-	protected abstract Plane constructPlane();
+	protected abstract AbstractPlane constructPlane();
 
 	/**
 	 * Configure plane to take off properly
@@ -289,7 +289,7 @@ public abstract class Game {
 	 * @param newPlane
 	 *            - a new plane that needs to take off
 	 */
-	public void configurePlaneForTakeOff(Plane newPlane) {
+	public void configurePlaneForTakeOff(AbstractPlane newPlane) {
 		newPlane.getFlightPlan().setEntryPoint(new EntryPoint(airport.getEndOfRunwayX(), airport.getRunwayY() + 30));
 
 		newPlane.getFlightPlan().getCurrentRoute()
@@ -369,8 +369,8 @@ public abstract class Game {
 	 *            the ID of the plane to find
 	 * @return plane specified by id
 	 */
-	public Plane getPlaneFromID(int ID) {
-		for (Plane plane : getCurrentPlanes()) {
+	public AbstractPlane getPlaneFromID(int ID) {
+		for (AbstractPlane plane : getCurrentPlanes()) {
 			if (plane.getID() == ID) {
 				return plane;
 			}
@@ -404,12 +404,12 @@ public abstract class Game {
 	 * @return <code>true</code> if the plane is colliding, <code>false</code>
 	 *         otherwise
 	 */
-	public boolean collision(Plane planeI) {
+	public boolean collision(AbstractPlane planeI) {
 		return collisionHelper(planeI)[0];
 	}
 
 	/**
-	 * Helper method for {@link #collision(Plane)}
+	 * Helper method for {@link #collision(AbstractPlane)}
 	 * <p>
 	 * Tests whether planes are within either the penalty or separation
 	 * distance, and marks the plane as such
@@ -424,7 +424,7 @@ public abstract class Game {
 	 * @return an array of size 2, with the 0th element set if the plane is
 	 *         colliding, and the 1th element set if the plane is alerting
 	 */
-	public boolean[] collisionHelper(Plane plane1) {
+	public boolean[] collisionHelper(AbstractPlane plane1) {
 		// Squared distance between 2 planes
 		double distIJSqr;
 		boolean risk = false;
@@ -434,7 +434,7 @@ public abstract class Game {
 		boolean[] result = new boolean[] { false, false };
 
 		// Loops through all the planes
-		for (Plane plane2 : getCurrentPlanes()) {
+		for (AbstractPlane plane2 : getCurrentPlanes()) {
 			if (!plane1.ownedByCurrentPlayer){
 				break;
 			}
@@ -472,7 +472,7 @@ public abstract class Game {
 		plane1.setAlertStatus(risk);
 		result[1] = risk;
 
-		for (Plane p : getCurrentPlanes()) {
+		for (AbstractPlane p : getCurrentPlanes()) {
 			if (p.getAlertStatus()) {
 				// Removes the penalty temporary so the user doesn't get
 				// penalised for the same violation
@@ -492,7 +492,7 @@ public abstract class Game {
 	 * @param plane
 	 *            the plane to remove from manual control
 	 */
-	public void removeFromManual(Plane plane) {
+	public void removeFromManual(AbstractPlane plane) {
 		// Loop while there is at last a plane in the manual control
 		while (manualPlanes.contains(plane)) {
 			// and remove it
@@ -512,7 +512,7 @@ public abstract class Game {
 	 * @param plane
 	 *            The plane to be deleted from manual
 	 */
-	public void deleteFromManual(Plane plane) {
+	public void deleteFromManual(AbstractPlane plane) {
 		while (manualPlanes.contains(plane)) {
 			manualPlanes.remove(plane);
 		}
@@ -625,7 +625,7 @@ public abstract class Game {
 		}
 		
 		// Update planes
-		for (Plane plane : getCurrentPlanes()) {
+		for (AbstractPlane plane : getCurrentPlanes()) {
 			// Check if the plane is still in the game area
 			
 			
@@ -878,7 +878,7 @@ public abstract class Game {
 	/**
 	 * @return manualPlanes
 	 */
-	public ArrayList<Plane> getManualPlanes() {
+	public ArrayList<AbstractPlane> getManualPlanes() {
 		return manualPlanes;
 	}
 
@@ -886,14 +886,14 @@ public abstract class Game {
 	 * @param manualPlanes
 	 *            Array list which manual planes is to be changed to
 	 */
-	public void setManualPlanes(ArrayList<Plane> newManualPlanes) {
+	public void setManualPlanes(ArrayList<AbstractPlane> newManualPlanes) {
 		manualPlanes = newManualPlanes;
 	}
 
 	/**
 	 * @return collidedPlanes
 	 */
-	public ArrayList<Plane> getCollidedPlanes() {
+	public ArrayList<AbstractPlane> getCollidedPlanes() {
 		return collidedPlanes;
 	}
 
@@ -901,14 +901,14 @@ public abstract class Game {
 	 * @param collidedPlanes
 	 *            Array list which collidedPlanes is to be changed to
 	 */
-	public void setCollidedPlanes(ArrayList<Plane> newCollidedPlanes) {
+	public void setCollidedPlanes(ArrayList<AbstractPlane> newCollidedPlanes) {
 		collidedPlanes = newCollidedPlanes;
 	}
 
 	/**
 	 * @return currentPlane
 	 */
-	public Plane getCurrentPlane() {
+	public AbstractPlane getCurrentPlane() {
 		return currentPlane;
 	}
 
@@ -916,7 +916,7 @@ public abstract class Game {
 	 * @param currentPlane
 	 *            Plane which currentPlane is to be changed to
 	 */
-	public void setCurrentPlane(Plane newCurrentPlane) {
+	public void setCurrentPlane(AbstractPlane newCurrentPlane) {
 		currentPlane = newCurrentPlane;
 	}
 
@@ -930,7 +930,7 @@ public abstract class Game {
 	/**
 	 * @return list of planes attached to the game
 	 */
-	public abstract List<? extends Plane> getCurrentPlanes();
+	public abstract List<? extends AbstractPlane> getCurrentPlanes();
 
 	/**
 	 * @return a reference to the current game window
@@ -1039,6 +1039,6 @@ public abstract class Game {
 	 * @param toDelete
 	 *            the plane to remove
 	 */
-	public abstract void removePlane(Plane toDelete);
+	public abstract void removePlane(AbstractPlane toDelete);
 
 }

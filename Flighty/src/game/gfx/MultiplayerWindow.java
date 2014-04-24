@@ -26,7 +26,7 @@ import game.network.Protocol;
 import game.struct.Airport;
 import game.struct.Game;
 import game.struct.MultiplayerGame;
-import game.struct.Plane;
+import game.struct.AbstractPlane;
 
 /**
  * GameWindow class provides an interactive game
@@ -166,7 +166,7 @@ public class MultiplayerWindow extends BasicGameState {
 	 * @param y
 	 *            - the y coordinate of the cursor
 	 */
-	public void giveHeadingThroughMouse(Plane currentPlane, int x, int y) {
+	public void giveHeadingThroughMouse(AbstractPlane currentPlane, int x, int y) {
 		currentGame.getCurrentPlane().setTurningLeft(false);
 		currentGame.getCurrentPlane().setTurningRight(false);
 
@@ -198,8 +198,8 @@ public class MultiplayerWindow extends BasicGameState {
 	 *            - y coordinate of the cursor
 	 * @return - returns selected plane if any
 	 */
-	public Plane selectFlight(int x, int y) {
-		Plane nearestPlane;
+	public AbstractPlane selectFlight(int x, int y) {
+		AbstractPlane nearestPlane;
 
 		// Distance from where the user clicked to the nearest plane
 		double distanceToPlane;
@@ -694,7 +694,7 @@ public class MultiplayerWindow extends BasicGameState {
 					1050, 35);
 
 			// Loop through all the planes
-			for (Plane plane : currentGame.getCurrentPlanes()) {
+			for (AbstractPlane plane : currentGame.getCurrentPlanes()) {
 				// Sets to display the number of points gained above the passed
 				// waypoint
 
@@ -1208,7 +1208,7 @@ public class MultiplayerWindow extends BasicGameState {
 			if (currentGame.isEnding()) {
 				// Draw the two collided planes rotated a bit so it looks like a
 				// crash
-				for (Plane plane : currentGame.getCollidedPlanes()) {
+				for (AbstractPlane plane : currentGame.getCollidedPlanes()) {
 					planeNormal.setRotation((float) Math.toDegrees(plane
 							.getBearing()) - 90);
 					planeNormal
@@ -1295,7 +1295,7 @@ public class MultiplayerWindow extends BasicGameState {
 
 			// Select plane by left clicking
 			if (button == 0) {
-				Plane clickedPlane = selectFlight(x, y);
+				AbstractPlane clickedPlane = selectFlight(x, y);
 				System.out.println(clickedPlane);
 				if (clickedPlane != null && clickedPlane.ownedByCurrentPlayer) {
 					// If there is no plane where the user click, deselect the
@@ -1377,8 +1377,8 @@ public class MultiplayerWindow extends BasicGameState {
 		currentGame.setCollision(true);
 		currentGame.setEnding(true);
 
-		currentGame.setManualPlanes(new ArrayList<Plane>());
-		currentGame.setCollidedPlanes(new ArrayList<Plane>());
+		currentGame.setManualPlanes(new ArrayList<AbstractPlane>());
+		currentGame.setCollidedPlanes(new ArrayList<AbstractPlane>());
 
 		currentGame.setCurrentPlane(null);
 

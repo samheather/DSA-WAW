@@ -10,19 +10,19 @@ import java.util.ListIterator;
 
 public class SingleplayerGame extends Game {
 
-	private class SingleplayerPlane extends Game.ConcretePlane {
+	private class SingleplayerPlane extends Game.Plane {
 		
 	}
 	
 	private ArrayList<SingleplayerPlane> singleplayerPlanes = new ArrayList<SingleplayerPlane>();
 	
 	@Override
-	public List<? extends Plane> getCurrentPlanes() {
+	public List<? extends AbstractPlane> getCurrentPlanes() {
 		return singleplayerPlanes;
 	}
 
 	@Override
-	protected Plane constructPlane() {
+	protected AbstractPlane constructPlane() {
 		SingleplayerPlane p = new SingleplayerPlane();
 		singleplayerPlanes.add(p);
 		return p;
@@ -39,7 +39,7 @@ public class SingleplayerGame extends Game {
 	}
 	
 	@Override
-	public void removePlane(Plane toDelete) {
+	public void removePlane(AbstractPlane toDelete) {
 		for (ListIterator<SingleplayerPlane> iter = singleplayerPlanes
 				.listIterator(singleplayerPlanes.size()); iter.hasPrevious();) {
 			if (toDelete.equals(iter.previous())) {
@@ -82,12 +82,12 @@ public class SingleplayerGame extends Game {
 	}
 
 	@Override
-	protected void configurePlane(Plane p) {
+	protected void configurePlane(AbstractPlane p) {
 		p.ownedByCurrentPlayer = true;
 	}
 
 	@Override
-	protected void planeUpdate(Plane plane) {
+	protected void planeUpdate(AbstractPlane plane) {
 		if ((plane.getX() > windowWidth)
 				|| (plane.getX() < distFromLeftEdge)
 				|| (plane.getY() > windowHeight) || (plane.getY() < 0)) {

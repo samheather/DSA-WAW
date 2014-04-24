@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 import game.struct.Airport;
 import game.struct.Game;
-import game.struct.Plane;
+import game.struct.AbstractPlane;
 import game.struct.SaveFile;
 import game.struct.SingleplayerGame;
 import game.gfx.LeaderBoard;
@@ -180,7 +180,7 @@ public class GameWindow extends BasicGameState {
 	 * @param y
 	 *            - the y coordinate of the cursor
 	 */
-	public void giveHeadingThroughMouse(Plane currentPlane, int x, int y) {
+	public void giveHeadingThroughMouse(AbstractPlane currentPlane, int x, int y) {
 		this.currentGame.getCurrentPlane().setTurningLeft(false);
 		this.currentGame.getCurrentPlane().setTurningRight(false);
 
@@ -212,8 +212,8 @@ public class GameWindow extends BasicGameState {
 	 *            - y coordinate of the cursor
 	 * @return - returns selected plane if any
 	 */
-	public Plane selectFlight(int x, int y) {
-		Plane nearestPlane;
+	public AbstractPlane selectFlight(int x, int y) {
+		AbstractPlane nearestPlane;
 
 		// Distance from where the user clicked to the nearest plane
 		double distanceToPlane;
@@ -513,7 +513,7 @@ public class GameWindow extends BasicGameState {
 			g.drawString("Pause/Controls: P ", 1050, 75);
 
 			// Loop through all the planes
-			for (Plane plane : this.currentGame.getCurrentPlanes()) {
+			for (AbstractPlane plane : this.currentGame.getCurrentPlanes()) {
 				// Sets to display the number of points gained above the passed
 				// waypoint
 				if (plane.getFlightPlan().getCurrentRoute().size() > 1) {
@@ -987,7 +987,7 @@ public class GameWindow extends BasicGameState {
 			if (this.currentGame.isEnding()) {
 				// Draw the two collided planes rotated a bit so it looks like a
 				// crash
-				for (Plane plane : this.currentGame.getCollidedPlanes()) {
+				for (AbstractPlane plane : this.currentGame.getCollidedPlanes()) {
 					this.planeNormal.setRotation((float) Math.toDegrees(plane
 							.getBearing()) - 90);
 					this.planeNormal.draw((float) plane.getX(),
@@ -1196,7 +1196,7 @@ public class GameWindow extends BasicGameState {
 		if (!this.currentGame.isEnding()) {
 			// Select plane by left clicking
 			if (button == 0) {
-				Plane clickedPlane;
+				AbstractPlane clickedPlane;
 				clickedPlane = this.selectFlight(x, y);
 
 				// If there is no plane where the user click, deselect the
@@ -1292,8 +1292,8 @@ public class GameWindow extends BasicGameState {
 		this.currentGame.setCollision(true);
 		this.currentGame.setEnding(true);
 
-		this.currentGame.setManualPlanes(new ArrayList<Plane>());
-		this.currentGame.setCollidedPlanes(new ArrayList<Plane>());
+		this.currentGame.setManualPlanes(new ArrayList<AbstractPlane>());
+		this.currentGame.setCollidedPlanes(new ArrayList<AbstractPlane>());
 
 		this.currentGame.setCurrentPlane(null);
 

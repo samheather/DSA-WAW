@@ -1,7 +1,7 @@
 
 package game.network;
 
-import game.struct.Plane;
+import game.struct.AbstractPlane;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;

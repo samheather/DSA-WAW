@@ -46,7 +46,7 @@ public class Score {
 	 * @param currentGame
 	 *            Used to gain access to airport attributes
 	 */
-	public void addScore(Plane plane, Game currentGame) {
+	public void addScore(AbstractPlane plane, Game currentGame) {
 		if (!plane.getFlightPlan().getCurrentRoute().isEmpty()) {
 			if (plane.getFlightPlan().getCurrentRoute().get(0) == currentGame
 					.getAirport().getEndOfRunway()) {
@@ -94,7 +94,7 @@ public class Score {
 	 * @param plane
 	 *            Plane which is currently being checked
 	 */
-	public void planePilotedPerfectlyMultiplierBonus(Plane plane) {
+	public void planePilotedPerfectlyMultiplierBonus(AbstractPlane plane) {
 		multiplier = (plane.getViolationOccurred() == false && multiplier < 20) ? (multiplier + 1)
 				: multiplier;
 	}

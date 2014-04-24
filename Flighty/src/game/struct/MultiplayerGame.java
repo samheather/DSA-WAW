@@ -19,7 +19,7 @@ import game.network.*;
 public class MultiplayerGame extends Game {
 	
 	
-	private class MultiplayerPlane extends Game.ConcretePlane {
+	private class MultiplayerPlane extends Game.Plane {
 		
 	}
 
@@ -37,7 +37,7 @@ public class MultiplayerGame extends Game {
 	Protocol protocol = new Protocol("multi.atcga.me", 1025, Arrays.asList((Class)MultiplayerPlane.class));
 	
 	@Override
-	public void removePlane(Plane toDelete) {
+	public void removePlane(AbstractPlane toDelete) {
 		toDelete.markForDeletion();
 	}
 	
@@ -81,7 +81,7 @@ public class MultiplayerGame extends Game {
 					p.ownedByCurrentPlayer = !p.ownedByCurrentPlayer;
 					ListIterator<MultiplayerPlane> i = multiplayerPlanes.listIterator();
 					while (i.hasNext()) {
-						Plane p2 = i.next();
+						AbstractPlane p2 = i.next();
 						if (p2.getUniqueNetworkObjectID() == p
 								.getUniqueNetworkObjectID()) {
 							//p.ownedByCurrentPlayer = false;
@@ -105,7 +105,7 @@ public class MultiplayerGame extends Game {
 			super.update(gameContainer, game);
 			ListIterator<MultiplayerPlane> i = multiplayerPlanes.listIterator();
 			while (i.hasNext()) {
-				Plane plane = i.next();
+				AbstractPlane plane = i.next();
 				if (plane.needsSyncing()) {
 					//plane.ownedByCurrentPlayer = true;
 					protocol.putMessage(new Message.ClientClient.CCObject(plane));
@@ -145,12 +145,12 @@ public class MultiplayerGame extends Game {
 	}
 
 	@Override
-	protected void configurePlane(Plane p) {
+	protected void configurePlane(AbstractPlane p) {
 		//p.ownedByCurrentPlayer = false;
 	}
 
 	@Override
-	protected void planeUpdate(Plane plane) {
+	protected void planeUpdate(AbstractPlane plane) {
 		if ((plane.getX() < distFromLeftEdge)
 				|| (plane.getY() > windowHeight) || (plane.getY() < 0)) {
 			// Updates score if plane in game area
@@ -188,12 +188,12 @@ public class MultiplayerGame extends Game {
 	}
 
 	@Override
-	public List<? extends Plane> getCurrentPlanes() {
+	public List<? extends AbstractPlane> getCurrentPlanes() {
 		return multiplayerPlanes;
 	}
 
 	@Override
-	protected Plane constructPlane() {
+	protected AbstractPlane constructPlane() {
 		MultiplayerPlane p = new MultiplayerPlane();
 		multiplayerPlanes.add(p);
 		return p;
