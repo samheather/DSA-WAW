@@ -1,7 +1,5 @@
 package game.struct;
 
-import java.nio.ByteBuffer;
-
 public class Point {
 
 

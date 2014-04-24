@@ -1,7 +1,6 @@
 package game.gfx;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.openal.AL;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -11,17 +10,14 @@ import org.newdawn.slick.Music;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.TextField;
 
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
@@ -30,7 +26,6 @@ import game.struct.Game;
 import game.struct.AbstractPlane;
 import game.struct.SaveFile;
 import game.struct.SingleplayerGame;
-import game.gfx.LeaderBoard;
 
 /**
  * GameWindow class provides an interactive game
@@ -1078,7 +1073,7 @@ public class GameWindow extends BasicGameState {
 					
 					
 					//creates a text box to enter your name:
-					if(WindowManager.leaderBoard.connected){
+					if(LeaderBoard.connected){
 						
 						new TrueTypeFont(this.fontPrimitive.deriveFont(25f),true)
 						.drawString(300f, 300f, "Enter your name to the leaderboard");

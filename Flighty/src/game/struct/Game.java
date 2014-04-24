@@ -8,9 +8,7 @@ import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Random;
 
 
@@ -290,15 +288,15 @@ public abstract class Game {
 	 *            - a new plane that needs to take off
 	 */
 	public void configurePlaneForTakeOff(AbstractPlane newPlane) {
-		newPlane.getFlightPlan().setEntryPoint(new EntryPoint(airport.getEndOfRunwayX(), airport.getRunwayY() + 30));
+		newPlane.getFlightPlan().setEntryPoint(new EntryPoint(Airport.getEndOfRunwayX(), Airport.getRunwayY() + 30));
 
 		newPlane.getFlightPlan().getCurrentRoute()
 				.add(0, airport.getBeginningOfRunway());
 		newPlane.getFlightPlan().getCurrentRoute()
 				.add(0, airport.getEndOfRunway());
 
-		newPlane.setX(airport.getEndOfRunwayX());
-		newPlane.setY(airport.getRunwayY() + 30);
+		newPlane.setX(Airport.getEndOfRunwayX());
+		newPlane.setY(Airport.getRunwayY() + 30);
 
 		newPlane.setTarget(newPlane.getFlightPlan().getCurrentRoute().get(0));
 		newPlane.setVelocity(0);

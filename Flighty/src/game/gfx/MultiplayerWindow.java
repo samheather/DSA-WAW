@@ -1,6 +1,5 @@
 package game.gfx;
 
-import org.lwjgl.opengl.Display;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -21,8 +20,6 @@ import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-import game.network.Message;
-import game.network.Protocol;
 import game.struct.Airport;
 import game.struct.Game;
 import game.struct.MultiplayerGame;
