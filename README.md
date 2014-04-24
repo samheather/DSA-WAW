@@ -1,9 +1,11 @@
-WAW-SEPR-Flighty
+DSA-WAW SEPR-Plane Chaos
 ================
 
-Team WAW Repo 
+Team DSA Repo 
+
+Mystical, magical ATC game by SEPR team DSA
 
 Website
 ---------
 
-http://teamwaw.co.uk/
+http://atcga.me/
