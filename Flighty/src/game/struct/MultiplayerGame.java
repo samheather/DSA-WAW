@@ -18,19 +18,7 @@ import game.network.*;
 public class MultiplayerGame extends Game {
 	
 	
-	private class MultiplayerPlane extends Game.Plane {
 
-		@Override
-		public boolean allowedToLand() {
-			return (!currentGame.getAirport().isPlaneLanding()
-					&& currentGame.getAirport().getLandingApproachArea()
-					.contains((float) getX(), (float) getY())
-			&& ((true && ((getBearing() >= takeoffAngleHighMulti && getBearing() <= 359)
-					|| (getBearing() <= takeoffAngleLowMulti && getBearing() >= 0))))
-			&& getAltitude() <= 2000);
-		}
-		
-	}
 
 	public MultiplayerGame(int newSeparationDistance, int newPenaltyDistance,
 			int distFromLeft) throws NoSuchAlgorithmException,
@@ -202,10 +190,10 @@ public class MultiplayerGame extends Game {
 	}
 
 	@Override
-	protected AbstractPlane constructPlane() {
-		MultiplayerPlane p = new MultiplayerPlane();
+	protected AbstractPlane constructPlane(int id, double velocity, int altitude,
+			double bearing, long uniqueNetworkObjectId) {
+		MultiplayerPlane p = new MultiplayerPlane(id, velocity, altitude, bearing, this, uniqueNetworkObjectId);
 		multiplayerPlanes.add(p);
 		return p;
 	}
-
 }

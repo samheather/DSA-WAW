@@ -9,19 +9,7 @@ import java.util.ListIterator;
 
 public class SingleplayerGame extends Game {
 
-	private class SingleplayerPlane extends Game.Plane {
 
-		@Override
-		public boolean allowedToLand() {
-			return (!currentGame.getAirport().isPlaneLanding()
-					&& currentGame.getAirport().getLandingApproachArea()
-					.contains((float) getX(), (float) getY())
-			&& ((!false && ((getBearing() <= takeoffAngleHighSingle)
-							|| (getBearing() >= takeoffAngleLowSingle))))
-			&& getAltitude() <= 2000);
-		}
-		
-	}
 	
 	private ArrayList<SingleplayerPlane> singleplayerPlanes = new ArrayList<SingleplayerPlane>();
 	
@@ -31,8 +19,9 @@ public class SingleplayerGame extends Game {
 	}
 
 	@Override
-	protected AbstractPlane constructPlane() {
-		SingleplayerPlane p = new SingleplayerPlane();
+	protected AbstractPlane constructPlane(int id, double velocity, int altitude,
+			double bearing, long uniqueNetworkObjectId) {
+		SingleplayerPlane p = new SingleplayerPlane(id, velocity, altitude, bearing, this, uniqueNetworkObjectId);
 		singleplayerPlanes.add(p);
 		return p;
 	}
@@ -43,7 +32,6 @@ public class SingleplayerGame extends Game {
 			throws NoSuchAlgorithmException, UnknownHostException, IOException {
 		super(newSeparationDistance, newPenaltyDistance, distFromLeft);
 		System.out.println("singlep game constructed");
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override

@@ -224,16 +224,7 @@ public abstract class Game {
 		// Initialise score
 		score = new Score();
 	}
-	
-	
-	
-	protected abstract class Plane extends AbstractPlane {
-		protected Plane() {
-			super(planeCount, generateVelocity(),
-					generateAltitude(), 0, Game.this, rand.nextLong());
-		}
-		
-	}
+
 
 	// METHODS
 
@@ -263,7 +254,8 @@ public abstract class Game {
 		AbstractPlane newPlane;
 		setPlaneCount(getPlaneCount() + 1);
 
-		newPlane = constructPlane();
+		newPlane = constructPlane(planeCount, generateVelocity(),
+				generateAltitude(), 0, rand.nextLong());
 		configurePlane(newPlane);
 		if (newPlane.getFlightPlan().getEntryPoint() == airport) {
 			configurePlaneForTakeOff(newPlane);
@@ -273,7 +265,8 @@ public abstract class Game {
 		newPlane.setBearing(newPlane.getTargetBearing());
 	}
 	
-	protected abstract AbstractPlane constructPlane();
+	protected abstract AbstractPlane constructPlane(int id, double velocity, int altitude,
+			double bearing, long uniqueNetworkObjectId);
 
 	/**
 	 * Configure plane to take off properly
