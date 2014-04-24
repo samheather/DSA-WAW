@@ -980,8 +980,7 @@ public class GameWindow extends BasicGameState {
 
 		/* Setting up the game over screen */
 		// If the planes collided
-		if(true){
-		//if (this.currentGame.isCollision()) {
+		if (this.currentGame.isCollision()) {
 			// If the game is ending
 			if (this.currentGame.isEnding()) {
 				// Draw the two collided planes rotated a bit so it looks like a
@@ -1056,8 +1055,7 @@ public class GameWindow extends BasicGameState {
 				
 				// Manages leaderboard entries if score is high enough
 				
-				//if (WindowManager.leaderBoard.leaderboardEntries[4].getScore() < this.currentGame.getScore().getScore()){
-				if(true){
+				if (WindowManager.leaderBoard.leaderboardEntries[4].getScore() < this.currentGame.getScore().getScore()){
 					
 	
 					// initializes text box

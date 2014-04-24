@@ -12,6 +12,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import game.gfx.WindowManager;
 import game.network.*;
 
+
 public class MultiplayerGame extends Game {
 
 	public MultiplayerGame(int newSeparationDistance, int newPenaltyDistance,
@@ -19,8 +20,10 @@ public class MultiplayerGame extends Game {
 			UnknownHostException, IOException {
 		super(newSeparationDistance, newPenaltyDistance, distFromLeft, true);
 		protocol.putMessage(new Message.ClientServer.BeginMM());
+		WindowManager.opponentFound = false;
 	}
 	int state = 0;
+	
 	
 	Protocol protocol = new Protocol("multi.atcga.me", 1025);
 	
@@ -33,7 +36,7 @@ public class MultiplayerGame extends Game {
 	public void update(GameContainer gameContainer, StateBasedGame game)
 			throws IOException {
 		if (state == 0) {
-			
+			WindowManager.opponentFound = false;
 			//waiting for connection to server
 			Message.Receivable r = protocol.getMessage();
 			if (r == null)
@@ -43,7 +46,7 @@ public class MultiplayerGame extends Game {
 				System.out.println("in mm");
 			}
 		} else if (state == 1) {
-			
+			WindowManager.opponentFound = false;
 			// waiting for client
 			Message.Receivable r = protocol.getMessage();
 			if (Display.isCloseRequested()) {
@@ -57,6 +60,7 @@ public class MultiplayerGame extends Game {
 				System.out.println("got game");
 			}
 		} else if (state == 2) {
+			WindowManager.opponentFound = true;
 			Message.Receivable r = null;
 			while((r = protocol.getMessage()) != null) {
 				if (r instanceof Message.Error) {

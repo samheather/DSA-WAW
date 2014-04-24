@@ -57,7 +57,9 @@ public class WindowManager extends StateBasedGame {
 
 	/** Reference to the multiplayer game state */
 	public static final int MULTIPLAYER_GAME_STATE = 8;
-
+	
+	/** Whether opponent for multiplayer has been found **/
+	public static boolean opponentFound = false;
 
 	/** The level currently being played */
 	private int currentLevel;

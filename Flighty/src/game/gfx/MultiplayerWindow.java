@@ -136,6 +136,7 @@ public class MultiplayerWindow extends BasicGameState {
 
 	/** Whether it should display more points for some points (e.g. airport) **/
 	boolean morePoints = false;
+	
 
 	/** How long should the waypoints display **/
 	double synch = WAYPOINTS_DISPLAY_TIME;
@@ -490,6 +491,7 @@ public class MultiplayerWindow extends BasicGameState {
 		String debrisText1 = "(3) Send";
 		String debrisText2 = "Debris";
 		String debrisText3 = debrisCost + " Cr";
+		String waitingText = "Waiting for opponent";
 
 		int sidebarTitleTextWidth = sidebarFontLarge.getWidth(sidebarTitleText);
 		int pointsTextWidth = sidebarFont.getWidth(pointsText);
@@ -533,6 +535,7 @@ public class MultiplayerWindow extends BasicGameState {
 		int[] debrisTextPos3 = {
 				(MultiplayerWindow.sidebarWidth - debrisTextWidth3) / 2,
 				debrisTextPos2[1] + fontHeight + 5 };
+		int[] waitingTextPos = {350 , 275};
 
 		Color sidebarTitleTextColor = Color.orange;
 		Color pointsTextColor = Color.orange;
@@ -639,6 +642,11 @@ public class MultiplayerWindow extends BasicGameState {
 		drawShadowedText(debrisText1, debrisTextColor, debrisTextPos1, graphics);
 		drawShadowedText(debrisText2, debrisTextColor, debrisTextPos2, graphics);
 		drawShadowedText(debrisText3, debrisTextColor, debrisTextPos3, graphics);
+		
+		//Draw waiting for opponent if there is no opponent
+		if(WindowManager.opponentFound == false){
+			drawShadowedText(waitingText, debrisTextColor,waitingTextPos, graphics);
+		}
 	}
 
 	/**
