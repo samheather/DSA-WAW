@@ -148,20 +148,6 @@ public abstract class Game {
 		windowHeight = WINDOW_HEIGHT;
 
 		distFromLeftEdge = distFromLeft;
-		/*
-		 * 
-		 * // Initialise TCP Connection s = new Socket("teaching0.york.ac.uk",
-		 * 1025);
-		 * 
-		 * is = s.getInputStream(); Thread t = new Thread(new
-		 * SyncReceiver(queue, is)); t.start();
-		 * 
-		 * System.out.println("SLOG lol");
-		 * 
-		 * os = s.getOutputStream(); oos = new ObjectOutputStream(os);
-		 * 
-		 * System.out.println("SLOG rofl");
-		 */
 
 		// This sets the game difficulty
 		separationDistance = newSeparationDistance;

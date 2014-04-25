@@ -18,7 +18,6 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
-
 public class LeaderBoard extends GenericWindow {
 /** The image to display behind window content */
 	
