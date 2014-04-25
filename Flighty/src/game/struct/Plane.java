@@ -332,22 +332,13 @@ public class Plane {
 			// Change bearing if plane is already turning right or user has told
 			// it to turn right
 			if (isTurningRight() == true) {
-				setBearing(getBearing() + rate);
-
-				if (Math.round(getBearing()) >= 360
-						&& getTargetBearing() != 360) {
-					setBearing(0);
-				}
+				setBearing((getBearing() + rate)%360);
 			}
 
 			// Change bearing if plane is already turning left or user has told
 			// it to turn left
 			if (isTurningLeft() == true) {
-				setBearing(getBearing() - rate);
-
-				if (Math.round(getBearing()) <= 0 && getTargetBearing() != 0) {
-					setBearing(360);
-				}
+				setBearing((getBearing() - rate)%360);
 			}
 		} else {
 			// Do not change bearing if no commands have been given

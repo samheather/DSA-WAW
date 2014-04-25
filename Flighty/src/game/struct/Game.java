@@ -313,9 +313,8 @@ public abstract class Game {
 				.add(0, airport.getBeginningOfRunway());
 		newPlane.getFlightPlan().getCurrentRoute()
 				.add(0, airport.getEndOfRunway());
-
-		newPlane.setX(airport.getEndOfRunwayX());
-		newPlane.setY(airport.getRunwayY() + 30);
+		newPlane.setX(newPlane.getFlightPlan().getEntryPoint().x);
+		newPlane.setY(newPlane.getFlightPlan().getEntryPoint().y);
 
 		newPlane.setTarget(newPlane.getFlightPlan().getCurrentRoute().get(0));
 		newPlane.setVelocity(0);
@@ -748,8 +747,8 @@ public abstract class Game {
 							.equals(airport.getBeginningOfRunway())
 							&& plane.isTakingOff()) {
 						plane.setTakingOff(false);
-						plane.setBearing(360);
-						plane.setTargetAltitude(3000);
+						plane.setBearing(multiplayer ? 180 : 0);
+						plane.setTargetAltitude(2000);
 
 						// Allows other planes to be created at airport
 						listOfEntryPoints.add(airport);
