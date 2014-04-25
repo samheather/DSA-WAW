@@ -1,4 +1,3 @@
-
 package game.network;
 
 import java.io.ByteArrayOutputStream;

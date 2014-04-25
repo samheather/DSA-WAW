@@ -1,6 +1,6 @@
 package game.struct;
 
-import org.newdawn.slick.geom.*;
+import org.newdawn.slick.geom.Polygon;
 
 public class Airport extends Point {
 

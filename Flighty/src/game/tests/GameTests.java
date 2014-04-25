@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 
 import game.struct.Game;
 import game.struct.Plane;
+import game.struct.SingleplayerGame;
 
 public class GameTests {
 
@@ -22,7 +23,7 @@ public class GameTests {
 	@Before
 	public void beforeTests() throws NoSuchAlgorithmException, UnknownHostException, IOException {
 
-		game = new Game(50, 100, 0, false);
+		game = new SingleplayerGame(50, 100, 0);
 		plane1 = new Plane(1, 500, 3000, 50, game, 0);
 
 	}
@@ -180,7 +181,7 @@ public class GameTests {
 
 	@Test
 	public void tenWaypointsTest() throws NoSuchAlgorithmException, UnknownHostException, IOException {
-		game = new Game(100, 100, 0, false);
+		game = new SingleplayerGame(100, 100, 0);
 		assertEquals(10, game.getListOfWaypoints().size(), 0);
 
 	}
@@ -194,7 +195,7 @@ public class GameTests {
 
 	@Test
 	public void tenPlanesTest() throws NoSuchAlgorithmException, UnknownHostException, IOException {
-		game = new Game(100, 100, 0, false);
+		game = new SingleplayerGame(100, 100, 0);
 		for (int i = 0; i < 10; i++) {
 			game.createPlane();
 
@@ -215,7 +216,7 @@ public class GameTests {
 		// Checking that when a flight is waiting to take off another flight
 		// cannot be designated to take off.
 
-		game = new Game(100, 100, 0, false);
+		game = new SingleplayerGame(100, 100, 0);
 
 		game.createPlane();
 

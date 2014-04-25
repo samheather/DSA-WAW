@@ -18,7 +18,6 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
-
 public class LeaderBoard extends GenericWindow {
 /** The image to display behind window content */
 	
@@ -29,6 +28,10 @@ public class LeaderBoard extends GenericWindow {
 
 	/** The shaded arrow icon */
 	private Image arrowIconShaded;
+	
+	private int nameWidth;
+	
+	private int scoreWidth;
 	
 	/** variable showing Internet's connection */
 	public static boolean connected = false;
@@ -45,7 +48,6 @@ public class LeaderBoard extends GenericWindow {
 	
 	
 	public LeaderBoard() {
-		// System.out.println("Leaderboard init\n");
 		// Initialise
 		for (int i = 0; i < leaderboardEntries.length; i++) {
 			leaderboardEntries[i] = new LeaderBoardEntry();
@@ -54,7 +56,7 @@ public class LeaderBoard extends GenericWindow {
 			
 		for (int i = 0; i < leaderboardEntries.length; i++) {
 			leaderboardEntries[i].setName("PLAYER");
-			leaderboardEntries[i].setScore(i);
+			leaderboardEntries[i].setScore(0);
 		}
 			sortLeaderboard(leaderboardEntries);
 	}
@@ -75,8 +77,7 @@ public class LeaderBoard extends GenericWindow {
 		tempLeaderboardEntries[5] = new LeaderBoardEntry(name, score);
 		sortLeaderboard(tempLeaderboardEntries);
 		System.arraycopy(tempLeaderboardEntries, 0, leaderboardEntries, 0,
-				leaderboardEntries.length);
-		
+				leaderboardEntries.length);			
 	}
 
 	/**
@@ -204,14 +205,24 @@ public class LeaderBoard extends GenericWindow {
 			//Gets and updates scores form online leaderboard
 			if (connected){
 				GameWindow.saveFile.decodeLeaderboardScores(GameWindow.saveFile.getLeaderboardScores());
+				sortLeaderboard(leaderboardEntries);
 			}
 			init = false;
 		}
 		if(connected){
+			int score;
+			String name;
+			this.drawShadowedText(this.font,( gameContainer.getWidth() / 2) - 275, 140,
+					"NAME", Color.orange);
+			this.drawShadowedText(this.font,( gameContainer.getWidth() / 2) + 275, 140,
+					"SCORE", Color.orange);
 			for (int i = 0; i < WindowManager.leaderBoard.leaderboardEntries.length ; i++) {
-				this.drawShadowedText(this.font, 375, 220 + (textHeight * i * 3),
-						WindowManager.leaderBoard.leaderboardEntries[i].getName() + "     " + 
-						(int) WindowManager.leaderBoard.leaderboardEntries[i].getScore(), Color.orange);
+				name = WindowManager.leaderBoard.leaderboardEntries[i].getName();
+				score = (int) WindowManager.leaderBoard.leaderboardEntries[i].getScore();
+				this.drawShadowedText(this.font,( gameContainer.getWidth() / 2) - 275, 240 + (textHeight * i * 3),
+						name, Color.orange);
+				this.drawShadowedText(this.font,( gameContainer.getWidth() / 2) + 275, 240 + (textHeight * i * 3),
+						"" + score, Color.orange);
 			}
 		}
 			else {this.drawShadowedText(this.titleFont, 125, 350, "No internet connection", Color.orange);
@@ -256,6 +267,7 @@ public class LeaderBoard extends GenericWindow {
 	public void clearLeaderboard(){
 		for (int i = 0; i < 4 ; i++){
 			WindowManager.leaderBoard.leaderboardEntries[i].setScore(0);
+			WindowManager.leaderBoard.leaderboardEntries[i].setName("PLAYER");
 		}
 	}
 	/**

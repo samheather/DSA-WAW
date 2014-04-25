@@ -11,7 +11,9 @@ import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.*;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import game.gfx.WindowManager;
 
 public class SaveFile {
@@ -58,7 +60,7 @@ public class SaveFile {
 			try{
 				Object obj = parser.parse(scores[i]);
 				JSONObject jsonObject = (JSONObject) obj;
-				score = (long) jsonObject.get("score"); 
+				score = (long) jsonObject.get("score");
 				if (WindowManager.leaderBoard.leaderboardEntries[4].getScore() <= score){
 					name = (String) jsonObject.get("name");
 					WindowManager.leaderBoard.addLeaderboardEntry(name, score);
