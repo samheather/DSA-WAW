@@ -226,8 +226,6 @@ public abstract class Game {
 		} else {
 			listOfWaypoints.add(new Waypoint(540, 115));
 			listOfWaypoints.add(new Waypoint(430, 400));
-			listOfExitPoints.add(new ExitPoint(
-					(windowWidth + distFromLeftEdge) / 2, (windowHeight / 2)));
 		}
 
 		listOfWaypoints.add(new Waypoint(400, 150));
