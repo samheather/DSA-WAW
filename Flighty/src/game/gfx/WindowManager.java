@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import javax.imageio.ImageIO;
+
+import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -55,7 +57,9 @@ public class WindowManager extends StateBasedGame {
 
 	/** Reference to the multiplayer game state */
 	public static final int MULTIPLAYER_GAME_STATE = 8;
-
+	
+	/** Whether opponent for multiplayer has been found **/
+	public static boolean opponentFound = false;
 
 	/** The level currently being played */
 	private int currentLevel;
@@ -198,19 +202,30 @@ public class WindowManager extends StateBasedGame {
 	@Override
 	public boolean closeRequested() {
 		if (this.getCurrentStateID() == MAIN_MENU_STATE) {
+			AL.destroy();
+			System.exit(0);
 			return true;
 		} else if (getCurrentStateID() == LEVEL_SELECT_STATE) {
+			AL.destroy();
+			System.exit(0);
 			return true;
 		} else if (getCurrentStateID() == GAME_STATE) {
 			enterState(MAIN_MENU_STATE);
 		} else if (getCurrentStateID() == CREDITS_STATE) {
+			AL.destroy();
+			System.exit(0);
 			return true;
-
 		} else if (this.getCurrentStateID() == CONTROLS_STATE) {
+			AL.destroy();
+			System.exit(0);
 			return true;
 		} else if (this.getCurrentStateID() == LEADERBOARD_STATE){
+			AL.destroy();
+			System.exit(0);
 			return true;
 		} else if (this.getCurrentStateID() == MULTIPLAYER_STATE) {
+			AL.destroy();
+			System.exit(0);
 			return true;
 		} else if (this.getCurrentStateID() == MULTIPLAYER_GAME_STATE) {
 			this.enterState(MAIN_MENU_STATE);

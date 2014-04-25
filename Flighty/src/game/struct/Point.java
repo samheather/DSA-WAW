@@ -1,21 +1,8 @@
 package game.struct;
 
-import java.nio.ByteBuffer;
+public class Point {
 
-public class Point implements java.io.Serializable {
 
-	public ByteBuffer serialize() {
-		ByteBuffer b = ByteBuffer.allocate(16);
-		b.putDouble(x);
-		b.putDouble(y);
-		b.rewind();
-		return b;
-	}
-
-	public void deserialize(ByteBuffer b) {
-		x = b.getDouble();
-		y = b.getDouble();
-	}
 
 	protected double x = 0.0;
 	protected double y = 0.0;

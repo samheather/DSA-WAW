@@ -1,30 +1,18 @@
 package game.struct;
 
 import game.gfx.GameWindow;
-import game.vision.LocateFace;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.ListIterator;
 import java.util.Random;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
-
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.KryoSerializable;
-import com.esotericsoftware.kryo.io.Output;
 
 /**
  * Game class controls basic game mechanics
@@ -37,19 +25,7 @@ import com.esotericsoftware.kryo.io.Output;
  * </ul>
  * </p>
  */
-public class Game implements java.io.Serializable, KryoSerializable {
-	
-	public Game() {
-		
-	}
-
-	private void writeObject(ObjectOutputStream out) throws IOException {
-
-	}
-
-	private void readObject(ObjectInputStream in) throws IOException {
-
-	}
+public abstract class Game {
 
 	/** How long can a play stay landed before penalty applies */
 	private static final int TAKE_OFF_PENALTY_TIME = 1500;
@@ -59,11 +35,11 @@ public class Game implements java.io.Serializable, KryoSerializable {
 
 	/** The window height */
 	private static final int WINDOW_HEIGHT = 600;
-	
-	private static boolean multiplayer = false;
-	
+
+	protected final boolean multiplayer;
+
 	/** Distance from left edge for sidebar so planes don't fly in it */
-	private static int distFromLeftEdge = 0;  
+	private static int distFromLeftEdge = 0;
 
 	/** Array list containing airspace exit points */
 	private ArrayList<Point> listOfExitPoints = new ArrayList<Point>();
@@ -81,7 +57,7 @@ public class Game implements java.io.Serializable, KryoSerializable {
 	private int penaltyDistance;
 
 	/** List of planes currently in the game */
-	private ArrayList<Plane> currentPlanes = new ArrayList<Plane>();
+	protected ArrayList<Plane> currentPlanes = new ArrayList<Plane>();
 
 	/** Reference to the game window */
 	private GameWindow currentGameWindow;
@@ -147,16 +123,8 @@ public class Game implements java.io.Serializable, KryoSerializable {
 	private float faceTrackingTranslationalScaleFactor = 0.1f;
 	private float faceTrackingZoomScaleFactor = 0.01f;
 
-	// TODO(Jamaal) - I think these can be removed from our experimental multiplayer stuff?
-	private Socket s;
-	private InputStream is;
-	private OutputStream os;
-	private ConcurrentLinkedQueue<Plane> queue = new ConcurrentLinkedQueue<Plane>();
-	ObjectOutputStream oos;
-	ObjectInputStream ois;
-
 	// Constructors
-	
+
 	/**
 	 * Constructor for Game
 	 * <p>
@@ -171,8 +139,11 @@ public class Game implements java.io.Serializable, KryoSerializable {
 	 *            reference to the current game window
 	 * @throws NoSuchAlgorithmException
 	 */
-	public Game(int newSeparationDistance, int newPenaltyDistance, int distFromLeft)
+
+	public Game(int newSeparationDistance, int newPenaltyDistance,
+			int distFromLeft, boolean multiplayer_)
 			throws NoSuchAlgorithmException, UnknownHostException, IOException {
+		this.multiplayer = multiplayer_;
 		secureRandom = SecureRandom.getInstance("SHA1PRNG");
 		ByteBuffer b = ByteBuffer.allocate(8).put(secureRandom.generateSeed(8));
 		b.rewind();
@@ -180,30 +151,22 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		// Screen size
 		windowWidth = WINDOW_WIDTH;
 		windowHeight = WINDOW_HEIGHT;
-		
-		
+
 		distFromLeftEdge = distFromLeft;
-		if (distFromLeftEdge != 0) {
-			multiplayer = true;
-		} else {
-			multiplayer = false;
-		}
 		/*
-
-		// Initialise TCP Connection
-		s = new Socket("teaching0.york.ac.uk", 1025);
-
-		is = s.getInputStream();
-		Thread t = new Thread(new SyncReceiver(queue, is));
-		t.start();
-
-		System.out.println("SLOG lol");
-
-		os = s.getOutputStream();
-		oos = new ObjectOutputStream(os);
-
-		System.out.println("SLOG rofl");
-		*/
+		 * 
+		 * // Initialise TCP Connection s = new Socket("teaching0.york.ac.uk",
+		 * 1025);
+		 * 
+		 * is = s.getInputStream(); Thread t = new Thread(new
+		 * SyncReceiver(queue, is)); t.start();
+		 * 
+		 * System.out.println("SLOG lol");
+		 * 
+		 * os = s.getOutputStream(); oos = new ObjectOutputStream(os);
+		 * 
+		 * System.out.println("SLOG rofl");
+		 */
 
 		// This sets the game difficulty
 		separationDistance = newSeparationDistance;
@@ -230,7 +193,7 @@ public class Game implements java.io.Serializable, KryoSerializable {
 
 		// Adding the airport into the game
 		if (multiplayer) {
-			airport = new Airport(415, 515, 150, 200, 100);
+			airport = new Airport(415, 515, 170, 200, 100);
 		} else {
 			airport = new Airport(720, 460, 1180, -320, 230);
 		}
@@ -246,23 +209,24 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		// Adding Points To Game
 		listOfEntryPoints.add(new EntryPoint(distFromLeftEdge, 400));
 		listOfEntryPoints.add(airport);
-		
-		//Single player extra things
-		if (!multiplayer){ 
-		listOfEntryPoints.add(new EntryPoint(1200, 200));
-		listOfEntryPoints.add(new EntryPoint(750, 0));
-	
-		listOfWaypoints.add(new Waypoint(1100, 140));
-		listOfWaypoints.add(new Waypoint(1150, 330));
-		listOfWaypoints.add(new Waypoint(910, 150));
-		listOfWaypoints.add(new Waypoint(850, 310));
-		listOfWaypoints.add(new Waypoint(700, 200));
-		
-		listOfExitPoints.add(new ExitPoint(1200, 300));
-		listOfExitPoints.add(new ExitPoint(950, 0));
+
+		// Single player extra things
+		if (!multiplayer) {
+			listOfEntryPoints.add(new EntryPoint(1200, 200));
+			listOfEntryPoints.add(new EntryPoint(750, 0));
+
+			listOfWaypoints.add(new Waypoint(1100, 140));
+			listOfWaypoints.add(new Waypoint(1150, 330));
+			listOfWaypoints.add(new Waypoint(910, 150));
+			listOfWaypoints.add(new Waypoint(850, 310));
+			listOfWaypoints.add(new Waypoint(700, 200));
+
+			listOfExitPoints.add(new ExitPoint(1200, 300));
+			listOfExitPoints.add(new ExitPoint(950, 0));
+
 		} else {
 			listOfWaypoints.add(new Waypoint(540, 115));
-			listOfWaypoints.add(new Waypoint(430, 400)); 
+			listOfWaypoints.add(new Waypoint(430, 400));
 		}
 
 		listOfWaypoints.add(new Waypoint(400, 150));
@@ -310,7 +274,9 @@ public class Game implements java.io.Serializable, KryoSerializable {
 
 		newPlane = new Plane(planeCount, generateVelocity(),
 				generateAltitude(), 0, this, rand.nextLong());
-
+		if (!multiplayer) {
+			newPlane.ownedByCurrentPlayer = true;
+		}
 		if (newPlane.getFlightPlan().getEntryPoint() == airport) {
 			configurePlaneForTakeOff(newPlane);
 		}
@@ -332,15 +298,23 @@ public class Game implements java.io.Serializable, KryoSerializable {
 	 *            - a new plane that needs to take off
 	 */
 	public void configurePlaneForTakeOff(Plane newPlane) {
-		newPlane.getFlightPlan().setEntryPoint(new EntryPoint(1180, 580));
+		if (multiplayer) {
+			newPlane.getFlightPlan().setEntryPoint(
+					new EntryPoint(airport.getEndOfRunwayX(), airport
+							.getRunwayY() + 30));
+		} else {
+			newPlane.getFlightPlan().setEntryPoint(
+					new EntryPoint(airport.getEndOfRunwayX(), airport
+							.getRunwayY() + 30));
+		}
 
 		newPlane.getFlightPlan().getCurrentRoute()
 				.add(0, airport.getBeginningOfRunway());
 		newPlane.getFlightPlan().getCurrentRoute()
 				.add(0, airport.getEndOfRunway());
 
-		newPlane.setX(1180);
-		newPlane.setY(580);
+		newPlane.setX(airport.getEndOfRunwayX());
+		newPlane.setY(airport.getRunwayY() + 30);
 
 		newPlane.setTarget(newPlane.getFlightPlan().getCurrentRoute().get(0));
 		newPlane.setVelocity(0);
@@ -397,25 +371,6 @@ public class Game implements java.io.Serializable, KryoSerializable {
 	}
 
 	/**
-	 * Removes a plane from the game
-	 * <p>
-	 * Iterates through currentPlanes list and removes the plane
-	 * </p>
-	 * 
-	 * @param toDelete
-	 *            the plane to remove
-	 */
-	public void removePlane(Plane toDelete) {
-		for (ListIterator<Plane> iter = currentPlanes
-				.listIterator(currentPlanes.size()); iter.hasPrevious();) {
-			if (toDelete.equals(iter.previous())) {
-				iter.remove();
-				return;
-			}
-		}
-	}
-
-	/**
 	 * Returns the plane with the given ID
 	 * <p>
 	 * Iterates through currentPlanes to find the plane from it's ID
@@ -439,7 +394,6 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		return null;
 	}
 
-	// TODO v Is this misplaced ?
 	/**
 	 * Tests whether a plane is either colliding or alerting
 	 * <p>
@@ -494,9 +448,13 @@ public class Game implements java.io.Serializable, KryoSerializable {
 
 		// Loops through all the planes
 		for (Plane plane2 : currentPlanes) {
+			if (!plane1.ownedByCurrentPlayer) {
+				break;
+			}
 			if ((plane1.equals(plane2))
 					|| (plane2.getAltitude() > (plane1.getAltitude() + 400))
-					|| (plane2.getAltitude() < (plane1.getAltitude() - 400))) {
+					|| (plane2.getAltitude() < (plane1.getAltitude() - 400))
+					|| (plane2.ownedByCurrentPlayer == false)) {
 				continue;
 			}
 
@@ -573,8 +531,32 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		}
 	}
 
+	/** Checks if any plane on screen needs to take off
+	 * 
+	 * @return Plane any plane that needs to take off
+	 */
+	private Plane planeNeedsToTakeOff() {
+		for (Plane p : currentPlanes) {
+			if (p.getNeedsToTakeOff() && p.ownedByCurrentPlayer) {
+				return p;
+			}
+		}
+		return null;
+	}
+
 	public void handleKeyPresses(GameContainer gameContainer) {
-		if(currentPlane == null)
+		// Action on 'T' Key
+		if (gameContainer.getInput().isKeyDown(Input.KEY_T)
+				&& planeNeedsToTakeOff() != null) {
+			Plane takeoffPlane = planeNeedsToTakeOff();
+			takeoffPlane.takeOff();
+			if (multiplayer) {
+				takeoffPlane.markForSyncing();
+
+			}
+
+		}
+		if (currentPlane == null)
 			return;
 		// Steering controls apply only to active planes
 		if (!currentPlane.getNeedsToTakeOff()) {
@@ -616,21 +598,11 @@ public class Game implements java.io.Serializable, KryoSerializable {
 				currentPlane.markForSyncing();
 			}
 
-			// Action on 'l' Key
+			// Action on 'L' Key
 			if (gameContainer.getInput().isKeyPressed(38)) {
 				if (currentPlane.getNeedsToLand()) {
 					currentPlane.land(multiplayer);
-					currentPlane.markForSyncing();
 				}
-			}
-
-		}
-
-		// Action on 'T' Key
-		else if (currentPlane.getNeedsToTakeOff()) {
-			if (gameContainer.getInput().isKeyPressed(Input.KEY_T)) {
-				currentPlane.takeOff();
-				currentPlane.markForSyncing();
 			}
 
 		}
@@ -675,56 +647,68 @@ public class Game implements java.io.Serializable, KryoSerializable {
 			}
 
 			// Handle directional controls
-			if (currentPlane != null) {
-				handleKeyPresses(gameContainer);
-			}
-		}
-		Plane p = null;
-		while ((p = queue.poll()) != null) {
-			System.out.println("Got a plane");
-			p.currentGame = this;
-			p.resetSyncState();
-			ListIterator<Plane> i = getCurrentPlanes().listIterator();
-			while (i.hasNext()) {
-				Plane p2 = i.next();
-				if (p == null)
-					System.out.println("p is null");
-				if (p2 == null)
-					System.out.println("p2 is null");
-				if (p2.getUniqueNetworkObjectID() == p
-						.getUniqueNetworkObjectID()) {
-					i.set(p);
-					p = null;
-					break;
-				}
-			}
-			if (p != null){
-				getCurrentPlanes().add(p);
-			}
+			handleKeyPresses(gameContainer);
 		}
 		
 		// Rescan for faces to get updated face locations
 		boolean faceScanSuccessful = false;
 		if (!multiplayer) { faceScanSuccessful = faceLocator.updateFacePosition(); }
-		
+
 		// Update planes
 		for (Plane plane : getCurrentPlanes()) {
 			// Check if the plane is still in the game area
-				
-			if ((plane.getX() > windowWidth) || (plane.getX() < distFromLeftEdge)
-							|| (plane.getY() > windowHeight) || (plane.getY() < 0)) {
-				// Updates score if plane in game area
-				getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
 
-				// Deselects plane that left the airspace
-				if (currentPlane != null) {
-					if (plane.equals(currentPlane)) {
-						currentPlane = null;
+			if (multiplayer) {
+				if ((plane.getX() < distFromLeftEdge)
+						|| (plane.getY() > windowHeight) || (plane.getY() < 0)) {
+					// Updates score if plane in game area
+					getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
+
+					// Deselects plane that left the airspace
+					if (currentPlane != null) {
+						if (plane.equals(currentPlane)) {
+							currentPlane = null;
+						}
 					}
+
+					// Removes planes that left the airspace
+					planesToRemove.add(plane);
+
+				} else if (plane.getX() > (windowWidth + distFromLeftEdge) / 2) {
+					System.out.println(plane);
+					System.out.println(plane.getX());
+					System.out.println((windowWidth + distFromLeftEdge) / 2);
+					// Updates score if plane in game area
+					getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
+
+					// Deselects plane that left the airspace
+					if (currentPlane != null) {
+						currentPlane.setOwnedByCurrentPlayer(false);
+						if (plane.equals(currentPlane)) {
+							currentPlane = null;
+
+						}
+					}
+					planesToRemove.add(plane);
 				}
 
-				// Removes planes that left the airspace
-				planesToRemove.add(plane);
+			} else {
+				if ((plane.getX() > windowWidth)
+						|| (plane.getX() < distFromLeftEdge)
+						|| (plane.getY() > windowHeight) || (plane.getY() < 0)) {
+					// Updates score if plane in game area
+					getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
+
+					// Deselects plane that left the airspace
+					if (currentPlane != null) {
+						if (plane.equals(currentPlane)) {
+							currentPlane = null;
+						}
+					}
+
+					// Removes planes that left the airspace
+					planesToRemove.add(plane);
+				}
 			}
 			// Updating the Planes altitude and adjusting it accordingly.
 			plane.updatePlaneAltitude();
@@ -757,7 +741,6 @@ public class Game implements java.io.Serializable, KryoSerializable {
 						.getCurrentRoute().get(0), this)) {
 
 					getScore().addScore(plane, this);
-					
 
 					// Accommodates planes that are taking off
 					if (plane.getFlightPlan().getCurrentRoute().get(0)
@@ -814,28 +797,29 @@ public class Game implements java.io.Serializable, KryoSerializable {
 
 			// Updates the plane position
 			plane.movePlane();
-			if (faceScanSuccessful && !multiplayer) {
-				plane.updateFaceDetectionPosition(
-						faceLocator.getImmediateHorizontalAngle(true)*faceTrackingTranslationalScaleFactor,
-						faceLocator.getImmediateVerticalAngle(true)*faceTrackingTranslationalScaleFactor,
-						(int)(faceLocator.getImmediateDistance(true)*faceTrackingZoomScaleFactor));
-			}
-/*
-			if (plane.needsSyncing()) {
-				
-				 ByteBuffer toTransmit = plane.serialize(); int i =
-				 toTransmit.limit(); toTransmit.rewind(); ByteBuffer b =
-				 ByteBuffer.allocate(4); b.putInt(i); b.rewind();
-				 os.write(b.array()); os.write(toTransmit.array(), 0, i);
-				 os.write("\r\n".getBytes());
-				 
-				System.out.println("I should not be blocking");
-				oos.writeObject(plane);
-				System.out.println("I should not be blocking here either");
-				plane.resetSyncState();
-
-			}
-		*/
+			 if (faceScanSuccessful && !multiplayer) {
+			 	plane.updateFaceDetectionPosition(
+			 			faceLocator.getImmediateHorizontalAngle(true)*faceTrackingTranslationalScaleFactor,
+			 			faceLocator.getImmediateVerticalAngle(true)*faceTrackingTranslationalScaleFactor,
+			 			(int)(faceLocator.getImmediateDistance(true)*faceTrackingZoomScaleFactor));
+			 }
+			
+			/*
+			 * if (plane.needsSyncing()) {
+			 * 
+			 * ByteBuffer toTransmit = plane.serialize(); int i =
+			 * toTransmit.limit(); toTransmit.rewind(); ByteBuffer b =
+			 * ByteBuffer.allocate(4); b.putInt(i); b.rewind();
+			 * os.write(b.array()); os.write(toTransmit.array(), 0, i);
+			 * os.write("\r\n".getBytes());
+			 * 
+			 * System.out.println("I should not be blocking");
+			 * oos.writeObject(plane);
+			 * System.out.println("I should not be blocking here either");
+			 * plane.resetSyncState();
+			 * 
+			 * }
+			 */
 		}
 
 		// Remove planes
@@ -1142,14 +1126,19 @@ public class Game implements java.io.Serializable, KryoSerializable {
 		planeCount = newPlaneCount;
 	}
 
-	@Override
-	public void read(Kryo arg0, com.esotericsoftware.kryo.io.Input arg1) {
-
+	public boolean isMultiplayer() {
+		return this.multiplayer;
 	}
 
-	@Override
-	public void write(Kryo arg0, Output arg1) {
+	/**
+	 * Removes a plane from the game
+	 * <p>
+	 * Iterates through currentPlanes list and removes the plane
+	 * </p>
+	 * 
+	 * @param toDelete
+	 *            the plane to remove
+	 */
+	public abstract void removePlane(Plane toDelete);
 
-	}
 }
-

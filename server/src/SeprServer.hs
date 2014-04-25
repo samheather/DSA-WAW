@@ -16,6 +16,7 @@ module Main where
 	import Data.Time
 	import Prelude hiding (log, until)
 	import Network.Simple.TCP (serve)
+	import System.IO
 
 
 	(<||>) :: (Alternative f) => f a -> f b -> f (Either a b)
@@ -36,6 +37,8 @@ module Main where
 
 	main :: IO ()
 	main = do
+
+		hSetBuffering stdout LineBuffering
 
 		mmqueue <- newTQueueIO
 

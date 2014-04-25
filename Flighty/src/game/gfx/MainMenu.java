@@ -225,7 +225,6 @@ public class MainMenu extends GenericWindow {
 			AL.destroy();
 			System.exit(0);
 		}
-
 		// Draw the Exit text with a shadow
 		drawShadowedText(font, exitPos[0], exitPos[1], exitText,
 				exitColor);

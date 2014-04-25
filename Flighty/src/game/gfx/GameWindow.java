@@ -1,7 +1,6 @@
 package game.gfx;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.openal.AL;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -11,25 +10,23 @@ import org.newdawn.slick.Music;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.TextField;
+
 
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
+import java.util.ArrayList; 
 
 import game.struct.Airport;
 import game.struct.Game;
 import game.struct.Plane;
 import game.struct.SaveFile;
-import game.gfx.LeaderBoard;
+import game.struct.SingleplayerGame;
 
 /**
  * GameWindow class provides an interactive game
@@ -169,6 +166,7 @@ public class GameWindow extends BasicGameState {
 
 	/** The shaded arrow icon */
 	private Image arrowIconShaded;
+	
 	/**
 	 * Give heading via cursor
 	 * 
@@ -414,7 +412,7 @@ public class GameWindow extends BasicGameState {
 		if (((WindowManager) game).getCurrentLevel() == 1) {
 			// Play level 1
 			try {
-				this.currentGame = new Game(50, 100, 0);
+				this.currentGame = new SingleplayerGame(50, 100, 0);
 			} catch (NoSuchAlgorithmException | IOException e) {
 				e.printStackTrace();
 			}
@@ -426,7 +424,7 @@ public class GameWindow extends BasicGameState {
 		} else if (((WindowManager) game).getCurrentLevel() == 2) {
 			// Play level 2
 			try {
-				this.currentGame = new Game(70, 100, 0);
+				this.currentGame = new SingleplayerGame(70, 100, 0);
 			} catch (NoSuchAlgorithmException | IOException e) {
 				e.printStackTrace();
 			}
@@ -438,7 +436,7 @@ public class GameWindow extends BasicGameState {
 		} else if (((WindowManager) game).getCurrentLevel() == 3) {
 			// Play level 3
 			try {
-				this.currentGame = new Game(70, 100, 0);
+				this.currentGame = new SingleplayerGame(70, 100, 0);
 			} catch (NoSuchAlgorithmException | IOException e) {
 				e.printStackTrace();
 			}
@@ -491,14 +489,16 @@ public class GameWindow extends BasicGameState {
 		if (!this.currentGame.isEnding()) {
 
 			// Display the Game Information
-			g.drawString("Time : "
-					+ ((int) this.time / 1000 / 60 < 10 ? "0"
-							+ (int) (this.time / 1000) / 60
-							: (int) (this.time / 1000) / 60)
-					+ ":"
-					+ ((int) (this.time / 1000) % 60 < 10 ? "0"
-							+ (int) (this.time / 1000) % 60
-							: (int) (this.time / 1000) % 60), 1050, 15);
+			if(!currentGame.isMultiplayer()) {
+				g.drawString("Time : "
+						+ ((int) this.time / 1000 / 60 < 10 ? "0"
+								+ (int) (this.time / 1000) / 60
+								: (int) (this.time / 1000) / 60)
+						+ ":"
+						+ ((int) (this.time / 1000) % 60 < 10 ? "0"
+								+ (int) (this.time / 1000) % 60
+								: (int) (this.time / 1000) % 60), 1050, 15);
+			}
 			g.drawString(
 					"Score : "
 							+ ((int) (this.currentGame.getScore().getScore()))
@@ -1063,12 +1063,12 @@ public class GameWindow extends BasicGameState {
 						textBox.setBorderColor(Color.black);
 						textBox.setBackgroundColor(Color.white);
 						textBox.setTextColor(Color.orange);
-						textBox.setConsumeEvents(true);
+						//textBox.setConsumeEvents(true);
 						textBox.setAcceptingInput(true);
 						textBox.setMaxLength(30);
 						isTextBoxIni = true;
-
 						WindowManager.leaderBoard.isConnected();
+					
 						
 					}
 					
@@ -1079,8 +1079,8 @@ public class GameWindow extends BasicGameState {
 						
 						new TrueTypeFont(this.fontPrimitive.deriveFont(25f),true)
 						.drawString(300f, 300f, "Enter your name to the leaderboard");
-					
-						textBox.render(currentGameContainer, g);
+						
+							textBox.render(currentGameContainer, g);
 					
 						if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
 							saveFile.addLeaderboardScore(textBox.getText(), currentGame.getScore().getScore());
@@ -1089,7 +1089,7 @@ public class GameWindow extends BasicGameState {
 						
 					}
 				}else{ new TrueTypeFont(this.fontPrimitive.deriveFont(25f),true)
-				.drawString(300f, 300f, "No internet connection");}
+				.drawString(305f, 300f, "No internet connection");}
 			}
 			}
 
