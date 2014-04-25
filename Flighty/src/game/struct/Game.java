@@ -285,8 +285,8 @@ public abstract class Game {
 		newPlane.getFlightPlan().getCurrentRoute()
 				.add(0, airport.getEndOfRunway());
 
-		newPlane.setX(Airport.getEndOfRunwayX());
-		newPlane.setY(Airport.getRunwayY() + 30);
+		newPlane.setX(newPlane.getFlightPlan().getEntryPoint().x);
+		newPlane.setY(newPlane.getFlightPlan().getEntryPoint().y);
 
 		newPlane.setTarget(newPlane.getFlightPlan().getCurrentRoute().get(0));
 		newPlane.setVelocity(0);
@@ -505,8 +505,29 @@ public abstract class Game {
 			manualPlanes.remove(plane);
 		}
 	}
+	
+	/** Checks if any plane on screen needs to take off
+	* 
+	* @return Plane any plane that needs to take off
+	*/
+	
+	private Plane planeNeedsToTakeOff() {
+		for (Plane p : getCurrentPlanes()) {
+			if (p.getNeedsToTakeOff() && p.ownedByCurrentPlayer) {
+				return p;
+			}
+		}
+		return null;
+	}
 
 	public void handleKeyPresses(GameContainer gameContainer) {
+		if (gameContainer.getInput().isKeyDown(Input.KEY_T)
+				&& planeNeedsToTakeOff() != null) {
+			Plane takeoffPlane = planeNeedsToTakeOff();
+			takeoffPlane.takeOff();
+			takeoffPlane.markForSyncing();
+		}
+
 		if (currentPlane == null)
 			return;
 		// Steering controls apply only to active planes
@@ -557,15 +578,6 @@ public abstract class Game {
 			}
 
 		}
-
-		// Action on 'T' Key
-		else if (currentPlane.getNeedsToTakeOff()) {
-			if (gameContainer.getInput().isKeyPressed(Input.KEY_T)) {
-				currentPlane.takeOff();
-				currentPlane.markForSyncing();
-			}
-
-		}
 	}
 
 	/**
@@ -607,9 +619,7 @@ public abstract class Game {
 			}
 
 			// Handle directional controls
-			if (currentPlane != null) {
-				handleKeyPresses(gameContainer);
-			}
+			handleKeyPresses(gameContainer);
 		}
 		
 		// Update planes
@@ -656,8 +666,8 @@ public abstract class Game {
 							.equals(airport.getBeginningOfRunway())
 							&& plane.isTakingOff()) {
 						plane.setTakingOff(false);
-						plane.setBearing(360);
-						plane.setTargetAltitude(3000);
+						plane.setBearingForTakeoff();
+						plane.setTargetAltitude(2000);
 
 						// Allows other planes to be created at airport
 						listOfEntryPoints.add(airport);

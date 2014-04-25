@@ -16,5 +16,10 @@ class MultiplayerPlane extends Plane {
 				|| (getBearing() <= takeoffAngleLowMulti && getBearing() >= 0))))
 		&& getAltitude() <= 2000);
 	}
+
+	@Override
+	public void setBearingForTakeoff() {
+		setBearing(180);
+	}
 	
 }

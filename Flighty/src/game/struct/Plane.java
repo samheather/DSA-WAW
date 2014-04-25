@@ -772,4 +772,6 @@ public abstract class Plane {
 	public void setOwnedByCurrentPlayer(boolean Owns) {
 		this.ownedByCurrentPlayer = Owns;
 	}
+
+	public abstract void setBearingForTakeoff();
 }

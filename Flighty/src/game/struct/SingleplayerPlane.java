@@ -17,5 +17,10 @@ class SingleplayerPlane extends Plane {
 						|| (getBearing() >= takeoffAngleLowSingle))))
 		&& getAltitude() <= 2000);
 	}
+
+	@Override
+	public void setBearingForTakeoff() {
+		setBearing(0);
+	}
 	
 }
