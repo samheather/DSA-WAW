@@ -103,6 +103,10 @@ public abstract class Plane {
 	public transient Game currentGame;
 	
 	public boolean ownedByCurrentPlayer = false;
+	
+	protected Plane() {
+		// required for serialization
+	}
 
 	// Constructor
 

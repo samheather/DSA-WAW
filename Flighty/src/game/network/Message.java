@@ -248,7 +248,7 @@ public abstract class Message {
 				DataOutputStream dataOut = new DataOutputStream(out); {
 					try (ByteArrayOutputStream bytes = new ByteArrayOutputStream()) {
 						try (Output output = new Output(bytes)) {
-							s.writeObject(output, object);
+							s.writeClassAndObject(output, object);
 							output.flush();
 						}
 						byte[] b = bytes.toByteArray();

@@ -3,7 +3,7 @@ package game.struct;
 
 class SingleplayerPlane extends Plane {
 
-	protected SingleplayerPlane(int id, double velocity, int altitude,
+	public SingleplayerPlane(int id, double velocity, int altitude,
 			double bearing, Game currentGame, long uniqueNetworkObjectId) {
 		super(id, velocity, altitude, bearing, currentGame, uniqueNetworkObjectId);
 	}

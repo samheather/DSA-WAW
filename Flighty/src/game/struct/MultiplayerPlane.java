@@ -1,8 +1,12 @@
 package game.struct;
 
 class MultiplayerPlane extends Plane {
+	
+	public MultiplayerPlane() {
+		// required for serialization
+	}
 
-	protected MultiplayerPlane(int id, double velocity, int altitude,
+	public MultiplayerPlane(int id, double velocity, int altitude,
 			double bearing, Game currentGame, long uniqueNetworkObjectId) {
 		super(id, velocity, altitude, bearing, currentGame, uniqueNetworkObjectId);
 	}

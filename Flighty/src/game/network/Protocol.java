@@ -13,6 +13,8 @@ import com.esotericsoftware.kryo.Kryo;
 
 public class Protocol implements Closeable {
 	
+	private static int INITIAL_CLASS_ID = 102; //randomly picked
+	
 	public static enum State {
 		Game,
 		MM,
@@ -58,10 +60,11 @@ public class Protocol implements Closeable {
 			return;
 		}
 		
-
+		int classId = INITIAL_CLASS_ID;
 		for (Class c : toRegister) {
-			sendKryo.register(c);
-			receiveKryo.register(c);
+			sendKryo.register(c, classId);
+			receiveKryo.register(c, classId);
+			classId ++;
 		}
 		
 
