@@ -136,7 +136,6 @@ public class MultiplayerWindow extends BasicGameState {
 
 	/** Whether it should display more points for some points (e.g. airport) **/
 	boolean morePoints = false;
-	
 
 	/** How long should the waypoints display **/
 	double synch = WAYPOINTS_DISPLAY_TIME;
@@ -535,7 +534,7 @@ public class MultiplayerWindow extends BasicGameState {
 		int[] debrisTextPos3 = {
 				(MultiplayerWindow.sidebarWidth - debrisTextWidth3) / 2,
 				debrisTextPos2[1] + fontHeight + 5 };
-		int[] waitingTextPos = {350 , 275};
+		int[] waitingTextPos = { 350, 275 };
 
 		Color sidebarTitleTextColor = Color.orange;
 		Color pointsTextColor = Color.orange;
@@ -642,10 +641,11 @@ public class MultiplayerWindow extends BasicGameState {
 		drawShadowedText(debrisText1, debrisTextColor, debrisTextPos1, graphics);
 		drawShadowedText(debrisText2, debrisTextColor, debrisTextPos2, graphics);
 		drawShadowedText(debrisText3, debrisTextColor, debrisTextPos3, graphics);
-		
-		//Draw waiting for opponent if there is no opponent
-		if(WindowManager.opponentFound == false){
-			drawShadowedText(waitingText, debrisTextColor,waitingTextPos, graphics);
+
+		// Draw waiting for opponent if there is no opponent
+		if (WindowManager.opponentFound == false) {
+			drawShadowedText(waitingText, debrisTextColor, waitingTextPos,
+					graphics);
 		}
 	}
 
@@ -732,8 +732,9 @@ public class MultiplayerWindow extends BasicGameState {
 					if (display && synch > 0) {
 						// If it's a special waypoint, render how many points
 						// were won
-						if (morePoints) {
-							if (plane.ownedByCurrentPlayer) {
+						if (plane.ownedByCurrentPlayer) {
+							if (morePoints) {
+
 								graphics.drawString(
 										"+"
 												+ Integer
@@ -746,29 +747,29 @@ public class MultiplayerWindow extends BasicGameState {
 												.getHeight() - prevY - 30));
 								morePoints = synch <= 1 ? false : true;
 							}
-						}
-						// Beginning of runway provides no extra points
-						else if (plane
-								.getFlightPlan()
-								.getCurrentRoute()
-								.get(0)
-								.equals(currentGame.getAirport()
-										.getBeginningOfRunway())) {
-							synch = 0;
-						}
-						// If it's not a special waypoint, render how many
-						// points were won
-						else {
-							graphics.drawString(
-									"+"
-											+ Integer
-													.toString(getCurrentGame()
-															.getScore()
-															.getMultiplier() * 5),
-									(float) prevX - 8, (float) prevY - 30);
-						}
+							// Beginning of runway provides no extra points
+							else if (plane
+									.getFlightPlan()
+									.getCurrentRoute()
+									.get(0)
+									.equals(currentGame.getAirport()
+											.getBeginningOfRunway())) {
+								synch = 0;
+							}
+							// If it's not a special waypoint, render how many
+							// points were won
+							else {
+								graphics.drawString(
+										"+"
+												+ Integer
+														.toString(getCurrentGame()
+																.getScore()
+																.getMultiplier() * 5),
+										(float) prevX - 8, (float) prevY - 30);
+							}
 
-						synch--;
+							synch--;
+						}
 					}
 					// Don't display extra points if there were not won any
 					else {
@@ -781,8 +782,12 @@ public class MultiplayerWindow extends BasicGameState {
 				if (currentGame.isTakeOffPenalty()) {
 					// Alert message to inform the user that the plane should be
 					// taken off
-					graphics.drawString("Take me off", 1122, 555);
-					synchTakeOff--;
+					if (plane.ownedByCurrentPlayer && plane.getNeedsToTakeOff()) {
+						graphics.drawString("Take me off",
+								(float) plane.getX(),
+								(float) (plane.getY() + 20));
+						synchTakeOff--;
+					}
 
 					// Points deduced from the user if the plane is still landed
 					if (synchTakeOff < TAKE_OFF_PENALTY_TIME / 5) {
@@ -992,12 +997,6 @@ public class MultiplayerWindow extends BasicGameState {
 						graphics.drawString("Land Me!",
 								(float) (plane.getX() - 5),
 								(float) (plane.getY() - 30));
-					} else {
-						graphics.drawString("Land Me!", (float) (game
-								.getContainer().getWidth()
-								- (plane.getX() - sidebarWidth) + 5),
-								(float) (game.getContainer().getHeight()
-										- plane.getY() - 30));
 					}
 				}
 
@@ -1005,16 +1004,20 @@ public class MultiplayerWindow extends BasicGameState {
 				// the same time
 				else if (plane.getNeedsToLand()
 						&& currentGame.getAirport().isPlaneLanding()) {
-					graphics.drawString("Wait to Land Me!",
-							(float) (plane.getX() - 5),
-							(float) (plane.getY() - 30));
+					if (plane.ownedByCurrentPlayer) {
+						graphics.drawString("Wait to Land Me!",
+								(float) (plane.getX() - 5),
+								(float) (plane.getY() - 30));
+					}
 				}
 
 				// If plane is selected, but it's not at the landing height
 				else if (plane.getNeedsToLand() && plane.getAltitude() > 2000) {
-					graphics.drawString("Lower Me!",
-							(float) (plane.getX() - 5),
-							(float) (plane.getY() - 30));
+					if (plane.ownedByCurrentPlayer) {
+						graphics.drawString("Lower Me!",
+								(float) (plane.getX() - 5),
+								(float) (plane.getY() - 30));
+					}
 				}
 
 				// If plane is selected, at the right altitude, and within the
@@ -1052,12 +1055,6 @@ public class MultiplayerWindow extends BasicGameState {
 						graphics.drawString("'T' to Takeoff!",
 								(float) (plane.getX() - 5),
 								(float) (plane.getY() - 30));
-					} else {
-						graphics.drawString("'T' to Takeoff!", (float) (game
-								.getContainer().getWidth()
-								- (plane.getX() - sidebarWidth) - 65),
-								(float) (game.getContainer().getHeight()
-										- plane.getY() - 30));
 					}
 				}
 			}
