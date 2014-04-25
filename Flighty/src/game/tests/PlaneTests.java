@@ -10,17 +10,17 @@ import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 
 import game.struct.Game;
-import game.struct.AbstractPlane;
+import game.struct.Plane;
 
 public class PlaneTests {
 
 	Game game;
-	AbstractPlane plane1;
+	Plane plane1;
 
 	@Before
 	public void beforeTests() throws NoSuchAlgorithmException, UnknownHostException, IOException {
 		game = new Game(50, 100, 0, false);
-		plane1 = new AbstractPlane(1, 500, 3000, 50, game, 0);
+		plane1 = new Plane(1, 500, 3000, 50, game, 0);
 
 	}
 

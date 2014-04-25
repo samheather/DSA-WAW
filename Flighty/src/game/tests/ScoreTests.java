@@ -12,12 +12,12 @@ import game.struct.*;
 public class ScoreTests {
 
 	Game game;
-	AbstractPlane plane;
+	Plane plane;
 
 	@Before
 	public void beforeTests() throws NoSuchAlgorithmException, UnknownHostException, IOException {
 		game = new Game(50, 100, 0, false);
-		plane = new AbstractPlane(1, 500, 3000, 50, game, 0);
+		plane = new Plane(1, 500, 3000, 50, game, 0);
 	}
 
 	/**

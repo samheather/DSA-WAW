@@ -3,7 +3,7 @@ package game.struct;
 /**
  * Plane class
  */
-public abstract class AbstractPlane {
+public abstract class Plane {
 
 	protected int takeoffAngleHighMulti = 345;
 	protected int takeoffAngleLowMulti = 15;
@@ -129,7 +129,7 @@ public abstract class AbstractPlane {
 	 *            the y position to create the plane at
 	 */
 
-	protected AbstractPlane(int id, double velocity, int altitude, double bearing,
+	protected Plane(int id, double velocity, int altitude, double bearing,
 			Game currentGame, long uniqueNetworkObjectId) {
 		this.currentGame = currentGame;
 		this.id = id;

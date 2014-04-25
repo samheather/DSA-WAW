@@ -7,10 +7,10 @@ import java.util.concurrent.*;
 
 public class SyncReceiver implements Runnable {
 
-	private ConcurrentLinkedQueue<AbstractPlane> queue;
+	private ConcurrentLinkedQueue<Plane> queue;
 	private InputStream is;
 
-	public SyncReceiver(ConcurrentLinkedQueue<AbstractPlane> queue, InputStream is)
+	public SyncReceiver(ConcurrentLinkedQueue<Plane> queue, InputStream is)
 			throws IOException {
 		this.queue = queue;
 		this.is = is;
@@ -24,7 +24,7 @@ public class SyncReceiver implements Runnable {
 		try {
 			ObjectInputStream ois = new ObjectInputStream(is);
 			for (;;) {
-				AbstractPlane p = (AbstractPlane) ois.readObject();
+				Plane p = (Plane) ois.readObject();
 				System.out.println("After plane read");
 				if (p != null)
 					queue.offer(p);

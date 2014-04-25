@@ -15,7 +15,7 @@ import game.struct.*;
 public class FlightPlanTests {
 
 	Game game;
-	AbstractPlane plane;
+	Plane plane;
 	FlightPlan plan;
 
 	@Before
@@ -25,7 +25,7 @@ public class FlightPlanTests {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-		plane = new AbstractPlane(1, 500, 3000, 50, game, 1);
+		plane = new Plane(1, 500, 3000, 50, game, 1);
 		plan = new FlightPlan(game, plane);
 	}
 
@@ -113,7 +113,7 @@ public class FlightPlanTests {
 		gameWithoutExitpoints.getListOfExitPoints().removeAll(
 				gameWithoutExitpoints.getListOfExitPoints());
 
-		AbstractPlane plane2 = new AbstractPlane(1, 500, 3000, 50, gameWithoutExitpoints, 2);
+		Plane plane2 = new Plane(1, 500, 3000, 50, gameWithoutExitpoints, 2);
 
 		ArrayList<Point> route = plan.buildRoute(gameWithoutExitpoints, plane2
 				.getFlightPlan().getEntryPoint());
@@ -143,7 +143,7 @@ public class FlightPlanTests {
 		gameWithoutWaypoints.getListOfWaypoints().removeAll(
 				gameWithoutWaypoints.getListOfWaypoints());
 
-		AbstractPlane plane2 = new AbstractPlane(1, 500, 3000, 50, gameWithoutWaypoints, 3);
+		Plane plane2 = new Plane(1, 500, 3000, 50, gameWithoutWaypoints, 3);
 
 		ArrayList<Point> route = plan.buildRoute(gameWithoutWaypoints, plane2
 				.getFlightPlan().getEntryPoint());

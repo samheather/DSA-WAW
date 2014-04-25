@@ -14,12 +14,12 @@ public class SingleplayerGame extends Game {
 	private ArrayList<SingleplayerPlane> singleplayerPlanes = new ArrayList<SingleplayerPlane>();
 	
 	@Override
-	public List<? extends AbstractPlane> getCurrentPlanes() {
+	public List<? extends Plane> getCurrentPlanes() {
 		return singleplayerPlanes;
 	}
 
 	@Override
-	protected AbstractPlane constructPlane(int id, double velocity, int altitude,
+	protected Plane constructPlane(int id, double velocity, int altitude,
 			double bearing, long uniqueNetworkObjectId) {
 		SingleplayerPlane p = new SingleplayerPlane(id, velocity, altitude, bearing, this, uniqueNetworkObjectId);
 		singleplayerPlanes.add(p);
@@ -35,7 +35,7 @@ public class SingleplayerGame extends Game {
 	}
 	
 	@Override
-	public void removePlane(AbstractPlane toDelete) {
+	public void removePlane(Plane toDelete) {
 		for (ListIterator<SingleplayerPlane> iter = singleplayerPlanes
 				.listIterator(singleplayerPlanes.size()); iter.hasPrevious();) {
 			if (toDelete.equals(iter.previous())) {
@@ -78,12 +78,12 @@ public class SingleplayerGame extends Game {
 	}
 
 	@Override
-	protected void configurePlane(AbstractPlane p) {
+	protected void configurePlane(Plane p) {
 		p.ownedByCurrentPlayer = true;
 	}
 
 	@Override
-	protected void planeUpdate(AbstractPlane plane) {
+	protected void planeUpdate(Plane plane) {
 		if ((plane.getX() > windowWidth)
 				|| (plane.getX() < distFromLeftEdge)
 				|| (plane.getY() > windowHeight) || (plane.getY() < 0)) {

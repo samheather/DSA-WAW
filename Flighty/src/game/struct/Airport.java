@@ -5,7 +5,7 @@ import org.newdawn.slick.geom.*;
 public class Airport extends Point {
 
 	private boolean planeLanding;
-	private AbstractPlane planeWaitingtoTakeoff;
+	private Plane planeWaitingtoTakeoff;
 	private Waypoint beginningOfRunway, endOfRunway;
 	private Polygon landingApproachArea;
 	private static int beginningOfRunwayX;
@@ -115,7 +115,7 @@ public class Airport extends Point {
 	 * 
 	 * @return A plane if there is one currently waiting to takeoff
 	 */
-	public AbstractPlane getPlaneWaitingtoTakeoff() {
+	public Plane getPlaneWaitingtoTakeoff() {
 		return planeWaitingtoTakeoff;
 	}
 
@@ -125,7 +125,7 @@ public class Airport extends Point {
 	 *            If there is a plane waiting to takeoff, the
 	 *            planeWaitingToTakeoff variable is set to this
 	 */
-	public void setPlaneWaitingtoTakeoff(AbstractPlane planeWaitingtoTakeoff) {
+	public void setPlaneWaitingtoTakeoff(Plane planeWaitingtoTakeoff) {
 		this.planeWaitingtoTakeoff = planeWaitingtoTakeoff;
 	}
 

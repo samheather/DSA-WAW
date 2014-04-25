@@ -34,7 +34,7 @@ public class MultiplayerGame extends Game {
 	Protocol protocol = new Protocol("multi.atcga.me", 1025, Arrays.asList((Class)MultiplayerPlane.class));
 	
 	@Override
-	public void removePlane(AbstractPlane toDelete) {
+	public void removePlane(Plane toDelete) {
 		toDelete.markForDeletion();
 	}
 	
@@ -78,7 +78,7 @@ public class MultiplayerGame extends Game {
 					p.ownedByCurrentPlayer = !p.ownedByCurrentPlayer;
 					ListIterator<MultiplayerPlane> i = multiplayerPlanes.listIterator();
 					while (i.hasNext()) {
-						AbstractPlane p2 = i.next();
+						Plane p2 = i.next();
 						if (p2.getUniqueNetworkObjectID() == p
 								.getUniqueNetworkObjectID()) {
 							//p.ownedByCurrentPlayer = false;
@@ -142,12 +142,12 @@ public class MultiplayerGame extends Game {
 	}
 
 	@Override
-	protected void configurePlane(AbstractPlane p) {
+	protected void configurePlane(Plane p) {
 		//p.ownedByCurrentPlayer = false;
 	}
 
 	@Override
-	protected void planeUpdate(AbstractPlane plane) {
+	protected void planeUpdate(Plane plane) {
 		if ((plane.getX() < distFromLeftEdge)
 				|| (plane.getY() > windowHeight) || (plane.getY() < 0)) {
 			// Updates score if plane in game area
@@ -185,12 +185,12 @@ public class MultiplayerGame extends Game {
 	}
 
 	@Override
-	public List<? extends AbstractPlane> getCurrentPlanes() {
+	public List<? extends Plane> getCurrentPlanes() {
 		return multiplayerPlanes;
 	}
 
 	@Override
-	protected AbstractPlane constructPlane(int id, double velocity, int altitude,
+	protected Plane constructPlane(int id, double velocity, int altitude,
 			double bearing, long uniqueNetworkObjectId) {
 		MultiplayerPlane p = new MultiplayerPlane(id, velocity, altitude, bearing, this, uniqueNetworkObjectId);
 		multiplayerPlanes.add(p);
