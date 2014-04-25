@@ -10,7 +10,20 @@ public abstract class Plane {
 	protected int takeoffAngleHighSingle = 225;
 	protected int takeoffAngleLowSingle = 135;
 	
-
+	
+	private boolean manual = false;
+	
+	public void setManual() {
+		manual = true;
+	}
+	
+	public void setAuto() {
+		manual = false;
+	}
+	
+	public boolean isManual() {
+		return manual;
+	}
 
 	private boolean needsSyncing = true;
 
@@ -391,7 +404,7 @@ public abstract class Plane {
 
 			calculateBearingToNextWaypoint();
 			setLandingDescentRate(findLandingDescentRate());
-			currentGame.getManualPlanes().remove(this);
+			setAuto();
 			currentGame.setCurrentPlane(null);
 		}
 		markForSyncing();
@@ -404,7 +417,7 @@ public abstract class Plane {
 	 */
 	public void takeOff() {
 		setVelocity(currentGame.generateVelocity());
-		currentGame.getManualPlanes().remove(this);
+		setAuto();
 
 		setNeedsToTakeOff(false);
 		setTakingOff(true);
