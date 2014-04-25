@@ -1,6 +1,7 @@
 package game.struct;
 
 import game.gfx.GameWindow;
+import game.vision.LocateFace;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
