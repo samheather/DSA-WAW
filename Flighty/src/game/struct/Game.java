@@ -8,7 +8,6 @@ import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.ListIterator;
 import java.util.Random;
 
 import org.newdawn.slick.GameContainer;

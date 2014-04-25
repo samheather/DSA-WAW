@@ -10,7 +10,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 
 import game.gfx.WindowManager;
-import game.network.*;
+import game.network.Message;
+import game.network.Protocol;
 
 
 public class MultiplayerGame extends Game {

@@ -1,6 +1,5 @@
 package game.gfx;
 
-import org.lwjgl.opengl.Display;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -21,8 +20,6 @@ import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-import game.network.Message;
-import game.network.Protocol;
 import game.struct.Airport;
 import game.struct.Game;
 import game.struct.MultiplayerGame;
@@ -33,7 +30,7 @@ import game.struct.Plane;
  */
 public class MultiplayerWindow extends BasicGameState {
 
-	/** Time between score penalities for not taking off */
+	/** Time between score penalties for not taking off */
 	private static final int TAKE_OFF_PENALTY_TIME = 3000;
 
 	/** Time to display the waypoints bonus points */

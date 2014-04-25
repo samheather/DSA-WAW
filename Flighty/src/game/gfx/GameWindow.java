@@ -20,8 +20,7 @@ import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import javax.swing.JTextField; 
+import java.util.ArrayList; 
 
 import game.struct.Airport;
 import game.struct.Game;

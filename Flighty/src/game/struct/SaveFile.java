@@ -11,7 +11,9 @@ import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.*;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import game.gfx.WindowManager;
 
 public class SaveFile {
