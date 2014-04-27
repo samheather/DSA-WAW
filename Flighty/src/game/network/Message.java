@@ -1,4 +1,3 @@
-
 package game.network;
 
 import game.struct.Plane;

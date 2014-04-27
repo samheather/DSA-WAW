@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-
 public class SyncReceiver implements Runnable {
 
 	private ConcurrentLinkedQueue<Plane> queue;

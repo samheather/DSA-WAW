@@ -13,7 +13,6 @@ import game.gfx.WindowManager;
 import game.network.Message;
 import game.network.Protocol;
 
-
 public class MultiplayerGame extends Game {
 
 	public MultiplayerGame(int newSeparationDistance, int newPenaltyDistance,
