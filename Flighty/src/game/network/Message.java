@@ -1,7 +1,5 @@
 package game.network;
 
-import game.struct.Plane;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -29,7 +27,7 @@ public abstract class Message {
 
 	}
 
-	public static Receivable receive(InputStream in) throws IOException,
+	public static Receivable receive(InputStream in, Kryo s) throws IOException,
 			Receivable.ReceiveException {
 		byte type = (byte) in.read();
 		switch (type) {
@@ -39,7 +37,7 @@ public abstract class Message {
 			throw new Receivable.ReceiveException(new byte[] { type },
 					"Received unreceivable message type: ClientServer");
 		case 2:
-			return ClientClient.receive(in);
+			return ClientClient.receive(in, s);
 		default:
 			throw new Receivable.ReceiveException(new byte[] { type },
 					"Unknown Message type");
@@ -66,7 +64,7 @@ public abstract class Message {
 	}
 
 	public static interface Sendable {
-		public void send(OutputStream out) throws IOException, SendException;
+		public void send(OutputStream out, Kryo serializer) throws IOException, SendException;
 
 		public static class SendException extends Exception implements Error {
 
@@ -178,34 +176,34 @@ public abstract class Message {
 	public static abstract class ClientServer extends Message implements
 			Sendable {
 		@Override
-		public void send(OutputStream out) throws IOException,
+		public void send(OutputStream out, Kryo s) throws IOException,
 				Sendable.SendException {
 			out.write(1);
 		}
 
 		public static class BeginMM extends ClientServer {
 			@Override
-			public void send(OutputStream out) throws IOException,
+			public void send(OutputStream out, Kryo s) throws IOException,
 					Sendable.SendException {
-				super.send(out);
+				super.send(out, s);
 				out.write(0);
 			}
 		}
 
 		public static class CancelMM extends ClientServer {
 			@Override
-			public void send(OutputStream out) throws IOException,
+			public void send(OutputStream out, Kryo s) throws IOException,
 					Sendable.SendException {
-				super.send(out);
+				super.send(out, s);
 				out.write(1);
 			}
 		}
 
 		public static class RequestQuit extends ClientServer {
 			@Override
-			public void send(OutputStream out) throws IOException,
+			public void send(OutputStream out, Kryo s) throws IOException,
 					Sendable.SendException {
-				super.send(out);
+				super.send(out, s);
 				out.write(2);
 			}
 		}
@@ -213,7 +211,7 @@ public abstract class Message {
 
 	public static abstract class ClientClient extends Message implements
 			Receivable, Sendable {
-		public static ClientClient receive(InputStream in) throws IOException,
+		public static ClientClient receive(InputStream in, Kryo s) throws IOException,
 				Receivable.ReceiveException {
 			DataInputStream dataIn = new DataInputStream(in); {
 				int len = dataIn.readInt();
@@ -221,14 +219,13 @@ public abstract class Message {
 				for(int i = 0; i<len;)
 					i += dataIn.read(objData, i, len - i);
 				Input input = new Input(objData); {
-					Kryo kryo = new Kryo();
-					return new CCObject(kryo.readObject(input, Plane.class));
+					return new CCObject(s.readClassAndObject(input));
 				}
 			}
 		}
 
 		@Override
-		public void send(OutputStream out) throws IOException,
+		public void send(OutputStream out, Kryo s) throws IOException,
 				Sendable.SendException {
 			out.write(2);
 		}
@@ -245,14 +242,13 @@ public abstract class Message {
 			}
 
 			@Override
-			public void send(OutputStream out) throws IOException,
+			public void send(OutputStream out, Kryo s) throws IOException,
 					SendException {
-				super.send(out);
+				super.send(out, s);
 				DataOutputStream dataOut = new DataOutputStream(out); {
 					try (ByteArrayOutputStream bytes = new ByteArrayOutputStream()) {
 						try (Output output = new Output(bytes)) {
-							Kryo kryo = new Kryo();
-							kryo.writeObject(output, object);
+							s.writeClassAndObject(output, object);
 							output.flush();
 						}
 						byte[] b = bytes.toByteArray();

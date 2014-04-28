@@ -493,7 +493,6 @@ public class GameWindow extends BasicGameState {
 		if (!this.currentGame.isEnding()) {
 
 			// Display the Game Information
-			if (!currentGame.isMultiplayer()) {
 				g.drawString("Time : "
 						+ ((int) this.time / 1000 / 60 < 10 ? "0"
 								+ (int) (this.time / 1000) / 60
@@ -502,7 +501,7 @@ public class GameWindow extends BasicGameState {
 						+ ((int) (this.time / 1000) % 60 < 10 ? "0"
 								+ (int) (this.time / 1000) % 60
 								: (int) (this.time / 1000) % 60), 1050, 15);
-			}
+
 			g.drawString(
 					"Score : "
 							+ ((int) (this.currentGame.getScore().getScore()))
@@ -1058,11 +1057,12 @@ public class GameWindow extends BasicGameState {
 						isTextBoxIni = true;
 						WindowManager.leaderBoard.isConnected();
 					}
-
-					// creates a text box to enter your name:
-					if (WindowManager.leaderBoard.connected) {
+					
+					
+					
+					//creates a text box to enter your name:
+					if(LeaderBoard.connected){
 						endFont.drawString(300, 300, "Enter your name to the leaderboard");
-
 						textBox.render(currentGameContainer, g);
 
 						if (Keyboard.getEventKey() == Keyboard.KEY_RETURN) {
