@@ -169,7 +169,7 @@ public class MultiplayerWindow extends BasicGameState {
 
 		// Select the plane
 		if (!currentGame.getManualPlanes().contains(currentPlane)) {
-			currentGame.getManualPlanes().add(currentPlane);
+			currentPlane.setManual();
 		}
 
 		// Calculate new bearing
@@ -1369,7 +1369,7 @@ public class MultiplayerWindow extends BasicGameState {
 		currentGame.setCollision(true);
 		currentGame.setEnding(true);
 
-		currentGame.setManualPlanes(new ArrayList<Plane>());
+		currentGame.clearManualPlanes();
 		currentGame.setCollidedPlanes(new ArrayList<Plane>());
 
 		currentGame.setCurrentPlane(null);
