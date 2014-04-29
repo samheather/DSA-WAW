@@ -133,7 +133,8 @@ public class MainMenu extends GenericWindow {
 		if (isInHitBox(x, y, multiplayerPos, multiplayerWidth, fontHeight, tolerance)) {
 			if (clicked) {
 				// Change game state
-				game.enterState(WindowManager.MULTIPLAYER_STATE);
+				((WindowManager) game).setCurrentLevel(1);
+				game.enterState(WindowManager.MULTIPLAYER_GAME_STATE);
 			} else {
 				// Change hover text and add waypoint next to text
 				multiplayerColor = Color.white;

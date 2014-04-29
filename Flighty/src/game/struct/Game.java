@@ -8,9 +8,9 @@ import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -94,9 +94,6 @@ public abstract class Game {
 
 	/** The number of planes to spawn at a time */
 	private int spawnCount;
-
-	/** A list of planes under manual control */
-	private ArrayList<Plane> manualPlanes;
 
 	/** A list of planes which are colliding */
 	private ArrayList<Plane> collidedPlanes;
@@ -194,8 +191,6 @@ public abstract class Game {
 		// Adding the airport into the game
 		airport = createAirport();
 
-		// Dynamic lists for planes
-		manualPlanes = new ArrayList<Plane>();
 		collidedPlanes = new ArrayList<Plane>();
 
 		// Airspace is empty at startup
@@ -481,16 +476,11 @@ public abstract class Game {
 	 *            the plane to remove from manual control
 	 */
 	public void removeFromManual(Plane plane) {
-		// Loop while there is at last a plane in the manual control
-		while (manualPlanes.contains(plane)) {
-			// and remove it
-			manualPlanes.remove(plane);
+		deleteFromManual(plane);
 
-			// Make the unselected plane go to the next waypoint
-			if (plane.getFlightPlan().getCurrentRoute().size() != 0) {
-				plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
-			}
-
+		// Make the unselected plane go to the next waypoint
+		if (plane.getFlightPlan().getCurrentRoute().size() != 0) {
+			plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
 		}
 	}
 
@@ -501,9 +491,7 @@ public abstract class Game {
 	 *            The plane to be deleted from manual
 	 */
 	public void deleteFromManual(Plane plane) {
-		while (manualPlanes.contains(plane)) {
-			manualPlanes.remove(plane);
-		}
+		plane.setAuto();
 	}
 	
 	/** Checks if any plane on screen needs to take off
@@ -536,9 +524,9 @@ public abstract class Game {
 			if (gameContainer.getInput().isKeyDown(203)
 					|| gameContainer.getInput().isKeyDown(30)) {
 
-				if (!manualPlanes.contains(currentPlane)) {
-					manualPlanes.add(currentPlane);
-				}
+
+				currentPlane.setManual();
+
 
 				currentPlane.decrementBearing();
 				currentPlane.markForSyncing();
@@ -548,9 +536,8 @@ public abstract class Game {
 			if (gameContainer.getInput().isKeyDown(205)
 					|| gameContainer.getInput().isKeyDown(32)) {
 
-				if (!manualPlanes.contains(currentPlane)) {
-					manualPlanes.add(currentPlane);
-				}
+
+				currentPlane.setManual();
 
 				currentPlane.incrementBearing();
 				currentPlane.markForSyncing();
@@ -685,9 +672,7 @@ public abstract class Game {
 										.size() == 2) {
 							// Planes that need to be landed are controlled
 							// manually
-							if (!manualPlanes.contains(plane)) {
-								manualPlanes.add(plane);
-							}
+							plane.setManual();
 
 							// Signals that plane needs to land
 							plane.setNeedsToLand(true);
@@ -872,20 +857,11 @@ public abstract class Game {
 	public void setSpawnCount(int newSpawnCount) {
 		spawnCount = newSpawnCount;
 	}
-
-	/**
-	 * @return manualPlanes
-	 */
-	public ArrayList<Plane> getManualPlanes() {
-		return manualPlanes;
-	}
-
-	/**
-	 * @param manualPlanes
-	 *            Array list which manual planes is to be changed to
-	 */
-	public void setManualPlanes(ArrayList<Plane> newManualPlanes) {
-		manualPlanes = newManualPlanes;
+	
+	public void clearManualPlanes() {
+		for (Plane i : getCurrentPlanes()) {
+			i.setAuto();
+		}
 	}
 
 	/**
