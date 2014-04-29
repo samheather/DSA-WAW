@@ -36,6 +36,8 @@ public class SingleplayerGame extends Game {
 	
 	@Override
 	public void removePlane(Plane toDelete) {
+		if(isEnding())
+			return;
 		for (ListIterator<SingleplayerPlane> iter = singleplayerPlanes
 				.listIterator(singleplayerPlanes.size()); iter.hasPrevious();) {
 			if (toDelete.equals(iter.previous())) {
