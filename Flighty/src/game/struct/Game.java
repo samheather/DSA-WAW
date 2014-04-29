@@ -444,7 +444,8 @@ public abstract class Game {
 
 				// Applying score penalties for violating the penalty distance
 				if (penalty) {
-					getScore().planeCollisionWarningMultAndScorePenalties();
+					if (plane2.ownedByCurrentPlayer)
+						getScore().planeCollisionWarningMultAndScorePenalties();
 
 					penalty = false;
 					plane2.setViolationOccurred();
@@ -632,7 +633,8 @@ public abstract class Game {
 			 * doesn't go through any violations
 			 */
 			if (plane.getFlightPlan().getCurrentRoute().size() == 0) {
-				getScore().planePilotedPerfectlyMultiplierBonus(plane);
+				if (plane.ownedByCurrentPlayer)
+					getScore().planePilotedPerfectlyMultiplierBonus(plane);
 
 				if (currentPlane != null && plane.equals(currentPlane)) {
 					currentPlane = null;
@@ -645,8 +647,8 @@ public abstract class Game {
 				// Check if plane at waypoint
 				if (plane.checkIfFlightAtWaypoint(plane.getFlightPlan()
 						.getCurrentRoute().get(0), this)) {
-
-					getScore().addScore(plane, this);
+					if (plane.ownedByCurrentPlayer)
+						getScore().addScore(plane, this);
 
 					// Accommodates planes that are taking off
 					if (plane.getFlightPlan().getCurrentRoute().get(0)

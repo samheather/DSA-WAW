@@ -154,7 +154,8 @@ public class MultiplayerGame extends Game {
 		if ((plane.getX() < distFromLeftEdge)
 				|| (plane.getY() > windowHeight) || (plane.getY() < 0)) {
 			// Updates score if plane in game area
-			getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
+			if (plane.ownedByCurrentPlayer)
+				getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
 
 			// Deselects plane that left the airspace
 			if (currentPlane != null) {
@@ -171,6 +172,7 @@ public class MultiplayerGame extends Game {
 			System.out.println(plane.getX());
 			System.out.println((windowWidth + distFromLeftEdge) / 2);
 				// Updates score if plane in game area
+			if (plane.ownedByCurrentPlayer)
 				getScore()
 						.planeLeftAirspaceOrWaitingToTakeOffMinusScore();
 				
