@@ -1,7 +1,6 @@
 package game.struct;
 
 import game.gfx.GameWindow;
-import game.vision.LocateFace;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -9,7 +8,9 @@ import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -36,11 +37,9 @@ public abstract class Game {
 
 	/** The window height */
 	private static final int WINDOW_HEIGHT = 600;
-
-	protected final boolean multiplayer;
-
+	
 	/** Distance from left edge for sidebar so planes don't fly in it */
-	private static int distFromLeftEdge = 0;
+	protected static int distFromLeftEdge = 0;
 
 	/** Array list containing airspace exit points */
 	private ArrayList<Point> listOfExitPoints = new ArrayList<Point>();
@@ -56,9 +55,6 @@ public abstract class Game {
 
 	/** Distance at which warning ring around appears */
 	private int penaltyDistance;
-
-	/** List of planes currently in the game */
-	protected ArrayList<Plane> currentPlanes = new ArrayList<Plane>();
 
 	/** Reference to the game window */
 	private GameWindow currentGameWindow;
@@ -106,7 +102,7 @@ public abstract class Game {
 	private ArrayList<Plane> collidedPlanes;
 
 	/** The plane currently being controlled by the player */
-	private Plane currentPlane;
+	protected Plane currentPlane;
 
 	/** Holds number of planes currently in the airspace */
 	private int planeCount;
@@ -119,10 +115,12 @@ public abstract class Game {
 	SecureRandom secureRandom;
 	private Random rand;
 	
-	/**Face Locator */
-	private LocateFace faceLocator;
-	private float faceTrackingTranslationalScaleFactor = 0.1f;
-	private float faceTrackingZoomScaleFactor = 0.01f;
+	protected abstract Airport createAirport();
+	protected abstract ArrayList<Point> createExitPoints();
+	protected abstract ArrayList<Waypoint> createWayPoints();
+	protected abstract ArrayList<Point> createEntryPoints();
+	protected abstract void configurePlane(Plane p);
+	protected abstract void planeUpdate(Plane p);
 
 	// Constructors
 
@@ -141,10 +139,11 @@ public abstract class Game {
 	 * @throws NoSuchAlgorithmException
 	 */
 
-	public Game(int newSeparationDistance, int newPenaltyDistance,
-			int distFromLeft, boolean multiplayer_)
-			throws NoSuchAlgorithmException, UnknownHostException, IOException {
-		this.multiplayer = multiplayer_;
+
+
+	protected Game(int newSeparationDistance, int newPenaltyDistance,
+			int distFromLeft) throws NoSuchAlgorithmException,
+			UnknownHostException, IOException {
 		secureRandom = SecureRandom.getInstance("SHA1PRNG");
 		ByteBuffer b = ByteBuffer.allocate(8).put(secureRandom.generateSeed(8));
 		b.rewind();
@@ -193,11 +192,7 @@ public abstract class Game {
 		ending = false;
 
 		// Adding the airport into the game
-		if (multiplayer) {
-			airport = new Airport(415, 515, 170, 200, 100);
-		} else {
-			airport = new Airport(720, 460, 1180, -320, 230);
-		}
+		airport = createAirport();
 
 		// Dynamic lists for planes
 		manualPlanes = new ArrayList<Plane>();
@@ -212,23 +207,10 @@ public abstract class Game {
 		listOfEntryPoints.add(airport);
 
 		// Single player extra things
-		if (!multiplayer) {
-			listOfEntryPoints.add(new EntryPoint(1200, 200));
-			listOfEntryPoints.add(new EntryPoint(750, 0));
-
-			listOfWaypoints.add(new Waypoint(1100, 140));
-			listOfWaypoints.add(new Waypoint(1150, 330));
-			listOfWaypoints.add(new Waypoint(910, 150));
-			listOfWaypoints.add(new Waypoint(850, 310));
-			listOfWaypoints.add(new Waypoint(700, 200));
-
-			listOfExitPoints.add(new ExitPoint(1200, 300));
-			listOfExitPoints.add(new ExitPoint(950, 0));
-
-		} else {
-			listOfWaypoints.add(new Waypoint(540, 115));
-			listOfWaypoints.add(new Waypoint(430, 400));
-		}
+		
+		listOfEntryPoints.addAll(createEntryPoints());
+		listOfWaypoints.addAll(createWayPoints());
+		listOfExitPoints.addAll(createExitPoints());
 
 		listOfWaypoints.add(new Waypoint(400, 150));
 		listOfWaypoints.add(new Waypoint(250, 100));
@@ -241,9 +223,8 @@ public abstract class Game {
 
 		// Initialise score
 		score = new Score();
-		
-		if (!multiplayer) { faceLocator = new LocateFace(); }
 	}
+
 
 	// METHODS
 
@@ -273,21 +254,19 @@ public abstract class Game {
 		Plane newPlane;
 		setPlaneCount(getPlaneCount() + 1);
 
-		newPlane = new Plane(planeCount, generateVelocity(),
-				generateAltitude(), 0, this, rand.nextLong());
-		if (!multiplayer) {
-			newPlane.ownedByCurrentPlayer = true;
-		}
+		newPlane = constructPlane(planeCount, generateVelocity(),
+				generateAltitude(), 0, rand.nextLong());
+		configurePlane(newPlane);
 		if (newPlane.getFlightPlan().getEntryPoint() == airport) {
 			configurePlaneForTakeOff(newPlane);
 		}
 
 		newPlane.calculateBearingToNextWaypoint();
 		newPlane.setBearing(newPlane.getTargetBearing());
-
-		// Add new plane to the game
-		currentPlanes.add(newPlane);
 	}
+	
+	protected abstract Plane constructPlane(int id, double velocity, int altitude,
+			double bearing, long uniqueNetworkObjectId);
 
 	/**
 	 * Configure plane to take off properly
@@ -299,20 +278,13 @@ public abstract class Game {
 	 *            - a new plane that needs to take off
 	 */
 	public void configurePlaneForTakeOff(Plane newPlane) {
-		if (multiplayer) {
-			newPlane.getFlightPlan().setEntryPoint(
-					new EntryPoint(airport.getEndOfRunwayX(), airport
-							.getRunwayY() + 30));
-		} else {
-			newPlane.getFlightPlan().setEntryPoint(
-					new EntryPoint(airport.getEndOfRunwayX(), airport
-							.getRunwayY() + 30));
-		}
+		newPlane.getFlightPlan().setEntryPoint(new EntryPoint(Airport.getEndOfRunwayX(), Airport.getRunwayY() + 30));
 
 		newPlane.getFlightPlan().getCurrentRoute()
 				.add(0, airport.getBeginningOfRunway());
 		newPlane.getFlightPlan().getCurrentRoute()
 				.add(0, airport.getEndOfRunway());
+
 		newPlane.setX(newPlane.getFlightPlan().getEntryPoint().x);
 		newPlane.setY(newPlane.getFlightPlan().getEntryPoint().y);
 
@@ -370,6 +342,8 @@ public abstract class Game {
 		return altitude;
 	}
 
+
+
 	/**
 	 * Returns the plane with the given ID
 	 * <p>
@@ -384,7 +358,7 @@ public abstract class Game {
 	 * @return plane specified by id
 	 */
 	public Plane getPlaneFromID(int ID) {
-		for (Plane plane : currentPlanes) {
+		for (Plane plane : getCurrentPlanes()) {
 			if (plane.getID() == ID) {
 				return plane;
 			}
@@ -394,6 +368,7 @@ public abstract class Game {
 		return null;
 	}
 
+	// TODO v Is this misplaced ?
 	/**
 	 * Tests whether a plane is either colliding or alerting
 	 * <p>
@@ -447,8 +422,8 @@ public abstract class Game {
 		boolean[] result = new boolean[] { false, false };
 
 		// Loops through all the planes
-		for (Plane plane2 : currentPlanes) {
-			if (!plane1.ownedByCurrentPlayer) {
+		for (Plane plane2 : getCurrentPlanes()) {
+			if (!plane1.ownedByCurrentPlayer){
 				break;
 			}
 			if ((plane1.equals(plane2))
@@ -485,7 +460,7 @@ public abstract class Game {
 		plane1.setAlertStatus(risk);
 		result[1] = risk;
 
-		for (Plane p : currentPlanes) {
+		for (Plane p : getCurrentPlanes()) {
 			if (p.getAlertStatus()) {
 				// Removes the penalty temporary so the user doesn't get
 				// penalised for the same violation
@@ -530,13 +505,14 @@ public abstract class Game {
 			manualPlanes.remove(plane);
 		}
 	}
-
+	
 	/** Checks if any plane on screen needs to take off
-	 * 
-	 * @return Plane any plane that needs to take off
-	 */
+	* 
+	* @return Plane any plane that needs to take off
+	*/
+	
 	private Plane planeNeedsToTakeOff() {
-		for (Plane p : currentPlanes) {
+		for (Plane p : getCurrentPlanes()) {
 			if (p.getNeedsToTakeOff() && p.ownedByCurrentPlayer) {
 				return p;
 			}
@@ -545,17 +521,13 @@ public abstract class Game {
 	}
 
 	public void handleKeyPresses(GameContainer gameContainer) {
-		// Action on 'T' Key
 		if (gameContainer.getInput().isKeyDown(Input.KEY_T)
 				&& planeNeedsToTakeOff() != null) {
 			Plane takeoffPlane = planeNeedsToTakeOff();
 			takeoffPlane.takeOff();
-			if (multiplayer) {
-				takeoffPlane.markForSyncing();
-
-			}
-
+			takeoffPlane.markForSyncing();
 		}
+
 		if (currentPlane == null)
 			return;
 		// Steering controls apply only to active planes
@@ -601,7 +573,7 @@ public abstract class Game {
 			// Action on 'L' Key
 			if (gameContainer.getInput().isKeyPressed(38)) {
 				if (currentPlane.getNeedsToLand()) {
-					currentPlane.land(multiplayer);
+					currentPlane.land();
 				}
 			}
 
@@ -621,9 +593,9 @@ public abstract class Game {
 	 */
 	public void update(GameContainer gameContainer, StateBasedGame game)
 			throws IOException {
-		ArrayList<Plane> planesToRemove = new ArrayList<Plane>();
+
 		// Spawn more planes when no planes present
-		if (currentPlanes.size() == 0) {
+		if (getCurrentPlanes().size() == 0) {
 			countToNextPlane = 0;
 		}
 
@@ -650,66 +622,13 @@ public abstract class Game {
 			handleKeyPresses(gameContainer);
 		}
 		
-		// Rescan for faces to get updated face locations
-		boolean faceScanSuccessful = false;
-		if (!multiplayer) { faceScanSuccessful = faceLocator.updateFacePosition(); }
-
 		// Update planes
 		for (Plane plane : getCurrentPlanes()) {
 			// Check if the plane is still in the game area
+			
+			
+			planeUpdate(plane);
 
-			if (multiplayer) {
-				if ((plane.getX() < distFromLeftEdge)
-						|| (plane.getY() > windowHeight) || (plane.getY() < 0)) {
-					// Updates score if plane in game area
-					getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
-
-					// Deselects plane that left the airspace
-					if (currentPlane != null) {
-						if (plane.equals(currentPlane)) {
-							currentPlane = null;
-						}
-					}
-
-					// Removes planes that left the airspace
-					planesToRemove.add(plane);
-
-				} else if (plane.getX() > (windowWidth + distFromLeftEdge) / 2) {
-					System.out.println(plane);
-					System.out.println(plane.getX());
-					System.out.println((windowWidth + distFromLeftEdge) / 2);
-					// Updates score if plane in game area
-					getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
-
-					// Deselects plane that left the airspace
-					if (currentPlane != null) {
-						currentPlane.setOwnedByCurrentPlayer(false);
-						if (plane.equals(currentPlane)) {
-							currentPlane = null;
-
-						}
-					}
-					planesToRemove.add(plane);
-				}
-
-			} else {
-				if ((plane.getX() > windowWidth)
-						|| (plane.getX() < distFromLeftEdge)
-						|| (plane.getY() > windowHeight) || (plane.getY() < 0)) {
-					// Updates score if plane in game area
-					getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
-
-					// Deselects plane that left the airspace
-					if (currentPlane != null) {
-						if (plane.equals(currentPlane)) {
-							currentPlane = null;
-						}
-					}
-
-					// Removes planes that left the airspace
-					planesToRemove.add(plane);
-				}
-			}
 			// Updating the Planes altitude and adjusting it accordingly.
 			plane.updatePlaneAltitude();
 
@@ -732,7 +651,7 @@ public abstract class Game {
 					currentPlane = null;
 				}
 
-				planesToRemove.add(plane);
+				removePlane(plane);
 
 			} else {
 
@@ -747,7 +666,7 @@ public abstract class Game {
 							.equals(airport.getBeginningOfRunway())
 							&& plane.isTakingOff()) {
 						plane.setTakingOff(false);
-						plane.setBearing(multiplayer ? 180 : 0);
+						plane.setBearingForTakeoff();
 						plane.setTargetAltitude(2000);
 
 						// Allows other planes to be created at airport
@@ -797,13 +716,6 @@ public abstract class Game {
 
 			// Updates the plane position
 			plane.movePlane();
-			 if (faceScanSuccessful && !multiplayer) {
-			 	plane.updateFaceDetectionPosition(
-			 			faceLocator.getImmediateHorizontalAngle(true)*faceTrackingTranslationalScaleFactor,
-			 			faceLocator.getImmediateVerticalAngle(true)*faceTrackingTranslationalScaleFactor,
-			 			(int)(faceLocator.getImmediateDistance(true)*faceTrackingZoomScaleFactor));
-			 }
-			
 			/*
 			 * if (plane.needsSyncing()) {
 			 * 
@@ -822,11 +734,6 @@ public abstract class Game {
 			 */
 		}
 
-		// Remove planes
-		for (Plane plane : planesToRemove) {
-			deleteFromManual(plane);
-			getCurrentPlanes().remove(plane);
-		}
 
 		countToNextPlane--;
 	}
@@ -1021,9 +928,7 @@ public abstract class Game {
 	/**
 	 * @return list of planes attached to the game
 	 */
-	public ArrayList<Plane> getCurrentPlanes() {
-		return currentPlanes;
-	}
+	public abstract List<? extends Plane> getCurrentPlanes();
 
 	/**
 	 * @return a reference to the current game window
@@ -1048,14 +953,6 @@ public abstract class Game {
 	 */
 	public void setPenaltyDistance(int newPenaltyDistance) {
 		penaltyDistance = newPenaltyDistance;
-	}
-
-	/**
-	 * @param currentPlanes
-	 *            the array of planes to set
-	 */
-	public void setCurrentPlanes(ArrayList<Plane> setCurrentPlanes) {
-		currentPlanes = setCurrentPlanes;
 	}
 
 	/**
@@ -1125,11 +1022,8 @@ public abstract class Game {
 	public void setPlaneCount(int newPlaneCount) {
 		planeCount = newPlaneCount;
 	}
-
-	public boolean isMultiplayer() {
-		return this.multiplayer;
-	}
-
+	
+	
 	/**
 	 * Removes a plane from the game
 	 * <p>
@@ -1140,5 +1034,4 @@ public abstract class Game {
 	 *            the plane to remove
 	 */
 	public abstract void removePlane(Plane toDelete);
-
 }

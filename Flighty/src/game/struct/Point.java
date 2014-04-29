@@ -2,8 +2,6 @@ package game.struct;
 
 public class Point {
 
-
-
 	protected double x = 0.0;
 	protected double y = 0.0;
 	protected String pointRef = "";

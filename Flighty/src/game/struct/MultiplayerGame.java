@@ -3,6 +3,9 @@ package game.struct;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ListIterator;
 
 import org.lwjgl.opengl.Display;
@@ -13,24 +16,25 @@ import game.gfx.WindowManager;
 import game.network.Message;
 import game.network.Protocol;
 
-
 public class MultiplayerGame extends Game {
 
 	public MultiplayerGame(int newSeparationDistance, int newPenaltyDistance,
 			int distFromLeft) throws NoSuchAlgorithmException,
 			UnknownHostException, IOException {
-		super(newSeparationDistance, newPenaltyDistance, distFromLeft, true);
+		super(newSeparationDistance, newPenaltyDistance, distFromLeft);
 		protocol.putMessage(new Message.ClientServer.BeginMM());
 		WindowManager.opponentFound = false;
 	}
 	int state = 0;
+
+	private ArrayList<MultiplayerPlane> multiplayerPlanes = new ArrayList<MultiplayerPlane>();
 	
 	
-	Protocol protocol = new Protocol("multi.atcga.me", 1025);
+	Protocol protocol = new Protocol("multi.atcga.me", 1025, Arrays.asList((Class)MultiplayerPlane.class));
 	
 	@Override
 	public void removePlane(Plane toDelete) {
-		toDelete.delete();
+		toDelete.markForDeletion();
 	}
 	
 	@Override
@@ -68,11 +72,11 @@ public class MultiplayerGame extends Game {
 					System.out.println("error!");
 					((Message.Error) r).log();
 				} else if (r instanceof Message.ClientClient.CCObject) {
-					Plane p = (Plane)((Message.ClientClient.CCObject) r).getObject();
+					MultiplayerPlane p = (MultiplayerPlane)((Message.ClientClient.CCObject) r).getObject();
 					p.currentGame = this;
 					p.resetSyncState();
 					p.ownedByCurrentPlayer = !p.ownedByCurrentPlayer;
-					ListIterator<Plane> i = getCurrentPlanes().listIterator();
+					ListIterator<MultiplayerPlane> i = multiplayerPlanes.listIterator();
 					while (i.hasNext()) {
 						Plane p2 = i.next();
 						if (p2.getUniqueNetworkObjectID() == p
@@ -89,16 +93,16 @@ public class MultiplayerGame extends Game {
 					}
 					if (p != null && !p.deleted()){
 						//p.ownedByCurrentPlayer = false;
-						getCurrentPlanes().add(p);
+						multiplayerPlanes.add(p);
 						System.out.println("received new plane");
 						
 					}
 				}
 			}
 			super.update(gameContainer, game);
-			ListIterator<Plane> i = getCurrentPlanes().listIterator();
+			ListIterator<MultiplayerPlane> i = multiplayerPlanes.listIterator();
 			while (i.hasNext()) {
-				Plane plane = i.next();
+				MultiplayerPlane plane = i.next();
 				if (plane.needsSyncing()) {
 					//plane.ownedByCurrentPlayer = true;
 					protocol.putMessage(new Message.ClientClient.CCObject(plane));
@@ -111,4 +115,85 @@ public class MultiplayerGame extends Game {
 		}
 	}
 
+	@Override
+	protected Airport createAirport() {
+		return new Airport(415, 515, 170, 200, 100);
+	}
+
+	@Override
+	protected ArrayList<Point> createExitPoints() {
+		ArrayList<Point> exitPoints = new ArrayList<Point>();
+		exitPoints.add(new ExitPoint(
+				(windowWidth + distFromLeftEdge) / 2, (windowHeight / 2)));
+		return exitPoints;
+	}
+
+	@Override
+	protected ArrayList<Waypoint> createWayPoints() {
+		ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
+		waypoints .add(new Waypoint(540, 115));
+		waypoints.add(new Waypoint(430, 400));
+		return waypoints;
+	}
+
+	@Override
+	protected ArrayList<Point> createEntryPoints() {
+		return new ArrayList<Point>();
+	}
+
+	@Override
+	protected void configurePlane(Plane p) {
+		//p.ownedByCurrentPlayer = false;
+	}
+
+	@Override
+	protected void planeUpdate(Plane plane) {
+		if ((plane.getX() < distFromLeftEdge)
+				|| (plane.getY() > windowHeight) || (plane.getY() < 0)) {
+			// Updates score if plane in game area
+			getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
+
+			// Deselects plane that left the airspace
+			if (currentPlane != null) {
+				if (plane.equals(currentPlane)) {
+					currentPlane = null;
+				}
+			}
+
+			// Removes planes that left the airspace
+			removePlane(plane);
+
+		} else if (plane.getX() > (windowWidth + distFromLeftEdge) / 2) {
+			System.out.println(plane);
+			System.out.println(plane.getX());
+			System.out.println((windowWidth + distFromLeftEdge) / 2);
+				// Updates score if plane in game area
+				getScore()
+						.planeLeftAirspaceOrWaitingToTakeOffMinusScore();
+				
+
+				// Deselects plane that left the airspace
+				if (currentPlane != null) {
+					currentPlane.setOwnedByCurrentPlayer(false);
+					if (plane.equals(currentPlane)) {
+						currentPlane = null;
+						
+					}
+				}
+				removePlane(plane);
+			}
+	}
+
+	@Override
+	public List<? extends Plane> getCurrentPlanes() {
+		return multiplayerPlanes;
+	}
+
+	@Override
+	protected Plane constructPlane(int id, double velocity, int altitude,
+			double bearing, long uniqueNetworkObjectId) {
+		MultiplayerPlane p = new MultiplayerPlane(id, velocity, altitude, bearing, this, uniqueNetworkObjectId);
+		multiplayerPlanes.add(p);
+		return p;
+	}
 }

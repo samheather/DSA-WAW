@@ -14,13 +14,12 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.gui.TextField;
 
-
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList; 
+import java.util.ArrayList;
 
 import game.struct.Airport;
 import game.struct.Game;
@@ -107,8 +106,8 @@ public class GameWindow extends BasicGameState {
 
 	/** The Java font used to generate the fonts used */
 	private Font fontPrimitive;
-	
-	//private Graphics currentGraphics;
+
+	// private Graphics currentGraphics;
 
 	/** The generic TrueType font */
 	private TrueTypeFont font;
@@ -116,12 +115,11 @@ public class GameWindow extends BasicGameState {
 	private TrueTypeFont pauseFont;
 
 	private TrueTypeFont endFont;
-	
+
 	private TextField textBox;
-	
+
 	/** The colour to display the font in */
 	private Color fontColor;
-	
 
 	/** Boolean to stop multiple saves on crashing **/
 	private boolean hasSaved = false;
@@ -158,7 +156,7 @@ public class GameWindow extends BasicGameState {
 
 	private boolean unlock2 = false;
 	private boolean unlock3 = false;
-	
+
 	private boolean isTextBoxIni = false;
 
 	/** The arrow icon */
@@ -166,7 +164,7 @@ public class GameWindow extends BasicGameState {
 
 	/** The shaded arrow icon */
 	private Image arrowIconShaded;
-	
+
 	/**
 	 * Give heading via cursor
 	 * 
@@ -288,7 +286,14 @@ public class GameWindow extends BasicGameState {
 				"/resources/waypoints/WaypointBlue.png");
 		InputStream waypointArrowStream = this.getClass().getResourceAsStream(
 				"/resources/other/ArrowW.png");
-
+		InputStream arrowStream = this.getClass().getResourceAsStream(
+				"/resources/other/ArrowR.png");
+		InputStream arrowShadedStream = this.getClass()
+				.getResourceAsStream("resources/other/ArrowB.png");
+		
+		this.arrowIcon = new Image(arrowStream, "Arrow Image", false);
+		this.arrowIconShaded = new Image(arrowShadedStream,
+				"Arrow Shaded Image", false);
 		this.waypointNormal = new Image(waypointNormalStream,
 				"Waypoint Normal Image", false);
 		this.waypointNext = new Image(waypointNextStream,
@@ -349,7 +354,7 @@ public class GameWindow extends BasicGameState {
 		this.map2 = new Image(map2Stream, "Map 2 Image", false);
 
 		// Set the font (used for altitudes etc.)
-		
+
 		try {
 			InputStream fontStream = getClass().getResourceAsStream(
 					"/resources/fonts/8BitWonder.ttf");
@@ -375,7 +380,6 @@ public class GameWindow extends BasicGameState {
 		gameMusic = new Music(
 				"resources/music/Galavanting_Through_Low_Rez_Forests.ogg");
 		gameMusic.loop();
-		
 
 	}
 
@@ -473,7 +477,7 @@ public class GameWindow extends BasicGameState {
 	 *            the game running this state
 	 * @param g
 	 *            the graphics container to display content in
-	 * @throws SlickException 
+	 * @throws SlickException
 	 */
 	@Override
 	public void render(GameContainer gameContainer, StateBasedGame game,
@@ -489,7 +493,6 @@ public class GameWindow extends BasicGameState {
 		if (!this.currentGame.isEnding()) {
 
 			// Display the Game Information
-			if(!currentGame.isMultiplayer()) {
 				g.drawString("Time : "
 						+ ((int) this.time / 1000 / 60 < 10 ? "0"
 								+ (int) (this.time / 1000) / 60
@@ -498,7 +501,7 @@ public class GameWindow extends BasicGameState {
 						+ ((int) (this.time / 1000) % 60 < 10 ? "0"
 								+ (int) (this.time / 1000) % 60
 								: (int) (this.time / 1000) % 60), 1050, 15);
-			}
+
 			g.drawString(
 					"Score : "
 							+ ((int) (this.currentGame.getScore().getScore()))
@@ -683,7 +686,13 @@ public class GameWindow extends BasicGameState {
 				if (plane.equals(this.currentGame.getCurrentPlane())) {
 					if (this.currentGame.getCurrentPlane().getNeedsToLand() == true
 							&& landingApproachAreaDrawn == false) {
-						landingApproachArea.draw(Airport.getBeginningOfRunwayX() + Airport.getTriangleSize()[0], Airport.getRunwayY() - (Airport.getTriangleSize()[1]/2), -Airport.getTriangleSize()[0], Airport.getTriangleSize()[1]);
+						landingApproachArea.draw(
+								Airport.getBeginningOfRunwayX()
+										+ Airport.getTriangleSize()[0],
+								Airport.getRunwayY()
+										- (Airport.getTriangleSize()[1] / 2),
+								-Airport.getTriangleSize()[0],
+								Airport.getTriangleSize()[1]);
 						landingApproachAreaDrawn = true;
 					}
 				}
@@ -994,46 +1003,24 @@ public class GameWindow extends BasicGameState {
 				display = false;
 
 				// Draw the game over text
-				new TrueTypeFont(this.fontPrimitive.deriveFont(50f), true)
-						.drawString(300f, 200f, "That didn't end well...");
-				new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
-						.drawString(400f, 260f, "Score: "
-								+ (int) this.currentGame.getScore().getScore());
-				
-				// Draw exit arrow icon
-				InputStream arrowStream = this.getClass().getResourceAsStream(
-						"/resources/other/ArrowR.png");
-				InputStream arrowShadedStream = this.getClass().getResourceAsStream(
-						"resources/other/ArrowB.png");
-				this.arrowIcon = new Image(arrowStream, "Arrow Image", false);
-				this.arrowIconShaded = new Image(arrowShadedStream,
-						"Arrow Shaded Image", false);
-				
+				endFont.drawString(300, 200, "That didn't end well");
+				endFont.drawString(400, 260, "Score: "+ (int) this.currentGame.getScore().getScore());
+
 				int textHeight = this.font.getHeight();
-				
+
 				this.checkForSelection(gameContainer, game);
-				
+
 				this.arrowIconShaded.draw(247, gameContainer.getHeight() - 48
 						- (textHeight / 4), 45, 35);
 
-				
 				this.arrowIcon.draw(245, gameContainer.getHeight() - 50
 						- (textHeight / 4), 45, 35);
 				
-				// Countdown till game exists to main menu
-				/*new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
-						.drawString(
-								453f,
-								310,
-								"Return in: "
-										+ (int) (10 - ((this.time - this.endTime) / 1000)));
-				*/						
 				if (saveFile.getLevel2UnlockScore() <= this.currentGame
 						.getScore().getScore()
 						&& ((WindowManager) game).getCurrentLevel() == 1
 						&& unlock2 == false) {
-					new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
-							.drawString(420f, 350f, "Level 2 Unlocked!");
+					endFont.drawString(420, 350, "Level 2 Unlocked");
 					if (!hasSaved) {
 						saveFile.setLevel2Unlock(true);
 						saveFile.saveStats();
@@ -1043,54 +1030,54 @@ public class GameWindow extends BasicGameState {
 						.getScore().getScore()
 						&& ((WindowManager) game).getCurrentLevel() == 2
 						&& unlock3 == false) {
-					new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
-							.drawString(420f, 350f, "Level 3 Unlocked!");
+					endFont.drawString(420, 350, "Level 3 Unlocked");
 					if (!hasSaved) {
 						saveFile.setLevel3Unlock(true);
 						saveFile.saveStats();
 						this.hasSaved = true;
 					}
 				}
-				
+
 				// Manages leaderboard entries if score is high enough
-				
-				if (WindowManager.leaderBoard.leaderboardEntries[4].getScore() < this.currentGame.getScore().getScore()){
-					
-	
+
+				if (WindowManager.leaderBoard.leaderboardEntries[4].getScore() < this.currentGame
+						.getScore().getScore()) {
+
 					// initializes text box
-					if (isTextBoxIni == false){
-						textBox =  new TextField(currentGameContainer, endFont ,300, 350,430, 50);
+
+					if (isTextBoxIni == false) {
+						textBox = new TextField(currentGameContainer, endFont,
+								300, 350, 430, 50);
 						textBox.setBorderColor(Color.black);
 						textBox.setBackgroundColor(Color.white);
 						textBox.setTextColor(Color.orange);
-						//textBox.setConsumeEvents(true);
+						// textBox.setConsumeEvents(true);
 						textBox.setAcceptingInput(true);
 						textBox.setMaxLength(30);
 						isTextBoxIni = true;
 						WindowManager.leaderBoard.isConnected();
-					
-						
 					}
 					
 					
 					
 					//creates a text box to enter your name:
-					if(WindowManager.leaderBoard.connected){
-						
-						new TrueTypeFont(this.fontPrimitive.deriveFont(25f),true)
-						.drawString(300f, 300f, "Enter your name to the leaderboard");
-						
-							textBox.render(currentGameContainer, g);
-					
-						if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
-							saveFile.addLeaderboardScore(textBox.getText(), currentGame.getScore().getScore());
+					if(LeaderBoard.connected){
+						endFont.drawString(300, 300, "Enter your name to the leaderboard");
+						textBox.render(currentGameContainer, g);
+
+						if (Keyboard.getEventKey() == Keyboard.KEY_RETURN) {
+							saveFile.addLeaderboardScore(textBox.getText(),
+									currentGame.getScore().getScore());
 							textBox.setText("");
 							game.enterState(WindowManager.MAIN_MENU_STATE);
-						
+
+						}
+					} else {
+						new TrueTypeFont(this.fontPrimitive.deriveFont(25f),
+								true).drawString(305f, 300f,
+								"No internet connection");
 					}
-				}else{ new TrueTypeFont(this.fontPrimitive.deriveFont(25f),true)
-				.drawString(305f, 300f, "No internet connection");}
-			}
+				}
 			}
 
 			// if the planes collided but the ending has not yet been set
@@ -1101,9 +1088,9 @@ public class GameWindow extends BasicGameState {
 				// End the game
 				this.currentGame.setEnding(true);
 			}
-			
+
 		}
-		
+
 	}
 
 	/**
@@ -1126,13 +1113,11 @@ public class GameWindow extends BasicGameState {
 			try {
 				currentGame.update(gameContainer, game);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
-	
-	
+
 	private void checkForSelection(GameContainer gameContainer,
 			StateBasedGame game) {
 		int x = gameContainer.getInput().getMouseX();
@@ -1151,8 +1136,9 @@ public class GameWindow extends BasicGameState {
 				&& (x <= (50 - 25) + mainMenuWidth + 25)
 				&& (y <= (gameContainer.getHeight() - 50 + textHeight + 25))) {
 			if (clicked) {
-				if(isTextBoxIni){
-					saveFile.addLeaderboardScore(textBox.getText(), currentGame.getScore().getScore());
+				if (isTextBoxIni) {
+					saveFile.addLeaderboardScore(textBox.getText(), currentGame
+							.getScore().getScore());
 					textBox.setText("");
 				}
 				game.enterState(WindowManager.MAIN_MENU_STATE);
@@ -1164,9 +1150,12 @@ public class GameWindow extends BasicGameState {
 			mainMenuColor = Color.orange;
 		}
 		// Draw the actual text
-		endFont.drawString(50 + 2,  gameContainer.getHeight() - 50 + 2, mainMenuText, Color.black);
-		endFont.drawString(50,  gameContainer.getHeight() - 50, mainMenuText, mainMenuColor);
+		endFont.drawString(50 + 2, gameContainer.getHeight() - 50 + 2,
+				mainMenuText, Color.black);
+		endFont.drawString(50, gameContainer.getHeight() - 50, mainMenuText,
+				mainMenuColor);
 	}
+
 	/**
 	 * Handles mouse click events
 	 * 
