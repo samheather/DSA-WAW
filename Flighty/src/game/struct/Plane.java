@@ -3,12 +3,12 @@ package game.struct;
 /**
  * Plane class
  */
-public class Plane {
+public abstract class Plane {
 
-	private int takeoffAngleHighMulti = 345;
-	private int takeoffAngleLowMulti = 15;
-	private int takeoffAngleHighSingle = 225;
-	private int takeoffAngleLowSingle = 135;
+	protected int takeoffAngleHighMulti = 345;
+	protected int takeoffAngleLowMulti = 15;
+	protected int takeoffAngleHighSingle = 225;
+	protected int takeoffAngleLowSingle = 135;
 	
 
 
@@ -32,7 +32,7 @@ public class Plane {
 		return deleted;
 	}
 	
-	public void delete() {
+	public void markForDeletion() {
 		deleted = true;
 		markForSyncing();
 	}
@@ -103,6 +103,10 @@ public class Plane {
 	public transient Game currentGame;
 	
 	public boolean ownedByCurrentPlayer = false;
+	
+	protected Plane() {
+		// required for serialization
+	}
 
 	// Constructor
 
@@ -128,10 +132,8 @@ public class Plane {
 	 * @param y
 	 *            the y position to create the plane at
 	 */
-	public Plane() {
-	}
 
-	public Plane(int id, double velocity, int altitude, double bearing,
+	protected Plane(int id, double velocity, int altitude, double bearing,
 			Game currentGame, long uniqueNetworkObjectId) {
 		this.currentGame = currentGame;
 		this.id = id;
@@ -369,6 +371,9 @@ public class Plane {
 
 		return rate;
 	}
+	
+	
+	public abstract boolean allowedToLand();
 
 	/**
 	 * First checks that another plane is not landing, then checks whether plane
@@ -376,15 +381,8 @@ public class Plane {
 	 * plane's current bearing is such that the plane is facing the runway. If
 	 * all these conditions are met, the plane begins to land.
 	 */
-	public void land(boolean multiplayer) {
-		if (!currentGame.getAirport().isPlaneLanding()
-				&& currentGame.getAirport().getLandingApproachArea()
-						.contains((float) getX(), (float) getY())
-				&& ((multiplayer && ((getBearing() >= takeoffAngleHighMulti && getBearing() <= 359)
-						|| (getBearing() <= takeoffAngleLowMulti && getBearing() >= 0)))
-						||(!multiplayer && ((getBearing() <= takeoffAngleHighSingle)
-								|| (getBearing() >= takeoffAngleLowSingle))))
-				&& getAltitude() <= 2000) {
+	public void land() {
+		if (allowedToLand()) {
 			currentGame.getAirport().setPlaneLanding(true);
 
 			setNeedsToLand(false);
@@ -778,4 +776,6 @@ public class Plane {
 	public void setOwnedByCurrentPlayer(boolean Owns) {
 		this.ownedByCurrentPlayer = Owns;
 	}
+
+	public abstract void setBearingForTakeoff();
 }
