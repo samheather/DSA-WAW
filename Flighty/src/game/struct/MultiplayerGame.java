@@ -178,7 +178,7 @@ public class MultiplayerGame extends Game {
 
 				// Deselects plane that left the airspace
 				plane.setOwnedByCurrentPlayer(false);
-				currentPlane = null;
+				//currentPlane = null;
 			}
 	}
 
