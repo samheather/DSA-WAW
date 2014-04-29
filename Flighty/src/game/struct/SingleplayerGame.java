@@ -88,7 +88,8 @@ public class SingleplayerGame extends Game {
 				|| (plane.getX() < distFromLeftEdge)
 				|| (plane.getY() > windowHeight) || (plane.getY() < 0)) {
 			// Updates score if plane in game area
-			getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
+			if (plane.ownedByCurrentPlayer)
+				getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
 
 			// Deselects plane that left the airspace
 			if (currentPlane != null) {
