@@ -477,22 +477,12 @@ public abstract class Game {
 	 *            the plane to remove from manual control
 	 */
 	public void removeFromManual(Plane plane) {
-		deleteFromManual(plane);
+		plane.setAuto();
 
 		// Make the unselected plane go to the next waypoint
 		if (plane.getFlightPlan().getCurrentRoute().size() != 0) {
 			plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
 		}
-	}
-
-	/**
-	 * Deletes plane from manual
-	 * 
-	 * @param plane
-	 *            The plane to be deleted from manual
-	 */
-	public void deleteFromManual(Plane plane) {
-		plane.setAuto();
 	}
 	
 	/** Checks if any plane on screen needs to take off
@@ -725,13 +715,7 @@ public abstract class Game {
 		countToNextPlane--;
 	}
 
-	public final List<Plane> getManualPlanes() {
-		ArrayList<Plane> manualPlanes = new ArrayList<Plane>();
-		for (Plane i : getCurrentPlanes()) {
-			manualPlanes.add(i);
-	}
-		return Collections.unmodifiableList(manualPlanes);
-	}
+
 	// GETTERS
 
 	/**
