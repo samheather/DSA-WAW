@@ -476,16 +476,11 @@ public abstract class Game {
 	 *            the plane to remove from manual control
 	 */
 	public void removeFromManual(Plane plane) {
-		// Loop while there is at last a plane in the manual control
-		while (getManualPlanes().contains(plane)) {
-			// and remove it
-			plane.setAuto();
+		deleteFromManual(plane);
 
-			// Make the unselected plane go to the next waypoint
-			if (plane.getFlightPlan().getCurrentRoute().size() != 0) {
-				plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
-			}
-
+		// Make the unselected plane go to the next waypoint
+		if (plane.getFlightPlan().getCurrentRoute().size() != 0) {
+			plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
 		}
 	}
 
@@ -496,9 +491,7 @@ public abstract class Game {
 	 *            The plane to be deleted from manual
 	 */
 	public void deleteFromManual(Plane plane) {
-		while (getManualPlanes().contains(plane)) {
-			plane.setAuto();
-		}
+		plane.setAuto();
 	}
 	
 	/** Checks if any plane on screen needs to take off
@@ -531,9 +524,9 @@ public abstract class Game {
 			if (gameContainer.getInput().isKeyDown(203)
 					|| gameContainer.getInput().isKeyDown(30)) {
 
-				if (!getManualPlanes().contains(currentPlane)) {
-					currentPlane.setManual();
-				}
+
+				currentPlane.setManual();
+
 
 				currentPlane.decrementBearing();
 				currentPlane.markForSyncing();
@@ -543,9 +536,8 @@ public abstract class Game {
 			if (gameContainer.getInput().isKeyDown(205)
 					|| gameContainer.getInput().isKeyDown(32)) {
 
-				if (!getManualPlanes().contains(currentPlane)) {
-					currentPlane.setManual();
-				}
+
+				currentPlane.setManual();
 
 				currentPlane.incrementBearing();
 				currentPlane.markForSyncing();
@@ -680,9 +672,7 @@ public abstract class Game {
 										.size() == 2) {
 							// Planes that need to be landed are controlled
 							// manually
-							if (!getManualPlanes().contains(plane)) {
-								plane.setAuto();
-							}
+							plane.setManual();
 
 							// Signals that plane needs to land
 							plane.setNeedsToLand(true);
@@ -866,17 +856,6 @@ public abstract class Game {
 	 */
 	public void setSpawnCount(int newSpawnCount) {
 		spawnCount = newSpawnCount;
-	}
-
-	/**
-	 * @return manualPlanes
-	 */
-	public final List<Plane> getManualPlanes() {
-		ArrayList<Plane> manualPlanes = new ArrayList<Plane>();
-		for (Plane i : getCurrentPlanes()) {
-			manualPlanes.add(i);
-		}
-		return Collections.unmodifiableList(manualPlanes);
 	}
 	
 	public void clearManualPlanes() {

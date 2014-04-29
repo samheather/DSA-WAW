@@ -168,9 +168,8 @@ public class MultiplayerWindow extends BasicGameState {
 		currentGame.getCurrentPlane().setTurningRight(false);
 
 		// Select the plane
-		if (!currentGame.getManualPlanes().contains(currentPlane)) {
-			currentPlane.setManual();
-		}
+		currentPlane.setManual();
+
 
 		// Calculate new bearing
 		double newBearing = Math.toDegrees(Math.atan2(currentGame

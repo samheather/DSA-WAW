@@ -477,13 +477,11 @@ public abstract class Plane {
 			updateXYCoordinates();
 		} else {
 			if (getTarget() != null) {
-				if (!currentGame.getManualPlanes().contains(this)) {
+				if (!isManual()) {
 					// Get the angle to the next waypoint
 					calculateBearingToNextWaypoint();
-					updateCurrentBearing();
-				} else {
-					updateCurrentBearing();
 				}
+				updateCurrentBearing();
 
 				// Move the plane
 				updateXYCoordinates();

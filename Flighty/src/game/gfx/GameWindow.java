@@ -180,9 +180,8 @@ public class GameWindow extends BasicGameState {
 		this.currentGame.getCurrentPlane().setTurningRight(false);
 
 		// Select the plane
-		if (!this.currentGame.getManualPlanes().contains(currentPlane)) {
-			currentPlane.setManual();
-		}
+		currentPlane.setManual();
+
 
 		// Calculate new bearing
 		double newBearing = Math.toDegrees(Math.atan2(this.currentGame
