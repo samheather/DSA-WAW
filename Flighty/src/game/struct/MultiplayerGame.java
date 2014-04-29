@@ -82,8 +82,7 @@ public class MultiplayerGame extends Game {
 					ListIterator<MultiplayerPlane> i = multiplayerPlanes.listIterator();
 					while (i.hasNext()) {
 						Plane p2 = i.next();
-						if (p2.getUniqueNetworkObjectID() == p
-								.getUniqueNetworkObjectID()) {
+						if (p2.equals(p)) {
 							//p.ownedByCurrentPlayer = false;
 							if (p.deleted())
 								i.remove();
@@ -179,7 +178,7 @@ public class MultiplayerGame extends Game {
 
 				// Deselects plane that left the airspace
 				plane.setOwnedByCurrentPlayer(false);
-				currentPlane = null;
+				//currentPlane = null;
 			}
 	}
 
