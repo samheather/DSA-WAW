@@ -12,6 +12,7 @@ import java.security.NoSuchAlgorithmException;
 import game.struct.Game;
 import game.struct.Plane;
 import game.struct.SingleplayerGame;
+import game.struct.SingleplayerPlane;
 
 public class PlaneTests {
 
@@ -21,7 +22,7 @@ public class PlaneTests {
 	@Before
 	public void beforeTests() throws NoSuchAlgorithmException, UnknownHostException, IOException {
 		game = new SingleplayerGame(50, 100, 0);
-		plane1 = new Plane(1, 500, 3000, 50, game, 0);
+		plane1 = new SingleplayerPlane(1, 500, 3000, 50, game, 0);
 
 	}
 
@@ -415,7 +416,7 @@ public class PlaneTests {
 		plane1.setY(465);
 		plane1.setAltitude(2000);
 		plane1.setBearing(170);
-		plane1.land(false);
+		plane1.land();
 		assertTrue(game.getAirport().isPlaneLanding());
 		assertFalse(plane1.getNeedsToLand());
 		assertTrue(plane1.isLanding());

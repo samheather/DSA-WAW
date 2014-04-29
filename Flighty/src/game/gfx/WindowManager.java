@@ -137,7 +137,6 @@ public class WindowManager extends StateBasedGame {
 		this.addState(new Credits());
 	    this.addState(new LeaderBoard());
 		this.addState(new Controls());
-		this.addState(new Multiplayer());
 		this.addState(new MultiplayerWindow());
 	}
 

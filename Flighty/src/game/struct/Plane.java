@@ -13,6 +13,20 @@ public abstract class Plane {
 	private float lastFaceTrackingOffsetX = 0;
 	private float lastFaceTrackingOffsetY = 0;
 	private int lastFaceTrackingSize = 0;
+	
+	private boolean manual = false;
+	
+	public void setManual() {
+		manual = true;
+	}
+	
+	public void setAuto() {
+		manual = false;
+	}
+	
+	public boolean isManual() {
+		return manual;
+	}
 
 	private boolean needsSyncing = true;
 
@@ -106,7 +120,7 @@ public abstract class Plane {
 	
 	public boolean ownedByCurrentPlayer = false;
 	
-	protected Plane() {
+	public Plane() {
 		// required for serialization
 	}
 
@@ -393,7 +407,7 @@ public abstract class Plane {
 
 			calculateBearingToNextWaypoint();
 			setLandingDescentRate(findLandingDescentRate());
-			currentGame.getManualPlanes().remove(this);
+			setAuto();
 			currentGame.setCurrentPlane(null);
 		}
 		markForSyncing();
@@ -406,7 +420,7 @@ public abstract class Plane {
 	 */
 	public void takeOff() {
 		setVelocity(currentGame.generateVelocity());
-		currentGame.getManualPlanes().remove(this);
+		setAuto();
 
 		setNeedsToTakeOff(false);
 		setTakingOff(true);
@@ -466,13 +480,11 @@ public abstract class Plane {
 			updateXYCoordinates();
 		} else {
 			if (getTarget() != null) {
-				if (!currentGame.getManualPlanes().contains(this)) {
+				if (!isManual()) {
 					// Get the angle to the next waypoint
 					calculateBearingToNextWaypoint();
-					updateCurrentBearing();
-				} else {
-					updateCurrentBearing();
 				}
+				updateCurrentBearing();
 
 				// Move the plane
 				updateXYCoordinates();
