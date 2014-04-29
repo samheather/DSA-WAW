@@ -104,7 +104,7 @@ public abstract class Plane {
 	
 	public boolean ownedByCurrentPlayer = false;
 	
-	protected Plane() {
+	public Plane() {
 		// required for serialization
 	}
 

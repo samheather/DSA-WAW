@@ -11,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import game.struct.Game;
 import game.struct.Plane;
 import game.struct.SingleplayerGame;
+import game.struct.SingleplayerPlane;
 
 public class GameTests {
 
@@ -24,7 +25,7 @@ public class GameTests {
 	public void beforeTests() throws NoSuchAlgorithmException, UnknownHostException, IOException {
 
 		game = new SingleplayerGame(50, 100, 0);
-		plane1 = new Plane(1, 500, 3000, 50, game, 0);
+		plane1 = new SingleplayerPlane(1, 500, 3000, 50, game, 0);
 
 	}
 

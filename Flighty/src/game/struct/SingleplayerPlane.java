@@ -1,7 +1,7 @@
 
 package game.struct;
 
-class SingleplayerPlane extends Plane {
+public class SingleplayerPlane extends Plane {
 
 	public SingleplayerPlane(int id, double velocity, int altitude,
 			double bearing, Game currentGame, long uniqueNetworkObjectId) {
