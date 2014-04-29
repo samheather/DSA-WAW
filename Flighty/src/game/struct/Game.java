@@ -723,6 +723,13 @@ public abstract class Game {
 		countToNextPlane--;
 	}
 
+	public final List<Plane> getManualPlanes() {
+		ArrayList<Plane> manualPlanes = new ArrayList<Plane>();
+		for (Plane i : getCurrentPlanes()) {
+			manualPlanes.add(i);
+	}
+		return Collections.unmodifiableList(manualPlanes);
+	}
 	// GETTERS
 
 	/**
