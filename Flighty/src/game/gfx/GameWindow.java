@@ -180,9 +180,8 @@ public class GameWindow extends BasicGameState {
 		this.currentGame.getCurrentPlane().setTurningRight(false);
 
 		// Select the plane
-		if (!this.currentGame.getManualPlanes().contains(currentPlane)) {
-			this.currentGame.getManualPlanes().add(currentPlane);
-		}
+		currentPlane.setManual();
+
 
 		// Calculate new bearing
 		double newBearing = Math.toDegrees(Math.atan2(this.currentGame
@@ -1278,7 +1277,7 @@ public class GameWindow extends BasicGameState {
 		this.currentGame.setCollision(true);
 		this.currentGame.setEnding(true);
 
-		this.currentGame.setManualPlanes(new ArrayList<Plane>());
+		this.currentGame.clearManualPlanes();
 		this.currentGame.setCollidedPlanes(new ArrayList<Plane>());
 
 		this.currentGame.setCurrentPlane(null);
