@@ -95,6 +95,22 @@ public class SaveFile {
 		return null;
 	}
 	
+	public Long getLowestScore(){
+		String s = getLeaderboardScores();
+		String[] scores = s.split("}");
+		JSONParser parser=new JSONParser();
+		scores[4] = scores[4] + "}";
+		try{
+			Object obj = parser.parse(scores[4]);
+			JSONObject jsonObject = (JSONObject) obj;
+			return (((Long) jsonObject.get("score")).longValue());	
+		}
+		catch (ParseException e) {
+			e.printStackTrace();
+			return (long) 0;
+		}
+	}
+	
 	
 	
 	public void readStats() {
