@@ -46,6 +46,8 @@ public class GameWindow extends BasicGameState {
 	/** The height the game is displayed at */
 	public int windowHeight;
 	
+	private int endScore;
+	
 	/** Lowest leaderboard score*/
 	
 	private long lowScore;
@@ -1008,7 +1010,7 @@ public class GameWindow extends BasicGameState {
 
 				// Draw the game over text
 				endFont.drawString(300, 200, "That didn't end well");
-				endFont.drawString(400, 260, "Score: "+ (int) this.currentGame.getScore().getScore());
+				endFont.drawString(400, 260, "Score: "+ this.endScore);
 
 				int textHeight = this.font.getHeight();
 
@@ -1090,6 +1092,7 @@ public class GameWindow extends BasicGameState {
 				else {
 					// Stop the timer
 					this.endTime = this.time;
+					this.endScore = currentGame.getScore().getScore();
 					// End the game
 					this.currentGame.setEnding(true);
 				}
