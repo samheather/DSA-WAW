@@ -105,6 +105,8 @@ public class Plane {
 	public transient Game currentGame;
 	
 	public boolean ownedByCurrentPlayer = false;
+	
+	private boolean autopilot;
 
 	// Constructor
 
@@ -155,6 +157,7 @@ public class Plane {
 		this.takingOff = false;
 		this.landingDescentRate = 0;
 		this.violationOccurred = false;
+		this.autopilot = true;
 
 		if (this.flightPlan.getCurrentRoute().size() != 0) { // Forces every new
 																// plane to head
@@ -283,6 +286,7 @@ public class Plane {
 	 * This is done so planes follow their flight plan automatically
 	 */
 	public void calculateBearingToNextWaypoint() {
+		if(autopilot){
 		double angle;
 		angle = Math.toDegrees(Math.atan2(getY() - target.getY(), getX()
 				- target.getX()));
@@ -295,11 +299,14 @@ public class Plane {
 		setTurningLeft(false);
 		setTargetBearing(angle);
 	}
+	}
 
 	/** Updates current bearing */
 	public void updateCurrentBearing() {
 		// Rate at which the plane changes its bearing
 		double rate = 0.9;
+		
+		if(autopilot){
 
 		if (Math.round(getTargetBearing()) <= Math.round(getBearing()) - 3
 				|| Math.round(getTargetBearing()) >= Math.round(getBearing()) + 3) {
@@ -354,6 +361,8 @@ public class Plane {
 			setTurningLeft(false);
 			setTurningRight(false);
 		}
+		}
+		
 		//markForSyncing();
 	}
 
@@ -788,5 +797,8 @@ public class Plane {
 	
 	public void setOwnedByCurrentPlayer(boolean Owns) {
 		this.ownedByCurrentPlayer = Owns;
+	}
+	public void setAutoPilot(boolean value){
+		autopilot = value;
 	}
 }

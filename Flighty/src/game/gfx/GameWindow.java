@@ -488,6 +488,7 @@ public class GameWindow extends BasicGameState {
 		g.setColor(this.fontColor);
 
 		if (!this.currentGame.isEnding()) {
+			System.out.println("LOL");
 
 			// Display the Game Information
 			if(!currentGame.isMultiplayer()) {
@@ -982,6 +983,7 @@ public class GameWindow extends BasicGameState {
 		// If the planes collided
 		if (this.currentGame.isCollision()) {
 			// If the game is ending
+			this.currentGame.setEnding(true);
 			if (this.currentGame.isEnding()) {
 				// Draw the two collided planes rotated a bit so it looks like a
 				// crash
@@ -1002,6 +1004,7 @@ public class GameWindow extends BasicGameState {
 								+ (int) this.currentGame.getScore().getScore());
 				
 				// Draw exit arrow icon
+				
 				InputStream arrowStream = this.getClass().getResourceAsStream(
 						"/resources/other/ArrowR.png");
 				InputStream arrowShadedStream = this.getClass().getResourceAsStream(
@@ -1009,6 +1012,7 @@ public class GameWindow extends BasicGameState {
 				this.arrowIcon = new Image(arrowStream, "Arrow Image", false);
 				this.arrowIconShaded = new Image(arrowShadedStream,
 						"Arrow Shaded Image", false);
+						
 				
 				int textHeight = this.font.getHeight();
 				
@@ -1028,7 +1032,8 @@ public class GameWindow extends BasicGameState {
 								310,
 								"Return in: "
 										+ (int) (10 - ((this.time - this.endTime) / 1000)));
-				*/						
+				*/
+				
 				if (saveFile.getLevel2UnlockScore() <= this.currentGame
 						.getScore().getScore()
 						&& ((WindowManager) game).getCurrentLevel() == 1
@@ -1053,25 +1058,25 @@ public class GameWindow extends BasicGameState {
 					}
 				}
 				
-				// Manages leaderboard entries if score is high enough
 				
+				// Manages leaderboard entries if score is high enough	
 				if (WindowManager.leaderBoard.leaderboardEntries[4].getScore() < this.currentGame.getScore().getScore()){
+				
 					
-	
 					// initializes text box
 					if (isTextBoxIni == false){
 						textBox =  new TextField(currentGameContainer, endFont ,300, 350,430, 50);
 						textBox.setBorderColor(Color.black);
 						textBox.setBackgroundColor(Color.white);
 						textBox.setTextColor(Color.orange);
-						//textBox.setConsumeEvents(true);
+						textBox.setConsumeEvents(true);
 						textBox.setAcceptingInput(true);
-						textBox.setMaxLength(30);
+						textBox.setMaxLength(25);
+						textBox.setText("");
 						isTextBoxIni = true;
-						WindowManager.leaderBoard.isConnected();
-					
-						
+						WindowManager.leaderBoard.isConnected();						
 					}
+					
 					
 					
 					
@@ -1081,16 +1086,22 @@ public class GameWindow extends BasicGameState {
 						new TrueTypeFont(this.fontPrimitive.deriveFont(25f),true)
 						.drawString(300f, 300f, "Enter your name to the leaderboard");
 						
-							textBox.render(currentGameContainer, g);
+						//textBox.render(currentGameContainer, g);
+							if(Keyboard.getEventKeyState()){
+							System.out.println(Keyboard.getEventCharacter());
+							}
 					
 						if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
-							saveFile.addLeaderboardScore(textBox.getText(), currentGame.getScore().getScore());
-							textBox.setText("");
-							game.enterState(WindowManager.MAIN_MENU_STATE);
+							if(textBox.getText() != ""){
+								saveFile.addLeaderboardScore(textBox.getText(), currentGame.getScore().getScore());
+								textBox.setText("");
+								game.enterState(WindowManager.MAIN_MENU_STATE);
+							}else{game.enterState(WindowManager.MAIN_MENU_STATE);}
 						
 					}
 				}else{ new TrueTypeFont(this.fontPrimitive.deriveFont(25f),true)
 				.drawString(305f, 300f, "No internet connection");}
+					
 			}
 			}
 
@@ -1105,7 +1116,7 @@ public class GameWindow extends BasicGameState {
 			
 		}
 		
-	}
+}
 
 	/**
 	 * Updates the game state

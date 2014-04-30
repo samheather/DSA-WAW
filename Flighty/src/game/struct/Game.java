@@ -529,6 +529,10 @@ public abstract class Game {
 			manualPlanes.remove(plane);
 		}
 	}
+	
+	public void addToManual(Plane plane){
+		manualPlanes.add(plane);
+	}
 
 	public void handleKeyPresses(GameContainer gameContainer) {
 		if (currentPlane == null)
@@ -846,7 +850,7 @@ public abstract class Game {
 	public double getEndTime() {
 		return endTime;
 	}
-
+	
 	/**
 	 * @param endTime
 	 *            Value which endTime is to be changed to
