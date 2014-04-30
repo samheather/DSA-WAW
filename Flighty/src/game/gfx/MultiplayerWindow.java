@@ -346,10 +346,6 @@ public class MultiplayerWindow extends BasicGameState {
 		// Set the font (used for altitudes etc.)
 		this.fontPrimitive = new Font("Lucida Sans", Font.PLAIN, 12);
 		this.font = new TrueTypeFont(this.fontPrimitive, true);
-		this.gameOverFont1 = new TrueTypeFont(
-				this.fontPrimitive.deriveFont(50f), true);
-		this.gameOverFont2 = new TrueTypeFont(
-				this.fontPrimitive.deriveFont(25f), true);
 
 		// Initialise Waypoint Sound
 		checkpointSound = new Sound("resources/music/checkpointSound.ogg");
