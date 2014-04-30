@@ -31,10 +31,11 @@ public class SingleplayerGame extends Game {
 	
 	
 	public SingleplayerGame(int newSeparationDistance, int newPenaltyDistance,
-			int distFromLeft)
+			int distFromLeft, int multiplier)
 			throws NoSuchAlgorithmException, UnknownHostException, IOException {
 		super(newSeparationDistance, newPenaltyDistance, distFromLeft);
 		System.out.println("singlep game constructed");
+		this.getScore().setMultiplier(multiplier);
 	}
 
 	@Override

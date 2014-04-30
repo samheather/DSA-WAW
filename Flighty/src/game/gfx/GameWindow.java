@@ -421,7 +421,7 @@ public class GameWindow extends BasicGameState {
 		if (((WindowManager) game).getCurrentLevel() == 1) {
 			// Play level 1
 			try {
-				this.currentGame = new SingleplayerGame(50, 100, 0);
+				this.currentGame = new SingleplayerGame(50, 100, 0, 1);
 			} catch (NoSuchAlgorithmException | IOException e) {
 				e.printStackTrace();
 			}
@@ -433,7 +433,7 @@ public class GameWindow extends BasicGameState {
 		} else if (((WindowManager) game).getCurrentLevel() == 2) {
 			// Play level 2
 			try {
-				this.currentGame = new SingleplayerGame(70, 100, 0);
+				this.currentGame = new SingleplayerGame(70, 100, 0, 2);
 			} catch (NoSuchAlgorithmException | IOException e) {
 				e.printStackTrace();
 			}
@@ -445,7 +445,7 @@ public class GameWindow extends BasicGameState {
 		} else if (((WindowManager) game).getCurrentLevel() == 3) {
 			// Play level 3
 			try {
-				this.currentGame = new SingleplayerGame(70, 100, 0);
+				this.currentGame = new SingleplayerGame(70, 100, 0, 3);
 			} catch (NoSuchAlgorithmException | IOException e) {
 				e.printStackTrace();
 			}
