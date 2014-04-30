@@ -143,6 +143,7 @@ public class MultiplayerWindow extends BasicGameState {
 
 	/** How often should the user be penalised for not taking off **/
 	double synchTakeOff = TAKE_OFF_PENALTY_TIME;
+	
 
 	/** Boolean to make sure the points aren't reduce multiple times **/
 	boolean reducePoints = true;
@@ -156,6 +157,13 @@ public class MultiplayerWindow extends BasicGameState {
 
 	/** Background music **/
 	Music gameMusic;
+	
+	/** Used to control autopilot off button **/
+	
+	double autoPilotDuration = 5000;
+	double offTime ;
+	boolean autoPilotOff = false;
+	
 
 	/**
 	 * Give heading via cursor
@@ -438,10 +446,31 @@ public class MultiplayerWindow extends BasicGameState {
 	}
 
 	private void disableManualControl() {
+		ArrayList<Plane> allPlanes;
+		allPlanes = currentGame.getCurrentPlanes();
+		for(int i = 0; i < allPlanes.size() ; i++){
+			if (allPlanes.get(i).ownedByCurrentPlayer == true){
+				allPlanes.get(i).setAutoPilot(false);
+				
+			}
+		}
+		return;
+	}
+	
+	
+	private void enableManualControl(){
+		ArrayList<Plane> allPlanes;
+		allPlanes = currentGame.getCurrentPlanes();
+		for(int i = 0; i < allPlanes.size() ; i++){
+			if (allPlanes.get(i).ownedByCurrentPlayer == true){
+				allPlanes.get(i).setAutoPilot(true);
+			}
+		}
+		return;
+	}
 		/*
 		 * TODO Add functionality
 		 */
-	}
 
 	private void sendClouds() {
 		/*
@@ -542,6 +571,7 @@ public class MultiplayerWindow extends BasicGameState {
 		Color cloudTextColor = Color.orange;
 		Color autopilotTextColor = Color.orange;
 		Color debrisTextColor = Color.orange;
+		Color waitingTextColor = Color.orange;
 
 		// Hovering box tolerance in pixels
 		int tolerance = 10;
@@ -585,11 +615,22 @@ public class MultiplayerWindow extends BasicGameState {
 		}
 
 		graphics.setFont(sidebarFont);
+		
+		
 
 		// Draw the cloud text
 		drawShadowedText(cloudText1, cloudTextColor, cloudTextPos1, graphics);
 		drawShadowedText(cloudText2, cloudTextColor, cloudTextPos2, graphics);
 		drawShadowedText(cloudText3, cloudTextColor, cloudTextPos3, graphics);
+		
+		if(autoPilotOff == true){
+			if(offTime + autoPilotDuration < time){
+				autoPilotOff = false;
+				enableManualControl();
+				System.out.println("Stop   " );
+				
+			}
+		}
 
 		// autopilot button
 		if (isInHitBox(x, y, autopilotTextPos1, autopilotTextWidth1,
@@ -599,7 +640,10 @@ public class MultiplayerWindow extends BasicGameState {
 				|| isInHitBox(x, y, autopilotTextPos3, autopilotTextWidth3,
 						fontHeight, tolerance)) {
 			if (clicked) {
-				disableManualControl();
+				//currentGame.getScore().setScore(currentGame.getScore().getScore() - 40);
+				System.out.println("Start");
+				autoPilotOff = true;
+				offTime = time;
 			} else {
 				// Change hover text and add waypoint next to text
 				autopilotTextColor = Color.white;
@@ -645,7 +689,7 @@ public class MultiplayerWindow extends BasicGameState {
 		
 		//Draw waiting for opponent if there is no opponent
 		if(WindowManager.opponentFound == false){
-			drawShadowedText(waitingText, debrisTextColor,waitingTextPos, graphics);
+			drawShadowedText(waitingText, waitingTextColor,waitingTextPos, graphics);
 		}
 	}
 
