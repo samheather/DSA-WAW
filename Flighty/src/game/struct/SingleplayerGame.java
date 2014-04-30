@@ -1,5 +1,7 @@
 package game.struct;
 
+import game.vision.LocateFace;
+
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
@@ -9,10 +11,18 @@ import java.util.ListIterator;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
+<<<<<<< HEAD
+
+public class SingleplayerGame extends Game {
+=======
+>>>>>>> origin/MacVision
 
 public class SingleplayerGame extends Game {
 
-
+	/**Face Locator */
+	private LocateFace faceLocator;
+	private float faceTrackingTranslationalScaleFactor = 0.1f;
+	private float faceTrackingZoomScaleFactor = 0.01f;
 	
 	private ArrayList<SingleplayerPlane> singleplayerPlanes = new ArrayList<SingleplayerPlane>();
 	
@@ -34,8 +44,43 @@ public class SingleplayerGame extends Game {
 			int distFromLeft)
 			throws NoSuchAlgorithmException, UnknownHostException, IOException {
 		super(newSeparationDistance, newPenaltyDistance, distFromLeft);
+		faceLocator = new LocateFace();
 		System.out.println("singlep game constructed");
 	}
+<<<<<<< HEAD
+=======
+	
+	@Override
+	public void update(GameContainer gameContainer, StateBasedGame game) throws IOException {
+		super.update(gameContainer, game);
+		// Rescan for faces to get updated face locations
+		boolean faceScanSuccessful = false;
+		faceScanSuccessful = faceLocator.updateFacePosition();
+		
+		for (Plane plane : getCurrentPlanes()) {
+			plane.movePlane();
+ 			if (faceScanSuccessful) {
+ 				plane.updateFaceDetectionPosition(
+ 						faceLocator.getImmediateHorizontalAngle(true)*faceTrackingTranslationalScaleFactor,
+ 						faceLocator.getImmediateVerticalAngle(true)*faceTrackingTranslationalScaleFactor,
+ 						(int)(faceLocator.getImmediateDistance(true)*faceTrackingZoomScaleFactor));
+ 			}
+		}
+	}
+	
+	@Override
+	public void removePlane(Plane toDelete) {
+		if(isEnding())
+			return;
+		for (ListIterator<SingleplayerPlane> iter = singleplayerPlanes
+				.listIterator(singleplayerPlanes.size()); iter.hasPrevious();) {
+			if (toDelete.equals(iter.previous())) {
+				iter.remove();
+				return;
+			}
+		}
+	}
+>>>>>>> origin/MacVision
 
 	@Override
 	protected Airport createAirport() {

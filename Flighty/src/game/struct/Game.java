@@ -993,5 +993,20 @@ public abstract class Game {
 	public void setPlaneCount(int newPlaneCount) {
 		planeCount = newPlaneCount;
 	}
+
 	public abstract void endingRoutine();
+
+	
+	
+	/**
+	 * Removes a plane from the game
+	 * <p>
+	 * Iterates through currentPlanes list and removes the plane
+	 * </p>
+	 * 
+	 * @param toDelete
+	 *            the plane to remove
+	 */
+	public abstract void removePlane(Plane toDelete);
+
 }

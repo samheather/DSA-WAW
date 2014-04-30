@@ -10,6 +10,9 @@ public abstract class Plane {
 	protected int takeoffAngleHighSingle = 225;
 	protected int takeoffAngleLowSingle = 135;
 	
+	private float lastFaceTrackingOffsetX = 0;
+	private float lastFaceTrackingOffsetY = 0;
+	private int lastFaceTrackingSize = 0;
 	
 	private boolean manual = false;
 	
@@ -470,7 +473,7 @@ public abstract class Plane {
 	 * 
 	 * @param plane
 	 *            the plane to move
-	 */
+	 */	
 	public void movePlane() {
 		// If Plane is taking off, don't change the bearing
 		if (getAltitude() < 2000 && getTargetAltitude() > 0 && !isLanding()) {
@@ -488,6 +491,15 @@ public abstract class Plane {
 			}
 		}
 		//markForSyncing();
+	}
+	
+	public void updateFaceDetectionPosition(float xFaceTrackingOffset, float yFaceTrackingOffset, int faceTrackingSize) {
+		setX((float) (getX() - lastFaceTrackingOffsetX + xFaceTrackingOffset));
+		setY((float) (getY() - lastFaceTrackingOffsetY + yFaceTrackingOffset));
+		setSize((int) (getSize() - lastFaceTrackingSize + faceTrackingSize));
+		lastFaceTrackingOffsetX = xFaceTrackingOffset;
+		lastFaceTrackingOffsetY = yFaceTrackingOffset;
+		lastFaceTrackingSize = faceTrackingSize;
 	}
 
 	/** Updates x and y coordinates */
