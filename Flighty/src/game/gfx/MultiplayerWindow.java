@@ -118,10 +118,6 @@ public class MultiplayerWindow extends BasicGameState {
 
 	private TrueTypeFont sidebarFontLarge;
 
-	private TrueTypeFont gameOverFont1;
-
-	private TrueTypeFont gameOverFont2;
-
 	/** The colour to display the font in */
 	private Color fontColor;
 
