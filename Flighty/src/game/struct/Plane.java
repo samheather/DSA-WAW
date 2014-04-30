@@ -528,13 +528,15 @@ public abstract class Plane {
 	
 	@Override
 	public final boolean equals(Object obj) {
+		if (this.uniqueNetworkObjectID == 0)
+			return false;
 		if (obj == null)
 			return false;
-		if (obj == this)
-			return true;
 		if (!(obj instanceof Plane))
 			return false;
 		Plane rhs = (Plane) obj;
+		if (rhs.uniqueNetworkObjectID == 0)
+			return false;
 		return this.uniqueNetworkObjectID == rhs.uniqueNetworkObjectID;
 	}
 	

@@ -11,6 +11,11 @@ import java.util.ListIterator;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
+<<<<<<< HEAD
+
+public class SingleplayerGame extends Game {
+=======
+>>>>>>> origin/MacVision
 
 public class SingleplayerGame extends Game {
 
@@ -42,6 +47,8 @@ public class SingleplayerGame extends Game {
 		faceLocator = new LocateFace();
 		System.out.println("singlep game constructed");
 	}
+<<<<<<< HEAD
+=======
 	
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame game) throws IOException {
@@ -73,6 +80,7 @@ public class SingleplayerGame extends Game {
 			}
 		}
 	}
+>>>>>>> origin/MacVision
 
 	@Override
 	protected Airport createAirport() {
@@ -128,8 +136,27 @@ public class SingleplayerGame extends Game {
 			}
 
 			// Removes planes that left the airspace
-			removePlane(plane);
+			plane.markForDeletion();
 		}
+		
+	}
+	
+	@Override
+	public void update(GameContainer gameContainer, StateBasedGame game)
+			throws IOException {
+		super.update(gameContainer, game);
+		ListIterator<SingleplayerPlane> i = singleplayerPlanes
+				.listIterator();
+		while (i.hasNext()) {
+			SingleplayerPlane p = i.next();
+			if (p.deleted())
+				i.remove();
+		}
+	}
+
+	@Override
+	public void endingRoutine() {
+		// TODO Auto-generated method stub
 		
 	}
 

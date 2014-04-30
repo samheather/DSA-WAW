@@ -1,6 +1,7 @@
 package game.struct;
 
 import game.gfx.GameWindow;
+import game.gfx.WindowManager;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -141,6 +142,7 @@ public abstract class Game {
 	protected Game(int newSeparationDistance, int newPenaltyDistance,
 			int distFromLeft) throws NoSuchAlgorithmException,
 			UnknownHostException, IOException {
+		WindowManager.endingText = "";
 		secureRandom = SecureRandom.getInstance("SHA1PRNG");
 		ByteBuffer b = ByteBuffer.allocate(8).put(secureRandom.generateSeed(8));
 		b.rewind();
@@ -630,7 +632,7 @@ public abstract class Game {
 					currentPlane = null;
 				}
 
-				removePlane(plane);
+				plane.markForDeletion();
 
 			} else {
 
@@ -991,6 +993,9 @@ public abstract class Game {
 	public void setPlaneCount(int newPlaneCount) {
 		planeCount = newPlaneCount;
 	}
+
+	public abstract void endingRoutine();
+
 	
 	
 	/**
@@ -1003,4 +1008,5 @@ public abstract class Game {
 	 *            the plane to remove
 	 */
 	public abstract void removePlane(Plane toDelete);
+
 }

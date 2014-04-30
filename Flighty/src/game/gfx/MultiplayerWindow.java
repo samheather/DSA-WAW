@@ -170,7 +170,6 @@ public class MultiplayerWindow extends BasicGameState {
 		// Select the plane
 		currentPlane.setManual();
 
-
 		// Calculate new bearing
 		double newBearing = Math.toDegrees(Math.atan2(currentGame
 				.getCurrentPlane().getY() - y, currentGame.getCurrentPlane()
@@ -642,6 +641,9 @@ public class MultiplayerWindow extends BasicGameState {
 		if (WindowManager.opponentFound == false) {
 			drawShadowedText(waitingText, debrisTextColor, waitingTextPos,
 					graphics);
+		} else if (WindowManager.endingText != "") {
+			drawShadowedText(WindowManager.endingText, debrisTextColor,
+					waitingTextPos, graphics);
 		}
 	}
 
@@ -1197,6 +1199,7 @@ public class MultiplayerWindow extends BasicGameState {
 		if (currentGame.isCollision()) {
 			// If the game is ending
 			if (currentGame.isEnding()) {
+				this.currentGame.endingRoutine();
 				// Draw the two collided planes rotated a bit so it looks like a
 				// crash
 				for (Plane plane : currentGame.getCollidedPlanes()) {
@@ -1288,7 +1291,9 @@ public class MultiplayerWindow extends BasicGameState {
 			if (button == 0) {
 				Plane clickedPlane = selectFlight(x, y);
 				System.out.println(clickedPlane);
-				if (clickedPlane != null && clickedPlane.ownedByCurrentPlayer) {
+				if (clickedPlane != null && clickedPlane.ownedByCurrentPlayer
+						&& !clickedPlane.getNeedsToTakeOff()
+						&& !clickedPlane.isTakingOff()) {
 					// If there is no plane where the user click, deselect the
 					// current plane
 					if (currentGame.getCurrentPlane() != null) {
