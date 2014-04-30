@@ -109,4 +109,10 @@ public class SingleplayerGame extends Game {
 		}
 	}
 
+	@Override
+	public void endingRoutine() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

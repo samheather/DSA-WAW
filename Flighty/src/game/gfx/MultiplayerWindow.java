@@ -642,6 +642,9 @@ public class MultiplayerWindow extends BasicGameState {
 		if (WindowManager.opponentFound == false) {
 			drawShadowedText(waitingText, debrisTextColor, waitingTextPos,
 					graphics);
+		} else if (WindowManager.endingText != "") {
+			drawShadowedText(WindowManager.endingText, debrisTextColor, waitingTextPos,
+					graphics);
 		}
 	}
 
@@ -1197,6 +1200,7 @@ public class MultiplayerWindow extends BasicGameState {
 		if (currentGame.isCollision()) {
 			// If the game is ending
 			if (currentGame.isEnding()) {
+				this.currentGame.endingRoutine();
 				// Draw the two collided planes rotated a bit so it looks like a
 				// crash
 				for (Plane plane : currentGame.getCollidedPlanes()) {
