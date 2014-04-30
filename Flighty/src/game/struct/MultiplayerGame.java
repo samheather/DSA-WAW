@@ -17,9 +17,6 @@ import game.network.Message;
 import game.network.Protocol;
 
 public class MultiplayerGame extends Game {
-	
-	
-
 
 	public MultiplayerGame(int newSeparationDistance, int newPenaltyDistance,
 			int distFromLeft) throws NoSuchAlgorithmException,
@@ -28,24 +25,25 @@ public class MultiplayerGame extends Game {
 		protocol.putMessage(new Message.ClientServer.BeginMM());
 		WindowManager.opponentFound = false;
 	}
+
 	int state = 0;
 
 	private ArrayList<MultiplayerPlane> multiplayerPlanes = new ArrayList<MultiplayerPlane>();
-	
-	
-	Protocol protocol = new Protocol("multi.atcga.me", 1025, Arrays.asList((Class)MultiplayerPlane.class));
-	
+
+	Protocol protocol = new Protocol("multi.atcga.me", 1025,
+			Arrays.asList((Class) MultiplayerPlane.class));
+
 	@Override
 	public void removePlane(Plane toDelete) {
 		toDelete.markForDeletion();
 	}
-	
+
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame game)
 			throws IOException {
 		if (state == 0) {
 			WindowManager.opponentFound = false;
-			//waiting for connection to server
+			// waiting for connection to server
 			Message.Receivable r = protocol.getMessage();
 			if (r == null)
 				return;
@@ -70,20 +68,22 @@ public class MultiplayerGame extends Game {
 		} else if (state == 2) {
 			WindowManager.opponentFound = true;
 			Message.Receivable r = null;
-			while((r = protocol.getMessage()) != null) {
+			while ((r = protocol.getMessage()) != null) {
 				if (r instanceof Message.Error) {
 					System.out.println("error!");
 					((Message.Error) r).log();
 				} else if (r instanceof Message.ClientClient.CCObject) {
-					MultiplayerPlane p = (MultiplayerPlane)((Message.ClientClient.CCObject) r).getObject();
+					MultiplayerPlane p = (MultiplayerPlane) ((Message.ClientClient.CCObject) r)
+							.getObject();
 					p.currentGame = this;
 					p.resetSyncState();
 					p.ownedByCurrentPlayer = !p.ownedByCurrentPlayer;
-					ListIterator<MultiplayerPlane> i = multiplayerPlanes.listIterator();
+					ListIterator<MultiplayerPlane> i = multiplayerPlanes
+							.listIterator();
 					while (i.hasNext()) {
 						Plane p2 = i.next();
 						if (p2.equals(p)) {
-							//p.ownedByCurrentPlayer = false;
+							// p.ownedByCurrentPlayer = false;
 							if (p.deleted())
 								i.remove();
 							else
@@ -93,11 +93,11 @@ public class MultiplayerGame extends Game {
 							break;
 						}
 					}
-					if (p != null && !p.deleted()){
-						//p.ownedByCurrentPlayer = false;
+					if (p != null && !p.deleted()) {
+						// p.ownedByCurrentPlayer = false;
 						multiplayerPlanes.add(p);
 						System.out.println("received new plane");
-						
+
 					}
 				}
 			}
@@ -106,10 +106,10 @@ public class MultiplayerGame extends Game {
 			while (i.hasNext()) {
 				MultiplayerPlane plane = i.next();
 				if (plane.needsSyncing()) {
-					//plane.ownedByCurrentPlayer = true;
+					// plane.ownedByCurrentPlayer = true;
 					protocol.putMessage(new Message.ClientClient.CCObject(plane));
 					plane.resetSyncState();
-					//System.out.println("sent plane");
+					// System.out.println("sent plane");
 				}
 				if (plane.deleted())
 					i.remove();
@@ -125,15 +125,15 @@ public class MultiplayerGame extends Game {
 	@Override
 	protected ArrayList<Point> createExitPoints() {
 		ArrayList<Point> exitPoints = new ArrayList<Point>();
-		exitPoints.add(new ExitPoint(
-				(windowWidth + distFromLeftEdge) / 2, (windowHeight / 2)));
+		exitPoints.add(new ExitPoint((windowWidth + distFromLeftEdge) / 2,
+				(windowHeight / 2)));
 		return exitPoints;
 	}
 
 	@Override
 	protected ArrayList<Waypoint> createWayPoints() {
 		ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
-		waypoints .add(new Waypoint(540, 115));
+		waypoints.add(new Waypoint(540, 115));
 		waypoints.add(new Waypoint(430, 400));
 		return waypoints;
 	}
@@ -145,13 +145,13 @@ public class MultiplayerGame extends Game {
 
 	@Override
 	protected void configurePlane(Plane p) {
-		//p.ownedByCurrentPlayer = false;
+		// p.ownedByCurrentPlayer = false;
 	}
 
 	@Override
 	protected void planeUpdate(Plane plane) {
-		if ((plane.getX() < distFromLeftEdge)
-				|| (plane.getY() > windowHeight) || (plane.getY() < 0)) {
+		if ((plane.getX() < distFromLeftEdge) || (plane.getY() > windowHeight)
+				|| (plane.getY() < 0)) {
 			// Updates score if plane in game area
 			if (plane.ownedByCurrentPlayer)
 				getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
@@ -170,16 +170,14 @@ public class MultiplayerGame extends Game {
 			System.out.println(plane);
 			System.out.println(plane.getX());
 			System.out.println((windowWidth + distFromLeftEdge) / 2);
-				// Updates score if plane in game area
+			// Updates score if plane in game area
 			if (plane.ownedByCurrentPlayer)
-				getScore()
-						.planeLeftAirspaceOrWaitingToTakeOffMinusScore();
-				
+				getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
 
-				// Deselects plane that left the airspace
-				plane.setOwnedByCurrentPlayer(false);
-				//currentPlane = null;
-			}
+			// Deselects plane that left the airspace
+			plane.setOwnedByCurrentPlayer(false);
+			// currentPlane = null;
+		}
 	}
 
 	@Override
@@ -190,7 +188,8 @@ public class MultiplayerGame extends Game {
 	@Override
 	protected Plane constructPlane(int id, double velocity, int altitude,
 			double bearing, long uniqueNetworkObjectId) {
-		MultiplayerPlane p = new MultiplayerPlane(id, velocity, altitude, bearing, this, uniqueNetworkObjectId);
+		MultiplayerPlane p = new MultiplayerPlane(id, velocity, altitude,
+				bearing, this, uniqueNetworkObjectId);
 		multiplayerPlanes.add(p);
 		return p;
 	}
