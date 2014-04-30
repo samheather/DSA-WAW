@@ -33,7 +33,7 @@ public class MultiplayerGame extends Game {
 	private ArrayList<MultiplayerPlane> multiplayerPlanes = new ArrayList<MultiplayerPlane>();
 
 	Protocol protocol = new Protocol("multi.atcga.me", 1025,
-			Arrays.asList((Class) MultiplayerPlane.class));
+			Arrays.asList((Class) MultiplayerPlane.class, Score.class));
 
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame game)
