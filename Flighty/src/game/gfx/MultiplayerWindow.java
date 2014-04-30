@@ -449,11 +449,6 @@ public class MultiplayerWindow extends BasicGameState {
 		graphics.drawString(text, pos[0], pos[1]);
 	}
 
-	private void updateCredits(int delta) {
-		credits = Math.max(0, credits + delta
-				* this.getCurrentGame().getScore().getMultiplier());
-	}
-
 	public void handleSidebar(GameContainer gameContainer, Graphics graphics) {
 
 		sidebarBackground.draw(0, 0, MultiplayerWindow.sidebarWidth,
