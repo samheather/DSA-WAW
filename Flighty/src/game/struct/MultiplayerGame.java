@@ -14,9 +14,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import game.gfx.WindowManager;
 import game.network.Message;
-import game.network.Message.ServerClient.OpponentQuit;
 import game.network.Protocol;
-import game.network.Message.ClientClient.CCObject;
 
 public class MultiplayerGame extends Game {
 
@@ -32,6 +30,7 @@ public class MultiplayerGame extends Game {
 
 	private ArrayList<MultiplayerPlane> multiplayerPlanes = new ArrayList<MultiplayerPlane>();
 
+	//TODO(jamaal) please supress if necessary
 	Protocol protocol = new Protocol("multi.atcga.me", 1025,
 			Arrays.asList((Class) MultiplayerPlane.class, Score.class));
 
