@@ -993,7 +993,6 @@ public class GameWindow extends BasicGameState {
 		// If the planes collided
 		if (this.currentGame.isCollision()) {
 			// If the game is ending
-			this.currentGame.setEnding(true);
 			if (this.currentGame.isEnding()) {
 				// Draw the two collided planes rotated a bit so it looks like a
 				// crash
@@ -1086,18 +1085,14 @@ public class GameWindow extends BasicGameState {
 								true).drawString(305f, 300f,"No internet connection");
 					}
 					
+				}// if the planes collided but the ending has not yet been set
+				else {
+					// Stop the timer
+					this.endTime = this.time;
+					// End the game
+					this.currentGame.setEnding(true);
 				}
 			}
-
-			// if the planes collided but the ending has not yet been set
-			else {
-				// Stop the timer
-				this.endTime = this.time;
-
-				// End the game
-				this.currentGame.setEnding(true);
-			}
-
 		}
 
 
