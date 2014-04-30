@@ -11,6 +11,8 @@ import java.security.NoSuchAlgorithmException;
 
 import game.struct.Game;
 import game.struct.Plane;
+import game.struct.SingleplayerGame;
+import game.struct.SingleplayerPlane;
 
 public class PlaneTests {
 
@@ -19,8 +21,8 @@ public class PlaneTests {
 
 	@Before
 	public void beforeTests() throws NoSuchAlgorithmException, UnknownHostException, IOException {
-		game = new Game(50, 100, 0, false);
-		plane1 = new Plane(1, 500, 3000, 50, game, 0);
+		game = new SingleplayerGame(50, 100, 0);
+		plane1 = new SingleplayerPlane(1, 500, 3000, 50, game, 0);
 
 	}
 
@@ -414,13 +416,12 @@ public class PlaneTests {
 		plane1.setY(465);
 		plane1.setAltitude(2000);
 		plane1.setBearing(170);
-		plane1.land(false);
+		plane1.land();
 		assertTrue(game.getAirport().isPlaneLanding());
 		assertFalse(plane1.getNeedsToLand());
 		assertTrue(plane1.isLanding());
 		assertEquals(plane1.getTarget(), plane1.getFlightPlan()
 				.getCurrentRoute().get(0));
-		assertFalse(game.getManualPlanes().contains(plane1));
 		assertEquals(null, game.getCurrentPlane());
 
 	}
@@ -479,7 +480,6 @@ public class PlaneTests {
 		plane1.setTargetBearing(150);
 		plane1.setAltitude(3000);
 		game.setSpeedDifficulty(0.5);
-		game.getManualPlanes().add(plane1);
 		plane1.movePlane();
 		assertEquals(150.094, plane1.getX(), 0.001);
 		assertEquals(399.509, plane1.getY(), 0.001);
@@ -519,7 +519,6 @@ public class PlaneTests {
 	public void takeOffTest1() {
 		plane1.takeOff();
 		assertTrue(plane1.getVelocity() != 0);
-		assertFalse(game.getManualPlanes().contains(plane1));
 		assertFalse(plane1.getNeedsToTakeOff());
 		assertTrue(plane1.isTakingOff());
 		assertTrue(game.getCurrentPlane() == null);

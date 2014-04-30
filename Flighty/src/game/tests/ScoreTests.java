@@ -16,8 +16,8 @@ public class ScoreTests {
 
 	@Before
 	public void beforeTests() throws NoSuchAlgorithmException, UnknownHostException, IOException {
-		game = new Game(50, 100, 0, false);
-		plane = new Plane(1, 500, 3000, 50, game, 0);
+		game = new SingleplayerGame(50, 100, 0);
+		plane = new SingleplayerPlane(1, 500, 3000, 50, game, 0);
 	}
 
 	/**

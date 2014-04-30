@@ -1,6 +1,5 @@
 package game.gfx;
 
-import org.lwjgl.opengl.Display;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -20,9 +19,8 @@ import java.io.InputStream;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.List;
 
-import game.network.Message;
-import game.network.Protocol;
 import game.struct.Airport;
 import game.struct.Game;
 import game.struct.MultiplayerGame;
@@ -33,7 +31,7 @@ import game.struct.Plane;
  */
 public class MultiplayerWindow extends BasicGameState {
 
-	/** Time between score penalities for not taking off */
+	/** Time between score penalties for not taking off */
 	private static final int TAKE_OFF_PENALTY_TIME = 3000;
 
 	/** Time to display the waypoints bonus points */
@@ -121,10 +119,6 @@ public class MultiplayerWindow extends BasicGameState {
 
 	private TrueTypeFont sidebarFontLarge;
 
-	private TrueTypeFont gameOverFont1;
-
-	private TrueTypeFont gameOverFont2;
-
 	/** The colour to display the font in */
 	private Color fontColor;
 
@@ -136,7 +130,6 @@ public class MultiplayerWindow extends BasicGameState {
 
 	/** Whether it should display more points for some points (e.g. airport) **/
 	boolean morePoints = false;
-	
 
 	/** How long should the waypoints display **/
 	double synch = WAYPOINTS_DISPLAY_TIME;
@@ -180,9 +173,7 @@ public class MultiplayerWindow extends BasicGameState {
 		currentGame.getCurrentPlane().setTurningRight(false);
 
 		// Select the plane
-		if (!currentGame.getManualPlanes().contains(currentPlane)) {
-			currentGame.getManualPlanes().add(currentPlane);
-		}
+		currentPlane.setManual();
 
 		// Calculate new bearing
 		double newBearing = Math.toDegrees(Math.atan2(currentGame
@@ -364,10 +355,6 @@ public class MultiplayerWindow extends BasicGameState {
 		// Set the font (used for altitudes etc.)
 		this.fontPrimitive = new Font("Lucida Sans", Font.PLAIN, 12);
 		this.font = new TrueTypeFont(this.fontPrimitive, true);
-		this.gameOverFont1 = new TrueTypeFont(
-				this.fontPrimitive.deriveFont(50f), true);
-		this.gameOverFont2 = new TrueTypeFont(
-				this.fontPrimitive.deriveFont(25f), true);
 
 		// Initialise Waypoint Sound
 		checkpointSound = new Sound("resources/music/checkpointSound.ogg");
@@ -445,25 +432,11 @@ public class MultiplayerWindow extends BasicGameState {
 				+ height + tolerance)));
 	}
 
-	private void disableManualControl() {
-		ArrayList<Plane> allPlanes;
-		allPlanes = currentGame.getCurrentPlanes();
-		for(int i = 0; i < allPlanes.size() ; i++){
-			if (allPlanes.get(i).ownedByCurrentPlayer == true){
-				allPlanes.get(i).setAutoPilot(false);
-				
-			}
-		}
-		return;
-	}
-	
-	
-	private void enableManualControl(){
-		ArrayList<Plane> allPlanes;
-		allPlanes = currentGame.getCurrentPlanes();
-		for(int i = 0; i < allPlanes.size() ; i++){
-			if (allPlanes.get(i).ownedByCurrentPlayer == true){
-				allPlanes.get(i).setAutoPilot(true);
+	// 
+	private void setAutoPilot(boolean auto) {
+		for (Plane plane : currentGame.getCurrentPlanes()){
+			if(plane.ownedByCurrentPlayer){
+				plane.setAutoPilot(auto);
 			}
 		}
 		return;
@@ -490,11 +463,6 @@ public class MultiplayerWindow extends BasicGameState {
 		graphics.drawString(text, pos[0] + 2, pos[1] + 1);
 		graphics.setColor(color);
 		graphics.drawString(text, pos[0], pos[1]);
-	}
-
-	private void updateCredits(int delta) {
-		credits = Math.max(0, credits + delta
-				* this.getCurrentGame().getScore().getMultiplier());
 	}
 
 	public void handleSidebar(GameContainer gameContainer, Graphics graphics) {
@@ -564,7 +532,7 @@ public class MultiplayerWindow extends BasicGameState {
 		int[] debrisTextPos3 = {
 				(MultiplayerWindow.sidebarWidth - debrisTextWidth3) / 2,
 				debrisTextPos2[1] + fontHeight + 5 };
-		int[] waitingTextPos = {350 , 275};
+		int[] waitingTextPos = { 350, 275 };
 
 		Color sidebarTitleTextColor = Color.orange;
 		Color pointsTextColor = Color.orange;
@@ -623,14 +591,18 @@ public class MultiplayerWindow extends BasicGameState {
 		drawShadowedText(cloudText2, cloudTextColor, cloudTextPos2, graphics);
 		drawShadowedText(cloudText3, cloudTextColor, cloudTextPos3, graphics);
 		
-		if(autoPilotOff == true){
-			if(offTime + autoPilotDuration < time){
-				autoPilotOff = false;
-				enableManualControl();
-				System.out.println("Stop   " );
-				
+		// Turns autopilot on after n seconds
+		if(WindowManager.autopilotOff){
+			if(WindowManager.autopilotInit ){
+				setAutoPilot(false);
+				offTime = time;
+				WindowManager.autopilotInit = false;		
+			}else if(offTime + autoPilotDuration < time){
+				WindowManager.autopilotOff = false;
+				setAutoPilot(true);				
 			}
 		}
+		
 
 		// autopilot button
 		if (isInHitBox(x, y, autopilotTextPos1, autopilotTextWidth1,
@@ -642,8 +614,7 @@ public class MultiplayerWindow extends BasicGameState {
 			if (clicked) {
 				//currentGame.getScore().setScore(currentGame.getScore().getScore() - 40);
 				System.out.println("Start");
-				autoPilotOff = true;
-				offTime = time;
+				WindowManager.turnOffAutopilot = true;
 			} else {
 				// Change hover text and add waypoint next to text
 				autopilotTextColor = Color.white;
@@ -686,10 +657,14 @@ public class MultiplayerWindow extends BasicGameState {
 		drawShadowedText(debrisText1, debrisTextColor, debrisTextPos1, graphics);
 		drawShadowedText(debrisText2, debrisTextColor, debrisTextPos2, graphics);
 		drawShadowedText(debrisText3, debrisTextColor, debrisTextPos3, graphics);
-		
-		//Draw waiting for opponent if there is no opponent
-		if(WindowManager.opponentFound == false){
-			drawShadowedText(waitingText, waitingTextColor,waitingTextPos, graphics);
+
+		// Draw waiting for opponent if there is no opponent
+		if (WindowManager.opponentFound == false) {
+			drawShadowedText(waitingText, waitingTextColor, waitingTextPos,
+					graphics);
+		} else if (WindowManager.endingText != "") {
+			drawShadowedText(WindowManager.endingText, waitingTextColor,
+					waitingTextPos, graphics);
 		}
 	}
 
@@ -727,16 +702,6 @@ public class MultiplayerWindow extends BasicGameState {
 
 		if (!currentGame.isEnding()) {
 			// Display the Game Information
-			if (!currentGame.isMultiplayer()) {
-				graphics.drawString("Time : "
-						+ ((int) time / 1000 / 60 < 10 ? "0"
-								+ (int) (time / 1000) / 60
-								: (int) (time / 1000) / 60)
-						+ ":"
-						+ ((int) (this.time / 1000) % 60 < 10 ? "0"
-								+ (int) (time / 1000) % 60
-								: (int) (time / 1000) % 60), 1050, 15);
-			}
 			graphics.drawString(
 					"Score : " + ((int) (currentGame.getScore().getScore()))
 							+ " pts", 1050, 15);
@@ -776,8 +741,9 @@ public class MultiplayerWindow extends BasicGameState {
 					if (display && synch > 0) {
 						// If it's a special waypoint, render how many points
 						// were won
-						if (morePoints) {
-							if (plane.ownedByCurrentPlayer) {
+						if (plane.ownedByCurrentPlayer) {
+							if (morePoints) {
+
 								graphics.drawString(
 										"+"
 												+ Integer
@@ -790,29 +756,29 @@ public class MultiplayerWindow extends BasicGameState {
 												.getHeight() - prevY - 30));
 								morePoints = synch <= 1 ? false : true;
 							}
-						}
-						// Beginning of runway provides no extra points
-						else if (plane
-								.getFlightPlan()
-								.getCurrentRoute()
-								.get(0)
-								.equals(currentGame.getAirport()
-										.getBeginningOfRunway())) {
-							synch = 0;
-						}
-						// If it's not a special waypoint, render how many
-						// points were won
-						else {
-							graphics.drawString(
-									"+"
-											+ Integer
-													.toString(getCurrentGame()
-															.getScore()
-															.getMultiplier() * 5),
-									(float) prevX - 8, (float) prevY - 30);
-						}
+							// Beginning of runway provides no extra points
+							else if (plane
+									.getFlightPlan()
+									.getCurrentRoute()
+									.get(0)
+									.equals(currentGame.getAirport()
+											.getBeginningOfRunway())) {
+								synch = 0;
+							}
+							// If it's not a special waypoint, render how many
+							// points were won
+							else {
+								graphics.drawString(
+										"+"
+												+ Integer
+														.toString(getCurrentGame()
+																.getScore()
+																.getMultiplier() * 5),
+										(float) prevX - 8, (float) prevY - 30);
+							}
 
-						synch--;
+							synch--;
+						}
 					}
 					// Don't display extra points if there were not won any
 					else {
@@ -825,8 +791,12 @@ public class MultiplayerWindow extends BasicGameState {
 				if (currentGame.isTakeOffPenalty()) {
 					// Alert message to inform the user that the plane should be
 					// taken off
-					graphics.drawString("Take me off", 1122, 555);
-					synchTakeOff--;
+					if (plane.ownedByCurrentPlayer && plane.getNeedsToTakeOff()) {
+						graphics.drawString("Take me off",
+								(float) plane.getX(),
+								(float) (plane.getY() + 20));
+						synchTakeOff--;
+					}
 
 					// Points deduced from the user if the plane is still landed
 					if (synchTakeOff < TAKE_OFF_PENALTY_TIME / 5) {
@@ -1036,12 +1006,6 @@ public class MultiplayerWindow extends BasicGameState {
 						graphics.drawString("Land Me!",
 								(float) (plane.getX() - 5),
 								(float) (plane.getY() - 30));
-					} else {
-						graphics.drawString("Land Me!", (float) (game
-								.getContainer().getWidth()
-								- (plane.getX() - sidebarWidth) + 5),
-								(float) (game.getContainer().getHeight()
-										- plane.getY() - 30));
 					}
 				}
 
@@ -1049,16 +1013,20 @@ public class MultiplayerWindow extends BasicGameState {
 				// the same time
 				else if (plane.getNeedsToLand()
 						&& currentGame.getAirport().isPlaneLanding()) {
-					graphics.drawString("Wait to Land Me!",
-							(float) (plane.getX() - 5),
-							(float) (plane.getY() - 30));
+					if (plane.ownedByCurrentPlayer) {
+						graphics.drawString("Wait to Land Me!",
+								(float) (plane.getX() - 5),
+								(float) (plane.getY() - 30));
+					}
 				}
 
 				// If plane is selected, but it's not at the landing height
 				else if (plane.getNeedsToLand() && plane.getAltitude() > 2000) {
-					graphics.drawString("Lower Me!",
-							(float) (plane.getX() - 5),
-							(float) (plane.getY() - 30));
+					if (plane.ownedByCurrentPlayer) {
+						graphics.drawString("Lower Me!",
+								(float) (plane.getX() - 5),
+								(float) (plane.getY() - 30));
+					}
 				}
 
 				// If plane is selected, at the right altitude, and within the
@@ -1096,12 +1064,6 @@ public class MultiplayerWindow extends BasicGameState {
 						graphics.drawString("'T' to Takeoff!",
 								(float) (plane.getX() - 5),
 								(float) (plane.getY() - 30));
-					} else {
-						graphics.drawString("'T' to Takeoff!", (float) (game
-								.getContainer().getWidth()
-								- (plane.getX() - sidebarWidth) - 65),
-								(float) (game.getContainer().getHeight()
-										- plane.getY() - 30));
 					}
 				}
 			}
@@ -1258,6 +1220,7 @@ public class MultiplayerWindow extends BasicGameState {
 		if (currentGame.isCollision()) {
 			// If the game is ending
 			if (currentGame.isEnding()) {
+				this.currentGame.endingRoutine();
 				// Draw the two collided planes rotated a bit so it looks like a
 				// crash
 				for (Plane plane : currentGame.getCollidedPlanes()) {
@@ -1349,7 +1312,9 @@ public class MultiplayerWindow extends BasicGameState {
 			if (button == 0) {
 				Plane clickedPlane = selectFlight(x, y);
 				System.out.println(clickedPlane);
-				if (clickedPlane != null && clickedPlane.ownedByCurrentPlayer) {
+				if (clickedPlane != null && clickedPlane.ownedByCurrentPlayer
+						&& !clickedPlane.getNeedsToTakeOff()
+						&& !clickedPlane.isTakingOff()) {
 					// If there is no plane where the user click, deselect the
 					// current plane
 					if (currentGame.getCurrentPlane() != null) {
@@ -1429,7 +1394,7 @@ public class MultiplayerWindow extends BasicGameState {
 		currentGame.setCollision(true);
 		currentGame.setEnding(true);
 
-		currentGame.setManualPlanes(new ArrayList<Plane>());
+		currentGame.clearManualPlanes();
 		currentGame.setCollidedPlanes(new ArrayList<Plane>());
 
 		currentGame.setCurrentPlane(null);

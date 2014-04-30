@@ -3,7 +3,7 @@ package game.struct;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
-import java.util.concurrent.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class SyncReceiver implements Runnable {
 

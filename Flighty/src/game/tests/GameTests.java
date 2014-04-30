@@ -10,6 +10,8 @@ import java.security.NoSuchAlgorithmException;
 
 import game.struct.Game;
 import game.struct.Plane;
+import game.struct.SingleplayerGame;
+import game.struct.SingleplayerPlane;
 
 public class GameTests {
 
@@ -22,8 +24,8 @@ public class GameTests {
 	@Before
 	public void beforeTests() throws NoSuchAlgorithmException, UnknownHostException, IOException {
 
-		game = new Game(50, 100, 0, false);
-		plane1 = new Plane(1, 500, 3000, 50, game, 0);
+		game = new SingleplayerGame(50, 100, 0);
+		plane1 = new SingleplayerPlane(1, 500, 3000, 50, game, 0);
 
 	}
 
@@ -87,30 +89,6 @@ public class GameTests {
 		Plane plane = game.getPlaneFromID(100);
 		assertEquals(100, plane.getID(), 0);
 
-	}
-
-	/**
-	 * Test ID X.6
-	 */
-
-	@Test
-	public void testRemoveFromManual() {
-		this.game.createPlane();
-		this.game.getManualPlanes().add(this.game.getCurrentPlanes().get(0));
-		assertTrue(this.game.getManualPlanes().size() == 1);
-		this.game.removeFromManual(this.game.getCurrentPlanes().get(0));
-		assertTrue(this.game.getManualPlanes().size() == 0);
-	}
-
-	/**
-	 * Test ID X.7
-	 */
-
-	@Test
-	public void testDeleteFromManual() {
-		this.game.getManualPlanes().add(plane1);
-		this.game.deleteFromManual(plane1);
-		assertFalse(this.game.getManualPlanes().contains(plane1));
 	}
 
 	/**
@@ -180,7 +158,7 @@ public class GameTests {
 
 	@Test
 	public void tenWaypointsTest() throws NoSuchAlgorithmException, UnknownHostException, IOException {
-		game = new Game(100, 100, 0, false);
+		game = new SingleplayerGame(100, 100, 0);
 		assertEquals(10, game.getListOfWaypoints().size(), 0);
 
 	}
@@ -194,7 +172,7 @@ public class GameTests {
 
 	@Test
 	public void tenPlanesTest() throws NoSuchAlgorithmException, UnknownHostException, IOException {
-		game = new Game(100, 100, 0, false);
+		game = new SingleplayerGame(100, 100, 0);
 		for (int i = 0; i < 10; i++) {
 			game.createPlane();
 
@@ -215,7 +193,7 @@ public class GameTests {
 		// Checking that when a flight is waiting to take off another flight
 		// cannot be designated to take off.
 
-		game = new Game(100, 100, 0, false);
+		game = new SingleplayerGame(100, 100, 0);
 
 		game.createPlane();
 

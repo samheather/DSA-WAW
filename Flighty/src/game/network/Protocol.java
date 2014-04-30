@@ -5,10 +5,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.LinkedTransferQueue;
 
+import com.esotericsoftware.kryo.Kryo;
+
 public class Protocol implements Closeable {
+	
+	private static int INITIAL_CLASS_ID = 102; //randomly picked
 	
 	public static enum State {
 		Game,
@@ -16,7 +21,8 @@ public class Protocol implements Closeable {
 		Idle
 	}
 
-	public Protocol(String hostname, int i) {
+	//TODO(jamaal) - supress or fix please.
+	public Protocol(String hostname, int i, List<Class> toRegister) {
 		try {
 			try {
 				socket = new Socket(hostname, i);
@@ -54,6 +60,14 @@ public class Protocol implements Closeable {
 							+ e.getMessage()));
 			return;
 		}
+		
+		int classId = INITIAL_CLASS_ID;
+		for (Class c : toRegister) {
+			sendKryo.register(c, classId);
+			receiveKryo.register(c, classId);
+			classId ++;
+		}
+		
 
 		sender = new Thread(this.new Sender());
 		receiver = new Thread(this.new Receiver());
@@ -61,6 +75,9 @@ public class Protocol implements Closeable {
 		sender.start();
 		receiver.start();
 	}
+	
+	private Kryo sendKryo = new Kryo();
+	private Kryo receiveKryo = new Kryo();
 
 	private ConcurrentLinkedQueue<Message.Receivable> received = new ConcurrentLinkedQueue<Message.Receivable> ();
 	private LinkedTransferQueue<Message.Sendable> toSend = new LinkedTransferQueue<Message.Sendable> ();
@@ -100,7 +117,7 @@ public class Protocol implements Closeable {
 			Message.Receivable msg = null;
 			try {
 				for (;;) {
-					msg = Message.receive(is);
+					msg = Message.receive(is, receiveKryo);
 					if (msg == null)
 						throw new Exception(
 								"Message receipt error: Message.read() returned null.");
@@ -146,7 +163,7 @@ public class Protocol implements Closeable {
 						throw new Exception(
 								"Queueing Error in toSend: take() returned null.");
 					else
-						msg.send(os);
+						msg.send(os, sendKryo);
 				}
 			} catch (InterruptedException e) {
 				received.offer(new Message.LocalError(

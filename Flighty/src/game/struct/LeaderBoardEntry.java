@@ -1,8 +1,5 @@
 package game.struct;
 
-
-
-
 public class LeaderBoardEntry implements Comparable<LeaderBoardEntry> {
 	/**
 	 * Name of person in leaderboard

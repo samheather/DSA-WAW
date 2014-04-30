@@ -1,18 +1,29 @@
 package game.struct;
 
-import java.nio.ByteBuffer;
-
 /**
  * Plane class
  */
-public class Plane {
+public abstract class Plane {
 
-	private int takeoffAngleHighMulti = 345;
-	private int takeoffAngleLowMulti = 15;
-	private int takeoffAngleHighSingle = 225;
-	private int takeoffAngleLowSingle = 135;
+	protected int takeoffAngleHighMulti = 345;
+	protected int takeoffAngleLowMulti = 15;
+	protected int takeoffAngleHighSingle = 225;
+	protected int takeoffAngleLowSingle = 135;
 	
-
+	
+	private boolean manual = false;
+	
+	public void setManual() {
+		manual = true;
+	}
+	
+	public void setAuto() {
+		manual = false;
+	}
+	
+	public boolean isManual() {
+		return manual;
+	}
 
 	private boolean needsSyncing = true;
 
@@ -34,7 +45,7 @@ public class Plane {
 		return deleted;
 	}
 	
-	public void delete() {
+	public void markForDeletion() {
 		deleted = true;
 		markForSyncing();
 	}
@@ -42,7 +53,7 @@ public class Plane {
 	/** Unique identifier */
 	private int id;
 
-	private long uniqueNetworkObjectID;
+	private final long uniqueNetworkObjectID;
 
 	/** Size to display plane */
 	private int size;
@@ -107,6 +118,9 @@ public class Plane {
 	public boolean ownedByCurrentPlayer = false;
 	
 	private boolean autopilot;
+	public Plane() {
+		uniqueNetworkObjectID = 0;
+	}
 
 	// Constructor
 
@@ -132,10 +146,8 @@ public class Plane {
 	 * @param y
 	 *            the y position to create the plane at
 	 */
-	public Plane() {
-	}
 
-	public Plane(int id, double velocity, int altitude, double bearing,
+	protected Plane(int id, double velocity, int altitude, double bearing,
 			Game currentGame, long uniqueNetworkObjectId) {
 		this.currentGame = currentGame;
 		this.id = id;
@@ -339,22 +351,13 @@ public class Plane {
 			// Change bearing if plane is already turning right or user has told
 			// it to turn right
 			if (isTurningRight() == true) {
-				setBearing(getBearing() + rate);
-
-				if (Math.round(getBearing()) >= 360
-						&& getTargetBearing() != 360) {
-					setBearing(0);
-				}
+				setBearing((getBearing() + rate)%360);
 			}
 
 			// Change bearing if plane is already turning left or user has told
 			// it to turn left
 			if (isTurningLeft() == true) {
-				setBearing(getBearing() - rate);
-
-				if (Math.round(getBearing()) <= 0 && getTargetBearing() != 0) {
-					setBearing(360);
-				}
+				setBearing((getBearing() - rate)%360);
 			}
 		} else {
 			// Do not change bearing if no commands have been given
@@ -389,6 +392,9 @@ public class Plane {
 
 		return rate;
 	}
+	
+	
+	public abstract boolean allowedToLand();
 
 	/**
 	 * First checks that another plane is not landing, then checks whether plane
@@ -396,15 +402,8 @@ public class Plane {
 	 * plane's current bearing is such that the plane is facing the runway. If
 	 * all these conditions are met, the plane begins to land.
 	 */
-	public void land(boolean multiplayer) {
-		if (!currentGame.getAirport().isPlaneLanding()
-				&& currentGame.getAirport().getLandingApproachArea()
-						.contains((float) getX(), (float) getY())
-				&& ((multiplayer && ((getBearing() >= takeoffAngleHighMulti && getBearing() <= 359)
-						|| (getBearing() <= takeoffAngleLowMulti && getBearing() >= 0)))
-						||(!multiplayer && ((getBearing() <= takeoffAngleHighSingle)
-								|| (getBearing() >= takeoffAngleLowSingle))))
-				&& getAltitude() <= 2000) {
+	public void land() {
+		if (allowedToLand()) {
 			currentGame.getAirport().setPlaneLanding(true);
 
 			setNeedsToLand(false);
@@ -413,7 +412,7 @@ public class Plane {
 
 			calculateBearingToNextWaypoint();
 			setLandingDescentRate(findLandingDescentRate());
-			currentGame.getManualPlanes().remove(this);
+			setAuto();
 			currentGame.setCurrentPlane(null);
 		}
 		markForSyncing();
@@ -426,7 +425,7 @@ public class Plane {
 	 */
 	public void takeOff() {
 		setVelocity(currentGame.generateVelocity());
-		currentGame.getManualPlanes().remove(this);
+		setAuto();
 
 		setNeedsToTakeOff(false);
 		setTakingOff(true);
@@ -486,13 +485,11 @@ public class Plane {
 			updateXYCoordinates();
 		} else {
 			if (getTarget() != null) {
-				if (!currentGame.getManualPlanes().contains(this)) {
+				if (!isManual()) {
 					// Get the angle to the next waypoint
 					calculateBearingToNextWaypoint();
-					updateCurrentBearing();
-				} else {
-					updateCurrentBearing();
 				}
+				updateCurrentBearing();
 
 				// Move the plane
 				updateXYCoordinates();
@@ -524,9 +521,24 @@ public class Plane {
 	public int getID() {
 		return this.id;
 	}
-
-	public long getUniqueNetworkObjectID() {
-		return uniqueNetworkObjectID;
+	
+	@Override
+	public final boolean equals(Object obj) {
+		if (this.uniqueNetworkObjectID == 0)
+			return false;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Plane))
+			return false;
+		Plane rhs = (Plane) obj;
+		if (rhs.uniqueNetworkObjectID == 0)
+			return false;
+		return this.uniqueNetworkObjectID == rhs.uniqueNetworkObjectID;
+	}
+	
+	@Override
+	public final int hashCode() {
+		return String.valueOf(uniqueNetworkObjectID).hashCode();
 	}
 
 	/**
@@ -801,4 +813,6 @@ public class Plane {
 	public void setAutoPilot(boolean value){
 		autopilot = value;
 	}
+
+	public abstract void setBearingForTakeoff();
 }

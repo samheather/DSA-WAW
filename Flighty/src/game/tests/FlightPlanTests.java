@@ -21,11 +21,11 @@ public class FlightPlanTests {
 	@Before
 	public void beforeTests() throws UnknownHostException, IOException {
 		try {
-			game = new Game(50, 100, 0, false);
+			game = new SingleplayerGame(50, 100, 0);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-		plane = new Plane(1, 500, 3000, 50, game, 1);
+		plane = new SingleplayerPlane(1, 500, 3000, 50, game, 1);
 		plan = new FlightPlan(game, plane);
 	}
 
@@ -103,7 +103,7 @@ public class FlightPlanTests {
 
 		Game gameWithoutExitpoints = null;
 		try {
-			gameWithoutExitpoints = new Game(50, 100, 0, false);
+			gameWithoutExitpoints = new SingleplayerGame(50, 100, 0);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
@@ -113,7 +113,7 @@ public class FlightPlanTests {
 		gameWithoutExitpoints.getListOfExitPoints().removeAll(
 				gameWithoutExitpoints.getListOfExitPoints());
 
-		Plane plane2 = new Plane(1, 500, 3000, 50, gameWithoutExitpoints, 2);
+		Plane plane2 = new SingleplayerPlane(1, 500, 3000, 50, gameWithoutExitpoints, 2);
 
 		ArrayList<Point> route = plan.buildRoute(gameWithoutExitpoints, plane2
 				.getFlightPlan().getEntryPoint());
@@ -133,7 +133,7 @@ public class FlightPlanTests {
 
 		Game gameWithoutWaypoints = null;
 		try {
-			gameWithoutWaypoints = new Game(50, 100, 0, false);
+			gameWithoutWaypoints = new SingleplayerGame(50, 100, 0);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
@@ -143,7 +143,7 @@ public class FlightPlanTests {
 		gameWithoutWaypoints.getListOfWaypoints().removeAll(
 				gameWithoutWaypoints.getListOfWaypoints());
 
-		Plane plane2 = new Plane(1, 500, 3000, 50, gameWithoutWaypoints, 3);
+		Plane plane2 = new SingleplayerPlane(1, 500, 3000, 50, gameWithoutWaypoints, 3);
 
 		ArrayList<Point> route = plan.buildRoute(gameWithoutWaypoints, plane2
 				.getFlightPlan().getEntryPoint());

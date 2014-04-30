@@ -1,6 +1,6 @@
 package game.struct;
 
-import org.newdawn.slick.geom.*;
+import org.newdawn.slick.geom.Polygon;
 
 public class Airport extends Point {
 
@@ -25,11 +25,11 @@ public class Airport extends Point {
 	public Airport(int beginningOfRunwayXVal, int runwayYVal, int endOfRunwayXVal, int triangleSizeXVal, int triangleSizeYVal) {
 		// Placing the airport off screen as the airport graphics are part of
 		// the graphics already
-		this.beginningOfRunwayX = beginningOfRunwayXVal;
-		this.runwayY = runwayYVal;
-		this.endOfRunwayX = endOfRunwayXVal;
-		this.triangleSizeX = triangleSizeXVal;
-		this.triangleSizeY = triangleSizeYVal;
+		Airport.beginningOfRunwayX = beginningOfRunwayXVal;
+		Airport.runwayY = runwayYVal;
+		Airport.endOfRunwayX = endOfRunwayXVal;
+		Airport.triangleSizeX = triangleSizeXVal;
+		Airport.triangleSizeY = triangleSizeYVal;
 		
 		this.x = -100;
 		this.y = -100;

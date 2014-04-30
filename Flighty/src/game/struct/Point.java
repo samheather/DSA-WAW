@@ -1,10 +1,6 @@
 package game.struct;
 
-import java.nio.ByteBuffer;
-
 public class Point {
-
-
 
 	protected double x = 0.0;
 	protected double y = 0.0;
