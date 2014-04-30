@@ -630,7 +630,7 @@ public abstract class Game {
 					currentPlane = null;
 				}
 
-				removePlane(plane);
+				plane.markForDeletion();
 
 			} else {
 
@@ -991,17 +991,4 @@ public abstract class Game {
 	public void setPlaneCount(int newPlaneCount) {
 		planeCount = newPlaneCount;
 	}
-	
-	
-	/**
-	 * Removes a plane from the game
-	 * <p>
-	 * Iterates through currentPlanes list and removes the plane
-	 * </p>
-	 * 
-	 * @param toDelete
-	 *            the plane to remove
-	 */
-	public abstract void removePlane(Plane toDelete);
-
 }

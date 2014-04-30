@@ -34,11 +34,6 @@ public class MultiplayerGame extends Game {
 			Arrays.asList((Class) MultiplayerPlane.class));
 
 	@Override
-	public void removePlane(Plane toDelete) {
-		toDelete.markForDeletion();
-	}
-
-	@Override
 	public void update(GameContainer gameContainer, StateBasedGame game)
 			throws IOException {
 		if (state == 0) {
@@ -165,7 +160,7 @@ public class MultiplayerGame extends Game {
 			}
 
 			// Removes planes that left the airspace
-			removePlane(plane);
+			plane.markForDeletion();
 
 		} else if (plane.getX() > (windowWidth + distFromLeftEdge) / 2) {
 			System.out.println(plane);

@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.state.StateBasedGame;
+
 public class SingleplayerGame extends Game {
 
 
@@ -32,19 +35,6 @@ public class SingleplayerGame extends Game {
 			throws NoSuchAlgorithmException, UnknownHostException, IOException {
 		super(newSeparationDistance, newPenaltyDistance, distFromLeft);
 		System.out.println("singlep game constructed");
-	}
-	
-	@Override
-	public void removePlane(Plane toDelete) {
-		if(isEnding())
-			return;
-		for (ListIterator<SingleplayerPlane> iter = singleplayerPlanes
-				.listIterator(singleplayerPlanes.size()); iter.hasPrevious();) {
-			if (toDelete.equals(iter.previous())) {
-				iter.remove();
-				return;
-			}
-		}
 	}
 
 	@Override
@@ -101,9 +91,22 @@ public class SingleplayerGame extends Game {
 			}
 
 			// Removes planes that left the airspace
-			removePlane(plane);
+			plane.markForDeletion();
 		}
 		
+	}
+	
+	@Override
+	public void update(GameContainer gameContainer, StateBasedGame game)
+			throws IOException {
+		super.update(gameContainer, game);
+		ListIterator<SingleplayerPlane> i = singleplayerPlanes
+				.listIterator();
+		while (i.hasNext()) {
+			SingleplayerPlane p = i.next();
+			if (p.deleted())
+				i.remove();
+		}
 	}
 
 }
