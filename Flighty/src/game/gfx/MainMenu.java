@@ -56,7 +56,7 @@ public class MainMenu extends GenericWindow {
 		boolean clicked = gameContainer.getInput().isMousePressed(0);
 
 		// Text
-		String gameTitleText = "Plane Chaos";
+		String gameTitleText = "Flighty Mk 2";
 		String startGameText = "Single Player";
 		String multiplayerText = "Multiplayer";
 		String creditsText = "Credits";
