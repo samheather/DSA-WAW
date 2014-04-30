@@ -21,6 +21,7 @@ public class Protocol implements Closeable {
 		Idle
 	}
 
+	//TODO(jamaal) - supress or fix please.
 	public Protocol(String hostname, int i, List<Class> toRegister) {
 		try {
 			try {
