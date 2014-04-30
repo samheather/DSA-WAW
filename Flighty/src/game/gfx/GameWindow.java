@@ -996,6 +996,7 @@ public class GameWindow extends BasicGameState {
 		if (this.currentGame.isCollision()) {
 			// If the game is ending
 			if (this.currentGame.isEnding()) {
+				this.currentGame.endingRoutine();
 				// Draw the two collided planes rotated a bit so it looks like a
 				// crash
 				for (Plane plane : this.currentGame.getCollidedPlanes()) {

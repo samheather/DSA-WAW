@@ -14,7 +14,9 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import game.gfx.WindowManager;
 import game.network.Message;
+import game.network.Message.ServerClient.OpponentQuit;
 import game.network.Protocol;
+import game.network.Message.ClientClient.CCObject;
 
 public class MultiplayerGame extends Game {
 
@@ -31,7 +33,7 @@ public class MultiplayerGame extends Game {
 	private ArrayList<MultiplayerPlane> multiplayerPlanes = new ArrayList<MultiplayerPlane>();
 
 	Protocol protocol = new Protocol("multi.atcga.me", 1025,
-			Arrays.asList((Class) MultiplayerPlane.class));
+			Arrays.asList((Class) MultiplayerPlane.class, Score.class));
 
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame game)
@@ -40,9 +42,13 @@ public class MultiplayerGame extends Game {
 			WindowManager.opponentFound = false;
 			// waiting for connection to server
 			Message.Receivable r = protocol.getMessage();
-			if (r == null)
+			if (r == null) {
 				return;
-			if (r instanceof Message.ServerClient.AckBeginMM) {
+			} else if (r instanceof Message.Error) {
+				System.out.println("error!");
+				((Message.Error) r).log();
+				System.exit(1);
+			} else if (r instanceof Message.ServerClient.AckBeginMM) {
 				state = 1;
 				System.out.println("in mm");
 			}
@@ -54,9 +60,13 @@ public class MultiplayerGame extends Game {
 				protocol.putMessage(new Message.ClientServer.CancelMM());
 				game.enterState(WindowManager.MAIN_MENU_STATE);
 			}
-			if (r == null)
+			if (r == null) {
 				return;
-			if (r instanceof Message.ServerClient.FoundGame) {
+			} else if (r instanceof Message.Error) {
+				System.out.println("error!");
+				((Message.Error) r).log();
+				System.exit(1);
+			} else if (r instanceof Message.ServerClient.FoundGame) {
 				state = 2;
 				System.out.println("got game");
 			}
@@ -67,9 +77,24 @@ public class MultiplayerGame extends Game {
 				if (r instanceof Message.Error) {
 					System.out.println("error!");
 					((Message.Error) r).log();
+					System.exit(1);
+				} else if (r instanceof Message.ServerClient.OpponentQuit) {
+					WindowManager.endingText = "Opponent quit the game, you won!";
+					state = 3;
+					setEnding(true);
+					return;
 				} else if (r instanceof Message.ClientClient.CCObject) {
 					Object o = ((Message.ClientClient.CCObject) r).getObject();
-					if (o instanceof MultiplayerPlane) {
+					if (o instanceof Score) {
+						protocol.putMessage(new Message.ClientClient.CCObject(
+								this.getScore()));
+						protocol.putMessage(new Message.ClientServer.RequestQuit());
+						WindowManager.endingText = "Opponent died, their score was: "
+								+ ((Score) (o)).getScore();
+						state = 3;
+						setEnding(true);
+						return;
+					} else if (o instanceof MultiplayerPlane) {
 						MultiplayerPlane p = (MultiplayerPlane) o;
 						p.currentGame = this;
 						p.resetSyncState();
@@ -110,6 +135,8 @@ public class MultiplayerGame extends Game {
 				if (plane.deleted())
 					i.remove();
 			}
+		} else if (state == 3) {
+			super.update(gameContainer, game);
 		}
 	}
 
@@ -188,5 +215,34 @@ public class MultiplayerGame extends Game {
 				bearing, this, uniqueNetworkObjectId);
 		multiplayerPlanes.add(p);
 		return p;
+	}
+
+	@Override
+	public void endingRoutine() {
+		if (state != 3) {
+			protocol.putMessage(new Message.ClientClient.CCObject(this
+					.getScore()));
+
+			for (;;) {
+				Message.Receivable r = protocol.getMessage();
+				if (r != null && r instanceof Message.ClientClient.CCObject) {
+					if (((Message.ClientClient.CCObject) (r)).getObject() instanceof Score) {
+						for (;;) {
+							Message.Receivable r2 = protocol.getMessage();
+							if (r2 == null)
+								continue;
+							if (r2 instanceof Message.ServerClient.OpponentQuit) {
+								break;
+							}
+						}
+						state = 3;
+						WindowManager.endingText = "You died! Opponents score was: "
+								+ ((Score) (((Message.ClientClient.CCObject) (r))
+										.getObject())).getScore();
+						break;
+					}
+				}
+			}
+		}
 	}
 }
