@@ -73,31 +73,32 @@ public class MultiplayerGame extends Game {
 					System.out.println("error!");
 					((Message.Error) r).log();
 				} else if (r instanceof Message.ClientClient.CCObject) {
-					MultiplayerPlane p = (MultiplayerPlane) ((Message.ClientClient.CCObject) r)
-							.getObject();
-					p.currentGame = this;
-					p.resetSyncState();
-					p.ownedByCurrentPlayer = !p.ownedByCurrentPlayer;
-					ListIterator<MultiplayerPlane> i = multiplayerPlanes
-							.listIterator();
-					while (i.hasNext()) {
-						Plane p2 = i.next();
-						if (p2.equals(p)) {
-							// p.ownedByCurrentPlayer = false;
-							if (p.deleted())
-								i.remove();
-							else
-								i.set(p);
-							System.out.println("received existing plane");
-							p = null;
-							break;
+					Object o = ((Message.ClientClient.CCObject) r).getObject();
+					if (o instanceof MultiplayerPlane) {
+						MultiplayerPlane p = (MultiplayerPlane) o;
+						p.currentGame = this;
+						p.resetSyncState();
+						p.ownedByCurrentPlayer = !p.ownedByCurrentPlayer;
+						ListIterator<MultiplayerPlane> i = multiplayerPlanes
+								.listIterator();
+						while (i.hasNext()) {
+							Plane p2 = i.next();
+							if (p2.equals(p)) {
+								// p.ownedByCurrentPlayer = false;
+								if (p.deleted())
+									i.remove();
+								else
+									i.set(p);
+								System.out.println("received existing plane");
+								p = null;
+								break;
+							}
 						}
-					}
-					if (p != null && !p.deleted()) {
-						// p.ownedByCurrentPlayer = false;
-						multiplayerPlanes.add(p);
-						System.out.println("received new plane");
-
+						if (p != null && !p.deleted()) {
+							// p.ownedByCurrentPlayer = false;
+							multiplayerPlanes.add(p);
+							System.out.println("received new plane");
+						}
 					}
 				}
 			}
