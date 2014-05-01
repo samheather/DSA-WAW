@@ -21,16 +21,12 @@ public class PlaneTests {
 
 	@Before
 	public void beforeTests() throws NoSuchAlgorithmException, UnknownHostException, IOException {
-		game = new SingleplayerGame(50, 100, 0);
+		game = new SingleplayerGame(50, 100, 0, 1);
 		plane1 = new SingleplayerPlane(1, 500, 3000, 50, game, 0);
 
 	}
 
 	// Testing Check if flight at waypoint.
-
-	/**
-	 * Test ID P.1.1
-	 */
 
 	@Test
 	public void checkIfFlightAtWaypointTest1() {
@@ -38,10 +34,6 @@ public class PlaneTests {
 		plane1.setY(10000);
 		assertFalse(plane1.checkIfFlightAtWaypoint(game.getAirport(), game));
 	}
-
-	/**
-	 * Test ID P.1.2
-	 */
 
 	@Test
 	public void checkIfFlightAtWaypointTest2() {
@@ -52,10 +44,6 @@ public class PlaneTests {
 				.getCurrentRoute().get(0), game));
 	}
 
-	/**
-	 * Test ID P.1.3
-	 */
-
 	@Test
 	public void checkIfFlightAtWaypointTest3() {
 
@@ -65,10 +53,6 @@ public class PlaneTests {
 				.getCurrentRoute().get(0), game));
 	}
 
-	/**
-	 * Test ID P.1.4
-	 */
-
 	@Test
 	public void checkIfFlightAtWaypointTest4() {
 
@@ -77,10 +61,6 @@ public class PlaneTests {
 		assertFalse(plane1.checkIfFlightAtWaypoint(plane1.getFlightPlan()
 				.getCurrentRoute().get(0), game));
 	}
-
-	/**
-	 * Test ID P.1.5
-	 */
 
 	@Test
 	public void checkIfFlightAtWaypointTest5() {
@@ -94,10 +74,6 @@ public class PlaneTests {
 
 	// Testing increment bearing
 
-	/**
-	 * Test ID P.2.1
-	 */
-
 	@Test
 	public void incrementBearingTest1() {
 		plane1.setBearing(0);
@@ -109,10 +85,6 @@ public class PlaneTests {
 		assertFalse(plane1.isTurningLeft());
 
 	}
-
-	/**
-	 * Test ID P.2.2
-	 */
 
 	@Test
 	public void incrementBearingTest2() {
@@ -128,10 +100,6 @@ public class PlaneTests {
 
 	// Testing decrement bearing
 
-	/**
-	 * Test ID P.3.1
-	 */
-
 	@Test
 	public void decrementBearingTest1() {
 		plane1.setBearing(180);
@@ -143,10 +111,6 @@ public class PlaneTests {
 		assertTrue(plane1.isTurningLeft());
 
 	}
-
-	/**
-	 * Test ID P.3.2
-	 */
 
 	@Test
 	public void decrementBearingTest2() {
@@ -160,10 +124,6 @@ public class PlaneTests {
 
 	}
 
-	/**
-	 * Test ID P.4
-	 */
-
 	// Testing Increment Altitude
 
 	@Test
@@ -175,10 +135,6 @@ public class PlaneTests {
 
 	// Testing Decrement Altitude
 
-	/**
-	 * Test ID P.5
-	 */
-
 	@Test
 	public void decrementAltitudeTest1() {
 		plane1.setAltitude(100);
@@ -188,10 +144,6 @@ public class PlaneTests {
 
 	// Testing Increment Target Altitude
 
-	/**
-	 * Test ID P.6.1
-	 */
-
 	@Test
 	public void incrementTargetAltitudeTest1() {
 		plane1.setTargetAltitude(3000);
@@ -199,10 +151,6 @@ public class PlaneTests {
 		assertEquals(4000, plane1.getTargetAltitude(), 0.1);
 
 	}
-
-	/**
-	 * Test ID P.6.2
-	 */
 
 	@Test
 	public void incrementTargetAltitudeTest2() {
@@ -214,10 +162,6 @@ public class PlaneTests {
 
 	// Testing Decrement Target Altitude
 
-	/**
-	 * Test ID P.7.1
-	 */
-
 	@Test
 	public void decrementTargetAltitudeTest1() {
 		plane1.setTargetAltitude(3000);
@@ -225,10 +169,6 @@ public class PlaneTests {
 		assertEquals(2000, plane1.getTargetAltitude(), 0.1);
 
 	}
-
-	/**
-	 * Test ID P.7.2
-	 */
 
 	@Test
 	public void decrementTargetAltitudeTest2() {
@@ -239,10 +179,6 @@ public class PlaneTests {
 	}
 
 	// Testing Calculating the heading to next Waypoint
-
-	/**
-	 * Test ID P.8
-	 */
 
 	@Test
 	public void calculateBearingToNextWaypointTest1() {
@@ -259,10 +195,6 @@ public class PlaneTests {
 
 	// Testing Update Current Bearing
 
-	/**
-	 * Test ID P.9.1
-	 */
-
 	@Test
 	public void updateCurrentBearingTest1() {
 		// Test that the current heading moves towards the target heading
@@ -274,10 +206,6 @@ public class PlaneTests {
 		assertEquals(288.9, plane1.getBearing(), 0.1);
 
 	}
-
-	/**
-	 * Test ID P.9.2
-	 */
 
 	@Test
 	public void updateCurrentBearingTest2() {
@@ -291,10 +219,6 @@ public class PlaneTests {
 
 	}
 
-	/**
-	 * Test ID P.9.3
-	 */
-
 	@Test
 	public void updateCurrentBearingTest3() {
 		// Test that the current heading moves towards the target heading
@@ -306,10 +230,6 @@ public class PlaneTests {
 		assertEquals(270.9, plane1.getBearing(), 0.1);
 
 	}
-
-	/**
-	 * Test ID P.9.4
-	 */
 
 	@Test
 	public void updateCurrentBearingTest4() {
@@ -323,10 +243,6 @@ public class PlaneTests {
 
 	}
 
-	/**
-	 * Test ID P.9.5
-	 */
-
 	@Test
 	public void updateCurrentBearingTest5() {
 		// Test that the current heading moves towards the target heading
@@ -338,10 +254,6 @@ public class PlaneTests {
 		assertEquals(150.9, plane1.getBearing(), 0.1);
 
 	}
-
-	/**
-	 * Test ID P.9.6
-	 */
 
 	@Test
 	public void updateCurrentBearingTest6() {
@@ -355,10 +267,6 @@ public class PlaneTests {
 
 	}
 
-	/**
-	 * Test ID P.9.7
-	 */
-
 	@Test
 	public void updateCurrentBearingTest7() {
 		// Test that the current heading moves towards the target heading
@@ -370,10 +278,6 @@ public class PlaneTests {
 		assertEquals(0, plane1.getBearing(), 0.1);
 
 	}
-
-	/**
-	 * Test ID P.9.8
-	 */
 
 	@Test
 	public void updateCurrentBearingTest8() {
@@ -389,10 +293,6 @@ public class PlaneTests {
 
 	// Testing findLandingDescentRate
 
-	/**
-	 * Test ID P.10
-	 */
-
 	@Test
 	public void findLandingDescentRateTest1() {
 		plane1.setX(695);
@@ -405,10 +305,6 @@ public class PlaneTests {
 	}
 
 	// Testing Landing Plane
-
-	/**
-	 * Test ID P.11
-	 */
 
 	@Test
 	public void landPlaneTest1() {
@@ -427,11 +323,6 @@ public class PlaneTests {
 	}
 
 	// Testing Update X and Y Coordinates
-
-	/**
-	 * Test ID P.12
-	 */
-
 	@Test
 	public void updateXYCoordinatesTest1() {
 		plane1.setX(150);
@@ -446,10 +337,6 @@ public class PlaneTests {
 	}
 
 	// Testing Move Plane
-
-	/**
-	 * Test ID P.13.1
-	 */
 
 	@Test
 	public void movePlaneTest1() {
@@ -466,11 +353,7 @@ public class PlaneTests {
 		assertEquals(399.507, plane1.getY(), 0.001);
 
 	}
-
-	/**
-	 * Test ID P.13.2
-	 */
-
+	
 	@Test
 	public void movePlaneTest2() {
 		plane1.setX(150);
@@ -486,10 +369,6 @@ public class PlaneTests {
 		assertEquals(100.9, plane1.getBearing(), 0.1);
 
 	}
-
-	/**
-	 * Test ID P.13.3
-	 */
 
 	@Test
 	public void movePlaneTest3() {
@@ -511,10 +390,6 @@ public class PlaneTests {
 
 	// Testing Take Off
 
-	/**
-	 * Test ID P.14
-	 */
-
 	@Test
 	public void takeOffTest1() {
 		plane1.takeOff();
@@ -525,11 +400,7 @@ public class PlaneTests {
 	}
 
 	// Testing Update Plane Altitude
-
-	/**
-	 * Test ID P.15.1
-	 */
-
+	
 	@Test
 	public void updatePlaneAltitudeTest1() {
 		plane1.setLandingDescentRate(10);
@@ -541,10 +412,6 @@ public class PlaneTests {
 
 	}
 
-	/**
-	 * Test ID P.15.2
-	 */
-
 	@Test
 	public void updatePlaneAltitudeTest2() {
 		plane1.setLandingDescentRate(10);
@@ -553,10 +420,6 @@ public class PlaneTests {
 		assertEquals(90, plane1.getAltitude(), 0);
 
 	}
-
-	/**
-	 * Test ID P.15.3
-	 */
 
 	@Test
 	public void updatePlaneAltitudeTest3() {
@@ -567,10 +430,6 @@ public class PlaneTests {
 		assertEquals(105, plane1.getAltitude(), 0);
 
 	}
-
-	/**
-	 * Test ID P.15.4
-	 */
 
 	@Test
 	public void updatePlaneAltitudeTest4() {
