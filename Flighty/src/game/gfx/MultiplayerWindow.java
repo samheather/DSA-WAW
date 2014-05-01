@@ -611,8 +611,8 @@ public class MultiplayerWindow extends BasicGameState {
 						fontHeight, tolerance)
 				|| isInHitBox(x, y, autopilotTextPos3, autopilotTextWidth3,
 						fontHeight, tolerance)) {
-			if (clicked) {
-				//currentGame.getScore().setScore(currentGame.getScore().getScore() - 40);
+			if (clicked && currentGame.getScore().getScore() >= 40) {
+				currentGame.getScore().setScore(currentGame.getScore().getScore() - 40);
 				System.out.println("Start");
 				WindowManager.turnOffAutopilot = true;
 			} else {
