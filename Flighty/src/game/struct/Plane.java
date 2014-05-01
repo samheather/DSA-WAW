@@ -299,17 +299,17 @@ public abstract class Plane {
 	 */
 	public void calculateBearingToNextWaypoint() {
 		if(autopilot){
-		double angle;
-		angle = Math.toDegrees(Math.atan2(getY() - target.getY(), getX()
-				- target.getX()));
+			double angle;
+			angle = Math.toDegrees(Math.atan2(getY() - target.getY(), getX()
+					- target.getX()));
 
-		if (angle < 0) {
-			angle += 360;
-		}
+			if (angle < 0) {
+				angle += 360;
+			}
 
-		setTurningRight(false);
-		setTurningLeft(false);
-		setTargetBearing(angle);
+			setTurningRight(false);
+			setTurningLeft(false);
+			setTargetBearing(angle);
 	}
 	}
 

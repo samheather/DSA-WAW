@@ -19,12 +19,12 @@ import java.io.InputStream;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.List;
 
 import game.struct.Airport;
 import game.struct.Game;
 import game.struct.MultiplayerGame;
 import game.struct.Plane;
+import game.struct.Cloud;
 
 /**
  * GameWindow class provides an interactive game
@@ -108,6 +108,13 @@ public class MultiplayerWindow extends BasicGameState {
 
 	/** The plane collision range image */
 	private Image planeAlertMax;
+	
+	private Image cloudImage;
+	
+	private Cloud cloud;
+	
+	private boolean cloudAppeared = false;
+	
 
 	/** The Java font used to generate the fonts used */
 	private Font fontPrimitive;
@@ -153,7 +160,7 @@ public class MultiplayerWindow extends BasicGameState {
 	
 	/** Used to control autopilot off button **/
 	
-	double autoPilotDuration = 5000;
+	double autoPilotDuration = 3000;
 	double offTime ;
 	boolean autoPilotOff = false;
 	
@@ -334,6 +341,13 @@ public class MultiplayerWindow extends BasicGameState {
 				"/resources/maps/Newmap.png");
 
 		this.map = new Image(mapStream, "Map Image", false);
+		
+		// Load cload image
+		
+		InputStream cloudStream = this.getClass().getResourceAsStream(
+				"/resources/clouds/cloud2.png");
+		
+		this.cloudImage = new Image(cloudStream, "Cloud Image", false);
 
 		try {
 			InputStream fontStream = getClass().getResourceAsStream(
@@ -565,6 +579,13 @@ public class MultiplayerWindow extends BasicGameState {
 		pointsTextWidth = this.sidebarFont.getWidth(pointsText);
 		pointsTextPos[0] = (MultiplayerWindow.sidebarWidth - pointsTextWidth) / 2;
 		drawShadowedText(pointsText, pointsTextColor, pointsTextPos, graphics);
+		
+		if(cloudAppeared){
+			if(cloud.moveCloud()){
+				cloudImage.draw((float)cloud.getX(), (float)cloud.getY());
+			}
+				
+		}
 
 		if (isInHitBox(x, y, cloudTextPos1, cloudTextWidth1, fontHeight,
 				tolerance)
@@ -573,7 +594,9 @@ public class MultiplayerWindow extends BasicGameState {
 				|| isInHitBox(x, y, cloudTextPos3, cloudTextWidth3, fontHeight,
 						tolerance)) {
 			if (clicked) {
-				sendClouds();
+				//this.cloud = new Cloud(3, 5.0, currentGame, 5.0);
+				cloudImage.draw((float)cloud.getX(), (float)cloud.getY(),(float)cloud.getSize());
+				cloudAppeared = true;
 			} else {
 				// Change hover text and add waypoint next to text
 				cloudTextColor = Color.white;
