@@ -117,7 +117,7 @@ public abstract class Game {
 	protected abstract ArrayList<Waypoint> createWayPoints();
 	protected abstract ArrayList<Point> createEntryPoints();
 	protected abstract void configurePlane(Plane p);
-	protected abstract void planeUpdate(Plane p);
+	protected abstract void planeUpdate(Plane p, GameContainer gameContainer);
 
 	// Constructors
 
@@ -606,7 +606,7 @@ public abstract class Game {
 			// Check if the plane is still in the game area
 			
 			
-			planeUpdate(plane);
+			planeUpdate(plane, gameContainer);
 
 			// Updating the Planes altitude and adjusting it accordingly.
 			plane.updatePlaneAltitude();

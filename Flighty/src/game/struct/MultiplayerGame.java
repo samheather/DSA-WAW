@@ -178,9 +178,9 @@ public class MultiplayerGame extends Game {
 	protected void configurePlane(Plane p) {
 		// p.ownedByCurrentPlayer = false;
 	}
-
+	
 	@Override
-	protected void planeUpdate(Plane plane) {
+	protected void planeUpdate(Plane plane, GameContainer gameContainer) {
 		if ((plane.getX() < distFromLeftEdge) || (plane.getY() > windowHeight)
 				|| (plane.getY() < 0)) {
 			// Updates score if plane in game area
@@ -197,17 +197,21 @@ public class MultiplayerGame extends Game {
 			// Removes planes that left the airspace
 			plane.markForDeletion();
 
-		} else if (plane.getX() > (windowWidth + distFromLeftEdge) / 2) {
-			System.out.println(plane);
-			System.out.println(plane.getX());
-			System.out.println((windowWidth + distFromLeftEdge) / 2);
+		} else if ((plane.getX() > (windowWidth + distFromLeftEdge) / 2) && (plane.ownedByCurrentPlayer)) { //FIXME This handles things off the right edge
 			// Updates score if plane in game area
 			if (plane.ownedByCurrentPlayer)
 				getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
 
 			// Deselects plane that left the airspace
+			//plane.setBearing(plane.getBearing() + Math.PI);
+			plane.setY(gameContainer.getHeight() - plane.getY());
+			plane.clearFlightPlan();
+			plane.setFlightPlan(new FlightPlan(this, plane));
+			if (plane.equals(currentPlane)){
+				currentPlane = null;
+			}
 			plane.setOwnedByCurrentPlayer(false);
-			// currentPlane = null;
+			plane.setAuto();
 		}
 	}
 

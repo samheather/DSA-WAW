@@ -607,6 +607,10 @@ public abstract class Plane {
 
 	// Mutators
 
+	public void clearFlightPlan() {
+		this.flightPlan = null;
+	}
+	
 	/**
 	 * Set violationOccurred boolean to true
 	 */
