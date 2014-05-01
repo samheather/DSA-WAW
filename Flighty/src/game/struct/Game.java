@@ -470,21 +470,6 @@ public abstract class Game {
 
 		return result;
 	}
-
-	/**
-	 * Removes a plane from manual control
-	 * 
-	 * @param plane
-	 *            the plane to remove from manual control
-	 */
-	public void removeFromManual(Plane plane) {
-		plane.setAuto();
-
-		// Make the unselected plane go to the next waypoint
-		if (plane.getFlightPlan().getCurrentRoute().size() != 0) {
-			plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
-		}
-	}
 	
 	/** Checks if any plane on screen needs to take off
 	* 

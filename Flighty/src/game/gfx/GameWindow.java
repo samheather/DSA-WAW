@@ -1200,8 +1200,7 @@ public class GameWindow extends BasicGameState {
 						 * When a plane gets deselected, it is removed from
 						 * manual control, and it retakes the automatic control
 						 */
-						this.currentGame.removeFromManual(this.currentGame
-								.getCurrentPlane());
+						currentGame.getCurrentPlane().setAuto();
 						this.currentGame.getCurrentPlane().markForSyncing();
 					}
 				}
