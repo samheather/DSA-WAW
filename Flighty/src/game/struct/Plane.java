@@ -15,10 +15,15 @@ public abstract class Plane {
 	
 	public void setManual() {
 		manual = true;
+		markForSyncing();
 	}
 	
 	public void setAuto() {
 		manual = false;
+		if (getFlightPlan().getCurrentRoute().size() != 0) {
+			setTarget(getFlightPlan().getCurrentRoute().get(0));
+		}
+		markForSyncing();
 	}
 	
 	public boolean isManual() {

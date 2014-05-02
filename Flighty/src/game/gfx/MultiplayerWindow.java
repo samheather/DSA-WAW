@@ -1347,8 +1347,7 @@ public class MultiplayerWindow extends BasicGameState {
 							 * manual control, and it retakes the automatic
 							 * control
 							 */
-							currentGame.removeFromManual(currentGame
-									.getCurrentPlane());
+							currentGame.getCurrentPlane().setAuto();
 							currentGame.getCurrentPlane().markForSyncing();
 						}
 					}
