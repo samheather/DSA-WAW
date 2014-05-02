@@ -202,7 +202,6 @@ public class LeaderBoard extends GenericWindow {
 			if (connected){
 				GameWindow.saveFile.decodeLeaderboardScores(GameWindow.saveFile.getLeaderboardScores());
 				sortLeaderboard(leaderboardEntries);
-				System.out.println(GameWindow.saveFile.getLowestScore());
 			}
 			init = false;
 		}

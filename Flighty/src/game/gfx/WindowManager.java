@@ -60,6 +60,18 @@ public class WindowManager extends StateBasedGame {
 	/** Whether opponent for multiplayer has been found **/
 	public static boolean opponentFound = false;
 	
+	/** Whether autoPilotOff button was turned off */
+	
+	public static boolean autopilotOff = false;
+	
+   /** Signals to multiplayer to send autopilot off message */
+	
+	public static boolean turnOffAutopilot = false;
+	
+	/** Signals game to turn off the autopilot */
+	
+	public static boolean autopilotInit = false;
+	
 	public static String endingText = "";
 
 	/** The level currently being played */

@@ -496,7 +496,6 @@ public class GameWindow extends BasicGameState {
 		g.setColor(this.fontColor);
 
 		if (!this.currentGame.isEnding()) {
-
 			// Display the Game Information
 				g.drawString("Time : "
 						+ ((int) this.time / 1000 / 60 < 10 ? "0"
@@ -1009,6 +1008,7 @@ public class GameWindow extends BasicGameState {
 				display = false;
 
 				// Draw the game over text
+
 				endFont.drawString(300, 200, "That didn't end well");
 				endFont.drawString(400, 260, "Score: "+ this.endScore);
 
@@ -1043,9 +1043,7 @@ public class GameWindow extends BasicGameState {
 						this.hasSaved = true;
 					}
 				}
-
 				// Manages leaderboard entries
-
 					// initializes text box
 
 					if (isTextBoxIni == false) {
@@ -1056,14 +1054,13 @@ public class GameWindow extends BasicGameState {
 						textBox.setTextColor(Color.orange);
 						textBox.setConsumeEvents(true);
 						textBox.setAcceptingInput(true);
-						textBox.setMaxLength(30);
+						textBox.setMaxLength(25);
+						textBox.setText("");
 						isTextBoxIni = true;
 						WindowManager.leaderBoard.isConnected();
 						lowScore = saveFile.getLowestScore();
 					}
-					
-					
-					
+										
 					//creates a text box to enter your name:
 					if(LeaderBoard.connected){
 						if(lowScore < currentGame.getScore().getScore()){
@@ -1086,8 +1083,7 @@ public class GameWindow extends BasicGameState {
 					}else {
 						new TrueTypeFont(this.fontPrimitive.deriveFont(25f),
 								true).drawString(305f, 300f,"No internet connection");
-					}
-					
+					}					
 				}// if the planes collided but the ending has not yet been set
 				else {
 					// Stop the timer
@@ -1098,7 +1094,6 @@ public class GameWindow extends BasicGameState {
 				}
 			}
 		}
-
 
 	/**
 	 * Updates the game state

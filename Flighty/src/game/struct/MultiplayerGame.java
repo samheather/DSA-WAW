@@ -30,9 +30,9 @@ public class MultiplayerGame extends Game {
 
 	private ArrayList<MultiplayerPlane> multiplayerPlanes = new ArrayList<MultiplayerPlane>();
 
-	//TODO(jamaal) please supress if necessary
-	Protocol protocol = new Protocol("multi.atcga.me", 1025,
-			Arrays.asList((Class) MultiplayerPlane.class, Score.class));
+	// TODO(jamaal) please supress if necessary
+	Protocol protocol = new Protocol("multi.atcga.me", 1025, Arrays.asList(
+			(Class) MultiplayerPlane.class, Score.class));
 
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame game)
@@ -78,7 +78,7 @@ public class MultiplayerGame extends Game {
 					((Message.Error) r).log();
 					System.exit(1);
 				} else if (r instanceof Message.ServerClient.OpponentQuit) {
-					WindowManager.endingText = "Opponent quit the game, you won!";
+					WindowManager.endingText = "Opponent quit the game you won";
 					state = 3;
 					setEnding(true);
 					return;
@@ -88,7 +88,7 @@ public class MultiplayerGame extends Game {
 						protocol.putMessage(new Message.ClientClient.CCObject(
 								this.getScore()));
 						protocol.putMessage(new Message.ClientServer.RequestQuit());
-						WindowManager.endingText = "Opponent died, their score was: "
+						WindowManager.endingText = "Opponent died their score was  "
 								+ ((Score) (o)).getScore();
 						state = 3;
 						setEnding(true);
@@ -108,7 +108,7 @@ public class MultiplayerGame extends Game {
 									i.remove();
 								else
 									i.set(p);
-								System.out.println("received existing plane");
+								//System.out.println("received existing plane");
 								p = null;
 								break;
 							}
@@ -116,8 +116,11 @@ public class MultiplayerGame extends Game {
 						if (p != null && !p.deleted()) {
 							// p.ownedByCurrentPlayer = false;
 							multiplayerPlanes.add(p);
-							System.out.println("received new plane");
+							//System.out.println("received new plane");
 						}
+					} else if (o instanceof AutoPilot) {
+						WindowManager.autopilotInit = true;
+						WindowManager.autopilotOff = true;
 					}
 				}
 			}
@@ -133,6 +136,11 @@ public class MultiplayerGame extends Game {
 				}
 				if (plane.deleted())
 					i.remove();
+			}
+			if (WindowManager.turnOffAutopilot) {
+				AutoPilot autopilot = new AutoPilot();
+				protocol.putMessage(new Message.ClientClient.CCObject(autopilot));
+				WindowManager.turnOffAutopilot = false;
 			}
 		} else if (state == 3) {
 			super.update(gameContainer, game);
@@ -171,7 +179,7 @@ public class MultiplayerGame extends Game {
 	}
 
 	@Override
-	protected void planeUpdate(Plane plane) {
+	protected void planeUpdate(Plane plane, GameContainer gameContainer) {
 		if ((plane.getX() < distFromLeftEdge) || (plane.getY() > windowHeight)
 				|| (plane.getY() < 0)) {
 			// Updates score if plane in game area
@@ -188,17 +196,28 @@ public class MultiplayerGame extends Game {
 			// Removes planes that left the airspace
 			plane.markForDeletion();
 
-		} else if (plane.getX() > (windowWidth + distFromLeftEdge) / 2) {
-			System.out.println(plane);
-			System.out.println(plane.getX());
-			System.out.println((windowWidth + distFromLeftEdge) / 2);
+		} else if ((plane.getX() > (windowWidth + distFromLeftEdge) / 2)) { // FIXME This handles things
+													// off the right edge
 			// Updates score if plane in game area
-			if (plane.ownedByCurrentPlayer)
+			if (plane.ownedByCurrentPlayer) {
 				getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
 
-			// Deselects plane that left the airspace
-			plane.setOwnedByCurrentPlayer(false);
-			// currentPlane = null;
+				// Deselects plane that left the airspace
+				plane.setBearing(plane.getBearing() + 180);
+				plane.setY(gameContainer.getHeight() - plane.getY());
+				plane.setX(plane.getX() ); //TODO remove this -30 once fixed
+				//plane.setVelocity(-plane.getVelocity());
+				if (plane.getFlightPlan().getCurrentRoute().size() > 0){
+					plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
+				}
+				if (plane.equals(currentPlane)) {
+					currentPlane = null;
+				}
+				plane.setOwnedByCurrentPlayer(false);
+				plane.setAuto();
+			} /*else {
+				plane.setOwnedByCurrentPlayer(true);
+			}*/
 		}
 	}
 
@@ -235,7 +254,7 @@ public class MultiplayerGame extends Game {
 							}
 						}
 						state = 3;
-						WindowManager.endingText = "You died! Opponents score was: "
+						WindowManager.endingText = "You died Opponents score was  "
 								+ ((Score) (((Message.ClientClient.CCObject) (r))
 										.getObject())).getScore();
 						break;

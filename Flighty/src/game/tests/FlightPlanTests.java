@@ -21,7 +21,7 @@ public class FlightPlanTests {
 	@Before
 	public void beforeTests() throws UnknownHostException, IOException {
 		try {
-			game = new SingleplayerGame(50, 100, 0);
+			game = new SingleplayerGame(50, 100, 0, 1);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
@@ -29,19 +29,11 @@ public class FlightPlanTests {
 		plan = new FlightPlan(game, plane);
 	}
 
-	/**
-	 * Test ID F.1.1
-	 */
-
 	@Test
 	public void generateEntryPointTest1() {
 		assertTrue(game.getListOfEntryPoints().contains(
 				plan.generateEntryPoint(game)));
 	}
-
-	/**
-	 * Test ID F.1.2
-	 */
 
 	@Test
 	public void generateEntryPointTest2() {
@@ -54,10 +46,6 @@ public class FlightPlanTests {
 				| result == game.getListOfEntryPoints().get(3));
 	}
 
-	/**
-	 * Test ID F.2.1
-	 */
-
 	@Test
 	public void buildRouteTest1() {
 		assertTrue(game.getListOfEntryPoints().retainAll(
@@ -65,10 +53,6 @@ public class FlightPlanTests {
 				&& game.getListOfExitPoints().retainAll(
 						plan.buildRoute(game, plan.getEntryPoint())));
 	}
-
-	/**
-	 * Test ID F.2.2
-	 */
 
 	@Test
 	public void buildRouteTest2() {
@@ -90,12 +74,6 @@ public class FlightPlanTests {
 		}
 	}
 
-	/**
-	 * Test ID F.2.3
-	 * @throws IOException 
-	 * @throws UnknownHostException 
-	 */
-
 	@Test
 	public void buildRouteTest3() throws UnknownHostException, IOException {
 
@@ -103,7 +81,7 @@ public class FlightPlanTests {
 
 		Game gameWithoutExitpoints = null;
 		try {
-			gameWithoutExitpoints = new SingleplayerGame(50, 100, 0);
+			gameWithoutExitpoints = new SingleplayerGame(50, 100, 0, 1);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
@@ -120,12 +98,6 @@ public class FlightPlanTests {
 		assertTrue(route.size() == 0);
 	}
 
-	/**
-	 * Test ID F.2.4
-	 * @throws IOException 
-	 * @throws UnknownHostException 
-	 */
-
 	@Test
 	public void buildRouteTest4() throws UnknownHostException, IOException {
 
@@ -133,7 +105,7 @@ public class FlightPlanTests {
 
 		Game gameWithoutWaypoints = null;
 		try {
-			gameWithoutWaypoints = new SingleplayerGame(50, 100, 0);
+			gameWithoutWaypoints = new SingleplayerGame(50, 100, 0, 1);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
@@ -149,10 +121,6 @@ public class FlightPlanTests {
 				.getFlightPlan().getEntryPoint());
 		assertTrue(route.size() == 0);
 	}
-
-	/**
-	 * Test ID F.2.5
-	 */
 
 	@Test
 	public void buildRouteTest5() {

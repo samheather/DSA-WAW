@@ -94,7 +94,7 @@ public abstract class Game {
 
 	/** The number of planes to spawn at a time */
 	private int spawnCount;
-
+	
 	/** A list of planes which are colliding */
 	private ArrayList<Plane> collidedPlanes;
 
@@ -117,7 +117,7 @@ public abstract class Game {
 	protected abstract ArrayList<Waypoint> createWayPoints();
 	protected abstract ArrayList<Point> createEntryPoints();
 	protected abstract void configurePlane(Plane p);
-	protected abstract void planeUpdate(Plane p);
+	protected abstract void planeUpdate(Plane p, GameContainer gameContainer);
 
 	// Constructors
 
@@ -591,7 +591,7 @@ public abstract class Game {
 			// Check if the plane is still in the game area
 			
 			
-			planeUpdate(plane);
+			planeUpdate(plane, gameContainer);
 
 			// Updating the Planes altitude and adjusting it accordingly.
 			plane.updatePlaneAltitude();
@@ -615,7 +615,6 @@ public abstract class Game {
 				if (currentPlane != null && plane.equals(currentPlane)) {
 					currentPlane = null;
 				}
-
 				plane.markForDeletion();
 
 			} else {
