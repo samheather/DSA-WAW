@@ -1,111 +1,81 @@
 package game.struct;
 
-import java.util.Random;
-
-public abstract class Cloud {
-
-	/** Size to display cloud */
-	private int size;
+public class Cloud {
 
 	/** Speed the cloud is traveling at */
-	private double velocity;
-
-	/** Current altitude */
-	private int altitude;
-
-	/** Current bearing in radians */
-	private double bearing;
+	private int velocity;
 
 	/** Current X co-ordinate */
-	private double x;
-
+	private float x;
 	/** Current Y co-ordinate */
-	private double y;
-
-	/** Current destination */
-	private Point start = new Point();
+	private float y;
 	
 	private Point end = new Point();
 	
 	/** Required by Slick2D */
 	public transient Game currentGame;
 	
-	Random rnd = new Random();
 	
 	public Cloud(){
 	}
 	
-	public  Cloud(int size, double velocity, Game currentGame, double bearing){
+	public  Cloud(int velocity, float x, float y, Game currentGame){
 		this.currentGame = currentGame;
-		this.altitude = 10000;
-		this.size = size;
 		this.velocity = velocity;
-		this.bearing = bearing;
-		this.start.setY(rnd.nextInt(4) * currentGame.windowHeight / 4);
-		this.start.setX(0);
-		this.end.setY(rnd.nextInt(4) * currentGame.windowHeight / 4);
-		this.end.setX(currentGame.windowWidth);
-		
-		
-		
-		
+		this.x = x;
+		this.y = y;
+		this.end.setX(x);
+		if(y == currentGame.windowHeight){
+			this.end.setY(0);
+		}else{this.end.setY(currentGame.windowHeight);}
 	}
 	
 	/** Updates x and y coordinates */
 	public void updateXYCoordinates() {
-		setX((float) (getX() - (Math.cos(Math.toRadians(getBearing())) * (currentGame
-				.getSpeedDifficulty() * getVelocity()))));
-	
-		setY((float) (getY() - (Math.sin(Math.toRadians(getBearing())) * (currentGame
-				.getSpeedDifficulty() * getVelocity()))));
+		if( getY() > this.end.getY()){
+			setY(getY() - velocity);	
+		}else if(getY() < this.end.getY()){
+			setY(getY() + velocity);	
+		}
+		if( getX() > this.end.getX()){
+			setX(getX() - velocity);	
+		}else if(getX() < this.end.getY()){
+			setX(getX() + velocity);	
+		}
+		
 	}
 	
 	public boolean moveCloud(){
-		if( getX()!= this.end.getX()){
+		if( getY()!= this.end.getY()){
 			updateXYCoordinates();
 			return false;
 		}
 		return true;
 	}
 	
-	public int getSize(){
-		return this.size;
-	}
 	
-	public double getBearing(){
-		return this.bearing;
-	}
-	
-	public double getY(){
+	public float getY(){
 		return this.y;
 	}
 	
-	public double getX(){
+	public float getX(){
 		return this.x;
 		
 	}
 	
-	public double getVelocity(){
+	public int getVelocity(){
 		return this.velocity;
 	}
 	
-	public void setVelocity(double vel){
+	public void setVelocity(int vel){
 		this.velocity = vel;
 	}
 	
-	public void setX(double x){
+	public void setX(float x){
 		this.x = x;
 	}
 	
-	public void setY(double y){
+	public void setY(float y){
 		this.y = y;
-	}
-	
-	public void setBearing(double bearing){
-		this.bearing = bearing;
-	}
-	
-	public void setSize(int size){
-		this.size = size;
 	}
 }
