@@ -1,0 +1,5 @@
+There are two ways to run the server:
+1) via Cabal on Linux (Ubuntu tested), using the below configuration and script files.
+2) by simply execiting the binary - no arguments are required. 
+
+In both cases, the server runs on port 1025, so you should ensure your firewall is not blocking access to this port.
