@@ -24,14 +24,10 @@ public class GameTests {
 	@Before
 	public void beforeTests() throws NoSuchAlgorithmException, UnknownHostException, IOException {
 
-		game = new SingleplayerGame(50, 100, 0);
+		game = new SingleplayerGame(50, 100, 0, 1);
 		plane1 = new SingleplayerPlane(1, 500, 3000, 50, game, 0);
 
 	}
-
-	/**
-	 * Test ID X.1
-	 */
 
 	@Test
 	public void testCreatePlane() {
@@ -39,10 +35,6 @@ public class GameTests {
 		this.game.createPlane();
 		assertTrue(this.game.getCurrentPlanes().size() == 1);
 	}
-
-	/**
-	 * Test ID X.2
-	 */
 
 	@Test
 	public void testGenerateAltitude() {
@@ -52,10 +44,6 @@ public class GameTests {
 		}
 	}
 
-	/**
-	 * Test ID X.3
-	 */
-
 	@Test
 	public void testGenerateVelocity() {
 		for (int i = 0; i < 200; i++) {
@@ -63,22 +51,6 @@ public class GameTests {
 			assertTrue(velocity == 1 || velocity == 1.1 || velocity == 1.2);
 		}
 	}
-
-	/**
-	 * Test ID X.4
-	 */
-
-	@Test
-	public void testRemovePlane() {
-		this.game.createPlane();
-		assertTrue(this.game.getCurrentPlanes().size() == 1);
-		this.game.removePlane(this.game.getCurrentPlanes().get(0));
-		assertTrue(this.game.getCurrentPlanes().size() == 0);
-	}
-
-	/**
-	 * Test ID X.5
-	 */
 
 	@Test
 	public void testGetPlaneFromID() {
@@ -90,10 +62,6 @@ public class GameTests {
 		assertEquals(100, plane.getID(), 0);
 
 	}
-
-	/**
-	 * Test ID X.8.1
-	 */
 
 	@Test
 	public void collsionTest1() {
@@ -108,10 +76,6 @@ public class GameTests {
 		assertTrue(game.collision(game.getCurrentPlanes().get(0)));
 
 	}
-
-	/**
-	 * Test ID X.8.2
-	 */
 
 	@Test
 	public void collsionTest2() {
@@ -129,10 +93,6 @@ public class GameTests {
 
 	}
 
-	/**
-	 * Test ID X.8.3
-	 */
-
 	@Test
 	public void collsionTest3() {
 		game.createPlane();
@@ -149,30 +109,16 @@ public class GameTests {
 
 	}
 
-	/**
-	 * Test ID X.9
-	 * @throws IOException 
-	 * @throws UnknownHostException 
-	 * @throws NoSuchAlgorithmException 
-	 */
-
 	@Test
 	public void tenWaypointsTest() throws NoSuchAlgorithmException, UnknownHostException, IOException {
-		game = new SingleplayerGame(100, 100, 0);
+		game = new SingleplayerGame(100, 100, 0, 1);
 		assertEquals(10, game.getListOfWaypoints().size(), 0);
 
 	}
 
-	/**
-	 * Test ID X.10
-	 * @throws IOException 
-	 * @throws UnknownHostException 
-	 * @throws NoSuchAlgorithmException 
-	 */
-
 	@Test
 	public void tenPlanesTest() throws NoSuchAlgorithmException, UnknownHostException, IOException {
-		game = new SingleplayerGame(100, 100, 0);
+		game = new SingleplayerGame(100, 100, 0, 1);
 		for (int i = 0; i < 10; i++) {
 			game.createPlane();
 
@@ -181,19 +127,12 @@ public class GameTests {
 		assertEquals(10, game.getCurrentPlanes().size(), 0);
 	}
 
-	/**
-	 * Test ID X.11
-	 * @throws IOException 
-	 * @throws UnknownHostException 
-	 * @throws NoSuchAlgorithmException 
-	 */
-
 	@Test
 	public void takingOffRestrictionTest() throws NoSuchAlgorithmException, UnknownHostException, IOException {
 		// Checking that when a flight is waiting to take off another flight
 		// cannot be designated to take off.
 
-		game = new SingleplayerGame(100, 100, 0);
+		game = new SingleplayerGame(100, 100, 0, 1);
 
 		game.createPlane();
 

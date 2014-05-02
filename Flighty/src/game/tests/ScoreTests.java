@@ -16,31 +16,19 @@ public class ScoreTests {
 
 	@Before
 	public void beforeTests() throws NoSuchAlgorithmException, UnknownHostException, IOException {
-		game = new SingleplayerGame(50, 100, 0);
+		game = new SingleplayerGame(50, 100, 0, 1);
 		plane = new SingleplayerPlane(1, 500, 3000, 50, game, 0);
 	}
-
-	/**
-	 * Test ID S.1
-	 */
 
 	@Test
 	public void initialScoreTest() {
 		assertTrue(game.getScore().getScore() == 0);
 	}
 
-	/**
-	 * Test ID S.2
-	 */
-
 	@Test
 	public void initialMultiplierTest() {
 		assertTrue(game.getScore().getMultiplier() == 1);
 	}
-
-	/**
-	 * Test ID S.3
-	 */
 
 	@Test
 	public void addScoreTest() {
@@ -57,10 +45,6 @@ public class ScoreTests {
 				|| game.getScore().getScore() == 10
 				|| game.getScore().getScore() == 0);
 	}
-
-	/**
-	 * Test ID S.4
-	 */
 
 	@Test
 	public void planeLeftAirspaceOrWaitingToTakeoffMinusTests() {
@@ -116,10 +100,6 @@ public class ScoreTests {
 		 */
 	}
 
-	/**
-	 * Test ID S.5
-	 */
-
 	@Test
 	public void planePilotedPerfectlyMultiplierBonusTests() {
 
@@ -165,10 +145,6 @@ public class ScoreTests {
 		// Testing of values
 		assertTrue(game.getScore().getMultiplier() == 1);
 	}
-
-	/**
-	 * Test ID S.6
-	 */
 
 	@Test
 	public void planeCollisionWarningMultAndScorePenaltiesTests() {
@@ -237,5 +213,11 @@ public class ScoreTests {
 		// Testing of values
 		assertTrue(game.getScore().getScore() == 0
 				&& game.getScore().getMultiplier() == 1);
+	}
+	
+	public void planeHitWaypointTest() {
+		plane.setX(150);
+		plane.setY(150);
+		
 	}
 }
