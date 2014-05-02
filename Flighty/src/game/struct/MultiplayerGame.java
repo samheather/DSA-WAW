@@ -17,7 +17,7 @@ import game.network.Message;
 import game.network.Protocol;
 
 public class MultiplayerGame extends Game {
-	
+
 	public MultiplayerGame(int newSeparationDistance, int newPenaltyDistance,
 			int distFromLeft) throws NoSuchAlgorithmException,
 			UnknownHostException, IOException {
@@ -27,13 +27,12 @@ public class MultiplayerGame extends Game {
 	}
 
 	int state = 0;
-	
 
 	private ArrayList<MultiplayerPlane> multiplayerPlanes = new ArrayList<MultiplayerPlane>();
 
-	//TODO(jamaal) please supress if necessary
-	Protocol protocol = new Protocol("multi.atcga.me", 1025,
-			Arrays.asList((Class) MultiplayerPlane.class, Score.class));
+	// TODO(jamaal) please supress if necessary
+	Protocol protocol = new Protocol("multi.atcga.me", 1025, Arrays.asList(
+			(Class) MultiplayerPlane.class, Score.class));
 
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame game)
@@ -119,7 +118,7 @@ public class MultiplayerGame extends Game {
 							multiplayerPlanes.add(p);
 							System.out.println("received new plane");
 						}
-					} else if(o instanceof AutoPilot){
+					} else if (o instanceof AutoPilot) {
 						WindowManager.autopilotInit = true;
 						WindowManager.autopilotOff = true;
 					}
@@ -138,7 +137,7 @@ public class MultiplayerGame extends Game {
 				if (plane.deleted())
 					i.remove();
 			}
-			if(WindowManager.turnOffAutopilot){
+			if (WindowManager.turnOffAutopilot) {
 				AutoPilot autopilot = new AutoPilot();
 				protocol.putMessage(new Message.ClientClient.CCObject(autopilot));
 				WindowManager.turnOffAutopilot = false;
@@ -178,7 +177,7 @@ public class MultiplayerGame extends Game {
 	protected void configurePlane(Plane p) {
 		// p.ownedByCurrentPlayer = false;
 	}
-	
+
 	@Override
 	protected void planeUpdate(Plane plane, GameContainer gameContainer) {
 		if ((plane.getX() < distFromLeftEdge) || (plane.getY() > windowHeight)
@@ -197,21 +196,27 @@ public class MultiplayerGame extends Game {
 			// Removes planes that left the airspace
 			plane.markForDeletion();
 
-		} else if ((plane.getX() > (windowWidth + distFromLeftEdge) / 2) && (plane.ownedByCurrentPlayer)) { //FIXME This handles things off the right edge
+		} else if ((plane.getX() > (windowWidth + distFromLeftEdge) / 2)) { // FIXME This handles things
+													// off the right edge
 			// Updates score if plane in game area
-			if (plane.ownedByCurrentPlayer)
+			if (plane.ownedByCurrentPlayer) {
 				getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
 
-			// Deselects plane that left the airspace
-			//plane.setBearing(plane.getBearing() + Math.PI);
-			plane.setY(gameContainer.getHeight() - plane.getY());
-			plane.clearFlightPlan();
-			plane.setFlightPlan(new FlightPlan(this, plane));
-			if (plane.equals(currentPlane)){
-				currentPlane = null;
+				// Deselects plane that left the airspace
+				plane.setBearing(plane.getBearing() + Math.PI);
+				plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
+				plane.setY(gameContainer.getHeight() - plane.getY());
+				plane.setX(plane.getX() - 30); //TODO remove this -30 once fixed
+				/*plane.clearFlightPlan();
+				plane.setFlightPlan(new FlightPlan(this, plane));*/
+				if (plane.equals(currentPlane)) {
+					currentPlane = null;
+				}
+				plane.setOwnedByCurrentPlayer(false);
+				plane.setAuto();
+			} else {
+				plane.setOwnedByCurrentPlayer(true);
 			}
-			plane.setOwnedByCurrentPlayer(false);
-			plane.setAuto();
 		}
 	}
 

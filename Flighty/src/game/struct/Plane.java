@@ -9,15 +9,14 @@ public abstract class Plane {
 	protected int takeoffAngleLowMulti = 15;
 	protected int takeoffAngleHighSingle = 225;
 	protected int takeoffAngleLowSingle = 135;
-	
-	
+
 	private boolean manual = false;
-	
+
 	public void setManual() {
 		manual = true;
 		markForSyncing();
 	}
-	
+
 	public void setAuto() {
 		manual = false;
 		if (getFlightPlan().getCurrentRoute().size() != 0) {
@@ -25,7 +24,7 @@ public abstract class Plane {
 		}
 		markForSyncing();
 	}
-	
+
 	public boolean isManual() {
 		return manual;
 	}
@@ -43,13 +42,13 @@ public abstract class Plane {
 	public boolean needsSyncing() {
 		return this.needsSyncing;
 	}
-	
+
 	private boolean deleted = false;
-	
+
 	public boolean deleted() {
 		return deleted;
 	}
-	
+
 	public void markForDeletion() {
 		deleted = true;
 		markForSyncing();
@@ -119,10 +118,11 @@ public abstract class Plane {
 
 	/** Required by Slick2D */
 	public transient Game currentGame;
-	
+
 	public boolean ownedByCurrentPlayer = false;
-	
+
 	private boolean autopilot;
+
 	public Plane() {
 		uniqueNetworkObjectID = 0;
 	}
@@ -230,7 +230,7 @@ public abstract class Plane {
 			setBearing(0);
 			setTargetBearing(0);
 		}
-		//markForSyncing();
+		// markForSyncing();
 	}
 
 	/**
@@ -249,7 +249,7 @@ public abstract class Plane {
 			setBearing(359);
 			setTargetBearing(359);
 		}
-		//markForSyncing();
+		// markForSyncing();
 	}
 
 	/**
@@ -260,7 +260,7 @@ public abstract class Plane {
 	 */
 	public void incrementAltitude() {
 		setAltitude(getAltitude() + 5);
-		//markForSyncing();
+		// markForSyncing();
 	}
 
 	/**
@@ -271,7 +271,7 @@ public abstract class Plane {
 	 */
 	public void decrementAltitude() {
 		setAltitude(getAltitude() - 5);
-		//markForSyncing();
+		// markForSyncing();
 	}
 
 	/**
@@ -295,7 +295,7 @@ public abstract class Plane {
 		if (getTargetAltitude() >= 3000) {
 			setTargetAltitude(getTargetAltitude() - 1000);
 		}
-		//markForSyncing();
+		// markForSyncing();
 	}
 
 	/**
@@ -303,7 +303,7 @@ public abstract class Plane {
 	 * This is done so planes follow their flight plan automatically
 	 */
 	public void calculateBearingToNextWaypoint() {
-		if(autopilot){
+		if (autopilot) {
 			double angle;
 			angle = Math.toDegrees(Math.atan2(getY() - target.getY(), getX()
 					- target.getX()));
@@ -315,63 +315,66 @@ public abstract class Plane {
 			setTurningRight(false);
 			setTurningLeft(false);
 			setTargetBearing(angle);
-	}
+		}
 	}
 
 	/** Updates current bearing */
 	public void updateCurrentBearing() {
 		// Rate at which the plane changes its bearing
 		double rate = 0.9;
-		
-		if(autopilot){
 
-		if (Math.round(getTargetBearing()) <= Math.round(getBearing()) - 3
-				|| Math.round(getTargetBearing()) >= Math.round(getBearing()) + 3) {
-			/*
-			 * If plane has been given a heading so no turning direction
-			 * specified, below works out which one is quicker between turning
-			 * left and turning right
-			 */
-			if (isTurningRight() == false && isTurningLeft() == false) {
-				if (Math.abs(getTargetBearing() - getBearing()) == 180) {
-					setTurningRight(true);
-				} else if (getBearing() + 180 <= 359) {
-					if (getTargetBearing() < getBearing() + 180
-							&& getTargetBearing() > getBearing()) {
+		if (autopilot) {
+
+			if (Math.round(getTargetBearing()) <= Math.round(getBearing()) - 3
+					|| Math.round(getTargetBearing()) >= Math
+							.round(getBearing()) + 3) {
+				/*
+				 * If plane has been given a heading so no turning direction
+				 * specified, below works out which one is quicker between
+				 * turning left and turning right
+				 */
+				if (isTurningRight() == false && isTurningLeft() == false) {
+					if (Math.abs(getTargetBearing() - getBearing()) == 180) {
 						setTurningRight(true);
+					} else if (getBearing() + 180 <= 359) {
+						if (getTargetBearing() < getBearing() + 180
+								&& getTargetBearing() > getBearing()) {
+							setTurningRight(true);
+						} else {
+							setTurningLeft(true);
+						}
 					} else {
-						setTurningLeft(true);
+						if (getTargetBearing() > getBearing() - 180
+								&& getTargetBearing() < getBearing()) {
+							setTurningLeft(true);
+						} else {
+							setTurningRight(true);
+						}
 					}
-				} else {
-					if (getTargetBearing() > getBearing() - 180
-							&& getTargetBearing() < getBearing()) {
-						setTurningLeft(true);
-					} else {
-						setTurningRight(true);
-					}
+
 				}
 
-			}
+				// Change bearing if plane is already turning right or user has
+				// told
+				// it to turn right
+				if (isTurningRight() == true) {
+					setBearing((getBearing() + rate) % 360);
+				}
 
-			// Change bearing if plane is already turning right or user has told
-			// it to turn right
-			if (isTurningRight() == true) {
-				setBearing((getBearing() + rate)%360);
+				// Change bearing if plane is already turning left or user has
+				// told
+				// it to turn left
+				if (isTurningLeft() == true) {
+					setBearing((getBearing() - rate) % 360);
+				}
+			} else {
+				// Do not change bearing if no commands have been given
+				setTurningLeft(false);
+				setTurningRight(false);
 			}
+		}
 
-			// Change bearing if plane is already turning left or user has told
-			// it to turn left
-			if (isTurningLeft() == true) {
-				setBearing((getBearing() - rate)%360);
-			}
-		} else {
-			// Do not change bearing if no commands have been given
-			setTurningLeft(false);
-			setTurningRight(false);
-		}
-		}
-		
-		//markForSyncing();
+		// markForSyncing();
 	}
 
 	/**
@@ -397,8 +400,7 @@ public abstract class Plane {
 
 		return rate;
 	}
-	
-	
+
 	public abstract boolean allowedToLand();
 
 	/**
@@ -438,7 +440,7 @@ public abstract class Plane {
 		// Penalising stops because the plane has been commanded to take off
 		currentGame.setTakeOffPenalty(false);
 
-//		currentGame.setCurrentPlane(null);
+		// currentGame.setCurrentPlane(null);
 		markForSyncing();
 
 	}
@@ -467,7 +469,7 @@ public abstract class Plane {
 				incrementAltitude();
 			}
 		}
-		//markForSyncing();
+		// markForSyncing();
 	}
 
 	/**
@@ -500,7 +502,7 @@ public abstract class Plane {
 				updateXYCoordinates();
 			}
 		}
-		//markForSyncing();
+		// markForSyncing();
 	}
 
 	/** Updates x and y coordinates */
@@ -526,7 +528,7 @@ public abstract class Plane {
 	public int getID() {
 		return this.id;
 	}
-	
+
 	@Override
 	public final boolean equals(Object obj) {
 		if (this.uniqueNetworkObjectID == 0)
@@ -540,7 +542,7 @@ public abstract class Plane {
 			return false;
 		return this.uniqueNetworkObjectID == rhs.uniqueNetworkObjectID;
 	}
-	
+
 	@Override
 	public final int hashCode() {
 		return String.valueOf(uniqueNetworkObjectID).hashCode();
@@ -615,7 +617,7 @@ public abstract class Plane {
 	public void clearFlightPlan() {
 		this.flightPlan = null;
 	}
-	
+
 	/**
 	 * Set violationOccurred boolean to true
 	 */
@@ -644,7 +646,7 @@ public abstract class Plane {
 	 *            the new speed
 	 */
 	public void setVelocity(double velocity) {
-		//markForSyncing();
+		// markForSyncing();
 		this.velocity = velocity;
 	}
 
@@ -795,7 +797,7 @@ public abstract class Plane {
 	public void setLandingDescentRate(double landingDescentRate) {
 		this.landingDescentRate = landingDescentRate;
 	}
-	
+
 	public int getTakeoffValueHighMulti() {
 		return this.takeoffAngleHighMulti;
 	}
@@ -803,7 +805,7 @@ public abstract class Plane {
 	public int getTakeoffValueLowMulti() {
 		return this.takeoffAngleLowMulti;
 	}
-	
+
 	public int getTakeoffValueHighSingle() {
 		return this.takeoffAngleHighSingle;
 	}
@@ -811,15 +813,16 @@ public abstract class Plane {
 	public int getTakeoffValueLowSingle() {
 		return this.takeoffAngleLowSingle;
 	}
-	
+
 	public boolean getOwnedByCurrentPlayer() {
 		return this.ownedByCurrentPlayer;
 	}
-	
+
 	public void setOwnedByCurrentPlayer(boolean Owns) {
 		this.ownedByCurrentPlayer = Owns;
 	}
-	public void setAutoPilot(boolean value){
+
+	public void setAutoPilot(boolean value) {
 		autopilot = value;
 	}
 
