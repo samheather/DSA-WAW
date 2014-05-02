@@ -507,7 +507,6 @@ public abstract class Plane {
 
 	/** Updates x and y coordinates */
 	public void updateXYCoordinates() {
-		System.out.println(getBearing());
 		setX((float) (getX() - (Math.cos(Math.toRadians(getBearing())) * (currentGame
 				.getSpeedDifficulty() * getVelocity()))));
 

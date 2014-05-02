@@ -9,6 +9,8 @@ public class Score {
 
 	/** Variable which holds current multiplier */
 	private int multiplier;
+	
+	private int credits;
 
 	// Constructor
 
@@ -21,12 +23,17 @@ public class Score {
 	 * 
 	 */
 	public Score() {
+		this.credits = 0;
 		this.score = 0;
 		this.multiplier = 1;
 	}
 
 	// Methods
 
+	public void addCredits(int value){
+		credits += Math.floor(value/2);
+	}
+	
 	/**
 	 * <p>
 	 * This method adds points to the score variable and is used within the Game
@@ -51,11 +58,13 @@ public class Score {
 			if (plane.getFlightPlan().getCurrentRoute().get(0) == currentGame
 					.getAirport().getEndOfRunway()) {
 				score += 10 * multiplier;
+				addCredits(10 * multiplier);
 			} else if (plane.getFlightPlan().getCurrentRoute().get(0) == currentGame
 					.getAirport().getBeginningOfRunway()) {
 				score += 0;
 			} else {
 				score += 5 * multiplier;
+				addCredits(5 * multiplier);
 			}
 		}
 	}
@@ -127,6 +136,10 @@ public class Score {
 
 	// Accessors
 
+	public int getCredits(){
+		return this.credits;
+	}
+	
 	/**
 	 * 
 	 * @return Current score value
@@ -135,6 +148,12 @@ public class Score {
 		return this.score;
 	}
 
+	//Mutators
+	
+	public void updateCredits(int delta){
+		this.credits += delta;
+	}
+	
 	/**
 	 * Used in testing
 	 * 

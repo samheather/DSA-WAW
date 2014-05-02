@@ -52,8 +52,6 @@ public class MultiplayerWindow extends BasicGameState {
 	/** The height the game is displayed at */
 	public int windowHeight;
 
-	private int credits = 0;
-
 	/** The time the game has been running for */
 	private double time;
 
@@ -490,7 +488,7 @@ public class MultiplayerWindow extends BasicGameState {
 		int debrisCost = 60;
 
 		String sidebarTitleText = "Shop";
-		String pointsText = credits + " Cr";
+		String pointsText = currentGame.getScore().getCredits() + " Cr";
 		String cloudText1 = "(1) Send";
 		String cloudText2 = "Clouds";
 		String cloudText3 = cloudCost + " Cr";
@@ -573,7 +571,7 @@ public class MultiplayerWindow extends BasicGameState {
 
 		graphics.setFont(this.sidebarFont);
 		// Draw the points text
-		pointsText = credits + " Cr";
+		pointsText = currentGame.getScore().getCredits() + " Cr";
 		pointsTextWidth = this.sidebarFont.getWidth(pointsText);
 		pointsTextPos[0] = (MultiplayerWindow.sidebarWidth - pointsTextWidth) / 2;
 		drawShadowedText(pointsText, pointsTextColor, pointsTextPos, graphics);
@@ -591,7 +589,8 @@ public class MultiplayerWindow extends BasicGameState {
 						tolerance)
 				|| isInHitBox(x, y, cloudTextPos3, cloudTextWidth3, fontHeight,
 						tolerance)) {
-			if (clicked) {
+			if (clicked && currentGame.getScore().getCredits() >= cloudCost) {
+				currentGame.getScore().updateCredits(-cloudCost);
 				// this.cloud = new Cloud(3, 5.0, currentGame, 5.0);
 				cloudImage.draw((float) cloud.getX(), (float) cloud.getY(),
 						(float) cloud.getSize());
@@ -630,9 +629,8 @@ public class MultiplayerWindow extends BasicGameState {
 						fontHeight, tolerance)
 				|| isInHitBox(x, y, autopilotTextPos3, autopilotTextWidth3,
 						fontHeight, tolerance)) {
-			if (clicked && currentGame.getScore().getScore() >= 40) {
-				currentGame.getScore().setScore(
-						currentGame.getScore().getScore() - 40);
+			if (clicked && currentGame.getScore().getCredits() >= autopilotCost) {
+				currentGame.getScore().updateCredits(-autopilotCost);
 				System.out.println("Start");
 				WindowManager.turnOffAutopilot = true;
 			} else {
@@ -660,7 +658,8 @@ public class MultiplayerWindow extends BasicGameState {
 						fontHeight, tolerance)
 				|| isInHitBox(x, y, debrisTextPos3, debrisTextWidth3,
 						fontHeight, tolerance)) {
-			if (clicked) {
+			if (clicked && currentGame.getScore().getCredits() >= debrisCost) {
+				currentGame.getScore().updateCredits(-debrisCost);
 				sendDebris();
 
 			} else {
