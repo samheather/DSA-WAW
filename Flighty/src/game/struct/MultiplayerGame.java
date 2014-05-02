@@ -108,7 +108,7 @@ public class MultiplayerGame extends Game {
 									i.remove();
 								else
 									i.set(p);
-								System.out.println("received existing plane");
+								//System.out.println("received existing plane");
 								p = null;
 								break;
 							}
@@ -116,7 +116,7 @@ public class MultiplayerGame extends Game {
 						if (p != null && !p.deleted()) {
 							// p.ownedByCurrentPlayer = false;
 							multiplayerPlanes.add(p);
-							System.out.println("received new plane");
+							//System.out.println("received new plane");
 						}
 					} else if (o instanceof AutoPilot) {
 						WindowManager.autopilotInit = true;
@@ -203,20 +203,21 @@ public class MultiplayerGame extends Game {
 				getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
 
 				// Deselects plane that left the airspace
-				plane.setBearing(plane.getBearing() + Math.PI);
-				plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
+				plane.setBearing(plane.getBearing() + 180);
 				plane.setY(gameContainer.getHeight() - plane.getY());
-				plane.setX(plane.getX() - 30); //TODO remove this -30 once fixed
-				/*plane.clearFlightPlan();
-				plane.setFlightPlan(new FlightPlan(this, plane));*/
+				plane.setX(plane.getX() ); //TODO remove this -30 once fixed
+				//plane.setVelocity(-plane.getVelocity());
+				if (plane.getFlightPlan().getCurrentRoute().size() > 0){
+					plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
+				}
 				if (plane.equals(currentPlane)) {
 					currentPlane = null;
 				}
 				plane.setOwnedByCurrentPlayer(false);
 				plane.setAuto();
-			} else {
+			} /*else {
 				plane.setOwnedByCurrentPlayer(true);
-			}
+			}*/
 		}
 	}
 

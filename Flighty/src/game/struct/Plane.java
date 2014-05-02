@@ -19,7 +19,7 @@ public abstract class Plane {
 
 	public void setAuto() {
 		manual = false;
-		if (getFlightPlan().getCurrentRoute().size() != 0) {
+		if (getFlightPlan().getCurrentRoute().size() > 0) {
 			setTarget(getFlightPlan().getCurrentRoute().get(0));
 		}
 		markForSyncing();
@@ -507,6 +507,7 @@ public abstract class Plane {
 
 	/** Updates x and y coordinates */
 	public void updateXYCoordinates() {
+		System.out.println(getBearing());
 		setX((float) (getX() - (Math.cos(Math.toRadians(getBearing())) * (currentGame
 				.getSpeedDifficulty() * getVelocity()))));
 
