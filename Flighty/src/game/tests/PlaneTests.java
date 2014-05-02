@@ -18,11 +18,13 @@ public class PlaneTests {
 
 	Game game;
 	Plane plane1;
+	Plane plane2;
 
 	@Before
 	public void beforeTests() throws NoSuchAlgorithmException, UnknownHostException, IOException {
 		game = new SingleplayerGame(50, 100, 0, 1);
 		plane1 = new SingleplayerPlane(1, 500, 3000, 50, game, 0);
+		plane2 = new SingleplayerPlane(1, 500, 4000, 50, game, 0);
 
 	}
 
@@ -187,7 +189,7 @@ public class PlaneTests {
 		plane1.setY(400);
 		plane1.setTarget(game.getListOfWaypoints().get(0));
 		plane1.calculateBearingToNextWaypoint();
-		assertEquals(111.8, plane1.getTargetBearing(), 0.01);
+		assertEquals(164.7, plane1.getTargetBearing(), 0.1);
 		assertFalse(plane1.isTurningLeft());
 		assertFalse(plane1.isTurningRight());
 
@@ -275,7 +277,7 @@ public class PlaneTests {
 		plane1.updateCurrentBearing();
 		assertTrue(plane1.isTurningRight());
 		assertFalse(plane1.isTurningLeft());
-		assertEquals(0, plane1.getBearing(), 0.1);
+		assertEquals(0, plane1.getBearing(), 0.5);
 
 	}
 
@@ -287,7 +289,7 @@ public class PlaneTests {
 		plane1.updateCurrentBearing();
 		assertTrue(plane1.isTurningLeft());
 		assertFalse(plane1.isTurningRight());
-		assertEquals(360, plane1.getBearing(), 0.1);
+		assertEquals(0.0, plane1.getBearing(), 0.5);
 
 	}
 
@@ -320,6 +322,23 @@ public class PlaneTests {
 				.getCurrentRoute().get(0));
 		assertEquals(null, game.getCurrentPlane());
 
+	}
+	
+	@Test
+	public void landPlaneTest2() {
+		plane1.setX(695);
+		plane1.setY(465);
+		plane1.setAltitude(2000);
+		plane1.setBearing(170);
+		plane1.land();
+		plane2.setX(695);
+		plane2.setY(465);
+		plane2.setAltitude(2000);
+		plane2.setBearing(170);
+		plane2.land();
+		assertTrue(plane1.isLanding());
+		assertFalse(plane2.isLanding());
+		
 	}
 
 	// Testing Update X and Y Coordinates
@@ -383,7 +402,7 @@ public class PlaneTests {
 		plane1.movePlane();
 		assertEquals(150.094, plane1.getX(), 0.001);
 		assertEquals(399.509, plane1.getY(), 0.001);
-		assertEquals(111.8, plane1.getTargetBearing(), 0.1);
+		assertEquals(164.7, plane1.getTargetBearing(), 0.1);
 		assertEquals(100.9, plane1.getBearing(), 0.1);
 
 	}
