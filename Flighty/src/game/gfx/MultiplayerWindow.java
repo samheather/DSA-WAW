@@ -29,7 +29,6 @@ import game.struct.Cloud;
 /**
  * GameWindow class provides an interactive game
  */
-//aa
 public class MultiplayerWindow extends BasicGameState {
 
 	/** Time between score penalties for not taking off */
@@ -93,12 +92,14 @@ public class MultiplayerWindow extends BasicGameState {
 	/** Background image for side bar */
 	private Image sidebarBackground;
 
-	// Introducing Plane Needs Landing Image
+	/** The images shown when a plane needs to land **/
 	private Image planeNeedsLanding;
 	private Image planeNeedsLandingCur;
 
-	// Introducing landing approach Image, plus a boolean tracking whether it's
-	// been drawn
+	/**
+	 * Images shown when a plane is coming in to land, and a boolean to track
+	 * when this image has been displayed
+	 **/
 	private Image landingApproachArea;
 	private boolean landingApproachAreaDrawn;
 
@@ -107,15 +108,16 @@ public class MultiplayerWindow extends BasicGameState {
 
 	/** The plane collision range image */
 	private Image planeAlertMax;
-	
-	/** Clouds  */
-	
+
+	// Clouds
+	/** Cloud images **/
 	private ArrayList<Image> cloudImages;
-	
+
+	/** Array of cloud objects **/
 	private ArrayList<Cloud> clouds;
-	
+
 	private boolean cloudsInit = true;
-	
+
 	private boolean cloudsApeared = false;
 
 	/** The Java font used to generate the fonts used */
@@ -159,10 +161,11 @@ public class MultiplayerWindow extends BasicGameState {
 	/** Background music **/
 	Music gameMusic;
 
-	/** Used to control autopilot off button **/
-	
+	// Variables to control auto-pilot off button
+
+	/** Time that autopilot will be disabled for **/
 	double autoPilotDuration = 4000;
-	double offTime ;
+	double offTime;
 
 	boolean autoPilotOff = false;
 
@@ -252,11 +255,9 @@ public class MultiplayerWindow extends BasicGameState {
 				}
 			}
 		}
-
 		return null;
 	}
 
-	// Overrides
 	/**
 	 * Initialises the state
 	 * 
@@ -342,13 +343,12 @@ public class MultiplayerWindow extends BasicGameState {
 				"/resources/maps/Newmap.png");
 
 		this.map = new Image(mapStream, "Map Image", false);
-		
+
 		// Load cloud images
-		
 		InputStream cloudStream1 = this.getClass().getResourceAsStream(
 				"/resources/clouds/cloud2.png");
 		InputStream cloudStream2 = this.getClass().getResourceAsStream(
-				"/resources/clouds/cloud2.png");		
+				"/resources/clouds/cloud2.png");
 		InputStream cloudStream3 = this.getClass().getResourceAsStream(
 				"/resources/clouds/cloud1.png");
 		InputStream cloudStream4 = this.getClass().getResourceAsStream(
@@ -357,16 +357,17 @@ public class MultiplayerWindow extends BasicGameState {
 				"/resources/clouds/cloud2.png");
 		InputStream cloudStream6 = this.getClass().getResourceAsStream(
 				"/resources/clouds/cloud1.png");
-		
+
+		// Create ArrayList of images
 		cloudImages = new ArrayList<Image>();
-		
+
 		this.cloudImages.add(new Image(cloudStream1, "Cloud Image1", false));
 		this.cloudImages.add(new Image(cloudStream2, "Cloud Image2", false));
 		this.cloudImages.add(new Image(cloudStream3, "Cloud Image3", false));
 		this.cloudImages.add(new Image(cloudStream4, "Cloud Image4", false));
 		this.cloudImages.add(new Image(cloudStream5, "Cloud Image5", false));
 		this.cloudImages.add(new Image(cloudStream6, "Cloud Image6", false));
-		
+
 		try {
 			InputStream fontStream = getClass().getResourceAsStream(
 					"/resources/fonts/8BitWonder.ttf");
@@ -569,12 +570,8 @@ public class MultiplayerWindow extends BasicGameState {
 		int tolerance = 10;
 
 		// Mouse coordinates
-
 		int x = gameContainer.getInput().getMouseX();
 		int y = gameContainer.getInput().getMouseY();
-
-		// System.out.println("X: " + x);
-		// System.out.println("Y: " + y);
 
 		// Mouse action
 		boolean clicked = gameContainer.getInput().isMousePressed(0);
@@ -589,47 +586,50 @@ public class MultiplayerWindow extends BasicGameState {
 		pointsTextWidth = this.sidebarFont.getWidth(pointsText);
 		pointsTextPos[0] = (MultiplayerWindow.sidebarWidth - pointsTextWidth) / 2;
 		drawShadowedText(pointsText, pointsTextColor, pointsTextPos, graphics);
-		
+
 		// Init Clouds
-		if(cloudsInit){
+		if (cloudsInit) {
 			clouds = new ArrayList<Cloud>();
 			clouds.add(new Cloud(1, 0, 0, currentGame));
 			clouds.add(new Cloud(1, 240, 15, currentGame));
-			clouds.add(new Cloud(1, 100, currentGame.windowHeight , currentGame));
+			clouds.add(new Cloud(1, 100, currentGame.windowHeight, currentGame));
 			clouds.add(new Cloud(1, 675, 0, currentGame));
 			clouds.add(new Cloud(1, 825, 15, currentGame));
 			clouds.add(new Cloud(1, 675, currentGame.windowHeight, currentGame));
-			cloudsInit = false;		
+			cloudsInit = false;
 
 		}
 		// Renders clouds if you are sending them
-		if(cloudsApeared){
-			for(int i = 3; i < cloudImages.size() ;i++){
-				if(! clouds.get(i).moveCloud()){
-					cloudImages.get(i).draw(clouds.get(i).getX(), clouds.get(i).getY());
-				}else{;
+		if (cloudsApeared) {
+			for (int i = 3; i < cloudImages.size(); i++) {
+				if (!clouds.get(i).moveCloud()) {
+					cloudImages.get(i).draw(clouds.get(i).getX(),
+							clouds.get(i).getY());
+				} else {
+					;
 					cloudsApeared = false;
 					WindowManager.canSendClouds = true;
 					clouds.get(3).setY(0);
 					clouds.get(4).setY(15);
-					clouds.get(5).setY( currentGame.windowHeight);
+					clouds.get(5).setY(currentGame.windowHeight);
 					break;
-					}
+				}
 			}
-		}	
+		}
 		// Renders clouds if they are sent to you by your opponent
-		if(WindowManager.receivingClouds){
-			for(int i = 0; i < 3 ;i++){
-				if(! clouds.get(i).moveCloud()){
-					cloudImages.get(i).draw(clouds.get(i).getX(), clouds.get(i).getY());
-				}else{
+		if (WindowManager.receivingClouds) {
+			for (int i = 0; i < 3; i++) {
+				if (!clouds.get(i).moveCloud()) {
+					cloudImages.get(i).draw(clouds.get(i).getX(),
+							clouds.get(i).getY());
+				} else {
 					WindowManager.receivingClouds = false;
 					WindowManager.canReceiveClouds = true;
 					clouds.get(0).setY(0);
 					clouds.get(1).setY(15);
-					clouds.get(2).setY( currentGame.windowHeight);
+					clouds.get(2).setY(currentGame.windowHeight);
 					break;
-					}
+				}
 			}
 		}
 		// Send Clouds button
@@ -639,7 +639,7 @@ public class MultiplayerWindow extends BasicGameState {
 						tolerance)
 				|| isInHitBox(x, y, cloudTextPos3, cloudTextWidth3, fontHeight,
 						tolerance)) {
-			if (clicked && currentGame.getScore().getCredits() >= cloudCost ){
+			if (clicked && currentGame.getScore().getCredits() >= cloudCost) {
 				currentGame.getScore().updateCredits(-cloudCost);
 				WindowManager.sendClouds = true;
 				cloudsApeared = true;
@@ -677,7 +677,7 @@ public class MultiplayerWindow extends BasicGameState {
 						fontHeight, tolerance)
 				|| isInHitBox(x, y, autopilotTextPos3, autopilotTextWidth3,
 						fontHeight, tolerance)) {
-			
+
 			if (clicked && currentGame.getScore().getCredits() >= autopilotCost) {
 				currentGame.getScore().updateCredits(-autopilotCost);
 				System.out.println("Start");
@@ -1469,7 +1469,7 @@ public class MultiplayerWindow extends BasicGameState {
 		currentGame.setCollidedPlanes(new ArrayList<Plane>());
 
 		currentGame.setCurrentPlane(null);
-		
+
 		WindowManager.sendClouds = false;
 		WindowManager.receivingClouds = false;
 		WindowManager.canSendClouds = true;
@@ -1478,6 +1478,7 @@ public class MultiplayerWindow extends BasicGameState {
 		cloudsInit = true;
 	}
 
+	// All general Accessors
 	/**
 	 * @return the state's unique ID
 	 */
@@ -1486,7 +1487,6 @@ public class MultiplayerWindow extends BasicGameState {
 		return WindowManager.MULTIPLAYER_GAME_STATE;
 	}
 
-	// Accessors
 	/**
 	 * @return the current window width
 	 */
@@ -1631,7 +1631,7 @@ public class MultiplayerWindow extends BasicGameState {
 		return sidebarWidth;
 	}
 
-	// Mutators
+	// All general Mutators
 	/**
 	 * @param windowWidth
 	 *            the new window width
