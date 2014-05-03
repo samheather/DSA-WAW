@@ -7,75 +7,119 @@ public class Cloud {
 
 	/** Current X co-ordinate */
 	private float x;
+
 	/** Current Y co-ordinate */
 	private float y;
-	
+
+	/** End of a cloud object. */
 	private Point end = new Point();
-	
+
 	/** Required by Slick2D */
 	public transient Game currentGame;
-	
-	
-	public Cloud(){
+
+	/**
+	 * Empty consturctor for cloud.
+	 */
+	public Cloud() {
 	}
-	
-	public  Cloud(int velocity, float x, float y, Game currentGame){
+
+	public Cloud(int velocity, float x, float y, Game currentGame) {
 		this.currentGame = currentGame;
 		this.velocity = velocity;
 		this.x = x;
 		this.y = y;
 		this.end.setX(x);
-		if(y == currentGame.windowHeight){
+		if (y == currentGame.windowHeight) {
 			this.end.setY(0);
-		}else{this.end.setY(currentGame.windowHeight);}
+		} else {
+			this.end.setY(currentGame.windowHeight);
+		}
 	}
-	
+
 	/** Updates x and y coordinates */
 	public void updateXYCoordinates() {
-		if( getY() > this.end.getY()){
-			setY(getY() - velocity);	
-		}else if(getY() < this.end.getY()){
-			setY(getY() + velocity);	
+		if (getY() > this.end.getY()) {
+			setY(getY() - velocity);
+		} else if (getY() < this.end.getY()) {
+			setY(getY() + velocity);
 		}
-		if( getX() > this.end.getX()){
-			setX(getX() - velocity);	
-		}else if(getX() < this.end.getY()){
-			setX(getX() + velocity);	
+		if (getX() > this.end.getX()) {
+			setX(getX() - velocity);
+		} else if (getX() < this.end.getY()) {
+			setX(getX() + velocity);
 		}
-		
+
 	}
-	
-	public boolean moveCloud(){
-		if( getY()!= this.end.getY()){
+
+	/**
+	 * Function to move a cloud to the next position on it's trajectory
+	 * 
+	 * @return
+	 */
+	public boolean moveCloud() {
+		if (getY() != this.end.getY()) {
 			updateXYCoordinates();
 			return false;
 		}
 		return true;
 	}
-	
-	
-	public float getY(){
+
+	// All general Accessors
+
+	/**
+	 * Get y position of this cloud.
+	 * 
+	 * @return y position of this cloud
+	 */
+	public float getY() {
 		return this.y;
 	}
-	
-	public float getX(){
+
+	/**
+	 * Get x position of this cloud
+	 * 
+	 * @return x position of this cloud
+	 */
+	public float getX() {
 		return this.x;
-		
+
 	}
-	
-	public int getVelocity(){
+
+	/**
+	 * Get the current velocity of this cloud
+	 * 
+	 * @return velocity of cloud
+	 */
+	public int getVelocity() {
 		return this.velocity;
 	}
-	
-	public void setVelocity(int vel){
+
+	// All general mutators
+
+	/**
+	 * set a new velocity for this cloud
+	 * 
+	 * @param vel
+	 */
+	public void setVelocity(int vel) {
 		this.velocity = vel;
 	}
-	
-	public void setX(float x){
+
+	/**
+	 * Set a new x position for this cloud
+	 * 
+	 * @param x
+	 */
+	public void setX(float x) {
 		this.x = x;
 	}
-	
-	public void setY(float y){
+
+	/**
+	 * Set a new Y position for this cloud
+	 * 
+	 * @param y
+	 */
+	public void setY(float y) {
 		this.y = y;
 	}
 }

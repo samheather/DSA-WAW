@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class FlightPlan {
-	
+
+	/** Empty constructor */
 	public FlightPlan() {
-		
+
 	}
 
 	/** Array list which contains waypoints of flight plan */
@@ -18,7 +19,7 @@ public class FlightPlan {
 	/** Entry point i.e. first waypoint of flight plan */
 	private Point entryPoint;
 
-	/** Required by Slick2D */
+	/** Required by Slick2D, reference to the current game. */
 	private transient Game currentGame;
 
 	/**
@@ -137,6 +138,8 @@ public class FlightPlan {
 		return tempRoute;
 	}
 
+	// All general accessors
+
 	/**
 	 * 
 	 * @return Current route for selected plane
@@ -144,6 +147,24 @@ public class FlightPlan {
 	public ArrayList<Point> getCurrentRoute() {
 		return currentRoute;
 	}
+
+	/**
+	 * 
+	 * @return Selected plane
+	 */
+	public Plane getPlane() {
+		return plane;
+	}
+
+	/**
+	 * 
+	 * @return Entry point for selected flight
+	 */
+	public Point getEntryPoint() {
+		return entryPoint;
+	}
+
+	// All general mutators
 
 	/**
 	 * Sets currentRoute
@@ -157,27 +178,11 @@ public class FlightPlan {
 
 	/**
 	 * 
-	 * @return Selected plane
-	 */
-	public Plane getPlane() {
-		return plane;
-	}
-
-	/**
-	 * 
 	 * @param plane
 	 *            Plane to set
 	 */
 	public void setPlane(Plane plane) {
 		this.plane = plane;
-	}
-
-	/**
-	 * 
-	 * @return Entry point for selected flight
-	 */
-	public Point getEntryPoint() {
-		return entryPoint;
 	}
 
 	/**
