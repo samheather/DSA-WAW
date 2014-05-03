@@ -12,16 +12,14 @@ import java.util.concurrent.LinkedTransferQueue;
 import com.esotericsoftware.kryo.Kryo;
 
 public class Protocol implements Closeable {
-	
-	private static int INITIAL_CLASS_ID = 102; //randomly picked
-	
+
+	private static int INITIAL_CLASS_ID = 102; // randomly picked
+
 	public static enum State {
-		Game,
-		MM,
-		Idle
+		Game, MM, Idle
 	}
 
-	//TODO(jamaal) - supress or fix please.
+	// TODO(jamaal) - supress or fix please.
 	public Protocol(String hostname, int i, List<Class> toRegister) {
 		try {
 			try {
@@ -60,14 +58,13 @@ public class Protocol implements Closeable {
 							+ e.getMessage()));
 			return;
 		}
-		
+
 		int classId = INITIAL_CLASS_ID;
 		for (Class c : toRegister) {
 			sendKryo.register(c, classId);
 			receiveKryo.register(c, classId);
-			classId ++;
+			classId++;
 		}
-		
 
 		sender = new Thread(this.new Sender());
 		receiver = new Thread(this.new Receiver());
@@ -75,12 +72,12 @@ public class Protocol implements Closeable {
 		sender.start();
 		receiver.start();
 	}
-	
+
 	private Kryo sendKryo = new Kryo();
 	private Kryo receiveKryo = new Kryo();
 
-	private ConcurrentLinkedQueue<Message.Receivable> received = new ConcurrentLinkedQueue<Message.Receivable> ();
-	private LinkedTransferQueue<Message.Sendable> toSend = new LinkedTransferQueue<Message.Sendable> ();
+	private ConcurrentLinkedQueue<Message.Receivable> received = new ConcurrentLinkedQueue<Message.Receivable>();
+	private LinkedTransferQueue<Message.Sendable> toSend = new LinkedTransferQueue<Message.Sendable>();
 	private Socket socket;
 	private OutputStream os;
 	private InputStream is;
