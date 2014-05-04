@@ -125,7 +125,11 @@ public class MultiplayerGame extends Game {
 						
 					} else if(o instanceof Cloud && WindowManager.canReceiveClouds){
 						WindowManager.canReceiveClouds = false;
-						WindowManager.receivingClouds = true;	
+						WindowManager.receivingClouds = true;
+						
+					} else if(o instanceof Debris && WindowManager.canReceiveDebris){
+						WindowManager.canReceiveClouds = false;
+						WindowManager.receivingDebris = true;
 					}
 				}
 			}
@@ -153,6 +157,14 @@ public class MultiplayerGame extends Game {
 				WindowManager.sendClouds = false;
 				WindowManager.canSendClouds = false;
 			}
+			
+			if(WindowManager.sendDebris){
+				Debris debris = new Debris();
+				protocol.putMessage(new Message.ClientClient.CCObject(debris));
+				WindowManager.sendDebris = false;
+				WindowManager.canSendDebris = false;
+			}
+			
 		} else if (state == 3) {
 			super.update(gameContainer, game);
 		}

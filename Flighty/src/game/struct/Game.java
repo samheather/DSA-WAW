@@ -400,6 +400,8 @@ public abstract class Game {
 		// Squared distance between 2 planes
 		double distIJSqr;
 		boolean risk = false;
+		
+		
 
 		// First -> are planes colliding? {1:true, 0:false}
 		// Second -> result used for testing purposes {1:true, 0:false}

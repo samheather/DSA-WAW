@@ -81,7 +81,7 @@ public class WindowManager extends StateBasedGame {
 	/** LeaderBoard */
 	public static LeaderBoard leaderBoard = new LeaderBoard();
 
-	/** If clouds can be sent to opponent */
+	/** If clouds can be sent to the opponent */
 	public static boolean canSendClouds = true;
 
 	/** If clouds can be received from opponent */
@@ -92,6 +92,18 @@ public class WindowManager extends StateBasedGame {
 
 	/** Signals game that you want to send clouds */
 	public static boolean sendClouds = false;
+	
+	/** If clouds can be sent to the opponent */
+	public static boolean canSendDebris = true;
+
+	/** If debris can be received from opponent */
+	public static boolean canReceiveDebris = true;
+
+	/** Signals game that opponent has sent debris */
+	public static boolean receivingDebris = false;
+
+	/** Signals game that you want to send debris */
+	public static boolean sendDebris = false;
 
 	// Entry point
 	public static void main(String[] args) throws UnknownHostException,
