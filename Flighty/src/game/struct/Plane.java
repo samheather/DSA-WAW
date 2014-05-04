@@ -237,15 +237,16 @@ public abstract class Plane {
 		// Decrement bearing by going left
 		setTurningLeft(true);
 		setTurningRight(false);
-
+		
+		
 		setBearing(getBearing() - 1);
 		setTargetBearing(getBearing());
-
-		// Resets the bearing if it is smaller than 0
-		if (bearing < 0) {
-			setBearing(359);
-			setTargetBearing(359);
+		
+		if (bearing <= 0) {
+			setBearing(360);
+			setTargetBearing(360);
 		}
+		// Resets the bearing if it is smaller than 0
 		// markForSyncing();
 	}
 
@@ -308,9 +309,8 @@ public abstract class Plane {
 			if (angle < 0) {
 				angle += 360;
 			}
-
-			setTurningRight(false);
 			setTurningLeft(false);
+			setTurningRight(false);
 			setTargetBearing(angle);
 		}
 	}
@@ -369,6 +369,14 @@ public abstract class Plane {
 				setTurningLeft(false);
 				setTurningRight(false);
 			}
+		}
+		if (bearing <= 0) {
+			setBearing(360);
+			setTargetBearing(360);
+		}
+		if (bearing >= 360) {
+			setBearing(0);
+			setTargetBearing(0);
 		}
 
 		// markForSyncing();
