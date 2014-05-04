@@ -121,8 +121,6 @@ public abstract class Plane {
 
 	public boolean ownedByCurrentPlayer = false;
 
-	private boolean autopilot;
-
 	public Plane() {
 		uniqueNetworkObjectID = 0;
 	}
@@ -174,7 +172,6 @@ public abstract class Plane {
 		this.takingOff = false;
 		this.landingDescentRate = 0;
 		this.violationOccurred = false;
-		this.autopilot = true;
 
 		if (this.flightPlan.getCurrentRoute().size() != 0) { // Forces every new
 																// plane to head
@@ -303,7 +300,7 @@ public abstract class Plane {
 	 * This is done so planes follow their flight plan automatically
 	 */
 	public void calculateBearingToNextWaypoint() {
-		if (autopilot) {
+		if (!isManual()) {
 			double angle;
 			angle = Math.toDegrees(Math.atan2(getY() - target.getY(), getX()
 					- target.getX()));
@@ -323,7 +320,7 @@ public abstract class Plane {
 		// Rate at which the plane changes its bearing
 		double rate = 0.9;
 
-		if (autopilot) {
+		if (!isManual()) {
 
 			if (Math.round(getTargetBearing()) <= Math.round(getBearing()) - 3
 					|| Math.round(getTargetBearing()) >= Math
@@ -820,10 +817,6 @@ public abstract class Plane {
 
 	public void setOwnedByCurrentPlayer(boolean Owns) {
 		this.ownedByCurrentPlayer = Owns;
-	}
-
-	public void setAutoPilot(boolean value) {
-		autopilot = value;
 	}
 
 	public abstract void setBearingForTakeoff();

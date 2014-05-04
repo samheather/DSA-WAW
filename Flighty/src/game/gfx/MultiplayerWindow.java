@@ -510,7 +510,9 @@ public class MultiplayerWindow extends BasicGameState {
 	private void setAutoPilot(boolean auto) {
 		for (Plane plane : currentGame.getCurrentPlanes()) {
 			if (plane.ownedByCurrentPlayer) {
-				plane.setAutoPilot(auto);
+				if(auto){
+					plane.setAuto();
+				}else{plane.setManual();};
 			}
 		}
 		return;
