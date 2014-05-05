@@ -42,11 +42,10 @@ public class Credits extends GenericWindow {
 		int y = gameContainer.getInput().getMouseY();
 		boolean clicked = gameContainer.getInput().isMousePressed(0);
 
+		// Configure menu
 		String mainMenuText = "Main Menu";
-
 		int mainMenuWidth = font.getWidth(mainMenuText);
 		int textHeight = font.getHeight();
-
 		Color mainMenuColor = Color.orange;
 
 		// If text is hovered
@@ -90,11 +89,10 @@ public class Credits extends GenericWindow {
 		InputStream arrowShadedStream = getClass().getResourceAsStream(
 				"resources/other/ArrowB.png");
 
-		backgroundImage = new Image(backgroundStream, "Background Image",
-				false);
+		backgroundImage = new Image(backgroundStream, "Background Image", false);
 		arrowIcon = new Image(arrowStream, "Arrow Image", false);
-		arrowIconShaded = new Image(arrowShadedStream,
-				"Arrow Shaded Image", false);
+		arrowIconShaded = new Image(arrowShadedStream, "Arrow Shaded Image",
+				false);
 	}
 
 	/**
@@ -122,9 +120,7 @@ public class Credits extends GenericWindow {
 		// Draw main title
 		int mainXPos = (gameContainer.getWidth() / 2)
 				- (titleFont.getWidth("Credits") / 2);
-
-		drawShadowedText(titleFont, mainXPos, 20, "Credits",
-				Color.orange);
+		drawShadowedText(titleFont, mainXPos, 20, "Credits", Color.orange);
 
 		// Draw team name
 		int subXPos = (gameContainer.getWidth() / 2)
@@ -135,8 +131,8 @@ public class Credits extends GenericWindow {
 		drawShadowedText(font, subXPos, 120, "Team DSA", Color.orange);
 
 		// Draw team member names
-		drawShadowedText(font, 75, 220,
-				"Nice Game Find     Copyright 2013", Color.orange);
+		drawShadowedText(font, 75, 220, "Nice Game Find     Copyright 2013",
+				Color.orange);
 		drawShadowedText(font, 75, 220 + (textHeight * 1),
 				"Iwan Gabovitch    CCBY3  License", Color.orange);
 
@@ -147,41 +143,6 @@ public class Credits extends GenericWindow {
 		drawShadowedText(font, 75, 220 + (textHeight * 5),
 				"Attribution 3 0 Unported License", Color.orange);
 
-		/*
-		 * this.drawShadowedText(this.font, 75, 180, "Richard RichTea Kirby",
-		 * Color.transparent); this.drawShadowedText(this.font, 75, 180,
-		 * "Liviu Pirvan", Color.orange);
-		 * 
-		 * this.drawShadowedText(this.font, 75, 180 + (textHeight * 3),
-		 * "Jaron Read Access Ali", Color.transparent);
-		 * this.drawShadowedText(this.font, 75, 180 + (textHeight * 3),
-		 * "Oliver Ramirez", Color.orange);
-		 * 
-		 * this.drawShadowedText(this.font, 75, 180 + (textHeight * 6),
-		 * "Richard Wandering Overlord Aickin", Color.transparent);
-		 * this.drawShadowedText(this.font, 75, 180 + (textHeight * 6),
-		 * "Lewis Shaw", Color.orange);
-		 * 
-		 * this.drawShadowedText(this.font, 75, 180 + (textHeight * 9),
-		 * "Jonathan Slurrrrp Howell", Color.transparent);
-		 * this.drawShadowedText(this.font, 75, 180 + (textHeight * 9),
-		 * "Rory Simpson", Color.orange);
-		 * 
-		 * this.drawShadowedText(this.font, 75, 180 + (textHeight * 12),
-		 * "Emily Emily Hall Hall", Color.transparent);
-		 * this.drawShadowedText(this.font, 75, 180 + (textHeight * 12),
-		 * "Adam Taylor", Color.orange);
-		 * 
-		 * this.drawShadowedText(this.font, 75, 180 + (textHeight * 15),
-		 * "Sam Much Hopkins", Color.transparent);
-		 * this.drawShadowedText(this.font, 75, 180 + (textHeight * 15),
-		 * "Adam Wright", Color.orange);
-		 * 
-		 * this.drawShadowedText(this.font, 75, 180 + (textHeight * 18),
-		 * "Mark Washing Woosey", Color.transparent);
-		 * this.drawShadowedText(this.font, 75, 180 + (textHeight * 18),
-		 * "Team WAW", Color.orange);
-		 */
 		// Draw back text
 		checkForSelection(gameContainer, game);
 
@@ -190,8 +151,8 @@ public class Credits extends GenericWindow {
 				- (textHeight / 4), 45, 35);
 
 		// Draw arrow icon
-		arrowIcon.draw(245, gameContainer.getHeight() - 50
-				- (textHeight / 4), 45, 35);
+		arrowIcon.draw(245, gameContainer.getHeight() - 50 - (textHeight / 4),
+				45, 35);
 
 	}
 
@@ -203,7 +164,8 @@ public class Credits extends GenericWindow {
 		return WindowManager.CREDITS_STATE;
 	}
 
-	// Accessors
+	// All general Accessors
+
 	/**
 	 * @return the background image
 	 */
@@ -225,7 +187,7 @@ public class Credits extends GenericWindow {
 		return this.arrowIconShaded;
 	}
 
-	// Mutators
+	// All general Mutators
 	/**
 	 * @param backgroundImage
 	 *            the new background image

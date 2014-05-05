@@ -1,9 +1,9 @@
 package game.struct;
 
-public class Cloud {
-
+public class Debris {
+	
 	/** Speed the cloud is traveling at */
-	private int velocity;
+	private float velocity;
 
 	/** Current X co-ordinate */
 	private float x;
@@ -11,19 +11,19 @@ public class Cloud {
 	/** Current Y co-ordinate */
 	private float y;
 
-	/** End of a cloud object. */
+	/** End of a debris object. */
 	private Point end = new Point();
 
 	/** Required by Slick2D */
 	public transient Game currentGame;
 
 	/**
-	 * Empty constructor for cloud.
+	 * Empty consturctor for debris.
 	 */
-	public Cloud() {
+	public Debris() {
 	}
 
-	public Cloud(int velocity, float x, float y, Game currentGame) {
+	public Debris(float velocity, float x, float y, Game currentGame) {
 		this.currentGame = currentGame;
 		this.velocity = velocity;
 		this.x = x;
@@ -37,6 +37,7 @@ public class Cloud {
 	}
 
 	/** Updates x and y coordinates */
+	
 	public void updateXYCoordinates() {
 		if (getY() > this.end.getY()) {
 			setY(getY() - velocity);
@@ -56,7 +57,7 @@ public class Cloud {
 	 * 
 	 * @return
 	 */
-	public boolean moveCloud() {
+	public boolean moveDebris() {
 		if (getY() != this.end.getY()) {
 			updateXYCoordinates();
 			return false;
@@ -90,7 +91,7 @@ public class Cloud {
 	 * 
 	 * @return velocity of cloud
 	 */
-	public int getVelocity() {
+	public float getVelocity() {
 		return this.velocity;
 	}
 
@@ -101,7 +102,7 @@ public class Cloud {
 	 * 
 	 * @param vel
 	 */
-	public void setVelocity(int vel) {
+	public void setVelocity(float vel) {
 		this.velocity = vel;
 	}
 
@@ -123,3 +124,4 @@ public class Cloud {
 		this.y = y;
 	}
 }
+

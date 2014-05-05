@@ -121,8 +121,6 @@ public abstract class Plane {
 
 	public boolean ownedByCurrentPlayer = false;
 
-	private boolean autopilot;
-
 	public Plane() {
 		uniqueNetworkObjectID = 0;
 	}
@@ -174,7 +172,6 @@ public abstract class Plane {
 		this.takingOff = false;
 		this.landingDescentRate = 0;
 		this.violationOccurred = false;
-		this.autopilot = true;
 
 		if (this.flightPlan.getCurrentRoute().size() != 0) { // Forces every new
 																// plane to head
@@ -240,15 +237,16 @@ public abstract class Plane {
 		// Decrement bearing by going left
 		setTurningLeft(true);
 		setTurningRight(false);
-
+		
+		
 		setBearing(getBearing() - 1);
 		setTargetBearing(getBearing());
-
-		// Resets the bearing if it is smaller than 0
-		if (bearing < 0) {
-			setBearing(359);
-			setTargetBearing(359);
+		
+		if (bearing <= 0) {
+			setBearing(360);
+			setTargetBearing(360);
 		}
+		// Resets the bearing if it is smaller than 0
 		// markForSyncing();
 	}
 
@@ -303,7 +301,7 @@ public abstract class Plane {
 	 * This is done so planes follow their flight plan automatically
 	 */
 	public void calculateBearingToNextWaypoint() {
-		if (autopilot) {
+		if (!isManual()) {
 			double angle;
 			angle = Math.toDegrees(Math.atan2(getY() - target.getY(), getX()
 					- target.getX()));
@@ -311,9 +309,8 @@ public abstract class Plane {
 			if (angle < 0) {
 				angle += 360;
 			}
-
-			setTurningRight(false);
 			setTurningLeft(false);
+			setTurningRight(false);
 			setTargetBearing(angle);
 		}
 	}
@@ -323,7 +320,7 @@ public abstract class Plane {
 		// Rate at which the plane changes its bearing
 		double rate = 0.9;
 
-		if (autopilot) {
+		if (!isManual()) {
 
 			if (Math.round(getTargetBearing()) <= Math.round(getBearing()) - 3
 					|| Math.round(getTargetBearing()) >= Math
@@ -372,6 +369,14 @@ public abstract class Plane {
 				setTurningLeft(false);
 				setTurningRight(false);
 			}
+		}
+		if (bearing <= 0) {
+			setBearing(360);
+			setTargetBearing(360);
+		}
+		if (bearing >= 360) {
+			setBearing(0);
+			setTargetBearing(0);
 		}
 
 		// markForSyncing();
@@ -820,10 +825,6 @@ public abstract class Plane {
 
 	public void setOwnedByCurrentPlayer(boolean Owns) {
 		this.ownedByCurrentPlayer = Owns;
-	}
-
-	public void setAutoPilot(boolean value) {
-		autopilot = value;
 	}
 
 	public abstract void setBearingForTakeoff();

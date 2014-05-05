@@ -25,12 +25,12 @@ import game.struct.Game;
 import game.struct.MultiplayerGame;
 import game.struct.Plane;
 import game.struct.Cloud;
-
+import game.struct.Debris;
 /**
  * GameWindow class provides an interactive game
  */
 public class MultiplayerWindow extends BasicGameState {
-
+	
 	/** Time between score penalties for not taking off */
 	private static final int TAKE_OFF_PENALTY_TIME = 3000;
 
@@ -92,12 +92,14 @@ public class MultiplayerWindow extends BasicGameState {
 	/** Background image for side bar */
 	private Image sidebarBackground;
 
-	// Introducing Plane Needs Landing Image
+	/** The images shown when a plane needs to land **/
 	private Image planeNeedsLanding;
 	private Image planeNeedsLandingCur;
 
-	// Introducing landing approach Image, plus a boolean tracking whether it's
-	// been drawn
+	/**
+	 * Images shown when a plane is coming in to land, and a boolean to track
+	 * when this image has been displayed
+	 **/
 	private Image landingApproachArea;
 	private boolean landingApproachAreaDrawn;
 
@@ -107,11 +109,34 @@ public class MultiplayerWindow extends BasicGameState {
 	/** The plane collision range image */
 	private Image planeAlertMax;
 
-	private Image cloudImage;
+	// Clouds
+	/** Cloud images **/
+	private ArrayList<Image> cloudImages;
 
-	private Cloud cloud;
+	/** Array of cloud objects **/
+	private ArrayList<Cloud> clouds;
+	
+	/** Initialises clouds */
+	private boolean cloudsInit = true;
 
-	private boolean cloudAppeared = false;
+	/** Boolean indicating if you are sending clouds */
+	private boolean cloudsApeared = false;
+	
+	/** Debris Images */
+	private ArrayList<Image> debrisImages;
+	
+	/** Array of debris objects **/
+	private ArrayList<Debris> debris;
+	
+	/**Initialises debris */
+	private boolean debrisInit = true;
+	
+	/** Boolean indicating if you are sending debris */
+	private boolean debrisApeared = false;
+	
+	/** Debris separation area */
+	private int debrisSeparation;
+	
 
 	/** The Java font used to generate the fonts used */
 	private Font fontPrimitive;
@@ -154,11 +179,14 @@ public class MultiplayerWindow extends BasicGameState {
 	/** Background music **/
 	Music gameMusic;
 
-	/** Used to control autopilot off button **/
+	// Variables to control auto-pilot off button
 
-	double autoPilotDuration = 3000;
+	/** Time that autopilot will be disabled for **/
+	double autoPilotDuration = 4000;
+	
+	/** Time indicating when autopilot was disabled **/
 	double offTime;
-	boolean autoPilotOff = false;
+ 
 
 	/**
 	 * Give heading via cursor
@@ -246,11 +274,9 @@ public class MultiplayerWindow extends BasicGameState {
 				}
 			}
 		}
-
 		return null;
 	}
 
-	// Overrides
 	/**
 	 * Initialises the state
 	 * 
@@ -337,12 +363,50 @@ public class MultiplayerWindow extends BasicGameState {
 
 		this.map = new Image(mapStream, "Map Image", false);
 
-		// Load cload image
-
-		InputStream cloudStream = this.getClass().getResourceAsStream(
+		// Load cloud images
+		InputStream cloudStream1 = this.getClass().getResourceAsStream(
 				"/resources/clouds/cloud2.png");
+		InputStream cloudStream2 = this.getClass().getResourceAsStream(
+				"/resources/clouds/cloud2.png");
+		InputStream cloudStream3 = this.getClass().getResourceAsStream(
+				"/resources/clouds/cloud1.png");
+		InputStream cloudStream4 = this.getClass().getResourceAsStream(
+				"/resources/clouds/cloud2.png");
+		InputStream cloudStream5 = this.getClass().getResourceAsStream(
+				"/resources/clouds/cloud2.png");
+		InputStream cloudStream6 = this.getClass().getResourceAsStream(
+				"/resources/clouds/cloud1.png");
 
-		this.cloudImage = new Image(cloudStream, "Cloud Image", false);
+		// Create ArrayList of  cloud images
+		cloudImages = new ArrayList<Image>();
+
+		this.cloudImages.add(new Image(cloudStream1, "Cloud Image1", false));
+		this.cloudImages.add(new Image(cloudStream2, "Cloud Image2", false));
+		this.cloudImages.add(new Image(cloudStream3, "Cloud Image3", false));
+		this.cloudImages.add(new Image(cloudStream4, "Cloud Image4", false));
+		this.cloudImages.add(new Image(cloudStream5, "Cloud Image5", false));
+		this.cloudImages.add(new Image(cloudStream6, "Cloud Image6", false));
+
+		
+		// Load debris images
+		InputStream debrisStream1 = this.getClass().getResourceAsStream(
+				"/resources/other/debris1.png");
+		
+		InputStream debrisStream2 = this.getClass().getResourceAsStream(
+				"/resources/other/debris2.png");
+		InputStream debrisStream3 = this.getClass().getResourceAsStream(
+				"/resources/other/debris1.png");
+		InputStream debrisStream4 = this.getClass().getResourceAsStream(
+				"/resources/other/debris2.png");
+		
+		//Create Array of debris images
+		debrisImages = new ArrayList<Image>();
+		
+		this.debrisImages.add(new Image(debrisStream1, "Debris Image1", false));
+		this.debrisImages.add(new Image(debrisStream2, "Debris Image2", false));
+		this.debrisImages.add(new Image(debrisStream3, "Debris Image3", false));
+		this.debrisImages.add(new Image(debrisStream4, "Debris Image4", false));
+		
 
 		try {
 			InputStream fontStream = getClass().getResourceAsStream(
@@ -441,32 +505,29 @@ public class MultiplayerWindow extends BasicGameState {
 				+ height + tolerance)));
 	}
 
-	//
+	// Turns on or off the autopilot for planes
+
 	private void setAutoPilot(boolean auto) {
 		for (Plane plane : currentGame.getCurrentPlanes()) {
 			if (plane.ownedByCurrentPlayer) {
-				plane.setAutoPilot(auto);
+				if(auto){
+					plane.setAuto();
+				}else{plane.setManual();};
 			}
 		}
 		return;
 	}
-
-	/*
-	 * TODO Add functionality
-	 */
-
-	private void sendClouds() {
-		/*
-		 * TODO Add functionality
-		 */
+	// Checks for debris and plane collision
+	private boolean debrisColliding(Plane plane, Debris debris) {
+		double distSqr;
+		distSqr = Math.pow(debris.getX() - plane.getX(), 2)
+				+ Math.pow(debris.getY() - plane.getY(), 2);
+		if(distSqr < Math.pow(debrisSeparation, 2)){
+			return true;
+		}
+		return false;
 	}
-
-	private void sendDebris() {
-		/*
-		 * TODO Add functionality
-		 */
-	}
-
+	
 	private void drawShadowedText(String text, Color color, int[] pos,
 			Graphics graphics) {
 		graphics.setColor(Color.black);
@@ -555,12 +616,8 @@ public class MultiplayerWindow extends BasicGameState {
 		int tolerance = 10;
 
 		// Mouse coordinates
-
 		int x = gameContainer.getInput().getMouseX();
 		int y = gameContainer.getInput().getMouseY();
-
-		// System.out.println("X: " + x);
-		// System.out.println("Y: " + y);
 
 		// Mouse action
 		boolean clicked = gameContainer.getInput().isMousePressed(0);
@@ -576,13 +633,58 @@ public class MultiplayerWindow extends BasicGameState {
 		pointsTextPos[0] = (MultiplayerWindow.sidebarWidth - pointsTextWidth) / 2;
 		drawShadowedText(pointsText, pointsTextColor, pointsTextPos, graphics);
 
-		if (cloudAppeared) {
-			if (cloud.moveCloud()) {
-				cloudImage.draw((float) cloud.getX(), (float) cloud.getY());
-			}
+		// Init Clouds
+		if (cloudsInit) {
+			WindowManager.sendClouds = false;
+			WindowManager.receivingClouds = false;
+			WindowManager.canSendClouds = true;
+			WindowManager.canReceiveClouds = true;
+			cloudsApeared = false;
+			clouds = new ArrayList<Cloud>();
+			clouds.add(new Cloud(1, 0, 0, currentGame));
+			clouds.add(new Cloud(1, 240, 15, currentGame));
+			clouds.add(new Cloud(1, 100, currentGame.windowHeight, currentGame));
+			clouds.add(new Cloud(1, 675, 0, currentGame));
+			clouds.add(new Cloud(1, 825, 15, currentGame));
+			clouds.add(new Cloud(1, 675, currentGame.windowHeight, currentGame));
+			cloudsInit = false;
 
 		}
-
+		// Renders clouds if you are sending them
+		if (cloudsApeared && WindowManager.endingText == "" ) {
+			for (int i = 3; i < clouds.size(); i++) {
+				if (!clouds.get(i).moveCloud()) {
+					cloudImages.get(i).draw(clouds.get(i).getX(),
+							clouds.get(i).getY());
+				} else {
+					;
+					cloudsApeared = false;
+					WindowManager.canSendClouds = true;
+					clouds.get(3).setY(0);
+					clouds.get(4).setY(15);
+					clouds.get(5).setY(currentGame.windowHeight);
+					break;
+				}
+			}
+		}
+		// Renders clouds if they are sent to you by your opponent
+		if (WindowManager.receivingClouds) {
+			for (int i = 0; i < 3; i++) {
+				if (!clouds.get(i).moveCloud()) {
+					cloudImages.get(i).draw(clouds.get(i).getX(),
+							clouds.get(i).getY());
+				} else {
+					WindowManager.receivingClouds = false;
+					WindowManager.canReceiveClouds = true;
+					clouds.get(0).setY(0);
+					clouds.get(1).setY(15);
+					clouds.get(2).setY(currentGame.windowHeight);
+					break;
+				}
+			}
+		}
+		
+		// Send Clouds button
 		if (isInHitBox(x, y, cloudTextPos1, cloudTextWidth1, fontHeight,
 				tolerance)
 				|| isInHitBox(x, y, cloudTextPos2, cloudTextWidth2, fontHeight,
@@ -591,10 +693,8 @@ public class MultiplayerWindow extends BasicGameState {
 						tolerance)) {
 			if (clicked && currentGame.getScore().getCredits() >= cloudCost) {
 				currentGame.getScore().updateCredits(-cloudCost);
-				// this.cloud = new Cloud(3, 5.0, currentGame, 5.0);
-				cloudImage.draw((float) cloud.getX(), (float) cloud.getY(),
-						(float) cloud.getSize());
-				cloudAppeared = true;
+				WindowManager.sendClouds = true;
+				cloudsApeared = true;
 			} else {
 				// Change hover text and add waypoint next to text
 				cloudTextColor = Color.white;
@@ -629,9 +729,9 @@ public class MultiplayerWindow extends BasicGameState {
 						fontHeight, tolerance)
 				|| isInHitBox(x, y, autopilotTextPos3, autopilotTextWidth3,
 						fontHeight, tolerance)) {
+
 			if (clicked && currentGame.getScore().getCredits() >= autopilotCost) {
 				currentGame.getScore().updateCredits(-autopilotCost);
-				System.out.println("Start");
 				WindowManager.turnOffAutopilot = true;
 			} else {
 				// Change hover text and add waypoint next to text
@@ -651,6 +751,70 @@ public class MultiplayerWindow extends BasicGameState {
 		drawShadowedText(autopilotText3, autopilotTextColor, autopilotTextPos3,
 				graphics);
 
+		
+		// Init Debris
+		if (debrisInit) {
+			WindowManager.sendDebris = false;
+			WindowManager.receivingDebris = false;
+			WindowManager.canSendDebris = true;
+			WindowManager.canReceiveDebris = true;
+			debrisApeared = false;
+			debris = new ArrayList<Debris>();
+			debris.add(new Debris(0.5f , 250, 0, currentGame));
+			debris.add(new Debris(0.5f, 450, currentGame.windowHeight, currentGame));
+			debris.add(new Debris(0.5f, 950, currentGame.windowHeight, currentGame));
+			debris.add(new Debris(0.5f, 750, 0, currentGame));
+			debrisSeparation = 75;
+			debrisInit = false;
+
+		}
+		// Renders debris if you are sending them
+		if (debrisApeared && WindowManager.endingText == "") {
+			for (int i = 2; i < debris.size() ; i++) {
+				if (!debris.get(i).moveDebris()) {
+					debrisImages.get(i).draw(debris.get(i).getX(),
+							debris.get(i).getY());
+				} else {
+					debrisApeared = false;
+					WindowManager.canSendDebris = true;
+					debris.get(2).setY(currentGame.windowHeight);
+					debris.get(3).setY(0);
+					break;
+				}
+			}
+		}
+		// Renders debris if they are sent to you by your opponent
+		if (WindowManager.receivingDebris) {
+			for (int i = 0; i < 2; i++) {
+				if (!debris.get(i).moveDebris()) {
+					debrisImages.get(i).draw(debris.get(i).getX(),
+							debris.get(i).getY());
+				} else {
+					WindowManager.receivingDebris = false;
+					WindowManager.canReceiveDebris = true;
+					debris.get(0).setY(0);
+					debris.get(1).setY(currentGame.windowHeight);
+					break;
+				}
+				// Loops through all the planex checking for collision
+				for (Plane plane : currentGame.getCurrentPlanes()){
+					if(plane.ownedByCurrentPlayer){
+						if(debrisColliding(plane, debris.get(i))){
+							currentGame.setCollision(true);
+							WindowManager.receivingDebris = false;
+							WindowManager.canReceiveDebris = true;
+							debris.get(2).setY(0);
+							debris.get(3).setY(currentGame.windowHeight);
+							break;
+						}
+					}
+				}
+				if(currentGame.isCollision()){
+					break;
+				}
+			}
+		}
+		
 		// Debris button
 		if (isInHitBox(x, y, debrisTextPos1, debrisTextWidth1, fontHeight,
 				tolerance)
@@ -660,8 +824,8 @@ public class MultiplayerWindow extends BasicGameState {
 						fontHeight, tolerance)) {
 			if (clicked && currentGame.getScore().getCredits() >= debrisCost) {
 				currentGame.getScore().updateCredits(-debrisCost);
-				sendDebris();
-
+				WindowManager.sendDebris = true;
+				debrisApeared = true;
 			} else {
 				// Change hover text and add waypoint next to text
 				debrisTextColor = Color.white;
@@ -1255,7 +1419,7 @@ public class MultiplayerWindow extends BasicGameState {
 
 				// Erase the extrapoints above the waypoints
 				display = false;
-
+			/*
 				// Draw the game over text
 				new TrueTypeFont(fontPrimitive.deriveFont(50f), true)
 						.drawString(300f, 200f, "That didn't end well...");
@@ -1272,8 +1436,8 @@ public class MultiplayerWindow extends BasicGameState {
 				if (time > (endTime + (5 * 1000))) {
 					game.closeRequested();
 				}
+			*/
 			}
-
 			// if the planes collided but the ending has not yet been set
 			else {
 				// Stop the timer
@@ -1420,9 +1584,12 @@ public class MultiplayerWindow extends BasicGameState {
 		currentGame.setCollidedPlanes(new ArrayList<Plane>());
 
 		currentGame.setCurrentPlane(null);
-
+		
+		cloudsInit = true;
+		debrisInit = true;
 	}
 
+	// All general Accessors
 	/**
 	 * @return the state's unique ID
 	 */
@@ -1431,7 +1598,6 @@ public class MultiplayerWindow extends BasicGameState {
 		return WindowManager.MULTIPLAYER_GAME_STATE;
 	}
 
-	// Accessors
 	/**
 	 * @return the current window width
 	 */
@@ -1576,7 +1742,7 @@ public class MultiplayerWindow extends BasicGameState {
 		return sidebarWidth;
 	}
 
-	// Mutators
+	// All general Mutators
 	/**
 	 * @param windowWidth
 	 *            the new window width
