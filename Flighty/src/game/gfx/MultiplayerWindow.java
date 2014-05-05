@@ -704,7 +704,7 @@ public class MultiplayerWindow extends BasicGameState {
 						tolerance)
 				|| isInHitBox(x, y, cloudTextPos3, cloudTextWidth3, fontHeight,
 						tolerance)) {
-			if (clicked  && currentGame.getScore().getCredits() >= cloudCost && WindowManager.canSendClouds) {
+			if (clicked && currentGame.getScore().getCredits() >= cloudCost && WindowManager.canSendClouds) {
 				currentGame.getScore().updateCredits(-cloudCost);
 				WindowManager.sendClouds = true;
 				cloudsApeared = true;
@@ -1906,5 +1906,9 @@ public class MultiplayerWindow extends BasicGameState {
 	 */
 	public void setCurrentGameContainer(GameContainer currentGameContainer) {
 		this.currentGameContainer = currentGameContainer;
+	}
+	
+	public void setCloudsApeared(boolean clouds){
+		this.cloudsApeared = clouds;
 	}
 }
