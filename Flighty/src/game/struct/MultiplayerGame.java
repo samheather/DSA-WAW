@@ -12,12 +12,13 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 
+import game.gfx.MultiplayerWindow;
 import game.gfx.WindowManager;
 import game.network.Message;
 import game.network.Protocol;
 
 public class MultiplayerGame extends Game {
-	
+
 	public MultiplayerGame(int newSeparationDistance, int newPenaltyDistance,
 			int distFromLeft) throws NoSuchAlgorithmException,
 			UnknownHostException, IOException {
@@ -27,13 +28,12 @@ public class MultiplayerGame extends Game {
 	}
 
 	int state = 0;
-	
 
 	private ArrayList<MultiplayerPlane> multiplayerPlanes = new ArrayList<MultiplayerPlane>();
 
-	//TODO(jamaal) please supress if necessary
-	Protocol protocol = new Protocol("multi.atcga.me", 1025,
-			Arrays.asList((Class) MultiplayerPlane.class, Score.class));
+	// TODO(jamaal) please supress if necessary
+	Protocol protocol = new Protocol("multi.atcga.me", 1025, Arrays.asList(
+			(Class) MultiplayerPlane.class, Score.class));
 
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame game)
@@ -109,7 +109,7 @@ public class MultiplayerGame extends Game {
 									i.remove();
 								else
 									i.set(p);
-								System.out.println("received existing plane");
+								//System.out.println("received existing plane");
 								p = null;
 								break;
 							}
@@ -117,17 +117,19 @@ public class MultiplayerGame extends Game {
 						if (p != null && !p.deleted()) {
 							// p.ownedByCurrentPlayer = false;
 							multiplayerPlanes.add(p);
-							System.out.println("received new plane");
+							//System.out.println("received new plane");
 						}
-					} else if(o instanceof AutoPilot){
+					} else if (o instanceof AutoPilot) {
 						WindowManager.autopilotInit = true;
 						WindowManager.autopilotOff = true;
-						
-					} else if(o instanceof Cloud && WindowManager.canReceiveClouds){
+
+					} else if (o instanceof Cloud
+							&& WindowManager.canReceiveClouds) {
 						WindowManager.canReceiveClouds = false;
 						WindowManager.receivingClouds = true;
-						
-					} else if(o instanceof Debris && WindowManager.canReceiveDebris){
+
+					} else if (o instanceof Debris
+							&& WindowManager.canReceiveDebris) {
 						WindowManager.canReceiveClouds = false;
 						WindowManager.receivingDebris = true;
 					}
@@ -146,25 +148,25 @@ public class MultiplayerGame extends Game {
 				if (plane.deleted())
 					i.remove();
 			}
-			if(WindowManager.turnOffAutopilot){
+			if (WindowManager.turnOffAutopilot) {
 				AutoPilot autopilot = new AutoPilot();
 				protocol.putMessage(new Message.ClientClient.CCObject(autopilot));
 				WindowManager.turnOffAutopilot = false;
 			}
-			if(WindowManager.sendClouds){
+			if (WindowManager.sendClouds) {
 				Cloud cloud = new Cloud();
 				protocol.putMessage(new Message.ClientClient.CCObject(cloud));
 				WindowManager.sendClouds = false;
 				WindowManager.canSendClouds = false;
 			}
-			
-			if(WindowManager.sendDebris){
+
+			if (WindowManager.sendDebris) {
 				Debris debris = new Debris();
 				protocol.putMessage(new Message.ClientClient.CCObject(debris));
 				WindowManager.sendDebris = false;
 				WindowManager.canSendDebris = false;
 			}
-			
+
 		} else if (state == 3) {
 			super.update(gameContainer, game);
 		}
@@ -205,10 +207,6 @@ public class MultiplayerGame extends Game {
 	protected void planeUpdate(Plane plane, GameContainer gameContainer) {
 		if ((plane.getX() < distFromLeftEdge) || (plane.getY() > windowHeight)
 				|| (plane.getY() < 0)) {
-			// Updates score if plane in game area
-			if (plane.ownedByCurrentPlayer)
-				getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
-
 			// Deselects plane that left the airspace
 			if (currentPlane != null) {
 				if (plane.equals(currentPlane)) {
@@ -220,16 +218,28 @@ public class MultiplayerGame extends Game {
 			plane.markForDeletion();
 
 		} else if (plane.getX() > (windowWidth + distFromLeftEdge) / 2) {
-			System.out.println(plane);
-			System.out.println(plane.getX());
-			System.out.println((windowWidth + distFromLeftEdge) / 2);
 			// Updates score if plane in game area
-			if (plane.ownedByCurrentPlayer)
-				getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
-
-			// Deselects plane that left the airspace
-			plane.setOwnedByCurrentPlayer(false);
-			// currentPlane = null;
+			System.out.println("Off screen");
+			// Updates score if plane in game area
+			if (plane.ownedByCurrentPlayer) {
+				// Deselects plane that left the airspace
+				plane.setBearing(plane.getBearing() + 180);
+				plane.setY(gameContainer.getHeight() - plane.getY());
+				plane.setX(plane.getX()); // TODO remove this -30 once fixed
+				// plane.setVelocity(-plane.getVelocity());
+				if (plane.getFlightPlan().getCurrentRoute().size() > 0) {
+					plane.setTarget(plane.getFlightPlan().getCurrentRoute()
+							.get(0));
+				}
+				System.out.println(plane.equals(currentPlane));
+				if (plane.equals(currentPlane)) {
+					currentPlane = null;
+				}
+				plane.setOwnedByCurrentPlayer(false);
+				plane.setAuto();
+			} /*else {
+				plane.setOwnedByCurrentPlayer(true);
+			}*/
 		}
 	}
 
