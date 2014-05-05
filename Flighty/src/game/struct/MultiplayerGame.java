@@ -219,7 +219,6 @@ public class MultiplayerGame extends Game {
 
 		} else if (plane.getX() > (windowWidth + distFromLeftEdge) / 2) {
 			// Updates score if plane in game area
-			System.out.println("Off screen");
 			// Updates score if plane in game area
 			if (plane.ownedByCurrentPlayer) {
 				// Deselects plane that left the airspace
@@ -231,7 +230,6 @@ public class MultiplayerGame extends Game {
 					plane.setTarget(plane.getFlightPlan().getCurrentRoute()
 							.get(0));
 				}
-				System.out.println(plane.equals(currentPlane));
 				if (plane.equals(currentPlane)) {
 					currentPlane = null;
 				}

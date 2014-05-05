@@ -630,10 +630,6 @@ public class MultiplayerWindow extends BasicGameState {
 		// Mouse action
 		boolean clicked = gameContainer.getInput().isMousePressed(0);
 
-		graphics.setFont(this.sidebarFontLarge);
-		drawShadowedText(sidebarTitleText, sidebarTitleTextColor,
-				sidebarTitleTextPos, graphics);
-
 		graphics.setFont(this.sidebarFont);
 
 		// Init Clouds
@@ -689,6 +685,11 @@ public class MultiplayerWindow extends BasicGameState {
 
 		sidebarBackground.draw(0, 0, MultiplayerWindow.sidebarWidth,
 				gameContainer.getHeight());
+		
+		// Draw shop title
+		graphics.setFont(this.sidebarFontLarge);
+		drawShadowedText(sidebarTitleText, sidebarTitleTextColor,
+				sidebarTitleTextPos, graphics);
 
 		// Draw the points text
 		pointsText = currentGame.getScore().getCredits() + " Cr";
