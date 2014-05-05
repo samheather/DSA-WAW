@@ -826,6 +826,10 @@ public abstract class Game {
 	public int getPlaneCount() {
 		return planeCount;
 	}
+	
+	public int getDistFromLeftEdge(){
+		return distFromLeftEdge;
+	}
 
 	// All general Mutators
 

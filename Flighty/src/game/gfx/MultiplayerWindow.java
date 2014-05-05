@@ -386,6 +386,11 @@ public class MultiplayerWindow extends BasicGameState {
 		this.cloudImages.add(new Image(cloudStream4, "Cloud Image4", false));
 		this.cloudImages.add(new Image(cloudStream5, "Cloud Image5", false));
 		this.cloudImages.add(new Image(cloudStream6, "Cloud Image6", false));
+		
+		//Rotates Cloud images for mirroring
+		for(int i = 3; i < cloudImages.size() ; i++){
+			cloudImages.get(i).rotate(180);
+		}
 
 		
 		// Load debris images
@@ -406,6 +411,11 @@ public class MultiplayerWindow extends BasicGameState {
 		this.debrisImages.add(new Image(debrisStream2, "Debris Image2", false));
 		this.debrisImages.add(new Image(debrisStream3, "Debris Image3", false));
 		this.debrisImages.add(new Image(debrisStream4, "Debris Image4", false));
+		
+		//Rotates Debris images for mirroring
+		for(int i = 2; i < debrisImages.size(); i++){
+			debrisImages.get(i).rotate(180f);
+		}
 		
 
 		try {
@@ -642,11 +652,11 @@ public class MultiplayerWindow extends BasicGameState {
 			cloudsApeared = false;
 			clouds = new ArrayList<Cloud>();
 			clouds.add(new Cloud(1, 0, 0, currentGame));
-			clouds.add(new Cloud(1, 240, 15, currentGame));
+			clouds.add(new Cloud(1, 240, 0, currentGame));
 			clouds.add(new Cloud(1, 100, currentGame.windowHeight, currentGame));
-			clouds.add(new Cloud(1, 675, 0, currentGame));
-			clouds.add(new Cloud(1, 825, 15, currentGame));
 			clouds.add(new Cloud(1, 675, currentGame.windowHeight, currentGame));
+			clouds.add(new Cloud(1, 825, currentGame.windowHeight, currentGame));
+			clouds.add(new Cloud(1, 675, 0, currentGame));
 			cloudsInit = false;
 
 		}
@@ -660,15 +670,15 @@ public class MultiplayerWindow extends BasicGameState {
 					;
 					cloudsApeared = false;
 					WindowManager.canSendClouds = true;
-					clouds.get(3).setY(0);
-					clouds.get(4).setY(15);
-					clouds.get(5).setY(currentGame.windowHeight);
+					clouds.get(3).setY(currentGame.windowHeight);
+					clouds.get(4).setY(currentGame.windowHeight);
+					clouds.get(5).setY(0);
 					break;
 				}
 			}
 		}
 		// Renders clouds if they are sent to you by your opponent
-		if (WindowManager.receivingClouds) {
+		if (WindowManager.receivingClouds  && WindowManager.endingText == "") {
 			for (int i = 0; i < 3; i++) {
 				if (!clouds.get(i).moveCloud()) {
 					cloudImages.get(i).draw(clouds.get(i).getX(),
@@ -691,7 +701,7 @@ public class MultiplayerWindow extends BasicGameState {
 						tolerance)
 				|| isInHitBox(x, y, cloudTextPos3, cloudTextWidth3, fontHeight,
 						tolerance)) {
-			if (clicked && currentGame.getScore().getCredits() >= cloudCost) {
+			if (clicked  && currentGame.getScore().getCredits() >= cloudCost && WindowManager.canSendClouds) {
 				currentGame.getScore().updateCredits(-cloudCost);
 				WindowManager.sendClouds = true;
 				cloudsApeared = true;
@@ -760,11 +770,11 @@ public class MultiplayerWindow extends BasicGameState {
 			WindowManager.canReceiveDebris = true;
 			debrisApeared = false;
 			debris = new ArrayList<Debris>();
-			debris.add(new Debris(0.5f , 250, 0, currentGame));
-			debris.add(new Debris(0.5f, 450, currentGame.windowHeight, currentGame));
-			debris.add(new Debris(0.5f, 950, currentGame.windowHeight, currentGame));
-			debris.add(new Debris(0.5f, 750, 0, currentGame));
-			debrisSeparation = 75;
+			debris.add(new Debris(0.5f , currentGame.getDistFromLeftEdge() + 100 , 0, currentGame));
+			debris.add(new Debris(0.5f, currentGame.getDistFromLeftEdge() + 300, currentGame.windowHeight, currentGame));
+			debris.add(new Debris(0.5f, currentGame.windowWidth-100, currentGame.windowHeight, currentGame));
+			debris.add(new Debris(0.5f, currentGame.windowWidth-300, 0, currentGame));
+			debrisSeparation = 40;
 			debrisInit = false;
 
 		}
@@ -772,7 +782,7 @@ public class MultiplayerWindow extends BasicGameState {
 		if (debrisApeared && WindowManager.endingText == "") {
 			for (int i = 2; i < debris.size() ; i++) {
 				if (!debris.get(i).moveDebris()) {
-					debrisImages.get(i).draw(debris.get(i).getX(),
+					debrisImages.get(i).drawCentered(debris.get(i).getX(),
 							debris.get(i).getY());
 				} else {
 					debrisApeared = false;
@@ -787,7 +797,7 @@ public class MultiplayerWindow extends BasicGameState {
 		if (WindowManager.receivingDebris) {
 			for (int i = 0; i < 2; i++) {
 				if (!debris.get(i).moveDebris()) {
-					debrisImages.get(i).draw(debris.get(i).getX(),
+					debrisImages.get(i).drawCentered(debris.get(i).getX(),
 							debris.get(i).getY());
 				} else {
 					WindowManager.receivingDebris = false;
@@ -822,7 +832,7 @@ public class MultiplayerWindow extends BasicGameState {
 						fontHeight, tolerance)
 				|| isInHitBox(x, y, debrisTextPos3, debrisTextWidth3,
 						fontHeight, tolerance)) {
-			if (clicked && currentGame.getScore().getCredits() >= debrisCost) {
+			if (clicked /* && /* currentGame.getScore().getCredits() >= debrisCost && WindowManager.canSendDebris*/) {
 				currentGame.getScore().updateCredits(-debrisCost);
 				WindowManager.sendDebris = true;
 				debrisApeared = true;
