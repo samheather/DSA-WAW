@@ -58,6 +58,11 @@ public class MultiplayerWindow extends BasicGameState {
 
 	/** The time the game ended at */
 	private double endTime;
+	
+	/** Amount of Credits when game is ended **/
+	private int endCr;
+	
+	private boolean setEndingScores = true;
 
 	private Game currentGame;
 
@@ -692,7 +697,11 @@ public class MultiplayerWindow extends BasicGameState {
 				sidebarTitleTextPos, graphics);
 
 		// Draw the points text
+		if (! currentGame.isEnding()){
 		pointsText = currentGame.getScore().getCredits() + " Cr";
+		}else {
+			pointsText = endCr + " Cr";
+		}
 		pointsTextWidth = this.sidebarFont.getWidth(pointsText);
 		pointsTextPos[0] = (MultiplayerWindow.sidebarWidth - pointsTextWidth) / 2;
 		drawShadowedText(pointsText, pointsTextColor, pointsTextPos, graphics);
@@ -852,7 +861,9 @@ public class MultiplayerWindow extends BasicGameState {
 		drawShadowedText(debrisText1, debrisTextColor, debrisTextPos1, graphics);
 		drawShadowedText(debrisText2, debrisTextColor, debrisTextPos2, graphics);
 		drawShadowedText(debrisText3, debrisTextColor, debrisTextPos3, graphics);
-
+		
+		// Amount of credits once the game has ended
+		
 		// Draw waiting for opponent if there is no opponent
 		if (WindowManager.opponentFound == false) {
 			drawShadowedText(waitingText, waitingTextColor, waitingTextPos,
@@ -860,6 +871,15 @@ public class MultiplayerWindow extends BasicGameState {
 		} else if (WindowManager.endingText != "") {
 			drawShadowedText(WindowManager.endingText, waitingTextColor,
 					waitingTextPos, graphics);
+			if(setEndingScores){
+				// Stop the timer
+				endTime = time;
+				// Stop the credits
+				endCr = currentGame.getScore().getCredits();
+				
+				setEndingScores = false;
+				
+			}
 		}
 	}
 
@@ -1418,7 +1438,7 @@ public class MultiplayerWindow extends BasicGameState {
 		/* Setting up the game over screen */
 
 		// If the planes collided
-		if (currentGame.isCollision()) {
+		if (currentGame.isCollision() || currentGame.isEnding()) {
 			// If the game is ending
 			if (currentGame.isEnding()) {
 				this.currentGame.endingRoutine();
@@ -1453,8 +1473,6 @@ public class MultiplayerWindow extends BasicGameState {
 			}
 			// if the planes collided but the ending has not yet been set
 			else {
-				// Stop the timer
-				endTime = time;
 
 				// End the game
 				currentGame.setEnding(true);
@@ -1462,6 +1480,8 @@ public class MultiplayerWindow extends BasicGameState {
 		}
 
 		handleSidebar(gameContainer, graphics);
+		
+
 	}
 
 	/**
