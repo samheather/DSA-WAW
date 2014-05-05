@@ -650,7 +650,7 @@ public class MultiplayerWindow extends BasicGameState {
 
 		}
 		// Renders clouds if you are sending them
-		if (cloudsApeared && WindowManager.endingText == "") {
+		if (cloudsApeared && !currentGame.isEnding()) {
 			for (int i = 3; i < clouds.size(); i++) {
 				if (!clouds.get(i).moveCloud()) {
 					cloudImages.get(i).draw(clouds.get(i).getX(),
@@ -667,7 +667,7 @@ public class MultiplayerWindow extends BasicGameState {
 			}
 		}
 		// Renders clouds if they are sent to you by your opponent
-		if (WindowManager.receivingClouds  && WindowManager.endingText == "") {
+		if (WindowManager.receivingClouds  && !currentGame.isEnding()) {
 			for (int i = 0; i < 3; i++) {
 				if (!clouds.get(i).moveCloud()) {
 					cloudImages.get(i).draw(clouds.get(i).getX(),
@@ -704,7 +704,7 @@ public class MultiplayerWindow extends BasicGameState {
 						tolerance)
 				|| isInHitBox(x, y, cloudTextPos3, cloudTextWidth3, fontHeight,
 						tolerance)) {
-			if (clicked  && currentGame.getScore().getCredits() >= cloudCost && WindowManager.canSendClouds) {
+			if (clicked  && currentGame.getScore().getCredits() >= cloudCost && WindowManager.canSendClouds && !currentGame.isEnding()) {
 				currentGame.getScore().updateCredits(-cloudCost);
 				WindowManager.sendClouds = true;
 				cloudsApeared = true;
@@ -743,7 +743,7 @@ public class MultiplayerWindow extends BasicGameState {
 				|| isInHitBox(x, y, autopilotTextPos3, autopilotTextWidth3,
 						fontHeight, tolerance)) {
 
-			if (clicked && currentGame.getScore().getCredits() >= autopilotCost) {
+			if (clicked && currentGame.getScore().getCredits() >= autopilotCost && !currentGame.isEnding()) {
 				currentGame.getScore().updateCredits(-autopilotCost);
 				WindowManager.turnOffAutopilot = true;
 			} else {
@@ -781,7 +781,7 @@ public class MultiplayerWindow extends BasicGameState {
 
 		}
 		// Renders debris if you are sending them
-		if (debrisApeared && WindowManager.endingText == "") {
+		if (debrisApeared && !currentGame.isEnding()) {
 			for (int i = 2; i < debris.size(); i++) {
 				if (!debris.get(i).moveDebris()) {
 					debrisImages.get(i).drawCentered(debris.get(i).getX(),
@@ -834,7 +834,7 @@ public class MultiplayerWindow extends BasicGameState {
 						fontHeight, tolerance)
 				|| isInHitBox(x, y, debrisTextPos3, debrisTextWidth3,
 						fontHeight, tolerance)) {
-			if (clicked /* && /* currentGame.getScore().getCredits() >= debrisCost && WindowManager.canSendDebris*/) {
+			if (clicked  &&  currentGame.getScore().getCredits() >= debrisCost && WindowManager.canSendDebris && !currentGame.isEnding()) {
 				currentGame.getScore().updateCredits(-debrisCost);
 				WindowManager.sendDebris = true;
 				debrisApeared = true;
