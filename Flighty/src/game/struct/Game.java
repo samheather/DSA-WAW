@@ -122,7 +122,7 @@ public abstract class Game {
 
 	protected abstract void configurePlane(Plane p);
 
-	protected abstract void planeUpdate(Plane p, GameContainer gameContainer);
+	public abstract void planeUpdate(Plane p, GameContainer gameContainer);
 
 	// Constructors
 

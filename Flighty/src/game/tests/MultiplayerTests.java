@@ -26,16 +26,25 @@ public class MultiplayerTests {
 		game.createPlane();
 		game.getCurrentPlanes().get(0).setID(100);
 		plane1 = game.getPlaneFromID(100);
-		
 	}
 	
 	@Test
 	public void switchTest() {
-		plane1.setOwnedByCurrentPlayer(true);
-		assertTrue(plane1.getOwnedByCurrentPlayer());
-		plane1.setX(800);
-		assertFalse(plane1.getOwnedByCurrentPlayer());
 		
+		assertFalse(plane1.ownedByCurrentPlayer);
+		plane1.setX(1000);
+		System.out.print(game.getCurrentPlanes());
+		assertFalse(plane1.ownedByCurrentPlayer);
+		
+	}
+	
+	@Test
+	public void switchScoreTest(){
+		plane1.setX(300);
+		game.getScore().setScore(20);
+		plane1.setX(1000);
+		game.getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
+		assertEquals(10, game.getScore().getScore());
 	}
 
 }

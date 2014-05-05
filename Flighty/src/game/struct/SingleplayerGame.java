@@ -76,7 +76,7 @@ public class SingleplayerGame extends Game {
 	}
 
 	@Override
-	protected void planeUpdate(Plane plane, GameContainer game) {
+	public void planeUpdate(Plane plane, GameContainer game) {
 		if ((plane.getX() > windowWidth)
 				|| (plane.getX() < distFromLeftEdge)
 				|| (plane.getY() > windowHeight) || (plane.getY() < 0)) {

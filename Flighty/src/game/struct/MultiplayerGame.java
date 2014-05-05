@@ -204,7 +204,7 @@ public class MultiplayerGame extends Game {
 	}
 
 	@Override
-	protected void planeUpdate(Plane plane, GameContainer gameContainer) {
+	public void planeUpdate(Plane plane, GameContainer gameContainer) {
 		if ((plane.getX() < distFromLeftEdge) || (plane.getY() > windowHeight)
 				|| (plane.getY() < 0)) {
 			// Deselects plane that left the airspace
