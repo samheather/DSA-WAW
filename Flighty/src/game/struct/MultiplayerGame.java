@@ -239,7 +239,7 @@ public class MultiplayerGame extends Game {
 	}
 
 	@Override
-	protected Plane constructPlane(int id, double velocity, int altitude,
+	public Plane constructPlane(int id, double velocity, int altitude,
 			double bearing, long uniqueNetworkObjectId) {
 		MultiplayerPlane p = new MultiplayerPlane(id, velocity, altitude,
 				bearing, this, uniqueNetworkObjectId);

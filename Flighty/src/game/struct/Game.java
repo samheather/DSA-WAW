@@ -352,7 +352,6 @@ public abstract class Game {
 		return null;
 	}
 
-	// TODO(David) Is this misplaced? Should be in testing?
 	/**
 	 * Tests whether a plane is either colliding or alerting
 	 * <p>
