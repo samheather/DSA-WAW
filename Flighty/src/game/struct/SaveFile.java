@@ -60,7 +60,7 @@ public class SaveFile {
 			try{
 				Object obj = parser.parse(scores[i]);
 				JSONObject jsonObject = (JSONObject) obj;
-				score = (long) jsonObject.get("score");
+				score = ((Long) jsonObject.get("score")).longValue();
 				if (WindowManager.leaderBoard.leaderboardEntries[4].getScore() <= score){
 					name = (String) jsonObject.get("name");
 					WindowManager.leaderBoard.addLeaderboardEntry(name, score);
@@ -95,14 +95,30 @@ public class SaveFile {
 		return null;
 	}
 	
+	public Long getLowestScore(){
+		String s = getLeaderboardScores();
+		String[] scores = s.split("}");
+		JSONParser parser=new JSONParser();
+		scores[4] = scores[4] + "}";
+		try{
+			Object obj = parser.parse(scores[4]);
+			JSONObject jsonObject = (JSONObject) obj;
+			return (((Long) jsonObject.get("score")).longValue());	
+		}
+		catch (ParseException e) {
+			e.printStackTrace();
+			return (long) 0;
+		}
+	}
+	
 	
 	
 	public void readStats() {
 		try {
 			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
 					statsFileName));
-			level2Unlocked = ((boolean)ois.readObject());
-			level3Unlocked = ((boolean)ois.readObject());
+			level2Unlocked = ((Boolean)ois.readObject()).booleanValue();
+			level3Unlocked = ((Boolean)ois.readObject()).booleanValue();
 			ois.close();
 		} catch (Exception ex) {
 			System.out.println("Saving stats raised exception.");

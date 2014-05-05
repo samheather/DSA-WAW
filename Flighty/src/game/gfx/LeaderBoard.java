@@ -29,10 +29,6 @@ public class LeaderBoard extends GenericWindow {
 	/** The shaded arrow icon */
 	private Image arrowIconShaded;
 	
-	private int nameWidth;
-	
-	private int scoreWidth;
-	
 	/** variable showing Internet's connection */
 	public static boolean connected = false;
 	
@@ -206,6 +202,7 @@ public class LeaderBoard extends GenericWindow {
 			if (connected){
 				GameWindow.saveFile.decodeLeaderboardScores(GameWindow.saveFile.getLeaderboardScores());
 				sortLeaderboard(leaderboardEntries);
+				System.out.println(GameWindow.saveFile.getLowestScore());
 			}
 			init = false;
 		}

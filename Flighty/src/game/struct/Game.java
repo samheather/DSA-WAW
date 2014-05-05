@@ -1,6 +1,7 @@
 package game.struct;
 
 import game.gfx.GameWindow;
+import game.gfx.WindowManager;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -8,7 +9,6 @@ import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -141,6 +141,7 @@ public abstract class Game {
 	protected Game(int newSeparationDistance, int newPenaltyDistance,
 			int distFromLeft) throws NoSuchAlgorithmException,
 			UnknownHostException, IOException {
+		WindowManager.endingText = "";
 		secureRandom = SecureRandom.getInstance("SHA1PRNG");
 		ByteBuffer b = ByteBuffer.allocate(8).put(secureRandom.generateSeed(8));
 		b.rewind();
@@ -477,22 +478,12 @@ public abstract class Game {
 	 *            the plane to remove from manual control
 	 */
 	public void removeFromManual(Plane plane) {
-		deleteFromManual(plane);
+		plane.setAuto();
 
 		// Make the unselected plane go to the next waypoint
 		if (plane.getFlightPlan().getCurrentRoute().size() != 0) {
 			plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
 		}
-	}
-
-	/**
-	 * Deletes plane from manual
-	 * 
-	 * @param plane
-	 *            The plane to be deleted from manual
-	 */
-	public void deleteFromManual(Plane plane) {
-		plane.setAuto();
 	}
 	
 	/** Checks if any plane on screen needs to take off
@@ -640,7 +631,7 @@ public abstract class Game {
 					currentPlane = null;
 				}
 
-				removePlane(plane);
+				plane.markForDeletion();
 
 			} else {
 
@@ -724,6 +715,7 @@ public abstract class Game {
 
 		countToNextPlane--;
 	}
+
 
 	// GETTERS
 
@@ -1000,6 +992,9 @@ public abstract class Game {
 	public void setPlaneCount(int newPlaneCount) {
 		planeCount = newPlaneCount;
 	}
+
+	public abstract void endingRoutine();
+
 	
 	
 	/**
@@ -1012,4 +1007,5 @@ public abstract class Game {
 	 *            the plane to remove
 	 */
 	public abstract void removePlane(Plane toDelete);
+
 }

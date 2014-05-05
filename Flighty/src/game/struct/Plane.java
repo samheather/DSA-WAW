@@ -56,7 +56,7 @@ public abstract class Plane {
 	/** Unique identifier */
 	private int id;
 
-	private long uniqueNetworkObjectID;
+	private final long uniqueNetworkObjectID;
 
 	/** Size to display plane */
 	private int size;
@@ -121,7 +121,7 @@ public abstract class Plane {
 	public boolean ownedByCurrentPlayer = false;
 	
 	public Plane() {
-		// required for serialization
+		uniqueNetworkObjectID = 0;
 	}
 
 	// Constructor
@@ -525,9 +525,24 @@ public abstract class Plane {
 	public int getID() {
 		return this.id;
 	}
-
-	public long getUniqueNetworkObjectID() {
-		return uniqueNetworkObjectID;
+	
+	@Override
+	public final boolean equals(Object obj) {
+		if (this.uniqueNetworkObjectID == 0)
+			return false;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Plane))
+			return false;
+		Plane rhs = (Plane) obj;
+		if (rhs.uniqueNetworkObjectID == 0)
+			return false;
+		return this.uniqueNetworkObjectID == rhs.uniqueNetworkObjectID;
+	}
+	
+	@Override
+	public final int hashCode() {
+		return String.valueOf(uniqueNetworkObjectID).hashCode();
 	}
 
 	/**

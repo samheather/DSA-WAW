@@ -92,30 +92,6 @@ public class GameTests {
 	}
 
 	/**
-	 * Test ID X.6
-	 */
-
-	@Test
-	public void testRemoveFromManual() {
-		this.game.createPlane();
-		this.game.getManualPlanes().add(this.game.getCurrentPlanes().get(0));
-		assertTrue(this.game.getManualPlanes().size() == 1);
-		this.game.removeFromManual(this.game.getCurrentPlanes().get(0));
-		assertTrue(this.game.getManualPlanes().size() == 0);
-	}
-
-	/**
-	 * Test ID X.7
-	 */
-
-	@Test
-	public void testDeleteFromManual() {
-		this.game.getManualPlanes().add(plane1);
-		this.game.deleteFromManual(plane1);
-		assertFalse(this.game.getManualPlanes().contains(plane1));
-	}
-
-	/**
 	 * Test ID X.8.1
 	 */
 

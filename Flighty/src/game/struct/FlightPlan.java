@@ -21,8 +21,6 @@ public class FlightPlan {
 	/** Required by Slick2D */
 	private transient Game currentGame;
 
-	// CONSTRUCTOR
-
 	/**
 	 * Constructor for FlightPlan
 	 * 

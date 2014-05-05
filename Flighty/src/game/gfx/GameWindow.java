@@ -45,6 +45,12 @@ public class GameWindow extends BasicGameState {
 
 	/** The height the game is displayed at */
 	public int windowHeight;
+	
+	private int endScore;
+	
+	/** Lowest leaderboard score*/
+	
+	private long lowScore;
 
 	/** The time the game has been running for */
 	private double time;
@@ -415,7 +421,7 @@ public class GameWindow extends BasicGameState {
 		if (((WindowManager) game).getCurrentLevel() == 1) {
 			// Play level 1
 			try {
-				this.currentGame = new SingleplayerGame(50, 100, 0);
+				this.currentGame = new SingleplayerGame(50, 100, 0, 1);
 			} catch (NoSuchAlgorithmException | IOException e) {
 				e.printStackTrace();
 			}
@@ -427,7 +433,7 @@ public class GameWindow extends BasicGameState {
 		} else if (((WindowManager) game).getCurrentLevel() == 2) {
 			// Play level 2
 			try {
-				this.currentGame = new SingleplayerGame(70, 100, 0);
+				this.currentGame = new SingleplayerGame(70, 100, 0, 2);
 			} catch (NoSuchAlgorithmException | IOException e) {
 				e.printStackTrace();
 			}
@@ -439,7 +445,7 @@ public class GameWindow extends BasicGameState {
 		} else if (((WindowManager) game).getCurrentLevel() == 3) {
 			// Play level 3
 			try {
-				this.currentGame = new SingleplayerGame(70, 100, 0);
+				this.currentGame = new SingleplayerGame(70, 100, 0, 3);
 			} catch (NoSuchAlgorithmException | IOException e) {
 				e.printStackTrace();
 			}
@@ -990,6 +996,7 @@ public class GameWindow extends BasicGameState {
 		if (this.currentGame.isCollision()) {
 			// If the game is ending
 			if (this.currentGame.isEnding()) {
+				this.currentGame.endingRoutine();
 				// Draw the two collided planes rotated a bit so it looks like a
 				// crash
 				for (Plane plane : this.currentGame.getCollidedPlanes()) {
@@ -1003,7 +1010,7 @@ public class GameWindow extends BasicGameState {
 
 				// Draw the game over text
 				endFont.drawString(300, 200, "That didn't end well");
-				endFont.drawString(400, 260, "Score: "+ (int) this.currentGame.getScore().getScore());
+				endFont.drawString(400, 260, "Score: "+ this.endScore);
 
 				int textHeight = this.font.getHeight();
 
@@ -1037,10 +1044,7 @@ public class GameWindow extends BasicGameState {
 					}
 				}
 
-				// Manages leaderboard entries if score is high enough
-
-				if (WindowManager.leaderBoard.leaderboardEntries[4].getScore() < this.currentGame
-						.getScore().getScore()) {
+				// Manages leaderboard entries
 
 					// initializes text box
 
@@ -1050,47 +1054,51 @@ public class GameWindow extends BasicGameState {
 						textBox.setBorderColor(Color.black);
 						textBox.setBackgroundColor(Color.white);
 						textBox.setTextColor(Color.orange);
-						// textBox.setConsumeEvents(true);
+						textBox.setConsumeEvents(true);
 						textBox.setAcceptingInput(true);
 						textBox.setMaxLength(30);
 						isTextBoxIni = true;
 						WindowManager.leaderBoard.isConnected();
+						lowScore = saveFile.getLowestScore();
 					}
 					
 					
 					
 					//creates a text box to enter your name:
 					if(LeaderBoard.connected){
-						endFont.drawString(300, 300, "Enter your name to the leaderboard");
-						textBox.render(currentGameContainer, g);
+						if(lowScore < currentGame.getScore().getScore()){
+							endFont.drawString(300, 300, "Enter your name to the leaderboard");
+							textBox.render(currentGameContainer, g);
 
-						if (Keyboard.getEventKey() == Keyboard.KEY_RETURN) {
-							saveFile.addLeaderboardScore(textBox.getText(),
-									currentGame.getScore().getScore());
-							textBox.setText("");
-							game.enterState(WindowManager.MAIN_MENU_STATE);
+							if (Keyboard.getEventKey() == Keyboard.KEY_RETURN && textBox.getText() != "") {
+								saveFile.addLeaderboardScore(textBox.getText(),
+										currentGame.getScore().getScore());
+								textBox.setText("");
+								game.enterState(WindowManager.MAIN_MENU_STATE);
 
+							}else{ 
+								if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
+									game.enterState(WindowManager.MAIN_MENU_STATE);
+								}
+							}
 						}
-					} else {
+						
+					}else {
 						new TrueTypeFont(this.fontPrimitive.deriveFont(25f),
-								true).drawString(305f, 300f,
-								"No internet connection");
+								true).drawString(305f, 300f,"No internet connection");
 					}
+					
+				}// if the planes collided but the ending has not yet been set
+				else {
+					// Stop the timer
+					this.endTime = this.time;
+					this.endScore = currentGame.getScore().getScore();
+					// End the game
+					this.currentGame.setEnding(true);
 				}
 			}
-
-			// if the planes collided but the ending has not yet been set
-			else {
-				// Stop the timer
-				this.endTime = this.time;
-
-				// End the game
-				this.currentGame.setEnding(true);
-			}
-
 		}
 
-	}
 
 	/**
 	 * Updates the game state

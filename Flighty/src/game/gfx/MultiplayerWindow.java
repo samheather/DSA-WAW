@@ -118,10 +118,6 @@ public class MultiplayerWindow extends BasicGameState {
 
 	private TrueTypeFont sidebarFontLarge;
 
-	private TrueTypeFont gameOverFont1;
-
-	private TrueTypeFont gameOverFont2;
-
 	/** The colour to display the font in */
 	private Color fontColor;
 
@@ -169,7 +165,6 @@ public class MultiplayerWindow extends BasicGameState {
 
 		// Select the plane
 		currentPlane.setManual();
-
 
 		// Calculate new bearing
 		double newBearing = Math.toDegrees(Math.atan2(currentGame
@@ -351,10 +346,6 @@ public class MultiplayerWindow extends BasicGameState {
 		// Set the font (used for altitudes etc.)
 		this.fontPrimitive = new Font("Lucida Sans", Font.PLAIN, 12);
 		this.font = new TrueTypeFont(this.fontPrimitive, true);
-		this.gameOverFont1 = new TrueTypeFont(
-				this.fontPrimitive.deriveFont(50f), true);
-		this.gameOverFont2 = new TrueTypeFont(
-				this.fontPrimitive.deriveFont(25f), true);
 
 		// Initialise Waypoint Sound
 		checkpointSound = new Sound("resources/music/checkpointSound.ogg");
@@ -456,11 +447,6 @@ public class MultiplayerWindow extends BasicGameState {
 		graphics.drawString(text, pos[0] + 2, pos[1] + 1);
 		graphics.setColor(color);
 		graphics.drawString(text, pos[0], pos[1]);
-	}
-
-	private void updateCredits(int delta) {
-		credits = Math.max(0, credits + delta
-				* this.getCurrentGame().getScore().getMultiplier());
 	}
 
 	public void handleSidebar(GameContainer gameContainer, Graphics graphics) {
@@ -642,6 +628,9 @@ public class MultiplayerWindow extends BasicGameState {
 		if (WindowManager.opponentFound == false) {
 			drawShadowedText(waitingText, debrisTextColor, waitingTextPos,
 					graphics);
+		} else if (WindowManager.endingText != "") {
+			drawShadowedText(WindowManager.endingText, debrisTextColor,
+					waitingTextPos, graphics);
 		}
 	}
 
@@ -1197,6 +1186,7 @@ public class MultiplayerWindow extends BasicGameState {
 		if (currentGame.isCollision()) {
 			// If the game is ending
 			if (currentGame.isEnding()) {
+				this.currentGame.endingRoutine();
 				// Draw the two collided planes rotated a bit so it looks like a
 				// crash
 				for (Plane plane : currentGame.getCollidedPlanes()) {
@@ -1288,7 +1278,9 @@ public class MultiplayerWindow extends BasicGameState {
 			if (button == 0) {
 				Plane clickedPlane = selectFlight(x, y);
 				System.out.println(clickedPlane);
-				if (clickedPlane != null && clickedPlane.ownedByCurrentPlayer) {
+				if (clickedPlane != null && clickedPlane.ownedByCurrentPlayer
+						&& !clickedPlane.getNeedsToTakeOff()
+						&& !clickedPlane.isTakingOff()) {
 					// If there is no plane where the user click, deselect the
 					// current plane
 					if (currentGame.getCurrentPlane() != null) {
