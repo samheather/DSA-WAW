@@ -417,28 +417,29 @@ public abstract class Game {
 					|| (plane2.ownedByCurrentPlayer == false)) {
 				continue;
 			}
-
-			// Calculates the distance between 2 planes
-			distIJSqr = Math.pow(plane2.getX() - plane1.getX(), 2)
-					+ Math.pow(plane2.getY() - plane1.getY(), 2);
-
-			// Calculates if two planes have collided
-			if (distIJSqr < Math.pow(separationDistance, 2)) {
-				result[0] = true;
-				return result;
-			}
-			// Calculates if two planes are in penalty distance
-			else if (distIJSqr < Math.pow(penaltyDistance, 2)) {
-				plane2.setAlertStatus(true);
-				risk = true;
-
-				// Applying score penalties for violating the penalty distance
-				if (penalty) {
-					if (plane2.ownedByCurrentPlayer)
-						getScore().planeCollisionWarningMultAndScorePenalties();
-
-					penalty = false;
-					plane2.setViolationOccurred();
+			if ((!plane1.getNeedsToTakeOff()) && (!plane2.getNeedsToTakeOff())){
+				// Calculates the distance between 2 planes
+				distIJSqr = Math.pow(plane2.getX() - plane1.getX(), 2)
+						+ Math.pow(plane2.getY() - plane1.getY(), 2);
+	
+				// Calculates if two planes have collided
+				if (distIJSqr < Math.pow(separationDistance, 2)) {
+					result[0] = true;
+					return result;
+				}
+				// Calculates if two planes are in penalty distance
+				else if (distIJSqr < Math.pow(penaltyDistance, 2)) {
+					plane2.setAlertStatus(true);
+					risk = true;
+	
+					// Applying score penalties for violating the penalty distance
+					if (penalty) {
+						if (plane2.ownedByCurrentPlayer)
+							getScore().planeCollisionWarningMultAndScorePenalties();
+	
+						penalty = false;
+						plane2.setViolationOccurred();
+					}
 				}
 			}
 		}
@@ -824,6 +825,10 @@ public abstract class Game {
 	 */
 	public int getPlaneCount() {
 		return planeCount;
+	}
+	
+	public int getDistFromLeftEdge(){
+		return distFromLeftEdge;
 	}
 
 	// All general Mutators
