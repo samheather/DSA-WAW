@@ -249,7 +249,7 @@ public abstract class Game {
 		newPlane.setBearing(newPlane.getTargetBearing());
 	}
 
-	protected abstract Plane constructPlane(int id, double velocity,
+	public abstract Plane constructPlane(int id, double velocity,
 			int altitude, double bearing, long uniqueNetworkObjectId);
 
 	/**
