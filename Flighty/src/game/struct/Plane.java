@@ -242,9 +242,9 @@ public abstract class Plane {
 		setBearing(getBearing() - 1);
 		setTargetBearing(getBearing());
 		
-		if (bearing <= 0) {
-			setBearing(360);
-			setTargetBearing(360);
+		if (bearing < 0) {
+			setBearing(359);
+			setTargetBearing(359);
 		}
 		// Resets the bearing if it is smaller than 0
 		// markForSyncing();
@@ -370,9 +370,9 @@ public abstract class Plane {
 				setTurningRight(false);
 			}
 		}
-		if (bearing <= 0) {
-			setBearing(360);
-			setTargetBearing(360);
+		if (bearing < 0) {
+			setBearing(359);
+			setTargetBearing(359);
 		}
 		if (bearing >= 360) {
 			setBearing(0);
