@@ -980,7 +980,7 @@ public class GameWindow extends BasicGameState {
 						this.getWindowWidth() / 2 - 30 - 190,
 						this.getWindowHeight() / 2 + 35);
 
-				g.drawString("Press S to turn music on/off",
+				g.drawString("Press M to turn music on/off",
 						this.getWindowWidth() / 2 - 30 - 80,
 						this.getWindowHeight() / 2 + 70);
 
@@ -1250,9 +1250,9 @@ public class GameWindow extends BasicGameState {
 		// Handle the game music
 		// If the user presses "s" or "S", the music either pauses or resumes
 		// looping depending on its state
-		if (((c == 's') || (c == 'S')) && (gameMusic.playing())) {
+		if (((c == 'm') || (c == 'M')) && (gameMusic.playing())) {
 			gameMusic.pause();
-		} else if (((c == 's') || (c == 'S')) && (!gameMusic.playing())) {
+		} else if (((c == 'm') || (c == 'M')) && (!gameMusic.playing())) {
 			gameMusic.loop();
 		}
 	}
