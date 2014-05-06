@@ -1010,8 +1010,8 @@ public class GameWindow extends BasicGameState {
 
 				// Draw the game over text
 
-				endFont.drawString(300, 200, "That didn't end well");
-				endFont.drawString(400, 260, "Score: " + this.endScore);
+				endFont.drawString(300, 200, "That did not  end well");
+				endFont.drawString(400, 260, "Score " + this.endScore);
 
 				int textHeight = this.font.getHeight();
 
@@ -1059,11 +1059,11 @@ public class GameWindow extends BasicGameState {
 					textBox.setText("");
 					isTextBoxIni = true;
 					WindowManager.leaderBoard.isConnected();
-					lowScore = saveFile.getLowestScore();
 				}
 
 				// creates a text box to enter your name:
 				if (LeaderBoard.connected) {
+					lowScore = saveFile.getLowestScore();
 					if (lowScore < currentGame.getScore().getScore()) {
 						endFont.drawString(300, 300,
 								"Enter your name to the leaderboard");
@@ -1076,17 +1076,12 @@ public class GameWindow extends BasicGameState {
 							textBox.setText("");
 							game.enterState(WindowManager.MAIN_MENU_STATE);
 
-						} else {
-							if (Keyboard.getEventKey() == Keyboard.KEY_RETURN) {
+						} else if (Keyboard.getEventKey() == Keyboard.KEY_RETURN) {
 								game.enterState(WindowManager.MAIN_MENU_STATE);
 							}
-						}
 					}
 
-				} else {
-					new TrueTypeFont(this.fontPrimitive.deriveFont(25f), true)
-							.drawString(305f, 300f, "No internet connection");
-				}
+				} else { endFont.drawString(300, 325, "No internet connection");}
 			}// if the planes collided but the ending has not yet been set
 			else {
 				// Stop the timer
