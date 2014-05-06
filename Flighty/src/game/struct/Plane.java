@@ -515,7 +515,7 @@ public abstract class Plane {
 	
 	public void updateFaceDetectionPosition(float xFaceTrackingOffset, float yFaceTrackingOffset, int faceTrackingSize) {
 		setX((float) (getX() - lastFaceTrackingOffsetX + xFaceTrackingOffset));
-		setY((float) (getY() - lastFaceTrackingOffsetY + yFaceTrackingOffset));
+		setY((float) (getY() -(-lastFaceTrackingOffsetY + yFaceTrackingOffset)));
 		setSize((int) (getSize() - lastFaceTrackingSize + faceTrackingSize));
 		lastFaceTrackingOffsetX = xFaceTrackingOffset;
 		lastFaceTrackingOffsetY = yFaceTrackingOffset;
