@@ -11,17 +11,41 @@ import java.util.concurrent.LinkedTransferQueue;
 
 import com.esotericsoftware.kryo.Kryo;
 
+/**
+ * This class represents a connection to a server implementing the Sepr
+ * Server-Client communication protocol
+ */
 public class Protocol implements Closeable {
 
-	private static int INITIAL_CLASS_ID = 102; // randomly picked
+	private static int INITIAL_CLASS_ID = 102; // randomly picked number to
+												// begin class ids from when
+												// serializing
 
+	/**
+	 * The states a connection can be in
+	 */
 	public static enum State {
 		Game, MM, Idle
 	}
 
-	// TODO(jamaal) - supress or fix please.
-	public Protocol(String hostname, int i, List<Class> toRegister) {
+	/**
+	 * Attempt to connect to a server using the Sepr Server-Client communication
+	 * protocol
+	 * 
+	 * @param hostname
+	 *            The hostname of the server
+	 * @param i
+	 *            The port to connect on
+	 * @param toRegister
+	 *            A list of classes that will be registered for serialization.
+	 *            Any object that will be sent using this connection must be
+	 *            registered.
+	 */
+	public Protocol(String hostname, int i,
+			@SuppressWarnings("rawtypes") List<Class> toRegister) {
 		try {
+			// attempt to create a TCP connection to the specified hostname and
+			// port
 			try {
 				socket = new Socket(hostname, i);
 			} catch (Exception e) {
@@ -31,6 +55,7 @@ public class Protocol implements Closeable {
 				return;
 			}
 			try {
+				// attempt to create an outputstream
 				os = socket.getOutputStream();
 			} catch (Exception e) {
 				socket.close();
@@ -41,6 +66,7 @@ public class Protocol implements Closeable {
 				return;
 			}
 			try {
+				// attempt to create an inputstream
 				is = socket.getInputStream();
 			} catch (Exception e) {
 				os.close();
@@ -58,7 +84,7 @@ public class Protocol implements Closeable {
 							+ e.getMessage()));
 			return;
 		}
-
+		// register classes for serialization
 		int classId = INITIAL_CLASS_ID;
 		for (Class c : toRegister) {
 			sendKryo.register(c, classId);
@@ -66,6 +92,7 @@ public class Protocol implements Closeable {
 			classId++;
 		}
 
+		// create and start sending and receiving threads
 		sender = new Thread(this.new Sender());
 		receiver = new Thread(this.new Receiver());
 
@@ -73,9 +100,11 @@ public class Protocol implements Closeable {
 		receiver.start();
 	}
 
+	// serializers: one for the sender thread, one for the receiver
 	private Kryo sendKryo = new Kryo();
 	private Kryo receiveKryo = new Kryo();
 
+	// Buffers to store messages that need to be sent or have been received
 	private ConcurrentLinkedQueue<Message.Receivable> received = new ConcurrentLinkedQueue<Message.Receivable>();
 	private LinkedTransferQueue<Message.Sendable> toSend = new LinkedTransferQueue<Message.Sendable>();
 	private Socket socket;
@@ -83,12 +112,21 @@ public class Protocol implements Closeable {
 	private InputStream is;
 	private Thread sender;
 	private Thread receiver;
+	// whether or not the connection has been deinitialized
 	private boolean closed = false;
 
+	/**
+	 * @return A message from the server, if one is available, otherwise null
+	 */
 	public Message.Receivable getMessage() {
 		return received.poll();
 	}
 
+	/**
+	 * 
+	 * @param m
+	 *            A message to be sent to the server
+	 */
 	public void putMessage(Message.Sendable m) {
 		toSend.offer(m);
 	}
@@ -107,12 +145,19 @@ public class Protocol implements Closeable {
 		finalize();
 	}
 
+	/**
+	 * This inner class represents a thread which will receive data from the tcp
+	 * connection to the server and convert it to message objects
+	 */
 	private class Receiver implements Runnable {
 
 		@Override
 		public void run() {
 			Message.Receivable msg = null;
 			try {
+				// deserialize network data into a message, and push it onto the
+				// queue of received messages
+				// repeat forever
 				for (;;) {
 					msg = Message.receive(is, receiveKryo);
 					if (msg == null)
@@ -129,6 +174,8 @@ public class Protocol implements Closeable {
 						"Internal error in Receiver thread:\n" + e.getMessage()));
 				e.printStackTrace();
 			} finally {
+				// cleanup the connection if it hasnt already been cleaned up by
+				// the sender thread
 				boolean interrupted = sender.isInterrupted();
 				if (!interrupted && sender.isAlive()) {
 					sender.interrupt();
@@ -148,12 +195,20 @@ public class Protocol implements Closeable {
 		}
 	}
 
+	/**
+	 * This inner class represents a thread which will receive message objects
+	 * from the queue, serialise them and send them to the server over the tcp
+	 * connection
+	 */
 	private class Sender implements Runnable {
 
 		@Override
 		public void run() {
 			Message.Sendable msg = null;
 			try {
+				// get a message from the queue of messages, serialize it, and
+				// send it over the network
+				// repeat forever
 				for (;;) {
 					msg = toSend.take();
 					if (msg == null)
@@ -170,6 +225,8 @@ public class Protocol implements Closeable {
 						"Internal error in Sender thread:\n" + e.getMessage()));
 				e.printStackTrace();
 			} finally {
+				// cleanup the connection if it hasnt already been cleaned up by
+				// the receiver thread
 				boolean interrupted = receiver.isInterrupted();
 				if (!interrupted && receiver.isAlive()) {
 					receiver.interrupt();
