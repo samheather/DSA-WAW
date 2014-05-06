@@ -37,6 +37,18 @@ public class SingleplayerGame extends Game {
 	}
 
 	@Override
+	public void update(GameContainer gameContainer, StateBasedGame game)
+			throws IOException {
+		super.update(gameContainer, game);
+		ListIterator<SingleplayerPlane> i = singleplayerPlanes.listIterator();
+		while (i.hasNext()) {
+			SingleplayerPlane p = i.next();
+			if (p.deleted())
+				i.remove();
+		}
+	}
+
+	@Override
 	protected Airport createAirport() {
 		return new Airport(720, 460, 1180, -320, 230);
 	}
@@ -92,18 +104,6 @@ public class SingleplayerGame extends Game {
 			plane.markForDeletion();
 		}
 
-	}
-
-	@Override
-	public void update(GameContainer gameContainer, StateBasedGame game)
-			throws IOException {
-		super.update(gameContainer, game);
-		ListIterator<SingleplayerPlane> i = singleplayerPlanes.listIterator();
-		while (i.hasNext()) {
-			SingleplayerPlane p = i.next();
-			if (p.deleted())
-				i.remove();
-		}
 	}
 
 	@Override
