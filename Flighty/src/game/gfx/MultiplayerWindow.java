@@ -36,7 +36,7 @@ public class MultiplayerWindow extends BasicGameState {
 	private static final int TAKE_OFF_PENALTY_TIME = 3000;
 
 	/** Time to display the waypoints bonus points */
-	private static final int WAYPOINTS_DISPLAY_TIME = 200;
+	private static final int WAYPOINTS_DISPLAY_TIME = 500;
 
 	/** How fast should the planes in need of landing blink **/
 	private static final int BLINK_FREQUENCY = 1000;
@@ -962,24 +962,23 @@ public class MultiplayerWindow extends BasicGameState {
 						display = true;
 					}
 					// Renders the bonus points
-					if (display && synch > 0) {
+					if (display && synch > 0 && plane.ownedByCurrentPlayer) {
 						// If it's a special waypoint, render how many
 						// points
 						// were won
 						if (morePoints) {
-							if (plane.ownedByCurrentPlayer) {
-								graphics.drawString(
-										"+"
-												+ Integer
-														.toString(getCurrentGame()
-																.getScore()
-																.getMultiplier() * 10),
-										(float) (game.getContainer().getWidth() - (prevX
-												+ sidebarWidth - 8)),
-										(float) (game.getContainer()
-												.getHeight() - prevY - 30));
-								morePoints = synch <= 1 ? false : true;
-							}
+							graphics.drawString(
+									"+"
+											+ Integer
+													.toString(getCurrentGame()
+															.getScore()
+															.getMultiplier() * 10),
+									(float) (game.getContainer().getWidth() - (prevX
+											+ sidebarWidth - 8)),
+									(float) (game.getContainer().getHeight()
+											- prevY - 30));
+							morePoints = synch <= 1 ? false : true;
+
 						}
 						// Beginning of runway provides no extra points
 						else if (plane
@@ -993,15 +992,14 @@ public class MultiplayerWindow extends BasicGameState {
 						// If it's not a special waypoint, render how many
 						// points were won
 						else {
-							if (plane.ownedByCurrentPlayer) {
-								graphics.drawString(
-										"+"
-												+ Integer
-														.toString(getCurrentGame()
-																.getScore()
-																.getMultiplier() * 5),
-										(float) prevX - 8, (float) prevY - 30);
-							}
+							graphics.drawString(
+									"+"
+											+ Integer
+													.toString(getCurrentGame()
+															.getScore()
+															.getMultiplier() * 5),
+									(float) prevX - 8, (float) prevY - 30);
+
 						}
 
 						synch--;

@@ -18,17 +18,22 @@ import game.gfx.WindowManager;
 
 public class SaveFile {
 
+	/** Score needed to unlock level 2*/
 	private int level2UnlockScore = 200;
 
+	/** Score needed to unlock level 3*/
 	private int level3UnlockScore = 300;
 
+	/** Stores if level 2 is unlocked*/
 	private boolean level2Unlocked = false;
 
+	/** Stores if level 3 is unlocked*/
 	private boolean level3Unlocked = false;
 
+	/** Name of file to store the stats in*/
 	private String statsFileName = "stats.txt";
 
-	// Gets leaderboard reading from our PHP page in JSON format.
+	/** Gets leaderboard reading from our PHP page in JSON format. */
 	public String getLeaderboardScores() {
 		try {
 			URL url = new URL("http://atcga.me/Leaderboard.php");
@@ -48,7 +53,7 @@ public class SaveFile {
 		return null;
 	}
 
-	// Decodes JSON and updates leaderboard
+	/** Decodes JSON and updates leaderboard */
 	public void decodeLeaderboardScores(String s) {
 		String[] scores = s.split("}");
 		JSONParser parser = new JSONParser();
@@ -72,7 +77,7 @@ public class SaveFile {
 
 	}
 
-	// Adds score to our online leaderboard
+	/** Adds score to our online leaderboard */
 	public String addLeaderboardScore(String name, int score) {
 		try {
 			URL url = new URL("http://atcga.me/Leaderboard.php?name=" + name
@@ -94,6 +99,10 @@ public class SaveFile {
 		return null;
 	}
 
+	/**
+	 * Gets lowest score in leaderboard
+	 * @return Long of the lowest score in the top 5 leaderboard
+	 */
 	public Long getLowestScore() {
 		String s = getLeaderboardScores();
 		String[] scores = s.split("}");
@@ -109,6 +118,9 @@ public class SaveFile {
 		}
 	}
 
+	/**
+	 * Read information about level unlocks from file
+	 */
 	public void readStats() {
 		try {
 			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
@@ -121,6 +133,7 @@ public class SaveFile {
 		}
 	}
 
+	/** Saves level unlocks to file */
 	public void saveStats() {
 		try {
 			// create a new file with an ObjectOutputStream
@@ -164,7 +177,7 @@ public class SaveFile {
 		level3Unlocked = unlocked;
 	}
 
-	// Initialise stats in game
+	/** Initialise stats in game */
 	public SaveFile() {
 		File statsCheckFile = new File(statsFileName);
 		// If game run before and stats exist:
