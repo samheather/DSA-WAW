@@ -173,7 +173,7 @@ public class WindowManager extends StateBasedGame {
 		mw = new MultiplayerWindow();
 		this.addState(mw);
 	}
-	
+
 	public MultiplayerWindow mw;
 
 	/**

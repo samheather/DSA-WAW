@@ -2,8 +2,6 @@ package game.struct;
 
 public class Score {
 
-
-
 	/** Variable which holds current score */
 	private int score;
 
@@ -11,8 +9,6 @@ public class Score {
 	private int multiplier;
 
 	private int credits;
-
-
 
 	/**
 	 * <p>
@@ -28,11 +24,11 @@ public class Score {
 		this.multiplier = 1;
 	}
 
-
 	/**
 	 * Adds credits as a function of score
+	 * 
 	 * @param value
-	 * the number of credits to add
+	 *            the number of credits to add
 	 */
 	public void addCredits(int value) {
 		credits += Math.floor(value / 2);
@@ -137,10 +133,12 @@ public class Score {
 			}
 		}
 	}
-/**
- * get credsits
- * @return
- */
+
+	/**
+	 * get credsits
+	 * 
+	 * @return
+	 */
 	public int getCredits() {
 		return this.credits;
 	}
@@ -155,6 +153,7 @@ public class Score {
 
 	/**
 	 * Add credits
+	 * 
 	 * @param delta
 	 */
 	public void updateCredits(int delta) {

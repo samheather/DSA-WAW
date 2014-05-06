@@ -5,16 +5,28 @@ package game.struct;
  */
 public abstract class Plane {
 
-	/** The high angle of the green cone that indicates valid space to give the order to land in a multiplayer game. */
+	/**
+	 * The high angle of the green cone that indicates valid space to give the
+	 * order to land in a multiplayer game.
+	 */
 	protected int takeoffAngleHighMulti = 345;
-	
-	/** The low angle of the green cone that indicates valid space to give the order to land in a multiplayer game. */
+
+	/**
+	 * The low angle of the green cone that indicates valid space to give the
+	 * order to land in a multiplayer game.
+	 */
 	protected int takeoffAngleLowMulti = 15;
-	
-	/** The high angle of the green cone that indicates valid space to give the order to land in a singleplayer game. */
+
+	/**
+	 * The high angle of the green cone that indicates valid space to give the
+	 * order to land in a singleplayer game.
+	 */
 	protected int takeoffAngleHighSingle = 225;
-	
-	/** The low angle of the green cone that indicates valid space to give the order to land in a singleplayer game. */
+
+	/**
+	 * The low angle of the green cone that indicates valid space to give the
+	 * order to land in a singleplayer game.
+	 */
 	protected int takeoffAngleLowSingle = 135;
 
 	/** Is this plane under manual control? */
@@ -26,7 +38,10 @@ public abstract class Plane {
 	/** Unique identifier */
 	private int id;
 
-	/** A unique ID for the plane that is the same across all clients in a networked game. */
+	/**
+	 * A unique ID for the plane that is the same across all clients in a
+	 * networked game.
+	 */
 	private final long uniqueNetworkObjectID;
 
 	/** Size to display plane */
@@ -490,7 +505,7 @@ public abstract class Plane {
 	}
 
 	// Accessors and Mutators
-	
+
 	/**
 	 * @return the size the plane displays at
 	 */
@@ -558,14 +573,14 @@ public abstract class Plane {
 	public void clearFlightPlan() {
 		this.flightPlan = null;
 	}
-	
+
 	/**
 	 * @return the Plane's unique ID
 	 */
 	public int getID() {
 		return this.id;
 	}
-	
+
 	/**
 	 * @return the violationOccurred boolean
 	 */
@@ -714,6 +729,7 @@ public abstract class Plane {
 
 	/**
 	 * Returns a boolean indicating if a plane is turning left.
+	 * 
 	 * @return
 	 */
 	public boolean isTurningLeft() {
@@ -722,20 +738,23 @@ public abstract class Plane {
 
 	/**
 	 * Sets a plane as turning left.
+	 * 
 	 * @param turningLeft
 	 */
 	public void setTurningLeft(boolean turningLeft) {
 		this.turningLeft = turningLeft;
 	}
-	
+
 	/**
 	 * Returns if this plane is now allowed to land.
+	 * 
 	 * @return
 	 */
 	public abstract boolean allowedToLand();
 
 	/**
 	 * Returns boolean indicating if a plane is landing.
+	 * 
 	 * @return
 	 */
 	public boolean isLanding() {
@@ -744,6 +763,7 @@ public abstract class Plane {
 
 	/**
 	 * Sets a plane as landing
+	 * 
 	 * @param bool
 	 */
 	public void setLanding(boolean bool) {
@@ -752,6 +772,7 @@ public abstract class Plane {
 
 	/**
 	 * Sets a plane as taking off.
+	 * 
 	 * @return
 	 */
 	public boolean isTakingOff() {
@@ -760,6 +781,7 @@ public abstract class Plane {
 
 	/**
 	 * Sets a planes taking off state to the input parameter takingOff
+	 * 
 	 * @param takingOff
 	 */
 	public void setTakingOff(boolean takingOff) {
@@ -768,6 +790,7 @@ public abstract class Plane {
 
 	/**
 	 * Returns a boolean indicating if a plane needs to take off.
+	 * 
 	 * @return
 	 */
 	public boolean getNeedsToTakeOff() {
@@ -775,7 +798,9 @@ public abstract class Plane {
 	}
 
 	/**
-	 * Sets a planes needsToTakeOff parameter to the input parameter needsToTakeOff
+	 * Sets a planes needsToTakeOff parameter to the input parameter
+	 * needsToTakeOff
+	 * 
 	 * @param needsToTakeOff
 	 */
 	public void setNeedsToTakeOff(boolean needsToTakeOff) {
@@ -784,6 +809,7 @@ public abstract class Plane {
 
 	/**
 	 * Returns a double representing the landing descent rate.
+	 * 
 	 * @return
 	 */
 	public double getLandingDescentRate() {
@@ -791,7 +817,9 @@ public abstract class Plane {
 	}
 
 	/**
-	 * Sets the landing descent rate of this plane to the input parameter double landingDescentRate.
+	 * Sets the landing descent rate of this plane to the input parameter double
+	 * landingDescentRate.
+	 * 
 	 * @param landingDescentRate
 	 */
 	public void setLandingDescentRate(double landingDescentRate) {
@@ -799,7 +827,9 @@ public abstract class Plane {
 	}
 
 	/**
-	 * Returns getTakeoffValueHighMulti - angle for drawing green cone for airport.
+	 * Returns getTakeoffValueHighMulti - angle for drawing green cone for
+	 * airport.
+	 * 
 	 * @return
 	 */
 	public int getTakeoffValueHighMulti() {
@@ -808,6 +838,7 @@ public abstract class Plane {
 
 	/**
 	 * Returns takeoffAngleLowMulti - angle for drawing green cone for airport.
+	 * 
 	 * @return
 	 */
 	public int getTakeoffValueLowMulti() {
@@ -815,7 +846,9 @@ public abstract class Plane {
 	}
 
 	/**
-	 * Returns takeoffAngleHighSingle - angle for drawing green cone for airport.
+	 * Returns takeoffAngleHighSingle - angle for drawing green cone for
+	 * airport.
+	 * 
 	 * @return
 	 */
 	public int getTakeoffValueHighSingle() {
@@ -824,6 +857,7 @@ public abstract class Plane {
 
 	/**
 	 * Returns takeoffAngleLowSingle - angle for drawing green cone for airport.
+	 * 
 	 * @return
 	 */
 	public int getTakeoffValueLowSingle() {
@@ -832,6 +866,7 @@ public abstract class Plane {
 
 	/**
 	 * Returns boolean indicating if this plane is owned by the current player.
+	 * 
 	 * @return
 	 */
 	public boolean getOwnedByCurrentPlayer() {
@@ -839,13 +874,15 @@ public abstract class Plane {
 	}
 
 	/**
-	 * Sets this plane's boolean indicator as to whether it is owned by the current player to the input parameter Owns.
+	 * Sets this plane's boolean indicator as to whether it is owned by the
+	 * current player to the input parameter Owns.
+	 * 
 	 * @param Owns
 	 */
 	public void setOwnedByCurrentPlayer(boolean Owns) {
 		this.ownedByCurrentPlayer = Owns;
 	}
-	
+
 	/**
 	 * Sets this plane's manual parameter to true - sets plane to manual.
 	 */
@@ -866,7 +903,9 @@ public abstract class Plane {
 	}
 
 	/**
-	 * Returns boolean indicating if this plane is in manual control (autopilot is disabled).
+	 * Returns boolean indicating if this plane is in manual control (autopilot
+	 * is disabled).
+	 * 
 	 * @return
 	 */
 	public boolean isManual() {
@@ -883,7 +922,8 @@ public abstract class Plane {
 	}
 
 	/**
-	 * Reset's the need to sync state - plane has been synced and no longer needs to be.
+	 * Reset's the need to sync state - plane has been synced and no longer
+	 * needs to be.
 	 */
 	public void resetSyncState() {
 		this.needsSyncing = false;
@@ -891,14 +931,16 @@ public abstract class Plane {
 
 	/**
 	 * Returns boolean indicating if the plane needs to be synced.
+	 * 
 	 * @return
 	 */
 	public boolean needsSyncing() {
 		return this.needsSyncing;
 	}
-	
+
 	/**
 	 * Returns boolean indicating if the plane has been deleted.
+	 * 
 	 * @return
 	 */
 	public boolean deleted() {

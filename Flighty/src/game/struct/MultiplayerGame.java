@@ -26,12 +26,12 @@ public class MultiplayerGame extends Game {
 	}
 
 	int state = 0;
-	
+
 	public void init() {
 		protocol.putMessage(new Message.ClientServer.BeginMM());
 		WindowManager.opponentFound = false;
 	}
-	
+
 	public void deinit() {
 		protocol.putMessage(new Message.ClientServer.CancelMM());
 		protocol.putMessage(new Message.ClientServer.RequestQuit());

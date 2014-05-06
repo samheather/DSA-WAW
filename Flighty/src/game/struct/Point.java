@@ -2,22 +2,24 @@ package game.struct;
 
 /**
  * Class references any generic point.
+ * 
  * @author Samuel
- *
+ * 
  */
 public class Point {
 
 	/** X position of point */
 	protected double x = 0.0;
-	
+
 	/** Y position of point */
 	protected double y = 0.0;
-	
+
 	/** String reference to the point */
 	protected String pointRef = "";
 
 	/**
 	 * Point Constructor taking two doubles for X then Y coordinates.
+	 * 
 	 * @param xcoord
 	 * @param ycoord
 	 */
@@ -26,7 +28,7 @@ public class Point {
 		y = ycoord;
 	}
 
-	/** Empty constructor*/
+	/** Empty constructor */
 	public Point() {
 
 	}
@@ -35,6 +37,7 @@ public class Point {
 
 	/**
 	 * Returns X position of point
+	 * 
 	 * @return
 	 */
 	public double getX() {
@@ -43,6 +46,7 @@ public class Point {
 
 	/**
 	 * Returns Y position of point
+	 * 
 	 * @return
 	 */
 	public double getY() {
@@ -51,6 +55,7 @@ public class Point {
 
 	/**
 	 * Sets X position of point.
+	 * 
 	 * @param newX
 	 */
 	public void setX(double newX) {
@@ -59,6 +64,7 @@ public class Point {
 
 	/**
 	 * Sets Y position of point.
+	 * 
 	 * @param newY
 	 */
 	public void setY(double newY) {
@@ -67,6 +73,7 @@ public class Point {
 
 	/**
 	 * Get position reference
+	 * 
 	 * @return
 	 */
 	public String getPointRef() {
@@ -75,6 +82,7 @@ public class Point {
 
 	/**
 	 * Sets position ref to input String
+	 * 
 	 * @param pointRef
 	 */
 	public void setPointRef(String pointRef) {
