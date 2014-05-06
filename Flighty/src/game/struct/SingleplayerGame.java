@@ -11,11 +11,6 @@ import java.util.ListIterator;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
-<<<<<<< HEAD
-
-public class SingleplayerGame extends Game {
-=======
->>>>>>> origin/MacVision
 
 public class SingleplayerGame extends Game {
 
@@ -48,8 +43,6 @@ public class SingleplayerGame extends Game {
 		System.out.println("singlep game constructed");
 		this.getScore().setMultiplier(multiplier);
 	}
-<<<<<<< HEAD
-=======
 	
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame game) throws IOException {
@@ -67,21 +60,15 @@ public class SingleplayerGame extends Game {
  						(int)(faceLocator.getImmediateDistance(true)*faceTrackingZoomScaleFactor));
  			}
 		}
-	}
-	
-	@Override
-	public void removePlane(Plane toDelete) {
-		if(isEnding())
-			return;
-		for (ListIterator<SingleplayerPlane> iter = singleplayerPlanes
-				.listIterator(singleplayerPlanes.size()); iter.hasPrevious();) {
-			if (toDelete.equals(iter.previous())) {
-				iter.remove();
-				return;
-			}
+		
+		ListIterator<SingleplayerPlane> i = singleplayerPlanes
+				.listIterator();
+		while (i.hasNext()) {
+			SingleplayerPlane p = i.next();
+			if (p.deleted())
+				i.remove();
 		}
 	}
->>>>>>> origin/MacVision
 
 	@Override
 	protected Airport createAirport() {
@@ -140,19 +127,6 @@ public class SingleplayerGame extends Game {
 			plane.markForDeletion();
 		}
 		
-	}
-	
-	@Override
-	public void update(GameContainer gameContainer, StateBasedGame game)
-			throws IOException {
-		super.update(gameContainer, game);
-		ListIterator<SingleplayerPlane> i = singleplayerPlanes
-				.listIterator();
-		while (i.hasNext()) {
-			SingleplayerPlane p = i.next();
-			if (p.deleted())
-				i.remove();
-		}
 	}
 
 	@Override
