@@ -53,5 +53,21 @@ public class MultiplayerTests {
 		game.getScore().planeLeftAirspaceOrWaitingToTakeOffMinusScore();
 		assertEquals(10, game.getScore().getScore());
 	}
+	
+	@Test
+	public void landPlaneTest() {
+		plane1.setX(game.getAirport().getBeginningOfRunwayX() + 20);
+		plane1.setY(game.getAirport().getRunwayY());
+		plane1.setAltitude(2000);
+		plane1.setBearing(350);
+		plane1.land();
+		assertTrue(game.getAirport().isPlaneLanding());
+		assertFalse(plane1.getNeedsToLand());
+		assertTrue(plane1.isLanding());
+		assertEquals(plane1.getTarget(), plane1.getFlightPlan()
+				.getCurrentRoute().get(0));
+		assertEquals(null, game.getCurrentPlane());
+
+	}
 
 }
