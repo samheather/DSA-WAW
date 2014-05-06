@@ -633,10 +633,7 @@ public abstract class Game {
 						if (plane.getFlightPlan().getCurrentRoute().get(0)
 								.equals(airport.getBeginningOfRunway())
 								&& plane.getFlightPlan().getCurrentRoute()
-										.size() == 2) {
-							// Planes that need to be landed are controlled
-							// manually
-							plane.setManual();
+										.size() == 2) {							
 
 							// Signals that plane needs to land
 							plane.setNeedsToLand(true);
