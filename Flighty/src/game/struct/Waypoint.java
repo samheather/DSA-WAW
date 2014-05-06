@@ -8,13 +8,16 @@ package game.struct;
  */
 public class Waypoint extends Point {
 
+	/**
+	 * This constructor is required for serialization, it should not be called
+	 */
 	public Waypoint() {
 
 	}
 
-	protected double x;
-	protected double y;
-	protected boolean visible;
+	protected double x; // x position
+	protected double y; // y position
+	protected boolean visible; // is the waypoint visible by the player
 
 	/**
 	 * Default constructor for Waypoint
