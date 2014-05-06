@@ -109,7 +109,6 @@ public class LevelSelect extends GenericWindow {
 		Color mainMenuColor = Color.orange;
 
 		// size of images on screen
-
 		int[] levelImageSize = { 200, 200 };
 
 		// position of images on the screen in pixels
@@ -126,7 +125,7 @@ public class LevelSelect extends GenericWindow {
 		image2Pos = level2ImagePos;
 		image3Pos = level3ImagePos;
 
-		// Set the images for the levels
+		// Declare and initialise the images for the levels
 		Image level1ImageCurrent = level1Image;
 		Image level2ImageCurrent = level2Image;
 		Image level3ImageCurrent = level1Image;
@@ -136,18 +135,18 @@ public class LevelSelect extends GenericWindow {
 		int tolerance = 3;
 
 		// Draw main title
-		this.drawShadowedText(titleFont, titlePos[0], titlePos[1],
-				titleText, titleColor);
+		this.drawShadowedText(titleFont, titlePos[0], titlePos[1], titleText,
+				titleColor);
 
 		// Level 1 Text
-		this.drawShadowedText(font, level1ImagePos[0]
-				+ (levelImageSize[0] / 2) - (level1Width / 2),
-				level1ImagePos[1] - 50, level1Text, level1Color);
+		this.drawShadowedText(font, level1ImagePos[0] + (levelImageSize[0] / 2)
+				- (level1Width / 2), level1ImagePos[1] - 50, level1Text,
+				level1Color);
 
 		// Level 1 difficulty text
-		this.drawShadowedText(font, level1ImagePos[0]
-				+ (levelImageSize[0] / 2) - (difficulty1Width / 2),
-				level1ImagePos[1] + 230, difficulty1, level1Color);
+		this.drawShadowedText(font, level1ImagePos[0] + (levelImageSize[0] / 2)
+				- (difficulty1Width / 2), level1ImagePos[1] + 230, difficulty1,
+				level1Color);
 
 		// Level 1 Image
 		if ((x >= (level1ImagePos[0] - tolerance))
@@ -167,17 +166,18 @@ public class LevelSelect extends GenericWindow {
 			level1ImageCurrent = level1Image;
 		}
 
+		// Draw level one image
 		level1ImageCurrent.draw(level1ImagePos[0], level1ImagePos[1], 200, 200);
 
 		// Level 2 Text
-		this.drawShadowedText(font, level2ImagePos[0]
-				+ (levelImageSize[0] / 2) - (level2Width / 2),
-				level2ImagePos[1] - 50, level2Text, level2Color);
+		this.drawShadowedText(font, level2ImagePos[0] + (levelImageSize[0] / 2)
+				- (level2Width / 2), level2ImagePos[1] - 50, level2Text,
+				level2Color);
 
 		// Level 2 difficulty text
-		this.drawShadowedText(font, level2ImagePos[0]
-				+ (levelImageSize[0] / 2) - (difficulty2Width / 2),
-				level2ImagePos[1] + 230, difficulty2, level2Color);
+		this.drawShadowedText(font, level2ImagePos[0] + (levelImageSize[0] / 2)
+				- (difficulty2Width / 2), level2ImagePos[1] + 230, difficulty2,
+				level2Color);
 
 		// Level 2 Image
 		if (unlock2 && (x >= (level2ImagePos[0] - tolerance))
@@ -205,14 +205,14 @@ public class LevelSelect extends GenericWindow {
 		}
 
 		// Level 3 Text
-		this.drawShadowedText(font, level3ImagePos[0]
-				+ (levelImageSize[0] / 2) - (level3Width / 2),
-				level3ImagePos[1] - 50, level3Text, level3Color);
+		this.drawShadowedText(font, level3ImagePos[0] + (levelImageSize[0] / 2)
+				- (level3Width / 2), level3ImagePos[1] - 50, level3Text,
+				level3Color);
 
 		// Level 3 difficulty text
-		this.drawShadowedText(font, level3ImagePos[0]
-				+ (levelImageSize[0] / 2) - (difficulty3Width / 2),
-				level3ImagePos[1] + 230, difficulty3, level3Color);
+		this.drawShadowedText(font, level3ImagePos[0] + (levelImageSize[0] / 2)
+				- (difficulty3Width / 2), level3ImagePos[1] + 230, difficulty3,
+				level3Color);
 
 		// Level 3 Image
 		if (unlock3 && (x >= (level3ImagePos[0] - tolerance))
@@ -257,8 +257,8 @@ public class LevelSelect extends GenericWindow {
 		}
 
 		// Draw the text
-		drawShadowedText(font, mainMenuTextPos[0],
-				mainMenuTextPos[1], mainMenuText, mainMenuColor);
+		drawShadowedText(font, mainMenuTextPos[0], mainMenuTextPos[1],
+				mainMenuText, mainMenuColor);
 
 		// Draw the arrow icons next to main menu text
 		arrowIconShaded.draw(mainMenuTextPos[0] + mainMenuWidth + 20,
@@ -267,7 +267,6 @@ public class LevelSelect extends GenericWindow {
 				mainMenuTextPos[1] - 2);
 	}
 
-	// Overrides
 	/**
 	 * Initialises the state
 	 * 
@@ -281,6 +280,9 @@ public class LevelSelect extends GenericWindow {
 			throws SlickException {
 		super.init(gameContainer, game);
 
+		// Generally, draw background, then for each level draw the level icon
+		// and if necessary draw the padlock on top.
+
 		InputStream backgroundStream = this.getClass().getResourceAsStream(
 				"/resources/backgrounds/CloudBackground.png");
 
@@ -293,7 +295,7 @@ public class LevelSelect extends GenericWindow {
 				"/resources/maps/Map2Small.png");
 		InputStream level2HoverStream = this.getClass().getResourceAsStream(
 				"/resources/maps/Map2SmallHover.png");
-		
+
 		InputStream level3Stream = this.getClass().getResourceAsStream(
 				"/resources/maps/Map3Small.png");
 		InputStream level3HoverStream = this.getClass().getResourceAsStream(
@@ -317,7 +319,7 @@ public class LevelSelect extends GenericWindow {
 		this.level2Image = new Image(level2Stream, "Level 2 Small", false);
 		this.level2ImageHover = new Image(level2HoverStream,
 				"Level 2 Small Hover", false).getScaledCopy(5, 3);
-		
+
 		this.level3Image = new Image(level3Stream, "Level 3 Small", false);
 		this.level3ImageHover = new Image(level3HoverStream,
 				"Level 3 Small Hover", false).getScaledCopy(5, 3);
@@ -327,12 +329,6 @@ public class LevelSelect extends GenericWindow {
 		this.arrowIcon = new Image(arrowStream, "Arrow Image", false);
 		this.arrowIconShaded = new Image(arrowShadedStream,
 				"Arrow Shaded Image", false);
-
-		/*
-		 * SaveFile sf = new SaveFile(); this.unlock2 = sf.getLevel2Unlock();
-		 * this.unlock3 = sf.getLevel3Unlock(); System.out.println("Unlock2");
-		 * System.out.println(this.unlock2);
-		 */
 	}
 
 	/**
@@ -375,15 +371,15 @@ public class LevelSelect extends GenericWindow {
 
 		graphics.setColor(Color.black);
 		if (image1Pos != null && image2Pos != null && image3Pos != null) {
-			graphics.fillRect(image1Pos[0] - 4, image1Pos[1] - 4, 
+			graphics.fillRect(image1Pos[0] - 4, image1Pos[1] - 4,
 					getLevel1Image().getWidth() + 8, this.getLevel1Image()
-					.getHeight() + 8);
-			graphics.fillRect(image2Pos[0] - 4, image2Pos[1] - 4, 
+							.getHeight() + 8);
+			graphics.fillRect(image2Pos[0] - 4, image2Pos[1] - 4,
 					getLevel2Image().getWidth() + 8, this.getLevel2Image()
-					.getHeight() + 8);
-			graphics.fillRect(image3Pos[0] - 4, image3Pos[1] - 4, 
+							.getHeight() + 8);
+			graphics.fillRect(image3Pos[0] - 4, image3Pos[1] - 4,
 					getLevel3Image().getWidth() + 8, this.getLevel3Image()
-					.getHeight() + 8);
+							.getHeight() + 8);
 		}
 
 		// Draw other text and images
@@ -398,7 +394,7 @@ public class LevelSelect extends GenericWindow {
 		return WindowManager.LEVEL_SELECT_STATE;
 	}
 
-	// Accessors
+	// All general Accessors
 	/**
 	 * @return The background image
 	 */
@@ -462,7 +458,7 @@ public class LevelSelect extends GenericWindow {
 		return this.arrowIconShaded;
 	}
 
-	// Mutators
+	// All general Mutators
 	/**
 	 * @param backgroundImage
 	 *            the new background image

@@ -51,7 +51,6 @@ public abstract class GenericWindow extends BasicGameState {
 		font.drawString(x, y, text, color);
 	}
 
-	// Overrides
 	/**
 	 * Initialises the state
 	 * 
@@ -137,6 +136,8 @@ public abstract class GenericWindow extends BasicGameState {
 		double skyProgress = ((WindowManager) game).getSkyProgress();
 		double planeProgress = ((WindowManager) game).getPlaneProgress();
 
+		// Animate the background sky and plane that flies across on menu
+		// windows
 		if (skyProgress >= gameContainer.getWidth()) {
 			((WindowManager) game).setSkyProgress(0);
 		} else {
@@ -158,7 +159,7 @@ public abstract class GenericWindow extends BasicGameState {
 		return 0;
 	}
 
-	// Accessors
+	// All general Accessors
 	/**
 	 * @return the base font
 	 */
@@ -180,7 +181,7 @@ public abstract class GenericWindow extends BasicGameState {
 		return this.titleFont;
 	}
 
-	// Mutators
+	// All general Mutators
 	/**
 	 * @param fontPrimitive
 	 *            the new base font

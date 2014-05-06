@@ -7,12 +7,21 @@ package game.struct;
  * </p>
  */
 public class EntryPoint extends Point {
-	
+
+	/**
+	 * Empty constructor
+	 */
 	public EntryPoint() {
-		
+
 	}
+
+	/** X position of Entry point */
 	protected double x;
+
+	/** Y position of Entry point */
 	protected double y;
+
+	/** Is this entry point visible? */
 	protected boolean visible;
 
 	/**

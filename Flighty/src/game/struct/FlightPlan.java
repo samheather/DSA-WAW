@@ -1,12 +1,14 @@
 package game.struct;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class FlightPlan {
-	
+
+	/** Empty constructor */
 	public FlightPlan() {
-		
+
 	}
 
 	/** Array list which contains waypoints of flight plan */
@@ -18,8 +20,10 @@ public class FlightPlan {
 	/** Entry point i.e. first waypoint of flight plan */
 	private Point entryPoint;
 
-	/** Required by Slick2D */
+	/** Required by Slick2D, reference to the current game. */
 	private transient Game currentGame;
+
+	private Random rand = new Random();
 
 	/**
 	 * Constructor for FlightPlan
@@ -36,6 +40,17 @@ public class FlightPlan {
 		this.currentRoute = buildRoute(currentGame, this.entryPoint);
 	}
 
+	private boolean hasPlaneOnRunway(List<? extends Plane> planes,
+			Game currentGame) {
+		for (Plane plane : planes) {
+			if (plane.getNeedsToTakeOff()) {
+				System.out.println("Returned true");
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Randomly chooses entry point i.e. the first waypoint, of a plane's flight
 	 * plan from list of entry points
@@ -45,11 +60,15 @@ public class FlightPlan {
 	 * @return Entry point
 	 */
 	public Point generateEntryPoint(Game currentGame) {
-
-		Random rand = new Random();
-
-		return currentGame.getListOfEntryPoints().get(
-				rand.nextInt(currentGame.getListOfEntryPoints().size()));
+		int num = rand.nextInt(currentGame.getListOfEntryPoints().size());
+		if (currentGame.getListOfEntryPoints().get(num) == currentGame
+				.getAirport()
+				&& (hasPlaneOnRunway(currentGame.getCurrentPlanes(),
+						currentGame))) {
+			return generateEntryPoint(currentGame);
+		} else {
+			return currentGame.getListOfEntryPoints().get(num);
+		}
 	}
 
 	/**
@@ -137,6 +156,8 @@ public class FlightPlan {
 		return tempRoute;
 	}
 
+	// All general accessors
+
 	/**
 	 * 
 	 * @return Current route for selected plane
@@ -144,6 +165,24 @@ public class FlightPlan {
 	public ArrayList<Point> getCurrentRoute() {
 		return currentRoute;
 	}
+
+	/**
+	 * 
+	 * @return Selected plane
+	 */
+	public Plane getPlane() {
+		return plane;
+	}
+
+	/**
+	 * 
+	 * @return Entry point for selected flight
+	 */
+	public Point getEntryPoint() {
+		return entryPoint;
+	}
+
+	// All general mutators
 
 	/**
 	 * Sets currentRoute
@@ -157,27 +196,11 @@ public class FlightPlan {
 
 	/**
 	 * 
-	 * @return Selected plane
-	 */
-	public Plane getPlane() {
-		return plane;
-	}
-
-	/**
-	 * 
 	 * @param plane
 	 *            Plane to set
 	 */
 	public void setPlane(Plane plane) {
 		this.plane = plane;
-	}
-
-	/**
-	 * 
-	 * @return Entry point for selected flight
-	 */
-	public Point getEntryPoint() {
-		return entryPoint;
 	}
 
 	/**

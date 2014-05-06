@@ -31,7 +31,7 @@ import game.struct.SingleplayerGame;
  * GameWindow class provides an interactive game
  */
 public class GameWindow extends BasicGameState {
-	/** Time between score penalities for not taking off */
+	/** Time between score penalties for not taking off */
 	private static final int TAKE_OFF_PENALTY_TIME = 3000;
 
 	/** Time to display the waypoints bonus points */
@@ -45,11 +45,15 @@ public class GameWindow extends BasicGameState {
 
 	/** The height the game is displayed at */
 	public int windowHeight;
-	
+
+	/**
+	 * Holds the score at the end of your game so a constant value can be
+	 * displayed at the end rather than a value which may continue to change due
+	 * to the spinning planes animation at the end
+	 **/
 	private int endScore;
-	
-	/** Lowest leaderboard score*/
-	
+
+	/** Lowest leaderboard score */
 	private long lowScore;
 
 	/** The time the game has been running for */
@@ -95,12 +99,14 @@ public class GameWindow extends BasicGameState {
 	/** The edited plane image for the selected plane */
 	private Image planeSelectedCur;
 
-	// Introducing Plane Needs Landing Image
+	/** Images shown when a plane has completed flight path and needs to land **/
 	private Image planeNeedsLanding;
 	private Image planeNeedsLandingCur;
 
-	// Introducing landing approach Image, plus a boolean tracking whether it's
-	// been drawn
+	/**
+	 * Images shown when a plane is approaching landing, plus a boolean to
+	 * monitor this.
+	 **/
 	private Image landingApproachArea;
 	private boolean landingApproachAreaDrawn;
 
@@ -112,8 +118,6 @@ public class GameWindow extends BasicGameState {
 
 	/** The Java font used to generate the fonts used */
 	private Font fontPrimitive;
-
-	// private Graphics currentGraphics;
 
 	/** The generic TrueType font */
 	private TrueTypeFont font;
@@ -187,7 +191,6 @@ public class GameWindow extends BasicGameState {
 
 		// Select the plane
 		currentPlane.setManual();
-
 
 		// Calculate new bearing
 		double newBearing = Math.toDegrees(Math.atan2(this.currentGame
@@ -265,9 +268,8 @@ public class GameWindow extends BasicGameState {
 		return null;
 	}
 
-	// Overrides
 	/**
-	 * Initialises the state
+	 * Initialises the state of the game window
 	 * 
 	 * @param gameContainer
 	 *            the game container holding this state
@@ -293,9 +295,9 @@ public class GameWindow extends BasicGameState {
 				"/resources/other/ArrowW.png");
 		InputStream arrowStream = this.getClass().getResourceAsStream(
 				"/resources/other/ArrowR.png");
-		InputStream arrowShadedStream = this.getClass()
-				.getResourceAsStream("resources/other/ArrowB.png");
-		
+		InputStream arrowShadedStream = this.getClass().getResourceAsStream(
+				"resources/other/ArrowB.png");
+
 		this.arrowIcon = new Image(arrowStream, "Arrow Image", false);
 		this.arrowIconShaded = new Image(arrowShadedStream,
 				"Arrow Shaded Image", false);
@@ -358,8 +360,7 @@ public class GameWindow extends BasicGameState {
 		this.map1 = new Image(map1Stream, "Map 1 Image", false);
 		this.map2 = new Image(map2Stream, "Map 2 Image", false);
 
-		// Set the font (used for altitudes etc.)
-
+		// Set the font used for in-game labels, (e.g. altitudes).
 		try {
 			InputStream fontStream = getClass().getResourceAsStream(
 					"/resources/fonts/8BitWonder.ttf");
@@ -385,7 +386,6 @@ public class GameWindow extends BasicGameState {
 		gameMusic = new Music(
 				"resources/music/Galavanting_Through_Low_Rez_Forests.ogg");
 		gameMusic.loop();
-
 	}
 
 	/**
@@ -496,16 +496,15 @@ public class GameWindow extends BasicGameState {
 		g.setColor(this.fontColor);
 
 		if (!this.currentGame.isEnding()) {
-
 			// Display the Game Information
-				g.drawString("Time : "
-						+ ((int) this.time / 1000 / 60 < 10 ? "0"
-								+ (int) (this.time / 1000) / 60
-								: (int) (this.time / 1000) / 60)
-						+ ":"
-						+ ((int) (this.time / 1000) % 60 < 10 ? "0"
-								+ (int) (this.time / 1000) % 60
-								: (int) (this.time / 1000) % 60), 1050, 15);
+			g.drawString("Time : "
+					+ ((int) this.time / 1000 / 60 < 10 ? "0"
+							+ (int) (this.time / 1000) / 60
+							: (int) (this.time / 1000) / 60)
+					+ ":"
+					+ ((int) (this.time / 1000) % 60 < 10 ? "0"
+							+ (int) (this.time / 1000) % 60
+							: (int) (this.time / 1000) % 60), 1050, 15);
 
 			g.drawString(
 					"Score : "
@@ -661,7 +660,7 @@ public class GameWindow extends BasicGameState {
 							(float) plane.getY());
 				} else {
 					// Planes under 2000ft are rendered smaller because they're
-					// landing/taking off
+					// landing or taking off
 					if (plane.getAltitude() < 2000) {
 						// Render unselected planes that are taking-off/landing
 						// with a variable size
@@ -715,7 +714,8 @@ public class GameWindow extends BasicGameState {
 								.getScaledCopy(1 + ((((float) (plane.getSize())) - 1) / 5));
 					}
 				}
-				// If plane needs to land, make the plane blink
+				// If plane needs to land, set the state and animate with
+				// blink/green
 				else {
 					// Every number of frames, blink
 					if (((int) (this.time / BLINK_FREQUENCY)) % 2 == 0) {
@@ -980,7 +980,7 @@ public class GameWindow extends BasicGameState {
 						this.getWindowWidth() / 2 - 30 - 190,
 						this.getWindowHeight() / 2 + 35);
 
-				g.drawString("Press S to turn music on/off",
+				g.drawString("Press M to turn music on/off",
 						this.getWindowWidth() / 2 - 30 - 80,
 						this.getWindowHeight() / 2 + 70);
 
@@ -1009,8 +1009,9 @@ public class GameWindow extends BasicGameState {
 				display = false;
 
 				// Draw the game over text
-				endFont.drawString(300, 200, "That didn't end well");
-				endFont.drawString(400, 260, "Score: "+ this.endScore);
+
+				endFont.drawString(300, 200, "That did not  end well");
+				endFont.drawString(400, 260, "Score " + this.endScore);
 
 				int textHeight = this.font.getHeight();
 
@@ -1021,7 +1022,7 @@ public class GameWindow extends BasicGameState {
 
 				this.arrowIcon.draw(245, gameContainer.getHeight() - 50
 						- (textHeight / 4), 45, 35);
-				
+
 				if (saveFile.getLevel2UnlockScore() <= this.currentGame
 						.getScore().getScore()
 						&& ((WindowManager) game).getCurrentLevel() == 1
@@ -1043,62 +1044,56 @@ public class GameWindow extends BasicGameState {
 						this.hasSaved = true;
 					}
 				}
-
 				// Manages leaderboard entries
+				// initializes text box
 
-					// initializes text box
-
-					if (isTextBoxIni == false) {
-						textBox = new TextField(currentGameContainer, endFont,
-								300, 350, 430, 50);
-						textBox.setBorderColor(Color.black);
-						textBox.setBackgroundColor(Color.white);
-						textBox.setTextColor(Color.orange);
-						textBox.setConsumeEvents(true);
-						textBox.setAcceptingInput(true);
-						textBox.setMaxLength(30);
-						isTextBoxIni = true;
-						WindowManager.leaderBoard.isConnected();
-						lowScore = saveFile.getLowestScore();
-					}
-					
-					
-					
-					//creates a text box to enter your name:
-					if(LeaderBoard.connected){
-						if(lowScore < currentGame.getScore().getScore()){
-							endFont.drawString(300, 300, "Enter your name to the leaderboard");
-							textBox.render(currentGameContainer, g);
-
-							if (Keyboard.getEventKey() == Keyboard.KEY_RETURN && textBox.getText() != "") {
-								saveFile.addLeaderboardScore(textBox.getText(),
-										currentGame.getScore().getScore());
-								textBox.setText("");
-								game.enterState(WindowManager.MAIN_MENU_STATE);
-
-							}else{ 
-								if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
-									game.enterState(WindowManager.MAIN_MENU_STATE);
-								}
-							}
-						}
-						
-					}else {
-						new TrueTypeFont(this.fontPrimitive.deriveFont(25f),
-								true).drawString(305f, 300f,"No internet connection");
-					}
-					
-				}// if the planes collided but the ending has not yet been set
-				else {
-					// Stop the timer
-					this.endTime = this.time;
-					this.endScore = currentGame.getScore().getScore();
-					// End the game
-					this.currentGame.setEnding(true);
+				if (isTextBoxIni == false) {
+					textBox = new TextField(currentGameContainer, endFont, 300,
+							350, 430, 50);
+					textBox.setBorderColor(Color.black);
+					textBox.setBackgroundColor(Color.white);
+					textBox.setTextColor(Color.orange);
+					textBox.setConsumeEvents(true);
+					textBox.setAcceptingInput(true);
+					textBox.setMaxLength(25);
+					textBox.setText("");
+					isTextBoxIni = true;
+					WindowManager.leaderBoard.isConnected();
 				}
+
+				// creates a text box to enter your name:
+				if (LeaderBoard.connected) {
+					lowScore = saveFile.getLowestScore();
+					if (lowScore < currentGame.getScore().getScore()) {
+						endFont.drawString(300, 300,
+								"Enter your name to the leaderboard");
+						textBox.render(currentGameContainer, g);
+
+						if (Keyboard.getEventKey() == Keyboard.KEY_RETURN
+								&& textBox.getText() != "") {
+							saveFile.addLeaderboardScore(textBox.getText(),
+									currentGame.getScore().getScore());
+							textBox.setText("");
+							game.enterState(WindowManager.MAIN_MENU_STATE);
+
+						} else if (Keyboard.getEventKey() == Keyboard.KEY_RETURN) {
+							game.enterState(WindowManager.MAIN_MENU_STATE);
+						}
+					}
+
+				} else {
+					endFont.drawString(300, 325, "No internet connection");
+				}
+			}// if the planes collided but the ending has not yet been set
+			else {
+				// Stop the timer
+				this.endTime = this.time;
+				this.endScore = currentGame.getScore().getScore();
+				// End the game
+				this.currentGame.setEnding(true);
 			}
 		}
-
+	}
 
 	/**
 	 * Updates the game state
@@ -1125,6 +1120,7 @@ public class GameWindow extends BasicGameState {
 		}
 	}
 
+	/** Checks if a item in the menu currently has the mouse cursor over it **/
 	private void checkForSelection(GameContainer gameContainer,
 			StateBasedGame game) {
 		int x = gameContainer.getInput().getMouseX();
@@ -1200,8 +1196,7 @@ public class GameWindow extends BasicGameState {
 						 * When a plane gets deselected, it is removed from
 						 * manual control, and it retakes the automatic control
 						 */
-						this.currentGame.removeFromManual(this.currentGame
-								.getCurrentPlane());
+						currentGame.getCurrentPlane().setAuto();
 						this.currentGame.getCurrentPlane().markForSyncing();
 					}
 				}
@@ -1254,13 +1249,12 @@ public class GameWindow extends BasicGameState {
 			}
 		}
 
-		/* Handle music options */
-
+		// Handle the game music
 		// If the user presses "s" or "S", the music either pauses or resumes
 		// looping depending on its state
-		if (((c == 's') || (c == 'S')) && (gameMusic.playing())) {
+		if (((c == 'm') || (c == 'M')) && (gameMusic.playing())) {
 			gameMusic.pause();
-		} else if (((c == 's') || (c == 'S')) && (!gameMusic.playing())) {
+		} else if (((c == 'm') || (c == 'M')) && (!gameMusic.playing())) {
 			gameMusic.loop();
 		}
 	}
@@ -1291,6 +1285,8 @@ public class GameWindow extends BasicGameState {
 		this.currentGame.setCurrentPlane(null);
 
 	}
+
+	// All general accessors
 
 	/**
 	 * @return the state's unique ID
@@ -1455,7 +1451,8 @@ public class GameWindow extends BasicGameState {
 		return this.currentGameContainer;
 	}
 
-	// Mutators
+	// All general Mutators
+
 	/**
 	 * @param windowWidth
 	 *            the new window width

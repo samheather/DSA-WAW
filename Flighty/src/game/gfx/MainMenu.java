@@ -25,14 +25,14 @@ public class MainMenu extends GenericWindow {
 	/** The waypoint icon */
 	private Image waypointIcon;
 
-	
-	private boolean isInHitBox(int mouseX, int mouseY, int[] pos, int width, int height, int tolerance) {
+	private boolean isInHitBox(int mouseX, int mouseY, int[] pos, int width,
+			int height, int tolerance) {
 		return ((mouseX >= (pos[0] - tolerance))
 				&& (mouseX <= (pos[0] + width + tolerance))
-				&& (mouseY >= (pos[1] - tolerance))
-				&& (mouseY <= (pos[1] + height + tolerance)));
+				&& (mouseY >= (pos[1] - tolerance)) && (mouseY <= (pos[1]
+				+ height + tolerance)));
 	}
-	
+
 	/**
 	 * Monitors the mouse position and state
 	 * <p>
@@ -55,7 +55,7 @@ public class MainMenu extends GenericWindow {
 		// Mouse action
 		boolean clicked = gameContainer.getInput().isMousePressed(0);
 
-		// Text
+		// Labels for main menu buttons
 		String gameTitleText = "Flighty Mk 2";
 		String startGameText = "Single Player";
 		String multiplayerText = "Multiplayer";
@@ -94,7 +94,7 @@ public class MainMenu extends GenericWindow {
 				(gameContainer.getWidth() - multiplayerWidth) / 2, 300 };
 		int[] leaderBoardPos = {
 				(gameContainer.getWidth() - leaderBoardWidth) / 2, 400 };
-	
+
 		int[] creditsPos = { (gameContainer.getWidth() - creditsWidth) / 2, 500 };
 		int[] controlsPos = { (gameContainer.getWidth() - controlsWidth) / 2,
 				600 };
@@ -102,8 +102,8 @@ public class MainMenu extends GenericWindow {
 
 		// Hovering box tolerance in pixels
 		int tolerance = 10;
-		
-		//Distance that waypoint is away from text
+
+		// Distance that waypoint is away from text
 		int waypointDistFromText = 10;
 
 		// Draw main title
@@ -111,16 +111,16 @@ public class MainMenu extends GenericWindow {
 				gameTitleText, gameTitleColor);
 
 		// Start Game button
-		if (isInHitBox(x, y, startGamePos, startGameWidth, fontHeight, tolerance)) {
+		if (isInHitBox(x, y, startGamePos, startGameWidth, fontHeight,
+				tolerance)) {
 			if (clicked) {
 				// Change game state
 				game.enterState(WindowManager.LEVEL_SELECT_STATE);
 			} else {
 				// Change hover text and add waypoint next to text
 				startGameColor = Color.white;
-				waypointIcon
-						.draw(startGamePos[0] + startGameWidth + waypointDistFromText,
-								startGamePos[1]);
+				waypointIcon.draw(startGamePos[0] + startGameWidth
+						+ waypointDistFromText, startGamePos[1]);
 			}
 		} else { // Default colour
 			startGameColor = Color.orange;
@@ -130,7 +130,8 @@ public class MainMenu extends GenericWindow {
 		this.drawShadowedText(font, startGamePos[0], startGamePos[1],
 				startGameText, startGameColor);
 
-		if (isInHitBox(x, y, multiplayerPos, multiplayerWidth, fontHeight, tolerance)) {
+		if (isInHitBox(x, y, multiplayerPos, multiplayerWidth, fontHeight,
+				tolerance)) {
 			if (clicked) {
 				// Change game state
 				((WindowManager) game).setCurrentLevel(1);
@@ -138,9 +139,8 @@ public class MainMenu extends GenericWindow {
 			} else {
 				// Change hover text and add waypoint next to text
 				multiplayerColor = Color.white;
-				waypointIcon
-				.draw(multiplayerPos[0] + multiplayerWidth + waypointDistFromText,
-						multiplayerPos[1]);
+				waypointIcon.draw(multiplayerPos[0] + multiplayerWidth
+						+ waypointDistFromText, multiplayerPos[1]);
 			}
 		} else { // Default colour
 			multiplayerColor = Color.orange;
@@ -149,28 +149,29 @@ public class MainMenu extends GenericWindow {
 		// Draw the Controls text with a shadow
 		this.drawShadowedText(font, multiplayerPos[0], multiplayerPos[1],
 				multiplayerText, multiplayerColor);
-		
-		//Leaderboard button
-		
-				if (isInHitBox(x, y, leaderBoardPos, leaderBoardWidth, fontHeight, tolerance)) {
-					if (clicked) {
-						// Change game state
-						game.enterState(WindowManager.LEADERBOARD_STATE);
-					} else {
-						leaderBoardColor = Color.white;
 
-						// Change hover text and add waypoint next to text
-						this.waypointIcon.draw(leaderBoardPos[0] + leaderBoardWidth,
-								leaderBoardPos[1]);
-					}
-				} else { // Default colour
-					leaderBoardColor = Color.orange;
-				}
+		// Leaderboard button
 
-				this.drawShadowedText(this.font, leaderBoardPos[0], leaderBoardPos[1],
-						leaderBoardText, leaderBoardColor);
+		if (isInHitBox(x, y, leaderBoardPos, leaderBoardWidth, fontHeight,
+				tolerance)) {
+			if (clicked) {
+				// Change game state
+				game.enterState(WindowManager.LEADERBOARD_STATE);
+			} else {
+				leaderBoardColor = Color.white;
 
-		// Credits button \\
+				// Change hover text and add waypoint next to text
+				this.waypointIcon.draw(leaderBoardPos[0] + leaderBoardWidth,
+						leaderBoardPos[1]);
+			}
+		} else { // Default colour
+			leaderBoardColor = Color.orange;
+		}
+
+		this.drawShadowedText(this.font, leaderBoardPos[0], leaderBoardPos[1],
+				leaderBoardText, leaderBoardColor);
+
+		// Credits button
 		if (isInHitBox(x, y, creditsPos, creditsWidth, fontHeight, tolerance)) {
 			if (clicked) {
 				// Change game state
@@ -179,18 +180,17 @@ public class MainMenu extends GenericWindow {
 				creditsColor = Color.white;
 
 				// Change hover text and add waypoint next to text
-				waypointIcon
-				.draw(creditsPos[0] + creditsWidth + waypointDistFromText,
-						creditsPos[1]);
+				waypointIcon.draw(creditsPos[0] + creditsWidth
+						+ waypointDistFromText, creditsPos[1]);
 			}
 		} else { // Default colour
 			creditsColor = Color.orange;
 		}
 
-		drawShadowedText(font, creditsPos[0], creditsPos[1],
-				creditsText, creditsColor);
+		drawShadowedText(font, creditsPos[0], creditsPos[1], creditsText,
+				creditsColor);
 
-		// Controls button \\
+		// Controls button
 		if (isInHitBox(x, y, controlsPos, controlsWidth, fontHeight, tolerance)) {
 			if (clicked) {
 				// Change game state
@@ -198,17 +198,17 @@ public class MainMenu extends GenericWindow {
 			} else {
 				// Change hover text and add waypoint next to text
 				controlsColor = Color.white;
-				waypointIcon
-				.draw(controlsPos[0] + controlsWidth + waypointDistFromText,
-						controlsPos[1]);
+				waypointIcon.draw(controlsPos[0] + controlsWidth
+						+ waypointDistFromText, controlsPos[1]);
 			}
-		} else { // Default colour
+		} else {
+			// set to default colour
 			controlsColor = Color.orange;
 		}
 
 		// Draw the Controls text with a shadow
-		drawShadowedText(font, controlsPos[0], controlsPos[1],
-				controlsText, controlsColor);
+		drawShadowedText(font, controlsPos[0], controlsPos[1], controlsText,
+				controlsColor);
 
 		// Exit
 		if (isInHitBox(x, y, exitPos, exitWidth, fontHeight, tolerance)) {
@@ -222,16 +222,14 @@ public class MainMenu extends GenericWindow {
 			// Default colour
 			exitColor = Color.orange;
 		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
+		if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
 			AL.destroy();
 			System.exit(0);
 		}
 		// Draw the Exit text with a shadow
-		drawShadowedText(font, exitPos[0], exitPos[1], exitText,
-				exitColor);
+		drawShadowedText(font, exitPos[0], exitPos[1], exitText, exitColor);
 	}
 
-	// Overrides
 	/**
 	 * Initialises the state
 	 * 
@@ -282,12 +280,12 @@ public class MainMenu extends GenericWindow {
 		planeIcon.draw(
 				(float) (((WindowManager) game).getPlaneProgress() - 50),
 				50 + font.getHeight() + 105, 50, 50);
-		
+
 		// Draw buttons
 		drawButtons(gameContainer, game);
 	}
 
-	// Accessors
+	// All general Accessors
 	/**
 	 * @return the background image
 	 */
@@ -309,7 +307,7 @@ public class MainMenu extends GenericWindow {
 		return this.waypointIcon;
 	}
 
-	// Mutators
+	// All general Mutators
 	/**
 	 * @param backgroundImage
 	 *            the new background image

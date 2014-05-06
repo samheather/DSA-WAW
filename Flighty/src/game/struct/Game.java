@@ -37,7 +37,7 @@ public abstract class Game {
 
 	/** The window height */
 	private static final int WINDOW_HEIGHT = 600;
-	
+
 	/** Distance from left edge for sidebar so planes don't fly in it */
 	protected static int distFromLeftEdge = 0;
 
@@ -111,13 +111,18 @@ public abstract class Game {
 	private Score score;
 	SecureRandom secureRandom;
 	private Random rand;
-	
+
 	protected abstract Airport createAirport();
+
 	protected abstract ArrayList<Point> createExitPoints();
+
 	protected abstract ArrayList<Waypoint> createWayPoints();
+
 	protected abstract ArrayList<Point> createEntryPoints();
+
 	protected abstract void configurePlane(Plane p);
-	protected abstract void planeUpdate(Plane p);
+
+	protected abstract void planeUpdate(Plane p, GameContainer gameContainer);
 
 	// Constructors
 
@@ -135,9 +140,6 @@ public abstract class Game {
 	 *            reference to the current game window
 	 * @throws NoSuchAlgorithmException
 	 */
-
-
-
 	protected Game(int newSeparationDistance, int newPenaltyDistance,
 			int distFromLeft) throws NoSuchAlgorithmException,
 			UnknownHostException, IOException {
@@ -150,21 +152,8 @@ public abstract class Game {
 		windowWidth = WINDOW_WIDTH;
 		windowHeight = WINDOW_HEIGHT;
 
+		// Used for the side bar
 		distFromLeftEdge = distFromLeft;
-		/*
-		 * 
-		 * // Initialise TCP Connection s = new Socket("teaching0.york.ac.uk",
-		 * 1025);
-		 * 
-		 * is = s.getInputStream(); Thread t = new Thread(new
-		 * SyncReceiver(queue, is)); t.start();
-		 * 
-		 * System.out.println("SLOG lol");
-		 * 
-		 * os = s.getOutputStream(); oos = new ObjectOutputStream(os);
-		 * 
-		 * System.out.println("SLOG rofl");
-		 */
 
 		// This sets the game difficulty
 		separationDistance = newSeparationDistance;
@@ -203,7 +192,7 @@ public abstract class Game {
 		listOfEntryPoints.add(airport);
 
 		// Single player extra things
-		
+
 		listOfEntryPoints.addAll(createEntryPoints());
 		listOfWaypoints.addAll(createWayPoints());
 		listOfExitPoints.addAll(createExitPoints());
@@ -220,7 +209,6 @@ public abstract class Game {
 		// Initialise score
 		score = new Score();
 	}
-
 
 	// METHODS
 
@@ -260,7 +248,7 @@ public abstract class Game {
 		newPlane.calculateBearingToNextWaypoint();
 		newPlane.setBearing(newPlane.getTargetBearing());
 	}
-	
+
 	protected abstract Plane constructPlane(int id, double velocity, int altitude,
 			double bearing, long uniqueNetworkObjectId);
 
@@ -274,7 +262,9 @@ public abstract class Game {
 	 *            - a new plane that needs to take off
 	 */
 	public void configurePlaneForTakeOff(Plane newPlane) {
-		newPlane.getFlightPlan().setEntryPoint(new EntryPoint(Airport.getEndOfRunwayX(), Airport.getRunwayY() + 30));
+		newPlane.getFlightPlan().setEntryPoint(
+				new EntryPoint(Airport.getEndOfRunwayX(),
+						Airport.getRunwayY() + 30));
 
 		newPlane.getFlightPlan().getCurrentRoute()
 				.add(0, airport.getBeginningOfRunway());
@@ -338,8 +328,6 @@ public abstract class Game {
 		return altitude;
 	}
 
-
-
 	/**
 	 * Returns the plane with the given ID
 	 * <p>
@@ -364,7 +352,6 @@ public abstract class Game {
 		return null;
 	}
 
-	// TODO v Is this misplaced ?
 	/**
 	 * Tests whether a plane is either colliding or alerting
 	 * <p>
@@ -419,7 +406,7 @@ public abstract class Game {
 
 		// Loops through all the planes
 		for (Plane plane2 : getCurrentPlanes()) {
-			if (!plane1.ownedByCurrentPlayer){
+			if (!plane1.ownedByCurrentPlayer) {
 				break;
 			}
 			if ((plane1.equals(plane2))
@@ -428,28 +415,31 @@ public abstract class Game {
 					|| (plane2.ownedByCurrentPlayer == false)) {
 				continue;
 			}
+			if ((!plane1.getNeedsToTakeOff()) && (!plane2.getNeedsToTakeOff())) {
+				// Calculates the distance between 2 planes
+				distIJSqr = Math.pow(plane2.getX() - plane1.getX(), 2)
+						+ Math.pow(plane2.getY() - plane1.getY(), 2);
 
-			// Calculates the distance between 2 planes
-			distIJSqr = Math.pow(plane2.getX() - plane1.getX(), 2)
-					+ Math.pow(plane2.getY() - plane1.getY(), 2);
+				// Calculates if two planes have collided
+				if (distIJSqr < Math.pow(separationDistance, 2)) {
+					result[0] = true;
+					return result;
+				}
+				// Calculates if two planes are in penalty distance
+				else if (distIJSqr < Math.pow(penaltyDistance, 2)) {
+					plane2.setAlertStatus(true);
+					risk = true;
 
-			// Calculates if two planes have collided
-			if (distIJSqr < Math.pow(separationDistance, 2)) {
-				result[0] = true;
-				return result;
-			}
-			// Calculates if two planes are in penalty distance
-			else if (distIJSqr < Math.pow(penaltyDistance, 2)) {
-				plane2.setAlertStatus(true);
-				risk = true;
+					// Applying score penalties for violating the penalty
+					// distance
+					if (penalty) {
+						if (plane2.ownedByCurrentPlayer)
+							getScore()
+									.planeCollisionWarningMultAndScorePenalties();
 
-				// Applying score penalties for violating the penalty distance
-				if (penalty) {
-					if (plane2.ownedByCurrentPlayer)
-						getScore().planeCollisionWarningMultAndScorePenalties();
-
-					penalty = false;
-					plane2.setViolationOccurred();
+						penalty = false;
+						plane2.setViolationOccurred();
+					}
 				}
 			}
 		}
@@ -472,25 +462,11 @@ public abstract class Game {
 	}
 
 	/**
-	 * Removes a plane from manual control
+	 * Checks if any plane on screen needs to take off
 	 * 
-	 * @param plane
-	 *            the plane to remove from manual control
+	 * @return Plane any plane that needs to take off
 	 */
-	public void removeFromManual(Plane plane) {
-		plane.setAuto();
 
-		// Make the unselected plane go to the next waypoint
-		if (plane.getFlightPlan().getCurrentRoute().size() != 0) {
-			plane.setTarget(plane.getFlightPlan().getCurrentRoute().get(0));
-		}
-	}
-	
-	/** Checks if any plane on screen needs to take off
-	* 
-	* @return Plane any plane that needs to take off
-	*/
-	
 	private Plane planeNeedsToTakeOff() {
 		for (Plane p : getCurrentPlanes()) {
 			if (p.getNeedsToTakeOff() && p.ownedByCurrentPlayer) {
@@ -516,9 +492,7 @@ public abstract class Game {
 			if (gameContainer.getInput().isKeyDown(203)
 					|| gameContainer.getInput().isKeyDown(30)) {
 
-
 				currentPlane.setManual();
-
 
 				currentPlane.decrementBearing();
 				currentPlane.markForSyncing();
@@ -527,7 +501,6 @@ public abstract class Game {
 			// Action on 'd' and 'right' keys
 			if (gameContainer.getInput().isKeyDown(205)
 					|| gameContainer.getInput().isKeyDown(32)) {
-
 
 				currentPlane.setManual();
 
@@ -600,13 +573,12 @@ public abstract class Game {
 			// Handle directional controls
 			handleKeyPresses(gameContainer);
 		}
-		
+
 		// Update planes
 		for (Plane plane : getCurrentPlanes()) {
 			// Check if the plane is still in the game area
-			
-			
-			planeUpdate(plane);
+
+			planeUpdate(plane, gameContainer);
 
 			// Updating the Planes altitude and adjusting it accordingly.
 			plane.updatePlaneAltitude();
@@ -630,7 +602,6 @@ public abstract class Game {
 				if (currentPlane != null && plane.equals(currentPlane)) {
 					currentPlane = null;
 				}
-
 				plane.markForDeletion();
 
 			} else {
@@ -712,12 +683,10 @@ public abstract class Game {
 			 */
 		}
 
-
 		countToNextPlane--;
 	}
 
-
-	// GETTERS
+	// All general Accessors
 
 	/**
 	 * 
@@ -728,14 +697,11 @@ public abstract class Game {
 	}
 
 	/**
+	 * Has this plane been sitting on the runway long enough to now have a
+	 * take-off penalty?
 	 * 
-	 * @param takeOffPenalty
-	 *            sets whether the user should be penalised for not taking off
+	 * @return
 	 */
-	public void setTakeOffPenalty(boolean newTakeOffPenalty) {
-		takeOffPenalty = newTakeOffPenalty;
-	}
-
 	public boolean isTakeOffPenalty() {
 		return takeOffPenalty;
 	}
@@ -755,18 +721,133 @@ public abstract class Game {
 	}
 
 	/**
+	 * @return Loop count till next plane can be added
+	 */
+	public double getCountToNextPlane() {
+		return countToNextPlane;
+	}
+
+	/**
+	 * @return Boolean representing whether a collision has occurred
+	 */
+	public boolean isCollision() {
+		return collision;
+	}
+
+	/**
+	 * @return ending
+	 */
+	public boolean isEnding() {
+		return ending;
+	}
+
+	/**
+	 * @return speedDifficulty
+	 */
+	public double getSpeedDifficulty() {
+		return speedDifficulty;
+	}
+
+	/**
+	 * @return spawnRate
+	 */
+	public int getSpawnRate() {
+		return spawnRate;
+	}
+
+	/**
+	 * @return spawnCount
+	 */
+	public int getSpawnCount() {
+		return spawnCount;
+	}
+
+	/**
+	 * @return collidedPlanes
+	 */
+	public ArrayList<Plane> getCollidedPlanes() {
+		return collidedPlanes;
+	}
+
+	/**
+	 * @return currentPlane
+	 */
+	public Plane getCurrentPlane() {
+		return currentPlane;
+	}
+
+	/**
+	 * @return penalty distance (the alert range)
+	 */
+	public int getPenaltyDistance() {
+		return penaltyDistance;
+	}
+
+	/**
+	 * @return Array list of exit points
+	 */
+	public ArrayList<Point> getListOfExitPoints() {
+		return listOfExitPoints;
+	}
+
+	/**
+	 * @return a reference to the current game window
+	 */
+	public GameWindow getCurrentGameWindow() {
+		return currentGameWindow;
+	}
+
+	/**
+	 * @return Array list of waypoints in the airspace
+	 */
+	public ArrayList<Waypoint> getListOfWaypoints() {
+		return listOfWaypoints;
+	}
+
+	/**
+	 * @return Array list of entry points in the airspace
+	 */
+	public ArrayList<Point> getListOfEntryPoints() {
+		return listOfEntryPoints;
+	}
+
+	/**
+	 * @return Airport within in the airspace
+	 */
+	public Airport getAirport() {
+		return airport;
+	}
+
+	/**
+	 * Get number of planes in the current airspace
+	 * 
+	 * @return number of planes in current airspaec
+	 */
+	public int getPlaneCount() {
+		return planeCount;
+	}
+
+	public int getDistFromLeftEdge() {
+		return distFromLeftEdge;
+	}
+
+	// All general Mutators
+
+	/**
+	 * 
+	 * @param takeOffPenalty
+	 *            sets whether the user should be penalised for not taking off
+	 */
+	public void setTakeOffPenalty(boolean newTakeOffPenalty) {
+		takeOffPenalty = newTakeOffPenalty;
+	}
+
+	/**
 	 * @param endTime
 	 *            Value which endTime is to be changed to
 	 */
 	public void setEndTime(double newEndTime) {
 		endTime = newEndTime;
-	}
-
-	/**
-	 * @return Loop count till next plane can be added
-	 */
-	public double getCountToNextPlane() {
-		return countToNextPlane;
 	}
 
 	/**
@@ -778,25 +859,11 @@ public abstract class Game {
 	}
 
 	/**
-	 * @return Boolean representing whether a collision has occurred
-	 */
-	public boolean isCollision() {
-		return collision;
-	}
-
-	/**
 	 * @param collision
 	 *            Value which collision is to be changed to
 	 */
 	public void setCollision(boolean newCollision) {
 		collision = newCollision;
-	}
-
-	/**
-	 * @return ending
-	 */
-	public boolean isEnding() {
-		return ending;
 	}
 
 	/**
@@ -808,25 +875,11 @@ public abstract class Game {
 	}
 
 	/**
-	 * @return speedDifficulty
-	 */
-	public double getSpeedDifficulty() {
-		return speedDifficulty;
-	}
-
-	/**
 	 * @param speedDifficulty
 	 *            Value which speedDifficulty is to be changed to
 	 */
 	public void setSpeedDifficulty(double newSpeedDifficulty) {
 		speedDifficulty = newSpeedDifficulty;
-	}
-
-	/**
-	 * @return spawnRate
-	 */
-	public int getSpawnRate() {
-		return spawnRate;
 	}
 
 	/**
@@ -838,31 +891,17 @@ public abstract class Game {
 	}
 
 	/**
-	 * @return spawnCount
-	 */
-	public int getSpawnCount() {
-		return spawnCount;
-	}
-
-	/**
 	 * @param spawnCount
 	 *            Value which spawnCount is to be changed to
 	 */
 	public void setSpawnCount(int newSpawnCount) {
 		spawnCount = newSpawnCount;
 	}
-	
+
 	public void clearManualPlanes() {
 		for (Plane i : getCurrentPlanes()) {
 			i.setAuto();
 		}
-	}
-
-	/**
-	 * @return collidedPlanes
-	 */
-	public ArrayList<Plane> getCollidedPlanes() {
-		return collidedPlanes;
 	}
 
 	/**
@@ -874,13 +913,6 @@ public abstract class Game {
 	}
 
 	/**
-	 * @return currentPlane
-	 */
-	public Plane getCurrentPlane() {
-		return currentPlane;
-	}
-
-	/**
 	 * @param currentPlane
 	 *            Plane which currentPlane is to be changed to
 	 */
@@ -889,25 +921,9 @@ public abstract class Game {
 	}
 
 	/**
-	 * @return penalty distance (the alert range)
-	 */
-	public int getPenaltyDistance() {
-		return penaltyDistance;
-	}
-
-	/**
 	 * @return list of planes attached to the game
 	 */
 	public abstract List<? extends Plane> getCurrentPlanes();
-
-	/**
-	 * @return a reference to the current game window
-	 */
-	public GameWindow getCurrentGameWindow() {
-		return currentGameWindow;
-	}
-
-	// SETTERS
 
 	/**
 	 * @param separationDistance
@@ -934,25 +950,11 @@ public abstract class Game {
 	}
 
 	/**
-	 * @return Array list of exit points
-	 */
-	public ArrayList<Point> getListOfExitPoints() {
-		return listOfExitPoints;
-	}
-
-	/**
 	 * @param listOfExitPoints
 	 *            Array list which listOfExitPoints is to be changed to
 	 */
 	public void setListOfExitPoints(ArrayList<Point> newListOfExitPoints) {
 		listOfExitPoints = newListOfExitPoints;
-	}
-
-	/**
-	 * @return Array list of waypoints in the airspace
-	 */
-	public ArrayList<Waypoint> getListOfWaypoints() {
-		return listOfWaypoints;
 	}
 
 	/**
@@ -964,29 +966,11 @@ public abstract class Game {
 	}
 
 	/**
-	 * @return Array list of entry points in the airspace
-	 */
-	public ArrayList<Point> getListOfEntryPoints() {
-		return listOfEntryPoints;
-	}
-
-	/**
 	 * @param listOfEntryPoints
 	 *            Array list which listOfEntryPoints is to be changed to
 	 */
 	public void setListOfEntryPoints(ArrayList<Point> newListOfEntryPoints) {
 		listOfEntryPoints = newListOfEntryPoints;
-	}
-
-	/**
-	 * @return Airport within in the airspace
-	 */
-	public Airport getAirport() {
-		return airport;
-	}
-
-	public int getPlaneCount() {
-		return planeCount;
 	}
 
 	public void setPlaneCount(int newPlaneCount) {

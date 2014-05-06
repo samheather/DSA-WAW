@@ -42,11 +42,10 @@ public class Controls extends GenericWindow {
 		int y = gameContainer.getInput().getMouseY();
 		boolean clicked = gameContainer.getInput().isMousePressed(0);
 
+		// Configure the mainMenu
 		String mainMenuText = "Main Menu";
-
 		int mainMenuWidth = font.getWidth(mainMenuText);
 		int textHeight = font.getHeight();
-
 		Color mainMenuColor = Color.orange;
 
 		// If cursor above the text
@@ -68,9 +67,8 @@ public class Controls extends GenericWindow {
 				mainMenuText, mainMenuColor);
 	}
 
-	// Overrides
 	/**
-	 * Initialises the state
+	 * Initializes the state of controls
 	 * 
 	 * @param gameContainer
 	 *            the game container holding this state
@@ -90,11 +88,10 @@ public class Controls extends GenericWindow {
 		InputStream arrowShadedStream = getClass().getResourceAsStream(
 				"resources/other/ArrowB.png");
 
-		backgroundImage = new Image(backgroundStream, "Background Image",
-				false);
+		backgroundImage = new Image(backgroundStream, "Background Image", false);
 		arrowIcon = new Image(arrowStream, "Arrow Image", false);
-		arrowIconShaded = new Image(arrowShadedStream,
-				"Arrow Shaded Image", false);
+		arrowIconShaded = new Image(arrowShadedStream, "Arrow Shaded Image",
+				false);
 	}
 
 	/**
@@ -122,13 +119,10 @@ public class Controls extends GenericWindow {
 		// Draw main title
 		int mainXPos = (gameContainer.getWidth() / 2)
 				- (titleFont.getWidth("Controls") / 2);
-
-		drawShadowedText(titleFont, mainXPos, 20, "Controls",
-				Color.orange);
+		drawShadowedText(titleFont, mainXPos, 20, "Controls", Color.orange);
 
 		// Draw controls
-		drawShadowedText(font, 75, 180, "Change heading",
-				Color.orange);
+		drawShadowedText(font, 75, 180, "Change heading", Color.orange);
 		drawShadowedText(font, 145, 180 + (textHeight * 2),
 				" use arrow keys or right click", Color.orange);
 		drawShadowedText(font, 75, 340, "Landing", Color.orange);
@@ -146,10 +140,12 @@ public class Controls extends GenericWindow {
 				- (textHeight / 4), 45, 35);
 
 		// Draw arrow icon
-		arrowIcon.draw(245, gameContainer.getHeight() - 50
-				- (textHeight / 4), 45, 35);
+		arrowIcon.draw(245, gameContainer.getHeight() - 50 - (textHeight / 4),
+				45, 35);
 
 	}
+
+	// All general Accessors
 
 	/**
 	 * @return the state's unique ID
@@ -159,7 +155,6 @@ public class Controls extends GenericWindow {
 		return WindowManager.CONTROLS_STATE;
 	}
 
-	// Accessors
 	/**
 	 * @return the background image
 	 */
@@ -181,7 +176,8 @@ public class Controls extends GenericWindow {
 		return this.arrowIconShaded;
 	}
 
-	// Mutators
+	// All general Mutators
+
 	/**
 	 * @param backgroundImage
 	 *            the new background image

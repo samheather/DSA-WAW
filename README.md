@@ -1,9 +1,7 @@
-DSA-WAW SEPR-Plane Chaos
+Flighty Mk. 2 by Team DSA
 ================
 
-Team DSA Repo 
-
-Mystical, magical ATC game by SEPR team DSA
+Fantastic Air Traffic Control game wtih online multiplayer (server included), face tracking parallax effect and much much more!
 
 Website
 ---------

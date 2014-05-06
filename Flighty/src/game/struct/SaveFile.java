@@ -28,97 +28,93 @@ public class SaveFile {
 
 	private String statsFileName = "stats.txt";
 
-	
 	// Gets leaderboard reading from our PHP page in JSON format.
 	public String getLeaderboardScores() {
 		try {
-		URL url = new URL("http://atcga.me/Leaderboard.php");
-		URLConnection con = url.openConnection();
-		InputStream is = con.getInputStream();
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		byte[] buf = new byte[1024];
-		int len = 0;
-		while ((len = is.read(buf)) != -1) {
-		    baos.write(buf, 0, len);
-		}
-		String body = new String(baos.toByteArray(), "UTF-8");
-		return body;
+			URL url = new URL("http://atcga.me/Leaderboard.php");
+			URLConnection con = url.openConnection();
+			InputStream is = con.getInputStream();
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			byte[] buf = new byte[1024];
+			int len = 0;
+			while ((len = is.read(buf)) != -1) {
+				baos.write(buf, 0, len);
+			}
+			String body = new String(baos.toByteArray(), "UTF-8");
+			return body;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	// Decodes JSON and updates leaderboard
-	public void decodeLeaderboardScores(String s){
+	public void decodeLeaderboardScores(String s) {
 		String[] scores = s.split("}");
-		JSONParser parser=new JSONParser();
+		JSONParser parser = new JSONParser();
 		String name;
 		long score;
-		for(int i = 0; i< scores.length; i++){
+		for (int i = 0; i < scores.length; i++) {
 			scores[i] = scores[i] + "}";
-			try{
+			try {
 				Object obj = parser.parse(scores[i]);
 				JSONObject jsonObject = (JSONObject) obj;
 				score = ((Long) jsonObject.get("score")).longValue();
-				if (WindowManager.leaderBoard.leaderboardEntries[4].getScore() <= score){
+				if (WindowManager.leaderBoard.leaderboardEntries[4].getScore() <= score) {
 					name = (String) jsonObject.get("name");
 					WindowManager.leaderBoard.addLeaderboardEntry(name, score);
 				}
-			
-			}
-			catch (ParseException e) {
+
+			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 		}
-           
+
 	}
-	
-	// Adds  score to our online leaderboard
+
+	// Adds score to our online leaderboard
 	public String addLeaderboardScore(String name, int score) {
 		try {
-		URL url = new URL("http://atcga.me/Leaderboard.php?name=" + name + "&score=" + score);
-		URLConnection con = url.openConnection();
-		InputStream is = con.getInputStream();
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		byte[] buf = new byte[1024];
-		int len = 0;
-		while ((len = is.read(buf)) != -1) {
-		    baos.write(buf, 0, len);
-		}
-		String body = new String(baos.toByteArray(), "UTF-8");
-		
-		return body;
+			URL url = new URL("http://atcga.me/Leaderboard.php?name=" + name
+					+ "&score=" + score);
+			URLConnection con = url.openConnection();
+			InputStream is = con.getInputStream();
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			byte[] buf = new byte[1024];
+			int len = 0;
+			while ((len = is.read(buf)) != -1) {
+				baos.write(buf, 0, len);
+			}
+			String body = new String(baos.toByteArray(), "UTF-8");
+
+			return body;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
-	public Long getLowestScore(){
+
+	public Long getLowestScore() {
 		String s = getLeaderboardScores();
 		String[] scores = s.split("}");
-		JSONParser parser=new JSONParser();
+		JSONParser parser = new JSONParser();
 		scores[4] = scores[4] + "}";
-		try{
+		try {
 			Object obj = parser.parse(scores[4]);
 			JSONObject jsonObject = (JSONObject) obj;
-			return (((Long) jsonObject.get("score")).longValue());	
-		}
-		catch (ParseException e) {
+			return (((Long) jsonObject.get("score")).longValue());
+		} catch (ParseException e) {
 			e.printStackTrace();
 			return (long) 0;
 		}
 	}
-	
-	
-	
+
 	public void readStats() {
 		try {
 			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
 					statsFileName));
-			level2Unlocked = ((Boolean)ois.readObject()).booleanValue();
-			level3Unlocked = ((Boolean)ois.readObject()).booleanValue();
+			level2Unlocked = ((Boolean) ois.readObject()).booleanValue();
+			level3Unlocked = ((Boolean) ois.readObject()).booleanValue();
 			ois.close();
 		} catch (Exception ex) {
 			System.out.println("Saving stats raised exception.");

@@ -48,18 +48,25 @@ public class WindowManager extends StateBasedGame {
 
 	/** Reference to the multiplayer selection state */
 	public static final int MULTIPLAYER_STATE = 6;
-	
 
 	/** Reference to the leaderBoard state */
-	
 	public static final int LEADERBOARD_STATE = 7;
 
 	/** Reference to the multiplayer game state */
 	public static final int MULTIPLAYER_GAME_STATE = 8;
-	
+
 	/** Whether opponent for multiplayer has been found **/
 	public static boolean opponentFound = false;
-	
+
+	/** Whether autoPilotOff button was turned off */
+	public static boolean autopilotOff = false;
+
+	/** Signals to multiplayer to send autopilot off message */
+	public static boolean turnOffAutopilot = false;
+
+	/** Signals game to turn off the autopilot */
+	public static boolean autopilotInit = false;
+
 	public static String endingText = "";
 
 	/** The level currently being played */
@@ -70,10 +77,33 @@ public class WindowManager extends StateBasedGame {
 
 	/** The position of the title plane */
 	private double planeProgress;
-	
+
 	/** LeaderBoard */
-	
 	public static LeaderBoard leaderBoard = new LeaderBoard();
+
+	/** If clouds can be sent to the opponent */
+	public static boolean canSendClouds = true;
+
+	/** If clouds can be received from opponent */
+	public static boolean canReceiveClouds = true;
+
+	/** Signals game that opponent has sent clouds */
+	public static boolean receivingClouds = false;
+
+	/** Signals game that you want to send clouds */
+	public static boolean sendClouds = false;
+
+	/** If clouds can be sent to the opponent */
+	public static boolean canSendDebris = true;
+
+	/** If debris can be received from opponent */
+	public static boolean canReceiveDebris = true;
+
+	/** Signals game that opponent has sent debris */
+	public static boolean receivingDebris = false;
+
+	/** Signals game that you want to send debris */
+	public static boolean sendDebris = false;
 
 	// Entry point
 	public static void main(String[] args) throws UnknownHostException,
@@ -101,6 +131,7 @@ public class WindowManager extends StateBasedGame {
 			e.printStackTrace();
 		}
 	}
+
 	// Constructor
 	/**
 	 * Constructor for WindowManager
@@ -137,7 +168,7 @@ public class WindowManager extends StateBasedGame {
 		this.addState(new LevelSelect());
 		this.addState(new GameWindow());
 		this.addState(new Credits());
-	    this.addState(new LeaderBoard());
+		this.addState(new LeaderBoard());
 		this.addState(new Controls());
 		this.addState(new MultiplayerWindow());
 	}
@@ -219,7 +250,7 @@ public class WindowManager extends StateBasedGame {
 			AL.destroy();
 			System.exit(0);
 			return true;
-		} else if (this.getCurrentStateID() == LEADERBOARD_STATE){
+		} else if (this.getCurrentStateID() == LEADERBOARD_STATE) {
 			AL.destroy();
 			System.exit(0);
 			return true;
@@ -234,7 +265,7 @@ public class WindowManager extends StateBasedGame {
 		return false;
 	}
 
-	// Accessors
+	// All gneeral Accessors
 	/**
 	 * @return the level currently being played
 	 */
@@ -256,7 +287,7 @@ public class WindowManager extends StateBasedGame {
 		return this.planeProgress;
 	}
 
-	// Mutators
+	// All general Mutators
 	/**
 	 * @param currentLevel
 	 *            the level to enter

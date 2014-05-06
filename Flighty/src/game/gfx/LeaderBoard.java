@@ -19,8 +19,8 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 
 public class LeaderBoard extends GenericWindow {
-/** The image to display behind window content */
-	
+	/** The image to display behind window content */
+
 	private Image backgroundImage;
 
 	/** The arrow icon */
@@ -28,36 +28,32 @@ public class LeaderBoard extends GenericWindow {
 
 	/** The shaded arrow icon */
 	private Image arrowIconShaded;
-	
+
 	/** variable showing Internet's connection */
 	public static boolean connected = false;
-	
+
 	private boolean init = true;
 	/**
 	 * Array containing the LeaderboardEntries
 	 */
 	public LeaderBoardEntry[] leaderboardEntries = new LeaderBoardEntry[5];
-	
+
 	/**
 	 * Path to the file in which leaderboardScores are stored.
 	 */
-	
-	
+
 	public LeaderBoard() {
 		// Initialise
 		for (int i = 0; i < leaderboardEntries.length; i++) {
 			leaderboardEntries[i] = new LeaderBoardEntry();
 		}
 
-			
 		for (int i = 0; i < leaderboardEntries.length; i++) {
 			leaderboardEntries[i].setName("PLAYER");
 			leaderboardEntries[i].setScore(0);
 		}
-			sortLeaderboard(leaderboardEntries);
+		sortLeaderboard(leaderboardEntries);
 	}
-
-	
 
 	/**
 	 * Add entry to the leaderboard - creates an instance of LeaderboardEntry
@@ -73,7 +69,7 @@ public class LeaderBoard extends GenericWindow {
 		tempLeaderboardEntries[5] = new LeaderBoardEntry(name, score);
 		sortLeaderboard(tempLeaderboardEntries);
 		System.arraycopy(tempLeaderboardEntries, 0, leaderboardEntries, 0,
-				leaderboardEntries.length);			
+				leaderboardEntries.length);
 	}
 
 	/**
@@ -85,7 +81,6 @@ public class LeaderBoard extends GenericWindow {
 		Arrays.sort(leaderboardToSort);
 	}
 
-	
 	/**
 	 * Monitors the mouse position and state
 	 * <p>
@@ -134,7 +129,6 @@ public class LeaderBoard extends GenericWindow {
 				mainMenuText, mainMenuColor);
 	}
 
-	// Overrides
 	/**
 	 * Initialises the state
 	 * 
@@ -161,9 +155,9 @@ public class LeaderBoard extends GenericWindow {
 		this.arrowIcon = new Image(arrowStream, "Arrow Image", false);
 		this.arrowIconShaded = new Image(arrowShadedStream,
 				"Arrow Shaded Image", false);
-		
-	
+
 	}
+
 	/**
 	 * Renders the state
 	 * 
@@ -194,39 +188,45 @@ public class LeaderBoard extends GenericWindow {
 				Color.orange);
 
 		// Draw leaderboard entries
-		
-		if (init){
+
+		if (init) {
 			// checks if there is an internet connection
 			this.isConnected();
-			//Gets and updates scores form online leaderboard
-			if (connected){
-				GameWindow.saveFile.decodeLeaderboardScores(GameWindow.saveFile.getLeaderboardScores());
+			// Gets and updates scores form online leaderboard
+			if (connected) {
+				GameWindow.saveFile.decodeLeaderboardScores(GameWindow.saveFile
+						.getLeaderboardScores());
 				sortLeaderboard(leaderboardEntries);
-				System.out.println(GameWindow.saveFile.getLowestScore());
 			}
 			init = false;
 		}
-		if(connected){
+		if (connected) {
 			int score;
 			String name;
-			this.drawShadowedText(this.font,( gameContainer.getWidth() / 2) - 275, 140,
-					"NAME", Color.orange);
-			this.drawShadowedText(this.font,( gameContainer.getWidth() / 2) + 275, 140,
-					"SCORE", Color.orange);
-			for (int i = 0; i < WindowManager.leaderBoard.leaderboardEntries.length ; i++) {
-				name = WindowManager.leaderBoard.leaderboardEntries[i].getName();
-				score = (int) WindowManager.leaderBoard.leaderboardEntries[i].getScore();
-				this.drawShadowedText(this.font,( gameContainer.getWidth() / 2) - 275, 240 + (textHeight * i * 3),
-						name, Color.orange);
-				this.drawShadowedText(this.font,( gameContainer.getWidth() / 2) + 275, 240 + (textHeight * i * 3),
-						"" + score, Color.orange);
+			this.drawShadowedText(this.font,
+					(gameContainer.getWidth() / 2) - 275, 140, "NAME",
+					Color.orange);
+			this.drawShadowedText(this.font,
+					(gameContainer.getWidth() / 2) + 275, 140, "SCORE",
+					Color.orange);
+			for (int i = 0; i < WindowManager.leaderBoard.leaderboardEntries.length; i++) {
+				name = WindowManager.leaderBoard.leaderboardEntries[i]
+						.getName();
+				score = (int) WindowManager.leaderBoard.leaderboardEntries[i]
+						.getScore();
+				this.drawShadowedText(this.font,
+						(gameContainer.getWidth() / 2) - 275, 240 + (textHeight
+								* i * 3), name, Color.orange);
+				this.drawShadowedText(this.font,
+						(gameContainer.getWidth() / 2) + 275, 240 + (textHeight
+								* i * 3), "" + score, Color.orange);
 			}
+		} else {
+			this.drawShadowedText(this.titleFont, 125, 350,
+					"No internet connection", Color.orange);
+
 		}
-			else {this.drawShadowedText(this.titleFont, 125, 350, "No internet connection", Color.orange);
-			
-			}
-		
-		
+
 		// Draw back text
 		this.checkForSelection(gameContainer, game);
 
@@ -239,34 +239,36 @@ public class LeaderBoard extends GenericWindow {
 				- (textHeight / 4), 45, 35);
 
 	}
-	
-// Checks if Internet's connection is available
-	public  void isConnected (){
-		try{
+
+	// Checks if internet connection is available
+	public void isConnected() {
+		try {
 			URL url = new URL("http://www.google.com");
-			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setConnectTimeout(400);
 			conn.getContent();
-			} catch (UnknownHostException e){
-				e.printStackTrace();
-				connected = false;
-				return;
-			} catch (IOException e){
-				e.printStackTrace();
-				connected = false;
-				return;
-			}
-		connected = true;
-		
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+			connected = false;
+			return;
+		} catch (IOException e) {
+			e.printStackTrace();
+			connected = false;
+			return;
 		}
-	
-// Clears leaderboard so that same scores wouldn't overwrite the ones already in leaderboard.
-	public void clearLeaderboard(){
-		for (int i = 0; i < 4 ; i++){
+		connected = true;
+
+	}
+
+	// Clears leaderboard so that same scores wouldn't overwrite the ones
+	// already in leaderboard.
+	public void clearLeaderboard() {
+		for (int i = 0; i < 4; i++) {
 			WindowManager.leaderBoard.leaderboardEntries[i].setScore(0);
 			WindowManager.leaderBoard.leaderboardEntries[i].setName("PLAYER");
 		}
 	}
+
 	/**
 	 * @return the state's unique ID
 	 */
@@ -275,7 +277,7 @@ public class LeaderBoard extends GenericWindow {
 		return WindowManager.LEADERBOARD_STATE;
 	}
 
-	// Accessors
+	// All general Accessors
 	/**
 	 * @return the background image
 	 */
@@ -297,7 +299,7 @@ public class LeaderBoard extends GenericWindow {
 		return this.arrowIconShaded;
 	}
 
-	// Mutators
+	// All general Mutators
 	/**
 	 * @param backgroundImage
 	 *            the new background image
