@@ -86,7 +86,7 @@ public class Protocol implements Closeable {
 		}
 		// register classes for serialization
 		int classId = INITIAL_CLASS_ID;
-		for (Class c : toRegister) {
+		for (@SuppressWarnings("rawtypes") Class c : toRegister) {
 			sendKryo.register(c, classId);
 			receiveKryo.register(c, classId);
 			classId++;
