@@ -23,15 +23,26 @@ public class MultiplayerGame extends Game {
 			int distFromLeft) throws NoSuchAlgorithmException,
 			UnknownHostException, IOException {
 		super(newSeparationDistance, newPenaltyDistance, distFromLeft);
-		protocol.putMessage(new Message.ClientServer.BeginMM());
-		WindowManager.opponentFound = false;
 	}
 
 	int state = 0;
 
+	public void init() {
+		protocol.putMessage(new Message.ClientServer.BeginMM());
+		WindowManager.opponentFound = false;
+	}
+
+	public void deinit() {
+		protocol.putMessage(new Message.ClientServer.CancelMM());
+		protocol.putMessage(new Message.ClientServer.RequestQuit());
+		WindowManager.opponentFound = false;
+	}
+
+	/**
+	 * ArrayList containing all planes for a multiplayer gamse
+	 */
 	private ArrayList<MultiplayerPlane> multiplayerPlanes = new ArrayList<MultiplayerPlane>();
 
-	// TODO(jamaal) please supress if necessary
 	Protocol protocol = new Protocol("multi.atcga.me", 1025, Arrays.asList(
 			(Class) MultiplayerPlane.class, Score.class));
 
@@ -224,7 +235,7 @@ public class MultiplayerGame extends Game {
 				// Deselects plane that left the airspace
 				plane.setBearing(plane.getBearing() + 180);
 				plane.setY(gameContainer.getHeight() - plane.getY());
-				plane.setX(plane.getX()); // TODO remove this -30 once fixed
+				plane.setX(plane.getX());
 				// plane.setVelocity(-plane.getVelocity());
 				if (plane.getFlightPlan().getCurrentRoute().size() > 0) {
 					plane.setTarget(plane.getFlightPlan().getCurrentRoute()

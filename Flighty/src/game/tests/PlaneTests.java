@@ -282,18 +282,6 @@ public class PlaneTests {
 
 	}
 
-	@Test
-	public void updateCurrentBearingTest8() {
-		// Test that the current heading moves towards the target heading
-		plane1.setBearing(0.5);
-		plane1.setTargetBearing(290);
-		plane1.updateCurrentBearing();
-		assertTrue(plane1.isTurningLeft());
-		assertFalse(plane1.isTurningRight());
-		assertEquals(0.0, plane1.getBearing(), 0.5);
-
-	}
-
 	// Testing findLandingDescentRate
 
 	@Test
