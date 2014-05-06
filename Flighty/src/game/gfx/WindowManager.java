@@ -92,7 +92,7 @@ public class WindowManager extends StateBasedGame {
 
 	/** Signals game that you want to send clouds */
 	public static boolean sendClouds = false;
-	
+
 	/** If clouds can be sent to the opponent */
 	public static boolean canSendDebris = true;
 

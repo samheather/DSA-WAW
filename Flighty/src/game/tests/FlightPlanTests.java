@@ -91,7 +91,8 @@ public class FlightPlanTests {
 		gameWithoutExitpoints.getListOfExitPoints().removeAll(
 				gameWithoutExitpoints.getListOfExitPoints());
 
-		Plane plane2 = new SingleplayerPlane(1, 500, 3000, 50, gameWithoutExitpoints, 2);
+		Plane plane2 = new SingleplayerPlane(1, 500, 3000, 50,
+				gameWithoutExitpoints, 2);
 
 		ArrayList<Point> route = plan.buildRoute(gameWithoutExitpoints, plane2
 				.getFlightPlan().getEntryPoint());
@@ -115,7 +116,8 @@ public class FlightPlanTests {
 		gameWithoutWaypoints.getListOfWaypoints().removeAll(
 				gameWithoutWaypoints.getListOfWaypoints());
 
-		Plane plane2 = new SingleplayerPlane(1, 500, 3000, 50, gameWithoutWaypoints, 3);
+		Plane plane2 = new SingleplayerPlane(1, 500, 3000, 50,
+				gameWithoutWaypoints, 3);
 
 		ArrayList<Point> route = plan.buildRoute(gameWithoutWaypoints, plane2
 				.getFlightPlan().getEntryPoint());

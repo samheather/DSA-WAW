@@ -58,10 +58,10 @@ public class MultiplayerWindow extends BasicGameState {
 
 	/** The time the game ended at */
 	private double endTime;
-	
+
 	/** Amount of Credits when game is ended **/
 	private int endCr;
-	
+
 	private boolean setEndingScores = true;
 
 	private Game currentGame;
@@ -390,9 +390,9 @@ public class MultiplayerWindow extends BasicGameState {
 		this.cloudImages.add(new Image(cloudStream4, "Cloud Image4", false));
 		this.cloudImages.add(new Image(cloudStream5, "Cloud Image5", false));
 		this.cloudImages.add(new Image(cloudStream6, "Cloud Image6", false));
-		
-		//Rotates Cloud images for mirroring
-		for(int i = 3; i < cloudImages.size() ; i++){
+
+		// Rotates Cloud images for mirroring
+		for (int i = 3; i < cloudImages.size(); i++) {
 			cloudImages.get(i).rotate(180);
 		}
 
@@ -414,9 +414,9 @@ public class MultiplayerWindow extends BasicGameState {
 		this.debrisImages.add(new Image(debrisStream2, "Debris Image2", false));
 		this.debrisImages.add(new Image(debrisStream3, "Debris Image3", false));
 		this.debrisImages.add(new Image(debrisStream4, "Debris Image4", false));
-		
-		//Rotates Debris images for mirroring
-		for(int i = 2; i < debrisImages.size(); i++){
+
+		// Rotates Debris images for mirroring
+		for (int i = 2; i < debrisImages.size(); i++) {
 			debrisImages.get(i).rotate(180f);
 		}
 
@@ -672,7 +672,7 @@ public class MultiplayerWindow extends BasicGameState {
 			}
 		}
 		// Renders clouds if they are sent to you by your opponent
-		if (WindowManager.receivingClouds  && !currentGame.isEnding()) {
+		if (WindowManager.receivingClouds && !currentGame.isEnding()) {
 			for (int i = 0; i < 3; i++) {
 				if (!clouds.get(i).moveCloud()) {
 					cloudImages.get(i).draw(clouds.get(i).getX(),
@@ -690,16 +690,16 @@ public class MultiplayerWindow extends BasicGameState {
 
 		sidebarBackground.draw(0, 0, MultiplayerWindow.sidebarWidth,
 				gameContainer.getHeight());
-		
+
 		// Draw shop title
 		graphics.setFont(this.sidebarFontLarge);
 		drawShadowedText(sidebarTitleText, sidebarTitleTextColor,
 				sidebarTitleTextPos, graphics);
 
 		// Draw the points text
-		if (! currentGame.isEnding()){
-		pointsText = currentGame.getScore().getCredits() + " Cr";
-		}else {
+		if (!currentGame.isEnding()) {
+			pointsText = currentGame.getScore().getCredits() + " Cr";
+		} else {
 			pointsText = endCr + " Cr";
 		}
 		pointsTextWidth = this.sidebarFont.getWidth(pointsText);
@@ -714,7 +714,8 @@ public class MultiplayerWindow extends BasicGameState {
 				|| isInHitBox(x, y, cloudTextPos3, cloudTextWidth3, fontHeight,
 						tolerance)) {
 
-			if (clicked  && currentGame.getScore().getCredits() >= cloudCost && WindowManager.canSendClouds && !currentGame.isEnding()) {
+			if (clicked && currentGame.getScore().getCredits() >= cloudCost
+					&& WindowManager.canSendClouds && !currentGame.isEnding()) {
 				currentGame.getScore().updateCredits(-cloudCost);
 				WindowManager.sendClouds = true;
 				cloudsApeared = true;
@@ -753,7 +754,8 @@ public class MultiplayerWindow extends BasicGameState {
 				|| isInHitBox(x, y, autopilotTextPos3, autopilotTextWidth3,
 						fontHeight, tolerance)) {
 
-			if (clicked && currentGame.getScore().getCredits() >= autopilotCost && !currentGame.isEnding()) {
+			if (clicked && currentGame.getScore().getCredits() >= autopilotCost
+					&& !currentGame.isEnding()) {
 				currentGame.getScore().updateCredits(-autopilotCost);
 				WindowManager.turnOffAutopilot = true;
 			} else {
@@ -782,10 +784,15 @@ public class MultiplayerWindow extends BasicGameState {
 			WindowManager.canReceiveDebris = true;
 			debrisApeared = false;
 			debris = new ArrayList<Debris>();
-			debris.add(new Debris(0.5f , currentGame.getDistFromLeftEdge() + 100 , 0, currentGame));
-			debris.add(new Debris(0.5f, currentGame.getDistFromLeftEdge() + 300, currentGame.windowHeight, currentGame));
-			debris.add(new Debris(0.5f, currentGame.windowWidth-100, currentGame.windowHeight, currentGame));
-			debris.add(new Debris(0.5f, currentGame.windowWidth-300, 0, currentGame));
+			debris.add(new Debris(0.5f,
+					currentGame.getDistFromLeftEdge() + 100, 0, currentGame));
+			debris.add(new Debris(0.5f,
+					currentGame.getDistFromLeftEdge() + 300,
+					currentGame.windowHeight, currentGame));
+			debris.add(new Debris(0.5f, currentGame.windowWidth - 100,
+					currentGame.windowHeight, currentGame));
+			debris.add(new Debris(0.5f, currentGame.windowWidth - 300, 0,
+					currentGame));
 			debrisSeparation = 40;
 			debrisInit = false;
 
@@ -844,7 +851,8 @@ public class MultiplayerWindow extends BasicGameState {
 						fontHeight, tolerance)
 				|| isInHitBox(x, y, debrisTextPos3, debrisTextWidth3,
 						fontHeight, tolerance)) {
-			if (clicked  &&  currentGame.getScore().getCredits() >= debrisCost && WindowManager.canSendDebris && !currentGame.isEnding()) {
+			if (clicked && currentGame.getScore().getCredits() >= debrisCost
+					&& WindowManager.canSendDebris && !currentGame.isEnding()) {
 				currentGame.getScore().updateCredits(-debrisCost);
 				WindowManager.sendDebris = true;
 				debrisApeared = true;
@@ -862,9 +870,9 @@ public class MultiplayerWindow extends BasicGameState {
 		drawShadowedText(debrisText1, debrisTextColor, debrisTextPos1, graphics);
 		drawShadowedText(debrisText2, debrisTextColor, debrisTextPos2, graphics);
 		drawShadowedText(debrisText3, debrisTextColor, debrisTextPos3, graphics);
-		
+
 		// Amount of credits once the game has ended
-		
+
 		// Draw waiting for opponent if there is no opponent
 		if (WindowManager.opponentFound == false) {
 			drawShadowedText(waitingText, waitingTextColor, waitingTextPos,
@@ -872,14 +880,14 @@ public class MultiplayerWindow extends BasicGameState {
 		} else if (WindowManager.endingText != "") {
 			drawShadowedText(WindowManager.endingText, waitingTextColor,
 					waitingTextPos, graphics);
-			if(setEndingScores){
+			if (setEndingScores) {
 				// Stop the timer
 				endTime = time;
 				// Stop the credits
 				endCr = currentGame.getScore().getCredits();
-				
+
 				setEndingScores = false;
-				
+
 			}
 		}
 	}
@@ -1481,7 +1489,6 @@ public class MultiplayerWindow extends BasicGameState {
 		}
 
 		handleSidebar(gameContainer, graphics);
-		
 
 	}
 
@@ -1532,7 +1539,7 @@ public class MultiplayerWindow extends BasicGameState {
 			// Select plane by left clicking
 			if (button == 0) {
 				Plane clickedPlane = selectFlight(x, y);
-				//System.out.println(clickedPlane);
+				// System.out.println(clickedPlane);
 				if (clickedPlane != null && clickedPlane.ownedByCurrentPlayer
 						&& !clickedPlane.getNeedsToTakeOff()
 						&& !clickedPlane.isTakingOff()) {
@@ -1928,8 +1935,8 @@ public class MultiplayerWindow extends BasicGameState {
 	public void setCurrentGameContainer(GameContainer currentGameContainer) {
 		this.currentGameContainer = currentGameContainer;
 	}
-	
-	public void setCloudsApeared(boolean clouds){
+
+	public void setCloudsApeared(boolean clouds) {
 		this.cloudsApeared = clouds;
 	}
 }

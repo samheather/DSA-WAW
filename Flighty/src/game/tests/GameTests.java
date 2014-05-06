@@ -22,7 +22,8 @@ public class GameTests {
 	// public
 
 	@Before
-	public void beforeTests() throws NoSuchAlgorithmException, UnknownHostException, IOException {
+	public void beforeTests() throws NoSuchAlgorithmException,
+			UnknownHostException, IOException {
 
 		game = new SingleplayerGame(50, 100, 0, 1);
 		plane1 = new SingleplayerPlane(1, 500, 3000, 50, game, 0);
@@ -110,14 +111,16 @@ public class GameTests {
 	}
 
 	@Test
-	public void tenWaypointsTest() throws NoSuchAlgorithmException, UnknownHostException, IOException {
+	public void tenWaypointsTest() throws NoSuchAlgorithmException,
+			UnknownHostException, IOException {
 		game = new SingleplayerGame(100, 100, 0, 1);
 		assertEquals(10, game.getListOfWaypoints().size(), 0);
 
 	}
 
 	@Test
-	public void tenPlanesTest() throws NoSuchAlgorithmException, UnknownHostException, IOException {
+	public void tenPlanesTest() throws NoSuchAlgorithmException,
+			UnknownHostException, IOException {
 		game = new SingleplayerGame(100, 100, 0, 1);
 		for (int i = 0; i < 10; i++) {
 			game.createPlane();
@@ -128,7 +131,8 @@ public class GameTests {
 	}
 
 	@Test
-	public void takingOffRestrictionTest() throws NoSuchAlgorithmException, UnknownHostException, IOException {
+	public void takingOffRestrictionTest() throws NoSuchAlgorithmException,
+			UnknownHostException, IOException {
 		// Checking that when a flight is waiting to take off another flight
 		// cannot be designated to take off.
 

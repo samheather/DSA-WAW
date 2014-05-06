@@ -1,7 +1,7 @@
 package game.struct;
 
 public class Debris {
-	
+
 	/** Speed the cloud is traveling at */
 	private float velocity;
 
@@ -37,7 +37,7 @@ public class Debris {
 	}
 
 	/** Updates x and y coordinates */
-	
+
 	public void updateXYCoordinates() {
 		if (getY() > this.end.getY()) {
 			setY(getY() - velocity);
@@ -124,4 +124,3 @@ public class Debris {
 		this.y = y;
 	}
 }
-

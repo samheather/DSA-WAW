@@ -22,7 +22,7 @@ public class FlightPlan {
 
 	/** Required by Slick2D, reference to the current game. */
 	private transient Game currentGame;
-	
+
 	private Random rand = new Random();
 
 	/**
@@ -61,7 +61,10 @@ public class FlightPlan {
 	 */
 	public Point generateEntryPoint(Game currentGame) {
 		int num = rand.nextInt(currentGame.getListOfEntryPoints().size());
-		if (currentGame.getListOfEntryPoints().get(num) == currentGame.getAirport() && (hasPlaneOnRunway(currentGame.getCurrentPlanes(), currentGame))) {
+		if (currentGame.getListOfEntryPoints().get(num) == currentGame
+				.getAirport()
+				&& (hasPlaneOnRunway(currentGame.getCurrentPlanes(),
+						currentGame))) {
 			return generateEntryPoint(currentGame);
 		} else {
 			return currentGame.getListOfEntryPoints().get(num);

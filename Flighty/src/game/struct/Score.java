@@ -9,7 +9,7 @@ public class Score {
 
 	/** Variable which holds current multiplier */
 	private int multiplier;
-	
+
 	private int credits;
 
 	// Constructor
@@ -30,10 +30,10 @@ public class Score {
 
 	// Methods
 
-	public void addCredits(int value){
-		credits += Math.floor(value/2);
+	public void addCredits(int value) {
+		credits += Math.floor(value / 2);
 	}
-	
+
 	/**
 	 * <p>
 	 * This method adds points to the score variable and is used within the Game
@@ -83,8 +83,8 @@ public class Score {
 	 * 10 * multiplier is deducted from score. Otherwise the score is set to
 	 * zero, as 10 * multiplier would result in a negative score.
 	 */
-	public void planeLeftAirspaceOrWaitingToTakeOffMinusScore(){
-		score = Math.max((score - 10 * multiplier) , 0);
+	public void planeLeftAirspaceOrWaitingToTakeOffMinusScore() {
+		score = Math.max((score - 10 * multiplier), 0);
 	}
 
 	/**
@@ -136,10 +136,10 @@ public class Score {
 
 	// Accessors
 
-	public int getCredits(){
+	public int getCredits() {
 		return this.credits;
 	}
-	
+
 	/**
 	 * 
 	 * @return Current score value
@@ -148,12 +148,12 @@ public class Score {
 		return this.score;
 	}
 
-	//Mutators
-	
-	public void updateCredits(int delta){
+	// Mutators
+
+	public void updateCredits(int delta) {
 		this.credits += delta;
 	}
-	
+
 	/**
 	 * Used in testing
 	 * 

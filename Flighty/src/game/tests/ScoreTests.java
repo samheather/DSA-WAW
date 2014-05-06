@@ -15,7 +15,8 @@ public class ScoreTests {
 	Plane plane;
 
 	@Before
-	public void beforeTests() throws NoSuchAlgorithmException, UnknownHostException, IOException {
+	public void beforeTests() throws NoSuchAlgorithmException,
+			UnknownHostException, IOException {
 		game = new SingleplayerGame(50, 100, 0, 1);
 		plane = new SingleplayerPlane(1, 500, 3000, 50, game, 0);
 	}
@@ -214,10 +215,10 @@ public class ScoreTests {
 		assertTrue(game.getScore().getScore() == 0
 				&& game.getScore().getMultiplier() == 1);
 	}
-	
+
 	public void planeHitWaypointTest() {
 		plane.setX(150);
 		plane.setY(150);
-		
+
 	}
 }

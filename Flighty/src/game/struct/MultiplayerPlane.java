@@ -33,9 +33,7 @@ class MultiplayerPlane extends Plane {
 		return (!currentGame.getAirport().isPlaneLanding()
 				&& currentGame.getAirport().getLandingApproachArea()
 						.contains((float) getX(), (float) getY())
-				&& ((true && ((getBearing() >= takeoffAngleHighMulti && getBearing() <= 359)
-						|| (getBearing() <= takeoffAngleLowMulti && getBearing() >= 0))))
-						&& getAltitude() <= 2000);
+				&& ((true && ((getBearing() >= takeoffAngleHighMulti && getBearing() <= 359) || (getBearing() <= takeoffAngleLowMulti && getBearing() >= 0)))) && getAltitude() <= 2000);
 	}
 
 	/**

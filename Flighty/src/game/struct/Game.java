@@ -249,8 +249,8 @@ public abstract class Game {
 		newPlane.setBearing(newPlane.getTargetBearing());
 	}
 
-	public abstract Plane constructPlane(int id, double velocity,
-			int altitude, double bearing, long uniqueNetworkObjectId);
+	public abstract Plane constructPlane(int id, double velocity, int altitude,
+			double bearing, long uniqueNetworkObjectId);
 
 	/**
 	 * Configure plane to take off properly
@@ -399,8 +399,6 @@ public abstract class Game {
 		// Squared distance between 2 planes
 		double distIJSqr;
 		boolean risk = false;
-		
-		
 
 		// First -> are planes colliding? {1:true, 0:false}
 		// Second -> result used for testing purposes {1:true, 0:false}
@@ -417,11 +415,11 @@ public abstract class Game {
 					|| (plane2.ownedByCurrentPlayer == false)) {
 				continue;
 			}
-			if ((!plane1.getNeedsToTakeOff()) && (!plane2.getNeedsToTakeOff())){
+			if ((!plane1.getNeedsToTakeOff()) && (!plane2.getNeedsToTakeOff())) {
 				// Calculates the distance between 2 planes
 				distIJSqr = Math.pow(plane2.getX() - plane1.getX(), 2)
 						+ Math.pow(plane2.getY() - plane1.getY(), 2);
-	
+
 				// Calculates if two planes have collided
 				if (distIJSqr < Math.pow(separationDistance, 2)) {
 					result[0] = true;
@@ -431,12 +429,14 @@ public abstract class Game {
 				else if (distIJSqr < Math.pow(penaltyDistance, 2)) {
 					plane2.setAlertStatus(true);
 					risk = true;
-	
-					// Applying score penalties for violating the penalty distance
+
+					// Applying score penalties for violating the penalty
+					// distance
 					if (penalty) {
 						if (plane2.ownedByCurrentPlayer)
-							getScore().planeCollisionWarningMultAndScorePenalties();
-	
+							getScore()
+									.planeCollisionWarningMultAndScorePenalties();
+
 						penalty = false;
 						plane2.setViolationOccurred();
 					}
@@ -826,8 +826,8 @@ public abstract class Game {
 	public int getPlaneCount() {
 		return planeCount;
 	}
-	
-	public int getDistFromLeftEdge(){
+
+	public int getDistFromLeftEdge() {
 		return distFromLeftEdge;
 	}
 

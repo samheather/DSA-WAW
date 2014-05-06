@@ -237,11 +237,10 @@ public abstract class Plane {
 		// Decrement bearing by going left
 		setTurningLeft(true);
 		setTurningRight(false);
-		
-		
+
 		setBearing(getBearing() - 1);
 		setTargetBearing(getBearing());
-		
+
 		if (bearing < 0) {
 			setBearing(359);
 			setTargetBearing(359);

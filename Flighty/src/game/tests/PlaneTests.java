@@ -21,7 +21,8 @@ public class PlaneTests {
 	Plane plane2;
 
 	@Before
-	public void beforeTests() throws NoSuchAlgorithmException, UnknownHostException, IOException {
+	public void beforeTests() throws NoSuchAlgorithmException,
+			UnknownHostException, IOException {
 		game = new SingleplayerGame(50, 100, 0, 1);
 		plane1 = new SingleplayerPlane(1, 500, 3000, 50, game, 0);
 		plane2 = new SingleplayerPlane(1, 500, 4000, 50, game, 0);
@@ -323,7 +324,7 @@ public class PlaneTests {
 		assertEquals(null, game.getCurrentPlane());
 
 	}
-	
+
 	@Test
 	public void landPlaneTest2() {
 		plane1.setX(695);
@@ -338,7 +339,7 @@ public class PlaneTests {
 		plane2.land();
 		assertTrue(plane1.isLanding());
 		assertFalse(plane2.isLanding());
-		
+
 	}
 
 	// Testing Update X and Y Coordinates
@@ -372,7 +373,7 @@ public class PlaneTests {
 		assertEquals(399.507, plane1.getY(), 0.001);
 
 	}
-	
+
 	@Test
 	public void movePlaneTest2() {
 		plane1.setX(150);
@@ -419,7 +420,7 @@ public class PlaneTests {
 	}
 
 	// Testing Update Plane Altitude
-	
+
 	@Test
 	public void updatePlaneAltitudeTest1() {
 		plane1.setLandingDescentRate(10);

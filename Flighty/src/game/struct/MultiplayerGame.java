@@ -109,7 +109,7 @@ public class MultiplayerGame extends Game {
 									i.remove();
 								else
 									i.set(p);
-								//System.out.println("received existing plane");
+								// System.out.println("received existing plane");
 								p = null;
 								break;
 							}
@@ -117,7 +117,7 @@ public class MultiplayerGame extends Game {
 						if (p != null && !p.deleted()) {
 							// p.ownedByCurrentPlayer = false;
 							multiplayerPlanes.add(p);
-							//System.out.println("received new plane");
+							// System.out.println("received new plane");
 						}
 					} else if (o instanceof AutoPilot) {
 						WindowManager.autopilotInit = true;
@@ -235,9 +235,9 @@ public class MultiplayerGame extends Game {
 				}
 				plane.setOwnedByCurrentPlayer(false);
 				plane.setAuto();
-			} /*else {
-				plane.setOwnedByCurrentPlayer(true);
-			}*/
+			} /*
+			 * else { plane.setOwnedByCurrentPlayer(true); }
+			 */
 		}
 	}
 

@@ -1077,11 +1077,13 @@ public class GameWindow extends BasicGameState {
 							game.enterState(WindowManager.MAIN_MENU_STATE);
 
 						} else if (Keyboard.getEventKey() == Keyboard.KEY_RETURN) {
-								game.enterState(WindowManager.MAIN_MENU_STATE);
-							}
+							game.enterState(WindowManager.MAIN_MENU_STATE);
+						}
 					}
 
-				} else { endFont.drawString(300, 325, "No internet connection");}
+				} else {
+					endFont.drawString(300, 325, "No internet connection");
+				}
 			}// if the planes collided but the ending has not yet been set
 			else {
 				// Stop the timer
