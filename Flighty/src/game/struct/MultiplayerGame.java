@@ -33,6 +33,7 @@ public class MultiplayerGame extends Game {
 	}
 	
 	public void deinit() {
+		protocol.putMessage(new Message.ClientServer.CancelMM());
 		protocol.putMessage(new Message.ClientServer.RequestQuit());
 		WindowManager.opponentFound = false;
 	}
