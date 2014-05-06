@@ -8,7 +8,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
 import game.gfx.MultiplayerWindow;
-import game.gfx.WindowManager;
 import game.struct.Game;
 import game.struct.MultiplayerGame;
 import game.struct.Plane;
@@ -44,6 +43,7 @@ public class MultiplayerTests {
 		assertEquals(0, game.getScore().getCredits());
 		game.getScore().addScore(plane1, game);
 		assertEquals(5, game.getScore().getCredits());
+		game.getScore().updateCredits(-5);
 	}
 
 	@Test

@@ -65,21 +65,7 @@ public class GameTests {
 	}
 
 	@Test
-	public void collsionTest1() {
-		game.createPlane();
-		game.createPlane();
-		game.getCurrentPlanes().get(0).setX(100);
-		game.getCurrentPlanes().get(0).setY(100);
-		game.getCurrentPlanes().get(0).setAltitude(1000);
-		game.getCurrentPlanes().get(1).setX(100);
-		game.getCurrentPlanes().get(1).setY(100);
-		game.getCurrentPlanes().get(1).setAltitude(1000);
-		assertTrue(game.collision(game.getCurrentPlanes().get(0)));
-
-	}
-
-	@Test
-	public void collsionTest2() {
+	public void collsionTest() {
 		game.createPlane();
 		game.createPlane();
 		game.getCurrentPlanes().get(0).setX(100);
@@ -91,22 +77,6 @@ public class GameTests {
 		assertFalse(game.collision(game.getCurrentPlanes().get(0)));
 		assertFalse(game.getCurrentPlanes().get(0).getAlertStatus());
 		assertFalse(game.getCurrentPlanes().get(1).getAlertStatus());
-
-	}
-
-	@Test
-	public void collsionTest3() {
-		game.createPlane();
-		game.createPlane();
-		game.getCurrentPlanes().get(0).setX(100);
-		game.getCurrentPlanes().get(0).setY(100);
-		game.getCurrentPlanes().get(0).setAltitude(1000);
-		game.getCurrentPlanes().get(1).setX(50);
-		game.getCurrentPlanes().get(1).setY(50);
-		game.getCurrentPlanes().get(1).setAltitude(1300);
-		assertFalse(game.collision(game.getCurrentPlanes().get(0)));
-		assertTrue(game.getCurrentPlanes().get(0).getAlertStatus());
-		assertTrue(game.getCurrentPlanes().get(1).getAlertStatus());
 
 	}
 
