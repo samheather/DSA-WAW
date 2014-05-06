@@ -170,8 +170,11 @@ public class WindowManager extends StateBasedGame {
 		this.addState(new Credits());
 		this.addState(new LeaderBoard());
 		this.addState(new Controls());
-		this.addState(new MultiplayerWindow());
+		mw = new MultiplayerWindow();
+		this.addState(mw);
 	}
+	
+	public MultiplayerWindow mw;
 
 	/**
 	 * Used to load application icons
@@ -259,6 +262,7 @@ public class WindowManager extends StateBasedGame {
 			System.exit(0);
 			return true;
 		} else if (this.getCurrentStateID() == MULTIPLAYER_GAME_STATE) {
+			mw.getGame().deinit();
 			this.enterState(MAIN_MENU_STATE);
 		}
 

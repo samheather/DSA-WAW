@@ -64,7 +64,7 @@ public class MultiplayerWindow extends BasicGameState {
 
 	private boolean setEndingScores = true;
 
-	private Game currentGame;
+	private MultiplayerGame currentGame;
 
 	/** The map */
 	private Image map;
@@ -491,6 +491,7 @@ public class MultiplayerWindow extends BasicGameState {
 		currentGame.setSpeedDifficulty(0.5);
 		currentGame.setSpawnRate(4);
 		currentGame.setSpawnCount(1);
+		currentGame.init();
 
 	}
 
@@ -1780,6 +1781,10 @@ public class MultiplayerWindow extends BasicGameState {
 
 	public static int getSidebarWidth() {
 		return sidebarWidth;
+	}
+	
+	public MultiplayerGame getGame() {
+		return this.currentGame;
 	}
 
 	// All general Mutators

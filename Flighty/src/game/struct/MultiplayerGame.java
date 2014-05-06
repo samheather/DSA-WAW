@@ -23,11 +23,19 @@ public class MultiplayerGame extends Game {
 			int distFromLeft) throws NoSuchAlgorithmException,
 			UnknownHostException, IOException {
 		super(newSeparationDistance, newPenaltyDistance, distFromLeft);
-		protocol.putMessage(new Message.ClientServer.BeginMM());
-		WindowManager.opponentFound = false;
 	}
 
 	int state = 0;
+	
+	public void init() {
+		protocol.putMessage(new Message.ClientServer.BeginMM());
+		WindowManager.opponentFound = false;
+	}
+	
+	public void deinit() {
+		protocol.putMessage(new Message.ClientServer.RequestQuit());
+		WindowManager.opponentFound = false;
+	}
 
 	private ArrayList<MultiplayerPlane> multiplayerPlanes = new ArrayList<MultiplayerPlane>();
 
