@@ -70,6 +70,8 @@ public class LocateFace {
 	 * past position history will be reset.
 	 */
 	private int outliersOrErrors = 0;
+	
+	private boolean webcamExists = true;
 
 	/**
 	 * Constructor for LocateFace - sets up OpenCV, sets min and max face sizes
@@ -78,6 +80,10 @@ public class LocateFace {
 	public LocateFace() {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		vc = new VideoCapture(0);
+		
+		if (!vc.isOpened()) {
+			webcamExists = false;
+		}
 
 		// Load the face detection haarcascade file in
 		File cascadeFile = new File("res/haarcascade_frontalface_default.xml");
@@ -101,6 +107,11 @@ public class LocateFace {
 	 * @return boolean successful
 	 */
 	public boolean updateFacePosition() {
+		
+		if (!webcamExists) {
+			return false;
+		}
+		
 		// Read image from camera into matrix.
 		Mat img = new Mat();
 		if (!vc.read(img)) {
