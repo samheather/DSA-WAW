@@ -18,19 +18,19 @@ import game.gfx.WindowManager;
 
 public class SaveFile {
 
-	/** Score needed to unlock level 2*/
+	/** Score needed to unlock level 2 */
 	private int level2UnlockScore = 200;
 
-	/** Score needed to unlock level 3*/
+	/** Score needed to unlock level 3 */
 	private int level3UnlockScore = 300;
 
-	/** Stores if level 2 is unlocked*/
+	/** Stores if level 2 is unlocked */
 	private boolean level2Unlocked = false;
 
-	/** Stores if level 3 is unlocked*/
+	/** Stores if level 3 is unlocked */
 	private boolean level3Unlocked = false;
 
-	/** Name of file to store the stats in*/
+	/** Name of file to store the stats in */
 	private String statsFileName = "stats.txt";
 
 	/** Gets leaderboard reading from our PHP page in JSON format. */
@@ -101,6 +101,7 @@ public class SaveFile {
 
 	/**
 	 * Gets lowest score in leaderboard
+	 * 
 	 * @return Long of the lowest score in the top 5 leaderboard
 	 */
 	public Long getLowestScore() {

@@ -1781,7 +1781,7 @@ public class MultiplayerWindow extends BasicGameState {
 	public static int getSidebarWidth() {
 		return sidebarWidth;
 	}
-	
+
 	public MultiplayerGame getGame() {
 		return this.currentGame;
 	}

@@ -5,58 +5,43 @@ package game.struct;
  */
 public abstract class Plane {
 
+	/**
+	 * The high angle of the green cone that indicates valid space to give the
+	 * order to land in a multiplayer game.
+	 */
 	protected int takeoffAngleHighMulti = 345;
+
+	/**
+	 * The low angle of the green cone that indicates valid space to give the
+	 * order to land in a multiplayer game.
+	 */
 	protected int takeoffAngleLowMulti = 15;
+
+	/**
+	 * The high angle of the green cone that indicates valid space to give the
+	 * order to land in a singleplayer game.
+	 */
 	protected int takeoffAngleHighSingle = 225;
+
+	/**
+	 * The low angle of the green cone that indicates valid space to give the
+	 * order to land in a singleplayer game.
+	 */
 	protected int takeoffAngleLowSingle = 135;
 
+	/** Is this plane under manual control? */
 	private boolean manual = false;
 
-	public void setManual() {
-		manual = true;
-		markForSyncing();
-	}
-
-	public void setAuto() {
-		manual = false;
-		if (getFlightPlan().getCurrentRoute().size() > 0) {
-			setTarget(getFlightPlan().getCurrentRoute().get(0));
-		}
-		markForSyncing();
-	}
-
-	public boolean isManual() {
-		return manual;
-	}
-
-	private boolean needsSyncing = true;
-
-	public void markForSyncing() {
-		this.needsSyncing = true;
-	}
-
-	public void resetSyncState() {
-		this.needsSyncing = false;
-	}
-
-	public boolean needsSyncing() {
-		return this.needsSyncing;
-	}
-
+	/** Boolean indicating if the plane needs to be deleted. */
 	private boolean deleted = false;
-
-	public boolean deleted() {
-		return deleted;
-	}
-
-	public void markForDeletion() {
-		deleted = true;
-		markForSyncing();
-	}
 
 	/** Unique identifier */
 	private int id;
 
+	/**
+	 * A unique ID for the plane that is the same across all clients in a
+	 * networked game.
+	 */
 	private final long uniqueNetworkObjectID;
 
 	/** Size to display plane */
@@ -125,8 +110,6 @@ public abstract class Plane {
 		uniqueNetworkObjectID = 0;
 	}
 
-	// Constructor
-
 	/**
 	 * Constructor for Plane
 	 * <p>
@@ -149,7 +132,6 @@ public abstract class Plane {
 	 * @param y
 	 *            the y position to create the plane at
 	 */
-
 	protected Plane(int id, double velocity, int altitude, double bearing,
 			Game currentGame, long uniqueNetworkObjectId) {
 		this.currentGame = currentGame;
@@ -227,7 +209,6 @@ public abstract class Plane {
 			setBearing(0);
 			setTargetBearing(0);
 		}
-		// markForSyncing();
 	}
 
 	/**
@@ -241,12 +222,11 @@ public abstract class Plane {
 		setBearing(getBearing() - 1);
 		setTargetBearing(getBearing());
 
+		// Resets the bearing if it is bigger than 360 degrees
 		if (bearing < 0) {
 			setBearing(359);
 			setTargetBearing(359);
 		}
-		// Resets the bearing if it is smaller than 0
-		// markForSyncing();
 	}
 
 	/**
@@ -257,7 +237,6 @@ public abstract class Plane {
 	 */
 	public void incrementAltitude() {
 		setAltitude(getAltitude() + 5);
-		// markForSyncing();
 	}
 
 	/**
@@ -268,7 +247,6 @@ public abstract class Plane {
 	 */
 	public void decrementAltitude() {
 		setAltitude(getAltitude() - 5);
-		// markForSyncing();
 	}
 
 	/**
@@ -292,7 +270,6 @@ public abstract class Plane {
 		if (getTargetAltitude() >= 3000) {
 			setTargetAltitude(getTargetAltitude() - 1000);
 		}
-		// markForSyncing();
 	}
 
 	/**
@@ -351,15 +328,13 @@ public abstract class Plane {
 				}
 
 				// Change bearing if plane is already turning right or user has
-				// told
-				// it to turn right
+				// told it to turn right
 				if (isTurningRight() == true) {
 					setBearing((getBearing() + rate) % 360);
 				}
 
 				// Change bearing if plane is already turning left or user has
-				// told
-				// it to turn left
+				// told it to turn left
 				if (isTurningLeft() == true) {
 					setBearing((getBearing() - rate) % 360);
 				}
@@ -377,8 +352,6 @@ public abstract class Plane {
 			setBearing(0);
 			setTargetBearing(0);
 		}
-
-		// markForSyncing();
 	}
 
 	/**
@@ -404,8 +377,6 @@ public abstract class Plane {
 
 		return rate;
 	}
-
-	public abstract boolean allowedToLand();
 
 	/**
 	 * First checks that another plane is not landing, then checks whether plane
@@ -444,9 +415,7 @@ public abstract class Plane {
 		// Penalising stops because the plane has been commanded to take off
 		currentGame.setTakeOffPenalty(false);
 
-		// currentGame.setCurrentPlane(null);
 		markForSyncing();
-
 	}
 
 	/**
@@ -473,7 +442,6 @@ public abstract class Plane {
 				incrementAltitude();
 			}
 		}
-		// markForSyncing();
 	}
 
 	/**
@@ -506,7 +474,6 @@ public abstract class Plane {
 				updateXYCoordinates();
 			}
 		}
-		// markForSyncing();
 	}
 
 	/** Updates x and y coordinates */
@@ -516,21 +483,6 @@ public abstract class Plane {
 
 		setY((float) (getY() - (Math.sin(Math.toRadians(getBearing())) * (currentGame
 				.getSpeedDifficulty() * getVelocity()))));
-	}
-
-	// Getters
-	/**
-	 * @return the violationOccurred boolean
-	 */
-	public boolean getViolationOccurred() {
-		return this.violationOccurred;
-	}
-
-	/**
-	 * @return the Plane's unique ID
-	 */
-	public int getID() {
-		return this.id;
 	}
 
 	@Override
@@ -551,6 +503,8 @@ public abstract class Plane {
 	public final int hashCode() {
 		return String.valueOf(uniqueNetworkObjectID).hashCode();
 	}
+
+	// Accessors and Mutators
 
 	/**
 	 * @return the size the plane displays at
@@ -616,10 +570,22 @@ public abstract class Plane {
 		return this.targetAltitude;
 	}
 
-	// Mutators
-
 	public void clearFlightPlan() {
 		this.flightPlan = null;
+	}
+
+	/**
+	 * @return the Plane's unique ID
+	 */
+	public int getID() {
+		return this.id;
+	}
+
+	/**
+	 * @return the violationOccurred boolean
+	 */
+	public boolean getViolationOccurred() {
+		return this.violationOccurred;
 	}
 
 	/**
@@ -650,7 +616,6 @@ public abstract class Plane {
 	 *            the new speed
 	 */
 	public void setVelocity(double velocity) {
-		// markForSyncing();
 		this.velocity = velocity;
 	}
 
@@ -762,69 +727,236 @@ public abstract class Plane {
 		this.turningRight = turningRight;
 	}
 
+	/**
+	 * Returns a boolean indicating if a plane is turning left.
+	 * 
+	 * @return
+	 */
 	public boolean isTurningLeft() {
 		return turningLeft;
 	}
 
+	/**
+	 * Sets a plane as turning left.
+	 * 
+	 * @param turningLeft
+	 */
 	public void setTurningLeft(boolean turningLeft) {
 		this.turningLeft = turningLeft;
 	}
 
+	/**
+	 * Returns if this plane is now allowed to land.
+	 * 
+	 * @return
+	 */
+	public abstract boolean allowedToLand();
+
+	/**
+	 * Returns boolean indicating if a plane is landing.
+	 * 
+	 * @return
+	 */
 	public boolean isLanding() {
 		return this.landing;
 	}
 
+	/**
+	 * Sets a plane as landing
+	 * 
+	 * @param bool
+	 */
 	public void setLanding(boolean bool) {
 		this.landing = bool;
 	}
 
+	/**
+	 * Sets a plane as taking off.
+	 * 
+	 * @return
+	 */
 	public boolean isTakingOff() {
 		return takingOff;
 	}
 
+	/**
+	 * Sets a planes taking off state to the input parameter takingOff
+	 * 
+	 * @param takingOff
+	 */
 	public void setTakingOff(boolean takingOff) {
 		this.takingOff = takingOff;
 	}
 
+	/**
+	 * Returns a boolean indicating if a plane needs to take off.
+	 * 
+	 * @return
+	 */
 	public boolean getNeedsToTakeOff() {
 		return needsToTakeOff;
 	}
 
+	/**
+	 * Sets a planes needsToTakeOff parameter to the input parameter
+	 * needsToTakeOff
+	 * 
+	 * @param needsToTakeOff
+	 */
 	public void setNeedsToTakeOff(boolean needsToTakeOff) {
 		this.needsToTakeOff = needsToTakeOff;
 	}
 
+	/**
+	 * Returns a double representing the landing descent rate.
+	 * 
+	 * @return
+	 */
 	public double getLandingDescentRate() {
 		return landingDescentRate;
 	}
 
+	/**
+	 * Sets the landing descent rate of this plane to the input parameter double
+	 * landingDescentRate.
+	 * 
+	 * @param landingDescentRate
+	 */
 	public void setLandingDescentRate(double landingDescentRate) {
 		this.landingDescentRate = landingDescentRate;
 	}
 
+	/**
+	 * Returns getTakeoffValueHighMulti - angle for drawing green cone for
+	 * airport.
+	 * 
+	 * @return
+	 */
 	public int getTakeoffValueHighMulti() {
 		return this.takeoffAngleHighMulti;
 	}
 
+	/**
+	 * Returns takeoffAngleLowMulti - angle for drawing green cone for airport.
+	 * 
+	 * @return
+	 */
 	public int getTakeoffValueLowMulti() {
 		return this.takeoffAngleLowMulti;
 	}
 
+	/**
+	 * Returns takeoffAngleHighSingle - angle for drawing green cone for
+	 * airport.
+	 * 
+	 * @return
+	 */
 	public int getTakeoffValueHighSingle() {
 		return this.takeoffAngleHighSingle;
 	}
 
+	/**
+	 * Returns takeoffAngleLowSingle - angle for drawing green cone for airport.
+	 * 
+	 * @return
+	 */
 	public int getTakeoffValueLowSingle() {
 		return this.takeoffAngleLowSingle;
 	}
 
+	/**
+	 * Returns boolean indicating if this plane is owned by the current player.
+	 * 
+	 * @return
+	 */
 	public boolean getOwnedByCurrentPlayer() {
 		return this.ownedByCurrentPlayer;
 	}
 
+	/**
+	 * Sets this plane's boolean indicator as to whether it is owned by the
+	 * current player to the input parameter Owns.
+	 * 
+	 * @param Owns
+	 */
 	public void setOwnedByCurrentPlayer(boolean Owns) {
 		this.ownedByCurrentPlayer = Owns;
 	}
 
+	/**
+	 * Sets this plane's manual parameter to true - sets plane to manual.
+	 */
+	public void setManual() {
+		manual = true;
+		markForSyncing();
+	}
+
+	/**
+	 * Sets this plane's manual parameter to false - sets plane to autopilot.
+	 */
+	public void setAuto() {
+		manual = false;
+		if (getFlightPlan().getCurrentRoute().size() > 0) {
+			setTarget(getFlightPlan().getCurrentRoute().get(0));
+		}
+		markForSyncing();
+	}
+
+	/**
+	 * Returns boolean indicating if this plane is in manual control (autopilot
+	 * is disabled).
+	 * 
+	 * @return
+	 */
+	public boolean isManual() {
+		return manual;
+	}
+
+	/**
+	 * Boolean to inciate if this plane needs to be synced
+	 */
+	private boolean needsSyncing = true;
+
+	public void markForSyncing() {
+		this.needsSyncing = true;
+	}
+
+	/**
+	 * Reset's the need to sync state - plane has been synced and no longer
+	 * needs to be.
+	 */
+	public void resetSyncState() {
+		this.needsSyncing = false;
+	}
+
+	/**
+	 * Returns boolean indicating if the plane needs to be synced.
+	 * 
+	 * @return
+	 */
+	public boolean needsSyncing() {
+		return this.needsSyncing;
+	}
+
+	/**
+	 * Returns boolean indicating if the plane has been deleted.
+	 * 
+	 * @return
+	 */
+	public boolean deleted() {
+		return deleted;
+	}
+
+	/**
+	 * Marks this plane for deletion.
+	 */
+	public void markForDeletion() {
+		deleted = true;
+		markForSyncing();
+	}
+
+	/**
+	 * Set's bearing for takeoff.
+	 */
 	public abstract void setBearingForTakeoff();
 }

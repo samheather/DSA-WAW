@@ -12,12 +12,19 @@ import org.newdawn.slick.state.StateBasedGame;
 
 /**
  * A game with one client that is not networked
+ * 
  * @author mjm540
- *
+ * 
  */
 public class SingleplayerGame extends Game {
 
-	private ArrayList<SingleplayerPlane> singleplayerPlanes = new ArrayList<SingleplayerPlane>(); // the list of planes in the airspace
+	private ArrayList<SingleplayerPlane> singleplayerPlanes = new ArrayList<SingleplayerPlane>(); // the
+																									// list
+																									// of
+																									// planes
+																									// in
+																									// the
+																									// airspace
 
 	@Override
 	public List<? extends Plane> getCurrentPlanes() {
@@ -32,20 +39,23 @@ public class SingleplayerGame extends Game {
 		singleplayerPlanes.add(p);
 		return p;
 	}
-/**
- * Constructor
- * @param newSeparationDistance
- * the separation distance
- * @param newPenaltyDistance
- * the penalty distance
- * @param distFromLeft
- * the distance from the left of the screen that the game is drawn at
- * @param multiplier
- * difficulty multiplier
- * @throws NoSuchAlgorithmException
- * @throws UnknownHostException
- * @throws IOException
- */
+
+	/**
+	 * Constructor
+	 * 
+	 * @param newSeparationDistance
+	 *            the separation distance
+	 * @param newPenaltyDistance
+	 *            the penalty distance
+	 * @param distFromLeft
+	 *            the distance from the left of the screen that the game is
+	 *            drawn at
+	 * @param multiplier
+	 *            difficulty multiplier
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnknownHostException
+	 * @throws IOException
+	 */
 	public SingleplayerGame(int newSeparationDistance, int newPenaltyDistance,
 			int distFromLeft, int multiplier) throws NoSuchAlgorithmException,
 			UnknownHostException, IOException {
