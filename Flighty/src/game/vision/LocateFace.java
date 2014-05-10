@@ -10,6 +10,11 @@ import org.opencv.highgui.VideoCapture;
 import org.opencv.objdetect.CascadeClassifier;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.channels.FileChannel;
 import java.util.Arrays;
 
 /**
@@ -72,23 +77,45 @@ public class LocateFace {
 	private int outliersOrErrors = 0;
 	
 	private boolean webcamExists = true;
+	public static void copyFile(File sourceFile, File destFile) throws IOException {
+	    if(!destFile.exists()) {
+	        destFile.createNewFile();
+	    }
 
+	    FileChannel source = null;
+	    FileChannel destination = null;
+
+	    try {
+	        source = new FileInputStream(sourceFile).getChannel();
+	        destination = new FileOutputStream(destFile).getChannel();
+	        destination.transferFrom(source, 0, source.size());
+	    }
+	    finally {
+	        if(source != null) {
+	            source.close();
+	        }
+	        if(destination != null) {
+	            destination.close();
+	        }
+	    }
+	}
 	/**
 	 * Constructor for LocateFace - sets up OpenCV, sets min and max face sizes
 	 * and pre-initialises the Last Datapoints Arrays.
 	 */
 	public LocateFace() {
+		System.out.println("Constructor of face detector.");
+		
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		vc = new VideoCapture(0);
 		
 		if (!vc.isOpened()) {
+			System.out.println("Camera stream could not open.");
 			webcamExists = false;
 		}
-
-		// Load the face detection haarcascade file in
-		File cascadeFile = new File("res/haarcascade_frontalface_default.xml");
+		
 		cascaseFaceDetectorProfile = new CascadeClassifier(
-				cascadeFile.getAbsolutePath());
+				"/tmp/haarcascade_frontalface_default.xml");
 
 		// Set min and max sizes of face to detect. May vary for System.
 		minSize = new Size(125, 125);
@@ -129,7 +156,6 @@ public class LocateFace {
 
 		if (!faces.empty()) {
 			mainFace = faces.toArray()[0];
-			System.out.println(mainFace);
 
 			// Add to Average Arrays
 			addToLastFive(getImmediateDistance(false), lastFiveDistance);
@@ -150,7 +176,6 @@ public class LocateFace {
 	 * @param lastFive
 	 */
 	public void addToLastFive(float newValue, float[] lastFive) {
-		System.out.println(outliersOrErrors);
 		// Check if resetting outliers
 		if (outliersOrErrors > 100) {
 			outliersOrErrors = 0;
