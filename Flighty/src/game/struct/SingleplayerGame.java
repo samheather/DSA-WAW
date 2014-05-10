@@ -14,13 +14,13 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class SingleplayerGame extends Game {
 
-	/**Face Locator */
+	/** Face Locator */
 	private LocateFace faceLocator;
 	private float faceTrackingTranslationalScaleFactor = 0.1f;
 	private float faceTrackingZoomScaleFactor = 0.01f;
-	
+
 	private ArrayList<SingleplayerPlane> singleplayerPlanes = new ArrayList<SingleplayerPlane>();
-	
+
 	@Override
 	public List<? extends Plane> getCurrentPlanes() {
 		return singleplayerPlanes;
@@ -29,40 +29,42 @@ public class SingleplayerGame extends Game {
 	@Override
 	protected Plane constructPlane(int id, double velocity, int altitude,
 			double bearing, long uniqueNetworkObjectId) {
-		SingleplayerPlane p = new SingleplayerPlane(id, velocity, altitude, bearing, this, uniqueNetworkObjectId);
+		SingleplayerPlane p = new SingleplayerPlane(id, velocity, altitude,
+				bearing, this, uniqueNetworkObjectId);
 		singleplayerPlanes.add(p);
 		return p;
 	}
-	
-	
+
 	public SingleplayerGame(int newSeparationDistance, int newPenaltyDistance,
-			int distFromLeft, int multiplier)
-			throws NoSuchAlgorithmException, UnknownHostException, IOException {
+			int distFromLeft, int multiplier) throws NoSuchAlgorithmException,
+			UnknownHostException, IOException {
 		super(newSeparationDistance, newPenaltyDistance, distFromLeft);
 		faceLocator = new LocateFace();
 		System.out.println("singlep game constructed");
 		this.getScore().setMultiplier(multiplier);
 	}
-	
+
 	@Override
-	public void update(GameContainer gameContainer, StateBasedGame game) throws IOException {
+	public void update(GameContainer gameContainer, StateBasedGame game)
+			throws IOException {
 		super.update(gameContainer, game);
 		// Rescan for faces to get updated face locations
 		boolean faceScanSuccessful = false;
 		faceScanSuccessful = faceLocator.updateFacePosition();
-		
+
 		for (Plane plane : getCurrentPlanes()) {
 			plane.movePlane();
- 			if (faceScanSuccessful) {
- 				plane.updateFaceDetectionPosition(
- 						faceLocator.getImmediateHorizontalAngle(true)*faceTrackingTranslationalScaleFactor,
- 						faceLocator.getImmediateVerticalAngle(true)*faceTrackingTranslationalScaleFactor,
- 						(int)(faceLocator.getImmediateDistance(true)*faceTrackingZoomScaleFactor));
- 			}
+			if (faceScanSuccessful) {
+				plane.updateFaceDetectionPosition(
+						faceLocator.getImmediateHorizontalAngle(true)
+								* faceTrackingTranslationalScaleFactor,
+						faceLocator.getImmediateVerticalAngle(true)
+								* faceTrackingTranslationalScaleFactor,
+						(int) (faceLocator.getImmediateDistance(true) * faceTrackingZoomScaleFactor));
+			}
 		}
-		
-		ListIterator<SingleplayerPlane> i = singleplayerPlanes
-				.listIterator();
+
+		ListIterator<SingleplayerPlane> i = singleplayerPlanes.listIterator();
 		while (i.hasNext()) {
 			SingleplayerPlane p = i.next();
 			if (p.deleted())
@@ -109,8 +111,7 @@ public class SingleplayerGame extends Game {
 
 	@Override
 	protected void planeUpdate(Plane plane, GameContainer gameContainer) {
-		if ((plane.getX() > windowWidth)
-				|| (plane.getX() < distFromLeftEdge)
+		if ((plane.getX() > windowWidth) || (plane.getX() < distFromLeftEdge)
 				|| (plane.getY() > windowHeight) || (plane.getY() < 0)) {
 			// Updates score if plane in game area
 			if (plane.ownedByCurrentPlayer)
@@ -126,13 +127,13 @@ public class SingleplayerGame extends Game {
 			// Removes planes that left the airspace
 			plane.markForDeletion();
 		}
-		
+
 	}
 
 	@Override
 	public void endingRoutine() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
